@@ -59,7 +59,23 @@ export class SvgComponent implements OnInit {
     this.gongsvgFrontRepoService.pull().subscribe(
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
-        this.Rects = this.gongsvgFrontRepo.Rects_array
+
+        this.Rects = new Array<gongsvg.RectDB>()
+
+        this.gongsvgFrontRepo.SVGs_array.forEach(
+          svg => {
+            if (svg.Display) {
+              svg.Rects.forEach(
+                rect => {
+                  this.Rects.push(rect)
+                }
+              )
+              this.Rects.push(svg)
+            }
+          }
+        )
+
+
       }
     )
   }

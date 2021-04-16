@@ -63,13 +63,13 @@ export class SVGsTableComponent implements OnInit {
     )
     if (dialogData == undefined) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+        "Display",
         "Name",
-        "XML",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
+        "Display",
         "Name",
-        "XML",
       ]
       this.selection = new SelectionModel<SVGDB>(allowMultiSelect, this.initialSelection);
     }

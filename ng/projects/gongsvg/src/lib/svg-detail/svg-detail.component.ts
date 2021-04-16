@@ -24,6 +24,7 @@ import { NullInt64 } from '../front-repo.service'
 export class SVGDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	DisplayFormControl = new FormControl(false);
 
 	// the SVGDB of interest
 	svg: SVGDB;
@@ -76,6 +77,7 @@ export class SVGDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.DisplayFormControl.setValue(this.svg.Display)
 			}
 		)
 
@@ -87,6 +89,7 @@ export class SVGDetailComponent implements OnInit {
 		const association = this.route.snapshot.paramMap.get('association');
 
 		// insertion point for saving value of form controls of boolean fields
+		this.svg.Display = this.DisplayFormControl.value
 
 		if (id != 0 && association == undefined) {
 			// insertion point for saving value of reverse pointers

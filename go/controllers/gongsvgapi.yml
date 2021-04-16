@@ -1,0 +1,493 @@
+basePath: /api/github.com/fullstack-lang/gongsvg/go/v1
+consumes:
+- application/json
+definitions:
+  NullBool:
+    description: |-
+      NullBool implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Bool:
+        type: boolean
+      Valid:
+        type: boolean
+    title: NullBool represents a bool that may be null.
+    type: object
+    x-go-package: database/sql
+  NullFloat64:
+    description: |-
+      NullFloat64 implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Float64:
+        format: double
+        type: number
+      Valid:
+        type: boolean
+    title: NullFloat64 represents a float64 that may be null.
+    type: object
+    x-go-package: database/sql
+  NullInt64:
+    description: |-
+      NullInt64 implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Int64:
+        format: int64
+        type: integer
+      Valid:
+        type: boolean
+    title: NullInt64 represents an int64 that may be null.
+    type: object
+    x-go-package: database/sql
+  NullString:
+    description: |-
+      var s NullString
+      err := db.QueryRow("SELECT name FROM foo WHERE id=?", id).Scan(&s)
+      ...
+      if s.Valid {
+      use s.String
+      } else {
+      NULL value
+      }
+    properties:
+      String:
+        type: string
+      Valid:
+        type: boolean
+    title: |-
+      NullString represents a string that may be null.
+      NullString implements the Scanner interface so
+      it can be used as a scan destination:
+    type: object
+    x-go-package: database/sql
+  Rect:
+    properties:
+      Name:
+        type: string
+      X:
+        format: double
+        type: number
+        x-go-name: Height
+    type: object
+    x-go-package: github.com/fullstack-lang/gongsvg/go/models
+  rectAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Height_Data:
+        $ref: '#/definitions/NullFloat64'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SVG_RectsDBID:
+        $ref: '#/definitions/NullInt64'
+      Width_Data:
+        $ref: '#/definitions/NullFloat64'
+      X:
+        format: double
+        type: number
+        x-go-name: Height
+      X_Data:
+        $ref: '#/definitions/NullFloat64'
+      Y_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: RectAPI is the input in POST API
+    type: object
+    x-go-name: RectAPI
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  rectDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Height_Data:
+        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SVG_RectsDBID:
+        $ref: '#/definitions/NullInt64'
+      UpdatedAt:
+        format: date-time
+        type: string
+      Width_Data:
+        $ref: '#/definitions/NullFloat64'
+      X:
+        format: double
+        type: number
+        x-go-name: Height
+      X_Data:
+        $ref: '#/definitions/NullFloat64'
+      Y_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: RectDB describes a rect in the database
+    type: object
+    x-go-name: RectDB
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  svgAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Display:
+        type: boolean
+      Display_Data:
+        $ref: '#/definitions/NullBool'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Rects:
+        items:
+          $ref: '#/definitions/Rect'
+        type: array
+    title: SVGAPI is the input in POST API
+    type: object
+    x-go-name: SVGAPI
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  svgDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Display:
+        type: boolean
+      Display_Data:
+        $ref: '#/definitions/NullBool'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Rects:
+        items:
+          $ref: '#/definitions/Rect'
+        type: array
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: SVGDB describes a svg in the database
+    type: object
+    x-go-name: SVGDB
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+host: localhost:8080
+info:
+  description: gongsvg exposes types of a package.
+  title: gongsvg backend API
+  version: "0.1"
+paths:
+  /commitnb:
+    get:
+      operationId: GetLastCommitNb
+      tags:
+      - backrepo
+  /rects:
+    get:
+      description: Get all rects
+      operationId: getRects
+      responses:
+        "200":
+          $ref: '#/responses/rectDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - rects
+    post:
+      consumes:
+      - application/json
+      description: Creates a rect
+      operationId: postRect
+      parameters:
+      - description: The Rect to submit or modify
+        in: body
+        name: Rect
+        schema:
+          $ref: '#/definitions/rectAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/rectDBResponse'
+      tags:
+      - rects
+  /rects/{ID}:
+    delete:
+      description: Delete a rect
+      operationId: deleteRect
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - rects
+    get:
+      operationId: getRect
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/rectDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a rect.
+      tags:
+      - rects
+    patch:
+      description: Update a rect
+      operationId: updateRect
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Rect to submit or modify
+        in: body
+        name: Rect
+        schema:
+          $ref: '#/definitions/rectAPI'
+      responses:
+        "200":
+          $ref: '#/responses/rectDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - rects
+  /svgs:
+    get:
+      description: Get all svgs
+      operationId: getSVGs
+      responses:
+        "200":
+          $ref: '#/responses/svgDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - svgs
+    post:
+      consumes:
+      - application/json
+      description: Creates a svg
+      operationId: postSVG
+      parameters:
+      - description: The SVG to submit or modify
+        in: body
+        name: SVG
+        schema:
+          $ref: '#/definitions/svgAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/svgDBResponse'
+      tags:
+      - svgs
+  /svgs/{ID}:
+    delete:
+      description: Delete a svg
+      operationId: deleteSVG
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - svgs
+    get:
+      operationId: getSVG
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/svgDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a svg.
+      tags:
+      - svgs
+    patch:
+      description: Update a svg
+      operationId: updateSVG
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The SVG to submit or modify
+        in: body
+        name: SVG
+        schema:
+          $ref: '#/definitions/svgAPI'
+      responses:
+        "200":
+          $ref: '#/responses/svgDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - svgs
+produces:
+- application/json
+responses:
+  genericError:
+    description: |-
+      A GenericError is the default error message that is generated.
+      For certain status codes there are more appropriate error structures.
+    schema:
+      properties:
+        code:
+          format: int32
+          type: integer
+          x-go-name: Code
+        message:
+          type: string
+          x-go-name: Message
+      type: object
+  rectDBResponse:
+    description: RectDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Height_Data:
+        description: Declation for basic field rectDB.Height {{BasicKind}} (to be
+          completed)
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field rectDB.Name {{BasicKind}} (to be completed)
+      SVG_RectsDBID:
+        description: Implementation of a reverse ID for field SVG{}.Rects []*Rect
+      UpdatedAt:
+        format: date-time
+        type: string
+      Width_Data:
+        description: Declation for basic field rectDB.Width {{BasicKind}} (to be completed)
+      X:
+        format: double
+        type: number
+      X_Data:
+        description: Declation for basic field rectDB.X {{BasicKind}} (to be completed)
+      Y_Data:
+        description: Declation for basic field rectDB.Y {{BasicKind}} (to be completed)
+    schema:
+      $ref: '#/definitions/NullInt64'
+  rectDBsResponse:
+    description: RectDBs arrays rectDBs
+    schema:
+      items:
+        $ref: '#/definitions/rectDB'
+      type: array
+  svgDBResponse:
+    description: SVGDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Display:
+        type: boolean
+      Display_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field svgDB.Display bool (to be completed)
+          provide the sql storage for the boolan
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: Declation for basic field svgDB.Name {{BasicKind}} (to be completed)
+      Rects:
+        items:
+          $ref: '#/definitions/Rect'
+        type: array
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  svgDBsResponse:
+    description: SVGDBs arrays svgDBs
+    schema:
+      items:
+        $ref: '#/definitions/svgDB'
+      type: array
+  validationError:
+    description: |-
+      A ValidationError is an that is generated for validation failures.
+      It has the same fields as a generic error but adds a Field property.
+    schema:
+      properties:
+        code:
+          format: int32
+          type: integer
+          x-go-name: Code
+        field:
+          type: string
+          x-go-name: Field
+        message:
+          type: string
+          x-go-name: Message
+      type: object
+schemes:
+- http
+securityDefinitions:
+  basic:
+    type: basic
+swagger: "2.0"

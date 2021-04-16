@@ -27,11 +27,12 @@ type SVGAPI struct {
 	models.SVG
 
 	// insertion for fields declaration
+	// Declation for basic field svgDB.Display bool (to be completed)
+	// provide the sql storage for the boolan
+	Display_Data sql.NullBool
+
 	// Declation for basic field svgDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
-
-	// Declation for basic field svgDB.XML {{BasicKind}} (to be completed)
-	XML_Data sql.NullString
 
 	// end of insertion
 }
@@ -187,11 +188,11 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 		{
 			{
 				// insertion point for fields commit
+				svgDB.Display_Data.Bool = svg.Display
+				svgDB.Display_Data.Valid = true
+
 				svgDB.Name_Data.String = svg.Name
 				svgDB.Name_Data.Valid = true
-
-				svgDB.XML_Data.String = svg.XML
-				svgDB.XML_Data.Valid = true
 
 				// commit a slice of pointer translates to update reverse pointer to Rect, i.e.
 				for _, rect := range svg.Rects {
@@ -285,9 +286,8 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseTwoInstance(backRepo *BackRep
 		{
 			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
 			//
+			svg.Display = svgDB.Display_Data.Bool
 			svg.Name = svgDB.Name_Data.String
-
-			svg.XML = svgDB.XML_Data.String
 
 			// parse all RectDB and redeem the array of poiners to SVG
 			// first reset the slice

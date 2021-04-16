@@ -14,17 +14,17 @@
 
     <!-- insertion point for fields specific code -->
     <!-- -->
+    <ng-container matColumnDef="Display">
+        <th mat-header-cell *matHeaderCellDef> Display </th>
+        <td mat-cell *matCellDef="let SVG">
+            <mat-checkbox [checked]="SVG.Display" disabled=true></mat-checkbox>
+        </td>
+    </ng-container>
+    <!-- -->
     <ng-container matColumnDef="Name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
         <td mat-cell *matCellDef="let SVG">
             {{SVG.Name}}
-        </td>
-    </ng-container>
-    <!-- -->
-    <ng-container matColumnDef="XML">
-        <th mat-header-cell *matHeaderCellDef> XML </th>
-        <td mat-cell *matCellDef="let SVG">
-            {{SVG.XML}}
         </td>
     </ng-container>
 

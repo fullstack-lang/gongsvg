@@ -64,12 +64,10 @@ func GetSVGs(c *gin.Context) {
 		svg := &svgs[idx]
 		_ = svg
 		// insertion point for updating fields
+		svg.Display = svg.Display_Data.Bool
+
 		if svg.Name_Data.Valid {
 			svg.Name = svg.Name_Data.String
-		}
-
-		if svg.XML_Data.Valid {
-			svg.XML = svg.XML_Data.String
 		}
 
 	}
@@ -109,11 +107,11 @@ func PostSVG(c *gin.Context) {
 	svgDB := orm.SVGDB{}
 	svgDB.SVGAPI = input
 	// insertion point for nullable field set
+	svgDB.Display_Data.Bool = input.Display
+	svgDB.Display_Data.Valid = true
+
 	svgDB.Name_Data.String = input.Name
 	svgDB.Name_Data.Valid = true
-
-	svgDB.XML_Data.String = input.XML
-	svgDB.XML_Data.Valid = true
 
 	query := db.Create(&svgDB)
 	if query.Error != nil {
@@ -154,12 +152,10 @@ func GetSVG(c *gin.Context) {
 	}
 
 	// insertion point for fields value set from nullable fields
+	svg.Display = svg.Display_Data.Bool
+
 	if svg.Name_Data.Valid {
 		svg.Name = svg.Name_Data.String
-	}
-
-	if svg.XML_Data.Valid {
-		svg.XML = svg.XML_Data.String
 	}
 
 	c.JSON(http.StatusOK, svg)
@@ -200,11 +196,11 @@ func UpdateSVG(c *gin.Context) {
 
 	// update
 	// insertion point for nullable field set
+	input.Display_Data.Bool = input.Display
+	input.Display_Data.Valid = true
+
 	input.Name_Data.String = input.Name
 	input.Name_Data.Valid = true
-
-	input.XML_Data.String = input.XML
-	input.XML_Data.Valid = true
 
 	query = db.Model(&svgDB).Updates(input)
 	if query.Error != nil {

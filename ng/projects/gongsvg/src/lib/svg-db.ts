@@ -10,8 +10,8 @@ export class SVGDB {
 	ID?: number;
 
 	// insertion point for basic fields declarations
+	Display?: string
 	Name?: string
-	XML?: string
 
 	// insertion point for other declarations
 	Rects?: Array<RectDB>

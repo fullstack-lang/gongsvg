@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'lib-svg-rect',
@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SvgRectComponent implements OnInit {
 
+  @Input() X: number
+  @Input() Y: number
+  @Input() Width: number
+  @Input() Height: number
+
   constructor() { }
 
   ngOnInit(): void {
+    console.log("X" + this.X)
+    console.log("Y" + this.Y)
+    console.log("Height" + this.Height)
+    console.log("Width" + this.Width)
   }
 
   fillColor = 'rgb(255, 0, 0)';

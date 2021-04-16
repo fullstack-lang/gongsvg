@@ -1,5 +1,5 @@
 <div *ngFor="let rect of Rects">
-    {{rect.X}}
+    <lib-svg-rect [X]="rect.X" [Y]="rect.Y" [Width]="rect.Width" [Height]="rect.Height"></lib-svg-rect>
 </div>
 
-<lib-svg-rect></lib-svg-rect>
+<!-- <lib-svg-rect></lib-svg-rect> -->

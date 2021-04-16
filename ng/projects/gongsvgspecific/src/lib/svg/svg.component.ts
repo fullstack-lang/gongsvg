@@ -56,7 +56,7 @@ export class SvgComponent implements OnInit {
   fillColor = 'rgb(255, 0, 0)';
   Text = "Toto"
   width = 150
-  heigth = 200
+  height = 200
   changeColor() {
     const r = Math.floor(Math.random() * 256);
     const g = Math.floor(Math.random() * 256);

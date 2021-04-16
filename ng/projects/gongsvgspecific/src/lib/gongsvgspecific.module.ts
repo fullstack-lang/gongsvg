@@ -1,16 +1,19 @@
 import { NgModule } from '@angular/core';
 import { GongsvgspecificComponent } from './gongsvgspecific.component';
+import { SvgComponent } from './svg/svg.component';
 
 
 
 @NgModule({
   declarations: [
-    GongsvgspecificComponent
+    GongsvgspecificComponent,
+    SvgComponent
   ],
   imports: [
   ],
   exports: [
-    GongsvgspecificComponent
+    GongsvgspecificComponent,
+    SvgComponent
   ]
 })
 export class GongsvgspecificModule { }

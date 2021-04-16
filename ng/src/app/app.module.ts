@@ -9,6 +9,7 @@ import { GongsvgspecificModule } from 'gongsvgspecific'
 
 // mandatory
 import { HttpClientModule } from '@angular/common/http';
+import { AngularSplitModule } from 'angular-split';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AngularSplitModule,
 
     HttpClientModule,
     GongsvgModule,

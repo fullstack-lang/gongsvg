@@ -49,6 +49,13 @@
         </td>
     </ng-container>
     <!-- -->
+    <ng-container matColumnDef="Color">
+        <th mat-header-cell *matHeaderCellDef> Color </th>
+        <td mat-cell *matCellDef="let Rect">
+            {{Rect.Color}}
+        </td>
+    </ng-container>
+    <!-- -->
     <ng-container matColumnDef="Rects">
         <th mat-header-cell *matHeaderCellDef> <-- (SVG) Rects </th>
         <td mat-cell *matCellDef="let rect">

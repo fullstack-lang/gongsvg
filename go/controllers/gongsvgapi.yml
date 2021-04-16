@@ -63,6 +63,8 @@ definitions:
     x-go-package: database/sql
   Rect:
     properties:
+      Color:
+        type: string
       Name:
         type: string
       X:
@@ -77,6 +79,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
       Height_Data:
         $ref: '#/definitions/NullFloat64'
       Name:
@@ -103,6 +109,10 @@ definitions:
     description: 'It incorporates all fields : from the model, from the generated
       field for the API and the GORM ID'
     properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
       CreatedAt:
         format: date-time
         type: string
@@ -390,6 +400,10 @@ responses:
   rectDBResponse:
     description: RectDBResponse provides response
     headers:
+      Color:
+        type: string
+      Color_Data:
+        description: Declation for basic field rectDB.Color {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string

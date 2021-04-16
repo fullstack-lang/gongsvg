@@ -11,14 +11,16 @@ export class SvgRectComponent implements OnInit {
   @Input() Y: number
   @Input() Width: number
   @Input() Height: number
+  @Input() Color: string
 
   constructor() { }
 
   ngOnInit(): void {
-    console.log("X" + this.X)
-    console.log("Y" + this.Y)
-    console.log("Height" + this.Height)
-    console.log("Width" + this.Width)
+    console.log("X " + this.X)
+    console.log("Y " + this.Y)
+    console.log("Height " + this.Height)
+    console.log("Width " + this.Width)
+    console.log("Color " + this.Color)
   }
 
   fillColor = 'rgb(255, 0, 0)';

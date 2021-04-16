@@ -15,6 +15,7 @@ export class RectDB {
 	Y?: number
 	Width?: number
 	Height?: number
+	Color?: string
 
 	// insertion point for other declarations
 	SVG_RectsDBID?: NullInt64

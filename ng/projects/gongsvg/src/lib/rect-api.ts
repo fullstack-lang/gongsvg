@@ -5,4 +5,5 @@ export class RectAPI {
 	Y?: number
 	Width?: number
 	Height?: number
+	Color?: string
 }

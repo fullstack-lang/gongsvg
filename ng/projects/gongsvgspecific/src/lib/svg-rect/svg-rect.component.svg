@@ -1,6 +1,6 @@
 <svg class="child">
     <g>
-        <rect [attr.x]="X" [attr.y]="Y" [attr.width]="Width" [attr.height]="Height" [attr.fill]="fillColor"
+        <rect [attr.x]="X" [attr.y]="Y" [attr.width]="Width" [attr.height]="Height" [attr.fill]="Color"
             (click)="changeColor()" />
     </g>
 </svg>

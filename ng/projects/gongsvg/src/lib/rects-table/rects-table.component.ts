@@ -68,6 +68,7 @@ export class RectsTableComponent implements OnInit {
         "Y",
         "Width",
         "Height",
+        "Color",
         "Rects",
       ]
     } else {
@@ -77,6 +78,7 @@ export class RectsTableComponent implements OnInit {
         "Y",
         "Width",
         "Height",
+        "Color",
         "Rects",
       ]
       this.selection = new SelectionModel<RectDB>(allowMultiSelect, this.initialSelection);

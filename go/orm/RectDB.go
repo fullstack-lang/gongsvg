@@ -42,6 +42,9 @@ type RectAPI struct {
 	// Declation for basic field rectDB.Height {{BasicKind}} (to be completed)
 	Height_Data sql.NullFloat64
 
+	// Declation for basic field rectDB.Color {{BasicKind}} (to be completed)
+	Color_Data sql.NullString
+
 	// Implementation of a reverse ID for field SVG{}.Rects []*Rect
 	SVG_RectsDBID sql.NullInt64
 
@@ -214,6 +217,9 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				rectDB.Height_Data.Float64 = rect.Height
 				rectDB.Height_Data.Valid = true
 
+				rectDB.Color_Data.String = rect.Color
+				rectDB.Color_Data.Valid = true
+
 			}
 		}
 		query := backRepoRect.db.Save(&rectDB)
@@ -302,6 +308,8 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 			rect.Width = rectDB.Width_Data.Float64
 
 			rect.Height = rectDB.Height_Data.Float64
+
+			rect.Color = rectDB.Color_Data.String
 
 		}
 	}

@@ -84,6 +84,10 @@ func GetRects(c *gin.Context) {
 			rect.Height = rect.Height_Data.Float64
 		}
 
+		if rect.Color_Data.Valid {
+			rect.Color = rect.Color_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, rects)
@@ -135,6 +139,9 @@ func PostRect(c *gin.Context) {
 
 	rectDB.Height_Data.Float64 = input.Height
 	rectDB.Height_Data.Valid = true
+
+	rectDB.Color_Data.String = input.Color
+	rectDB.Color_Data.Valid = true
 
 	query := db.Create(&rectDB)
 	if query.Error != nil {
@@ -195,6 +202,10 @@ func GetRect(c *gin.Context) {
 		rect.Height = rect.Height_Data.Float64
 	}
 
+	if rect.Color_Data.Valid {
+		rect.Color = rect.Color_Data.String
+	}
+
 	c.JSON(http.StatusOK, rect)
 }
 
@@ -247,6 +258,9 @@ func UpdateRect(c *gin.Context) {
 
 	input.Height_Data.Float64 = input.Height
 	input.Height_Data.Valid = true
+
+	input.Color_Data.String = input.Color
+	input.Color_Data.Valid = true
 
 	query = db.Model(&rectDB).Updates(input)
 	if query.Error != nil {

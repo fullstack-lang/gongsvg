@@ -5,7 +5,7 @@ import * as gongsvg from 'gongsvg'
 
 @Component({
   selector: 'lib-svg',
-  templateUrl: './svg.component.svg',
+  templateUrl: './svg.component.html',
   styleUrls: ['./svg.component.css']
 })
 export class SvgComponent implements OnInit {
@@ -13,6 +13,10 @@ export class SvgComponent implements OnInit {
   SVG: string
 
   rect: number
+
+  public gongsvgFrontRepo: gongsvg.FrontRepo
+
+  public Rects = new Array<gongsvg.RectDB>()
 
   /**
  * the component is refreshed when modification are performed in the back repo 
@@ -51,6 +55,13 @@ export class SvgComponent implements OnInit {
   }
 
   refresh(): void {
+
+    this.gongsvgFrontRepoService.pull().subscribe(
+      gongsvgsFrontRepo => {
+        this.gongsvgFrontRepo = gongsvgsFrontRepo
+        this.Rects = this.gongsvgFrontRepo.Rects_array
+      }
+    )
   }
 
   fillColor = 'rgb(255, 0, 0)';

@@ -1,0 +1,30 @@
+<div *ngIf="svg" class="details">
+    <h1 class="details__title">svg</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="svg.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>XML</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="svg.XML">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('Rect', 'SVG_RectsDBID')">Rects</button>
+    </div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save svg
+		</button>
+    </div>
+</div>

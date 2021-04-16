@@ -1,0 +1,205 @@
+// generated from NgTableTemplateTS
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, Inject, Optional } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatButton } from '@angular/material/button'
+
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
+import { DialogData } from '../front-repo.service'
+import { SelectionModel } from '@angular/cdk/collections';
+
+const allowMultiSelect = true;
+
+import { Router, RouterState } from '@angular/router';
+import { SVGDB } from '../svg-db'
+import { SVGService } from '../svg.service'
+
+import { FrontRepoService, FrontRepo } from '../front-repo.service'
+
+// generated table component
+@Component({
+  selector: 'app-svgs-table',
+  templateUrl: './svgs-table.component.html',
+  styleUrls: ['./svgs-table.component.css'],
+})
+export class SVGsTableComponent implements OnInit {
+
+  // used if the component is called as a selection component of SVG instances
+  selection: SelectionModel<SVGDB>;
+  initialSelection = new Array<SVGDB>();
+
+  // the data source for the table
+  svgs: SVGDB[];
+
+  // front repo, that will be referenced by this.svgs
+  frontRepo: FrontRepo
+
+  // displayedColumns is referenced by the MatTable component for specify what columns
+  // have to be displayed and in what order
+  displayedColumns: string[];
+
+  constructor(
+    private svgService: SVGService,
+    private frontRepoService: FrontRepoService,
+
+    // not null if the component is called as a selection component of svg instances
+    public dialogRef: MatDialogRef<SVGsTableComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
+
+    private router: Router,
+  ) {
+    // https://stackoverflow.com/questions/54627478/angular-7-routing-to-same-component-but-different-param-not-working
+    // this is for routerLink on same component when only queryParameter changes
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+
+    // observable for changes in structs
+    this.svgService.SVGServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.getSVGs()
+        }
+      }
+    )
+    if (dialogData == undefined) {
+      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+        "Name",
+        "XML",
+      ]
+    } else {
+      this.displayedColumns = ['select', 'ID', // insertion point for columns to display
+        "Name",
+        "XML",
+      ]
+      this.selection = new SelectionModel<SVGDB>(allowMultiSelect, this.initialSelection);
+    }
+
+  }
+
+  ngOnInit(): void {
+    this.getSVGs()
+  }
+
+  getSVGs(): void {
+    this.frontRepoService.pull().subscribe(
+      frontRepo => {
+        this.frontRepo = frontRepo
+        console.log("front repo pull returned")
+
+        this.svgs = this.frontRepo.SVGs_array;
+
+        // insertion point for variables Recoveries
+
+        // in case the component is called as a selection component
+        if (this.dialogData != undefined) {
+          this.svgs.forEach(
+            svg => {
+              let ID = this.dialogData.ID
+              let revPointer = svg[this.dialogData.ReversePointer]
+              if (revPointer.Int64 == ID) {
+                this.initialSelection.push(svg)
+              }
+            }
+          )
+          this.selection = new SelectionModel<SVGDB>(allowMultiSelect, this.initialSelection);
+        }
+      }
+    )
+  }
+
+  // newSVG initiate a new svg
+  // create a new SVG objet
+  newSVG() {
+  }
+
+  deleteSVG(svgID: number, svg: SVGDB) {
+    // list of svgs is truncated of svg before the delete
+    this.svgs = this.svgs.filter(h => h !== svg);
+
+    this.svgService.deleteSVG(svgID).subscribe(
+      svg => {
+        this.svgService.SVGServiceChanged.next("delete")
+
+        console.log("svg deleted")
+      }
+    );
+  }
+
+  editSVG(svgID: number, svg: SVGDB) {
+
+  }
+
+  // display svg in router
+  displaySVGInRouter(svgID: number) {
+    this.router.navigate( ["svg-display", svgID])
+  }
+
+  // set editor outlet
+  setEditorRouterOutlet(svgID: number) {
+    this.router.navigate([{
+      outlets: {
+        editor: ["svg-detail", svgID]
+      }
+    }]);
+  }
+
+  // set presentation outlet
+  setPresentationRouterOutlet(svgID: number) {
+    this.router.navigate([{
+      outlets: {
+        presentation: ["svg-presentation", svgID]
+      }
+    }]);
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.svgs.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.svgs.forEach(row => this.selection.select(row));
+  }
+
+  save() {
+
+    let toUpdate = new Set<SVGDB>()
+
+    // reset all initial selection of svg that belong to svg through Anarrayofb
+    this.initialSelection.forEach(
+      svg => {
+        svg[this.dialogData.ReversePointer].Int64 = 0
+        svg[this.dialogData.ReversePointer].Valid = true
+        toUpdate.add(svg)
+      }
+    )
+
+    // from selection, set svg that belong to svg through Anarrayofb
+    this.selection.selected.forEach(
+      svg => {
+        console.log("selection ID " + svg.ID)
+        let ID = +this.dialogData.ID
+        svg[this.dialogData.ReversePointer].Int64 = ID
+        svg[this.dialogData.ReversePointer].Valid = true
+        toUpdate.add(svg)
+      }
+    )
+
+    // update all svg (only update selection & initial selection)
+    toUpdate.forEach(
+      svg => {
+        this.svgService.updateSVG(svg)
+          .subscribe(svg => {
+            this.svgService.SVGServiceChanged.next("update")
+            console.log("svg saved")
+          });
+      }
+    )
+    this.dialogRef.close('Pizza!');
+  }
+}

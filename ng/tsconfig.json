@@ -9,8 +9,9 @@
     "paths": {
       "gongsvg": [
         "projects/gongsvg/src/public-api.ts",
-        "dist/gongsvg/gongsvg",
-        "dist/gongsvg"
+      ],
+      "gongsvgspecific": [
+        "projects/gongsvgspecific/src/public-api.ts",
       ]
     },
     "downlevelIteration": true,

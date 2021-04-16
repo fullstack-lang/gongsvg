@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { GongsvgModule } from 'gongsvg'
+import { GongsvgspecificModule } from 'gongsvgspecific'
 
 // mandatory
 import { HttpClientModule } from '@angular/common/http';
@@ -18,7 +19,9 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
 
     HttpClientModule,
-    GongsvgModule
+    GongsvgModule,
+    GongsvgspecificModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

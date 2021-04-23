@@ -106,8 +106,7 @@ definitions:
     x-go-name: RectAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   rectDB:
-    description: 'It incorporates all fields : from the model, from the generated
-      field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -170,8 +169,7 @@ definitions:
     x-go-name: SVGAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   svgDB:
-    description: 'It incorporates all fields : from the model, from the generated
-      field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
     properties:
       CreatedAt:
         format: date-time
@@ -411,8 +409,7 @@ responses:
         format: date-time
         type: string
       Height_Data:
-        description: Declation for basic field rectDB.Height {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field rectDB.Height {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer

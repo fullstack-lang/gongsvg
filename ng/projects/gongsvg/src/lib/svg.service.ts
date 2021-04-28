@@ -53,10 +53,18 @@ export class SVGService {
   //////// Save methods //////////
 
   /** POST: add a new svg to the server */
-  postSVG(svgAPI: SVGAPI): Observable<SVGDB> {
-    return this.http.post<SVGDB>(this.svgsUrl, svgAPI, this.httpOptions).pipe(
-      tap((newSVG: SVGDB) => {})
-    );
+  postSVG(svgdb: SVGDB): Observable<SVGDB> {
+
+		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    svgdb.Rects = []
+
+		return this.http.post<SVGDB>(this.svgsUrl, svgdb, this.httpOptions).pipe(
+			tap(_ => {
+				// insertion point for restoration of reverse pointers
+				this.log(`posted svgdb id=${svgdb.ID}`)
+			}),
+			catchError(this.handleError<SVGDB>('postSVG'))
+		);
   }
 
   /** DELETE: delete the svgdb from the server */
@@ -75,7 +83,7 @@ export class SVGService {
     const id = typeof svgdb === 'number' ? svgdb : svgdb.ID;
     const url = `${this.svgsUrl}/${id}`;
 
-    // insertion point for reset of reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     svgdb.Rects = []
 
     return this.http.put(url, svgdb, this.httpOptions).pipe(

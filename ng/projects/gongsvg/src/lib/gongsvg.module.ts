@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatTableModule } from '@angular/material/table'
+import { MatSortModule } from '@angular/material/sort'
+import { MatPaginatorModule } from '@angular/material/paginator'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -67,6 +69,8 @@ import { SVGPresentationComponent } from './svg-presentation/svg-presentation.co
 		MatInputModule,
 		MatDatepickerModule,
 		MatTableModule,
+		MatSortModule,
+		MatPaginatorModule,
 		MatCheckboxModule,
 		MatButtonModule,
 		MatIconModule,

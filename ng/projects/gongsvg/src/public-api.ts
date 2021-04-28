@@ -27,3 +27,4 @@ export * from './lib/svg-api'
 export * from './lib/svg.service'
 
 
+export * from './lib/StrokeLinecapStyle'

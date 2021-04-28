@@ -27,6 +27,24 @@ type RectAPI struct {
 	models.Rect
 
 	// insertion for fields declaration
+	// Declation for basic field rectDB.Fill {{BasicKind}} (to be completed)
+	Fill_Data sql.NullString
+
+	// Declation for basic field rectDB.FillOpacity {{BasicKind}} (to be completed)
+	FillOpacity_Data sql.NullFloat64
+
+	// Declation for basic field rectDB.Stroke {{BasicKind}} (to be completed)
+	Stroke_Data sql.NullString
+
+	// Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to be completed)
+	StrokeWidth_Data sql.NullFloat64
+
+	// Declation for basic field rectDB.StrokeOpacity {{BasicKind}} (to be completed)
+	StrokeOpacity_Data sql.NullFloat64
+
+	// Declation for basic field rectDB.StrokeLinecap {{BasicKind}} (to be completed)
+	StrokeLinecap_Data sql.NullString
+
 	// Declation for basic field rectDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -202,6 +220,24 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		{
 			{
 				// insertion point for fields commit
+				rectDB.Fill_Data.String = rect.Fill
+				rectDB.Fill_Data.Valid = true
+
+				rectDB.FillOpacity_Data.Float64 = rect.FillOpacity
+				rectDB.FillOpacity_Data.Valid = true
+
+				rectDB.Stroke_Data.String = rect.Stroke
+				rectDB.Stroke_Data.Valid = true
+
+				rectDB.StrokeWidth_Data.Float64 = rect.StrokeWidth
+				rectDB.StrokeWidth_Data.Valid = true
+
+				rectDB.StrokeOpacity_Data.Float64 = rect.StrokeOpacity
+				rectDB.StrokeOpacity_Data.Valid = true
+
+				rectDB.StrokeLinecap_Data.String = string(rect.StrokeLinecap)
+				rectDB.StrokeLinecap_Data.Valid = true
+
 				rectDB.Name_Data.String = rect.Name
 				rectDB.Name_Data.Valid = true
 
@@ -299,6 +335,18 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 		{
 			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
 			//
+			rect.Fill = rectDB.Fill_Data.String
+
+			rect.FillOpacity = rectDB.FillOpacity_Data.Float64
+
+			rect.Stroke = rectDB.Stroke_Data.String
+
+			rect.StrokeWidth = rectDB.StrokeWidth_Data.Float64
+
+			rect.StrokeOpacity = rectDB.StrokeOpacity_Data.Float64
+
+			rect.StrokeLinecap = models.StrokeLinecapStyle(rectDB.StrokeLinecap_Data.String)
+
 			rect.Name = rectDB.Name_Data.String
 
 			rect.X = rectDB.X_Data.Float64

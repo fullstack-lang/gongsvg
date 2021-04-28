@@ -65,8 +65,35 @@ definitions:
     properties:
       Color:
         type: string
+      Fill:
+        type: string
+      FillOpacity:
+        description: |-
+          fill-opacity specifies the opacity of the painting operation used to paint the fill the current object.
+          <number>
+          The opacity of the fill. Any values outside the range 0 (fully transparent) to 1 (fully opaque) must be clamped to this range.
+          <percentage>
+          The opacity of the fill expressed as a percentage of the range 0 to 1.
+        format: double
+        type: number
       Name:
         type: string
+      Stroke:
+        type: string
+      StrokeLinecap:
+        description: |-
+          stroke-linecap specifies the shape to be used at the end of open subpaths
+          when they are stroked, and the shape to be drawn for zero length subpaths whether they are open or closed.
+          The possible values are:
+      StrokeOpacity:
+        format: double
+        type: number
+      StrokeWidth:
+        description: |-
+          This property specifies the width of the stroke on the current object.
+          A zero value causes no stroke to be painted. A negative value is invalid.
+        format: double
+        type: number
       X:
         format: double
         type: number
@@ -83,6 +110,21 @@ definitions:
         type: string
       Color_Data:
         $ref: '#/definitions/NullString'
+      Fill:
+        type: string
+      Fill_Data:
+        $ref: '#/definitions/NullString'
+      FillOpacity:
+        description: |-
+          fill-opacity specifies the opacity of the painting operation used to paint the fill the current object.
+          <number>
+          The opacity of the fill. Any values outside the range 0 (fully transparent) to 1 (fully opaque) must be clamped to this range.
+          <percentage>
+          The opacity of the fill expressed as a percentage of the range 0 to 1.
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
       Height_Data:
         $ref: '#/definitions/NullFloat64'
       Name:
@@ -91,6 +133,30 @@ definitions:
         $ref: '#/definitions/NullString'
       SVG_RectsDBID:
         $ref: '#/definitions/NullInt64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeLinecap:
+        description: |-
+          stroke-linecap specifies the shape to be used at the end of open subpaths
+          when they are stroked, and the shape to be drawn for zero length subpaths whether they are open or closed.
+          The possible values are:
+      StrokeLinecap_Data:
+        $ref: '#/definitions/NullString'
+      StrokeOpacity:
+        format: double
+        type: number
+      StrokeOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      StrokeWidth:
+        description: |-
+          This property specifies the width of the stroke on the current object.
+          A zero value causes no stroke to be painted. A negative value is invalid.
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
       Width_Data:
         $ref: '#/definitions/NullFloat64'
       X:
@@ -119,6 +185,21 @@ definitions:
       DeletedAt:
         format: date-time
         type: string
+      Fill:
+        type: string
+      Fill_Data:
+        $ref: '#/definitions/NullString'
+      FillOpacity:
+        description: |-
+          fill-opacity specifies the opacity of the painting operation used to paint the fill the current object.
+          <number>
+          The opacity of the fill. Any values outside the range 0 (fully transparent) to 1 (fully opaque) must be clamped to this range.
+          <percentage>
+          The opacity of the fill expressed as a percentage of the range 0 to 1.
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
       Height_Data:
         $ref: '#/definitions/NullFloat64'
       ID:
@@ -130,6 +211,30 @@ definitions:
         $ref: '#/definitions/NullString'
       SVG_RectsDBID:
         $ref: '#/definitions/NullInt64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeLinecap:
+        description: |-
+          stroke-linecap specifies the shape to be used at the end of open subpaths
+          when they are stroked, and the shape to be drawn for zero length subpaths whether they are open or closed.
+          The possible values are:
+      StrokeLinecap_Data:
+        $ref: '#/definitions/NullString'
+      StrokeOpacity:
+        format: double
+        type: number
+      StrokeOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      StrokeWidth:
+        description: |-
+          This property specifies the width of the stroke on the current object.
+          A zero value causes no stroke to be painted. A negative value is invalid.
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
       UpdatedAt:
         format: date-time
         type: string
@@ -410,6 +515,24 @@ responses:
       DeletedAt:
         format: date-time
         type: string
+      Fill:
+        type: string
+      Fill_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field rectDB.Fill {{BasicKind}} (to be completed)
+      FillOpacity:
+        description: |-
+          fill-opacity specifies the opacity of the painting operation used to paint the fill the current object.
+          <number>
+          The opacity of the fill. Any values outside the range 0 (fully transparent) to 1 (fully opaque) must be clamped to this range.
+          <percentage>
+          The opacity of the fill expressed as a percentage of the range 0 to 1.
+        format: double
+        type: number
+      FillOpacity_Data:
+        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to
+          be completed)
       Height_Data:
         description: Declation for basic field rectDB.Height {{BasicKind}} (to be
           completed)
@@ -419,11 +542,37 @@ responses:
       Name:
         type: string
       Name_Data:
-        description: |-
-          insertion for fields declaration
-          Declation for basic field rectDB.Name {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.Name {{BasicKind}} (to be completed)
       SVG_RectsDBID:
         description: Implementation of a reverse ID for field SVG{}.Rects []*Rect
+      Stroke:
+        type: string
+      Stroke_Data:
+        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be
+          completed)
+      StrokeLinecap:
+        description: |-
+          stroke-linecap specifies the shape to be used at the end of open subpaths
+          when they are stroked, and the shape to be drawn for zero length subpaths whether they are open or closed.
+          The possible values are:
+      StrokeLinecap_Data:
+        description: Declation for basic field rectDB.StrokeLinecap {{BasicKind}}
+          (to be completed)
+      StrokeOpacity:
+        format: double
+        type: number
+      StrokeOpacity_Data:
+        description: Declation for basic field rectDB.StrokeOpacity {{BasicKind}}
+          (to be completed)
+      StrokeWidth:
+        description: |-
+          This property specifies the width of the stroke on the current object.
+          A zero value causes no stroke to be painted. A negative value is invalid.
+        format: double
+        type: number
+      StrokeWidth_Data:
+        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string

@@ -1,10 +1,9 @@
 // insertion point for imports
-import { SVGDB } from './svg-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './front-repo.service'
 
-export class RectDB {
+export class GraphicalElementDB {
 	CreatedAt?: string;
 	DeletedAt?: string;
 	ID?: number;
@@ -16,15 +15,6 @@ export class RectDB {
 	StrokeWidth?: number
 	StrokeOpacity?: number
 	StrokeLinecap?: string
-	Name?: string
-	X?: number
-	Y?: number
-	Width?: number
-	Height?: number
-	Color?: string
 
 	// insertion point for other declarations
-	SVG_RectsDBID?: NullInt64
-	SVG_Rects_reverse?: SVGDB
-
 }

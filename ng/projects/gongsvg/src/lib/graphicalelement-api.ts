@@ -1,4 +1,4 @@
-export class RectAPI {
+export class GraphicalElementAPI {
 	// insertion point for basic fields declarations
 	Fill?: string
 	FillOpacity?: number
@@ -6,10 +6,4 @@ export class RectAPI {
 	StrokeWidth?: number
 	StrokeOpacity?: number
 	StrokeLinecap?: string
-	Name?: string
-	X?: number
-	Y?: number
-	Width?: number
-	Height?: number
-	Color?: string
 }

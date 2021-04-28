@@ -53,10 +53,20 @@ export class RectService {
   //////// Save methods //////////
 
   /** POST: add a new rect to the server */
-  postRect(rectAPI: RectAPI): Observable<RectDB> {
-    return this.http.post<RectDB>(this.rectsUrl, rectAPI, this.httpOptions).pipe(
-      tap((newRect: RectDB) => {})
-    );
+  postRect(rectdb: RectDB): Observable<RectDB> {
+
+		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _SVG_Rects_reverse = rectdb.SVG_Rects_reverse
+    rectdb.SVG_Rects_reverse = {}
+
+		return this.http.post<RectDB>(this.rectsUrl, rectdb, this.httpOptions).pipe(
+			tap(_ => {
+				// insertion point for restoration of reverse pointers
+        rectdb.SVG_Rects_reverse = _SVG_Rects_reverse
+				this.log(`posted rectdb id=${rectdb.ID}`)
+			}),
+			catchError(this.handleError<RectDB>('postRect'))
+		);
   }
 
   /** DELETE: delete the rectdb from the server */
@@ -75,7 +85,7 @@ export class RectService {
     const id = typeof rectdb === 'number' ? rectdb : rectdb.ID;
     const url = `${this.rectsUrl}/${id}`;
 
-    // insertion point for reset of reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _SVG_Rects_reverse = rectdb.SVG_Rects_reverse
     rectdb.SVG_Rects_reverse = {}
 

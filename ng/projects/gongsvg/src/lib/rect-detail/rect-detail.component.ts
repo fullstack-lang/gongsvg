@@ -9,6 +9,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
 
 // insertion point for imports
+import { StrokeLinecapStyleSelect, StrokeLinecapStyleList } from '../StrokeLinecapStyle'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
@@ -24,6 +25,7 @@ import { NullInt64 } from '../front-repo.service'
 export class RectDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	StrokeLinecapStyleList: StrokeLinecapStyleSelect[]
 
 	// the RectDB of interest
 	rect: RectDB;
@@ -58,6 +60,7 @@ export class RectDetailComponent implements OnInit {
 		)
 
 		// insertion point for initialisation of enums list
+		this.StrokeLinecapStyleList = StrokeLinecapStyleList
 	}
 
 	getRect(): void {
@@ -86,16 +89,23 @@ export class RectDetailComponent implements OnInit {
 		const id = +this.route.snapshot.paramMap.get('id');
 		const association = this.route.snapshot.paramMap.get('association');
 
-		// insertion point for saving value of form controls of boolean fields
-
-		if (id != 0 && association == undefined) {
-			// insertion point for saving value of reverse pointers
+		// some fields needs to be translated into serializable forms
+		// pointers fields, after the translation, are nulled in order to perform serialization
+		
+		// insertion point for translation/nullation of each field
+		
+		// save from the front pointer space to the non pointer space for serialization
+		if (association == undefined) {
+			// insertion point for translation/nullation of each pointers
 			if (this.rect.SVG_Rects_reverse != undefined) {
 				this.rect.SVG_RectsDBID = new NullInt64
 				this.rect.SVG_RectsDBID.Int64 = this.rect.SVG_Rects_reverse.ID
 				this.rect.SVG_RectsDBID.Valid = true
 				this.rect.SVG_Rects_reverse = undefined // very important, otherwise, circular JSON
 			}
+		}
+
+		if (id != 0 && association == undefined) {
 
 			this.rectService.updateRect(this.rect)
 				.subscribe(rect => {

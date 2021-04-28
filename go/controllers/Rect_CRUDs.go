@@ -64,6 +64,30 @@ func GetRects(c *gin.Context) {
 		rect := &rects[idx]
 		_ = rect
 		// insertion point for updating fields
+		if rect.Fill_Data.Valid {
+			rect.Fill = rect.Fill_Data.String
+		}
+
+		if rect.FillOpacity_Data.Valid {
+			rect.FillOpacity = rect.FillOpacity_Data.Float64
+		}
+
+		if rect.Stroke_Data.Valid {
+			rect.Stroke = rect.Stroke_Data.String
+		}
+
+		if rect.StrokeWidth_Data.Valid {
+			rect.StrokeWidth = rect.StrokeWidth_Data.Float64
+		}
+
+		if rect.StrokeOpacity_Data.Valid {
+			rect.StrokeOpacity = rect.StrokeOpacity_Data.Float64
+		}
+
+		if rect.StrokeLinecap_Data.Valid {
+			rect.StrokeLinecap = models.StrokeLinecapStyle(rect.StrokeLinecap_Data.String)
+		}
+
 		if rect.Name_Data.Valid {
 			rect.Name = rect.Name_Data.String
 		}
@@ -125,6 +149,24 @@ func PostRect(c *gin.Context) {
 	rectDB := orm.RectDB{}
 	rectDB.RectAPI = input
 	// insertion point for nullable field set
+	rectDB.Fill_Data.String = input.Fill
+	rectDB.Fill_Data.Valid = true
+
+	rectDB.FillOpacity_Data.Float64 = input.FillOpacity
+	rectDB.FillOpacity_Data.Valid = true
+
+	rectDB.Stroke_Data.String = input.Stroke
+	rectDB.Stroke_Data.Valid = true
+
+	rectDB.StrokeWidth_Data.Float64 = input.StrokeWidth
+	rectDB.StrokeWidth_Data.Valid = true
+
+	rectDB.StrokeOpacity_Data.Float64 = input.StrokeOpacity
+	rectDB.StrokeOpacity_Data.Valid = true
+
+	rectDB.StrokeLinecap_Data.String = string(input.StrokeLinecap)
+	rectDB.StrokeLinecap_Data.Valid = true
+
 	rectDB.Name_Data.String = input.Name
 	rectDB.Name_Data.Valid = true
 
@@ -182,6 +224,30 @@ func GetRect(c *gin.Context) {
 	}
 
 	// insertion point for fields value set from nullable fields
+	if rect.Fill_Data.Valid {
+		rect.Fill = rect.Fill_Data.String
+	}
+
+	if rect.FillOpacity_Data.Valid {
+		rect.FillOpacity = rect.FillOpacity_Data.Float64
+	}
+
+	if rect.Stroke_Data.Valid {
+		rect.Stroke = rect.Stroke_Data.String
+	}
+
+	if rect.StrokeWidth_Data.Valid {
+		rect.StrokeWidth = rect.StrokeWidth_Data.Float64
+	}
+
+	if rect.StrokeOpacity_Data.Valid {
+		rect.StrokeOpacity = rect.StrokeOpacity_Data.Float64
+	}
+
+	if rect.StrokeLinecap_Data.Valid {
+		rect.StrokeLinecap = models.StrokeLinecapStyle(rect.StrokeLinecap_Data.String)
+	}
+
 	if rect.Name_Data.Valid {
 		rect.Name = rect.Name_Data.String
 	}
@@ -244,6 +310,24 @@ func UpdateRect(c *gin.Context) {
 
 	// update
 	// insertion point for nullable field set
+	input.Fill_Data.String = input.Fill
+	input.Fill_Data.Valid = true
+
+	input.FillOpacity_Data.Float64 = input.FillOpacity
+	input.FillOpacity_Data.Valid = true
+
+	input.Stroke_Data.String = input.Stroke
+	input.Stroke_Data.Valid = true
+
+	input.StrokeWidth_Data.Float64 = input.StrokeWidth
+	input.StrokeWidth_Data.Valid = true
+
+	input.StrokeOpacity_Data.Float64 = input.StrokeOpacity
+	input.StrokeOpacity_Data.Valid = true
+
+	input.StrokeLinecap_Data.String = string(input.StrokeLinecap)
+	input.StrokeLinecap_Data.Valid = true
+
 	input.Name_Data.String = input.Name
 	input.Name_Data.Valid = true
 

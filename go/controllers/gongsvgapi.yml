@@ -89,8 +89,18 @@ definitions:
         type: string
       Content:
         type: string
+      FillOpacity:
+        format: double
+        type: number
       Name:
         type: string
+      Stroke:
+        type: string
+      StrokeDashArray:
+        type: string
+      StrokeWidth:
+        format: double
+        type: number
       X:
         format: double
         type: number
@@ -281,12 +291,30 @@ definitions:
         type: string
       Content_Data:
         $ref: '#/definitions/NullString'
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
       Name:
         type: string
       Name_Data:
         $ref: '#/definitions/NullString'
       SVG_TextsDBID:
         $ref: '#/definitions/NullInt64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
       X:
         format: double
         type: number
@@ -316,6 +344,11 @@ definitions:
       DeletedAt:
         format: date-time
         type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
       ID:
         format: uint64
         type: integer
@@ -325,6 +358,19 @@ definitions:
         $ref: '#/definitions/NullString'
       SVG_TextsDBID:
         $ref: '#/definitions/NullInt64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
       UpdatedAt:
         format: date-time
         type: string
@@ -743,6 +789,11 @@ responses:
       DeletedAt:
         format: date-time
         type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        description: Declation for basic field textDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -754,6 +805,19 @@ responses:
           Declation for basic field textDB.Name {{BasicKind}} (to be completed)
       SVG_TextsDBID:
         description: Implementation of a reverse ID for field SVG{}.Texts []*Text
+      Stroke:
+        type: string
+      Stroke_Data:
+        description: Declation for basic field textDB.Stroke {{BasicKind}} (to be completed)
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        description: Declation for basic field textDB.StrokeDashArray {{BasicKind}} (to be completed)
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string

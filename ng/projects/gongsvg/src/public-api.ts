@@ -12,6 +12,20 @@ export * from './lib/front-repo.service'
 export * from './lib/commitnb.service'
 
 
+export * from './lib/circle-detail/circle-detail.component'
+export * from './lib/circle-presentation/circle-presentation.component'
+export * from './lib/circles-table/circles-table.component'
+export * from './lib/circle-db'
+export * from './lib/circle-api'
+export * from './lib/circle.service'
+
+export * from './lib/line-detail/line-detail.component'
+export * from './lib/line-presentation/line-presentation.component'
+export * from './lib/lines-table/lines-table.component'
+export * from './lib/line-db'
+export * from './lib/line-api'
+export * from './lib/line.service'
+
 export * from './lib/rect-detail/rect-detail.component'
 export * from './lib/rect-presentation/rect-presentation.component'
 export * from './lib/rects-table/rects-table.component'

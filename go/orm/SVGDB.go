@@ -220,6 +220,32 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 					}
 				}
 
+				// commit a slice of pointer translates to update reverse pointer to Circle, i.e.
+				for _, circle := range svg.Circles {
+					if circleDBID, ok := (*backRepo.BackRepoCircle.Map_CirclePtr_CircleDBID)[circle]; ok {
+						if circleDB, ok := (*backRepo.BackRepoCircle.Map_CircleDBID_CircleDB)[circleDBID]; ok {
+							circleDB.SVG_CirclesDBID.Int64 = int64(svgDB.ID)
+							circleDB.SVG_CirclesDBID.Valid = true
+							if q := backRepoSVG.db.Save(&circleDB); q.Error != nil {
+								return q.Error
+							}
+						}
+					}
+				}
+
+				// commit a slice of pointer translates to update reverse pointer to Line, i.e.
+				for _, line := range svg.Lines {
+					if lineDBID, ok := (*backRepo.BackRepoLine.Map_LinePtr_LineDBID)[line]; ok {
+						if lineDB, ok := (*backRepo.BackRepoLine.Map_LineDBID_LineDB)[lineDBID]; ok {
+							lineDB.SVG_LinesDBID.Int64 = int64(svgDB.ID)
+							lineDB.SVG_LinesDBID.Valid = true
+							if q := backRepoSVG.db.Save(&lineDB); q.Error != nil {
+								return q.Error
+							}
+						}
+					}
+				}
+
 			}
 		}
 		query := backRepoSVG.db.Save(&svgDB)
@@ -319,6 +345,26 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseTwoInstance(backRepo *BackRep
 				if TextDB.SVG_TextsDBID.Int64 == int64(svgDB.ID) {
 					Text := (*backRepo.BackRepoText.Map_TextDBID_TextPtr)[TextDB.ID]
 					svg.Texts = append(svg.Texts, Text)
+				}
+			}
+
+			// parse all CircleDB and redeem the array of poiners to SVG
+			// first reset the slice
+			svg.Circles = svg.Circles[:0]
+			for _, CircleDB := range *backRepo.BackRepoCircle.Map_CircleDBID_CircleDB {
+				if CircleDB.SVG_CirclesDBID.Int64 == int64(svgDB.ID) {
+					Circle := (*backRepo.BackRepoCircle.Map_CircleDBID_CirclePtr)[CircleDB.ID]
+					svg.Circles = append(svg.Circles, Circle)
+				}
+			}
+
+			// parse all LineDB and redeem the array of poiners to SVG
+			// first reset the slice
+			svg.Lines = svg.Lines[:0]
+			for _, LineDB := range *backRepo.BackRepoLine.Map_LineDBID_LineDB {
+				if LineDB.SVG_LinesDBID.Int64 == int64(svgDB.ID) {
+					Line := (*backRepo.BackRepoLine.Map_LineDBID_LinePtr)[LineDB.ID]
+					svg.Lines = append(svg.Lines, Line)
 				}
 			}
 

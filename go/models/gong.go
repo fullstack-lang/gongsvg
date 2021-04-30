@@ -12,6 +12,10 @@ var __member __void
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
+	Circles map[*Circle]struct{}
+
+	Lines map[*Line]struct{}
+
 	Rects map[*Rect]struct{}
 
 	SVGs map[*SVG]struct{}
@@ -29,6 +33,10 @@ type BackRepoInterface interface {
 	Commit(stage *StageStruct)
 	Checkout(stage *StageStruct)
 	// insertion point for Commit and Checkout signatures
+	CommitCircle(circle *Circle)
+	CheckoutCircle(circle *Circle)
+	CommitLine(line *Line)
+	CheckoutLine(line *Line)
 	CommitRect(rect *Rect)
 	CheckoutRect(rect *Rect)
 	CommitSVG(svg *SVG)
@@ -40,6 +48,10 @@ type BackRepoInterface interface {
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
+	Circles: make(map[*Circle]struct{}, 0),
+
+	Lines: make(map[*Line]struct{}, 0),
+
 	Rects: make(map[*Rect]struct{}, 0),
 
 	SVGs: make(map[*SVG]struct{}, 0),
@@ -61,6 +73,204 @@ func (stage *StageStruct) Checkout() {
 }
 
 // insertion point for cumulative sub template with model space calls
+func (stage *StageStruct) getCircleOrderedStructWithNameField() []*Circle {
+	// have alphabetical order generation
+	circleOrdered := []*Circle{}
+	for circle := range stage.Circles {
+		circleOrdered = append(circleOrdered, circle)
+	}
+	sort.Slice(circleOrdered[:], func(i, j int) bool {
+		return circleOrdered[i].Name < circleOrdered[j].Name
+	})
+	return circleOrdered
+}
+
+// Stage puts circle to the model stage
+func (circle *Circle) Stage() *Circle {
+	Stage.Circles[circle] = __member
+	return circle
+}
+
+// Unstage removes circle off the model stage
+func (circle *Circle) Unstage() *Circle {
+	delete(Stage.Circles, circle)
+	return circle
+}
+
+// commit circle to the back repo (if it is already staged)
+func (circle *Circle) Commit() *Circle {
+	if _, ok := Stage.Circles[circle]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitCircle(circle)
+		}
+	}
+	return circle
+}
+
+// Checkout circle to the back repo (if it is already staged)
+func (circle *Circle) Checkout() *Circle {
+	if _, ok := Stage.Circles[circle]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutCircle(circle)
+		}
+	}
+	return circle
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of circle to the model stage
+func (circle *Circle) StageCopy() *Circle {
+	_circle := new(Circle)
+	*_circle = *circle
+	_circle.Stage()
+	return _circle
+}
+
+// StageAndCommit appends circle to the model stage and commit to the orm repo
+func (circle *Circle) StageAndCommit() *Circle {
+	circle.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMCircle(circle)
+	}
+	return circle
+}
+
+// DeleteStageAndCommit appends circle to the model stage and commit to the orm repo
+func (circle *Circle) DeleteStageAndCommit() *Circle {
+	circle.Unstage()
+	DeleteORMCircle(circle)
+	return circle
+}
+
+// StageCopyAndCommit appends a copy of circle to the model stage and commit to the orm repo
+func (circle *Circle) StageCopyAndCommit() *Circle {
+	_circle := new(Circle)
+	*_circle = *circle
+	_circle.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMCircle(circle)
+	}
+	return _circle
+}
+
+// CreateORMCircle enables dynamic staging of a Circle instance
+func CreateORMCircle(circle *Circle) {
+	circle.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMCircle(circle)
+	}
+}
+
+// DeleteORMCircle enables dynamic staging of a Circle instance
+func DeleteORMCircle(circle *Circle) {
+	circle.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMCircle(circle)
+	}
+}
+
+func (stage *StageStruct) getLineOrderedStructWithNameField() []*Line {
+	// have alphabetical order generation
+	lineOrdered := []*Line{}
+	for line := range stage.Lines {
+		lineOrdered = append(lineOrdered, line)
+	}
+	sort.Slice(lineOrdered[:], func(i, j int) bool {
+		return lineOrdered[i].Name < lineOrdered[j].Name
+	})
+	return lineOrdered
+}
+
+// Stage puts line to the model stage
+func (line *Line) Stage() *Line {
+	Stage.Lines[line] = __member
+	return line
+}
+
+// Unstage removes line off the model stage
+func (line *Line) Unstage() *Line {
+	delete(Stage.Lines, line)
+	return line
+}
+
+// commit line to the back repo (if it is already staged)
+func (line *Line) Commit() *Line {
+	if _, ok := Stage.Lines[line]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitLine(line)
+		}
+	}
+	return line
+}
+
+// Checkout line to the back repo (if it is already staged)
+func (line *Line) Checkout() *Line {
+	if _, ok := Stage.Lines[line]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutLine(line)
+		}
+	}
+	return line
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of line to the model stage
+func (line *Line) StageCopy() *Line {
+	_line := new(Line)
+	*_line = *line
+	_line.Stage()
+	return _line
+}
+
+// StageAndCommit appends line to the model stage and commit to the orm repo
+func (line *Line) StageAndCommit() *Line {
+	line.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMLine(line)
+	}
+	return line
+}
+
+// DeleteStageAndCommit appends line to the model stage and commit to the orm repo
+func (line *Line) DeleteStageAndCommit() *Line {
+	line.Unstage()
+	DeleteORMLine(line)
+	return line
+}
+
+// StageCopyAndCommit appends a copy of line to the model stage and commit to the orm repo
+func (line *Line) StageCopyAndCommit() *Line {
+	_line := new(Line)
+	*_line = *line
+	_line.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMLine(line)
+	}
+	return _line
+}
+
+// CreateORMLine enables dynamic staging of a Line instance
+func CreateORMLine(line *Line) {
+	line.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMLine(line)
+	}
+}
+
+// DeleteORMLine enables dynamic staging of a Line instance
+func DeleteORMLine(line *Line) {
+	line.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMLine(line)
+	}
+}
+
 func (stage *StageStruct) getRectOrderedStructWithNameField() []*Rect {
 	// have alphabetical order generation
 	rectOrdered := []*Rect{}
@@ -360,24 +570,32 @@ func DeleteORMText(text *Text) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMCircle(Circle *Circle)
+	CreateORMLine(Line *Line)
 	CreateORMRect(Rect *Rect)
 	CreateORMSVG(SVG *SVG)
 	CreateORMText(Text *Text)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMCircle(Circle *Circle)
+	DeleteORMLine(Line *Line)
 	DeleteORMRect(Rect *Rect)
 	DeleteORMSVG(SVG *SVG)
 	DeleteORMText(Text *Text)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
+	stage.Circles = make(map[*Circle]struct{}, 0)
+	stage.Lines = make(map[*Line]struct{}, 0)
 	stage.Rects = make(map[*Rect]struct{}, 0)
 	stage.SVGs = make(map[*SVG]struct{}, 0)
 	stage.Texts = make(map[*Text]struct{}, 0)
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
+	stage.Circles = nil
+	stage.Lines = nil
 	stage.Rects = nil
 	stage.SVGs = nil
 	stage.Texts = nil

@@ -9,6 +9,10 @@ import (
 // BackRepoStruct supports callback functions
 type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
+	BackRepoCircle BackRepoCircleStruct
+
+	BackRepoLine BackRepoLineStruct
+
 	BackRepoRect BackRepoRectStruct
 
 	BackRepoSVG BackRepoSVGStruct
@@ -30,6 +34,8 @@ func (backRepo *BackRepoStruct) IncrementCommitNb() uint {
 // Init the BackRepoStruct inner variables and link to the database
 func (backRepo *BackRepoStruct) Init(db *gorm.DB) {
 	// insertion point for per struct back repo declarations
+	backRepo.BackRepoCircle.Init(db)
+	backRepo.BackRepoLine.Init(db)
 	backRepo.BackRepoRect.Init(db)
 	backRepo.BackRepoSVG.Init(db)
 	backRepo.BackRepoText.Init(db)
@@ -40,11 +46,15 @@ func (backRepo *BackRepoStruct) Init(db *gorm.DB) {
 // Commit the BackRepoStruct inner variables and link to the database
 func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
+	backRepo.BackRepoCircle.CommitPhaseOne(stage)
+	backRepo.BackRepoLine.CommitPhaseOne(stage)
 	backRepo.BackRepoRect.CommitPhaseOne(stage)
 	backRepo.BackRepoSVG.CommitPhaseOne(stage)
 	backRepo.BackRepoText.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
+	backRepo.BackRepoCircle.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoLine.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoRect.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSVG.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoText.CommitPhaseTwo(backRepo)
@@ -55,11 +65,15 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 // Checkout the database into the stage
 func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
+	backRepo.BackRepoCircle.CheckoutPhaseOne()
+	backRepo.BackRepoLine.CheckoutPhaseOne()
 	backRepo.BackRepoRect.CheckoutPhaseOne()
 	backRepo.BackRepoSVG.CheckoutPhaseOne()
 	backRepo.BackRepoText.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
+	backRepo.BackRepoCircle.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoLine.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoRect.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSVG.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoText.CheckoutPhaseTwo(backRepo)

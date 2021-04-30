@@ -5,6 +5,8 @@ type SVG struct {
 
 	Name string
 
-	Rects []*Rect
-	Texts []*Text
+	Rects   []*Rect
+	Texts   []*Text
+	Circles []*Circle
+	Lines   []*Line
 }

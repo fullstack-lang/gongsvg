@@ -9,9 +9,14 @@ export class TextComponent implements OnInit {
 
   @Input() X: number
   @Input() Y: number
-  @Input() Color: string
   @Input() Content: string
 
+  @Input() Color: string
+  @Input() Stroke: string
+  @Input() StrokeWidth: string
+  @Input() FillOpacity: number
+  @Input() StrokeDashArray: string
+  
   constructor() { }
 
   ngOnInit(): void {

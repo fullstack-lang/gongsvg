@@ -1,13 +1,24 @@
 <div *ngFor="let rect of Rects" class="parent">
     <lib-svg-rect [X]="rect.X" [Y]="rect.Y" 
     [Width]="rect.Width" [Height]="rect.Height" 
+    
     [Color]="rect.Color" [FillOpacity]="rect.FillOpacity" 
     [Stroke]="rect.Stroke" [StrokeWidth]="rect.StrokeWidth"
-    [StrokeDashArray]="rect.StrokeDashArray">
+    [StrokeDashArray]="rect.StrokeDashArray"
+    
+    >
     </lib-svg-rect>
 </div>
 <div *ngFor="let text of Texts" class="parent">
-    <lib-text [X]="text.X" [Y]="text.Y" [Color]="text.Color" [Content]="text.Content">
+    <lib-text 
+    [X]="text.X" [Y]="text.Y" 
+    [Content]="text.Content"
+
+    [Color]="text.Color" [FillOpacity]="text.FillOpacity" 
+    [Stroke]="text.Stroke" [StrokeWidth]="text.StrokeWidth"
+    [StrokeDashArray]="text.StrokeDashArray"
+    
+    >
     </lib-text>
 </div>
 

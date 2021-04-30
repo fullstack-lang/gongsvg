@@ -42,6 +42,18 @@ type TextAPI struct {
 	// Declation for basic field textDB.Color {{BasicKind}} (to be completed)
 	Color_Data sql.NullString
 
+	// Declation for basic field textDB.FillOpacity {{BasicKind}} (to be completed)
+	FillOpacity_Data sql.NullFloat64
+
+	// Declation for basic field textDB.Stroke {{BasicKind}} (to be completed)
+	Stroke_Data sql.NullString
+
+	// Declation for basic field textDB.StrokeWidth {{BasicKind}} (to be completed)
+	StrokeWidth_Data sql.NullFloat64
+
+	// Declation for basic field textDB.StrokeDashArray {{BasicKind}} (to be completed)
+	StrokeDashArray_Data sql.NullString
+
 	// Implementation of a reverse ID for field SVG{}.Texts []*Text
 	SVG_TextsDBID sql.NullInt64
 
@@ -214,6 +226,18 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				textDB.Color_Data.String = text.Color
 				textDB.Color_Data.Valid = true
 
+				textDB.FillOpacity_Data.Float64 = text.FillOpacity
+				textDB.FillOpacity_Data.Valid = true
+
+				textDB.Stroke_Data.String = text.Stroke
+				textDB.Stroke_Data.Valid = true
+
+				textDB.StrokeWidth_Data.Float64 = text.StrokeWidth
+				textDB.StrokeWidth_Data.Valid = true
+
+				textDB.StrokeDashArray_Data.String = text.StrokeDashArray
+				textDB.StrokeDashArray_Data.Valid = true
+
 			}
 		}
 		query := backRepoText.db.Save(&textDB)
@@ -302,6 +326,14 @@ func (backRepoText *BackRepoTextStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 			text.Content = textDB.Content_Data.String
 
 			text.Color = textDB.Color_Data.String
+
+			text.FillOpacity = textDB.FillOpacity_Data.Float64
+
+			text.Stroke = textDB.Stroke_Data.String
+
+			text.StrokeWidth = textDB.StrokeWidth_Data.Float64
+
+			text.StrokeDashArray = textDB.StrokeDashArray_Data.String
 
 		}
 	}

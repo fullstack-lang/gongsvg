@@ -84,6 +84,22 @@ func GetTexts(c *gin.Context) {
 			text.Color = text.Color_Data.String
 		}
 
+		if text.FillOpacity_Data.Valid {
+			text.FillOpacity = text.FillOpacity_Data.Float64
+		}
+
+		if text.Stroke_Data.Valid {
+			text.Stroke = text.Stroke_Data.String
+		}
+
+		if text.StrokeWidth_Data.Valid {
+			text.StrokeWidth = text.StrokeWidth_Data.Float64
+		}
+
+		if text.StrokeDashArray_Data.Valid {
+			text.StrokeDashArray = text.StrokeDashArray_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, texts)
@@ -135,6 +151,18 @@ func PostText(c *gin.Context) {
 
 	textDB.Color_Data.String = input.Color
 	textDB.Color_Data.Valid = true
+
+	textDB.FillOpacity_Data.Float64 = input.FillOpacity
+	textDB.FillOpacity_Data.Valid = true
+
+	textDB.Stroke_Data.String = input.Stroke
+	textDB.Stroke_Data.Valid = true
+
+	textDB.StrokeWidth_Data.Float64 = input.StrokeWidth
+	textDB.StrokeWidth_Data.Valid = true
+
+	textDB.StrokeDashArray_Data.String = input.StrokeDashArray
+	textDB.StrokeDashArray_Data.Valid = true
 
 	query := db.Create(&textDB)
 	if query.Error != nil {
@@ -195,6 +223,22 @@ func GetText(c *gin.Context) {
 		text.Color = text.Color_Data.String
 	}
 
+	if text.FillOpacity_Data.Valid {
+		text.FillOpacity = text.FillOpacity_Data.Float64
+	}
+
+	if text.Stroke_Data.Valid {
+		text.Stroke = text.Stroke_Data.String
+	}
+
+	if text.StrokeWidth_Data.Valid {
+		text.StrokeWidth = text.StrokeWidth_Data.Float64
+	}
+
+	if text.StrokeDashArray_Data.Valid {
+		text.StrokeDashArray = text.StrokeDashArray_Data.String
+	}
+
 	c.JSON(http.StatusOK, text)
 }
 
@@ -247,6 +291,18 @@ func UpdateText(c *gin.Context) {
 
 	input.Color_Data.String = input.Color
 	input.Color_Data.Valid = true
+
+	input.FillOpacity_Data.Float64 = input.FillOpacity
+	input.FillOpacity_Data.Valid = true
+
+	input.Stroke_Data.String = input.Stroke
+	input.Stroke_Data.Valid = true
+
+	input.StrokeWidth_Data.Float64 = input.StrokeWidth
+	input.StrokeWidth_Data.Valid = true
+
+	input.StrokeDashArray_Data.String = input.StrokeDashArray
+	input.StrokeDashArray_Data.Valid = true
 
 	query = db.Model(&textDB).Updates(input)
 	if query.Error != nil {

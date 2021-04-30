@@ -113,6 +113,18 @@ export class FrontRepoService {
                 }
               }
             )
+            
+            // sort Rects_array array
+            FrontRepoSingloton.Rects_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+            
             // init the array
             FrontRepoSingloton.SVGs_array = svgs
 
@@ -134,6 +146,18 @@ export class FrontRepoService {
                 }
               }
             )
+            
+            // sort SVGs_array array
+            FrontRepoSingloton.SVGs_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+            
 
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)

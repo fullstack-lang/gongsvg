@@ -315,6 +315,36 @@ export class SidebarComponent implements OnInit {
             RectsGongNodeAssociation.children.push(rectNode)
           })
 
+          /**
+          * let append a node for the slide of pointer Texts
+          */
+          let TextsGongNodeAssociation: GongNode = {
+            name: "(Text) Texts",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: svgDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "SVG",
+            associatedStructName: "Text",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          svgGongNodeInstance.children.push(TextsGongNodeAssociation)
+
+          svgDB.Texts?.forEach(textDB => {
+            let textNode: GongNode = {
+              name: textDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: textDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getSVGUniqueID(svgDB.ID)
+                + 11 * getTextUniqueID(textDB.ID),
+              structName: "Text",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            TextsGongNodeAssociation.children.push(textNode)
+          })
+
         }
       )
 

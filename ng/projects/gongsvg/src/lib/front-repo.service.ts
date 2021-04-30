@@ -239,6 +239,19 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field SVG.Texts redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(text.SVG_TextsDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Texts == undefined) {
+                      _svg.Texts = new Array<SVGDB>()
+                    }
+                    _svg.Texts.push(text)
+                    if (text.SVG_Texts_reverse == undefined) {
+                      text.SVG_Texts_reverse = _svg
+                    }
+                  }
+                }
               }
             )
 
@@ -394,6 +407,19 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations 
 
                 // insertion point for redeeming ONE-MANY associations 
+                // insertion point for slice of pointer field SVG.Texts redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(text.SVG_TextsDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Texts == undefined) {
+                      _svg.Texts = new Array<SVGDB>()
+                    }
+                    _svg.Texts.push(text)
+                    if (text.SVG_Texts_reverse == undefined) {
+                      text.SVG_Texts_reverse = _svg
+                    }
+                  }
+                }
               }
             )
 

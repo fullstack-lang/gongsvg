@@ -73,6 +73,20 @@ definitions:
         x-go-name: Height
     type: object
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
+  Text:
+    properties:
+      Color:
+        type: string
+      Content:
+        type: string
+      Name:
+        type: string
+      X:
+        format: double
+        type: number
+        x-go-name: "Y"
+    type: object
+    x-go-package: github.com/fullstack-lang/gongsvg/go/models
   rectAPI:
     description: |-
       for POST, API, one needs the fields of the model as well as the fields
@@ -164,6 +178,10 @@ definitions:
         items:
           $ref: '#/definitions/Rect'
         type: array
+      Texts:
+        items:
+          $ref: '#/definitions/Text'
+        type: array
     title: SVGAPI is the input in POST API
     type: object
     x-go-name: SVGAPI
@@ -192,6 +210,10 @@ definitions:
         items:
           $ref: '#/definitions/Rect'
         type: array
+      Texts:
+        items:
+          $ref: '#/definitions/Text'
+        type: array
       UpdatedAt:
         format: date-time
         type: string
@@ -217,6 +239,8 @@ definitions:
         type: string
       Name_Data:
         $ref: '#/definitions/NullString'
+      SVG_TextsDBID:
+        $ref: '#/definitions/NullInt64'
       X:
         format: double
         type: number
@@ -253,6 +277,8 @@ definitions:
         type: string
       Name_Data:
         $ref: '#/definitions/NullString'
+      SVG_TextsDBID:
+        $ref: '#/definitions/NullInt64'
       UpdatedAt:
         format: date-time
         type: string
@@ -621,6 +647,10 @@ responses:
         items:
           $ref: '#/definitions/Rect'
         type: array
+      Texts:
+        items:
+          $ref: '#/definitions/Text'
+        type: array
       UpdatedAt:
         format: date-time
         type: string
@@ -658,6 +688,8 @@ responses:
         description: |-
           insertion for fields declaration
           Declation for basic field textDB.Name {{BasicKind}} (to be completed)
+      SVG_TextsDBID:
+        description: Implementation of a reverse ID for field SVG{}.Texts []*Text
       UpdatedAt:
         format: date-time
         type: string
@@ -669,7 +701,7 @@ responses:
       Y_Data:
         description: Declation for basic field textDB.Y {{BasicKind}} (to be completed)
     schema:
-      $ref: '#/definitions/NullString'
+      $ref: '#/definitions/NullInt64'
   textDBsResponse:
     description: TextDBs arrays textDBs
     schema:

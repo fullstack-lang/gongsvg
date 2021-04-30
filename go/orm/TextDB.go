@@ -42,6 +42,9 @@ type TextAPI struct {
 	// Declation for basic field textDB.Color {{BasicKind}} (to be completed)
 	Color_Data sql.NullString
 
+	// Implementation of a reverse ID for field SVG{}.Texts []*Text
+	SVG_TextsDBID sql.NullInt64
+
 	// end of insertion
 }
 

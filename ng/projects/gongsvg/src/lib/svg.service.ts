@@ -57,6 +57,7 @@ export class SVGService {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     svgdb.Rects = []
+    svgdb.Texts = []
 
 		return this.http.post<SVGDB>(this.svgsUrl, svgdb, this.httpOptions).pipe(
 			tap(_ => {
@@ -85,6 +86,7 @@ export class SVGService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     svgdb.Rects = []
+    svgdb.Texts = []
 
     return this.http.put(url, svgdb, this.httpOptions).pipe(
       tap(_ => {

@@ -2,5 +2,9 @@
     <lib-svg-rect [X]="rect.X" [Y]="rect.Y" [Width]="rect.Width" [Height]="rect.Height" [Color]="rect.Color">
     </lib-svg-rect>
 </div>
+<div *ngFor="let text of Texts" class="parent">
+    <lib-text [X]="text.X" [Y]="text.Y" [Color]="text.Color" [Content]="text.Content">
+    </lib-text>
+</div>
 
 <!-- <lib-svg-rect></lib-svg-rect> -->

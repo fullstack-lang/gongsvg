@@ -87,6 +87,7 @@ export class TextsTableComponent implements OnInit {
         "Y",
         "Content",
         "Color",
+        "Texts",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -95,6 +96,7 @@ export class TextsTableComponent implements OnInit {
         "Y",
         "Content",
         "Color",
+        "Texts",
       ]
       this.selection = new SelectionModel<TextDB>(allowMultiSelect, this.initialSelection);
     }

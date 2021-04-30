@@ -94,6 +94,12 @@ export class TextDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
+			if (this.text.SVG_Texts_reverse != undefined) {
+				this.text.SVG_TextsDBID = new NullInt64
+				this.text.SVG_TextsDBID.Int64 = this.text.SVG_Texts_reverse.ID
+				this.text.SVG_TextsDBID.Valid = true
+				this.text.SVG_Texts_reverse = undefined // very important, otherwise, circular JSON
+			}
 		}
 
 		if (id != 0 && association == undefined) {
@@ -107,6 +113,11 @@ export class TextDetailComponent implements OnInit {
 		} else {
 			switch (association) {
 				// insertion point for saving value of ONE_MANY association reverse pointer
+				case "SVG_Texts":
+					this.text.SVG_TextsDBID = new NullInt64
+					this.text.SVG_TextsDBID.Int64 = id
+					this.text.SVG_TextsDBID.Valid = true
+					break
 			}
 			this.textService.postText(this.text).subscribe(text => {
 

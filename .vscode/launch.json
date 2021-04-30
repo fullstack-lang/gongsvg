@@ -10,6 +10,18 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}/ng"
-        }
+        },
+        {
+            "name": "Front Simple on local 4200",
+            "runtimeArgs": [
+                "--remote-debugging-port=9222"
+            ],
+            "runtimeExecutable": "${env:CHROME_EXE}",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:4200/",
+            // the workspace folder is the .vscode ?
+            "webRoot": "${workspaceFolder}/ng",
+        },
     ]
 }

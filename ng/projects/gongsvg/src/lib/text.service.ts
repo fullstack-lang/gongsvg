@@ -56,10 +56,13 @@ export class TextService {
   postText(textdb: TextDB): Observable<TextDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _SVG_Texts_reverse = textdb.SVG_Texts_reverse
+    textdb.SVG_Texts_reverse = {}
 
 		return this.http.post<TextDB>(this.textsUrl, textdb, this.httpOptions).pipe(
 			tap(_ => {
 				// insertion point for restoration of reverse pointers
+        textdb.SVG_Texts_reverse = _SVG_Texts_reverse
 				this.log(`posted textdb id=${textdb.ID}`)
 			}),
 			catchError(this.handleError<TextDB>('postText'))
@@ -83,10 +86,13 @@ export class TextService {
     const url = `${this.textsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _SVG_Texts_reverse = textdb.SVG_Texts_reverse
+    textdb.SVG_Texts_reverse = {}
 
     return this.http.put(url, textdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        textdb.SVG_Texts_reverse = _SVG_Texts_reverse
         this.log(`updated textdb id=${textdb.ID}`)
       }),
       catchError(this.handleError<TextDB>('updateText'))

@@ -61,6 +61,34 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="FillOpacity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> FillOpacity </th>
+            <td mat-cell *matCellDef="let Rect">
+                {{Rect.FillOpacity.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Stroke">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Stroke </th>
+            <td mat-cell *matCellDef="let Rect">
+                {{Rect.Stroke}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="StrokeWidth">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StrokeWidth </th>
+            <td mat-cell *matCellDef="let Rect">
+                {{Rect.StrokeWidth.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="StrokeDashArray">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StrokeDashArray </th>
+            <td mat-cell *matCellDef="let Rect">
+                {{Rect.StrokeDashArray}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Rects">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (SVG) Rects </th>
             <td mat-cell *matCellDef="let rect">

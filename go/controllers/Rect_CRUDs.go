@@ -88,6 +88,22 @@ func GetRects(c *gin.Context) {
 			rect.Color = rect.Color_Data.String
 		}
 
+		if rect.FillOpacity_Data.Valid {
+			rect.FillOpacity = rect.FillOpacity_Data.Float64
+		}
+
+		if rect.Stroke_Data.Valid {
+			rect.Stroke = rect.Stroke_Data.String
+		}
+
+		if rect.StrokeWidth_Data.Valid {
+			rect.StrokeWidth = rect.StrokeWidth_Data.Float64
+		}
+
+		if rect.StrokeDashArray_Data.Valid {
+			rect.StrokeDashArray = rect.StrokeDashArray_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, rects)
@@ -142,6 +158,18 @@ func PostRect(c *gin.Context) {
 
 	rectDB.Color_Data.String = input.Color
 	rectDB.Color_Data.Valid = true
+
+	rectDB.FillOpacity_Data.Float64 = input.FillOpacity
+	rectDB.FillOpacity_Data.Valid = true
+
+	rectDB.Stroke_Data.String = input.Stroke
+	rectDB.Stroke_Data.Valid = true
+
+	rectDB.StrokeWidth_Data.Float64 = input.StrokeWidth
+	rectDB.StrokeWidth_Data.Valid = true
+
+	rectDB.StrokeDashArray_Data.String = input.StrokeDashArray
+	rectDB.StrokeDashArray_Data.Valid = true
 
 	query := db.Create(&rectDB)
 	if query.Error != nil {
@@ -206,6 +234,22 @@ func GetRect(c *gin.Context) {
 		rect.Color = rect.Color_Data.String
 	}
 
+	if rect.FillOpacity_Data.Valid {
+		rect.FillOpacity = rect.FillOpacity_Data.Float64
+	}
+
+	if rect.Stroke_Data.Valid {
+		rect.Stroke = rect.Stroke_Data.String
+	}
+
+	if rect.StrokeWidth_Data.Valid {
+		rect.StrokeWidth = rect.StrokeWidth_Data.Float64
+	}
+
+	if rect.StrokeDashArray_Data.Valid {
+		rect.StrokeDashArray = rect.StrokeDashArray_Data.String
+	}
+
 	c.JSON(http.StatusOK, rect)
 }
 
@@ -261,6 +305,18 @@ func UpdateRect(c *gin.Context) {
 
 	input.Color_Data.String = input.Color
 	input.Color_Data.Valid = true
+
+	input.FillOpacity_Data.Float64 = input.FillOpacity
+	input.FillOpacity_Data.Valid = true
+
+	input.Stroke_Data.String = input.Stroke
+	input.Stroke_Data.Valid = true
+
+	input.StrokeWidth_Data.Float64 = input.StrokeWidth
+	input.StrokeWidth_Data.Valid = true
+
+	input.StrokeDashArray_Data.String = input.StrokeDashArray
+	input.StrokeDashArray_Data.Valid = true
 
 	query = db.Model(&rectDB).Updates(input)
 	if query.Error != nil {

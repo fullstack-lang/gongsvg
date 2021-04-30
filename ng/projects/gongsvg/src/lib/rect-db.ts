@@ -16,6 +16,10 @@ export class RectDB {
 	Width?: number
 	Height?: number
 	Color?: string
+	FillOpacity?: number
+	Stroke?: string
+	StrokeWidth?: number
+	StrokeDashArray?: string
 
 	// insertion point for other declarations
 	SVG_RectsDBID?: NullInt64

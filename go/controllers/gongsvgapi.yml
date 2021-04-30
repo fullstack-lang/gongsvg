@@ -65,8 +65,18 @@ definitions:
     properties:
       Color:
         type: string
+      FillOpacity:
+        format: double
+        type: number
       Name:
         type: string
+      Stroke:
+        type: string
+      StrokeDashArray:
+        type: string
+      StrokeWidth:
+        format: double
+        type: number
       X:
         format: double
         type: number
@@ -97,6 +107,11 @@ definitions:
         type: string
       Color_Data:
         $ref: '#/definitions/NullString'
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
       Height_Data:
         $ref: '#/definitions/NullFloat64'
       Name:
@@ -105,6 +120,19 @@ definitions:
         $ref: '#/definitions/NullString'
       SVG_RectsDBID:
         $ref: '#/definitions/NullInt64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
       Width_Data:
         $ref: '#/definitions/NullFloat64'
       X:
@@ -132,6 +160,11 @@ definitions:
       DeletedAt:
         format: date-time
         type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
       Height_Data:
         $ref: '#/definitions/NullFloat64'
       ID:
@@ -143,6 +176,19 @@ definitions:
         $ref: '#/definitions/NullString'
       SVG_RectsDBID:
         $ref: '#/definitions/NullInt64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
       UpdatedAt:
         format: date-time
         type: string
@@ -587,6 +633,11 @@ responses:
       DeletedAt:
         format: date-time
         type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to be completed)
       Height_Data:
         description: Declation for basic field rectDB.Height {{BasicKind}} (to be completed)
       ID:
@@ -600,6 +651,19 @@ responses:
           Declation for basic field rectDB.Name {{BasicKind}} (to be completed)
       SVG_RectsDBID:
         description: Implementation of a reverse ID for field SVG{}.Rects []*Rect
+      Stroke:
+        type: string
+      Stroke_Data:
+        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be completed)
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        description: Declation for basic field rectDB.StrokeDashArray {{BasicKind}} (to be completed)
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string

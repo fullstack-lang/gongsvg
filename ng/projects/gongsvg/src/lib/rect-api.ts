@@ -6,4 +6,8 @@ export class RectAPI {
 	Width?: number
 	Height?: number
 	Color?: string
+	FillOpacity?: number
+	Stroke?: string
+	StrokeWidth?: number
+	StrokeDashArray?: string
 }

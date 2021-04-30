@@ -12,6 +12,10 @@ export class SvgRectComponent implements OnInit {
   @Input() Width: number
   @Input() Height: number
   @Input() Color: string
+  @Input() Stroke: string
+  @Input() StrokeWidth: string
+  @Input() FillOpacity: number
+  @Input() StrokeDashArray: string
 
   constructor() { }
 

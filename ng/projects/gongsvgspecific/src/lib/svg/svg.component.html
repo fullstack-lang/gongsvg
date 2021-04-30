@@ -1,5 +1,9 @@
 <div *ngFor="let rect of Rects" class="parent">
-    <lib-svg-rect [X]="rect.X" [Y]="rect.Y" [Width]="rect.Width" [Height]="rect.Height" [Color]="rect.Color">
+    <lib-svg-rect [X]="rect.X" [Y]="rect.Y" 
+    [Width]="rect.Width" [Height]="rect.Height" 
+    [Color]="rect.Color" [FillOpacity]="rect.FillOpacity" 
+    [Stroke]="rect.Stroke" [StrokeWidth]="rect.StrokeWidth"
+    [StrokeDashArray]="rect.StrokeDashArray">
     </lib-svg-rect>
 </div>
 <div *ngFor="let text of Texts" class="parent">

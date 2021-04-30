@@ -88,6 +88,10 @@ export class RectsTableComponent implements OnInit {
         "Width",
         "Height",
         "Color",
+        "FillOpacity",
+        "Stroke",
+        "StrokeWidth",
+        "StrokeDashArray",
         "Rects",
       ]
     } else {
@@ -98,6 +102,10 @@ export class RectsTableComponent implements OnInit {
         "Width",
         "Height",
         "Color",
+        "FillOpacity",
+        "Stroke",
+        "StrokeWidth",
+        "StrokeDashArray",
         "Rects",
       ]
       this.selection = new SelectionModel<RectDB>(allowMultiSelect, this.initialSelection);

@@ -26,4 +26,11 @@ export * from './lib/svg-db'
 export * from './lib/svg-api'
 export * from './lib/svg.service'
 
+export * from './lib/text-detail/text-detail.component'
+export * from './lib/text-presentation/text-presentation.component'
+export * from './lib/texts-table/texts-table.component'
+export * from './lib/text-db'
+export * from './lib/text-api'
+export * from './lib/text.service'
+
 

@@ -12,6 +12,8 @@ import { RectService } from '../rect.service'
 import { getRectUniqueID } from '../front-repo.service'
 import { SVGService } from '../svg.service'
 import { getSVGUniqueID } from '../front-repo.service'
+import { TextService } from '../text.service'
+import { getTextUniqueID } from '../front-repo.service'
 
 /**
  * Types of a GongNode / GongFlatNode
@@ -146,6 +148,7 @@ export class SidebarComponent implements OnInit {
     // insertion point for per struct service declaration
     private rectService: RectService,
     private svgService: SVGService,
+    private textService: TextService,
   ) { }
 
   ngOnInit(): void {
@@ -162,6 +165,14 @@ export class SidebarComponent implements OnInit {
     )
     // observable for changes in structs
     this.svgService.SVGServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.textService.TextServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -304,6 +315,48 @@ export class SidebarComponent implements OnInit {
             RectsGongNodeAssociation.children.push(rectNode)
           })
 
+        }
+      )
+
+      /**
+      * fill up the Text part of the mat tree
+      */
+      let textGongNodeStruct: GongNode = {
+        name: "Text",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Text",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(textGongNodeStruct)
+
+      this.frontRepo.Texts_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Texts_array.forEach(
+        textDB => {
+          let textGongNodeInstance: GongNode = {
+            name: textDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: textDB.ID,
+            uniqueIdPerStack: getTextUniqueID(textDB.ID),
+            structName: "Text",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          textGongNodeStruct.children.push(textGongNodeInstance)
+
+          // insertion point for per field code
         }
       )
 

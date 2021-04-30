@@ -39,6 +39,10 @@ import { SVGsTableComponent } from './svgs-table/svgs-table.component'
 import { SVGDetailComponent } from './svg-detail/svg-detail.component'
 import { SVGPresentationComponent } from './svg-presentation/svg-presentation.component'
 
+import { TextsTableComponent } from './texts-table/texts-table.component'
+import { TextDetailComponent } from './text-detail/text-detail.component'
+import { TextPresentationComponent } from './text-presentation/text-presentation.component'
+
 
 @NgModule({
 	declarations: [
@@ -50,6 +54,10 @@ import { SVGPresentationComponent } from './svg-presentation/svg-presentation.co
 		SVGsTableComponent,
 		SVGDetailComponent,
 		SVGPresentationComponent,
+
+		TextsTableComponent,
+		TextDetailComponent,
+		TextPresentationComponent,
 
 
 		SplitterComponent,
@@ -92,6 +100,10 @@ import { SVGPresentationComponent } from './svg-presentation/svg-presentation.co
 		SVGsTableComponent,
 		SVGDetailComponent,
 		SVGPresentationComponent,
+
+		TextsTableComponent,
+		TextDetailComponent,
+		TextPresentationComponent,
 
 
 		SplitterComponent,

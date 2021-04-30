@@ -16,6 +16,8 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 
 	SVGs map[*SVG]struct{}
 
+	Texts map[*Text]struct{}
+
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -31,6 +33,8 @@ type BackRepoInterface interface {
 	CheckoutRect(rect *Rect)
 	CommitSVG(svg *SVG)
 	CheckoutSVG(svg *SVG)
+	CommitText(text *Text)
+	CheckoutText(text *Text)
 	GetLastCommitNb() uint
 }
 
@@ -39,6 +43,8 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 	Rects: make(map[*Rect]struct{}, 0),
 
 	SVGs: make(map[*SVG]struct{}, 0),
+
+	Texts: make(map[*Text]struct{}, 0),
 
 }
 
@@ -253,23 +259,126 @@ func DeleteORMSVG(svg *SVG) {
 	}
 }
 
+func (stage *StageStruct) getTextOrderedStructWithNameField() []*Text {
+	// have alphabetical order generation
+	textOrdered := []*Text{}
+	for text := range stage.Texts {
+		textOrdered = append(textOrdered, text)
+	}
+	sort.Slice(textOrdered[:], func(i, j int) bool {
+		return textOrdered[i].Name < textOrdered[j].Name
+	})
+	return textOrdered
+}
+
+// Stage puts text to the model stage
+func (text *Text) Stage() *Text {
+	Stage.Texts[text] = __member
+	return text
+}
+
+// Unstage removes text off the model stage
+func (text *Text) Unstage() *Text {
+	delete(Stage.Texts, text)
+	return text
+}
+
+// commit text to the back repo (if it is already staged)
+func (text *Text) Commit() *Text {
+	if _, ok := Stage.Texts[text]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitText(text)
+		}
+	}
+	return text
+}
+
+// Checkout text to the back repo (if it is already staged)
+func (text *Text) Checkout() *Text {
+	if _, ok := Stage.Texts[text]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutText(text)
+		}
+	}
+	return text
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of text to the model stage
+func (text *Text) StageCopy() *Text {
+	_text := new(Text)
+	*_text = *text
+	_text.Stage()
+	return _text
+}
+
+// StageAndCommit appends text to the model stage and commit to the orm repo
+func (text *Text) StageAndCommit() *Text {
+	text.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMText(text)
+	}
+	return text
+}
+
+// DeleteStageAndCommit appends text to the model stage and commit to the orm repo
+func (text *Text) DeleteStageAndCommit() *Text {
+	text.Unstage()
+	DeleteORMText(text)
+	return text
+}
+
+// StageCopyAndCommit appends a copy of text to the model stage and commit to the orm repo
+func (text *Text) StageCopyAndCommit() *Text {
+	_text := new(Text)
+	*_text = *text
+	_text.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMText(text)
+	}
+	return _text
+}
+
+// CreateORMText enables dynamic staging of a Text instance
+func CreateORMText(text *Text) {
+	text.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMText(text)
+	}
+}
+
+// DeleteORMText enables dynamic staging of a Text instance
+func DeleteORMText(text *Text) {
+	text.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMText(text)
+	}
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMRect(Rect *Rect)
 	CreateORMSVG(SVG *SVG)
+	CreateORMText(Text *Text)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMRect(Rect *Rect)
 	DeleteORMSVG(SVG *SVG)
+	DeleteORMText(Text *Text)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Rects = make(map[*Rect]struct{}, 0)
 	stage.SVGs = make(map[*SVG]struct{}, 0)
+	stage.Texts = make(map[*Text]struct{}, 0)
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Rects = nil
 	stage.SVGs = nil
+	stage.Texts = nil
 }

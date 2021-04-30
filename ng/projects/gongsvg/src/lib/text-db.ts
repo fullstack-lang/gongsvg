@@ -1,20 +1,23 @@
 // insertion point for imports
-import { RectDB } from './rect-db'
-import { TextDB } from './text-db'
+import { SVGDB } from './svg-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './front-repo.service'
 
-export class SVGDB {
+export class TextDB {
 	CreatedAt?: string;
 	DeletedAt?: string;
 	ID?: number;
 
 	// insertion point for basic fields declarations
-	Display?: string
 	Name?: string
+	X?: number
+	Y?: number
+	Content?: string
+	Color?: string
 
 	// insertion point for other declarations
-	Rects?: Array<RectDB>
-	Texts?: Array<TextDB>
+	SVG_TextsDBID?: NullInt64
+	SVG_Texts_reverse?: SVGDB
+
 }

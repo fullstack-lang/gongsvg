@@ -58,6 +58,13 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/svgs/:id", UpdateSVG)
 		v1.DELETE("/v1/svgs/:id", DeleteSVG)
 
+		v1.GET("/v1/texts", GetTexts)
+		v1.GET("/v1/texts/:id", GetText)
+		v1.POST("/v1/texts", PostText)
+		v1.PATCH("/v1/texts/:id", UpdateText)
+		v1.PUT("/v1/texts/:id", UpdateText)
+		v1.DELETE("/v1/texts/:id", DeleteText)
+
 
 		v1.GET("/commitnb", GetLastCommitNb)
 	}

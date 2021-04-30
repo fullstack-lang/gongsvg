@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { GongsvgspecificComponent } from './gongsvgspecific.component';
 import { SvgComponent } from './svg/svg.component';
 import { SvgRectComponent } from './svg-rect/svg-rect.component';
-import { BrowserModule } from '@angular/platform-browser'
+import { BrowserModule } from '@angular/platform-browser';
+import { TextComponent } from './text/text.component'
 
 
 
@@ -10,7 +11,8 @@ import { BrowserModule } from '@angular/platform-browser'
   declarations: [
     GongsvgspecificComponent,
     SvgComponent,
-    SvgRectComponent
+    SvgRectComponent,
+    TextComponent
   ],
   imports: [
     BrowserModule
@@ -18,7 +20,8 @@ import { BrowserModule } from '@angular/platform-browser'
   exports: [
     GongsvgspecificComponent,
     SvgComponent,
-    SvgRectComponent
+    SvgRectComponent,
+    TextComponent
   ]
 })
 export class GongsvgspecificModule { }

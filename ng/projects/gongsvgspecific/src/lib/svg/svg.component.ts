@@ -17,6 +17,7 @@ export class SvgComponent implements OnInit {
   public gongsvgFrontRepo: gongsvg.FrontRepo
 
   public Rects = new Array<gongsvg.RectDB>()
+  public Texts = new Array<gongsvg.TextDB>()
 
   /**
  * the component is refreshed when modification are performed in the back repo 
@@ -61,19 +62,28 @@ export class SvgComponent implements OnInit {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
 
         this.Rects = new Array<gongsvg.RectDB>()
+        this.Texts = new Array<gongsvg.TextDB>()
 
         this.gongsvgFrontRepo.SVGs_array.forEach(
           svg => {
             if (svg.Display) {
-              svg.Rects.forEach(
+              svg.Rects?.forEach(
                 rect => {
                   this.Rects.push(rect)
                 }
               )
-              this.Rects.push(svg)
+              this.Texts.push(svg)
+              svg.Texts?.forEach(
+                Text => {
+                  this.Texts.push(Text)
+                }
+              )
+              this.Texts.push(svg)
             }
           }
         )
+
+        
 
 
       }

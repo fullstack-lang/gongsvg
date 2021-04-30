@@ -1,0 +1,5 @@
+<svg class="child">
+    <g>
+        <text [attr.x]="X" [attr.y]="Y" [attr.fill]="Color">{{Content}}</text>
+    </g>
+</svg>

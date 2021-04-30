@@ -1,0 +1,65 @@
+<div *ngIf="text" class="details">
+    <h1 class="details__title">text</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="text.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>X</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="text.X">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Y</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="text.Y">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Content</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="text.Content">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Color</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="text.Color">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+    <mat-form-field>
+        <mat-label><- Texts</mat-label>
+        <mat-select [(ngModel)]="text.SVG_Texts_reverse">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let svg of frontRepo.SVGs_array" [value]="svg">
+                {{svg.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save text
+		</button>
+    </div>
+</div>

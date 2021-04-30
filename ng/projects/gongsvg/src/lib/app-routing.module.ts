@@ -10,6 +10,10 @@ import { SVGsTableComponent } from './svgs-table/svgs-table.component'
 import { SVGDetailComponent } from './svg-detail/svg-detail.component'
 import { SVGPresentationComponent } from './svg-presentation/svg-presentation.component'
 
+import { TextsTableComponent } from './texts-table/texts-table.component'
+import { TextDetailComponent } from './text-detail/text-detail.component'
+import { TextPresentationComponent } from './text-presentation/text-presentation.component'
+
 
 const routes: Routes = [ // insertion point for routes declarations
 	{ path: 'rects', component: RectsTableComponent, outlet: 'table' },
@@ -25,6 +29,13 @@ const routes: Routes = [ // insertion point for routes declarations
 	{ path: 'svg-detail/:id', component: SVGDetailComponent, outlet: 'editor' },
 	{ path: 'svg-presentation/:id', component: SVGPresentationComponent, outlet: 'presentation' },
 	{ path: 'svg-presentation-special/:id', component: SVGPresentationComponent, outlet: 'svgpres' },
+
+	{ path: 'texts', component: TextsTableComponent, outlet: 'table' },
+	{ path: 'text-adder', component: TextDetailComponent, outlet: 'editor' },
+	{ path: 'text-adder/:id/:association', component: TextDetailComponent, outlet: 'editor' },
+	{ path: 'text-detail/:id', component: TextDetailComponent, outlet: 'editor' },
+	{ path: 'text-presentation/:id', component: TextPresentationComponent, outlet: 'presentation' },
+	{ path: 'text-presentation-special/:id', component: TextPresentationComponent, outlet: 'textpres' },
 
 ];
 

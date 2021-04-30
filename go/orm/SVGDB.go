@@ -207,6 +207,19 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 					}
 				}
 
+				// commit a slice of pointer translates to update reverse pointer to Text, i.e.
+				for _, text := range svg.Texts {
+					if textDBID, ok := (*backRepo.BackRepoText.Map_TextPtr_TextDBID)[text]; ok {
+						if textDB, ok := (*backRepo.BackRepoText.Map_TextDBID_TextDB)[textDBID]; ok {
+							textDB.SVG_TextsDBID.Int64 = int64(svgDB.ID)
+							textDB.SVG_TextsDBID.Valid = true
+							if q := backRepoSVG.db.Save(&textDB); q.Error != nil {
+								return q.Error
+							}
+						}
+					}
+				}
+
 			}
 		}
 		query := backRepoSVG.db.Save(&svgDB)
@@ -296,6 +309,16 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseTwoInstance(backRepo *BackRep
 				if RectDB.SVG_RectsDBID.Int64 == int64(svgDB.ID) {
 					Rect := (*backRepo.BackRepoRect.Map_RectDBID_RectPtr)[RectDB.ID]
 					svg.Rects = append(svg.Rects, Rect)
+				}
+			}
+
+			// parse all TextDB and redeem the array of poiners to SVG
+			// first reset the slice
+			svg.Texts = svg.Texts[:0]
+			for _, TextDB := range *backRepo.BackRepoText.Map_TextDBID_TextDB {
+				if TextDB.SVG_TextsDBID.Int64 == int64(svgDB.ID) {
+					Text := (*backRepo.BackRepoText.Map_TextDBID_TextPtr)[TextDB.ID]
+					svg.Texts = append(svg.Texts, Text)
 				}
 			}
 

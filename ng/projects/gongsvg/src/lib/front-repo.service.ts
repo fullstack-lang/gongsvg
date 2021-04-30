@@ -10,6 +10,9 @@ import { RectService } from './rect.service'
 import { SVGDB } from './svg-db'
 import { SVGService } from './svg.service'
 
+import { TextDB } from './text-db'
+import { TextService } from './text.service'
+
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
@@ -19,6 +22,9 @@ export class FrontRepo { // insertion point sub template
   SVGs_array = new Array<SVGDB>(); // array of repo instances
   SVGs = new Map<number, SVGDB>(); // map of repo instances
   SVGs_batch = new Map<number, SVGDB>(); // same but only in last GET (for finding repo instances to delete)
+  Texts_array = new Array<TextDB>(); // array of repo instances
+  Texts = new Map<number, TextDB>(); // map of repo instances
+  Texts_batch = new Map<number, TextDB>(); // same but only in last GET (for finding repo instances to delete)
 }
 
 //
@@ -55,15 +61,18 @@ export class FrontRepoService {
     private http: HttpClient, // insertion point sub template 
     private rectService: RectService,
     private svgService: SVGService,
+    private textService: TextService,
   ) { }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
     Observable<RectDB[]>,
     Observable<SVGDB[]>,
+    Observable<TextDB[]>,
   ] = [ // insertion point sub template 
       this.rectService.getRects(),
       this.svgService.getSVGs(),
+      this.textService.getTexts(),
     ];
 
   //
@@ -81,6 +90,7 @@ export class FrontRepoService {
           ([ // insertion point sub template for declarations 
             rects_,
             svgs_,
+            texts_,
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
@@ -88,6 +98,8 @@ export class FrontRepoService {
             rects = rects_
             var svgs: SVGDB[]
             svgs = svgs_
+            var texts: TextDB[]
+            texts = texts_
 
             // 
             // First Step: init map of instances
@@ -158,6 +170,39 @@ export class FrontRepoService {
               return 0;
             });
             
+            // init the array
+            FrontRepoSingloton.Texts_array = texts
+
+            // clear the map that counts Text in the GET
+            FrontRepoSingloton.Texts_batch.clear()
+            
+            texts.forEach(
+              text => {
+                FrontRepoSingloton.Texts.set(text.ID, text)
+                FrontRepoSingloton.Texts_batch.set(text.ID, text)
+              }
+            )
+            
+            // clear texts that are absent from the batch
+            FrontRepoSingloton.Texts.forEach(
+              text => {
+                if (FrontRepoSingloton.Texts_batch.get(text.ID) == undefined) {
+                  FrontRepoSingloton.Texts.delete(text.ID)
+                }
+              }
+            )
+            
+            // sort Texts_array array
+            FrontRepoSingloton.Texts_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+            
 
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
@@ -187,6 +232,26 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
+              }
+            )
+            texts.forEach(
+              text => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field SVG.Texts redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(text.SVG_TextsDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Texts == undefined) {
+                      _svg.Texts = new Array<SVGDB>()
+                    }
+                    _svg.Texts.push(text)
+                    if (text.SVG_Texts_reverse == undefined) {
+                      text.SVG_Texts_reverse = _svg
+                    }
+                  }
+                }
               }
             )
 
@@ -314,6 +379,70 @@ export class FrontRepoService {
       }
     )
   }
+
+  // TextPull performs a GET on Text of the stack and redeem association pointers 
+  TextPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.textService.getTexts()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            texts,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Texts_array = texts
+
+            // clear the map that counts Text in the GET
+            FrontRepoSingloton.Texts_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            texts.forEach(
+              text => {
+                FrontRepoSingloton.Texts.set(text.ID, text)
+                FrontRepoSingloton.Texts_batch.set(text.ID, text)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations 
+
+                // insertion point for redeeming ONE-MANY associations 
+                // insertion point for slice of pointer field SVG.Texts redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(text.SVG_TextsDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Texts == undefined) {
+                      _svg.Texts = new Array<SVGDB>()
+                    }
+                    _svg.Texts.push(text)
+                    if (text.SVG_Texts_reverse == undefined) {
+                      text.SVG_Texts_reverse = _svg
+                    }
+                  }
+                }
+              }
+            )
+
+            // clear texts that are absent from the GET
+            FrontRepoSingloton.Texts.forEach(
+              text => {
+                if (FrontRepoSingloton.Texts_batch.get(text.ID) == undefined) {
+                  FrontRepoSingloton.Texts.delete(text.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
 }
 
 // insertion point for get unique ID per struct 
@@ -322,4 +451,7 @@ export function getRectUniqueID(id: number): number {
 }
 export function getSVGUniqueID(id: number): number {
   return 37 * id
+}
+export function getTextUniqueID(id: number): number {
+  return 41 * id
 }

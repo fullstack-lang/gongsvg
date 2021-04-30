@@ -73,6 +73,20 @@ definitions:
         x-go-name: Height
     type: object
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
+  Text:
+    properties:
+      Color:
+        type: string
+      Content:
+        type: string
+      Name:
+        type: string
+      X:
+        format: double
+        type: number
+        x-go-name: "Y"
+    type: object
+    x-go-package: github.com/fullstack-lang/gongsvg/go/models
   rectAPI:
     description: |-
       for POST, API, one needs the fields of the model as well as the fields
@@ -164,6 +178,10 @@ definitions:
         items:
           $ref: '#/definitions/Rect'
         type: array
+      Texts:
+        items:
+          $ref: '#/definitions/Text'
+        type: array
     title: SVGAPI is the input in POST API
     type: object
     x-go-name: SVGAPI
@@ -192,12 +210,89 @@ definitions:
         items:
           $ref: '#/definitions/Rect'
         type: array
+      Texts:
+        items:
+          $ref: '#/definitions/Text'
+        type: array
       UpdatedAt:
         format: date-time
         type: string
     title: SVGDB describes a svg in the database
     type: object
     x-go-name: SVGDB
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  textAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      Content:
+        type: string
+      Content_Data:
+        $ref: '#/definitions/NullString'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SVG_TextsDBID:
+        $ref: '#/definitions/NullInt64'
+      X:
+        format: double
+        type: number
+        x-go-name: "Y"
+      X_Data:
+        $ref: '#/definitions/NullFloat64'
+      Y_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: TextAPI is the input in POST API
+    type: object
+    x-go-name: TextAPI
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  textDB:
+    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      Content:
+        type: string
+      Content_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SVG_TextsDBID:
+        $ref: '#/definitions/NullInt64'
+      UpdatedAt:
+        format: date-time
+        type: string
+      X:
+        format: double
+        type: number
+        x-go-name: "Y"
+      X_Data:
+        $ref: '#/definitions/NullFloat64'
+      Y_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: TextDB describes a text in the database
+    type: object
+    x-go-name: TextDB
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
 host: localhost:8080
 info:
@@ -378,6 +473,90 @@ paths:
           $ref: '#/responses/genericError'
       tags:
       - svgs
+  /texts:
+    get:
+      description: Get all texts
+      operationId: getTexts
+      responses:
+        "200":
+          $ref: '#/responses/textDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - texts
+    post:
+      consumes:
+      - application/json
+      description: Creates a text
+      operationId: postText
+      parameters:
+      - description: The Text to submit or modify
+        in: body
+        name: Text
+        schema:
+          $ref: '#/definitions/textAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/textDBResponse'
+      tags:
+      - texts
+  /texts/{ID}:
+    delete:
+      description: Delete a text
+      operationId: deleteText
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - texts
+    get:
+      operationId: getText
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/textDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a text.
+      tags:
+      - texts
+    patch:
+      description: Update a text
+      operationId: updateText
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Text to submit or modify
+        in: body
+        name: Text
+        schema:
+          $ref: '#/definitions/textAPI'
+      responses:
+        "200":
+          $ref: '#/responses/textDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - texts
 produces:
 - application/json
 responses:
@@ -468,6 +647,10 @@ responses:
         items:
           $ref: '#/definitions/Rect'
         type: array
+      Texts:
+        items:
+          $ref: '#/definitions/Text'
+        type: array
       UpdatedAt:
         format: date-time
         type: string
@@ -478,6 +661,52 @@ responses:
     schema:
       items:
         $ref: '#/definitions/svgDB'
+      type: array
+  textDBResponse:
+    description: TextDBResponse provides response
+    headers:
+      Color:
+        type: string
+      Color_Data:
+        description: Declation for basic field textDB.Color {{BasicKind}} (to be completed)
+      Content:
+        type: string
+      Content_Data:
+        description: Declation for basic field textDB.Content {{BasicKind}} (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field textDB.Name {{BasicKind}} (to be completed)
+      SVG_TextsDBID:
+        description: Implementation of a reverse ID for field SVG{}.Texts []*Text
+      UpdatedAt:
+        format: date-time
+        type: string
+      X:
+        format: double
+        type: number
+      X_Data:
+        description: Declation for basic field textDB.X {{BasicKind}} (to be completed)
+      Y_Data:
+        description: Declation for basic field textDB.Y {{BasicKind}} (to be completed)
+    schema:
+      $ref: '#/definitions/NullInt64'
+  textDBsResponse:
+    description: TextDBs arrays textDBs
+    schema:
+      items:
+        $ref: '#/definitions/textDB'
       type: array
   validationError:
     description: |-

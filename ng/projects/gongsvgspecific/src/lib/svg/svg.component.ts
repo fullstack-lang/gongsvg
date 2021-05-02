@@ -68,45 +68,38 @@ export class SvgComponent implements OnInit {
         this.Lines = new Array<gongsvg.LineDB>()
         this.Circles = new Array<gongsvg.CircleDB>()
 
-        this.gongsvgFrontRepo.SVGs_array.forEach(
-          svg => {
-            if (svg.Display) {
+        for (let svg of this.gongsvgFrontRepo.SVGs_array) {
 
-              svg.Rects?.forEach(
-                rect => {
-                  this.Rects.push(rect)
-                }
-              )
-              this.Texts.push(svg)
+          if (svg.Display) {
 
-              svg.Texts?.forEach(
-                Text => {
-                  this.Texts.push(Text)
-                }
-              )
-              this.Texts.push(svg)
+            svg.Rects?.forEach(
+              rect => {
+                this.Rects.push(rect)
+              }
+            )
 
-              svg.Lines?.forEach(
-                Line => {
-                  this.Lines.push(Line)
-                }
-              )
-              this.Lines.push(svg)
+            svg.Texts?.forEach(
+              Text => {
+                this.Texts.push(Text)
+              }
+            )
 
-              svg.Circles?.forEach(
-                Circle => {
-                  this.Circles.push(Circle)
-                }
-              )
-              this.Circles.push(svg)
-            }
+            svg.Lines?.forEach(
+              Line => {
+                this.Lines.push(Line)
+              }
+            )
+
+            svg.Circles?.forEach(
+              Circle => {
+                this.Circles.push(Circle)
+              }
+            )
           }
-        )
-
-        
-
+        }
 
       }
+
     )
   }
 

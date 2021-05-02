@@ -200,7 +200,8 @@ definitions:
     x-go-name: CircleAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   circleDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       CX:
         format: double
@@ -307,7 +308,8 @@ definitions:
     x-go-name: LineAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   lineDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -416,7 +418,8 @@ definitions:
     x-go-name: RectAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   rectDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -509,7 +512,8 @@ definitions:
     x-go-name: SVGAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   svgDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Circles:
         items:
@@ -602,7 +606,8 @@ definitions:
     x-go-name: TextAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   textDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -1107,7 +1112,8 @@ responses:
       Color:
         type: string
       Color_Data:
-        description: Declation for basic field circleDB.Color {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.Color {{BasicKind}} (to be
+          completed)
       CreatedAt:
         format: date-time
         type: string
@@ -1118,7 +1124,8 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field circleDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.FillOpacity {{BasicKind}}
+          (to be completed)
       ID:
         format: uint64
         type: integer
@@ -1129,22 +1136,26 @@ responses:
           insertion for fields declaration
           Declation for basic field circleDB.Name {{BasicKind}} (to be completed)
       Radius_Data:
-        description: Declation for basic field circleDB.Radius {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.Radius {{BasicKind}} (to be
+          completed)
       SVG_CirclesDBID:
         description: Implementation of a reverse ID for field SVG{}.Circles []*Circle
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field circleDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.Stroke {{BasicKind}} (to be
+          completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field circleDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field circleDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.StrokeWidth {{BasicKind}}
+          (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -1187,7 +1198,8 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field lineDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field lineDB.FillOpacity {{BasicKind}} (to
+          be completed)
       ID:
         format: uint64
         type: integer
@@ -1202,16 +1214,19 @@ responses:
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field lineDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field lineDB.Stroke {{BasicKind}} (to be
+          completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field lineDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field lineDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field lineDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field lineDB.StrokeWidth {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -1251,9 +1266,11 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to
+          be completed)
       Height_Data:
-        description: Declation for basic field rectDB.Height {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.Height {{BasicKind}} (to be
+          completed)
       ID:
         format: uint64
         type: integer
@@ -1268,16 +1285,19 @@ responses:
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be
+          completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field rectDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -1358,7 +1378,8 @@ responses:
       Content:
         type: string
       Content_Data:
-        description: Declation for basic field textDB.Content {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.Content {{BasicKind}} (to be
+          completed)
       CreatedAt:
         format: date-time
         type: string
@@ -1369,7 +1390,8 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field textDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.FillOpacity {{BasicKind}} (to
+          be completed)
       ID:
         format: uint64
         type: integer
@@ -1384,16 +1406,19 @@ responses:
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field textDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.Stroke {{BasicKind}} (to be
+          completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field textDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string

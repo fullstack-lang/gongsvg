@@ -12,7 +12,7 @@
 </div>
 
 <div *ngFor="let circle of Circles" class="parent">
-    <lib-circle [CX]="circle.CX" [CY]="circle.CY" [Radius]="circle.Radius" [Color]="circle.Color"
+    <lib-circle [Name]="circle.Name" [CX]="circle.CX" [CY]="circle.CY" [Radius]="circle.Radius" [Color]="circle.Color"
         [FillOpacity]="circle.FillOpacity" [Stroke]="circle.Stroke" [StrokeWidth]="circle.StrokeWidth"
         [StrokeDashArray]="circle.StrokeDashArray">
     </lib-circle>
@@ -22,7 +22,7 @@
     <lib-line [X1]="line.X1" [Y1]="line.Y1" [X2]="line.X2" [Y2]="line.Y2" [Color]="line.Color"
         [FillOpacity]="line.FillOpacity" [Stroke]="line.Stroke" [StrokeWidth]="line.StrokeWidth"
         [StrokeDashArray]="line.StrokeDashArray">
-        </lib-line>
+    </lib-line>
 </div>
 
 <!-- <lib-svg-rect></lib-svg-rect> -->

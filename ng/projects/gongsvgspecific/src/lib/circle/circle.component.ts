@@ -7,6 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CircleComponent implements OnInit {
 
+  @Input() Name: string
+
   @Input() CX: number
   @Input() CY: number
   @Input() Radius: number
@@ -20,6 +22,7 @@ export class CircleComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log("circle X1 " + this.Name)
   }
 
 }

@@ -1,0 +1,7 @@
+<svg class="child">
+    <g>
+        <line [attr.x1]="X1" [attr.x1]="Y1" [attr.y2]="X2" [attr.y2]="Y2" [attr.fill]="Color"
+            [attr.fill-opacity]="FillOpacity" [attr.stroke]="Stroke" [attr.stroke-width]="StrokeWidth"
+            [attr.stroke-dasharray]="StrokeDashArray" />
+    </g>
+</svg>

@@ -31,6 +31,14 @@ import { SplitterComponent } from './splitter/splitter.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 // insertion point for imports 
+import { CirclesTableComponent } from './circles-table/circles-table.component'
+import { CircleDetailComponent } from './circle-detail/circle-detail.component'
+import { CirclePresentationComponent } from './circle-presentation/circle-presentation.component'
+
+import { LinesTableComponent } from './lines-table/lines-table.component'
+import { LineDetailComponent } from './line-detail/line-detail.component'
+import { LinePresentationComponent } from './line-presentation/line-presentation.component'
+
 import { RectsTableComponent } from './rects-table/rects-table.component'
 import { RectDetailComponent } from './rect-detail/rect-detail.component'
 import { RectPresentationComponent } from './rect-presentation/rect-presentation.component'
@@ -47,6 +55,14 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
+		CirclesTableComponent,
+		CircleDetailComponent,
+		CirclePresentationComponent,
+
+		LinesTableComponent,
+		LineDetailComponent,
+		LinePresentationComponent,
+
 		RectsTableComponent,
 		RectDetailComponent,
 		RectPresentationComponent,
@@ -93,6 +109,14 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 	],
 	exports: [
 		// insertion point for declarations 
+		CirclesTableComponent,
+		CircleDetailComponent,
+		CirclePresentationComponent,
+
+		LinesTableComponent,
+		LineDetailComponent,
+		LinePresentationComponent,
+
 		RectsTableComponent,
 		RectDetailComponent,
 		RectPresentationComponent,

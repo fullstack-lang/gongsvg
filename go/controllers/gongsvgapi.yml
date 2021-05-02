@@ -2,6 +2,50 @@ basePath: /api/github.com/fullstack-lang/gongsvg/go/v1
 consumes:
 - application/json
 definitions:
+  Circle:
+    properties:
+      CX:
+        format: double
+        type: number
+        x-go-name: Radius
+      Color:
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      Name:
+        type: string
+      Stroke:
+        type: string
+      StrokeDashArray:
+        type: string
+      StrokeWidth:
+        format: double
+        type: number
+    type: object
+    x-go-package: github.com/fullstack-lang/gongsvg/go/models
+  Line:
+    properties:
+      Color:
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      Name:
+        type: string
+      Stroke:
+        type: string
+      StrokeDashArray:
+        type: string
+      StrokeWidth:
+        format: double
+        type: number
+      X1:
+        format: double
+        type: number
+        x-go-name: Y2
+    type: object
+    x-go-package: github.com/fullstack-lang/gongsvg/go/models
   NullBool:
     description: |-
       NullBool implements the Scanner interface so
@@ -107,6 +151,222 @@ definitions:
         x-go-name: "Y"
     type: object
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
+  circleAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      CX:
+        format: double
+        type: number
+        x-go-name: Radius
+      CX_Data:
+        $ref: '#/definitions/NullFloat64'
+      CY_Data:
+        $ref: '#/definitions/NullFloat64'
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Radius_Data:
+        $ref: '#/definitions/NullFloat64'
+      SVG_CirclesDBID:
+        $ref: '#/definitions/NullInt64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: CircleAPI is the input in POST API
+    type: object
+    x-go-name: CircleAPI
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  circleDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CX:
+        format: double
+        type: number
+        x-go-name: Radius
+      CX_Data:
+        $ref: '#/definitions/NullFloat64'
+      CY_Data:
+        $ref: '#/definitions/NullFloat64'
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Radius_Data:
+        $ref: '#/definitions/NullFloat64'
+      SVG_CirclesDBID:
+        $ref: '#/definitions/NullInt64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: CircleDB describes a circle in the database
+    type: object
+    x-go-name: CircleDB
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  lineAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SVG_LinesDBID:
+        $ref: '#/definitions/NullInt64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+      X1:
+        format: double
+        type: number
+        x-go-name: Y2
+      X1_Data:
+        $ref: '#/definitions/NullFloat64'
+      X2_Data:
+        $ref: '#/definitions/NullFloat64'
+      Y1_Data:
+        $ref: '#/definitions/NullFloat64'
+      Y2_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: LineAPI is the input in POST API
+    type: object
+    x-go-name: LineAPI
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  lineDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SVG_LinesDBID:
+        $ref: '#/definitions/NullInt64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+      UpdatedAt:
+        format: date-time
+        type: string
+      X1:
+        format: double
+        type: number
+        x-go-name: Y2
+      X1_Data:
+        $ref: '#/definitions/NullFloat64'
+      X2_Data:
+        $ref: '#/definitions/NullFloat64'
+      Y1_Data:
+        $ref: '#/definitions/NullFloat64'
+      Y2_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: LineDB describes a line in the database
+    type: object
+    x-go-name: LineDB
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   rectAPI:
     description: |-
       for POST, API, one needs the fields of the model as well as the fields
@@ -158,7 +418,8 @@ definitions:
     x-go-name: RectAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   rectDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -222,10 +483,18 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Circles:
+        items:
+          $ref: '#/definitions/Circle'
+        type: array
       Display:
         type: boolean
       Display_Data:
         $ref: '#/definitions/NullBool'
+      Lines:
+        items:
+          $ref: '#/definitions/Line'
+        type: array
       Name:
         type: string
       Name_Data:
@@ -243,8 +512,13 @@ definitions:
     x-go-name: SVGAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   svgDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
+      Circles:
+        items:
+          $ref: '#/definitions/Circle'
+        type: array
       CreatedAt:
         format: date-time
         type: string
@@ -258,6 +532,10 @@ definitions:
       ID:
         format: uint64
         type: integer
+      Lines:
+        items:
+          $ref: '#/definitions/Line'
+        type: array
       Name:
         type: string
       Name_Data:
@@ -328,7 +606,8 @@ definitions:
     x-go-name: TextAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   textDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -392,11 +671,179 @@ info:
   title: gongsvg backend API
   version: "0.1"
 paths:
+  /circles:
+    get:
+      description: Get all circles
+      operationId: getCircles
+      responses:
+        "200":
+          $ref: '#/responses/circleDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - circles
+    post:
+      consumes:
+      - application/json
+      description: Creates a circle
+      operationId: postCircle
+      parameters:
+      - description: The Circle to submit or modify
+        in: body
+        name: Circle
+        schema:
+          $ref: '#/definitions/circleAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/circleDBResponse'
+      tags:
+      - circles
+  /circles/{ID}:
+    delete:
+      description: Delete a circle
+      operationId: deleteCircle
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - circles
+    get:
+      operationId: getCircle
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/circleDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a circle.
+      tags:
+      - circles
+    patch:
+      description: Update a circle
+      operationId: updateCircle
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Circle to submit or modify
+        in: body
+        name: Circle
+        schema:
+          $ref: '#/definitions/circleAPI'
+      responses:
+        "200":
+          $ref: '#/responses/circleDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - circles
   /commitnb:
     get:
       operationId: GetLastCommitNb
       tags:
       - backrepo
+  /lines:
+    get:
+      description: Get all lines
+      operationId: getLines
+      responses:
+        "200":
+          $ref: '#/responses/lineDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - lines
+    post:
+      consumes:
+      - application/json
+      description: Creates a line
+      operationId: postLine
+      parameters:
+      - description: The Line to submit or modify
+        in: body
+        name: Line
+        schema:
+          $ref: '#/definitions/lineAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/lineDBResponse'
+      tags:
+      - lines
+  /lines/{ID}:
+    delete:
+      description: Delete a line
+      operationId: deleteLine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - lines
+    get:
+      operationId: getLine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/lineDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a line.
+      tags:
+      - lines
+    patch:
+      description: Update a line
+      operationId: updateLine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Line to submit or modify
+        in: body
+        name: Line
+        schema:
+          $ref: '#/definitions/lineAPI'
+      responses:
+        "200":
+          $ref: '#/responses/lineDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - lines
   /rects:
     get:
       description: Get all rects
@@ -652,6 +1099,74 @@ paths:
 produces:
 - application/json
 responses:
+  circleDBResponse:
+    description: CircleDBResponse provides response
+    headers:
+      CX:
+        format: double
+        type: number
+      CX_Data:
+        description: Declation for basic field circleDB.CX {{BasicKind}} (to be completed)
+      CY_Data:
+        description: Declation for basic field circleDB.CY {{BasicKind}} (to be completed)
+      Color:
+        type: string
+      Color_Data:
+        description: Declation for basic field circleDB.Color {{BasicKind}} (to be
+          completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        description: Declation for basic field circleDB.FillOpacity {{BasicKind}}
+          (to be completed)
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field circleDB.Name {{BasicKind}} (to be completed)
+      Radius_Data:
+        description: Declation for basic field circleDB.Radius {{BasicKind}} (to be
+          completed)
+      SVG_CirclesDBID:
+        description: Implementation of a reverse ID for field SVG{}.Circles []*Circle
+      Stroke:
+        type: string
+      Stroke_Data:
+        description: Declation for basic field circleDB.Stroke {{BasicKind}} (to be
+          completed)
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        description: Declation for basic field circleDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        description: Declation for basic field circleDB.StrokeWidth {{BasicKind}}
+          (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullInt64'
+  circleDBsResponse:
+    description: CircleDBs arrays circleDBs
+    schema:
+      items:
+        $ref: '#/definitions/circleDB'
+      type: array
   genericError:
     description: |-
       A GenericError is the default error message that is generated.
@@ -666,6 +1181,74 @@ responses:
           type: string
           x-go-name: Message
       type: object
+  lineDBResponse:
+    description: LineDBResponse provides response
+    headers:
+      Color:
+        type: string
+      Color_Data:
+        description: Declation for basic field lineDB.Color {{BasicKind}} (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        description: Declation for basic field lineDB.FillOpacity {{BasicKind}} (to
+          be completed)
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field lineDB.Name {{BasicKind}} (to be completed)
+      SVG_LinesDBID:
+        description: Implementation of a reverse ID for field SVG{}.Lines []*Line
+      Stroke:
+        type: string
+      Stroke_Data:
+        description: Declation for basic field lineDB.Stroke {{BasicKind}} (to be
+          completed)
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        description: Declation for basic field lineDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        description: Declation for basic field lineDB.StrokeWidth {{BasicKind}} (to
+          be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+      X1:
+        format: double
+        type: number
+      X1_Data:
+        description: Declation for basic field lineDB.X1 {{BasicKind}} (to be completed)
+      X2_Data:
+        description: Declation for basic field lineDB.X2 {{BasicKind}} (to be completed)
+      Y1_Data:
+        description: Declation for basic field lineDB.Y1 {{BasicKind}} (to be completed)
+      Y2_Data:
+        description: Declation for basic field lineDB.Y2 {{BasicKind}} (to be completed)
+    schema:
+      $ref: '#/definitions/NullInt64'
+  lineDBsResponse:
+    description: LineDBs arrays lineDBs
+    schema:
+      items:
+        $ref: '#/definitions/lineDB'
+      type: array
   rectDBResponse:
     description: RectDBResponse provides response
     headers:
@@ -683,9 +1266,11 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to
+          be completed)
       Height_Data:
-        description: Declation for basic field rectDB.Height {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.Height {{BasicKind}} (to be
+          completed)
       ID:
         format: uint64
         type: integer
@@ -700,16 +1285,19 @@ responses:
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be
+          completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field rectDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -733,6 +1321,10 @@ responses:
   svgDBResponse:
     description: SVGDBResponse provides response
     headers:
+      Circles:
+        items:
+          $ref: '#/definitions/Circle'
+        type: array
       CreatedAt:
         format: date-time
         type: string
@@ -749,6 +1341,10 @@ responses:
       ID:
         format: uint64
         type: integer
+      Lines:
+        items:
+          $ref: '#/definitions/Line'
+        type: array
       Name:
         type: string
       Name_Data:
@@ -782,7 +1378,8 @@ responses:
       Content:
         type: string
       Content_Data:
-        description: Declation for basic field textDB.Content {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.Content {{BasicKind}} (to be
+          completed)
       CreatedAt:
         format: date-time
         type: string
@@ -793,7 +1390,8 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field textDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.FillOpacity {{BasicKind}} (to
+          be completed)
       ID:
         format: uint64
         type: integer
@@ -808,16 +1406,19 @@ responses:
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field textDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.Stroke {{BasicKind}} (to be
+          completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field textDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string

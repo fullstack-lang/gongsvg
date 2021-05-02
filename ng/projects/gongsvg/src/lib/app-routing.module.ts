@@ -2,6 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // insertion point for imports
+import { CirclesTableComponent } from './circles-table/circles-table.component'
+import { CircleDetailComponent } from './circle-detail/circle-detail.component'
+import { CirclePresentationComponent } from './circle-presentation/circle-presentation.component'
+
+import { LinesTableComponent } from './lines-table/lines-table.component'
+import { LineDetailComponent } from './line-detail/line-detail.component'
+import { LinePresentationComponent } from './line-presentation/line-presentation.component'
+
 import { RectsTableComponent } from './rects-table/rects-table.component'
 import { RectDetailComponent } from './rect-detail/rect-detail.component'
 import { RectPresentationComponent } from './rect-presentation/rect-presentation.component'
@@ -16,6 +24,20 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 
 
 const routes: Routes = [ // insertion point for routes declarations
+	{ path: 'circles', component: CirclesTableComponent, outlet: 'table' },
+	{ path: 'circle-adder', component: CircleDetailComponent, outlet: 'editor' },
+	{ path: 'circle-adder/:id/:association', component: CircleDetailComponent, outlet: 'editor' },
+	{ path: 'circle-detail/:id', component: CircleDetailComponent, outlet: 'editor' },
+	{ path: 'circle-presentation/:id', component: CirclePresentationComponent, outlet: 'presentation' },
+	{ path: 'circle-presentation-special/:id', component: CirclePresentationComponent, outlet: 'circlepres' },
+
+	{ path: 'lines', component: LinesTableComponent, outlet: 'table' },
+	{ path: 'line-adder', component: LineDetailComponent, outlet: 'editor' },
+	{ path: 'line-adder/:id/:association', component: LineDetailComponent, outlet: 'editor' },
+	{ path: 'line-detail/:id', component: LineDetailComponent, outlet: 'editor' },
+	{ path: 'line-presentation/:id', component: LinePresentationComponent, outlet: 'presentation' },
+	{ path: 'line-presentation-special/:id', component: LinePresentationComponent, outlet: 'linepres' },
+
 	{ path: 'rects', component: RectsTableComponent, outlet: 'table' },
 	{ path: 'rect-adder', component: RectDetailComponent, outlet: 'editor' },
 	{ path: 'rect-adder/:id/:association', component: RectDetailComponent, outlet: 'editor' },

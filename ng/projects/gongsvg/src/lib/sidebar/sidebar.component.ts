@@ -8,6 +8,10 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { CommitNbService } from '../commitnb.service'
 
 // insertion point for per struct import code
+import { CircleService } from '../circle.service'
+import { getCircleUniqueID } from '../front-repo.service'
+import { LineService } from '../line.service'
+import { getLineUniqueID } from '../front-repo.service'
 import { RectService } from '../rect.service'
 import { getRectUniqueID } from '../front-repo.service'
 import { SVGService } from '../svg.service'
@@ -146,6 +150,8 @@ export class SidebarComponent implements OnInit {
     private commitNbService: CommitNbService,
 
     // insertion point for per struct service declaration
+    private circleService: CircleService,
+    private lineService: LineService,
     private rectService: RectService,
     private svgService: SVGService,
     private textService: TextService,
@@ -155,6 +161,22 @@ export class SidebarComponent implements OnInit {
     this.refresh()
 
     // insertion point for per struct observable for refresh trigger
+    // observable for changes in structs
+    this.circleService.CircleServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.lineService.LineServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
     // observable for changes in structs
     this.rectService.RectServiceChanged.subscribe(
       message => {
@@ -204,6 +226,90 @@ export class SidebarComponent implements OnInit {
       this.gongNodeTree = new Array<GongNode>();
 
       // insertion point for per struct tree construction
+      /**
+      * fill up the Circle part of the mat tree
+      */
+      let circleGongNodeStruct: GongNode = {
+        name: "Circle",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Circle",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(circleGongNodeStruct)
+
+      this.frontRepo.Circles_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Circles_array.forEach(
+        circleDB => {
+          let circleGongNodeInstance: GongNode = {
+            name: circleDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: circleDB.ID,
+            uniqueIdPerStack: getCircleUniqueID(circleDB.ID),
+            structName: "Circle",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          circleGongNodeStruct.children.push(circleGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
+      /**
+      * fill up the Line part of the mat tree
+      */
+      let lineGongNodeStruct: GongNode = {
+        name: "Line",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Line",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(lineGongNodeStruct)
+
+      this.frontRepo.Lines_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Lines_array.forEach(
+        lineDB => {
+          let lineGongNodeInstance: GongNode = {
+            name: lineDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: lineDB.ID,
+            uniqueIdPerStack: getLineUniqueID(lineDB.ID),
+            structName: "Line",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          lineGongNodeStruct.children.push(lineGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
       /**
       * fill up the Rect part of the mat tree
       */
@@ -343,6 +449,66 @@ export class SidebarComponent implements OnInit {
               children: new Array<GongNode>()
             }
             TextsGongNodeAssociation.children.push(textNode)
+          })
+
+          /**
+          * let append a node for the slide of pointer Circles
+          */
+          let CirclesGongNodeAssociation: GongNode = {
+            name: "(Circle) Circles",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: svgDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "SVG",
+            associatedStructName: "Circle",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          svgGongNodeInstance.children.push(CirclesGongNodeAssociation)
+
+          svgDB.Circles?.forEach(circleDB => {
+            let circleNode: GongNode = {
+              name: circleDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: circleDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getSVGUniqueID(svgDB.ID)
+                + 11 * getCircleUniqueID(circleDB.ID),
+              structName: "Circle",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            CirclesGongNodeAssociation.children.push(circleNode)
+          })
+
+          /**
+          * let append a node for the slide of pointer Lines
+          */
+          let LinesGongNodeAssociation: GongNode = {
+            name: "(Line) Lines",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: svgDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "SVG",
+            associatedStructName: "Line",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          svgGongNodeInstance.children.push(LinesGongNodeAssociation)
+
+          svgDB.Lines?.forEach(lineDB => {
+            let lineNode: GongNode = {
+              name: lineDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: lineDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getSVGUniqueID(svgDB.ID)
+                + 11 * getLineUniqueID(lineDB.ID),
+              structName: "Line",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            LinesGongNodeAssociation.children.push(lineNode)
           })
 
         }

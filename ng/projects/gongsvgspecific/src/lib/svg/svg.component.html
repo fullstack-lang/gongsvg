@@ -38,6 +38,12 @@
     </lib-path>
 </div>
 
+<div *ngFor="let polygone of Polygones" class="parent">
+    <lib-polygone [Points]="polygone.Points" [Color]="polygone.Color" [FillOpacity]="polygone.FillOpacity"
+        [Stroke]="polygone.Stroke" [StrokeWidth]="polygone.StrokeWidth" [StrokeDashArray]="polygone.StrokeDashArray">
+    </lib-polygone>
+</div>
+
 
 
 <!-- <lib-svg-rect></lib-svg-rect> -->

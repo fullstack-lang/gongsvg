@@ -6,9 +6,25 @@ import { CirclesTableComponent } from './circles-table/circles-table.component'
 import { CircleDetailComponent } from './circle-detail/circle-detail.component'
 import { CirclePresentationComponent } from './circle-presentation/circle-presentation.component'
 
+import { EllipsesTableComponent } from './ellipses-table/ellipses-table.component'
+import { EllipseDetailComponent } from './ellipse-detail/ellipse-detail.component'
+import { EllipsePresentationComponent } from './ellipse-presentation/ellipse-presentation.component'
+
 import { LinesTableComponent } from './lines-table/lines-table.component'
 import { LineDetailComponent } from './line-detail/line-detail.component'
 import { LinePresentationComponent } from './line-presentation/line-presentation.component'
+
+import { PathsTableComponent } from './paths-table/paths-table.component'
+import { PathDetailComponent } from './path-detail/path-detail.component'
+import { PathPresentationComponent } from './path-presentation/path-presentation.component'
+
+import { PolygonesTableComponent } from './polygones-table/polygones-table.component'
+import { PolygoneDetailComponent } from './polygone-detail/polygone-detail.component'
+import { PolygonePresentationComponent } from './polygone-presentation/polygone-presentation.component'
+
+import { PolylinesTableComponent } from './polylines-table/polylines-table.component'
+import { PolylineDetailComponent } from './polyline-detail/polyline-detail.component'
+import { PolylinePresentationComponent } from './polyline-presentation/polyline-presentation.component'
 
 import { RectsTableComponent } from './rects-table/rects-table.component'
 import { RectDetailComponent } from './rect-detail/rect-detail.component'
@@ -31,12 +47,40 @@ const routes: Routes = [ // insertion point for routes declarations
 	{ path: 'circle-presentation/:id', component: CirclePresentationComponent, outlet: 'presentation' },
 	{ path: 'circle-presentation-special/:id', component: CirclePresentationComponent, outlet: 'circlepres' },
 
+	{ path: 'ellipses', component: EllipsesTableComponent, outlet: 'table' },
+	{ path: 'ellipse-adder', component: EllipseDetailComponent, outlet: 'editor' },
+	{ path: 'ellipse-adder/:id/:association', component: EllipseDetailComponent, outlet: 'editor' },
+	{ path: 'ellipse-detail/:id', component: EllipseDetailComponent, outlet: 'editor' },
+	{ path: 'ellipse-presentation/:id', component: EllipsePresentationComponent, outlet: 'presentation' },
+	{ path: 'ellipse-presentation-special/:id', component: EllipsePresentationComponent, outlet: 'ellipsepres' },
+
 	{ path: 'lines', component: LinesTableComponent, outlet: 'table' },
 	{ path: 'line-adder', component: LineDetailComponent, outlet: 'editor' },
 	{ path: 'line-adder/:id/:association', component: LineDetailComponent, outlet: 'editor' },
 	{ path: 'line-detail/:id', component: LineDetailComponent, outlet: 'editor' },
 	{ path: 'line-presentation/:id', component: LinePresentationComponent, outlet: 'presentation' },
 	{ path: 'line-presentation-special/:id', component: LinePresentationComponent, outlet: 'linepres' },
+
+	{ path: 'paths', component: PathsTableComponent, outlet: 'table' },
+	{ path: 'path-adder', component: PathDetailComponent, outlet: 'editor' },
+	{ path: 'path-adder/:id/:association', component: PathDetailComponent, outlet: 'editor' },
+	{ path: 'path-detail/:id', component: PathDetailComponent, outlet: 'editor' },
+	{ path: 'path-presentation/:id', component: PathPresentationComponent, outlet: 'presentation' },
+	{ path: 'path-presentation-special/:id', component: PathPresentationComponent, outlet: 'pathpres' },
+
+	{ path: 'polygones', component: PolygonesTableComponent, outlet: 'table' },
+	{ path: 'polygone-adder', component: PolygoneDetailComponent, outlet: 'editor' },
+	{ path: 'polygone-adder/:id/:association', component: PolygoneDetailComponent, outlet: 'editor' },
+	{ path: 'polygone-detail/:id', component: PolygoneDetailComponent, outlet: 'editor' },
+	{ path: 'polygone-presentation/:id', component: PolygonePresentationComponent, outlet: 'presentation' },
+	{ path: 'polygone-presentation-special/:id', component: PolygonePresentationComponent, outlet: 'polygonepres' },
+
+	{ path: 'polylines', component: PolylinesTableComponent, outlet: 'table' },
+	{ path: 'polyline-adder', component: PolylineDetailComponent, outlet: 'editor' },
+	{ path: 'polyline-adder/:id/:association', component: PolylineDetailComponent, outlet: 'editor' },
+	{ path: 'polyline-detail/:id', component: PolylineDetailComponent, outlet: 'editor' },
+	{ path: 'polyline-presentation/:id', component: PolylinePresentationComponent, outlet: 'presentation' },
+	{ path: 'polyline-presentation-special/:id', component: PolylinePresentationComponent, outlet: 'polylinepres' },
 
 	{ path: 'rects', component: RectsTableComponent, outlet: 'table' },
 	{ path: 'rect-adder', component: RectDetailComponent, outlet: 'editor' },

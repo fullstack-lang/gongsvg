@@ -1,0 +1,6 @@
+<svg class="child">
+    <g>
+        <polygon [attr.points]="Points" [attr.fill]="Color" [attr.fill-opacity]="FillOpacity" [attr.stroke]="Stroke"
+            [attr.stroke-width]="StrokeWidth" [attr.stroke-dasharray]="StrokeDashArray" />
+    </g>
+</svg>

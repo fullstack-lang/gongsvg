@@ -1,0 +1,7 @@
+<svg class="child">
+    <g>
+        <ellipse [attr.rx]="RX" [attr.ry]="RY" [attr.cx]="CX" [attr.cy]="CY" [attr.fill]="Color"
+            [attr.fill-opacity]="FillOpacity" [attr.stroke]="Stroke" [attr.stroke-width]="StrokeWidth"
+            [attr.stroke-dasharray]="StrokeDashArray" />
+    </g>
+</svg>

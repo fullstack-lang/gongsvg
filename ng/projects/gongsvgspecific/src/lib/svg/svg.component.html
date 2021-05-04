@@ -25,4 +25,32 @@
     </lib-line>
 </div>
 
+<div *ngFor="let ellipse of Ellipses" class="parent">
+    <lib-ellipse [CX]="ellipse.CX" [CY]="ellipse.CY" [RX]="ellipse.RX" [RY]="ellipse.RY" [Color]="ellipse.Color"
+        [FillOpacity]="ellipse.FillOpacity" [Stroke]="ellipse.Stroke" [StrokeWidth]="ellipse.StrokeWidth"
+        [StrokeDashArray]="ellipse.StrokeDashArray">
+    </lib-ellipse>
+</div>
+
+<div *ngFor="let path of Paths" class="parent">
+    <lib-path [Definition]="path.Definition" [Color]="path.Color" [FillOpacity]="path.FillOpacity"
+        [Stroke]="path.Stroke" [StrokeWidth]="path.StrokeWidth" [StrokeDashArray]="path.StrokeDashArray">
+    </lib-path>
+</div>
+
+<div *ngFor="let polygone of Polygones" class="parent">
+    <lib-polygone [Points]="polygone.Points" [Color]="polygone.Color" [FillOpacity]="polygone.FillOpacity"
+        [Stroke]="polygone.Stroke" [StrokeWidth]="polygone.StrokeWidth" [StrokeDashArray]="polygone.StrokeDashArray">
+    </lib-polygone>
+</div>
+
+
+<div *ngFor="let polyline of Polylines" class="parent">
+    <lib-polyline [Points]="polyline.Points" [Color]="polyline.Color" [FillOpacity]="polyline.FillOpacity"
+        [Stroke]="polyline.Stroke" [StrokeWidth]="polyline.StrokeWidth" [StrokeDashArray]="polyline.StrokeDashArray">
+    </lib-polyline>
+</div>
+
+
+
 <!-- <lib-svg-rect></lib-svg-rect> -->

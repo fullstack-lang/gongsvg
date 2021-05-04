@@ -1,0 +1,83 @@
+<div *ngIf="polygone" class="details">
+    <h1 class="details__title">polygone</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="polygone.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Points</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="polygone.Points">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Color</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="polygone.Color">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>FillOpacity</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="polygone.FillOpacity">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Stroke</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="polygone.Stroke">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>StrokeWidth</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="polygone.StrokeWidth">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>StrokeDashArray</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="polygone.StrokeDashArray">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+    <mat-form-field>
+        <mat-label><- Polygones</mat-label>
+        <mat-select [(ngModel)]="polygone.SVG_Polygones_reverse">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let svg of frontRepo.SVGs_array" [value]="svg">
+                {{svg.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save polygone
+		</button>
+    </div>
+</div>

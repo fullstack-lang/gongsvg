@@ -20,6 +20,10 @@ export class SvgComponent implements OnInit {
   public Texts = new Array<gongsvg.TextDB>()
   public Lines = new Array<gongsvg.LineDB>()
   public Circles = new Array<gongsvg.CircleDB>()
+  public Ellipses = new Array<gongsvg.EllipseDB>()
+  public Paths = new Array<gongsvg.PathDB>()
+  public Polygones = new Array<gongsvg.PolygoneDB>()
+  public Polylines = new Array<gongsvg.PolylineDB>()
 
   /**
  * the component is refreshed when modification are performed in the back repo 
@@ -67,6 +71,10 @@ export class SvgComponent implements OnInit {
         this.Texts = new Array<gongsvg.TextDB>()
         this.Lines = new Array<gongsvg.LineDB>()
         this.Circles = new Array<gongsvg.CircleDB>()
+        this.Ellipses = new Array<gongsvg.EllipseDB>()
+        this.Paths = new Array<gongsvg.PathDB>()
+        this.Polygones = new Array<gongsvg.PolygoneDB>()
+        this.Polylines = new Array<gongsvg.PolylineDB>()
 
         for (let svg of this.gongsvgFrontRepo.SVGs_array) {
 
@@ -93,6 +101,30 @@ export class SvgComponent implements OnInit {
             svg.Circles?.forEach(
               Circle => {
                 this.Circles.push(Circle)
+              }
+            )
+
+            svg.Ellipses?.forEach(
+              Ellipse => {
+                this.Ellipses.push(Ellipse)
+              }
+            )
+
+            svg.Paths?.forEach(
+              Path => {
+                this.Paths.push(Path)
+              }
+            )
+
+            svg.Polygones?.forEach(
+              Polygone => {
+                this.Polygones.push(Polygone)
+              }
+            )
+
+            svg.Polylines?.forEach(
+              Polyline => {
+                this.Polylines.push(Polyline)
               }
             )
           }

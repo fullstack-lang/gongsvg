@@ -89,6 +89,7 @@ export class PolylinesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Polylines",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -99,6 +100,7 @@ export class PolylinesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Polylines",
       ]
       this.selection = new SelectionModel<PolylineDB>(allowMultiSelect, this.initialSelection);
     }

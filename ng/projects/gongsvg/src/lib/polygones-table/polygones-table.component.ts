@@ -89,6 +89,7 @@ export class PolygonesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Polygones",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -99,6 +100,7 @@ export class PolygonesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Polygones",
       ]
       this.selection = new SelectionModel<PolygoneDB>(allowMultiSelect, this.initialSelection);
     }

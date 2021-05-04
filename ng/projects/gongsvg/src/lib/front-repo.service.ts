@@ -502,6 +502,19 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field SVG.Ellipses redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(ellipse.SVG_EllipsesDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Ellipses == undefined) {
+                      _svg.Ellipses = new Array<EllipseDB>()
+                    }
+                    _svg.Ellipses.push(ellipse)
+                    if (ellipse.SVG_Ellipses_reverse == undefined) {
+                      ellipse.SVG_Ellipses_reverse = _svg
+                    }
+                  }
+                }
               }
             )
             lines.forEach(
@@ -529,6 +542,19 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field SVG.Paths redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(path.SVG_PathsDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Paths == undefined) {
+                      _svg.Paths = new Array<PathDB>()
+                    }
+                    _svg.Paths.push(path)
+                    if (path.SVG_Paths_reverse == undefined) {
+                      path.SVG_Paths_reverse = _svg
+                    }
+                  }
+                }
               }
             )
             polygones.forEach(
@@ -536,6 +562,19 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field SVG.Polygones redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(polygone.SVG_PolygonesDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Polygones == undefined) {
+                      _svg.Polygones = new Array<PolygoneDB>()
+                    }
+                    _svg.Polygones.push(polygone)
+                    if (polygone.SVG_Polygones_reverse == undefined) {
+                      polygone.SVG_Polygones_reverse = _svg
+                    }
+                  }
+                }
               }
             )
             polylines.forEach(
@@ -543,6 +582,19 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field SVG.Polylines redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(polyline.SVG_PolylinesDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Polylines == undefined) {
+                      _svg.Polylines = new Array<PolylineDB>()
+                    }
+                    _svg.Polylines.push(polyline)
+                    if (polyline.SVG_Polylines_reverse == undefined) {
+                      polyline.SVG_Polylines_reverse = _svg
+                    }
+                  }
+                }
               }
             )
             rects.forEach(
@@ -694,6 +746,19 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations 
 
                 // insertion point for redeeming ONE-MANY associations 
+                // insertion point for slice of pointer field SVG.Ellipses redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(ellipse.SVG_EllipsesDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Ellipses == undefined) {
+                      _svg.Ellipses = new Array<EllipseDB>()
+                    }
+                    _svg.Ellipses.push(ellipse)
+                    if (ellipse.SVG_Ellipses_reverse == undefined) {
+                      ellipse.SVG_Ellipses_reverse = _svg
+                    }
+                  }
+                }
               }
             )
 
@@ -809,6 +874,19 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations 
 
                 // insertion point for redeeming ONE-MANY associations 
+                // insertion point for slice of pointer field SVG.Paths redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(path.SVG_PathsDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Paths == undefined) {
+                      _svg.Paths = new Array<PathDB>()
+                    }
+                    _svg.Paths.push(path)
+                    if (path.SVG_Paths_reverse == undefined) {
+                      path.SVG_Paths_reverse = _svg
+                    }
+                  }
+                }
               }
             )
 
@@ -860,6 +938,19 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations 
 
                 // insertion point for redeeming ONE-MANY associations 
+                // insertion point for slice of pointer field SVG.Polygones redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(polygone.SVG_PolygonesDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Polygones == undefined) {
+                      _svg.Polygones = new Array<PolygoneDB>()
+                    }
+                    _svg.Polygones.push(polygone)
+                    if (polygone.SVG_Polygones_reverse == undefined) {
+                      polygone.SVG_Polygones_reverse = _svg
+                    }
+                  }
+                }
               }
             )
 
@@ -911,6 +1002,19 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations 
 
                 // insertion point for redeeming ONE-MANY associations 
+                // insertion point for slice of pointer field SVG.Polylines redeeming
+                {
+                  let _svg = FrontRepoSingloton.SVGs.get(polyline.SVG_PolylinesDBID.Int64)
+                  if (_svg) {
+                    if (_svg.Polylines == undefined) {
+                      _svg.Polylines = new Array<PolylineDB>()
+                    }
+                    _svg.Polylines.push(polyline)
+                    if (polyline.SVG_Polylines_reverse == undefined) {
+                      polyline.SVG_Polylines_reverse = _svg
+                    }
+                  }
+                }
               }
             )
 

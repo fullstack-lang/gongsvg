@@ -25,4 +25,11 @@
     </lib-line>
 </div>
 
+<div *ngFor="let ellipse of Ellipses" class="parent">
+    <lib-ellipse [CX]="ellipse.CX" [CY]="ellipse.CY" [RX]="ellipse.RX" [RY]="ellipse.RY" [Color]="ellipse.Color"
+        [FillOpacity]="ellipse.FillOpacity" [Stroke]="ellipse.Stroke" [StrokeWidth]="ellipse.StrokeWidth"
+        [StrokeDashArray]="ellipse.StrokeDashArray">
+    </lib-ellipse>
+</div>
+
 <!-- <lib-svg-rect></lib-svg-rect> -->

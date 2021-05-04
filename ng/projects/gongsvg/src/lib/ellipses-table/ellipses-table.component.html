@@ -88,6 +88,13 @@
                 {{Ellipse.StrokeDashArray}}
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Ellipses">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (SVG) Ellipses </th>
+            <td mat-cell *matCellDef="let ellipse">
+                {{frontRepo.SVGs.get(ellipse.SVG_EllipsesDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef> ID. </th>

@@ -48,6 +48,9 @@ type PolygoneAPI struct {
 	// Declation for basic field polygoneDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Implementation of a reverse ID for field SVG{}.Polygones []*Polygone
+	SVG_PolygonesDBID sql.NullInt64
+
 	// end of insertion
 }
 

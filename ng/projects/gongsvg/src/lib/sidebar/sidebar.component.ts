@@ -723,6 +723,126 @@ export class SidebarComponent implements OnInit {
             LinesGongNodeAssociation.children.push(lineNode)
           })
 
+          /**
+          * let append a node for the slide of pointer Ellipses
+          */
+          let EllipsesGongNodeAssociation: GongNode = {
+            name: "(Ellipse) Ellipses",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: svgDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "SVG",
+            associatedStructName: "Ellipse",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          svgGongNodeInstance.children.push(EllipsesGongNodeAssociation)
+
+          svgDB.Ellipses?.forEach(ellipseDB => {
+            let ellipseNode: GongNode = {
+              name: ellipseDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: ellipseDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getSVGUniqueID(svgDB.ID)
+                + 11 * getEllipseUniqueID(ellipseDB.ID),
+              structName: "Ellipse",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            EllipsesGongNodeAssociation.children.push(ellipseNode)
+          })
+
+          /**
+          * let append a node for the slide of pointer Polylines
+          */
+          let PolylinesGongNodeAssociation: GongNode = {
+            name: "(Polyline) Polylines",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: svgDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "SVG",
+            associatedStructName: "Polyline",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          svgGongNodeInstance.children.push(PolylinesGongNodeAssociation)
+
+          svgDB.Polylines?.forEach(polylineDB => {
+            let polylineNode: GongNode = {
+              name: polylineDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: polylineDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getSVGUniqueID(svgDB.ID)
+                + 11 * getPolylineUniqueID(polylineDB.ID),
+              structName: "Polyline",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            PolylinesGongNodeAssociation.children.push(polylineNode)
+          })
+
+          /**
+          * let append a node for the slide of pointer Polygones
+          */
+          let PolygonesGongNodeAssociation: GongNode = {
+            name: "(Polygone) Polygones",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: svgDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "SVG",
+            associatedStructName: "Polygone",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          svgGongNodeInstance.children.push(PolygonesGongNodeAssociation)
+
+          svgDB.Polygones?.forEach(polygoneDB => {
+            let polygoneNode: GongNode = {
+              name: polygoneDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: polygoneDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getSVGUniqueID(svgDB.ID)
+                + 11 * getPolygoneUniqueID(polygoneDB.ID),
+              structName: "Polygone",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            PolygonesGongNodeAssociation.children.push(polygoneNode)
+          })
+
+          /**
+          * let append a node for the slide of pointer Paths
+          */
+          let PathsGongNodeAssociation: GongNode = {
+            name: "(Path) Paths",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: svgDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "SVG",
+            associatedStructName: "Path",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          svgGongNodeInstance.children.push(PathsGongNodeAssociation)
+
+          svgDB.Paths?.forEach(pathDB => {
+            let pathNode: GongNode = {
+              name: pathDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: pathDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getSVGUniqueID(svgDB.ID)
+                + 11 * getPathUniqueID(pathDB.ID),
+              structName: "Path",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            PathsGongNodeAssociation.children.push(pathNode)
+          })
+
         }
       )
 

@@ -94,6 +94,12 @@ export class PolygoneDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
+			if (this.polygone.SVG_Polygones_reverse != undefined) {
+				this.polygone.SVG_PolygonesDBID = new NullInt64
+				this.polygone.SVG_PolygonesDBID.Int64 = this.polygone.SVG_Polygones_reverse.ID
+				this.polygone.SVG_PolygonesDBID.Valid = true
+				this.polygone.SVG_Polygones_reverse = undefined // very important, otherwise, circular JSON
+			}
 		}
 
 		if (id != 0 && association == undefined) {
@@ -107,6 +113,11 @@ export class PolygoneDetailComponent implements OnInit {
 		} else {
 			switch (association) {
 				// insertion point for saving value of ONE_MANY association reverse pointer
+				case "SVG_Polygones":
+					this.polygone.SVG_PolygonesDBID = new NullInt64
+					this.polygone.SVG_PolygonesDBID.Int64 = id
+					this.polygone.SVG_PolygonesDBID.Valid = true
+					break
 			}
 			this.polygoneService.postPolygone(this.polygone).subscribe(polygone => {
 

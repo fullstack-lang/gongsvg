@@ -94,6 +94,12 @@ export class PolylineDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
+			if (this.polyline.SVG_Polylines_reverse != undefined) {
+				this.polyline.SVG_PolylinesDBID = new NullInt64
+				this.polyline.SVG_PolylinesDBID.Int64 = this.polyline.SVG_Polylines_reverse.ID
+				this.polyline.SVG_PolylinesDBID.Valid = true
+				this.polyline.SVG_Polylines_reverse = undefined // very important, otherwise, circular JSON
+			}
 		}
 
 		if (id != 0 && association == undefined) {
@@ -107,6 +113,11 @@ export class PolylineDetailComponent implements OnInit {
 		} else {
 			switch (association) {
 				// insertion point for saving value of ONE_MANY association reverse pointer
+				case "SVG_Polylines":
+					this.polyline.SVG_PolylinesDBID = new NullInt64
+					this.polyline.SVG_PolylinesDBID.Int64 = id
+					this.polyline.SVG_PolylinesDBID.Valid = true
+					break
 			}
 			this.polylineService.postPolyline(this.polyline).subscribe(polyline => {
 

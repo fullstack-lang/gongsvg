@@ -94,6 +94,12 @@ export class PathDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
+			if (this.path.SVG_Paths_reverse != undefined) {
+				this.path.SVG_PathsDBID = new NullInt64
+				this.path.SVG_PathsDBID.Int64 = this.path.SVG_Paths_reverse.ID
+				this.path.SVG_PathsDBID.Valid = true
+				this.path.SVG_Paths_reverse = undefined // very important, otherwise, circular JSON
+			}
 		}
 
 		if (id != 0 && association == undefined) {
@@ -107,6 +113,11 @@ export class PathDetailComponent implements OnInit {
 		} else {
 			switch (association) {
 				// insertion point for saving value of ONE_MANY association reverse pointer
+				case "SVG_Paths":
+					this.path.SVG_PathsDBID = new NullInt64
+					this.path.SVG_PathsDBID.Int64 = id
+					this.path.SVG_PathsDBID.Valid = true
+					break
 			}
 			this.pathService.postPath(this.path).subscribe(path => {
 

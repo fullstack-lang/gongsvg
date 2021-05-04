@@ -57,6 +57,9 @@ type EllipseAPI struct {
 	// Declation for basic field ellipseDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Implementation of a reverse ID for field SVG{}.Ellipses []*Ellipse
+	SVG_EllipsesDBID sql.NullInt64
+
 	// end of insertion
 }
 

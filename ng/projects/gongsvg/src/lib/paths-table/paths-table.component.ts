@@ -89,6 +89,7 @@ export class PathsTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Paths",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -99,6 +100,7 @@ export class PathsTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Paths",
       ]
       this.selection = new SelectionModel<PathDB>(allowMultiSelect, this.initialSelection);
     }

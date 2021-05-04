@@ -48,6 +48,9 @@ type PolylineAPI struct {
 	// Declation for basic field polylineDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Implementation of a reverse ID for field SVG{}.Polylines []*Polyline
+	SVG_PolylinesDBID sql.NullInt64
+
 	// end of insertion
 }
 

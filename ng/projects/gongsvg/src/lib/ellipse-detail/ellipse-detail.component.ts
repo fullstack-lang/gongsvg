@@ -94,6 +94,12 @@ export class EllipseDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
+			if (this.ellipse.SVG_Ellipses_reverse != undefined) {
+				this.ellipse.SVG_EllipsesDBID = new NullInt64
+				this.ellipse.SVG_EllipsesDBID.Int64 = this.ellipse.SVG_Ellipses_reverse.ID
+				this.ellipse.SVG_EllipsesDBID.Valid = true
+				this.ellipse.SVG_Ellipses_reverse = undefined // very important, otherwise, circular JSON
+			}
 		}
 
 		if (id != 0 && association == undefined) {
@@ -107,6 +113,11 @@ export class EllipseDetailComponent implements OnInit {
 		} else {
 			switch (association) {
 				// insertion point for saving value of ONE_MANY association reverse pointer
+				case "SVG_Ellipses":
+					this.ellipse.SVG_EllipsesDBID = new NullInt64
+					this.ellipse.SVG_EllipsesDBID.Int64 = id
+					this.ellipse.SVG_EllipsesDBID.Valid = true
+					break
 			}
 			this.ellipseService.postEllipse(this.ellipse).subscribe(ellipse => {
 

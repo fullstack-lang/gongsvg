@@ -56,10 +56,13 @@ export class EllipseService {
   postEllipse(ellipsedb: EllipseDB): Observable<EllipseDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _SVG_Ellipses_reverse = ellipsedb.SVG_Ellipses_reverse
+    ellipsedb.SVG_Ellipses_reverse = {}
 
 		return this.http.post<EllipseDB>(this.ellipsesUrl, ellipsedb, this.httpOptions).pipe(
 			tap(_ => {
 				// insertion point for restoration of reverse pointers
+        ellipsedb.SVG_Ellipses_reverse = _SVG_Ellipses_reverse
 				this.log(`posted ellipsedb id=${ellipsedb.ID}`)
 			}),
 			catchError(this.handleError<EllipseDB>('postEllipse'))
@@ -83,10 +86,13 @@ export class EllipseService {
     const url = `${this.ellipsesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _SVG_Ellipses_reverse = ellipsedb.SVG_Ellipses_reverse
+    ellipsedb.SVG_Ellipses_reverse = {}
 
     return this.http.put(url, ellipsedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        ellipsedb.SVG_Ellipses_reverse = _SVG_Ellipses_reverse
         this.log(`updated ellipsedb id=${ellipsedb.ID}`)
       }),
       catchError(this.handleError<EllipseDB>('updateEllipse'))

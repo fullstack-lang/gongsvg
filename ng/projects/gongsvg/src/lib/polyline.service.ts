@@ -56,10 +56,13 @@ export class PolylineService {
   postPolyline(polylinedb: PolylineDB): Observable<PolylineDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _SVG_Polylines_reverse = polylinedb.SVG_Polylines_reverse
+    polylinedb.SVG_Polylines_reverse = {}
 
 		return this.http.post<PolylineDB>(this.polylinesUrl, polylinedb, this.httpOptions).pipe(
 			tap(_ => {
 				// insertion point for restoration of reverse pointers
+        polylinedb.SVG_Polylines_reverse = _SVG_Polylines_reverse
 				this.log(`posted polylinedb id=${polylinedb.ID}`)
 			}),
 			catchError(this.handleError<PolylineDB>('postPolyline'))
@@ -83,10 +86,13 @@ export class PolylineService {
     const url = `${this.polylinesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _SVG_Polylines_reverse = polylinedb.SVG_Polylines_reverse
+    polylinedb.SVG_Polylines_reverse = {}
 
     return this.http.put(url, polylinedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        polylinedb.SVG_Polylines_reverse = _SVG_Polylines_reverse
         this.log(`updated polylinedb id=${polylinedb.ID}`)
       }),
       catchError(this.handleError<PolylineDB>('updatePolyline'))

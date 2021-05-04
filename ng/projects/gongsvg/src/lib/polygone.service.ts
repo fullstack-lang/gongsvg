@@ -56,10 +56,13 @@ export class PolygoneService {
   postPolygone(polygonedb: PolygoneDB): Observable<PolygoneDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _SVG_Polygones_reverse = polygonedb.SVG_Polygones_reverse
+    polygonedb.SVG_Polygones_reverse = {}
 
 		return this.http.post<PolygoneDB>(this.polygonesUrl, polygonedb, this.httpOptions).pipe(
 			tap(_ => {
 				// insertion point for restoration of reverse pointers
+        polygonedb.SVG_Polygones_reverse = _SVG_Polygones_reverse
 				this.log(`posted polygonedb id=${polygonedb.ID}`)
 			}),
 			catchError(this.handleError<PolygoneDB>('postPolygone'))
@@ -83,10 +86,13 @@ export class PolygoneService {
     const url = `${this.polygonesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _SVG_Polygones_reverse = polygonedb.SVG_Polygones_reverse
+    polygonedb.SVG_Polygones_reverse = {}
 
     return this.http.put(url, polygonedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        polygonedb.SVG_Polygones_reverse = _SVG_Polygones_reverse
         this.log(`updated polygonedb id=${polygonedb.ID}`)
       }),
       catchError(this.handleError<PolygoneDB>('updatePolygone'))

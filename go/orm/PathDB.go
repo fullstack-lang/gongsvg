@@ -48,6 +48,9 @@ type PathAPI struct {
 	// Declation for basic field pathDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Implementation of a reverse ID for field SVG{}.Paths []*Path
+	SVG_PathsDBID sql.NullInt64
+
 	// end of insertion
 }
 

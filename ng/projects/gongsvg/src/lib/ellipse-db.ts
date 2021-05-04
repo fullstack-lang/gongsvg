@@ -1,4 +1,5 @@
 // insertion point for imports
+import { SVGDB } from './svg-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './front-repo.service'
@@ -21,4 +22,7 @@ export class EllipseDB {
 	StrokeDashArray?: string
 
 	// insertion point for other declarations
+	SVG_EllipsesDBID?: NullInt64
+	SVG_Ellipses_reverse?: SVGDB
+
 }

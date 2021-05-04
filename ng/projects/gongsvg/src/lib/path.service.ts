@@ -56,10 +56,13 @@ export class PathService {
   postPath(pathdb: PathDB): Observable<PathDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _SVG_Paths_reverse = pathdb.SVG_Paths_reverse
+    pathdb.SVG_Paths_reverse = {}
 
 		return this.http.post<PathDB>(this.pathsUrl, pathdb, this.httpOptions).pipe(
 			tap(_ => {
 				// insertion point for restoration of reverse pointers
+        pathdb.SVG_Paths_reverse = _SVG_Paths_reverse
 				this.log(`posted pathdb id=${pathdb.ID}`)
 			}),
 			catchError(this.handleError<PathDB>('postPath'))
@@ -83,10 +86,13 @@ export class PathService {
     const url = `${this.pathsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _SVG_Paths_reverse = pathdb.SVG_Paths_reverse
+    pathdb.SVG_Paths_reverse = {}
 
     return this.http.put(url, pathdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        pathdb.SVG_Paths_reverse = _SVG_Paths_reverse
         this.log(`updated pathdb id=${pathdb.ID}`)
       }),
       catchError(this.handleError<PathDB>('updatePath'))

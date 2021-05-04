@@ -28,6 +28,18 @@
     <div class="details__item">
         <button mat-raised-button (click)="openReverseSelection('Line', 'SVG_LinesDBID')">Lines</button>
     </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('Ellipse', 'SVG_EllipsesDBID')">Ellipses</button>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('Polyline', 'SVG_PolylinesDBID')">Polylines</button>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('Polygone', 'SVG_PolygonesDBID')">Polygones</button>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('Path', 'SVG_PathsDBID')">Paths</button>
+    </div>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
 			Save svg

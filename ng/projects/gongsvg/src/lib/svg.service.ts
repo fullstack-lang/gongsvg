@@ -60,6 +60,10 @@ export class SVGService {
     svgdb.Texts = []
     svgdb.Circles = []
     svgdb.Lines = []
+    svgdb.Ellipses = []
+    svgdb.Polylines = []
+    svgdb.Polygones = []
+    svgdb.Paths = []
 
 		return this.http.post<SVGDB>(this.svgsUrl, svgdb, this.httpOptions).pipe(
 			tap(_ => {
@@ -91,6 +95,10 @@ export class SVGService {
     svgdb.Texts = []
     svgdb.Circles = []
     svgdb.Lines = []
+    svgdb.Ellipses = []
+    svgdb.Polylines = []
+    svgdb.Polygones = []
+    svgdb.Paths = []
 
     return this.http.put(url, svgdb, this.httpOptions).pipe(
       tap(_ => {

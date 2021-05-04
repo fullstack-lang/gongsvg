@@ -246,6 +246,58 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 					}
 				}
 
+				// commit a slice of pointer translates to update reverse pointer to Ellipse, i.e.
+				for _, ellipse := range svg.Ellipses {
+					if ellipseDBID, ok := (*backRepo.BackRepoEllipse.Map_EllipsePtr_EllipseDBID)[ellipse]; ok {
+						if ellipseDB, ok := (*backRepo.BackRepoEllipse.Map_EllipseDBID_EllipseDB)[ellipseDBID]; ok {
+							ellipseDB.SVG_EllipsesDBID.Int64 = int64(svgDB.ID)
+							ellipseDB.SVG_EllipsesDBID.Valid = true
+							if q := backRepoSVG.db.Save(&ellipseDB); q.Error != nil {
+								return q.Error
+							}
+						}
+					}
+				}
+
+				// commit a slice of pointer translates to update reverse pointer to Polyline, i.e.
+				for _, polyline := range svg.Polylines {
+					if polylineDBID, ok := (*backRepo.BackRepoPolyline.Map_PolylinePtr_PolylineDBID)[polyline]; ok {
+						if polylineDB, ok := (*backRepo.BackRepoPolyline.Map_PolylineDBID_PolylineDB)[polylineDBID]; ok {
+							polylineDB.SVG_PolylinesDBID.Int64 = int64(svgDB.ID)
+							polylineDB.SVG_PolylinesDBID.Valid = true
+							if q := backRepoSVG.db.Save(&polylineDB); q.Error != nil {
+								return q.Error
+							}
+						}
+					}
+				}
+
+				// commit a slice of pointer translates to update reverse pointer to Polygone, i.e.
+				for _, polygone := range svg.Polygones {
+					if polygoneDBID, ok := (*backRepo.BackRepoPolygone.Map_PolygonePtr_PolygoneDBID)[polygone]; ok {
+						if polygoneDB, ok := (*backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygoneDB)[polygoneDBID]; ok {
+							polygoneDB.SVG_PolygonesDBID.Int64 = int64(svgDB.ID)
+							polygoneDB.SVG_PolygonesDBID.Valid = true
+							if q := backRepoSVG.db.Save(&polygoneDB); q.Error != nil {
+								return q.Error
+							}
+						}
+					}
+				}
+
+				// commit a slice of pointer translates to update reverse pointer to Path, i.e.
+				for _, path := range svg.Paths {
+					if pathDBID, ok := (*backRepo.BackRepoPath.Map_PathPtr_PathDBID)[path]; ok {
+						if pathDB, ok := (*backRepo.BackRepoPath.Map_PathDBID_PathDB)[pathDBID]; ok {
+							pathDB.SVG_PathsDBID.Int64 = int64(svgDB.ID)
+							pathDB.SVG_PathsDBID.Valid = true
+							if q := backRepoSVG.db.Save(&pathDB); q.Error != nil {
+								return q.Error
+							}
+						}
+					}
+				}
+
 			}
 		}
 		query := backRepoSVG.db.Save(&svgDB)
@@ -365,6 +417,46 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseTwoInstance(backRepo *BackRep
 				if LineDB.SVG_LinesDBID.Int64 == int64(svgDB.ID) {
 					Line := (*backRepo.BackRepoLine.Map_LineDBID_LinePtr)[LineDB.ID]
 					svg.Lines = append(svg.Lines, Line)
+				}
+			}
+
+			// parse all EllipseDB and redeem the array of poiners to SVG
+			// first reset the slice
+			svg.Ellipses = svg.Ellipses[:0]
+			for _, EllipseDB := range *backRepo.BackRepoEllipse.Map_EllipseDBID_EllipseDB {
+				if EllipseDB.SVG_EllipsesDBID.Int64 == int64(svgDB.ID) {
+					Ellipse := (*backRepo.BackRepoEllipse.Map_EllipseDBID_EllipsePtr)[EllipseDB.ID]
+					svg.Ellipses = append(svg.Ellipses, Ellipse)
+				}
+			}
+
+			// parse all PolylineDB and redeem the array of poiners to SVG
+			// first reset the slice
+			svg.Polylines = svg.Polylines[:0]
+			for _, PolylineDB := range *backRepo.BackRepoPolyline.Map_PolylineDBID_PolylineDB {
+				if PolylineDB.SVG_PolylinesDBID.Int64 == int64(svgDB.ID) {
+					Polyline := (*backRepo.BackRepoPolyline.Map_PolylineDBID_PolylinePtr)[PolylineDB.ID]
+					svg.Polylines = append(svg.Polylines, Polyline)
+				}
+			}
+
+			// parse all PolygoneDB and redeem the array of poiners to SVG
+			// first reset the slice
+			svg.Polygones = svg.Polygones[:0]
+			for _, PolygoneDB := range *backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygoneDB {
+				if PolygoneDB.SVG_PolygonesDBID.Int64 == int64(svgDB.ID) {
+					Polygone := (*backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygonePtr)[PolygoneDB.ID]
+					svg.Polygones = append(svg.Polygones, Polygone)
+				}
+			}
+
+			// parse all PathDB and redeem the array of poiners to SVG
+			// first reset the slice
+			svg.Paths = svg.Paths[:0]
+			for _, PathDB := range *backRepo.BackRepoPath.Map_PathDBID_PathDB {
+				if PathDB.SVG_PathsDBID.Int64 == int64(svgDB.ID) {
+					Path := (*backRepo.BackRepoPath.Map_PathDBID_PathPtr)[PathDB.ID]
+					svg.Paths = append(svg.Paths, Path)
 				}
 			}
 

@@ -64,6 +64,17 @@
             </mat-form-field>
         </form>
     </div>
+    <div class="details__item">
+    <mat-form-field>
+        <mat-label><- Polylines</mat-label>
+        <mat-select [(ngModel)]="polyline.SVG_Polylines_reverse">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let svg of frontRepo.SVGs_array" [value]="svg">
+                {{svg.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
 			Save polyline

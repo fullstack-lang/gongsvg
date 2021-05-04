@@ -92,6 +92,7 @@ export class EllipsesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Ellipses",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -105,6 +106,7 @@ export class EllipsesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Ellipses",
       ]
       this.selection = new SelectionModel<EllipseDB>(allowMultiSelect, this.initialSelection);
     }

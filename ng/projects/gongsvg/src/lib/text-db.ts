@@ -19,6 +19,7 @@ export class TextDB {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 
 	// insertion point for other declarations
 	SVG_TextsDBID?: NullInt64

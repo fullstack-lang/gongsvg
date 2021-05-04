@@ -18,6 +18,7 @@ export class CircleComponent implements OnInit {
   @Input() StrokeWidth: string
   @Input() FillOpacity: number
   @Input() StrokeDashArray: string
+  @Input() Transform: string
 
   constructor() { }
 

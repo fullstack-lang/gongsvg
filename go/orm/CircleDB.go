@@ -54,6 +54,9 @@ type CircleAPI struct {
 	// Declation for basic field circleDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Declation for basic field circleDB.Transform {{BasicKind}} (to be completed)
+	Transform_Data sql.NullString
+
 	// Implementation of a reverse ID for field SVG{}.Circles []*Circle
 	SVG_CirclesDBID sql.NullInt64
 
@@ -238,6 +241,9 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseTwoInstance(backRepo *Bac
 				circleDB.StrokeDashArray_Data.String = circle.StrokeDashArray
 				circleDB.StrokeDashArray_Data.Valid = true
 
+				circleDB.Transform_Data.String = circle.Transform
+				circleDB.Transform_Data.Valid = true
+
 			}
 		}
 		query := backRepoCircle.db.Save(&circleDB)
@@ -334,6 +340,8 @@ func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseTwoInstance(backRepo *B
 			circle.StrokeWidth = circleDB.StrokeWidth_Data.Float64
 
 			circle.StrokeDashArray = circleDB.StrokeDashArray_Data.String
+
+			circle.Transform = circleDB.Transform_Data.String
 
 		}
 	}

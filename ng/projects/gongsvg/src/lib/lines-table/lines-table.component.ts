@@ -92,6 +92,7 @@ export class LinesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Lines",
       ]
     } else {
@@ -106,6 +107,7 @@ export class LinesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Lines",
       ]
       this.selection = new SelectionModel<LineDB>(allowMultiSelect, this.initialSelection);

@@ -91,6 +91,7 @@ export class CirclesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Circles",
       ]
     } else {
@@ -104,6 +105,7 @@ export class CirclesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Circles",
       ]
       this.selection = new SelectionModel<CircleDB>(allowMultiSelect, this.initialSelection);

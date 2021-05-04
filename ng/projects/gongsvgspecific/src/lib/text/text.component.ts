@@ -1,4 +1,4 @@
-import { Component, OnInit, Input  } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'lib-text',
@@ -16,7 +16,8 @@ export class TextComponent implements OnInit {
   @Input() StrokeWidth: string
   @Input() FillOpacity: number
   @Input() StrokeDashArray: string
-  
+  @Input() Transform: string
+
   constructor() { }
 
   ngOnInit(): void {

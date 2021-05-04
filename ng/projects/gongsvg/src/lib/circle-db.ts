@@ -19,6 +19,7 @@ export class CircleDB {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 
 	// insertion point for other declarations
 	SVG_CirclesDBID?: NullInt64

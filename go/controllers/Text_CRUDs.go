@@ -100,6 +100,10 @@ func GetTexts(c *gin.Context) {
 			text.StrokeDashArray = text.StrokeDashArray_Data.String
 		}
 
+		if text.Transform_Data.Valid {
+			text.Transform = text.Transform_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, texts)
@@ -163,6 +167,9 @@ func PostText(c *gin.Context) {
 
 	textDB.StrokeDashArray_Data.String = input.StrokeDashArray
 	textDB.StrokeDashArray_Data.Valid = true
+
+	textDB.Transform_Data.String = input.Transform
+	textDB.Transform_Data.Valid = true
 
 	query := db.Create(&textDB)
 	if query.Error != nil {
@@ -239,6 +246,10 @@ func GetText(c *gin.Context) {
 		text.StrokeDashArray = text.StrokeDashArray_Data.String
 	}
 
+	if text.Transform_Data.Valid {
+		text.Transform = text.Transform_Data.String
+	}
+
 	c.JSON(http.StatusOK, text)
 }
 
@@ -303,6 +314,9 @@ func UpdateText(c *gin.Context) {
 
 	input.StrokeDashArray_Data.String = input.StrokeDashArray
 	input.StrokeDashArray_Data.Valid = true
+
+	input.Transform_Data.String = input.Transform
+	input.Transform_Data.Valid = true
 
 	query = db.Model(&textDB).Updates(input)
 	if query.Error != nil {

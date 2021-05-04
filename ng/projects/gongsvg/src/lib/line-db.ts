@@ -20,6 +20,7 @@ export class LineDB {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 
 	// insertion point for other declarations
 	SVG_LinesDBID?: NullInt64

@@ -14,6 +14,7 @@ export class PresentationDB {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 
 	// insertion point for other declarations
 }

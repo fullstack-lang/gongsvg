@@ -5,4 +5,5 @@ export class PresentationAPI {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 }

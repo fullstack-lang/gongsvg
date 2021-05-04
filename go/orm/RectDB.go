@@ -57,6 +57,9 @@ type RectAPI struct {
 	// Declation for basic field rectDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Declation for basic field rectDB.Transform {{BasicKind}} (to be completed)
+	Transform_Data sql.NullString
+
 	// Implementation of a reverse ID for field SVG{}.Rects []*Rect
 	SVG_RectsDBID sql.NullInt64
 
@@ -244,6 +247,9 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				rectDB.StrokeDashArray_Data.String = rect.StrokeDashArray
 				rectDB.StrokeDashArray_Data.Valid = true
 
+				rectDB.Transform_Data.String = rect.Transform
+				rectDB.Transform_Data.Valid = true
+
 			}
 		}
 		query := backRepoRect.db.Save(&rectDB)
@@ -342,6 +348,8 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 			rect.StrokeWidth = rectDB.StrokeWidth_Data.Float64
 
 			rect.StrokeDashArray = rectDB.StrokeDashArray_Data.String
+
+			rect.Transform = rectDB.Transform_Data.String
 
 		}
 	}

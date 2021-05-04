@@ -307,7 +307,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(circle.SVG_CirclesDBID.Int64)
                   if (_svg) {
                     if (_svg.Circles == undefined) {
-                      _svg.Circles = new Array<SVGDB>()
+                      _svg.Circles = new Array<CircleDB>()
                     }
                     _svg.Circles.push(circle)
                     if (circle.SVG_Circles_reverse == undefined) {
@@ -327,7 +327,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(line.SVG_LinesDBID.Int64)
                   if (_svg) {
                     if (_svg.Lines == undefined) {
-                      _svg.Lines = new Array<SVGDB>()
+                      _svg.Lines = new Array<LineDB>()
                     }
                     _svg.Lines.push(line)
                     if (line.SVG_Lines_reverse == undefined) {
@@ -347,7 +347,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(rect.SVG_RectsDBID.Int64)
                   if (_svg) {
                     if (_svg.Rects == undefined) {
-                      _svg.Rects = new Array<SVGDB>()
+                      _svg.Rects = new Array<RectDB>()
                     }
                     _svg.Rects.push(rect)
                     if (rect.SVG_Rects_reverse == undefined) {
@@ -374,7 +374,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(text.SVG_TextsDBID.Int64)
                   if (_svg) {
                     if (_svg.Texts == undefined) {
-                      _svg.Texts = new Array<SVGDB>()
+                      _svg.Texts = new Array<TextDB>()
                     }
                     _svg.Texts.push(text)
                     if (text.SVG_Texts_reverse == undefined) {
@@ -427,7 +427,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(circle.SVG_CirclesDBID.Int64)
                   if (_svg) {
                     if (_svg.Circles == undefined) {
-                      _svg.Circles = new Array<SVGDB>()
+                      _svg.Circles = new Array<CircleDB>()
                     }
                     _svg.Circles.push(circle)
                     if (circle.SVG_Circles_reverse == undefined) {
@@ -491,7 +491,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(line.SVG_LinesDBID.Int64)
                   if (_svg) {
                     if (_svg.Lines == undefined) {
-                      _svg.Lines = new Array<SVGDB>()
+                      _svg.Lines = new Array<LineDB>()
                     }
                     _svg.Lines.push(line)
                     if (line.SVG_Lines_reverse == undefined) {
@@ -555,7 +555,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(rect.SVG_RectsDBID.Int64)
                   if (_svg) {
                     if (_svg.Rects == undefined) {
-                      _svg.Rects = new Array<SVGDB>()
+                      _svg.Rects = new Array<RectDB>()
                     }
                     _svg.Rects.push(rect)
                     if (rect.SVG_Rects_reverse == undefined) {
@@ -670,7 +670,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(text.SVG_TextsDBID.Int64)
                   if (_svg) {
                     if (_svg.Texts == undefined) {
-                      _svg.Texts = new Array<SVGDB>()
+                      _svg.Texts = new Array<TextDB>()
                     }
                     _svg.Texts.push(text)
                     if (text.SVG_Texts_reverse == undefined) {

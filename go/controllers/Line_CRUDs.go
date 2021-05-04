@@ -104,6 +104,10 @@ func GetLines(c *gin.Context) {
 			line.StrokeDashArray = line.StrokeDashArray_Data.String
 		}
 
+		if line.Transform_Data.Valid {
+			line.Transform = line.Transform_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, lines)
@@ -170,6 +174,9 @@ func PostLine(c *gin.Context) {
 
 	lineDB.StrokeDashArray_Data.String = input.StrokeDashArray
 	lineDB.StrokeDashArray_Data.Valid = true
+
+	lineDB.Transform_Data.String = input.Transform
+	lineDB.Transform_Data.Valid = true
 
 	query := db.Create(&lineDB)
 	if query.Error != nil {
@@ -250,6 +257,10 @@ func GetLine(c *gin.Context) {
 		line.StrokeDashArray = line.StrokeDashArray_Data.String
 	}
 
+	if line.Transform_Data.Valid {
+		line.Transform = line.Transform_Data.String
+	}
+
 	c.JSON(http.StatusOK, line)
 }
 
@@ -317,6 +328,9 @@ func UpdateLine(c *gin.Context) {
 
 	input.StrokeDashArray_Data.String = input.StrokeDashArray
 	input.StrokeDashArray_Data.Valid = true
+
+	input.Transform_Data.String = input.Transform
+	input.Transform_Data.Valid = true
 
 	query = db.Model(&lineDB).Updates(input)
 	if query.Error != nil {

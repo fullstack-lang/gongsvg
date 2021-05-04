@@ -1,27 +1,28 @@
-<div *ngFor="let rect of Rects" class="parent">
-    <lib-svg-rect [X]="rect.X" [Y]="rect.Y" [Width]="rect.Width" [Height]="rect.Height" [Color]="rect.Color"
-        [FillOpacity]="rect.FillOpacity" [Stroke]="rect.Stroke" [StrokeWidth]="rect.StrokeWidth"
-        [StrokeDashArray]="rect.StrokeDashArray">
+<div *ngFor="let elt of Rects" class="parent">
+    <lib-svg-rect [X]="elt.X" [Y]="elt.Y" [Width]="elt.Width" [Height]="elt.Height" [Color]="elt.Color"
+        [FillOpacity]="elt.FillOpacity" [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth"
+        [StrokeDashArray]="elt.StrokeDashArray" [Transform]="elt.Transform">
     </lib-svg-rect>
 </div>
 
-<div *ngFor="let text of Texts" class="parent">
-    <lib-text [X]="text.X" [Y]="text.Y" [Content]="text.Content" [Color]="text.Color" [FillOpacity]="text.FillOpacity"
-        [Stroke]="text.Stroke" [StrokeWidth]="text.StrokeWidth" [StrokeDashArray]="text.StrokeDashArray">
+<div *ngFor="let elt of Texts" class="parent">
+    <lib-text [X]="elt.X" [Y]="elt.Y" [Content]="elt.Content" [Color]="elt.Color" [FillOpacity]="elt.FillOpacity"
+        [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth" [StrokeDashArray]="elt.StrokeDashArray"
+        [Transform]="elt.Transform">
     </lib-text>
 </div>
 
-<div *ngFor="let circle of Circles" class="parent">
-    <lib-circle [Name]="circle.Name" [CX]="circle.CX" [CY]="circle.CY" [Radius]="circle.Radius" [Color]="circle.Color"
-        [FillOpacity]="circle.FillOpacity" [Stroke]="circle.Stroke" [StrokeWidth]="circle.StrokeWidth"
-        [StrokeDashArray]="circle.StrokeDashArray">
+<div *ngFor="let elt of Circles" class="parent">
+    <lib-circle [Name]="elt.Name" [CX]="elt.CX" [CY]="elt.CY" [Radius]="elt.Radius" [Color]="elt.Color"
+        [FillOpacity]="elt.FillOpacity" [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth"
+        [StrokeDashArray]="elt.StrokeDashArray" [Transform]="elt.Transform">
     </lib-circle>
 </div>
 
-<div *ngFor="let line of Lines" class="parent">
-    <lib-line [X1]="line.X1" [Y1]="line.Y1" [X2]="line.X2" [Y2]="line.Y2" [Color]="line.Color"
-        [FillOpacity]="line.FillOpacity" [Stroke]="line.Stroke" [StrokeWidth]="line.StrokeWidth"
-        [StrokeDashArray]="line.StrokeDashArray">
+<div *ngFor="let elt of Lines" class="parent">
+    <lib-line [X1]="elt.X1" [Y1]="elt.Y1" [X2]="elt.X2" [Y2]="elt.Y2" [Color]="elt.Color"
+        [FillOpacity]="elt.FillOpacity" [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth"
+        [StrokeDashArray]="elt.StrokeDashArray" [Transform]="elt.Transform">
     </lib-line>
 </div>
 

@@ -9,4 +9,5 @@ export class CircleAPI {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 }

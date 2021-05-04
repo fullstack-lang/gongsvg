@@ -1,15 +1,7 @@
 <svg class="child">
     <g>
-        <text 
-        
-        [attr.x]="X" [attr.y]="Y" 
-        
-        [attr.fill]="Color"
-        
-        [attr.fill]="Color" [attr.fill-opacity]="FillOpacity"
-        [attr.stroke]="Stroke" [attr.stroke-width]="StrokeWidth"
-        [attr.stroke-dasharray]="StrokeDashArray"
-
-        >{{Content}}</text>
+        <text [attr.x]="X" [attr.y]="Y" [attr.fill]="Color" [attr.fill]="Color" [attr.fill-opacity]="FillOpacity"
+            [attr.stroke]="Stroke" [attr.stroke-width]="StrokeWidth" [attr.stroke-dasharray]="StrokeDashArray"
+            [attr.transform]="Transform">{{Content}}</text>
     </g>
 </svg>

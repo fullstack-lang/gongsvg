@@ -9,4 +9,5 @@ export class TextAPI {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 }

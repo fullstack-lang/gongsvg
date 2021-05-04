@@ -1,14 +1,7 @@
 <svg class="child">
     <g>
-        <rect [attr.x]="X" [attr.y]="Y" 
-
-        [attr.width]="Width" [attr.height]="Height" 
-        
-        [attr.fill]="Color" [attr.fill-opacity]="FillOpacity"
-         [attr.stroke]="Stroke" [attr.stroke-width]="StrokeWidth"
-         [attr.stroke-dasharray]="StrokeDashArray"
-
-         
-            (click)="changeColor()" />
+        <rect [attr.x]="X" [attr.y]="Y" [attr.width]="Width" [attr.height]="Height" [attr.fill]="Color"
+            [attr.fill-opacity]="FillOpacity" [attr.stroke]="Stroke" [attr.stroke-width]="StrokeWidth"
+            [attr.stroke-dasharray]="StrokeDashArray" [attr.transform]="Transform" (click)="changeColor()" />
     </g>
 </svg>

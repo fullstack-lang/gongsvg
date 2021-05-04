@@ -104,6 +104,10 @@ func GetRects(c *gin.Context) {
 			rect.StrokeDashArray = rect.StrokeDashArray_Data.String
 		}
 
+		if rect.Transform_Data.Valid {
+			rect.Transform = rect.Transform_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, rects)
@@ -170,6 +174,9 @@ func PostRect(c *gin.Context) {
 
 	rectDB.StrokeDashArray_Data.String = input.StrokeDashArray
 	rectDB.StrokeDashArray_Data.Valid = true
+
+	rectDB.Transform_Data.String = input.Transform
+	rectDB.Transform_Data.Valid = true
 
 	query := db.Create(&rectDB)
 	if query.Error != nil {
@@ -250,6 +257,10 @@ func GetRect(c *gin.Context) {
 		rect.StrokeDashArray = rect.StrokeDashArray_Data.String
 	}
 
+	if rect.Transform_Data.Valid {
+		rect.Transform = rect.Transform_Data.String
+	}
+
 	c.JSON(http.StatusOK, rect)
 }
 
@@ -317,6 +328,9 @@ func UpdateRect(c *gin.Context) {
 
 	input.StrokeDashArray_Data.String = input.StrokeDashArray
 	input.StrokeDashArray_Data.Valid = true
+
+	input.Transform_Data.String = input.Transform
+	input.Transform_Data.Valid = true
 
 	query = db.Model(&rectDB).Updates(input)
 	if query.Error != nil {

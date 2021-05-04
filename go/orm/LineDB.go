@@ -57,6 +57,9 @@ type LineAPI struct {
 	// Declation for basic field lineDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Declation for basic field lineDB.Transform {{BasicKind}} (to be completed)
+	Transform_Data sql.NullString
+
 	// Implementation of a reverse ID for field SVG{}.Lines []*Line
 	SVG_LinesDBID sql.NullInt64
 
@@ -244,6 +247,9 @@ func (backRepoLine *BackRepoLineStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				lineDB.StrokeDashArray_Data.String = line.StrokeDashArray
 				lineDB.StrokeDashArray_Data.Valid = true
 
+				lineDB.Transform_Data.String = line.Transform
+				lineDB.Transform_Data.Valid = true
+
 			}
 		}
 		query := backRepoLine.db.Save(&lineDB)
@@ -342,6 +348,8 @@ func (backRepoLine *BackRepoLineStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 			line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
 
 			line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
+
+			line.Transform = lineDB.Transform_Data.String
 
 		}
 	}

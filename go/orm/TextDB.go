@@ -54,6 +54,9 @@ type TextAPI struct {
 	// Declation for basic field textDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Declation for basic field textDB.Transform {{BasicKind}} (to be completed)
+	Transform_Data sql.NullString
+
 	// Implementation of a reverse ID for field SVG{}.Texts []*Text
 	SVG_TextsDBID sql.NullInt64
 
@@ -238,6 +241,9 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				textDB.StrokeDashArray_Data.String = text.StrokeDashArray
 				textDB.StrokeDashArray_Data.Valid = true
 
+				textDB.Transform_Data.String = text.Transform
+				textDB.Transform_Data.Valid = true
+
 			}
 		}
 		query := backRepoText.db.Save(&textDB)
@@ -334,6 +340,8 @@ func (backRepoText *BackRepoTextStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 			text.StrokeWidth = textDB.StrokeWidth_Data.Float64
 
 			text.StrokeDashArray = textDB.StrokeDashArray_Data.String
+
+			text.Transform = textDB.Transform_Data.String
 
 		}
 	}

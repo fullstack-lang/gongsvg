@@ -100,6 +100,10 @@ func GetCircles(c *gin.Context) {
 			circle.StrokeDashArray = circle.StrokeDashArray_Data.String
 		}
 
+		if circle.Transform_Data.Valid {
+			circle.Transform = circle.Transform_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, circles)
@@ -163,6 +167,9 @@ func PostCircle(c *gin.Context) {
 
 	circleDB.StrokeDashArray_Data.String = input.StrokeDashArray
 	circleDB.StrokeDashArray_Data.Valid = true
+
+	circleDB.Transform_Data.String = input.Transform
+	circleDB.Transform_Data.Valid = true
 
 	query := db.Create(&circleDB)
 	if query.Error != nil {
@@ -239,6 +246,10 @@ func GetCircle(c *gin.Context) {
 		circle.StrokeDashArray = circle.StrokeDashArray_Data.String
 	}
 
+	if circle.Transform_Data.Valid {
+		circle.Transform = circle.Transform_Data.String
+	}
+
 	c.JSON(http.StatusOK, circle)
 }
 
@@ -303,6 +314,9 @@ func UpdateCircle(c *gin.Context) {
 
 	input.StrokeDashArray_Data.String = input.StrokeDashArray
 	input.StrokeDashArray_Data.Valid = true
+
+	input.Transform_Data.String = input.Transform
+	input.Transform_Data.Valid = true
 
 	query = db.Model(&circleDB).Updates(input)
 	if query.Error != nil {

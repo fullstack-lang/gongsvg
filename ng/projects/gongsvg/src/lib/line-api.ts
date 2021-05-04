@@ -10,4 +10,5 @@ export class LineAPI {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 }

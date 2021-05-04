@@ -1,10 +1,7 @@
 <svg class="child">
     <g>
-        <circle [attr.cx]="CX" [attr.cy]="CY" [attr.r]="Radius" 
-       
-        [attr.fill]="Color" [attr.fill-opacity]="FillOpacity"
-         [attr.stroke]="Stroke" [attr.stroke-width]="StrokeWidth"
-         [attr.stroke-dasharray]="StrokeDashArray"
-       />
+        <circle [attr.cx]="CX" [attr.cy]="CY" [attr.r]="Radius" [attr.fill]="Color" [attr.fill-opacity]="FillOpacity"
+            [attr.stroke]="Stroke" [attr.stroke-width]="StrokeWidth" [attr.stroke-dasharray]="StrokeDashArray"
+            [attr.transform]="Transform" />
     </g>
 </svg>

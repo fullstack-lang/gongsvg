@@ -20,6 +20,7 @@ export class RectDB {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 
 	// insertion point for other declarations
 	SVG_RectsDBID?: NullInt64

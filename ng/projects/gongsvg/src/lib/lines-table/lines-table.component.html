@@ -89,6 +89,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Transform">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Transform </th>
+            <td mat-cell *matCellDef="let Line">
+                {{Line.Transform}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Lines">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (SVG) Lines </th>
             <td mat-cell *matCellDef="let line">

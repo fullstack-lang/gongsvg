@@ -17,6 +17,7 @@ export class LineComponent implements OnInit {
   @Input() StrokeWidth: string
   @Input() FillOpacity: number
   @Input() StrokeDashArray: string
+  @Input() Transform: string
 
   constructor() { }
 

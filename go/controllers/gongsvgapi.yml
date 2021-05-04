@@ -22,6 +22,15 @@ definitions:
       StrokeWidth:
         format: double
         type: number
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
     type: object
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Ellipse:
@@ -62,6 +71,15 @@ definitions:
       StrokeWidth:
         format: double
         type: number
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
       X1:
         format: double
         type: number
@@ -219,6 +237,15 @@ definitions:
       StrokeWidth:
         format: double
         type: number
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
       X:
         format: double
         type: number
@@ -243,6 +270,15 @@ definitions:
       StrokeWidth:
         format: double
         type: number
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
       X:
         format: double
         type: number
@@ -293,6 +329,17 @@ definitions:
         type: number
       StrokeWidth_Data:
         $ref: '#/definitions/NullFloat64'
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
+      Transform_Data:
+        $ref: '#/definitions/NullString'
     title: CircleAPI is the input in POST API
     type: object
     x-go-name: CircleAPI
@@ -348,6 +395,17 @@ definitions:
         type: number
       StrokeWidth_Data:
         $ref: '#/definitions/NullFloat64'
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
+      Transform_Data:
+        $ref: '#/definitions/NullString'
       UpdatedAt:
         format: date-time
         type: string
@@ -499,6 +557,17 @@ definitions:
         type: number
       StrokeWidth_Data:
         $ref: '#/definitions/NullFloat64'
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
+      Transform_Data:
+        $ref: '#/definitions/NullString'
       X1:
         format: double
         type: number
@@ -556,6 +625,17 @@ definitions:
         type: number
       StrokeWidth_Data:
         $ref: '#/definitions/NullFloat64'
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
+      Transform_Data:
+        $ref: '#/definitions/NullString'
       UpdatedAt:
         format: date-time
         type: string
@@ -694,6 +774,17 @@ definitions:
         type: number
       StrokeWidth_Data:
         $ref: '#/definitions/NullFloat64'
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
+      Transform_Data:
+        $ref: '#/definitions/NullString'
       UpdatedAt:
         format: date-time
         type: string
@@ -982,6 +1073,17 @@ definitions:
         type: number
       StrokeWidth_Data:
         $ref: '#/definitions/NullFloat64'
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
+      Transform_Data:
+        $ref: '#/definitions/NullString'
       UpdatedAt:
         format: date-time
         type: string
@@ -2046,6 +2148,18 @@ responses:
       StrokeWidth_Data:
         description: Declation for basic field circleDB.StrokeWidth {{BasicKind}}
           (to be completed)
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
+      Transform_Data:
+        description: Declation for basic field circleDB.Transform {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2185,6 +2299,18 @@ responses:
         type: number
       StrokeWidth_Data:
         description: Declation for basic field lineDB.StrokeWidth {{BasicKind}} (to
+          be completed)
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
+      Transform_Data:
+        description: Declation for basic field lineDB.Transform {{BasicKind}} (to
           be completed)
       UpdatedAt:
         format: date-time
@@ -2461,6 +2587,18 @@ responses:
       StrokeWidth_Data:
         description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to
           be completed)
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
+      Transform_Data:
+        description: Declation for basic field rectDB.Transform {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2597,6 +2735,18 @@ responses:
         type: number
       StrokeWidth_Data:
         description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to
+          be completed)
+      Transform:
+        description: |-
+          Transform is a string componding SVG transform
+
+          for instance : rotate(-10 50 100)
+          translate(-36 45.5)
+          skewX(40)
+          scale(1 0.5)
+        type: string
+      Transform_Data:
+        description: Declation for basic field textDB.Transform {{BasicKind}} (to
           be completed)
       UpdatedAt:
         format: date-time

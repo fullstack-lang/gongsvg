@@ -91,6 +91,7 @@ export class TextsTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Texts",
       ]
     } else {
@@ -104,6 +105,7 @@ export class TextsTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Texts",
       ]
       this.selection = new SelectionModel<TextDB>(allowMultiSelect, this.initialSelection);

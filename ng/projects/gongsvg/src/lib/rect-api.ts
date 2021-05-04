@@ -10,4 +10,5 @@ export class RectAPI {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 }

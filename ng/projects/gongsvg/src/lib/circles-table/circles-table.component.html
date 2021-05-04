@@ -82,6 +82,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Transform">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Transform </th>
+            <td mat-cell *matCellDef="let Circle">
+                {{Circle.Transform}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Circles">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (SVG) Circles </th>
             <td mat-cell *matCellDef="let circle">

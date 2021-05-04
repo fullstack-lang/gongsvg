@@ -5,7 +5,11 @@ import { SvgRectComponent } from './svg-rect/svg-rect.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { TextComponent } from './text/text.component';
 import { CircleComponent } from './circle/circle.component';
-import { LineComponent } from './line/line.component'
+import { LineComponent } from './line/line.component';
+import { EllipseComponent } from './ellipse/ellipse.component';
+import { PolylineComponent } from './polyline/polyline.component';
+import { PathComponent } from './path/path.component';
+import { PolygoneComponent } from './polygone/polygone.component'
 
 
 
@@ -16,7 +20,11 @@ import { LineComponent } from './line/line.component'
     SvgRectComponent,
     TextComponent,
     CircleComponent,
-    LineComponent
+    LineComponent,
+    EllipseComponent,
+    PolylineComponent,
+    PathComponent,
+    PolygoneComponent
   ],
   imports: [
     BrowserModule

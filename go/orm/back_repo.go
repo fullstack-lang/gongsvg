@@ -11,7 +11,15 @@ type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
 	BackRepoCircle BackRepoCircleStruct
 
+	BackRepoEllipse BackRepoEllipseStruct
+
 	BackRepoLine BackRepoLineStruct
+
+	BackRepoPath BackRepoPathStruct
+
+	BackRepoPolygone BackRepoPolygoneStruct
+
+	BackRepoPolyline BackRepoPolylineStruct
 
 	BackRepoRect BackRepoRectStruct
 
@@ -35,7 +43,11 @@ func (backRepo *BackRepoStruct) IncrementCommitNb() uint {
 func (backRepo *BackRepoStruct) Init(db *gorm.DB) {
 	// insertion point for per struct back repo declarations
 	backRepo.BackRepoCircle.Init(db)
+	backRepo.BackRepoEllipse.Init(db)
 	backRepo.BackRepoLine.Init(db)
+	backRepo.BackRepoPath.Init(db)
+	backRepo.BackRepoPolygone.Init(db)
+	backRepo.BackRepoPolyline.Init(db)
 	backRepo.BackRepoRect.Init(db)
 	backRepo.BackRepoSVG.Init(db)
 	backRepo.BackRepoText.Init(db)
@@ -47,14 +59,22 @@ func (backRepo *BackRepoStruct) Init(db *gorm.DB) {
 func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoCircle.CommitPhaseOne(stage)
+	backRepo.BackRepoEllipse.CommitPhaseOne(stage)
 	backRepo.BackRepoLine.CommitPhaseOne(stage)
+	backRepo.BackRepoPath.CommitPhaseOne(stage)
+	backRepo.BackRepoPolygone.CommitPhaseOne(stage)
+	backRepo.BackRepoPolyline.CommitPhaseOne(stage)
 	backRepo.BackRepoRect.CommitPhaseOne(stage)
 	backRepo.BackRepoSVG.CommitPhaseOne(stage)
 	backRepo.BackRepoText.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoCircle.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoEllipse.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoLine.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoPath.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoPolygone.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoPolyline.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoRect.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSVG.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoText.CommitPhaseTwo(backRepo)
@@ -66,14 +86,22 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoCircle.CheckoutPhaseOne()
+	backRepo.BackRepoEllipse.CheckoutPhaseOne()
 	backRepo.BackRepoLine.CheckoutPhaseOne()
+	backRepo.BackRepoPath.CheckoutPhaseOne()
+	backRepo.BackRepoPolygone.CheckoutPhaseOne()
+	backRepo.BackRepoPolyline.CheckoutPhaseOne()
 	backRepo.BackRepoRect.CheckoutPhaseOne()
 	backRepo.BackRepoSVG.CheckoutPhaseOne()
 	backRepo.BackRepoText.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoCircle.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoEllipse.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoLine.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoPath.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoPolygone.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoPolyline.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoRect.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSVG.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoText.CheckoutPhaseTwo(backRepo)

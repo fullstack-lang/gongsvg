@@ -35,9 +35,25 @@ import { CirclesTableComponent } from './circles-table/circles-table.component'
 import { CircleDetailComponent } from './circle-detail/circle-detail.component'
 import { CirclePresentationComponent } from './circle-presentation/circle-presentation.component'
 
+import { EllipsesTableComponent } from './ellipses-table/ellipses-table.component'
+import { EllipseDetailComponent } from './ellipse-detail/ellipse-detail.component'
+import { EllipsePresentationComponent } from './ellipse-presentation/ellipse-presentation.component'
+
 import { LinesTableComponent } from './lines-table/lines-table.component'
 import { LineDetailComponent } from './line-detail/line-detail.component'
 import { LinePresentationComponent } from './line-presentation/line-presentation.component'
+
+import { PathsTableComponent } from './paths-table/paths-table.component'
+import { PathDetailComponent } from './path-detail/path-detail.component'
+import { PathPresentationComponent } from './path-presentation/path-presentation.component'
+
+import { PolygonesTableComponent } from './polygones-table/polygones-table.component'
+import { PolygoneDetailComponent } from './polygone-detail/polygone-detail.component'
+import { PolygonePresentationComponent } from './polygone-presentation/polygone-presentation.component'
+
+import { PolylinesTableComponent } from './polylines-table/polylines-table.component'
+import { PolylineDetailComponent } from './polyline-detail/polyline-detail.component'
+import { PolylinePresentationComponent } from './polyline-presentation/polyline-presentation.component'
 
 import { RectsTableComponent } from './rects-table/rects-table.component'
 import { RectDetailComponent } from './rect-detail/rect-detail.component'
@@ -59,9 +75,25 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 		CircleDetailComponent,
 		CirclePresentationComponent,
 
+		EllipsesTableComponent,
+		EllipseDetailComponent,
+		EllipsePresentationComponent,
+
 		LinesTableComponent,
 		LineDetailComponent,
 		LinePresentationComponent,
+
+		PathsTableComponent,
+		PathDetailComponent,
+		PathPresentationComponent,
+
+		PolygonesTableComponent,
+		PolygoneDetailComponent,
+		PolygonePresentationComponent,
+
+		PolylinesTableComponent,
+		PolylineDetailComponent,
+		PolylinePresentationComponent,
 
 		RectsTableComponent,
 		RectDetailComponent,
@@ -113,9 +145,25 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 		CircleDetailComponent,
 		CirclePresentationComponent,
 
+		EllipsesTableComponent,
+		EllipseDetailComponent,
+		EllipsePresentationComponent,
+
 		LinesTableComponent,
 		LineDetailComponent,
 		LinePresentationComponent,
+
+		PathsTableComponent,
+		PathDetailComponent,
+		PathPresentationComponent,
+
+		PolygonesTableComponent,
+		PolygoneDetailComponent,
+		PolygonePresentationComponent,
+
+		PolylinesTableComponent,
+		PolylineDetailComponent,
+		PolylinePresentationComponent,
 
 		RectsTableComponent,
 		RectDetailComponent,

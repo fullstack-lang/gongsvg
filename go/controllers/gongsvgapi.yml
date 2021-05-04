@@ -257,6 +257,112 @@ definitions:
     type: object
     x-go-name: CircleDB
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  ellipseAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      CX:
+        format: double
+        type: number
+        x-go-name: RY
+      CX_Data:
+        $ref: '#/definitions/NullFloat64'
+      CY_Data:
+        $ref: '#/definitions/NullFloat64'
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      RX_Data:
+        $ref: '#/definitions/NullFloat64'
+      RY_Data:
+        $ref: '#/definitions/NullFloat64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: EllipseAPI is the input in POST API
+    type: object
+    x-go-name: EllipseAPI
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  ellipseDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CX:
+        format: double
+        type: number
+        x-go-name: RY
+      CX_Data:
+        $ref: '#/definitions/NullFloat64'
+      CY_Data:
+        $ref: '#/definitions/NullFloat64'
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      RX_Data:
+        $ref: '#/definitions/NullFloat64'
+      RY_Data:
+        $ref: '#/definitions/NullFloat64'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: EllipseDB describes a ellipse in the database
+    type: object
+    x-go-name: EllipseDB
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   lineAPI:
     description: |-
       for POST, API, one needs the fields of the model as well as the fields
@@ -366,6 +472,308 @@ definitions:
     title: LineDB describes a line in the database
     type: object
     x-go-name: LineDB
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  pathAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      Definition:
+        description: |-
+          Definition
+
+
+          d="M 10,30
+          A 20,20 0,0,1 50,30
+          A 20,20 0,0,1 90,30
+          Q 90,60 50,90
+          Q 10,60 10,30 z" />
+
+          MoveTo: M, m
+          LineTo: L, l, H, h, V, v
+          Cubic Bézier Curve: C, c, S, s
+          Quadratic Bézier Curve: Q, q, T, t
+          Elliptical Arc Curve: A, a
+          ClosePath: Z, z
+        type: string
+      Definition_Data:
+        $ref: '#/definitions/NullString'
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: PathAPI is the input in POST API
+    type: object
+    x-go-name: PathAPI
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  pathDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      Definition:
+        description: |-
+          Definition
+
+
+          d="M 10,30
+          A 20,20 0,0,1 50,30
+          A 20,20 0,0,1 90,30
+          Q 90,60 50,90
+          Q 10,60 10,30 z" />
+
+          MoveTo: M, m
+          LineTo: L, l, H, h, V, v
+          Cubic Bézier Curve: C, c, S, s
+          Quadratic Bézier Curve: Q, q, T, t
+          Elliptical Arc Curve: A, a
+          ClosePath: Z, z
+        type: string
+      Definition_Data:
+        $ref: '#/definitions/NullString'
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: PathDB describes a path in the database
+    type: object
+    x-go-name: PathDB
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  polygoneAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Points:
+        type: string
+      Points_Data:
+        $ref: '#/definitions/NullString'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: PolygoneAPI is the input in POST API
+    type: object
+    x-go-name: PolygoneAPI
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  polygoneDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Points:
+        type: string
+      Points_Data:
+        $ref: '#/definitions/NullString'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: PolygoneDB describes a polygone in the database
+    type: object
+    x-go-name: PolygoneDB
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  polylineAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Points:
+        type: string
+      Points_Data:
+        $ref: '#/definitions/NullString'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: PolylineAPI is the input in POST API
+    type: object
+    x-go-name: PolylineAPI
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  polylineDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Color:
+        type: string
+      Color_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Points:
+        type: string
+      Points_Data:
+        $ref: '#/definitions/NullString'
+      Stroke:
+        type: string
+      Stroke_Data:
+        $ref: '#/definitions/NullString'
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        $ref: '#/definitions/NullString'
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        $ref: '#/definitions/NullFloat64'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: PolylineDB describes a polyline in the database
+    type: object
+    x-go-name: PolylineDB
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   rectAPI:
     description: |-
@@ -760,6 +1168,90 @@ paths:
       operationId: GetLastCommitNb
       tags:
       - backrepo
+  /ellipses:
+    get:
+      description: Get all ellipses
+      operationId: getEllipses
+      responses:
+        "200":
+          $ref: '#/responses/ellipseDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - ellipses
+    post:
+      consumes:
+      - application/json
+      description: Creates a ellipse
+      operationId: postEllipse
+      parameters:
+      - description: The Ellipse to submit or modify
+        in: body
+        name: Ellipse
+        schema:
+          $ref: '#/definitions/ellipseAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/ellipseDBResponse'
+      tags:
+      - ellipses
+  /ellipses/{ID}:
+    delete:
+      description: Delete a ellipse
+      operationId: deleteEllipse
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - ellipses
+    get:
+      operationId: getEllipse
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/ellipseDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a ellipse.
+      tags:
+      - ellipses
+    patch:
+      description: Update a ellipse
+      operationId: updateEllipse
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Ellipse to submit or modify
+        in: body
+        name: Ellipse
+        schema:
+          $ref: '#/definitions/ellipseAPI'
+      responses:
+        "200":
+          $ref: '#/responses/ellipseDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - ellipses
   /lines:
     get:
       description: Get all lines
@@ -844,6 +1336,258 @@ paths:
           $ref: '#/responses/genericError'
       tags:
       - lines
+  /paths:
+    get:
+      description: Get all paths
+      operationId: getPaths
+      responses:
+        "200":
+          $ref: '#/responses/pathDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - paths
+    post:
+      consumes:
+      - application/json
+      description: Creates a path
+      operationId: postPath
+      parameters:
+      - description: The Path to submit or modify
+        in: body
+        name: Path
+        schema:
+          $ref: '#/definitions/pathAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/pathDBResponse'
+      tags:
+      - paths
+  /paths/{ID}:
+    delete:
+      description: Delete a path
+      operationId: deletePath
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - paths
+    get:
+      operationId: getPath
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/pathDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a path.
+      tags:
+      - paths
+    patch:
+      description: Update a path
+      operationId: updatePath
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Path to submit or modify
+        in: body
+        name: Path
+        schema:
+          $ref: '#/definitions/pathAPI'
+      responses:
+        "200":
+          $ref: '#/responses/pathDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - paths
+  /polygones:
+    get:
+      description: Get all polygones
+      operationId: getPolygones
+      responses:
+        "200":
+          $ref: '#/responses/polygoneDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - polygones
+    post:
+      consumes:
+      - application/json
+      description: Creates a polygone
+      operationId: postPolygone
+      parameters:
+      - description: The Polygone to submit or modify
+        in: body
+        name: Polygone
+        schema:
+          $ref: '#/definitions/polygoneAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/polygoneDBResponse'
+      tags:
+      - polygones
+  /polygones/{ID}:
+    delete:
+      description: Delete a polygone
+      operationId: deletePolygone
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - polygones
+    get:
+      operationId: getPolygone
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/polygoneDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a polygone.
+      tags:
+      - polygones
+    patch:
+      description: Update a polygone
+      operationId: updatePolygone
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Polygone to submit or modify
+        in: body
+        name: Polygone
+        schema:
+          $ref: '#/definitions/polygoneAPI'
+      responses:
+        "200":
+          $ref: '#/responses/polygoneDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - polygones
+  /polylines:
+    get:
+      description: Get all polylines
+      operationId: getPolylines
+      responses:
+        "200":
+          $ref: '#/responses/polylineDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - polylines
+    post:
+      consumes:
+      - application/json
+      description: Creates a polyline
+      operationId: postPolyline
+      parameters:
+      - description: The Polyline to submit or modify
+        in: body
+        name: Polyline
+        schema:
+          $ref: '#/definitions/polylineAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/polylineDBResponse'
+      tags:
+      - polylines
+  /polylines/{ID}:
+    delete:
+      description: Delete a polyline
+      operationId: deletePolyline
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - polylines
+    get:
+      operationId: getPolyline
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/polylineDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a polyline.
+      tags:
+      - polylines
+    patch:
+      description: Update a polyline
+      operationId: updatePolyline
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Polyline to submit or modify
+        in: body
+        name: Polyline
+        schema:
+          $ref: '#/definitions/polylineAPI'
+      responses:
+        "200":
+          $ref: '#/responses/polylineDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - polylines
   /rects:
     get:
       description: Get all rects
@@ -1167,6 +1911,73 @@ responses:
       items:
         $ref: '#/definitions/circleDB'
       type: array
+  ellipseDBResponse:
+    description: EllipseDBResponse provides response
+    headers:
+      CX:
+        format: double
+        type: number
+      CX_Data:
+        description: Declation for basic field ellipseDB.CX {{BasicKind}} (to be completed)
+      CY_Data:
+        description: Declation for basic field ellipseDB.CY {{BasicKind}} (to be completed)
+      Color:
+        type: string
+      Color_Data:
+        description: Declation for basic field ellipseDB.Color {{BasicKind}} (to be
+          completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        description: Declation for basic field ellipseDB.FillOpacity {{BasicKind}}
+          (to be completed)
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field ellipseDB.Name {{BasicKind}} (to be completed)
+      RX_Data:
+        description: Declation for basic field ellipseDB.RX {{BasicKind}} (to be completed)
+      RY_Data:
+        description: Declation for basic field ellipseDB.RY {{BasicKind}} (to be completed)
+      Stroke:
+        type: string
+      Stroke_Data:
+        description: Declation for basic field ellipseDB.Stroke {{BasicKind}} (to
+          be completed)
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        description: Declation for basic field ellipseDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        description: Declation for basic field ellipseDB.StrokeWidth {{BasicKind}}
+          (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  ellipseDBsResponse:
+    description: EllipseDBs arrays ellipseDBs
+    schema:
+      items:
+        $ref: '#/definitions/ellipseDB'
+      type: array
   genericError:
     description: |-
       A GenericError is the default error message that is generated.
@@ -1248,6 +2059,204 @@ responses:
     schema:
       items:
         $ref: '#/definitions/lineDB'
+      type: array
+  pathDBResponse:
+    description: PathDBResponse provides response
+    headers:
+      Color:
+        type: string
+      Color_Data:
+        description: Declation for basic field pathDB.Color {{BasicKind}} (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      Definition:
+        description: |-
+          Definition
+
+
+          d="M 10,30
+          A 20,20 0,0,1 50,30
+          A 20,20 0,0,1 90,30
+          Q 90,60 50,90
+          Q 10,60 10,30 z" />
+
+          MoveTo: M, m
+          LineTo: L, l, H, h, V, v
+          Cubic Bézier Curve: C, c, S, s
+          Quadratic Bézier Curve: Q, q, T, t
+          Elliptical Arc Curve: A, a
+          ClosePath: Z, z
+        type: string
+      Definition_Data:
+        description: Declation for basic field pathDB.Definition {{BasicKind}} (to
+          be completed)
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        description: Declation for basic field pathDB.FillOpacity {{BasicKind}} (to
+          be completed)
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field pathDB.Name {{BasicKind}} (to be completed)
+      Stroke:
+        type: string
+      Stroke_Data:
+        description: Declation for basic field pathDB.Stroke {{BasicKind}} (to be
+          completed)
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        description: Declation for basic field pathDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        description: Declation for basic field pathDB.StrokeWidth {{BasicKind}} (to
+          be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  pathDBsResponse:
+    description: PathDBs arrays pathDBs
+    schema:
+      items:
+        $ref: '#/definitions/pathDB'
+      type: array
+  polygoneDBResponse:
+    description: PolygoneDBResponse provides response
+    headers:
+      Color:
+        type: string
+      Color_Data:
+        description: Declation for basic field polygoneDB.Color {{BasicKind}} (to
+          be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        description: Declation for basic field polygoneDB.FillOpacity {{BasicKind}}
+          (to be completed)
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field polygoneDB.Name {{BasicKind}} (to be completed)
+      Points:
+        type: string
+      Points_Data:
+        description: Declation for basic field polygoneDB.Points {{BasicKind}} (to
+          be completed)
+      Stroke:
+        type: string
+      Stroke_Data:
+        description: Declation for basic field polygoneDB.Stroke {{BasicKind}} (to
+          be completed)
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        description: Declation for basic field polygoneDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        description: Declation for basic field polygoneDB.StrokeWidth {{BasicKind}}
+          (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  polygoneDBsResponse:
+    description: PolygoneDBs arrays polygoneDBs
+    schema:
+      items:
+        $ref: '#/definitions/polygoneDB'
+      type: array
+  polylineDBResponse:
+    description: PolylineDBResponse provides response
+    headers:
+      Color:
+        type: string
+      Color_Data:
+        description: Declation for basic field polylineDB.Color {{BasicKind}} (to
+          be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FillOpacity:
+        format: double
+        type: number
+      FillOpacity_Data:
+        description: Declation for basic field polylineDB.FillOpacity {{BasicKind}}
+          (to be completed)
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field polylineDB.Name {{BasicKind}} (to be completed)
+      Points:
+        type: string
+      Points_Data:
+        description: Declation for basic field polylineDB.Points {{BasicKind}} (to
+          be completed)
+      Stroke:
+        type: string
+      Stroke_Data:
+        description: Declation for basic field polylineDB.Stroke {{BasicKind}} (to
+          be completed)
+      StrokeDashArray:
+        type: string
+      StrokeDashArray_Data:
+        description: Declation for basic field polylineDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
+      StrokeWidth:
+        format: double
+        type: number
+      StrokeWidth_Data:
+        description: Declation for basic field polylineDB.StrokeWidth {{BasicKind}}
+          (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  polylineDBsResponse:
+    description: PolylineDBs arrays polylineDBs
+    schema:
+      items:
+        $ref: '#/definitions/polylineDB'
       type: array
   rectDBResponse:
     description: RectDBResponse provides response

@@ -7,8 +7,20 @@ import { Observable, combineLatest } from 'rxjs';
 import { CircleDB } from './circle-db'
 import { CircleService } from './circle.service'
 
+import { EllipseDB } from './ellipse-db'
+import { EllipseService } from './ellipse.service'
+
 import { LineDB } from './line-db'
 import { LineService } from './line.service'
+
+import { PathDB } from './path-db'
+import { PathService } from './path.service'
+
+import { PolygoneDB } from './polygone-db'
+import { PolygoneService } from './polygone.service'
+
+import { PolylineDB } from './polyline-db'
+import { PolylineService } from './polyline.service'
 
 import { RectDB } from './rect-db'
 import { RectService } from './rect.service'
@@ -25,9 +37,21 @@ export class FrontRepo { // insertion point sub template
   Circles_array = new Array<CircleDB>(); // array of repo instances
   Circles = new Map<number, CircleDB>(); // map of repo instances
   Circles_batch = new Map<number, CircleDB>(); // same but only in last GET (for finding repo instances to delete)
+  Ellipses_array = new Array<EllipseDB>(); // array of repo instances
+  Ellipses = new Map<number, EllipseDB>(); // map of repo instances
+  Ellipses_batch = new Map<number, EllipseDB>(); // same but only in last GET (for finding repo instances to delete)
   Lines_array = new Array<LineDB>(); // array of repo instances
   Lines = new Map<number, LineDB>(); // map of repo instances
   Lines_batch = new Map<number, LineDB>(); // same but only in last GET (for finding repo instances to delete)
+  Paths_array = new Array<PathDB>(); // array of repo instances
+  Paths = new Map<number, PathDB>(); // map of repo instances
+  Paths_batch = new Map<number, PathDB>(); // same but only in last GET (for finding repo instances to delete)
+  Polygones_array = new Array<PolygoneDB>(); // array of repo instances
+  Polygones = new Map<number, PolygoneDB>(); // map of repo instances
+  Polygones_batch = new Map<number, PolygoneDB>(); // same but only in last GET (for finding repo instances to delete)
+  Polylines_array = new Array<PolylineDB>(); // array of repo instances
+  Polylines = new Map<number, PolylineDB>(); // map of repo instances
+  Polylines_batch = new Map<number, PolylineDB>(); // same but only in last GET (for finding repo instances to delete)
   Rects_array = new Array<RectDB>(); // array of repo instances
   Rects = new Map<number, RectDB>(); // map of repo instances
   Rects_batch = new Map<number, RectDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -72,7 +96,11 @@ export class FrontRepoService {
   constructor(
     private http: HttpClient, // insertion point sub template 
     private circleService: CircleService,
+    private ellipseService: EllipseService,
     private lineService: LineService,
+    private pathService: PathService,
+    private polygoneService: PolygoneService,
+    private polylineService: PolylineService,
     private rectService: RectService,
     private svgService: SVGService,
     private textService: TextService,
@@ -81,13 +109,21 @@ export class FrontRepoService {
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
     Observable<CircleDB[]>,
+    Observable<EllipseDB[]>,
     Observable<LineDB[]>,
+    Observable<PathDB[]>,
+    Observable<PolygoneDB[]>,
+    Observable<PolylineDB[]>,
     Observable<RectDB[]>,
     Observable<SVGDB[]>,
     Observable<TextDB[]>,
   ] = [ // insertion point sub template 
       this.circleService.getCircles(),
+      this.ellipseService.getEllipses(),
       this.lineService.getLines(),
+      this.pathService.getPaths(),
+      this.polygoneService.getPolygones(),
+      this.polylineService.getPolylines(),
       this.rectService.getRects(),
       this.svgService.getSVGs(),
       this.textService.getTexts(),
@@ -107,7 +143,11 @@ export class FrontRepoService {
         ).subscribe(
           ([ // insertion point sub template for declarations 
             circles_,
+            ellipses_,
             lines_,
+            paths_,
+            polygones_,
+            polylines_,
             rects_,
             svgs_,
             texts_,
@@ -116,8 +156,16 @@ export class FrontRepoService {
             // insertion point sub template for type casting 
             var circles: CircleDB[]
             circles = circles_
+            var ellipses: EllipseDB[]
+            ellipses = ellipses_
             var lines: LineDB[]
             lines = lines_
+            var paths: PathDB[]
+            paths = paths_
+            var polygones: PolygoneDB[]
+            polygones = polygones_
+            var polylines: PolylineDB[]
+            polylines = polylines_
             var rects: RectDB[]
             rects = rects_
             var svgs: SVGDB[]
@@ -162,6 +210,39 @@ export class FrontRepoService {
             });
             
             // init the array
+            FrontRepoSingloton.Ellipses_array = ellipses
+
+            // clear the map that counts Ellipse in the GET
+            FrontRepoSingloton.Ellipses_batch.clear()
+            
+            ellipses.forEach(
+              ellipse => {
+                FrontRepoSingloton.Ellipses.set(ellipse.ID, ellipse)
+                FrontRepoSingloton.Ellipses_batch.set(ellipse.ID, ellipse)
+              }
+            )
+            
+            // clear ellipses that are absent from the batch
+            FrontRepoSingloton.Ellipses.forEach(
+              ellipse => {
+                if (FrontRepoSingloton.Ellipses_batch.get(ellipse.ID) == undefined) {
+                  FrontRepoSingloton.Ellipses.delete(ellipse.ID)
+                }
+              }
+            )
+            
+            // sort Ellipses_array array
+            FrontRepoSingloton.Ellipses_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+            
+            // init the array
             FrontRepoSingloton.Lines_array = lines
 
             // clear the map that counts Line in the GET
@@ -185,6 +266,105 @@ export class FrontRepoService {
             
             // sort Lines_array array
             FrontRepoSingloton.Lines_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+            
+            // init the array
+            FrontRepoSingloton.Paths_array = paths
+
+            // clear the map that counts Path in the GET
+            FrontRepoSingloton.Paths_batch.clear()
+            
+            paths.forEach(
+              path => {
+                FrontRepoSingloton.Paths.set(path.ID, path)
+                FrontRepoSingloton.Paths_batch.set(path.ID, path)
+              }
+            )
+            
+            // clear paths that are absent from the batch
+            FrontRepoSingloton.Paths.forEach(
+              path => {
+                if (FrontRepoSingloton.Paths_batch.get(path.ID) == undefined) {
+                  FrontRepoSingloton.Paths.delete(path.ID)
+                }
+              }
+            )
+            
+            // sort Paths_array array
+            FrontRepoSingloton.Paths_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+            
+            // init the array
+            FrontRepoSingloton.Polygones_array = polygones
+
+            // clear the map that counts Polygone in the GET
+            FrontRepoSingloton.Polygones_batch.clear()
+            
+            polygones.forEach(
+              polygone => {
+                FrontRepoSingloton.Polygones.set(polygone.ID, polygone)
+                FrontRepoSingloton.Polygones_batch.set(polygone.ID, polygone)
+              }
+            )
+            
+            // clear polygones that are absent from the batch
+            FrontRepoSingloton.Polygones.forEach(
+              polygone => {
+                if (FrontRepoSingloton.Polygones_batch.get(polygone.ID) == undefined) {
+                  FrontRepoSingloton.Polygones.delete(polygone.ID)
+                }
+              }
+            )
+            
+            // sort Polygones_array array
+            FrontRepoSingloton.Polygones_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+            
+            // init the array
+            FrontRepoSingloton.Polylines_array = polylines
+
+            // clear the map that counts Polyline in the GET
+            FrontRepoSingloton.Polylines_batch.clear()
+            
+            polylines.forEach(
+              polyline => {
+                FrontRepoSingloton.Polylines.set(polyline.ID, polyline)
+                FrontRepoSingloton.Polylines_batch.set(polyline.ID, polyline)
+              }
+            )
+            
+            // clear polylines that are absent from the batch
+            FrontRepoSingloton.Polylines.forEach(
+              polyline => {
+                if (FrontRepoSingloton.Polylines_batch.get(polyline.ID) == undefined) {
+                  FrontRepoSingloton.Polylines.delete(polyline.ID)
+                }
+              }
+            )
+            
+            // sort Polylines_array array
+            FrontRepoSingloton.Polylines_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -307,7 +487,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(circle.SVG_CirclesDBID.Int64)
                   if (_svg) {
                     if (_svg.Circles == undefined) {
-                      _svg.Circles = new Array<SVGDB>()
+                      _svg.Circles = new Array<CircleDB>()
                     }
                     _svg.Circles.push(circle)
                     if (circle.SVG_Circles_reverse == undefined) {
@@ -315,6 +495,13 @@ export class FrontRepoService {
                     }
                   }
                 }
+              }
+            )
+            ellipses.forEach(
+              ellipse => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
               }
             )
             lines.forEach(
@@ -327,7 +514,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(line.SVG_LinesDBID.Int64)
                   if (_svg) {
                     if (_svg.Lines == undefined) {
-                      _svg.Lines = new Array<SVGDB>()
+                      _svg.Lines = new Array<LineDB>()
                     }
                     _svg.Lines.push(line)
                     if (line.SVG_Lines_reverse == undefined) {
@@ -335,6 +522,27 @@ export class FrontRepoService {
                     }
                   }
                 }
+              }
+            )
+            paths.forEach(
+              path => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+            polygones.forEach(
+              polygone => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+            polylines.forEach(
+              polyline => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
               }
             )
             rects.forEach(
@@ -347,7 +555,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(rect.SVG_RectsDBID.Int64)
                   if (_svg) {
                     if (_svg.Rects == undefined) {
-                      _svg.Rects = new Array<SVGDB>()
+                      _svg.Rects = new Array<RectDB>()
                     }
                     _svg.Rects.push(rect)
                     if (rect.SVG_Rects_reverse == undefined) {
@@ -374,7 +582,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(text.SVG_TextsDBID.Int64)
                   if (_svg) {
                     if (_svg.Texts == undefined) {
-                      _svg.Texts = new Array<SVGDB>()
+                      _svg.Texts = new Array<TextDB>()
                     }
                     _svg.Texts.push(text)
                     if (text.SVG_Texts_reverse == undefined) {
@@ -427,7 +635,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(circle.SVG_CirclesDBID.Int64)
                   if (_svg) {
                     if (_svg.Circles == undefined) {
-                      _svg.Circles = new Array<SVGDB>()
+                      _svg.Circles = new Array<CircleDB>()
                     }
                     _svg.Circles.push(circle)
                     if (circle.SVG_Circles_reverse == undefined) {
@@ -443,6 +651,57 @@ export class FrontRepoService {
               circle => {
                 if (FrontRepoSingloton.Circles_batch.get(circle.ID) == undefined) {
                   FrontRepoSingloton.Circles.delete(circle.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // EllipsePull performs a GET on Ellipse of the stack and redeem association pointers 
+  EllipsePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.ellipseService.getEllipses()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            ellipses,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Ellipses_array = ellipses
+
+            // clear the map that counts Ellipse in the GET
+            FrontRepoSingloton.Ellipses_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            ellipses.forEach(
+              ellipse => {
+                FrontRepoSingloton.Ellipses.set(ellipse.ID, ellipse)
+                FrontRepoSingloton.Ellipses_batch.set(ellipse.ID, ellipse)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations 
+
+                // insertion point for redeeming ONE-MANY associations 
+              }
+            )
+
+            // clear ellipses that are absent from the GET
+            FrontRepoSingloton.Ellipses.forEach(
+              ellipse => {
+                if (FrontRepoSingloton.Ellipses_batch.get(ellipse.ID) == undefined) {
+                  FrontRepoSingloton.Ellipses.delete(ellipse.ID)
                 }
               }
             )
@@ -491,7 +750,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(line.SVG_LinesDBID.Int64)
                   if (_svg) {
                     if (_svg.Lines == undefined) {
-                      _svg.Lines = new Array<SVGDB>()
+                      _svg.Lines = new Array<LineDB>()
                     }
                     _svg.Lines.push(line)
                     if (line.SVG_Lines_reverse == undefined) {
@@ -507,6 +766,159 @@ export class FrontRepoService {
               line => {
                 if (FrontRepoSingloton.Lines_batch.get(line.ID) == undefined) {
                   FrontRepoSingloton.Lines.delete(line.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // PathPull performs a GET on Path of the stack and redeem association pointers 
+  PathPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.pathService.getPaths()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            paths,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Paths_array = paths
+
+            // clear the map that counts Path in the GET
+            FrontRepoSingloton.Paths_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            paths.forEach(
+              path => {
+                FrontRepoSingloton.Paths.set(path.ID, path)
+                FrontRepoSingloton.Paths_batch.set(path.ID, path)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations 
+
+                // insertion point for redeeming ONE-MANY associations 
+              }
+            )
+
+            // clear paths that are absent from the GET
+            FrontRepoSingloton.Paths.forEach(
+              path => {
+                if (FrontRepoSingloton.Paths_batch.get(path.ID) == undefined) {
+                  FrontRepoSingloton.Paths.delete(path.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // PolygonePull performs a GET on Polygone of the stack and redeem association pointers 
+  PolygonePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.polygoneService.getPolygones()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            polygones,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Polygones_array = polygones
+
+            // clear the map that counts Polygone in the GET
+            FrontRepoSingloton.Polygones_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            polygones.forEach(
+              polygone => {
+                FrontRepoSingloton.Polygones.set(polygone.ID, polygone)
+                FrontRepoSingloton.Polygones_batch.set(polygone.ID, polygone)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations 
+
+                // insertion point for redeeming ONE-MANY associations 
+              }
+            )
+
+            // clear polygones that are absent from the GET
+            FrontRepoSingloton.Polygones.forEach(
+              polygone => {
+                if (FrontRepoSingloton.Polygones_batch.get(polygone.ID) == undefined) {
+                  FrontRepoSingloton.Polygones.delete(polygone.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // PolylinePull performs a GET on Polyline of the stack and redeem association pointers 
+  PolylinePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.polylineService.getPolylines()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            polylines,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Polylines_array = polylines
+
+            // clear the map that counts Polyline in the GET
+            FrontRepoSingloton.Polylines_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            polylines.forEach(
+              polyline => {
+                FrontRepoSingloton.Polylines.set(polyline.ID, polyline)
+                FrontRepoSingloton.Polylines_batch.set(polyline.ID, polyline)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations 
+
+                // insertion point for redeeming ONE-MANY associations 
+              }
+            )
+
+            // clear polylines that are absent from the GET
+            FrontRepoSingloton.Polylines.forEach(
+              polyline => {
+                if (FrontRepoSingloton.Polylines_batch.get(polyline.ID) == undefined) {
+                  FrontRepoSingloton.Polylines.delete(polyline.ID)
                 }
               }
             )
@@ -555,7 +967,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(rect.SVG_RectsDBID.Int64)
                   if (_svg) {
                     if (_svg.Rects == undefined) {
-                      _svg.Rects = new Array<SVGDB>()
+                      _svg.Rects = new Array<RectDB>()
                     }
                     _svg.Rects.push(rect)
                     if (rect.SVG_Rects_reverse == undefined) {
@@ -670,7 +1082,7 @@ export class FrontRepoService {
                   let _svg = FrontRepoSingloton.SVGs.get(text.SVG_TextsDBID.Int64)
                   if (_svg) {
                     if (_svg.Texts == undefined) {
-                      _svg.Texts = new Array<SVGDB>()
+                      _svg.Texts = new Array<TextDB>()
                     }
                     _svg.Texts.push(text)
                     if (text.SVG_Texts_reverse == undefined) {
@@ -707,15 +1119,27 @@ export class FrontRepoService {
 export function getCircleUniqueID(id: number): number {
   return 31 * id
 }
-export function getLineUniqueID(id: number): number {
+export function getEllipseUniqueID(id: number): number {
   return 37 * id
 }
-export function getRectUniqueID(id: number): number {
+export function getLineUniqueID(id: number): number {
   return 41 * id
 }
-export function getSVGUniqueID(id: number): number {
+export function getPathUniqueID(id: number): number {
   return 43 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getPolygoneUniqueID(id: number): number {
   return 47 * id
+}
+export function getPolylineUniqueID(id: number): number {
+  return 53 * id
+}
+export function getRectUniqueID(id: number): number {
+  return 59 * id
+}
+export function getSVGUniqueID(id: number): number {
+  return 61 * id
+}
+export function getTextUniqueID(id: number): number {
+  return 67 * id
 }

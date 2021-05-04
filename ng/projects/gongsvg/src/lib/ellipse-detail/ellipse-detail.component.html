@@ -1,0 +1,99 @@
+<div *ngIf="ellipse" class="details">
+    <h1 class="details__title">ellipse</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="ellipse.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>CX</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="ellipse.CX">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>CY</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="ellipse.CY">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>RX</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="ellipse.RX">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>RY</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="ellipse.RY">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Color</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="ellipse.Color">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>FillOpacity</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="ellipse.FillOpacity">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Stroke</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="ellipse.Stroke">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>StrokeWidth</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="ellipse.StrokeWidth">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>StrokeDashArray</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="ellipse.StrokeDashArray">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save ellipse
+		</button>
+    </div>
+</div>

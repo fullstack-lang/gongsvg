@@ -14,7 +14,15 @@ var __member __void
 type StageStruct struct { // insertion point for definition of arrays registering instances
 	Circles map[*Circle]struct{}
 
+	Ellipses map[*Ellipse]struct{}
+
 	Lines map[*Line]struct{}
+
+	Paths map[*Path]struct{}
+
+	Polygones map[*Polygone]struct{}
+
+	Polylines map[*Polyline]struct{}
 
 	Rects map[*Rect]struct{}
 
@@ -35,8 +43,16 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitCircle(circle *Circle)
 	CheckoutCircle(circle *Circle)
+	CommitEllipse(ellipse *Ellipse)
+	CheckoutEllipse(ellipse *Ellipse)
 	CommitLine(line *Line)
 	CheckoutLine(line *Line)
+	CommitPath(path *Path)
+	CheckoutPath(path *Path)
+	CommitPolygone(polygone *Polygone)
+	CheckoutPolygone(polygone *Polygone)
+	CommitPolyline(polyline *Polyline)
+	CheckoutPolyline(polyline *Polyline)
 	CommitRect(rect *Rect)
 	CheckoutRect(rect *Rect)
 	CommitSVG(svg *SVG)
@@ -50,7 +66,15 @@ type BackRepoInterface interface {
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
 	Circles: make(map[*Circle]struct{}, 0),
 
+	Ellipses: make(map[*Ellipse]struct{}, 0),
+
 	Lines: make(map[*Line]struct{}, 0),
+
+	Paths: make(map[*Path]struct{}, 0),
+
+	Polygones: make(map[*Polygone]struct{}, 0),
+
+	Polylines: make(map[*Polyline]struct{}, 0),
 
 	Rects: make(map[*Rect]struct{}, 0),
 
@@ -172,6 +196,105 @@ func DeleteORMCircle(circle *Circle) {
 	}
 }
 
+func (stage *StageStruct) getEllipseOrderedStructWithNameField() []*Ellipse {
+	// have alphabetical order generation
+	ellipseOrdered := []*Ellipse{}
+	for ellipse := range stage.Ellipses {
+		ellipseOrdered = append(ellipseOrdered, ellipse)
+	}
+	sort.Slice(ellipseOrdered[:], func(i, j int) bool {
+		return ellipseOrdered[i].Name < ellipseOrdered[j].Name
+	})
+	return ellipseOrdered
+}
+
+// Stage puts ellipse to the model stage
+func (ellipse *Ellipse) Stage() *Ellipse {
+	Stage.Ellipses[ellipse] = __member
+	return ellipse
+}
+
+// Unstage removes ellipse off the model stage
+func (ellipse *Ellipse) Unstage() *Ellipse {
+	delete(Stage.Ellipses, ellipse)
+	return ellipse
+}
+
+// commit ellipse to the back repo (if it is already staged)
+func (ellipse *Ellipse) Commit() *Ellipse {
+	if _, ok := Stage.Ellipses[ellipse]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitEllipse(ellipse)
+		}
+	}
+	return ellipse
+}
+
+// Checkout ellipse to the back repo (if it is already staged)
+func (ellipse *Ellipse) Checkout() *Ellipse {
+	if _, ok := Stage.Ellipses[ellipse]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutEllipse(ellipse)
+		}
+	}
+	return ellipse
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of ellipse to the model stage
+func (ellipse *Ellipse) StageCopy() *Ellipse {
+	_ellipse := new(Ellipse)
+	*_ellipse = *ellipse
+	_ellipse.Stage()
+	return _ellipse
+}
+
+// StageAndCommit appends ellipse to the model stage and commit to the orm repo
+func (ellipse *Ellipse) StageAndCommit() *Ellipse {
+	ellipse.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMEllipse(ellipse)
+	}
+	return ellipse
+}
+
+// DeleteStageAndCommit appends ellipse to the model stage and commit to the orm repo
+func (ellipse *Ellipse) DeleteStageAndCommit() *Ellipse {
+	ellipse.Unstage()
+	DeleteORMEllipse(ellipse)
+	return ellipse
+}
+
+// StageCopyAndCommit appends a copy of ellipse to the model stage and commit to the orm repo
+func (ellipse *Ellipse) StageCopyAndCommit() *Ellipse {
+	_ellipse := new(Ellipse)
+	*_ellipse = *ellipse
+	_ellipse.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMEllipse(ellipse)
+	}
+	return _ellipse
+}
+
+// CreateORMEllipse enables dynamic staging of a Ellipse instance
+func CreateORMEllipse(ellipse *Ellipse) {
+	ellipse.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMEllipse(ellipse)
+	}
+}
+
+// DeleteORMEllipse enables dynamic staging of a Ellipse instance
+func DeleteORMEllipse(ellipse *Ellipse) {
+	ellipse.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMEllipse(ellipse)
+	}
+}
+
 func (stage *StageStruct) getLineOrderedStructWithNameField() []*Line {
 	// have alphabetical order generation
 	lineOrdered := []*Line{}
@@ -268,6 +391,303 @@ func DeleteORMLine(line *Line) {
 	line.Unstage()
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMLine(line)
+	}
+}
+
+func (stage *StageStruct) getPathOrderedStructWithNameField() []*Path {
+	// have alphabetical order generation
+	pathOrdered := []*Path{}
+	for path := range stage.Paths {
+		pathOrdered = append(pathOrdered, path)
+	}
+	sort.Slice(pathOrdered[:], func(i, j int) bool {
+		return pathOrdered[i].Name < pathOrdered[j].Name
+	})
+	return pathOrdered
+}
+
+// Stage puts path to the model stage
+func (path *Path) Stage() *Path {
+	Stage.Paths[path] = __member
+	return path
+}
+
+// Unstage removes path off the model stage
+func (path *Path) Unstage() *Path {
+	delete(Stage.Paths, path)
+	return path
+}
+
+// commit path to the back repo (if it is already staged)
+func (path *Path) Commit() *Path {
+	if _, ok := Stage.Paths[path]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitPath(path)
+		}
+	}
+	return path
+}
+
+// Checkout path to the back repo (if it is already staged)
+func (path *Path) Checkout() *Path {
+	if _, ok := Stage.Paths[path]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutPath(path)
+		}
+	}
+	return path
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of path to the model stage
+func (path *Path) StageCopy() *Path {
+	_path := new(Path)
+	*_path = *path
+	_path.Stage()
+	return _path
+}
+
+// StageAndCommit appends path to the model stage and commit to the orm repo
+func (path *Path) StageAndCommit() *Path {
+	path.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMPath(path)
+	}
+	return path
+}
+
+// DeleteStageAndCommit appends path to the model stage and commit to the orm repo
+func (path *Path) DeleteStageAndCommit() *Path {
+	path.Unstage()
+	DeleteORMPath(path)
+	return path
+}
+
+// StageCopyAndCommit appends a copy of path to the model stage and commit to the orm repo
+func (path *Path) StageCopyAndCommit() *Path {
+	_path := new(Path)
+	*_path = *path
+	_path.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMPath(path)
+	}
+	return _path
+}
+
+// CreateORMPath enables dynamic staging of a Path instance
+func CreateORMPath(path *Path) {
+	path.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMPath(path)
+	}
+}
+
+// DeleteORMPath enables dynamic staging of a Path instance
+func DeleteORMPath(path *Path) {
+	path.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMPath(path)
+	}
+}
+
+func (stage *StageStruct) getPolygoneOrderedStructWithNameField() []*Polygone {
+	// have alphabetical order generation
+	polygoneOrdered := []*Polygone{}
+	for polygone := range stage.Polygones {
+		polygoneOrdered = append(polygoneOrdered, polygone)
+	}
+	sort.Slice(polygoneOrdered[:], func(i, j int) bool {
+		return polygoneOrdered[i].Name < polygoneOrdered[j].Name
+	})
+	return polygoneOrdered
+}
+
+// Stage puts polygone to the model stage
+func (polygone *Polygone) Stage() *Polygone {
+	Stage.Polygones[polygone] = __member
+	return polygone
+}
+
+// Unstage removes polygone off the model stage
+func (polygone *Polygone) Unstage() *Polygone {
+	delete(Stage.Polygones, polygone)
+	return polygone
+}
+
+// commit polygone to the back repo (if it is already staged)
+func (polygone *Polygone) Commit() *Polygone {
+	if _, ok := Stage.Polygones[polygone]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitPolygone(polygone)
+		}
+	}
+	return polygone
+}
+
+// Checkout polygone to the back repo (if it is already staged)
+func (polygone *Polygone) Checkout() *Polygone {
+	if _, ok := Stage.Polygones[polygone]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutPolygone(polygone)
+		}
+	}
+	return polygone
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of polygone to the model stage
+func (polygone *Polygone) StageCopy() *Polygone {
+	_polygone := new(Polygone)
+	*_polygone = *polygone
+	_polygone.Stage()
+	return _polygone
+}
+
+// StageAndCommit appends polygone to the model stage and commit to the orm repo
+func (polygone *Polygone) StageAndCommit() *Polygone {
+	polygone.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMPolygone(polygone)
+	}
+	return polygone
+}
+
+// DeleteStageAndCommit appends polygone to the model stage and commit to the orm repo
+func (polygone *Polygone) DeleteStageAndCommit() *Polygone {
+	polygone.Unstage()
+	DeleteORMPolygone(polygone)
+	return polygone
+}
+
+// StageCopyAndCommit appends a copy of polygone to the model stage and commit to the orm repo
+func (polygone *Polygone) StageCopyAndCommit() *Polygone {
+	_polygone := new(Polygone)
+	*_polygone = *polygone
+	_polygone.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMPolygone(polygone)
+	}
+	return _polygone
+}
+
+// CreateORMPolygone enables dynamic staging of a Polygone instance
+func CreateORMPolygone(polygone *Polygone) {
+	polygone.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMPolygone(polygone)
+	}
+}
+
+// DeleteORMPolygone enables dynamic staging of a Polygone instance
+func DeleteORMPolygone(polygone *Polygone) {
+	polygone.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMPolygone(polygone)
+	}
+}
+
+func (stage *StageStruct) getPolylineOrderedStructWithNameField() []*Polyline {
+	// have alphabetical order generation
+	polylineOrdered := []*Polyline{}
+	for polyline := range stage.Polylines {
+		polylineOrdered = append(polylineOrdered, polyline)
+	}
+	sort.Slice(polylineOrdered[:], func(i, j int) bool {
+		return polylineOrdered[i].Name < polylineOrdered[j].Name
+	})
+	return polylineOrdered
+}
+
+// Stage puts polyline to the model stage
+func (polyline *Polyline) Stage() *Polyline {
+	Stage.Polylines[polyline] = __member
+	return polyline
+}
+
+// Unstage removes polyline off the model stage
+func (polyline *Polyline) Unstage() *Polyline {
+	delete(Stage.Polylines, polyline)
+	return polyline
+}
+
+// commit polyline to the back repo (if it is already staged)
+func (polyline *Polyline) Commit() *Polyline {
+	if _, ok := Stage.Polylines[polyline]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitPolyline(polyline)
+		}
+	}
+	return polyline
+}
+
+// Checkout polyline to the back repo (if it is already staged)
+func (polyline *Polyline) Checkout() *Polyline {
+	if _, ok := Stage.Polylines[polyline]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutPolyline(polyline)
+		}
+	}
+	return polyline
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of polyline to the model stage
+func (polyline *Polyline) StageCopy() *Polyline {
+	_polyline := new(Polyline)
+	*_polyline = *polyline
+	_polyline.Stage()
+	return _polyline
+}
+
+// StageAndCommit appends polyline to the model stage and commit to the orm repo
+func (polyline *Polyline) StageAndCommit() *Polyline {
+	polyline.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMPolyline(polyline)
+	}
+	return polyline
+}
+
+// DeleteStageAndCommit appends polyline to the model stage and commit to the orm repo
+func (polyline *Polyline) DeleteStageAndCommit() *Polyline {
+	polyline.Unstage()
+	DeleteORMPolyline(polyline)
+	return polyline
+}
+
+// StageCopyAndCommit appends a copy of polyline to the model stage and commit to the orm repo
+func (polyline *Polyline) StageCopyAndCommit() *Polyline {
+	_polyline := new(Polyline)
+	*_polyline = *polyline
+	_polyline.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMPolyline(polyline)
+	}
+	return _polyline
+}
+
+// CreateORMPolyline enables dynamic staging of a Polyline instance
+func CreateORMPolyline(polyline *Polyline) {
+	polyline.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMPolyline(polyline)
+	}
+}
+
+// DeleteORMPolyline enables dynamic staging of a Polyline instance
+func DeleteORMPolyline(polyline *Polyline) {
+	polyline.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMPolyline(polyline)
 	}
 }
 
@@ -571,7 +991,11 @@ func DeleteORMText(text *Text) {
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMCircle(Circle *Circle)
+	CreateORMEllipse(Ellipse *Ellipse)
 	CreateORMLine(Line *Line)
+	CreateORMPath(Path *Path)
+	CreateORMPolygone(Polygone *Polygone)
+	CreateORMPolyline(Polyline *Polyline)
 	CreateORMRect(Rect *Rect)
 	CreateORMSVG(SVG *SVG)
 	CreateORMText(Text *Text)
@@ -579,7 +1003,11 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMCircle(Circle *Circle)
+	DeleteORMEllipse(Ellipse *Ellipse)
 	DeleteORMLine(Line *Line)
+	DeleteORMPath(Path *Path)
+	DeleteORMPolygone(Polygone *Polygone)
+	DeleteORMPolyline(Polyline *Polyline)
 	DeleteORMRect(Rect *Rect)
 	DeleteORMSVG(SVG *SVG)
 	DeleteORMText(Text *Text)
@@ -587,7 +1015,11 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Circles = make(map[*Circle]struct{}, 0)
+	stage.Ellipses = make(map[*Ellipse]struct{}, 0)
 	stage.Lines = make(map[*Line]struct{}, 0)
+	stage.Paths = make(map[*Path]struct{}, 0)
+	stage.Polygones = make(map[*Polygone]struct{}, 0)
+	stage.Polylines = make(map[*Polyline]struct{}, 0)
 	stage.Rects = make(map[*Rect]struct{}, 0)
 	stage.SVGs = make(map[*SVG]struct{}, 0)
 	stage.Texts = make(map[*Text]struct{}, 0)
@@ -595,7 +1027,11 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Circles = nil
+	stage.Ellipses = nil
 	stage.Lines = nil
+	stage.Paths = nil
+	stage.Polygones = nil
+	stage.Polylines = nil
 	stage.Rects = nil
 	stage.SVGs = nil
 	stage.Texts = nil

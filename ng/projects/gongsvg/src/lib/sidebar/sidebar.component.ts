@@ -10,8 +10,16 @@ import { CommitNbService } from '../commitnb.service'
 // insertion point for per struct import code
 import { CircleService } from '../circle.service'
 import { getCircleUniqueID } from '../front-repo.service'
+import { EllipseService } from '../ellipse.service'
+import { getEllipseUniqueID } from '../front-repo.service'
 import { LineService } from '../line.service'
 import { getLineUniqueID } from '../front-repo.service'
+import { PathService } from '../path.service'
+import { getPathUniqueID } from '../front-repo.service'
+import { PolygoneService } from '../polygone.service'
+import { getPolygoneUniqueID } from '../front-repo.service'
+import { PolylineService } from '../polyline.service'
+import { getPolylineUniqueID } from '../front-repo.service'
 import { RectService } from '../rect.service'
 import { getRectUniqueID } from '../front-repo.service'
 import { SVGService } from '../svg.service'
@@ -151,7 +159,11 @@ export class SidebarComponent implements OnInit {
 
     // insertion point for per struct service declaration
     private circleService: CircleService,
+    private ellipseService: EllipseService,
     private lineService: LineService,
+    private pathService: PathService,
+    private polygoneService: PolygoneService,
+    private polylineService: PolylineService,
     private rectService: RectService,
     private svgService: SVGService,
     private textService: TextService,
@@ -170,7 +182,39 @@ export class SidebarComponent implements OnInit {
       }
     )
     // observable for changes in structs
+    this.ellipseService.EllipseServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
     this.lineService.LineServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.pathService.PathServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.polygoneService.PolygoneServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.polylineService.PolylineServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -269,6 +313,48 @@ export class SidebarComponent implements OnInit {
       )
 
       /**
+      * fill up the Ellipse part of the mat tree
+      */
+      let ellipseGongNodeStruct: GongNode = {
+        name: "Ellipse",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Ellipse",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(ellipseGongNodeStruct)
+
+      this.frontRepo.Ellipses_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Ellipses_array.forEach(
+        ellipseDB => {
+          let ellipseGongNodeInstance: GongNode = {
+            name: ellipseDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: ellipseDB.ID,
+            uniqueIdPerStack: getEllipseUniqueID(ellipseDB.ID),
+            structName: "Ellipse",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          ellipseGongNodeStruct.children.push(ellipseGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
+      /**
       * fill up the Line part of the mat tree
       */
       let lineGongNodeStruct: GongNode = {
@@ -305,6 +391,132 @@ export class SidebarComponent implements OnInit {
             children: new Array<GongNode>()
           }
           lineGongNodeStruct.children.push(lineGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
+      /**
+      * fill up the Path part of the mat tree
+      */
+      let pathGongNodeStruct: GongNode = {
+        name: "Path",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Path",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(pathGongNodeStruct)
+
+      this.frontRepo.Paths_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Paths_array.forEach(
+        pathDB => {
+          let pathGongNodeInstance: GongNode = {
+            name: pathDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: pathDB.ID,
+            uniqueIdPerStack: getPathUniqueID(pathDB.ID),
+            structName: "Path",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          pathGongNodeStruct.children.push(pathGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
+      /**
+      * fill up the Polygone part of the mat tree
+      */
+      let polygoneGongNodeStruct: GongNode = {
+        name: "Polygone",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Polygone",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(polygoneGongNodeStruct)
+
+      this.frontRepo.Polygones_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Polygones_array.forEach(
+        polygoneDB => {
+          let polygoneGongNodeInstance: GongNode = {
+            name: polygoneDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: polygoneDB.ID,
+            uniqueIdPerStack: getPolygoneUniqueID(polygoneDB.ID),
+            structName: "Polygone",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          polygoneGongNodeStruct.children.push(polygoneGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
+      /**
+      * fill up the Polyline part of the mat tree
+      */
+      let polylineGongNodeStruct: GongNode = {
+        name: "Polyline",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Polyline",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(polylineGongNodeStruct)
+
+      this.frontRepo.Polylines_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Polylines_array.forEach(
+        polylineDB => {
+          let polylineGongNodeInstance: GongNode = {
+            name: polylineDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: polylineDB.ID,
+            uniqueIdPerStack: getPolylineUniqueID(polylineDB.ID),
+            structName: "Polyline",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          polylineGongNodeStruct.children.push(polylineGongNodeInstance)
 
           // insertion point for per field code
         }

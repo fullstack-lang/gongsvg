@@ -1,1 +1,6 @@
-<p>path works!</p>
+<svg class="child">
+    <g>
+        <path [attr.d]="Definition" [attr.fill]="Color" [attr.fill-opacity]="FillOpacity" [attr.stroke]="Stroke"
+            [attr.stroke-width]="StrokeWidth" [attr.stroke-dasharray]="StrokeDashArray" />
+    </g>
+</svg>

@@ -32,4 +32,12 @@
     </lib-ellipse>
 </div>
 
+<div *ngFor="let path of Paths" class="parent">
+    <lib-path [Definition]="path.Definition" [Color]="path.Color" [FillOpacity]="path.FillOpacity"
+        [Stroke]="path.Stroke" [StrokeWidth]="path.StrokeWidth" [StrokeDashArray]="path.StrokeDashArray">
+    </lib-path>
+</div>
+
+
+
 <!-- <lib-svg-rect></lib-svg-rect> -->

@@ -20,9 +20,11 @@ export class EllipseDB {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 
 	// insertion point for other declarations
 	SVG_EllipsesDBID?: NullInt64
+	SVG_EllipsesDBID_Index?: NullInt64 // store the index of the ellipse instance in SVG.Ellipses
 	SVG_Ellipses_reverse?: SVGDB
 
 }

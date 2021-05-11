@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Text sql.NullBool
 var __Text_time__dummyDeclaration time.Duration
+var dummy_Text_sort sort.Float64Slice
 
 // TextAPI is the input in POST API
 //
@@ -59,6 +62,7 @@ type TextAPI struct {
 
 	// Implementation of a reverse ID for field SVG{}.Texts []*Text
 	SVG_TextsDBID sql.NullInt64
+	SVG_TextsDBID_Index sql.NullInt64
 
 	// end of insertion
 }

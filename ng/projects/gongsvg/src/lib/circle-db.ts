@@ -23,6 +23,7 @@ export class CircleDB {
 
 	// insertion point for other declarations
 	SVG_CirclesDBID?: NullInt64
+	SVG_CirclesDBID_Index?: NullInt64 // store the index of the circle instance in SVG.Circles
 	SVG_Circles_reverse?: SVGDB
 
 }

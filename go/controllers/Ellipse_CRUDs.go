@@ -104,6 +104,10 @@ func GetEllipses(c *gin.Context) {
 			ellipse.StrokeDashArray = ellipse.StrokeDashArray_Data.String
 		}
 
+		if ellipse.Transform_Data.Valid {
+			ellipse.Transform = ellipse.Transform_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, ellipses)
@@ -170,6 +174,9 @@ func PostEllipse(c *gin.Context) {
 
 	ellipseDB.StrokeDashArray_Data.String = input.StrokeDashArray
 	ellipseDB.StrokeDashArray_Data.Valid = true
+
+	ellipseDB.Transform_Data.String = input.Transform
+	ellipseDB.Transform_Data.Valid = true
 
 	query := db.Create(&ellipseDB)
 	if query.Error != nil {
@@ -250,6 +257,10 @@ func GetEllipse(c *gin.Context) {
 		ellipse.StrokeDashArray = ellipse.StrokeDashArray_Data.String
 	}
 
+	if ellipse.Transform_Data.Valid {
+		ellipse.Transform = ellipse.Transform_Data.String
+	}
+
 	c.JSON(http.StatusOK, ellipse)
 }
 
@@ -317,6 +328,9 @@ func UpdateEllipse(c *gin.Context) {
 
 	input.StrokeDashArray_Data.String = input.StrokeDashArray
 	input.StrokeDashArray_Data.Valid = true
+
+	input.Transform_Data.String = input.Transform
+	input.Transform_Data.Valid = true
 
 	query = db.Model(&ellipseDB).Updates(input)
 	if query.Error != nil {

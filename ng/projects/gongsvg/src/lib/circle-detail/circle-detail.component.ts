@@ -7,6 +7,7 @@ import { CircleService } from '../circle.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
+import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
 
@@ -98,6 +99,7 @@ export class CircleDetailComponent implements OnInit {
 				this.circle.SVG_CirclesDBID = new NullInt64
 				this.circle.SVG_CirclesDBID.Int64 = this.circle.SVG_Circles_reverse.ID
 				this.circle.SVG_CirclesDBID.Valid = true
+				this.circle.SVG_CirclesDBID_Index.Valid = true
 				this.circle.SVG_Circles_reverse = undefined // very important, otherwise, circular JSON
 			}
 		}
@@ -117,6 +119,7 @@ export class CircleDetailComponent implements OnInit {
 					this.circle.SVG_CirclesDBID = new NullInt64
 					this.circle.SVG_CirclesDBID.Int64 = id
 					this.circle.SVG_CirclesDBID.Valid = true
+					this.circle.SVG_CirclesDBID_Index.Valid = true
 					break
 			}
 			this.circleService.postCircle(this.circle).subscribe(circle => {
@@ -138,13 +141,39 @@ export class CircleDetailComponent implements OnInit {
 
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
+		dialogConfig.width = "50%"
+		dialogConfig.height = "50%"
 		dialogConfig.data = {
 			ID: this.circle.ID,
 			ReversePointer: reverseField,
+			OrderingMode: false,
 		};
 		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
 			MapOfComponents.get(AssociatedStruct).get(
 				AssociatedStruct + 'sTableComponent'
+			),
+			dialogConfig
+		);
+
+		dialogRef.afterClosed().subscribe(result => {
+			console.log('The dialog was closed');
+		});
+	}
+
+	openDragAndDropOrdering(AssociatedStruct: string, reverseField: string) {
+
+		const dialogConfig = new MatDialogConfig();
+
+		// dialogConfig.disableClose = true;
+		dialogConfig.autoFocus = true;
+		dialogConfig.data = {
+			ID: this.circle.ID,
+			ReversePointer: reverseField,
+			OrderingMode: true,
+		};
+		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
+			MapOfSortingComponents.get(AssociatedStruct).get(
+				AssociatedStruct + 'SortingComponent'
 			),
 			dialogConfig
 		);

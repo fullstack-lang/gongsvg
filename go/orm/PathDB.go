@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Path sql.NullBool
 var __Path_time__dummyDeclaration time.Duration
+var dummy_Path_sort sort.Float64Slice
 
 // PathAPI is the input in POST API
 //
@@ -48,8 +51,12 @@ type PathAPI struct {
 	// Declation for basic field pathDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Declation for basic field pathDB.Transform {{BasicKind}} (to be completed)
+	Transform_Data sql.NullString
+
 	// Implementation of a reverse ID for field SVG{}.Paths []*Path
 	SVG_PathsDBID sql.NullInt64
+	SVG_PathsDBID_Index sql.NullInt64
 
 	// end of insertion
 }
@@ -226,6 +233,9 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				pathDB.StrokeDashArray_Data.String = path.StrokeDashArray
 				pathDB.StrokeDashArray_Data.Valid = true
 
+				pathDB.Transform_Data.String = path.Transform
+				pathDB.Transform_Data.Valid = true
+
 			}
 		}
 		query := backRepoPath.db.Save(&pathDB)
@@ -318,6 +328,8 @@ func (backRepoPath *BackRepoPathStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 			path.StrokeWidth = pathDB.StrokeWidth_Data.Float64
 
 			path.StrokeDashArray = pathDB.StrokeDashArray_Data.String
+
+			path.Transform = pathDB.Transform_Data.String
 
 		}
 	}

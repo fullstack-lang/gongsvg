@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Line sql.NullBool
 var __Line_time__dummyDeclaration time.Duration
+var dummy_Line_sort sort.Float64Slice
 
 // LineAPI is the input in POST API
 //
@@ -62,6 +65,7 @@ type LineAPI struct {
 
 	// Implementation of a reverse ID for field SVG{}.Lines []*Line
 	SVG_LinesDBID sql.NullInt64
+	SVG_LinesDBID_Index sql.NullInt64
 
 	// end of insertion
 }

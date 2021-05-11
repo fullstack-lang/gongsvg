@@ -16,30 +16,142 @@
             </mat-form-field>
         </form>
     </div>
-    <div class="details__item">
-        <button mat-raised-button (click)="openReverseSelection('Rect', 'SVG_RectsDBID')">Rects</button>
-    </div>
-    <div class="details__item">
-        <button mat-raised-button (click)="openReverseSelection('Text', 'SVG_TextsDBID')">Texts</button>
-    </div>
-    <div class="details__item">
-        <button mat-raised-button (click)="openReverseSelection('Circle', 'SVG_CirclesDBID')">Circles</button>
-    </div>
-    <div class="details__item">
-        <button mat-raised-button (click)="openReverseSelection('Line', 'SVG_LinesDBID')">Lines</button>
-    </div>
-    <div class="details__item">
-        <button mat-raised-button (click)="openReverseSelection('Ellipse', 'SVG_EllipsesDBID')">Ellipses</button>
-    </div>
-    <div class="details__item">
-        <button mat-raised-button (click)="openReverseSelection('Polyline', 'SVG_PolylinesDBID')">Polylines</button>
-    </div>
-    <div class="details__item">
-        <button mat-raised-button (click)="openReverseSelection('Polygone', 'SVG_PolygonesDBID')">Polygones</button>
-    </div>
-    <div class="details__item">
-        <button mat-raised-button (click)="openReverseSelection('Path', 'SVG_PathsDBID')">Paths</button>
-    </div>
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: right;">
+                <button mat-raised-button
+                    (click)="openReverseSelection('Rect', 'SVG_RectsDBID')">Rects</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: left;">
+                <button mat-raised-button (click)="openDragAndDropOrdering('Rect', 'SVG_RectsDBID')">
+                    <mat-icon>
+                        shuffle
+                    </mat-icon>
+                </button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: right;">
+                <button mat-raised-button
+                    (click)="openReverseSelection('Text', 'SVG_TextsDBID')">Texts</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: left;">
+                <button mat-raised-button (click)="openDragAndDropOrdering('Text', 'SVG_TextsDBID')">
+                    <mat-icon>
+                        shuffle
+                    </mat-icon>
+                </button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: right;">
+                <button mat-raised-button
+                    (click)="openReverseSelection('Circle', 'SVG_CirclesDBID')">Circles</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: left;">
+                <button mat-raised-button (click)="openDragAndDropOrdering('Circle', 'SVG_CirclesDBID')">
+                    <mat-icon>
+                        shuffle
+                    </mat-icon>
+                </button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: right;">
+                <button mat-raised-button
+                    (click)="openReverseSelection('Line', 'SVG_LinesDBID')">Lines</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: left;">
+                <button mat-raised-button (click)="openDragAndDropOrdering('Line', 'SVG_LinesDBID')">
+                    <mat-icon>
+                        shuffle
+                    </mat-icon>
+                </button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: right;">
+                <button mat-raised-button
+                    (click)="openReverseSelection('Ellipse', 'SVG_EllipsesDBID')">Ellipses</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: left;">
+                <button mat-raised-button (click)="openDragAndDropOrdering('Ellipse', 'SVG_EllipsesDBID')">
+                    <mat-icon>
+                        shuffle
+                    </mat-icon>
+                </button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: right;">
+                <button mat-raised-button
+                    (click)="openReverseSelection('Polyline', 'SVG_PolylinesDBID')">Polylines</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: left;">
+                <button mat-raised-button (click)="openDragAndDropOrdering('Polyline', 'SVG_PolylinesDBID')">
+                    <mat-icon>
+                        shuffle
+                    </mat-icon>
+                </button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: right;">
+                <button mat-raised-button
+                    (click)="openReverseSelection('Polygone', 'SVG_PolygonesDBID')">Polygones</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: left;">
+                <button mat-raised-button (click)="openDragAndDropOrdering('Polygone', 'SVG_PolygonesDBID')">
+                    <mat-icon>
+                        shuffle
+                    </mat-icon>
+                </button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: right;">
+                <button mat-raised-button
+                    (click)="openReverseSelection('Path', 'SVG_PathsDBID')">Paths</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: left;">
+                <button mat-raised-button (click)="openDragAndDropOrdering('Path', 'SVG_PathsDBID')">
+                    <mat-icon>
+                        shuffle
+                    </mat-icon>
+                </button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
 			Save svg

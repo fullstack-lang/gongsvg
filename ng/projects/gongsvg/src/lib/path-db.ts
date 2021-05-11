@@ -17,9 +17,11 @@ export class PathDB {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 
 	// insertion point for other declarations
 	SVG_PathsDBID?: NullInt64
+	SVG_PathsDBID_Index?: NullInt64 // store the index of the path instance in SVG.Paths
 	SVG_Paths_reverse?: SVGDB
 
 }

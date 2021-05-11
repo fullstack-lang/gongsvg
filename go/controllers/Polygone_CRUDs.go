@@ -92,6 +92,10 @@ func GetPolygones(c *gin.Context) {
 			polygone.StrokeDashArray = polygone.StrokeDashArray_Data.String
 		}
 
+		if polygone.Transform_Data.Valid {
+			polygone.Transform = polygone.Transform_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, polygones)
@@ -149,6 +153,9 @@ func PostPolygone(c *gin.Context) {
 
 	polygoneDB.StrokeDashArray_Data.String = input.StrokeDashArray
 	polygoneDB.StrokeDashArray_Data.Valid = true
+
+	polygoneDB.Transform_Data.String = input.Transform
+	polygoneDB.Transform_Data.Valid = true
 
 	query := db.Create(&polygoneDB)
 	if query.Error != nil {
@@ -217,6 +224,10 @@ func GetPolygone(c *gin.Context) {
 		polygone.StrokeDashArray = polygone.StrokeDashArray_Data.String
 	}
 
+	if polygone.Transform_Data.Valid {
+		polygone.Transform = polygone.Transform_Data.String
+	}
+
 	c.JSON(http.StatusOK, polygone)
 }
 
@@ -275,6 +286,9 @@ func UpdatePolygone(c *gin.Context) {
 
 	input.StrokeDashArray_Data.String = input.StrokeDashArray
 	input.StrokeDashArray_Data.Valid = true
+
+	input.Transform_Data.String = input.Transform
+	input.Transform_Data.Valid = true
 
 	query = db.Model(&polygoneDB).Updates(input)
 	if query.Error != nil {

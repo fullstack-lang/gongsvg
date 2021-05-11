@@ -92,6 +92,10 @@ func GetPaths(c *gin.Context) {
 			path.StrokeDashArray = path.StrokeDashArray_Data.String
 		}
 
+		if path.Transform_Data.Valid {
+			path.Transform = path.Transform_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, paths)
@@ -149,6 +153,9 @@ func PostPath(c *gin.Context) {
 
 	pathDB.StrokeDashArray_Data.String = input.StrokeDashArray
 	pathDB.StrokeDashArray_Data.Valid = true
+
+	pathDB.Transform_Data.String = input.Transform
+	pathDB.Transform_Data.Valid = true
 
 	query := db.Create(&pathDB)
 	if query.Error != nil {
@@ -217,6 +224,10 @@ func GetPath(c *gin.Context) {
 		path.StrokeDashArray = path.StrokeDashArray_Data.String
 	}
 
+	if path.Transform_Data.Valid {
+		path.Transform = path.Transform_Data.String
+	}
+
 	c.JSON(http.StatusOK, path)
 }
 
@@ -275,6 +286,9 @@ func UpdatePath(c *gin.Context) {
 
 	input.StrokeDashArray_Data.String = input.StrokeDashArray
 	input.StrokeDashArray_Data.Valid = true
+
+	input.Transform_Data.String = input.Transform
+	input.Transform_Data.Valid = true
 
 	query = db.Model(&pathDB).Updates(input)
 	if query.Error != nil {

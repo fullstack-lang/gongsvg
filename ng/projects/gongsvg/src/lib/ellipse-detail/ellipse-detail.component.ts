@@ -7,6 +7,7 @@ import { EllipseService } from '../ellipse.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
+import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
 
@@ -98,6 +99,7 @@ export class EllipseDetailComponent implements OnInit {
 				this.ellipse.SVG_EllipsesDBID = new NullInt64
 				this.ellipse.SVG_EllipsesDBID.Int64 = this.ellipse.SVG_Ellipses_reverse.ID
 				this.ellipse.SVG_EllipsesDBID.Valid = true
+				this.ellipse.SVG_EllipsesDBID_Index.Valid = true
 				this.ellipse.SVG_Ellipses_reverse = undefined // very important, otherwise, circular JSON
 			}
 		}
@@ -117,6 +119,7 @@ export class EllipseDetailComponent implements OnInit {
 					this.ellipse.SVG_EllipsesDBID = new NullInt64
 					this.ellipse.SVG_EllipsesDBID.Int64 = id
 					this.ellipse.SVG_EllipsesDBID.Valid = true
+					this.ellipse.SVG_EllipsesDBID_Index.Valid = true
 					break
 			}
 			this.ellipseService.postEllipse(this.ellipse).subscribe(ellipse => {
@@ -138,13 +141,39 @@ export class EllipseDetailComponent implements OnInit {
 
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
+		dialogConfig.width = "50%"
+		dialogConfig.height = "50%"
 		dialogConfig.data = {
 			ID: this.ellipse.ID,
 			ReversePointer: reverseField,
+			OrderingMode: false,
 		};
 		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
 			MapOfComponents.get(AssociatedStruct).get(
 				AssociatedStruct + 'sTableComponent'
+			),
+			dialogConfig
+		);
+
+		dialogRef.afterClosed().subscribe(result => {
+			console.log('The dialog was closed');
+		});
+	}
+
+	openDragAndDropOrdering(AssociatedStruct: string, reverseField: string) {
+
+		const dialogConfig = new MatDialogConfig();
+
+		// dialogConfig.disableClose = true;
+		dialogConfig.autoFocus = true;
+		dialogConfig.data = {
+			ID: this.ellipse.ID,
+			ReversePointer: reverseField,
+			OrderingMode: true,
+		};
+		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
+			MapOfSortingComponents.get(AssociatedStruct).get(
+				AssociatedStruct + 'SortingComponent'
 			),
 			dialogConfig
 		);

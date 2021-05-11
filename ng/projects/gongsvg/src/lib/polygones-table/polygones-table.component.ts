@@ -89,6 +89,7 @@ export class PolygonesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Polygones",
       ]
     } else {
@@ -100,6 +101,7 @@ export class PolygonesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Polygones",
       ]
       this.selection = new SelectionModel<PolygoneDB>(allowMultiSelect, this.initialSelection);

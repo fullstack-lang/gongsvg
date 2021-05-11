@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Polygone sql.NullBool
 var __Polygone_time__dummyDeclaration time.Duration
+var dummy_Polygone_sort sort.Float64Slice
 
 // PolygoneAPI is the input in POST API
 //
@@ -48,8 +51,12 @@ type PolygoneAPI struct {
 	// Declation for basic field polygoneDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Declation for basic field polygoneDB.Transform {{BasicKind}} (to be completed)
+	Transform_Data sql.NullString
+
 	// Implementation of a reverse ID for field SVG{}.Polygones []*Polygone
 	SVG_PolygonesDBID sql.NullInt64
+	SVG_PolygonesDBID_Index sql.NullInt64
 
 	// end of insertion
 }
@@ -226,6 +233,9 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 				polygoneDB.StrokeDashArray_Data.String = polygone.StrokeDashArray
 				polygoneDB.StrokeDashArray_Data.Valid = true
 
+				polygoneDB.Transform_Data.String = polygone.Transform
+				polygoneDB.Transform_Data.Valid = true
+
 			}
 		}
 		query := backRepoPolygone.db.Save(&polygoneDB)
@@ -318,6 +328,8 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseTwoInstance(backRep
 			polygone.StrokeWidth = polygoneDB.StrokeWidth_Data.Float64
 
 			polygone.StrokeDashArray = polygoneDB.StrokeDashArray_Data.String
+
+			polygone.Transform = polygoneDB.Transform_Data.String
 
 		}
 	}

@@ -68,6 +68,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Transform">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Transform </th>
+            <td mat-cell *matCellDef="let Path">
+                {{Path.Transform}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Paths">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (SVG) Paths </th>
             <td mat-cell *matCellDef="let path">

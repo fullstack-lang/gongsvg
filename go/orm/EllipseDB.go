@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Ellipse sql.NullBool
 var __Ellipse_time__dummyDeclaration time.Duration
+var dummy_Ellipse_sort sort.Float64Slice
 
 // EllipseAPI is the input in POST API
 //
@@ -57,8 +60,12 @@ type EllipseAPI struct {
 	// Declation for basic field ellipseDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Declation for basic field ellipseDB.Transform {{BasicKind}} (to be completed)
+	Transform_Data sql.NullString
+
 	// Implementation of a reverse ID for field SVG{}.Ellipses []*Ellipse
 	SVG_EllipsesDBID sql.NullInt64
+	SVG_EllipsesDBID_Index sql.NullInt64
 
 	// end of insertion
 }
@@ -244,6 +251,9 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 				ellipseDB.StrokeDashArray_Data.String = ellipse.StrokeDashArray
 				ellipseDB.StrokeDashArray_Data.Valid = true
 
+				ellipseDB.Transform_Data.String = ellipse.Transform
+				ellipseDB.Transform_Data.Valid = true
+
 			}
 		}
 		query := backRepoEllipse.db.Save(&ellipseDB)
@@ -342,6 +352,8 @@ func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseTwoInstance(backRepo 
 			ellipse.StrokeWidth = ellipseDB.StrokeWidth_Data.Float64
 
 			ellipse.StrokeDashArray = ellipseDB.StrokeDashArray_Data.String
+
+			ellipse.Transform = ellipseDB.Transform_Data.String
 
 		}
 	}

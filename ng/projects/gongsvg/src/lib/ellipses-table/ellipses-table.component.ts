@@ -92,6 +92,7 @@ export class EllipsesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Ellipses",
       ]
     } else {
@@ -106,6 +107,7 @@ export class EllipsesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Ellipses",
       ]
       this.selection = new SelectionModel<EllipseDB>(allowMultiSelect, this.initialSelection);

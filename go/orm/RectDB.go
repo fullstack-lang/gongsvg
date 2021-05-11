@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Rect sql.NullBool
 var __Rect_time__dummyDeclaration time.Duration
+var dummy_Rect_sort sort.Float64Slice
 
 // RectAPI is the input in POST API
 //
@@ -62,6 +65,7 @@ type RectAPI struct {
 
 	// Implementation of a reverse ID for field SVG{}.Rects []*Rect
 	SVG_RectsDBID sql.NullInt64
+	SVG_RectsDBID_Index sql.NullInt64
 
 	// end of insertion
 }

@@ -89,6 +89,7 @@ export class PathsTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Paths",
       ]
     } else {
@@ -100,6 +101,7 @@ export class PathsTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Paths",
       ]
       this.selection = new SelectionModel<PathDB>(allowMultiSelect, this.initialSelection);

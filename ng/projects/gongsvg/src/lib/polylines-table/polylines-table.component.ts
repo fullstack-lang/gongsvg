@@ -89,6 +89,7 @@ export class PolylinesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Polylines",
       ]
     } else {
@@ -100,6 +101,7 @@ export class PolylinesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "Transform",
         "Polylines",
       ]
       this.selection = new SelectionModel<PolylineDB>(allowMultiSelect, this.initialSelection);

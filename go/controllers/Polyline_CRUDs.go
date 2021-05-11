@@ -92,6 +92,10 @@ func GetPolylines(c *gin.Context) {
 			polyline.StrokeDashArray = polyline.StrokeDashArray_Data.String
 		}
 
+		if polyline.Transform_Data.Valid {
+			polyline.Transform = polyline.Transform_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, polylines)
@@ -149,6 +153,9 @@ func PostPolyline(c *gin.Context) {
 
 	polylineDB.StrokeDashArray_Data.String = input.StrokeDashArray
 	polylineDB.StrokeDashArray_Data.Valid = true
+
+	polylineDB.Transform_Data.String = input.Transform
+	polylineDB.Transform_Data.Valid = true
 
 	query := db.Create(&polylineDB)
 	if query.Error != nil {
@@ -217,6 +224,10 @@ func GetPolyline(c *gin.Context) {
 		polyline.StrokeDashArray = polyline.StrokeDashArray_Data.String
 	}
 
+	if polyline.Transform_Data.Valid {
+		polyline.Transform = polyline.Transform_Data.String
+	}
+
 	c.JSON(http.StatusOK, polyline)
 }
 
@@ -275,6 +286,9 @@ func UpdatePolyline(c *gin.Context) {
 
 	input.StrokeDashArray_Data.String = input.StrokeDashArray
 	input.StrokeDashArray_Data.Valid = true
+
+	input.Transform_Data.String = input.Transform
+	input.Transform_Data.Valid = true
 
 	query = db.Model(&polylineDB).Updates(input)
 	if query.Error != nil {

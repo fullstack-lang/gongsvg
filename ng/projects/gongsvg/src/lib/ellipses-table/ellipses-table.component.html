@@ -89,6 +89,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Transform">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Transform </th>
+            <td mat-cell *matCellDef="let Ellipse">
+                {{Ellipse.Transform}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Ellipses">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (SVG) Ellipses </th>
             <td mat-cell *matCellDef="let ellipse">

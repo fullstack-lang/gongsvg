@@ -7,4 +7,5 @@ export class PolygoneAPI {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 }

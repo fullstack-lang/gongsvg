@@ -17,9 +17,11 @@ export class PolygoneDB {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 
 	// insertion point for other declarations
 	SVG_PolygonesDBID?: NullInt64
+	SVG_PolygonesDBID_Index?: NullInt64 // store the index of the polygone instance in SVG.Polygones
 	SVG_Polygones_reverse?: SVGDB
 
 }

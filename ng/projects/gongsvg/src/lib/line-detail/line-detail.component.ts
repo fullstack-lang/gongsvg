@@ -7,6 +7,7 @@ import { LineService } from '../line.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
+import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
 
@@ -98,6 +99,7 @@ export class LineDetailComponent implements OnInit {
 				this.line.SVG_LinesDBID = new NullInt64
 				this.line.SVG_LinesDBID.Int64 = this.line.SVG_Lines_reverse.ID
 				this.line.SVG_LinesDBID.Valid = true
+				this.line.SVG_LinesDBID_Index.Valid = true
 				this.line.SVG_Lines_reverse = undefined // very important, otherwise, circular JSON
 			}
 		}
@@ -117,6 +119,7 @@ export class LineDetailComponent implements OnInit {
 					this.line.SVG_LinesDBID = new NullInt64
 					this.line.SVG_LinesDBID.Int64 = id
 					this.line.SVG_LinesDBID.Valid = true
+					this.line.SVG_LinesDBID_Index.Valid = true
 					break
 			}
 			this.lineService.postLine(this.line).subscribe(line => {
@@ -138,13 +141,39 @@ export class LineDetailComponent implements OnInit {
 
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
+		dialogConfig.width = "50%"
+		dialogConfig.height = "50%"
 		dialogConfig.data = {
 			ID: this.line.ID,
 			ReversePointer: reverseField,
+			OrderingMode: false,
 		};
 		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
 			MapOfComponents.get(AssociatedStruct).get(
 				AssociatedStruct + 'sTableComponent'
+			),
+			dialogConfig
+		);
+
+		dialogRef.afterClosed().subscribe(result => {
+			console.log('The dialog was closed');
+		});
+	}
+
+	openDragAndDropOrdering(AssociatedStruct: string, reverseField: string) {
+
+		const dialogConfig = new MatDialogConfig();
+
+		// dialogConfig.disableClose = true;
+		dialogConfig.autoFocus = true;
+		dialogConfig.data = {
+			ID: this.line.ID,
+			ReversePointer: reverseField,
+			OrderingMode: true,
+		};
+		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
+			MapOfSortingComponents.get(AssociatedStruct).get(
+				AssociatedStruct + 'SortingComponent'
 			),
 			dialogConfig
 		);

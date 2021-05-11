@@ -23,6 +23,7 @@ export class TextDB {
 
 	// insertion point for other declarations
 	SVG_TextsDBID?: NullInt64
+	SVG_TextsDBID_Index?: NullInt64 // store the index of the text instance in SVG.Texts
 	SVG_Texts_reverse?: SVGDB
 
 }

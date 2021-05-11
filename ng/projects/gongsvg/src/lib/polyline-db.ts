@@ -17,9 +17,11 @@ export class PolylineDB {
 	Stroke?: string
 	StrokeWidth?: number
 	StrokeDashArray?: string
+	Transform?: string
 
 	// insertion point for other declarations
 	SVG_PolylinesDBID?: NullInt64
+	SVG_PolylinesDBID_Index?: NullInt64 // store the index of the polyline instance in SVG.Polylines
 	SVG_Polylines_reverse?: SVGDB
 
 }

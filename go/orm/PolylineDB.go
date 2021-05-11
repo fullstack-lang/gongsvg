@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Polyline sql.NullBool
 var __Polyline_time__dummyDeclaration time.Duration
+var dummy_Polyline_sort sort.Float64Slice
 
 // PolylineAPI is the input in POST API
 //
@@ -48,8 +51,12 @@ type PolylineAPI struct {
 	// Declation for basic field polylineDB.StrokeDashArray {{BasicKind}} (to be completed)
 	StrokeDashArray_Data sql.NullString
 
+	// Declation for basic field polylineDB.Transform {{BasicKind}} (to be completed)
+	Transform_Data sql.NullString
+
 	// Implementation of a reverse ID for field SVG{}.Polylines []*Polyline
 	SVG_PolylinesDBID sql.NullInt64
+	SVG_PolylinesDBID_Index sql.NullInt64
 
 	// end of insertion
 }
@@ -226,6 +233,9 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseTwoInstance(backRepo 
 				polylineDB.StrokeDashArray_Data.String = polyline.StrokeDashArray
 				polylineDB.StrokeDashArray_Data.Valid = true
 
+				polylineDB.Transform_Data.String = polyline.Transform
+				polylineDB.Transform_Data.Valid = true
+
 			}
 		}
 		query := backRepoPolyline.db.Save(&polylineDB)
@@ -318,6 +328,8 @@ func (backRepoPolyline *BackRepoPolylineStruct) CheckoutPhaseTwoInstance(backRep
 			polyline.StrokeWidth = polylineDB.StrokeWidth_Data.Float64
 
 			polyline.StrokeDashArray = polylineDB.StrokeDashArray_Data.String
+
+			polyline.Transform = polylineDB.Transform_Data.String
 
 		}
 	}

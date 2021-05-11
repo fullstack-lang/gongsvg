@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Circle sql.NullBool
 var __Circle_time__dummyDeclaration time.Duration
+var dummy_Circle_sort sort.Float64Slice
 
 // CircleAPI is the input in POST API
 //
@@ -59,6 +62,7 @@ type CircleAPI struct {
 
 	// Implementation of a reverse ID for field SVG{}.Circles []*Circle
 	SVG_CirclesDBID sql.NullInt64
+	SVG_CirclesDBID_Index sql.NullInt64
 
 	// end of insertion
 }

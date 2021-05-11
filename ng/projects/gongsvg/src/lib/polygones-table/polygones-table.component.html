@@ -68,6 +68,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Transform">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Transform </th>
+            <td mat-cell *matCellDef="let Polygone">
+                {{Polygone.Transform}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Polygones">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (SVG) Polygones </th>
             <td mat-cell *matCellDef="let polygone">

@@ -24,6 +24,7 @@ export class LineDB {
 
 	// insertion point for other declarations
 	SVG_LinesDBID?: NullInt64
+	SVG_LinesDBID_Index?: NullInt64 // store the index of the line instance in SVG.Lines
 	SVG_Lines_reverse?: SVGDB
 
 }

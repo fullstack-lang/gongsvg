@@ -22,7 +22,7 @@ export class LineComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log("line X1 " + this.X1)
+
   }
 
 }

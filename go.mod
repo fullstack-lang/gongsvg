@@ -3,6 +3,7 @@ module github.com/fullstack-lang/gongsvg
 go 1.16
 
 require (
+	github.com/fullstack-lang/gongdoc v0.0.0-20210521072620-68c1b92c1d71
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.7.1

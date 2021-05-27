@@ -198,14 +198,14 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				svgDB.Name_Data.Valid = true
 
 				// commit a slice of pointer translates to update reverse pointer to Rect, i.e.
+				index_Rects := 0
 				for _, rect := range svg.Rects {
-					index := 0
 					if rectDBID, ok := (*backRepo.BackRepoRect.Map_RectPtr_RectDBID)[rect]; ok {
 						if rectDB, ok := (*backRepo.BackRepoRect.Map_RectDBID_RectDB)[rectDBID]; ok {
 							rectDB.SVG_RectsDBID.Int64 = int64(svgDB.ID)
 							rectDB.SVG_RectsDBID.Valid = true
-							rectDB.SVG_RectsDBID_Index.Int64 = int64(index)
-							index = index + 1
+							rectDB.SVG_RectsDBID_Index.Int64 = int64(index_Rects)
+							index_Rects = index_Rects + 1
 							rectDB.SVG_RectsDBID_Index.Valid = true
 							if q := backRepoSVG.db.Save(&rectDB); q.Error != nil {
 								return q.Error
@@ -215,14 +215,14 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to Text, i.e.
+				index_Texts := 0
 				for _, text := range svg.Texts {
-					index := 0
 					if textDBID, ok := (*backRepo.BackRepoText.Map_TextPtr_TextDBID)[text]; ok {
 						if textDB, ok := (*backRepo.BackRepoText.Map_TextDBID_TextDB)[textDBID]; ok {
 							textDB.SVG_TextsDBID.Int64 = int64(svgDB.ID)
 							textDB.SVG_TextsDBID.Valid = true
-							textDB.SVG_TextsDBID_Index.Int64 = int64(index)
-							index = index + 1
+							textDB.SVG_TextsDBID_Index.Int64 = int64(index_Texts)
+							index_Texts = index_Texts + 1
 							textDB.SVG_TextsDBID_Index.Valid = true
 							if q := backRepoSVG.db.Save(&textDB); q.Error != nil {
 								return q.Error
@@ -232,14 +232,14 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to Circle, i.e.
+				index_Circles := 0
 				for _, circle := range svg.Circles {
-					index := 0
 					if circleDBID, ok := (*backRepo.BackRepoCircle.Map_CirclePtr_CircleDBID)[circle]; ok {
 						if circleDB, ok := (*backRepo.BackRepoCircle.Map_CircleDBID_CircleDB)[circleDBID]; ok {
 							circleDB.SVG_CirclesDBID.Int64 = int64(svgDB.ID)
 							circleDB.SVG_CirclesDBID.Valid = true
-							circleDB.SVG_CirclesDBID_Index.Int64 = int64(index)
-							index = index + 1
+							circleDB.SVG_CirclesDBID_Index.Int64 = int64(index_Circles)
+							index_Circles = index_Circles + 1
 							circleDB.SVG_CirclesDBID_Index.Valid = true
 							if q := backRepoSVG.db.Save(&circleDB); q.Error != nil {
 								return q.Error
@@ -249,14 +249,14 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to Line, i.e.
+				index_Lines := 0
 				for _, line := range svg.Lines {
-					index := 0
 					if lineDBID, ok := (*backRepo.BackRepoLine.Map_LinePtr_LineDBID)[line]; ok {
 						if lineDB, ok := (*backRepo.BackRepoLine.Map_LineDBID_LineDB)[lineDBID]; ok {
 							lineDB.SVG_LinesDBID.Int64 = int64(svgDB.ID)
 							lineDB.SVG_LinesDBID.Valid = true
-							lineDB.SVG_LinesDBID_Index.Int64 = int64(index)
-							index = index + 1
+							lineDB.SVG_LinesDBID_Index.Int64 = int64(index_Lines)
+							index_Lines = index_Lines + 1
 							lineDB.SVG_LinesDBID_Index.Valid = true
 							if q := backRepoSVG.db.Save(&lineDB); q.Error != nil {
 								return q.Error
@@ -266,14 +266,14 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to Ellipse, i.e.
+				index_Ellipses := 0
 				for _, ellipse := range svg.Ellipses {
-					index := 0
 					if ellipseDBID, ok := (*backRepo.BackRepoEllipse.Map_EllipsePtr_EllipseDBID)[ellipse]; ok {
 						if ellipseDB, ok := (*backRepo.BackRepoEllipse.Map_EllipseDBID_EllipseDB)[ellipseDBID]; ok {
 							ellipseDB.SVG_EllipsesDBID.Int64 = int64(svgDB.ID)
 							ellipseDB.SVG_EllipsesDBID.Valid = true
-							ellipseDB.SVG_EllipsesDBID_Index.Int64 = int64(index)
-							index = index + 1
+							ellipseDB.SVG_EllipsesDBID_Index.Int64 = int64(index_Ellipses)
+							index_Ellipses = index_Ellipses + 1
 							ellipseDB.SVG_EllipsesDBID_Index.Valid = true
 							if q := backRepoSVG.db.Save(&ellipseDB); q.Error != nil {
 								return q.Error
@@ -283,14 +283,14 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to Polyline, i.e.
+				index_Polylines := 0
 				for _, polyline := range svg.Polylines {
-					index := 0
 					if polylineDBID, ok := (*backRepo.BackRepoPolyline.Map_PolylinePtr_PolylineDBID)[polyline]; ok {
 						if polylineDB, ok := (*backRepo.BackRepoPolyline.Map_PolylineDBID_PolylineDB)[polylineDBID]; ok {
 							polylineDB.SVG_PolylinesDBID.Int64 = int64(svgDB.ID)
 							polylineDB.SVG_PolylinesDBID.Valid = true
-							polylineDB.SVG_PolylinesDBID_Index.Int64 = int64(index)
-							index = index + 1
+							polylineDB.SVG_PolylinesDBID_Index.Int64 = int64(index_Polylines)
+							index_Polylines = index_Polylines + 1
 							polylineDB.SVG_PolylinesDBID_Index.Valid = true
 							if q := backRepoSVG.db.Save(&polylineDB); q.Error != nil {
 								return q.Error
@@ -300,14 +300,14 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to Polygone, i.e.
+				index_Polygones := 0
 				for _, polygone := range svg.Polygones {
-					index := 0
 					if polygoneDBID, ok := (*backRepo.BackRepoPolygone.Map_PolygonePtr_PolygoneDBID)[polygone]; ok {
 						if polygoneDB, ok := (*backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygoneDB)[polygoneDBID]; ok {
 							polygoneDB.SVG_PolygonesDBID.Int64 = int64(svgDB.ID)
 							polygoneDB.SVG_PolygonesDBID.Valid = true
-							polygoneDB.SVG_PolygonesDBID_Index.Int64 = int64(index)
-							index = index + 1
+							polygoneDB.SVG_PolygonesDBID_Index.Int64 = int64(index_Polygones)
+							index_Polygones = index_Polygones + 1
 							polygoneDB.SVG_PolygonesDBID_Index.Valid = true
 							if q := backRepoSVG.db.Save(&polygoneDB); q.Error != nil {
 								return q.Error
@@ -317,14 +317,14 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to Path, i.e.
+				index_Paths := 0
 				for _, path := range svg.Paths {
-					index := 0
 					if pathDBID, ok := (*backRepo.BackRepoPath.Map_PathPtr_PathDBID)[path]; ok {
 						if pathDB, ok := (*backRepo.BackRepoPath.Map_PathDBID_PathDB)[pathDBID]; ok {
 							pathDB.SVG_PathsDBID.Int64 = int64(svgDB.ID)
 							pathDB.SVG_PathsDBID.Valid = true
-							pathDB.SVG_PathsDBID_Index.Int64 = int64(index)
-							index = index + 1
+							pathDB.SVG_PathsDBID_Index.Int64 = int64(index_Paths)
+							index_Paths = index_Paths + 1
 							pathDB.SVG_PathsDBID_Index.Valid = true
 							if q := backRepoSVG.db.Save(&pathDB); q.Error != nil {
 								return q.Error

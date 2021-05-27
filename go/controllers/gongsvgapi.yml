@@ -383,7 +383,8 @@ definitions:
     x-go-name: CircleAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   circleDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       CX:
         format: double
@@ -516,7 +517,8 @@ definitions:
     x-go-name: EllipseAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   ellipseDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       CX:
         format: double
@@ -651,7 +653,8 @@ definitions:
     x-go-name: LineAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   lineDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -794,7 +797,8 @@ definitions:
     x-go-name: PathAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   pathDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -929,7 +933,8 @@ definitions:
     x-go-name: PolygoneAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   polygoneDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -1048,7 +1053,8 @@ definitions:
     x-go-name: PolylineAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   polylineDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -1175,7 +1181,8 @@ definitions:
     x-go-name: RectAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   rectDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -1297,7 +1304,8 @@ definitions:
     x-go-name: SVGAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   svgDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Circles:
         items:
@@ -1419,7 +1427,8 @@ definitions:
     x-go-name: TextAPI
     x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   textDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
     properties:
       Color:
         type: string
@@ -2273,7 +2282,8 @@ responses:
       Color:
         type: string
       Color_Data:
-        description: Declation for basic field circleDB.Color {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.Color {{BasicKind}} (to be
+          completed)
       CreatedAt:
         format: date-time
         type: string
@@ -2284,7 +2294,8 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field circleDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.FillOpacity {{BasicKind}}
+          (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2295,23 +2306,27 @@ responses:
           insertion for fields declaration
           Declation for basic field circleDB.Name {{BasicKind}} (to be completed)
       Radius_Data:
-        description: Declation for basic field circleDB.Radius {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.Radius {{BasicKind}} (to be
+          completed)
       SVG_CirclesDBID:
         description: Implementation of a reverse ID for field SVG{}.Circles []*Circle
       SVG_CirclesDBID_Index: {}
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field circleDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.Stroke {{BasicKind}} (to be
+          completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field circleDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field circleDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.StrokeWidth {{BasicKind}}
+          (to be completed)
       Transform:
         description: |-
           Transform is a string componding SVG transform
@@ -2322,7 +2337,8 @@ responses:
           scale(1 0.5)
         type: string
       Transform_Data:
-        description: Declation for basic field circleDB.Transform {{BasicKind}} (to be completed)
+        description: Declation for basic field circleDB.Transform {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2347,7 +2363,8 @@ responses:
       Color:
         type: string
       Color_Data:
-        description: Declation for basic field ellipseDB.Color {{BasicKind}} (to be completed)
+        description: Declation for basic field ellipseDB.Color {{BasicKind}} (to be
+          completed)
       CreatedAt:
         format: date-time
         type: string
@@ -2358,7 +2375,8 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field ellipseDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field ellipseDB.FillOpacity {{BasicKind}}
+          (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2378,16 +2396,19 @@ responses:
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field ellipseDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field ellipseDB.Stroke {{BasicKind}} (to
+          be completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field ellipseDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field ellipseDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field ellipseDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field ellipseDB.StrokeWidth {{BasicKind}}
+          (to be completed)
       Transform:
         description: |-
           Transform is a string componding SVG transform
@@ -2398,7 +2419,8 @@ responses:
           scale(1 0.5)
         type: string
       Transform_Data:
-        description: Declation for basic field ellipseDB.Transform {{BasicKind}} (to be completed)
+        description: Declation for basic field ellipseDB.Transform {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2441,7 +2463,8 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field lineDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field lineDB.FillOpacity {{BasicKind}} (to
+          be completed)
       ID:
         format: uint64
         type: integer
@@ -2457,16 +2480,19 @@ responses:
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field lineDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field lineDB.Stroke {{BasicKind}} (to be
+          completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field lineDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field lineDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field lineDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field lineDB.StrokeWidth {{BasicKind}} (to
+          be completed)
       Transform:
         description: |-
           Transform is a string componding SVG transform
@@ -2477,7 +2503,8 @@ responses:
           scale(1 0.5)
         type: string
       Transform_Data:
-        description: Declation for basic field lineDB.Transform {{BasicKind}} (to be completed)
+        description: Declation for basic field lineDB.Transform {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2529,7 +2556,8 @@ responses:
           ClosePath: Z, z
         type: string
       Definition_Data:
-        description: Declation for basic field pathDB.Definition {{BasicKind}} (to be completed)
+        description: Declation for basic field pathDB.Definition {{BasicKind}} (to
+          be completed)
       DeletedAt:
         format: date-time
         type: string
@@ -2537,7 +2565,8 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field pathDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field pathDB.FillOpacity {{BasicKind}} (to
+          be completed)
       ID:
         format: uint64
         type: integer
@@ -2553,16 +2582,19 @@ responses:
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field pathDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field pathDB.Stroke {{BasicKind}} (to be
+          completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field pathDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field pathDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field pathDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field pathDB.StrokeWidth {{BasicKind}} (to
+          be completed)
       Transform:
         description: |-
           Transform is a string componding SVG transform
@@ -2573,7 +2605,8 @@ responses:
           scale(1 0.5)
         type: string
       Transform_Data:
-        description: Declation for basic field pathDB.Transform {{BasicKind}} (to be completed)
+        description: Declation for basic field pathDB.Transform {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2591,7 +2624,8 @@ responses:
       Color:
         type: string
       Color_Data:
-        description: Declation for basic field polygoneDB.Color {{BasicKind}} (to be completed)
+        description: Declation for basic field polygoneDB.Color {{BasicKind}} (to
+          be completed)
       CreatedAt:
         format: date-time
         type: string
@@ -2602,7 +2636,8 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field polygoneDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field polygoneDB.FillOpacity {{BasicKind}}
+          (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2615,23 +2650,27 @@ responses:
       Points:
         type: string
       Points_Data:
-        description: Declation for basic field polygoneDB.Points {{BasicKind}} (to be completed)
+        description: Declation for basic field polygoneDB.Points {{BasicKind}} (to
+          be completed)
       SVG_PolygonesDBID:
         description: Implementation of a reverse ID for field SVG{}.Polygones []*Polygone
       SVG_PolygonesDBID_Index: {}
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field polygoneDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field polygoneDB.Stroke {{BasicKind}} (to
+          be completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field polygoneDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field polygoneDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field polygoneDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field polygoneDB.StrokeWidth {{BasicKind}}
+          (to be completed)
       Transform:
         description: |-
           Transform is a string componding SVG transform
@@ -2642,7 +2681,8 @@ responses:
           scale(1 0.5)
         type: string
       Transform_Data:
-        description: Declation for basic field polygoneDB.Transform {{BasicKind}} (to be completed)
+        description: Declation for basic field polygoneDB.Transform {{BasicKind}}
+          (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2660,7 +2700,8 @@ responses:
       Color:
         type: string
       Color_Data:
-        description: Declation for basic field polylineDB.Color {{BasicKind}} (to be completed)
+        description: Declation for basic field polylineDB.Color {{BasicKind}} (to
+          be completed)
       CreatedAt:
         format: date-time
         type: string
@@ -2671,7 +2712,8 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field polylineDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field polylineDB.FillOpacity {{BasicKind}}
+          (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2684,23 +2726,27 @@ responses:
       Points:
         type: string
       Points_Data:
-        description: Declation for basic field polylineDB.Points {{BasicKind}} (to be completed)
+        description: Declation for basic field polylineDB.Points {{BasicKind}} (to
+          be completed)
       SVG_PolylinesDBID:
         description: Implementation of a reverse ID for field SVG{}.Polylines []*Polyline
       SVG_PolylinesDBID_Index: {}
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field polylineDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field polylineDB.Stroke {{BasicKind}} (to
+          be completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field polylineDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field polylineDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field polylineDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field polylineDB.StrokeWidth {{BasicKind}}
+          (to be completed)
       Transform:
         description: |-
           Transform is a string componding SVG transform
@@ -2711,7 +2757,8 @@ responses:
           scale(1 0.5)
         type: string
       Transform_Data:
-        description: Declation for basic field polylineDB.Transform {{BasicKind}} (to be completed)
+        description: Declation for basic field polylineDB.Transform {{BasicKind}}
+          (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2740,9 +2787,11 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to
+          be completed)
       Height_Data:
-        description: Declation for basic field rectDB.Height {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.Height {{BasicKind}} (to be
+          completed)
       ID:
         format: uint64
         type: integer
@@ -2758,16 +2807,19 @@ responses:
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be
+          completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field rectDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to
+          be completed)
       Transform:
         description: |-
           Transform is a string componding SVG transform
@@ -2778,7 +2830,8 @@ responses:
           scale(1 0.5)
         type: string
       Transform_Data:
-        description: Declation for basic field rectDB.Transform {{BasicKind}} (to be completed)
+        description: Declation for basic field rectDB.Transform {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2875,7 +2928,8 @@ responses:
       Content:
         type: string
       Content_Data:
-        description: Declation for basic field textDB.Content {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.Content {{BasicKind}} (to be
+          completed)
       CreatedAt:
         format: date-time
         type: string
@@ -2886,7 +2940,8 @@ responses:
         format: double
         type: number
       FillOpacity_Data:
-        description: Declation for basic field textDB.FillOpacity {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.FillOpacity {{BasicKind}} (to
+          be completed)
       ID:
         format: uint64
         type: integer
@@ -2902,16 +2957,19 @@ responses:
       Stroke:
         type: string
       Stroke_Data:
-        description: Declation for basic field textDB.Stroke {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.Stroke {{BasicKind}} (to be
+          completed)
       StrokeDashArray:
         type: string
       StrokeDashArray_Data:
-        description: Declation for basic field textDB.StrokeDashArray {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.StrokeDashArray {{BasicKind}}
+          (to be completed)
       StrokeWidth:
         format: double
         type: number
       StrokeWidth_Data:
-        description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to
+          be completed)
       Transform:
         description: |-
           Transform is a string componding SVG transform
@@ -2922,7 +2980,8 @@ responses:
           scale(1 0.5)
         type: string
       Transform_Data:
-        description: Declation for basic field textDB.Transform {{BasicKind}} (to be completed)
+        description: Declation for basic field textDB.Transform {{BasicKind}} (to
+          be completed)
       UpdatedAt:
         format: date-time
         type: string

@@ -15,6 +15,7 @@ export class RectDB {
 	Y?: number
 	Width?: number
 	Height?: number
+	RX?: number
 	Color?: string
 	FillOpacity?: number
 	Stroke?: string

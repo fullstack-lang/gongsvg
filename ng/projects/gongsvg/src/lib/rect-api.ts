@@ -5,6 +5,7 @@ export class RectAPI {
 	Y?: number
 	Width?: number
 	Height?: number
+	RX?: number
 	Color?: string
 	FillOpacity?: number
 	Stroke?: string

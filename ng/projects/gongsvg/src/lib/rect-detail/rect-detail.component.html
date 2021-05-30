@@ -50,6 +50,15 @@
     <div class="details__item">
         <form>
             <mat-form-field>
+                <mat-label>RX</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.RX">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
                 <mat-label>Color</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Color">
             </mat-form-field>

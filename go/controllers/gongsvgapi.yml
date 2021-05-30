@@ -285,7 +285,7 @@ definitions:
       X:
         format: double
         type: number
-        x-go-name: Height
+        x-go-name: RX
     type: object
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Text:
@@ -959,7 +959,7 @@ definitions:
       X:
         format: double
         type: number
-        x-go-name: Height
+        x-go-name: RX
     title: RectAPI is the input in POST API
     type: object
     x-go-name: RectAPI
@@ -986,6 +986,8 @@ definitions:
         type: integer
       Name_Data:
         $ref: '#/definitions/NullString'
+      RX_Data:
+        $ref: '#/definitions/NullFloat64'
       SVG_RectsDBID:
         $ref: '#/definitions/NullInt64'
       SVG_RectsDBID_Index:
@@ -2338,6 +2340,8 @@ responses:
         description: |-
           insertion for basic fields declaration
           Declation for basic field rectDB.Name {{BasicKind}} (to be completed)
+      RX_Data:
+        description: Declation for basic field rectDB.RX {{BasicKind}} (to be completed)
       SVG_RectsDBID:
         description: |-
           insertion for pointer fields encoding declaration

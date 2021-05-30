@@ -75,6 +75,9 @@ type RectDB struct {
 	// Declation for basic field rectDB.Height {{BasicKind}} (to be completed)
 	Height_Data sql.NullFloat64
 
+	// Declation for basic field rectDB.RX {{BasicKind}} (to be completed)
+	RX_Data sql.NullFloat64
+
 	// Declation for basic field rectDB.Color {{BasicKind}} (to be completed)
 	Color_Data sql.NullString
 
@@ -371,6 +374,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 	rectDB.Height_Data.Float64 = rect.Height
 	rectDB.Height_Data.Valid = true
 
+	rectDB.RX_Data.Float64 = rect.RX
+	rectDB.RX_Data.Valid = true
+
 	rectDB.Color_Data.String = rect.Color
 	rectDB.Color_Data.Valid = true
 
@@ -400,6 +406,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
 	rect.Y = rectDB.Y_Data.Float64
 	rect.Width = rectDB.Width_Data.Float64
 	rect.Height = rectDB.Height_Data.Float64
+	rect.RX = rectDB.RX_Data.Float64
 	rect.Color = rectDB.Color_Data.String
 	rect.FillOpacity = rectDB.FillOpacity_Data.Float64
 	rect.Stroke = rectDB.Stroke_Data.String

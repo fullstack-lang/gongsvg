@@ -54,6 +54,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="RX">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> RX </th>
+            <td mat-cell *matCellDef="let Rect">
+                {{Rect.RX.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Color">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
             <td mat-cell *matCellDef="let Rect">

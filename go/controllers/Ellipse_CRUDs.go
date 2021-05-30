@@ -61,7 +61,7 @@ func GetEllipses(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var ellipseAPIs []orm.EllipseAPI
+	ellipseAPIs := make([]orm.EllipseAPI, 0)
 
 	// for each ellipse, update fields from the database nullable fields
 	for idx := range ellipseDBs {

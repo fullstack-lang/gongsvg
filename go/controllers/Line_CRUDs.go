@@ -61,7 +61,7 @@ func GetLines(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var lineAPIs []orm.LineAPI
+	lineAPIs := make([]orm.LineAPI, 0)
 
 	// for each line, update fields from the database nullable fields
 	for idx := range lineDBs {

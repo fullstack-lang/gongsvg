@@ -61,7 +61,7 @@ func GetPaths(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var pathAPIs []orm.PathAPI
+	pathAPIs := make([]orm.PathAPI, 0)
 
 	// for each path, update fields from the database nullable fields
 	for idx := range pathDBs {

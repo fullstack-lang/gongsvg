@@ -61,7 +61,7 @@ func GetPolylines(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var polylineAPIs []orm.PolylineAPI
+	polylineAPIs := make([]orm.PolylineAPI, 0)
 
 	// for each polyline, update fields from the database nullable fields
 	for idx := range polylineDBs {

@@ -61,7 +61,7 @@ func GetSVGs(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var svgAPIs []orm.SVGAPI
+	svgAPIs := make([]orm.SVGAPI, 0)
 
 	// for each svg, update fields from the database nullable fields
 	for idx := range svgDBs {

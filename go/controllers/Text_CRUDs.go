@@ -61,7 +61,7 @@ func GetTexts(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var textAPIs []orm.TextAPI
+	textAPIs := make([]orm.TextAPI, 0)
 
 	// for each text, update fields from the database nullable fields
 	for idx := range textDBs {

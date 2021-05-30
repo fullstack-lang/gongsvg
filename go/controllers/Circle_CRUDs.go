@@ -61,7 +61,7 @@ func GetCircles(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var circleAPIs []orm.CircleAPI
+	circleAPIs := make([]orm.CircleAPI, 0)
 
 	// for each circle, update fields from the database nullable fields
 	for idx := range circleDBs {

@@ -61,7 +61,7 @@ func GetPolygones(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var polygoneAPIs []orm.PolygoneAPI
+	polygoneAPIs := make([]orm.PolygoneAPI, 0)
 
 	// for each polygone, update fields from the database nullable fields
 	for idx := range polygoneDBs {

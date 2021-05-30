@@ -61,7 +61,7 @@ func GetRects(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var rectAPIs []orm.RectAPI
+	rectAPIs := make([]orm.RectAPI, 0)
 
 	// for each rect, update fields from the database nullable fields
 	for idx := range rectDBs {

@@ -112,7 +112,6 @@ export class PolylinesTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.polylines = this.frontRepo.Polylines_array;
 
@@ -150,8 +149,6 @@ export class PolylinesTableComponent implements OnInit {
     this.polylineService.deletePolyline(polylineID).subscribe(
       polyline => {
         this.polylineService.PolylineServiceChanged.next("delete")
-
-        console.log("polyline deleted")
       }
     );
   }
@@ -213,7 +210,6 @@ export class PolylinesTableComponent implements OnInit {
     // from selection, set polyline that belong to polyline through Anarrayofb
     this.selection.selected.forEach(
       polyline => {
-        console.log("selection ID " + polyline.ID)
         let ID = +this.dialogData.ID
         polyline[this.dialogData.ReversePointer].Int64 = ID
         polyline[this.dialogData.ReversePointer].Valid = true
@@ -227,7 +223,6 @@ export class PolylinesTableComponent implements OnInit {
         this.polylineService.updatePolyline(polyline)
           .subscribe(polyline => {
             this.polylineService.PolylineServiceChanged.next("update")
-            console.log("polyline saved")
           });
       }
     )

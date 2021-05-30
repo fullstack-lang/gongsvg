@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,9 +31,35 @@ var dummy_Circle_sort sort.Float64Slice
 //
 // swagger:model circleAPI
 type CircleAPI struct {
+	gorm.Model
+
 	models.Circle
 
-	// insertion for fields declaration
+	// encoding of pointers
+	CirclePointersEnconding
+}
+
+// CirclePointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type CirclePointersEnconding struct {
+	// insertion for pointer fields encoding declaration
+	// Implementation of a reverse ID for field SVG{}.Circles []*Circle
+	SVG_CirclesDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	SVG_CirclesDBID_Index sql.NullInt64
+}
+
+// CircleDB describes a circle in the database
+//
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
+//
+// swagger:model circleDB
+type CircleDB struct {
+	gorm.Model
+
+	// insertion for basic fields declaration
 	// Declation for basic field circleDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -60,22 +90,8 @@ type CircleAPI struct {
 	// Declation for basic field circleDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
 
-	// Implementation of a reverse ID for field SVG{}.Circles []*Circle
-	SVG_CirclesDBID sql.NullInt64
-	SVG_CirclesDBID_Index sql.NullInt64
-
-	// end of insertion
-}
-
-// CircleDB describes a circle in the database
-//
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
-//
-// swagger:model circleDB
-type CircleDB struct {
-	gorm.Model
-
-	CircleAPI
+	// encoding of pointers
+	CirclePointersEnconding
 }
 
 // CircleDBs arrays circleDBs
@@ -99,6 +115,13 @@ type BackRepoCircleStruct struct {
 	Map_CircleDBID_CirclePtr *map[uint]*models.Circle
 
 	db *gorm.DB
+}
+
+// GetCircleDBFromCirclePtr is a handy function to access the back repo instance from the stage instance
+func (backRepoCircle *BackRepoCircleStruct) GetCircleDBFromCirclePtr(circle *models.Circle) (circleDB *CircleDB) {
+	id := (*backRepoCircle.Map_CirclePtr_CircleDBID)[circle]
+	circleDB = (*backRepoCircle.Map_CircleDBID_CircleDB)[id]
+	return
 }
 
 // BackRepoCircle.Init set up the BackRepo of the Circle
@@ -182,7 +205,7 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseOneInstance(circle *model
 
 	// initiate circle
 	var circleDB CircleDB
-	circleDB.Circle = *circle
+	circleDB.CopyBasicFieldsFromCircle(circle)
 
 	query := backRepoCircle.db.Create(&circleDB)
 	if query.Error != nil {
@@ -215,41 +238,9 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseTwoInstance(backRepo *Bac
 	// fetch matching circleDB
 	if circleDB, ok := (*backRepoCircle.Map_CircleDBID_CircleDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				circleDB.Name_Data.String = circle.Name
-				circleDB.Name_Data.Valid = true
+		circleDB.CopyBasicFieldsFromCircle(circle)
 
-				circleDB.CX_Data.Float64 = circle.CX
-				circleDB.CX_Data.Valid = true
-
-				circleDB.CY_Data.Float64 = circle.CY
-				circleDB.CY_Data.Valid = true
-
-				circleDB.Radius_Data.Float64 = circle.Radius
-				circleDB.Radius_Data.Valid = true
-
-				circleDB.Color_Data.String = circle.Color
-				circleDB.Color_Data.Valid = true
-
-				circleDB.FillOpacity_Data.Float64 = circle.FillOpacity
-				circleDB.FillOpacity_Data.Valid = true
-
-				circleDB.Stroke_Data.String = circle.Stroke
-				circleDB.Stroke_Data.Valid = true
-
-				circleDB.StrokeWidth_Data.Float64 = circle.StrokeWidth
-				circleDB.StrokeWidth_Data.Valid = true
-
-				circleDB.StrokeDashArray_Data.String = circle.StrokeDashArray
-				circleDB.StrokeDashArray_Data.Valid = true
-
-				circleDB.Transform_Data.String = circle.Transform
-				circleDB.Transform_Data.Valid = true
-
-			}
-		}
+		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoCircle.db.Save(&circleDB)
 		if query.Error != nil {
 			return query.Error
@@ -290,18 +281,23 @@ func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseOne() (Error error) {
 // models version of the circleDB
 func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseOneInstance(circleDB *CircleDB) (Error error) {
 
-	// if absent, create entries in the backRepoCircle maps.
-	circleWithNewFieldValues := circleDB.Circle
-	if _, ok := (*backRepoCircle.Map_CircleDBID_CirclePtr)[circleDB.ID]; !ok {
+	circle, ok := (*backRepoCircle.Map_CircleDBID_CirclePtr)[circleDB.ID]
+	if !ok {
+		circle = new(models.Circle)
 
-		(*backRepoCircle.Map_CircleDBID_CirclePtr)[circleDB.ID] = &circleWithNewFieldValues
-		(*backRepoCircle.Map_CirclePtr_CircleDBID)[&circleWithNewFieldValues] = circleDB.ID
+		(*backRepoCircle.Map_CircleDBID_CirclePtr)[circleDB.ID] = circle
+		(*backRepoCircle.Map_CirclePtr_CircleDBID)[circle] = circleDB.ID
 
 		// append model store with the new element
-		circleWithNewFieldValues.Stage()
+		circle.Stage()
 	}
-	circleDBWithNewFieldValues := *circleDB
-	(*backRepoCircle.Map_CircleDBID_CircleDB)[circleDB.ID] = &circleDBWithNewFieldValues
+	circleDB.CopyBasicFieldsToCircle(circle)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_CircleDBID_CircleDB)[circleDB hold variable pointers
+	circleDB_Data := *circleDB
+	preservedPtrToCircle := &circleDB_Data
+	(*backRepoCircle.Map_CircleDBID_CircleDB)[circleDB.ID] = preservedPtrToCircle
 
 	return
 }
@@ -323,32 +319,8 @@ func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseTwoInstance(backRepo *B
 
 	circle := (*backRepoCircle.Map_CircleDBID_CirclePtr)[circleDB.ID]
 	_ = circle // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			circle.Name = circleDB.Name_Data.String
 
-			circle.CX = circleDB.CX_Data.Float64
-
-			circle.CY = circleDB.CY_Data.Float64
-
-			circle.Radius = circleDB.Radius_Data.Float64
-
-			circle.Color = circleDB.Color_Data.String
-
-			circle.FillOpacity = circleDB.FillOpacity_Data.Float64
-
-			circle.Stroke = circleDB.Stroke_Data.String
-
-			circle.StrokeWidth = circleDB.StrokeWidth_Data.Float64
-
-			circle.StrokeDashArray = circleDB.StrokeDashArray_Data.String
-
-			circle.Transform = circleDB.Transform_Data.String
-
-		}
-	}
+	// insertion point for checkout of pointer encoding
 	return
 }
 
@@ -375,5 +347,120 @@ func (backRepo *BackRepoStruct) CheckoutCircle(circle *models.Circle) {
 			backRepo.BackRepoCircle.CheckoutPhaseOneInstance(&circleDB)
 			backRepo.BackRepoCircle.CheckoutPhaseTwoInstance(backRepo, &circleDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToCircleDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (circleDB *CircleDB) CopyBasicFieldsFromCircle(circle *models.Circle) {
+	// insertion point for fields commit
+	circleDB.Name_Data.String = circle.Name
+	circleDB.Name_Data.Valid = true
+
+	circleDB.CX_Data.Float64 = circle.CX
+	circleDB.CX_Data.Valid = true
+
+	circleDB.CY_Data.Float64 = circle.CY
+	circleDB.CY_Data.Valid = true
+
+	circleDB.Radius_Data.Float64 = circle.Radius
+	circleDB.Radius_Data.Valid = true
+
+	circleDB.Color_Data.String = circle.Color
+	circleDB.Color_Data.Valid = true
+
+	circleDB.FillOpacity_Data.Float64 = circle.FillOpacity
+	circleDB.FillOpacity_Data.Valid = true
+
+	circleDB.Stroke_Data.String = circle.Stroke
+	circleDB.Stroke_Data.Valid = true
+
+	circleDB.StrokeWidth_Data.Float64 = circle.StrokeWidth
+	circleDB.StrokeWidth_Data.Valid = true
+
+	circleDB.StrokeDashArray_Data.String = circle.StrokeDashArray
+	circleDB.StrokeDashArray_Data.Valid = true
+
+	circleDB.Transform_Data.String = circle.Transform
+	circleDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToCircleDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (circleDB *CircleDB) CopyBasicFieldsToCircle(circle *models.Circle) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	circle.Name = circleDB.Name_Data.String
+	circle.CX = circleDB.CX_Data.Float64
+	circle.CY = circleDB.CY_Data.Float64
+	circle.Radius = circleDB.Radius_Data.Float64
+	circle.Color = circleDB.Color_Data.String
+	circle.FillOpacity = circleDB.FillOpacity_Data.Float64
+	circle.Stroke = circleDB.Stroke_Data.String
+	circle.StrokeWidth = circleDB.StrokeWidth_Data.Float64
+	circle.StrokeDashArray = circleDB.StrokeDashArray_Data.String
+	circle.Transform = circleDB.Transform_Data.String
+}
+
+// Backup generates a json file from a slice of all CircleDB instances in the backrepo
+func (backRepoCircle *BackRepoCircleStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "CircleDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*CircleDB
+	for _, circleDB := range *backRepoCircle.Map_CircleDBID_CircleDB {
+		forBackup = append(forBackup, circleDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json Circle ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json Circle file", err.Error())
+	}
+}
+
+func (backRepoCircle *BackRepoCircleStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "CircleDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json Circle file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*CircleDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_CircleDBID_CircleDB
+	for _, circleDB := range forRestore {
+
+		circleDB_ID := circleDB.ID
+		circleDB.ID = 0
+		query := backRepoCircle.db.Create(circleDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if circleDB_ID != circleDB.ID {
+			log.Panicf("ID of Circle restore ID %d, name %s, has wrong ID %d in DB after create",
+				circleDB_ID, circleDB.Name_Data.String, circleDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json Circle file", err.Error())
 	}
 }

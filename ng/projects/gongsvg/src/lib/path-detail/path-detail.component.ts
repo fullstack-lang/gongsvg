@@ -63,8 +63,6 @@ export class PathDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo PathPull returned")
-
 				if (id != 0 && association == undefined) {
 					this.path = frontRepo.Paths.get(id)
 				} else {
@@ -94,6 +92,7 @@ export class PathDetailComponent implements OnInit {
 				this.path.SVG_PathsDBID = new NullInt64
 				this.path.SVG_PathsDBID.Int64 = this.path.SVG_Paths_reverse.ID
 				this.path.SVG_PathsDBID.Valid = true
+				this.path.SVG_PathsDBID_Index = new NullInt64
 				this.path.SVG_PathsDBID_Index.Valid = true
 				this.path.SVG_Paths_reverse = undefined // very important, otherwise, circular JSON
 			}
@@ -104,8 +103,6 @@ export class PathDetailComponent implements OnInit {
 			this.pathService.updatePath(this.path)
 				.subscribe(path => {
 					this.pathService.PathServiceChanged.next("update")
-
-					console.log("path saved")
 				});
 		} else {
 			switch (association) {
@@ -114,6 +111,7 @@ export class PathDetailComponent implements OnInit {
 					this.path.SVG_PathsDBID = new NullInt64
 					this.path.SVG_PathsDBID.Int64 = id
 					this.path.SVG_PathsDBID.Valid = true
+					this.path.SVG_PathsDBID_Index = new NullInt64
 					this.path.SVG_PathsDBID_Index.Valid = true
 					break
 			}
@@ -122,7 +120,6 @@ export class PathDetailComponent implements OnInit {
 				this.pathService.PathServiceChanged.next("post")
 
 				this.path = {} // reset fields
-				console.log("path added")
 			});
 		}
 	}
@@ -151,7 +148,6 @@ export class PathDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -174,7 +170,6 @@ export class PathDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }

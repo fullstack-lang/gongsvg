@@ -63,8 +63,6 @@ export class PolylineDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo PolylinePull returned")
-
 				if (id != 0 && association == undefined) {
 					this.polyline = frontRepo.Polylines.get(id)
 				} else {
@@ -94,6 +92,7 @@ export class PolylineDetailComponent implements OnInit {
 				this.polyline.SVG_PolylinesDBID = new NullInt64
 				this.polyline.SVG_PolylinesDBID.Int64 = this.polyline.SVG_Polylines_reverse.ID
 				this.polyline.SVG_PolylinesDBID.Valid = true
+				this.polyline.SVG_PolylinesDBID_Index = new NullInt64
 				this.polyline.SVG_PolylinesDBID_Index.Valid = true
 				this.polyline.SVG_Polylines_reverse = undefined // very important, otherwise, circular JSON
 			}
@@ -104,8 +103,6 @@ export class PolylineDetailComponent implements OnInit {
 			this.polylineService.updatePolyline(this.polyline)
 				.subscribe(polyline => {
 					this.polylineService.PolylineServiceChanged.next("update")
-
-					console.log("polyline saved")
 				});
 		} else {
 			switch (association) {
@@ -114,6 +111,7 @@ export class PolylineDetailComponent implements OnInit {
 					this.polyline.SVG_PolylinesDBID = new NullInt64
 					this.polyline.SVG_PolylinesDBID.Int64 = id
 					this.polyline.SVG_PolylinesDBID.Valid = true
+					this.polyline.SVG_PolylinesDBID_Index = new NullInt64
 					this.polyline.SVG_PolylinesDBID_Index.Valid = true
 					break
 			}
@@ -122,7 +120,6 @@ export class PolylineDetailComponent implements OnInit {
 				this.polylineService.PolylineServiceChanged.next("post")
 
 				this.polyline = {} // reset fields
-				console.log("polyline added")
 			});
 		}
 	}
@@ -151,7 +148,6 @@ export class PolylineDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -174,7 +170,6 @@ export class PolylineDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }

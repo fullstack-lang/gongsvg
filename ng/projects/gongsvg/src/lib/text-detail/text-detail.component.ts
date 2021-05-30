@@ -63,8 +63,6 @@ export class TextDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo TextPull returned")
-
 				if (id != 0 && association == undefined) {
 					this.text = frontRepo.Texts.get(id)
 				} else {
@@ -94,6 +92,7 @@ export class TextDetailComponent implements OnInit {
 				this.text.SVG_TextsDBID = new NullInt64
 				this.text.SVG_TextsDBID.Int64 = this.text.SVG_Texts_reverse.ID
 				this.text.SVG_TextsDBID.Valid = true
+				this.text.SVG_TextsDBID_Index = new NullInt64
 				this.text.SVG_TextsDBID_Index.Valid = true
 				this.text.SVG_Texts_reverse = undefined // very important, otherwise, circular JSON
 			}
@@ -104,8 +103,6 @@ export class TextDetailComponent implements OnInit {
 			this.textService.updateText(this.text)
 				.subscribe(text => {
 					this.textService.TextServiceChanged.next("update")
-
-					console.log("text saved")
 				});
 		} else {
 			switch (association) {
@@ -114,6 +111,7 @@ export class TextDetailComponent implements OnInit {
 					this.text.SVG_TextsDBID = new NullInt64
 					this.text.SVG_TextsDBID.Int64 = id
 					this.text.SVG_TextsDBID.Valid = true
+					this.text.SVG_TextsDBID_Index = new NullInt64
 					this.text.SVG_TextsDBID_Index.Valid = true
 					break
 			}
@@ -122,7 +120,6 @@ export class TextDetailComponent implements OnInit {
 				this.textService.TextServiceChanged.next("post")
 
 				this.text = {} // reset fields
-				console.log("text added")
 			});
 		}
 	}
@@ -151,7 +148,6 @@ export class TextDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -174,7 +170,6 @@ export class TextDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }

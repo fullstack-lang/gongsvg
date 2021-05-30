@@ -118,7 +118,6 @@ export class RectsTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.rects = this.frontRepo.Rects_array;
 
@@ -156,8 +155,6 @@ export class RectsTableComponent implements OnInit {
     this.rectService.deleteRect(rectID).subscribe(
       rect => {
         this.rectService.RectServiceChanged.next("delete")
-
-        console.log("rect deleted")
       }
     );
   }
@@ -219,7 +216,6 @@ export class RectsTableComponent implements OnInit {
     // from selection, set rect that belong to rect through Anarrayofb
     this.selection.selected.forEach(
       rect => {
-        console.log("selection ID " + rect.ID)
         let ID = +this.dialogData.ID
         rect[this.dialogData.ReversePointer].Int64 = ID
         rect[this.dialogData.ReversePointer].Valid = true
@@ -233,7 +229,6 @@ export class RectsTableComponent implements OnInit {
         this.rectService.updateRect(rect)
           .subscribe(rect => {
             this.rectService.RectServiceChanged.next("update")
-            console.log("rect saved")
           });
       }
     )

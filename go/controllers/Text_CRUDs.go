@@ -49,8 +49,9 @@ type TextInput struct {
 func GetTexts(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var texts []orm.TextDB
-	query := db.Find(&texts)
+	// source slice
+	var textDBs []orm.TextDB
+	query := db.Find(&textDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,54 +60,23 @@ func GetTexts(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var textAPIs []orm.TextAPI
+
 	// for each text, update fields from the database nullable fields
-	for idx := range texts {
-		text := &texts[idx]
-		_ = text
+	for idx := range textDBs {
+		textDB := &textDBs[idx]
+		_ = textDB
+		var textAPI orm.TextAPI
+
 		// insertion point for updating fields
-		if text.Name_Data.Valid {
-			text.Name = text.Name_Data.String
-		}
-
-		if text.X_Data.Valid {
-			text.X = text.X_Data.Float64
-		}
-
-		if text.Y_Data.Valid {
-			text.Y = text.Y_Data.Float64
-		}
-
-		if text.Content_Data.Valid {
-			text.Content = text.Content_Data.String
-		}
-
-		if text.Color_Data.Valid {
-			text.Color = text.Color_Data.String
-		}
-
-		if text.FillOpacity_Data.Valid {
-			text.FillOpacity = text.FillOpacity_Data.Float64
-		}
-
-		if text.Stroke_Data.Valid {
-			text.Stroke = text.Stroke_Data.String
-		}
-
-		if text.StrokeWidth_Data.Valid {
-			text.StrokeWidth = text.StrokeWidth_Data.Float64
-		}
-
-		if text.StrokeDashArray_Data.Valid {
-			text.StrokeDashArray = text.StrokeDashArray_Data.String
-		}
-
-		if text.Transform_Data.Valid {
-			text.Transform = text.Transform_Data.String
-		}
-
+		textAPI.ID = textDB.ID
+		textDB.CopyBasicFieldsToText(&textAPI.Text)
+		textAPI.TextPointersEnconding = textDB.TextPointersEnconding
+		textAPIs = append(textAPIs, textAPI)
 	}
 
-	c.JSON(http.StatusOK, texts)
+	c.JSON(http.StatusOK, textAPIs)
 }
 
 // PostText
@@ -139,37 +109,8 @@ func PostText(c *gin.Context) {
 
 	// Create text
 	textDB := orm.TextDB{}
-	textDB.TextAPI = input
-	// insertion point for nullable field set
-	textDB.Name_Data.String = input.Name
-	textDB.Name_Data.Valid = true
-
-	textDB.X_Data.Float64 = input.X
-	textDB.X_Data.Valid = true
-
-	textDB.Y_Data.Float64 = input.Y
-	textDB.Y_Data.Valid = true
-
-	textDB.Content_Data.String = input.Content
-	textDB.Content_Data.Valid = true
-
-	textDB.Color_Data.String = input.Color
-	textDB.Color_Data.Valid = true
-
-	textDB.FillOpacity_Data.Float64 = input.FillOpacity
-	textDB.FillOpacity_Data.Valid = true
-
-	textDB.Stroke_Data.String = input.Stroke
-	textDB.Stroke_Data.Valid = true
-
-	textDB.StrokeWidth_Data.Float64 = input.StrokeWidth
-	textDB.StrokeWidth_Data.Valid = true
-
-	textDB.StrokeDashArray_Data.String = input.StrokeDashArray
-	textDB.StrokeDashArray_Data.Valid = true
-
-	textDB.Transform_Data.String = input.Transform
-	textDB.Transform_Data.Valid = true
+	textDB.TextPointersEnconding = input.TextPointersEnconding
+	textDB.CopyBasicFieldsFromText(&input.Text)
 
 	query := db.Create(&textDB)
 	if query.Error != nil {
@@ -199,9 +140,9 @@ func PostText(c *gin.Context) {
 func GetText(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get text in DB
-	var text orm.TextDB
-	if err := db.First(&text, c.Param("id")).Error; err != nil {
+	// Get textDB in DB
+	var textDB orm.TextDB
+	if err := db.First(&textDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -209,48 +150,12 @@ func GetText(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if text.Name_Data.Valid {
-		text.Name = text.Name_Data.String
-	}
+	var textAPI orm.TextAPI
+	textAPI.ID = textDB.ID
+	textAPI.TextPointersEnconding = textDB.TextPointersEnconding
+	textDB.CopyBasicFieldsToText(&textAPI.Text)
 
-	if text.X_Data.Valid {
-		text.X = text.X_Data.Float64
-	}
-
-	if text.Y_Data.Valid {
-		text.Y = text.Y_Data.Float64
-	}
-
-	if text.Content_Data.Valid {
-		text.Content = text.Content_Data.String
-	}
-
-	if text.Color_Data.Valid {
-		text.Color = text.Color_Data.String
-	}
-
-	if text.FillOpacity_Data.Valid {
-		text.FillOpacity = text.FillOpacity_Data.Float64
-	}
-
-	if text.Stroke_Data.Valid {
-		text.Stroke = text.Stroke_Data.String
-	}
-
-	if text.StrokeWidth_Data.Valid {
-		text.StrokeWidth = text.StrokeWidth_Data.Float64
-	}
-
-	if text.StrokeDashArray_Data.Valid {
-		text.StrokeDashArray = text.StrokeDashArray_Data.String
-	}
-
-	if text.Transform_Data.Valid {
-		text.Transform = text.Transform_Data.String
-	}
-
-	c.JSON(http.StatusOK, text)
+	c.JSON(http.StatusOK, textAPI)
 }
 
 // UpdateText
@@ -287,38 +192,10 @@ func UpdateText(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	textDB.CopyBasicFieldsFromText(&input.Text)
+	textDB.TextPointersEnconding = input.TextPointersEnconding
 
-	input.X_Data.Float64 = input.X
-	input.X_Data.Valid = true
-
-	input.Y_Data.Float64 = input.Y
-	input.Y_Data.Valid = true
-
-	input.Content_Data.String = input.Content
-	input.Content_Data.Valid = true
-
-	input.Color_Data.String = input.Color
-	input.Color_Data.Valid = true
-
-	input.FillOpacity_Data.Float64 = input.FillOpacity
-	input.FillOpacity_Data.Valid = true
-
-	input.Stroke_Data.String = input.Stroke
-	input.Stroke_Data.Valid = true
-
-	input.StrokeWidth_Data.Float64 = input.StrokeWidth
-	input.StrokeWidth_Data.Valid = true
-
-	input.StrokeDashArray_Data.String = input.StrokeDashArray
-	input.StrokeDashArray_Data.Valid = true
-
-	input.Transform_Data.String = input.Transform
-	input.Transform_Data.Valid = true
-
-	query = db.Model(&textDB).Updates(input)
+	query = db.Model(&textDB).Updates(textDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

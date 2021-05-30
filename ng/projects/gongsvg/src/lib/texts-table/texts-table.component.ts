@@ -116,7 +116,6 @@ export class TextsTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.texts = this.frontRepo.Texts_array;
 
@@ -154,8 +153,6 @@ export class TextsTableComponent implements OnInit {
     this.textService.deleteText(textID).subscribe(
       text => {
         this.textService.TextServiceChanged.next("delete")
-
-        console.log("text deleted")
       }
     );
   }
@@ -217,7 +214,6 @@ export class TextsTableComponent implements OnInit {
     // from selection, set text that belong to text through Anarrayofb
     this.selection.selected.forEach(
       text => {
-        console.log("selection ID " + text.ID)
         let ID = +this.dialogData.ID
         text[this.dialogData.ReversePointer].Int64 = ID
         text[this.dialogData.ReversePointer].Valid = true
@@ -231,7 +227,6 @@ export class TextsTableComponent implements OnInit {
         this.textService.updateText(text)
           .subscribe(text => {
             this.textService.TextServiceChanged.next("update")
-            console.log("text saved")
           });
       }
     )

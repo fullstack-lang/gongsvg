@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,9 +31,35 @@ var dummy_Polygone_sort sort.Float64Slice
 //
 // swagger:model polygoneAPI
 type PolygoneAPI struct {
+	gorm.Model
+
 	models.Polygone
 
-	// insertion for fields declaration
+	// encoding of pointers
+	PolygonePointersEnconding
+}
+
+// PolygonePointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type PolygonePointersEnconding struct {
+	// insertion for pointer fields encoding declaration
+	// Implementation of a reverse ID for field SVG{}.Polygones []*Polygone
+	SVG_PolygonesDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	SVG_PolygonesDBID_Index sql.NullInt64
+}
+
+// PolygoneDB describes a polygone in the database
+//
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
+//
+// swagger:model polygoneDB
+type PolygoneDB struct {
+	gorm.Model
+
+	// insertion for basic fields declaration
 	// Declation for basic field polygoneDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -54,22 +84,8 @@ type PolygoneAPI struct {
 	// Declation for basic field polygoneDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
 
-	// Implementation of a reverse ID for field SVG{}.Polygones []*Polygone
-	SVG_PolygonesDBID sql.NullInt64
-	SVG_PolygonesDBID_Index sql.NullInt64
-
-	// end of insertion
-}
-
-// PolygoneDB describes a polygone in the database
-//
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
-//
-// swagger:model polygoneDB
-type PolygoneDB struct {
-	gorm.Model
-
-	PolygoneAPI
+	// encoding of pointers
+	PolygonePointersEnconding
 }
 
 // PolygoneDBs arrays polygoneDBs
@@ -93,6 +109,13 @@ type BackRepoPolygoneStruct struct {
 	Map_PolygoneDBID_PolygonePtr *map[uint]*models.Polygone
 
 	db *gorm.DB
+}
+
+// GetPolygoneDBFromPolygonePtr is a handy function to access the back repo instance from the stage instance
+func (backRepoPolygone *BackRepoPolygoneStruct) GetPolygoneDBFromPolygonePtr(polygone *models.Polygone) (polygoneDB *PolygoneDB) {
+	id := (*backRepoPolygone.Map_PolygonePtr_PolygoneDBID)[polygone]
+	polygoneDB = (*backRepoPolygone.Map_PolygoneDBID_PolygoneDB)[id]
+	return
 }
 
 // BackRepoPolygone.Init set up the BackRepo of the Polygone
@@ -176,7 +199,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseOneInstance(polygone 
 
 	// initiate polygone
 	var polygoneDB PolygoneDB
-	polygoneDB.Polygone = *polygone
+	polygoneDB.CopyBasicFieldsFromPolygone(polygone)
 
 	query := backRepoPolygone.db.Create(&polygoneDB)
 	if query.Error != nil {
@@ -209,35 +232,9 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 	// fetch matching polygoneDB
 	if polygoneDB, ok := (*backRepoPolygone.Map_PolygoneDBID_PolygoneDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				polygoneDB.Name_Data.String = polygone.Name
-				polygoneDB.Name_Data.Valid = true
+		polygoneDB.CopyBasicFieldsFromPolygone(polygone)
 
-				polygoneDB.Points_Data.String = polygone.Points
-				polygoneDB.Points_Data.Valid = true
-
-				polygoneDB.Color_Data.String = polygone.Color
-				polygoneDB.Color_Data.Valid = true
-
-				polygoneDB.FillOpacity_Data.Float64 = polygone.FillOpacity
-				polygoneDB.FillOpacity_Data.Valid = true
-
-				polygoneDB.Stroke_Data.String = polygone.Stroke
-				polygoneDB.Stroke_Data.Valid = true
-
-				polygoneDB.StrokeWidth_Data.Float64 = polygone.StrokeWidth
-				polygoneDB.StrokeWidth_Data.Valid = true
-
-				polygoneDB.StrokeDashArray_Data.String = polygone.StrokeDashArray
-				polygoneDB.StrokeDashArray_Data.Valid = true
-
-				polygoneDB.Transform_Data.String = polygone.Transform
-				polygoneDB.Transform_Data.Valid = true
-
-			}
-		}
+		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoPolygone.db.Save(&polygoneDB)
 		if query.Error != nil {
 			return query.Error
@@ -278,18 +275,23 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseOne() (Error error)
 // models version of the polygoneDB
 func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseOneInstance(polygoneDB *PolygoneDB) (Error error) {
 
-	// if absent, create entries in the backRepoPolygone maps.
-	polygoneWithNewFieldValues := polygoneDB.Polygone
-	if _, ok := (*backRepoPolygone.Map_PolygoneDBID_PolygonePtr)[polygoneDB.ID]; !ok {
+	polygone, ok := (*backRepoPolygone.Map_PolygoneDBID_PolygonePtr)[polygoneDB.ID]
+	if !ok {
+		polygone = new(models.Polygone)
 
-		(*backRepoPolygone.Map_PolygoneDBID_PolygonePtr)[polygoneDB.ID] = &polygoneWithNewFieldValues
-		(*backRepoPolygone.Map_PolygonePtr_PolygoneDBID)[&polygoneWithNewFieldValues] = polygoneDB.ID
+		(*backRepoPolygone.Map_PolygoneDBID_PolygonePtr)[polygoneDB.ID] = polygone
+		(*backRepoPolygone.Map_PolygonePtr_PolygoneDBID)[polygone] = polygoneDB.ID
 
 		// append model store with the new element
-		polygoneWithNewFieldValues.Stage()
+		polygone.Stage()
 	}
-	polygoneDBWithNewFieldValues := *polygoneDB
-	(*backRepoPolygone.Map_PolygoneDBID_PolygoneDB)[polygoneDB.ID] = &polygoneDBWithNewFieldValues
+	polygoneDB.CopyBasicFieldsToPolygone(polygone)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_PolygoneDBID_PolygoneDB)[polygoneDB hold variable pointers
+	polygoneDB_Data := *polygoneDB
+	preservedPtrToPolygone := &polygoneDB_Data
+	(*backRepoPolygone.Map_PolygoneDBID_PolygoneDB)[polygoneDB.ID] = preservedPtrToPolygone
 
 	return
 }
@@ -311,28 +313,8 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseTwoInstance(backRep
 
 	polygone := (*backRepoPolygone.Map_PolygoneDBID_PolygonePtr)[polygoneDB.ID]
 	_ = polygone // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			polygone.Name = polygoneDB.Name_Data.String
 
-			polygone.Points = polygoneDB.Points_Data.String
-
-			polygone.Color = polygoneDB.Color_Data.String
-
-			polygone.FillOpacity = polygoneDB.FillOpacity_Data.Float64
-
-			polygone.Stroke = polygoneDB.Stroke_Data.String
-
-			polygone.StrokeWidth = polygoneDB.StrokeWidth_Data.Float64
-
-			polygone.StrokeDashArray = polygoneDB.StrokeDashArray_Data.String
-
-			polygone.Transform = polygoneDB.Transform_Data.String
-
-		}
-	}
+	// insertion point for checkout of pointer encoding
 	return
 }
 
@@ -359,5 +341,112 @@ func (backRepo *BackRepoStruct) CheckoutPolygone(polygone *models.Polygone) {
 			backRepo.BackRepoPolygone.CheckoutPhaseOneInstance(&polygoneDB)
 			backRepo.BackRepoPolygone.CheckoutPhaseTwoInstance(backRepo, &polygoneDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToPolygoneDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygone(polygone *models.Polygone) {
+	// insertion point for fields commit
+	polygoneDB.Name_Data.String = polygone.Name
+	polygoneDB.Name_Data.Valid = true
+
+	polygoneDB.Points_Data.String = polygone.Points
+	polygoneDB.Points_Data.Valid = true
+
+	polygoneDB.Color_Data.String = polygone.Color
+	polygoneDB.Color_Data.Valid = true
+
+	polygoneDB.FillOpacity_Data.Float64 = polygone.FillOpacity
+	polygoneDB.FillOpacity_Data.Valid = true
+
+	polygoneDB.Stroke_Data.String = polygone.Stroke
+	polygoneDB.Stroke_Data.Valid = true
+
+	polygoneDB.StrokeWidth_Data.Float64 = polygone.StrokeWidth
+	polygoneDB.StrokeWidth_Data.Valid = true
+
+	polygoneDB.StrokeDashArray_Data.String = polygone.StrokeDashArray
+	polygoneDB.StrokeDashArray_Data.Valid = true
+
+	polygoneDB.Transform_Data.String = polygone.Transform
+	polygoneDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToPolygoneDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (polygoneDB *PolygoneDB) CopyBasicFieldsToPolygone(polygone *models.Polygone) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	polygone.Name = polygoneDB.Name_Data.String
+	polygone.Points = polygoneDB.Points_Data.String
+	polygone.Color = polygoneDB.Color_Data.String
+	polygone.FillOpacity = polygoneDB.FillOpacity_Data.Float64
+	polygone.Stroke = polygoneDB.Stroke_Data.String
+	polygone.StrokeWidth = polygoneDB.StrokeWidth_Data.Float64
+	polygone.StrokeDashArray = polygoneDB.StrokeDashArray_Data.String
+	polygone.Transform = polygoneDB.Transform_Data.String
+}
+
+// Backup generates a json file from a slice of all PolygoneDB instances in the backrepo
+func (backRepoPolygone *BackRepoPolygoneStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "PolygoneDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*PolygoneDB
+	for _, polygoneDB := range *backRepoPolygone.Map_PolygoneDBID_PolygoneDB {
+		forBackup = append(forBackup, polygoneDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json Polygone ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json Polygone file", err.Error())
+	}
+}
+
+func (backRepoPolygone *BackRepoPolygoneStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "PolygoneDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json Polygone file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*PolygoneDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_PolygoneDBID_PolygoneDB
+	for _, polygoneDB := range forRestore {
+
+		polygoneDB_ID := polygoneDB.ID
+		polygoneDB.ID = 0
+		query := backRepoPolygone.db.Create(polygoneDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if polygoneDB_ID != polygoneDB.ID {
+			log.Panicf("ID of Polygone restore ID %d, name %s, has wrong ID %d in DB after create",
+				polygoneDB_ID, polygoneDB.Name_Data.String, polygoneDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json Polygone file", err.Error())
 	}
 }

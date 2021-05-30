@@ -2,7 +2,10 @@
 package orm
 
 import (
+	"os"
+
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -115,3 +118,38 @@ var BackRepo BackRepoStruct
 func GetLastCommitNb() uint {
 	return BackRepo.GetLastCommitNb()
 }
+
+// Backup the BackRepoStruct
+func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string) {
+	os.Mkdir(dirPath, os.ModePerm)
+
+	// insertion point for per struct backup
+	backRepo.BackRepoCircle.Backup(dirPath)
+	backRepo.BackRepoEllipse.Backup(dirPath)
+	backRepo.BackRepoLine.Backup(dirPath)
+	backRepo.BackRepoPath.Backup(dirPath)
+	backRepo.BackRepoPolygone.Backup(dirPath)
+	backRepo.BackRepoPolyline.Backup(dirPath)
+	backRepo.BackRepoRect.Backup(dirPath)
+	backRepo.BackRepoSVG.Backup(dirPath)
+	backRepo.BackRepoText.Backup(dirPath)
+}
+
+// Restore the database into the back repo
+func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath string) {
+	models.Stage.Commit()
+	models.Stage.Reset()
+	models.Stage.Checkout()
+	// insertion point for per struct backup
+	backRepo.BackRepoCircle.Restore(dirPath)
+	backRepo.BackRepoEllipse.Restore(dirPath)
+	backRepo.BackRepoLine.Restore(dirPath)
+	backRepo.BackRepoPath.Restore(dirPath)
+	backRepo.BackRepoPolygone.Restore(dirPath)
+	backRepo.BackRepoPolyline.Restore(dirPath)
+	backRepo.BackRepoRect.Restore(dirPath)
+	backRepo.BackRepoSVG.Restore(dirPath)
+	backRepo.BackRepoText.Restore(dirPath)
+	models.Stage.Checkout()
+}
+

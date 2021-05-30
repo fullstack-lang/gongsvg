@@ -98,7 +98,6 @@ export class SVGsTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.svgs = this.frontRepo.SVGs_array;
 
@@ -136,8 +135,6 @@ export class SVGsTableComponent implements OnInit {
     this.svgService.deleteSVG(svgID).subscribe(
       svg => {
         this.svgService.SVGServiceChanged.next("delete")
-
-        console.log("svg deleted")
       }
     );
   }
@@ -199,7 +196,6 @@ export class SVGsTableComponent implements OnInit {
     // from selection, set svg that belong to svg through Anarrayofb
     this.selection.selected.forEach(
       svg => {
-        console.log("selection ID " + svg.ID)
         let ID = +this.dialogData.ID
         svg[this.dialogData.ReversePointer].Int64 = ID
         svg[this.dialogData.ReversePointer].Valid = true
@@ -213,7 +209,6 @@ export class SVGsTableComponent implements OnInit {
         this.svgService.updateSVG(svg)
           .subscribe(svg => {
             this.svgService.SVGServiceChanged.next("update")
-            console.log("svg saved")
           });
       }
     )

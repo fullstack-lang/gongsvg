@@ -118,7 +118,6 @@ export class LinesTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.lines = this.frontRepo.Lines_array;
 
@@ -156,8 +155,6 @@ export class LinesTableComponent implements OnInit {
     this.lineService.deleteLine(lineID).subscribe(
       line => {
         this.lineService.LineServiceChanged.next("delete")
-
-        console.log("line deleted")
       }
     );
   }
@@ -219,7 +216,6 @@ export class LinesTableComponent implements OnInit {
     // from selection, set line that belong to line through Anarrayofb
     this.selection.selected.forEach(
       line => {
-        console.log("selection ID " + line.ID)
         let ID = +this.dialogData.ID
         line[this.dialogData.ReversePointer].Int64 = ID
         line[this.dialogData.ReversePointer].Valid = true
@@ -233,7 +229,6 @@ export class LinesTableComponent implements OnInit {
         this.lineService.updateLine(line)
           .subscribe(line => {
             this.lineService.LineServiceChanged.next("update")
-            console.log("line saved")
           });
       }
     )

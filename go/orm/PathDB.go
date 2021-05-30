@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,9 +31,35 @@ var dummy_Path_sort sort.Float64Slice
 //
 // swagger:model pathAPI
 type PathAPI struct {
+	gorm.Model
+
 	models.Path
 
-	// insertion for fields declaration
+	// encoding of pointers
+	PathPointersEnconding
+}
+
+// PathPointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type PathPointersEnconding struct {
+	// insertion for pointer fields encoding declaration
+	// Implementation of a reverse ID for field SVG{}.Paths []*Path
+	SVG_PathsDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	SVG_PathsDBID_Index sql.NullInt64
+}
+
+// PathDB describes a path in the database
+//
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
+//
+// swagger:model pathDB
+type PathDB struct {
+	gorm.Model
+
+	// insertion for basic fields declaration
 	// Declation for basic field pathDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -54,22 +84,8 @@ type PathAPI struct {
 	// Declation for basic field pathDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
 
-	// Implementation of a reverse ID for field SVG{}.Paths []*Path
-	SVG_PathsDBID sql.NullInt64
-	SVG_PathsDBID_Index sql.NullInt64
-
-	// end of insertion
-}
-
-// PathDB describes a path in the database
-//
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
-//
-// swagger:model pathDB
-type PathDB struct {
-	gorm.Model
-
-	PathAPI
+	// encoding of pointers
+	PathPointersEnconding
 }
 
 // PathDBs arrays pathDBs
@@ -93,6 +109,13 @@ type BackRepoPathStruct struct {
 	Map_PathDBID_PathPtr *map[uint]*models.Path
 
 	db *gorm.DB
+}
+
+// GetPathDBFromPathPtr is a handy function to access the back repo instance from the stage instance
+func (backRepoPath *BackRepoPathStruct) GetPathDBFromPathPtr(path *models.Path) (pathDB *PathDB) {
+	id := (*backRepoPath.Map_PathPtr_PathDBID)[path]
+	pathDB = (*backRepoPath.Map_PathDBID_PathDB)[id]
+	return
 }
 
 // BackRepoPath.Init set up the BackRepo of the Path
@@ -176,7 +199,7 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseOneInstance(path *models.Path
 
 	// initiate path
 	var pathDB PathDB
-	pathDB.Path = *path
+	pathDB.CopyBasicFieldsFromPath(path)
 
 	query := backRepoPath.db.Create(&pathDB)
 	if query.Error != nil {
@@ -209,35 +232,9 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 	// fetch matching pathDB
 	if pathDB, ok := (*backRepoPath.Map_PathDBID_PathDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				pathDB.Name_Data.String = path.Name
-				pathDB.Name_Data.Valid = true
+		pathDB.CopyBasicFieldsFromPath(path)
 
-				pathDB.Definition_Data.String = path.Definition
-				pathDB.Definition_Data.Valid = true
-
-				pathDB.Color_Data.String = path.Color
-				pathDB.Color_Data.Valid = true
-
-				pathDB.FillOpacity_Data.Float64 = path.FillOpacity
-				pathDB.FillOpacity_Data.Valid = true
-
-				pathDB.Stroke_Data.String = path.Stroke
-				pathDB.Stroke_Data.Valid = true
-
-				pathDB.StrokeWidth_Data.Float64 = path.StrokeWidth
-				pathDB.StrokeWidth_Data.Valid = true
-
-				pathDB.StrokeDashArray_Data.String = path.StrokeDashArray
-				pathDB.StrokeDashArray_Data.Valid = true
-
-				pathDB.Transform_Data.String = path.Transform
-				pathDB.Transform_Data.Valid = true
-
-			}
-		}
+		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoPath.db.Save(&pathDB)
 		if query.Error != nil {
 			return query.Error
@@ -278,18 +275,23 @@ func (backRepoPath *BackRepoPathStruct) CheckoutPhaseOne() (Error error) {
 // models version of the pathDB
 func (backRepoPath *BackRepoPathStruct) CheckoutPhaseOneInstance(pathDB *PathDB) (Error error) {
 
-	// if absent, create entries in the backRepoPath maps.
-	pathWithNewFieldValues := pathDB.Path
-	if _, ok := (*backRepoPath.Map_PathDBID_PathPtr)[pathDB.ID]; !ok {
+	path, ok := (*backRepoPath.Map_PathDBID_PathPtr)[pathDB.ID]
+	if !ok {
+		path = new(models.Path)
 
-		(*backRepoPath.Map_PathDBID_PathPtr)[pathDB.ID] = &pathWithNewFieldValues
-		(*backRepoPath.Map_PathPtr_PathDBID)[&pathWithNewFieldValues] = pathDB.ID
+		(*backRepoPath.Map_PathDBID_PathPtr)[pathDB.ID] = path
+		(*backRepoPath.Map_PathPtr_PathDBID)[path] = pathDB.ID
 
 		// append model store with the new element
-		pathWithNewFieldValues.Stage()
+		path.Stage()
 	}
-	pathDBWithNewFieldValues := *pathDB
-	(*backRepoPath.Map_PathDBID_PathDB)[pathDB.ID] = &pathDBWithNewFieldValues
+	pathDB.CopyBasicFieldsToPath(path)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_PathDBID_PathDB)[pathDB hold variable pointers
+	pathDB_Data := *pathDB
+	preservedPtrToPath := &pathDB_Data
+	(*backRepoPath.Map_PathDBID_PathDB)[pathDB.ID] = preservedPtrToPath
 
 	return
 }
@@ -311,28 +313,8 @@ func (backRepoPath *BackRepoPathStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 
 	path := (*backRepoPath.Map_PathDBID_PathPtr)[pathDB.ID]
 	_ = path // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			path.Name = pathDB.Name_Data.String
 
-			path.Definition = pathDB.Definition_Data.String
-
-			path.Color = pathDB.Color_Data.String
-
-			path.FillOpacity = pathDB.FillOpacity_Data.Float64
-
-			path.Stroke = pathDB.Stroke_Data.String
-
-			path.StrokeWidth = pathDB.StrokeWidth_Data.Float64
-
-			path.StrokeDashArray = pathDB.StrokeDashArray_Data.String
-
-			path.Transform = pathDB.Transform_Data.String
-
-		}
-	}
+	// insertion point for checkout of pointer encoding
 	return
 }
 
@@ -359,5 +341,112 @@ func (backRepo *BackRepoStruct) CheckoutPath(path *models.Path) {
 			backRepo.BackRepoPath.CheckoutPhaseOneInstance(&pathDB)
 			backRepo.BackRepoPath.CheckoutPhaseTwoInstance(backRepo, &pathDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToPathDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (pathDB *PathDB) CopyBasicFieldsFromPath(path *models.Path) {
+	// insertion point for fields commit
+	pathDB.Name_Data.String = path.Name
+	pathDB.Name_Data.Valid = true
+
+	pathDB.Definition_Data.String = path.Definition
+	pathDB.Definition_Data.Valid = true
+
+	pathDB.Color_Data.String = path.Color
+	pathDB.Color_Data.Valid = true
+
+	pathDB.FillOpacity_Data.Float64 = path.FillOpacity
+	pathDB.FillOpacity_Data.Valid = true
+
+	pathDB.Stroke_Data.String = path.Stroke
+	pathDB.Stroke_Data.Valid = true
+
+	pathDB.StrokeWidth_Data.Float64 = path.StrokeWidth
+	pathDB.StrokeWidth_Data.Valid = true
+
+	pathDB.StrokeDashArray_Data.String = path.StrokeDashArray
+	pathDB.StrokeDashArray_Data.Valid = true
+
+	pathDB.Transform_Data.String = path.Transform
+	pathDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToPathDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (pathDB *PathDB) CopyBasicFieldsToPath(path *models.Path) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	path.Name = pathDB.Name_Data.String
+	path.Definition = pathDB.Definition_Data.String
+	path.Color = pathDB.Color_Data.String
+	path.FillOpacity = pathDB.FillOpacity_Data.Float64
+	path.Stroke = pathDB.Stroke_Data.String
+	path.StrokeWidth = pathDB.StrokeWidth_Data.Float64
+	path.StrokeDashArray = pathDB.StrokeDashArray_Data.String
+	path.Transform = pathDB.Transform_Data.String
+}
+
+// Backup generates a json file from a slice of all PathDB instances in the backrepo
+func (backRepoPath *BackRepoPathStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "PathDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*PathDB
+	for _, pathDB := range *backRepoPath.Map_PathDBID_PathDB {
+		forBackup = append(forBackup, pathDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json Path ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json Path file", err.Error())
+	}
+}
+
+func (backRepoPath *BackRepoPathStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "PathDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json Path file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*PathDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_PathDBID_PathDB
+	for _, pathDB := range forRestore {
+
+		pathDB_ID := pathDB.ID
+		pathDB.ID = 0
+		query := backRepoPath.db.Create(pathDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if pathDB_ID != pathDB.ID {
+			log.Panicf("ID of Path restore ID %d, name %s, has wrong ID %d in DB after create",
+				pathDB_ID, pathDB.Name_Data.String, pathDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json Path file", err.Error())
 	}
 }

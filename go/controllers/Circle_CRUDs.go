@@ -49,8 +49,9 @@ type CircleInput struct {
 func GetCircles(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var circles []orm.CircleDB
-	query := db.Find(&circles)
+	// source slice
+	var circleDBs []orm.CircleDB
+	query := db.Find(&circleDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,54 +60,23 @@ func GetCircles(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var circleAPIs []orm.CircleAPI
+
 	// for each circle, update fields from the database nullable fields
-	for idx := range circles {
-		circle := &circles[idx]
-		_ = circle
+	for idx := range circleDBs {
+		circleDB := &circleDBs[idx]
+		_ = circleDB
+		var circleAPI orm.CircleAPI
+
 		// insertion point for updating fields
-		if circle.Name_Data.Valid {
-			circle.Name = circle.Name_Data.String
-		}
-
-		if circle.CX_Data.Valid {
-			circle.CX = circle.CX_Data.Float64
-		}
-
-		if circle.CY_Data.Valid {
-			circle.CY = circle.CY_Data.Float64
-		}
-
-		if circle.Radius_Data.Valid {
-			circle.Radius = circle.Radius_Data.Float64
-		}
-
-		if circle.Color_Data.Valid {
-			circle.Color = circle.Color_Data.String
-		}
-
-		if circle.FillOpacity_Data.Valid {
-			circle.FillOpacity = circle.FillOpacity_Data.Float64
-		}
-
-		if circle.Stroke_Data.Valid {
-			circle.Stroke = circle.Stroke_Data.String
-		}
-
-		if circle.StrokeWidth_Data.Valid {
-			circle.StrokeWidth = circle.StrokeWidth_Data.Float64
-		}
-
-		if circle.StrokeDashArray_Data.Valid {
-			circle.StrokeDashArray = circle.StrokeDashArray_Data.String
-		}
-
-		if circle.Transform_Data.Valid {
-			circle.Transform = circle.Transform_Data.String
-		}
-
+		circleAPI.ID = circleDB.ID
+		circleDB.CopyBasicFieldsToCircle(&circleAPI.Circle)
+		circleAPI.CirclePointersEnconding = circleDB.CirclePointersEnconding
+		circleAPIs = append(circleAPIs, circleAPI)
 	}
 
-	c.JSON(http.StatusOK, circles)
+	c.JSON(http.StatusOK, circleAPIs)
 }
 
 // PostCircle
@@ -139,37 +109,8 @@ func PostCircle(c *gin.Context) {
 
 	// Create circle
 	circleDB := orm.CircleDB{}
-	circleDB.CircleAPI = input
-	// insertion point for nullable field set
-	circleDB.Name_Data.String = input.Name
-	circleDB.Name_Data.Valid = true
-
-	circleDB.CX_Data.Float64 = input.CX
-	circleDB.CX_Data.Valid = true
-
-	circleDB.CY_Data.Float64 = input.CY
-	circleDB.CY_Data.Valid = true
-
-	circleDB.Radius_Data.Float64 = input.Radius
-	circleDB.Radius_Data.Valid = true
-
-	circleDB.Color_Data.String = input.Color
-	circleDB.Color_Data.Valid = true
-
-	circleDB.FillOpacity_Data.Float64 = input.FillOpacity
-	circleDB.FillOpacity_Data.Valid = true
-
-	circleDB.Stroke_Data.String = input.Stroke
-	circleDB.Stroke_Data.Valid = true
-
-	circleDB.StrokeWidth_Data.Float64 = input.StrokeWidth
-	circleDB.StrokeWidth_Data.Valid = true
-
-	circleDB.StrokeDashArray_Data.String = input.StrokeDashArray
-	circleDB.StrokeDashArray_Data.Valid = true
-
-	circleDB.Transform_Data.String = input.Transform
-	circleDB.Transform_Data.Valid = true
+	circleDB.CirclePointersEnconding = input.CirclePointersEnconding
+	circleDB.CopyBasicFieldsFromCircle(&input.Circle)
 
 	query := db.Create(&circleDB)
 	if query.Error != nil {
@@ -199,9 +140,9 @@ func PostCircle(c *gin.Context) {
 func GetCircle(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get circle in DB
-	var circle orm.CircleDB
-	if err := db.First(&circle, c.Param("id")).Error; err != nil {
+	// Get circleDB in DB
+	var circleDB orm.CircleDB
+	if err := db.First(&circleDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -209,48 +150,12 @@ func GetCircle(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if circle.Name_Data.Valid {
-		circle.Name = circle.Name_Data.String
-	}
+	var circleAPI orm.CircleAPI
+	circleAPI.ID = circleDB.ID
+	circleAPI.CirclePointersEnconding = circleDB.CirclePointersEnconding
+	circleDB.CopyBasicFieldsToCircle(&circleAPI.Circle)
 
-	if circle.CX_Data.Valid {
-		circle.CX = circle.CX_Data.Float64
-	}
-
-	if circle.CY_Data.Valid {
-		circle.CY = circle.CY_Data.Float64
-	}
-
-	if circle.Radius_Data.Valid {
-		circle.Radius = circle.Radius_Data.Float64
-	}
-
-	if circle.Color_Data.Valid {
-		circle.Color = circle.Color_Data.String
-	}
-
-	if circle.FillOpacity_Data.Valid {
-		circle.FillOpacity = circle.FillOpacity_Data.Float64
-	}
-
-	if circle.Stroke_Data.Valid {
-		circle.Stroke = circle.Stroke_Data.String
-	}
-
-	if circle.StrokeWidth_Data.Valid {
-		circle.StrokeWidth = circle.StrokeWidth_Data.Float64
-	}
-
-	if circle.StrokeDashArray_Data.Valid {
-		circle.StrokeDashArray = circle.StrokeDashArray_Data.String
-	}
-
-	if circle.Transform_Data.Valid {
-		circle.Transform = circle.Transform_Data.String
-	}
-
-	c.JSON(http.StatusOK, circle)
+	c.JSON(http.StatusOK, circleAPI)
 }
 
 // UpdateCircle
@@ -287,38 +192,10 @@ func UpdateCircle(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	circleDB.CopyBasicFieldsFromCircle(&input.Circle)
+	circleDB.CirclePointersEnconding = input.CirclePointersEnconding
 
-	input.CX_Data.Float64 = input.CX
-	input.CX_Data.Valid = true
-
-	input.CY_Data.Float64 = input.CY
-	input.CY_Data.Valid = true
-
-	input.Radius_Data.Float64 = input.Radius
-	input.Radius_Data.Valid = true
-
-	input.Color_Data.String = input.Color
-	input.Color_Data.Valid = true
-
-	input.FillOpacity_Data.Float64 = input.FillOpacity
-	input.FillOpacity_Data.Valid = true
-
-	input.Stroke_Data.String = input.Stroke
-	input.Stroke_Data.Valid = true
-
-	input.StrokeWidth_Data.Float64 = input.StrokeWidth
-	input.StrokeWidth_Data.Valid = true
-
-	input.StrokeDashArray_Data.String = input.StrokeDashArray
-	input.StrokeDashArray_Data.Valid = true
-
-	input.Transform_Data.String = input.Transform
-	input.Transform_Data.Valid = true
-
-	query = db.Model(&circleDB).Updates(input)
+	query = db.Model(&circleDB).Updates(circleDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

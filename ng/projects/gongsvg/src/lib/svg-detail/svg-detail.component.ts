@@ -64,8 +64,6 @@ export class SVGDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo SVGPull returned")
-
 				if (id != 0 && association == undefined) {
 					this.svg = frontRepo.SVGs.get(id)
 				} else {
@@ -100,8 +98,6 @@ export class SVGDetailComponent implements OnInit {
 			this.svgService.updateSVG(this.svg)
 				.subscribe(svg => {
 					this.svgService.SVGServiceChanged.next("update")
-
-					console.log("svg saved")
 				});
 		} else {
 			switch (association) {
@@ -112,7 +108,6 @@ export class SVGDetailComponent implements OnInit {
 				this.svgService.SVGServiceChanged.next("post")
 
 				this.svg = {} // reset fields
-				console.log("svg added")
 			});
 		}
 	}
@@ -141,7 +136,6 @@ export class SVGDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -164,7 +158,6 @@ export class SVGDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }

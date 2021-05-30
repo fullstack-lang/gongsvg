@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,9 +31,35 @@ var dummy_Text_sort sort.Float64Slice
 //
 // swagger:model textAPI
 type TextAPI struct {
+	gorm.Model
+
 	models.Text
 
-	// insertion for fields declaration
+	// encoding of pointers
+	TextPointersEnconding
+}
+
+// TextPointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type TextPointersEnconding struct {
+	// insertion for pointer fields encoding declaration
+	// Implementation of a reverse ID for field SVG{}.Texts []*Text
+	SVG_TextsDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	SVG_TextsDBID_Index sql.NullInt64
+}
+
+// TextDB describes a text in the database
+//
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
+//
+// swagger:model textDB
+type TextDB struct {
+	gorm.Model
+
+	// insertion for basic fields declaration
 	// Declation for basic field textDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -60,22 +90,8 @@ type TextAPI struct {
 	// Declation for basic field textDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
 
-	// Implementation of a reverse ID for field SVG{}.Texts []*Text
-	SVG_TextsDBID sql.NullInt64
-	SVG_TextsDBID_Index sql.NullInt64
-
-	// end of insertion
-}
-
-// TextDB describes a text in the database
-//
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
-//
-// swagger:model textDB
-type TextDB struct {
-	gorm.Model
-
-	TextAPI
+	// encoding of pointers
+	TextPointersEnconding
 }
 
 // TextDBs arrays textDBs
@@ -99,6 +115,13 @@ type BackRepoTextStruct struct {
 	Map_TextDBID_TextPtr *map[uint]*models.Text
 
 	db *gorm.DB
+}
+
+// GetTextDBFromTextPtr is a handy function to access the back repo instance from the stage instance
+func (backRepoText *BackRepoTextStruct) GetTextDBFromTextPtr(text *models.Text) (textDB *TextDB) {
+	id := (*backRepoText.Map_TextPtr_TextDBID)[text]
+	textDB = (*backRepoText.Map_TextDBID_TextDB)[id]
+	return
 }
 
 // BackRepoText.Init set up the BackRepo of the Text
@@ -182,7 +205,7 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseOneInstance(text *models.Text
 
 	// initiate text
 	var textDB TextDB
-	textDB.Text = *text
+	textDB.CopyBasicFieldsFromText(text)
 
 	query := backRepoText.db.Create(&textDB)
 	if query.Error != nil {
@@ -215,41 +238,9 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseTwoInstance(backRepo *BackRep
 	// fetch matching textDB
 	if textDB, ok := (*backRepoText.Map_TextDBID_TextDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				textDB.Name_Data.String = text.Name
-				textDB.Name_Data.Valid = true
+		textDB.CopyBasicFieldsFromText(text)
 
-				textDB.X_Data.Float64 = text.X
-				textDB.X_Data.Valid = true
-
-				textDB.Y_Data.Float64 = text.Y
-				textDB.Y_Data.Valid = true
-
-				textDB.Content_Data.String = text.Content
-				textDB.Content_Data.Valid = true
-
-				textDB.Color_Data.String = text.Color
-				textDB.Color_Data.Valid = true
-
-				textDB.FillOpacity_Data.Float64 = text.FillOpacity
-				textDB.FillOpacity_Data.Valid = true
-
-				textDB.Stroke_Data.String = text.Stroke
-				textDB.Stroke_Data.Valid = true
-
-				textDB.StrokeWidth_Data.Float64 = text.StrokeWidth
-				textDB.StrokeWidth_Data.Valid = true
-
-				textDB.StrokeDashArray_Data.String = text.StrokeDashArray
-				textDB.StrokeDashArray_Data.Valid = true
-
-				textDB.Transform_Data.String = text.Transform
-				textDB.Transform_Data.Valid = true
-
-			}
-		}
+		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoText.db.Save(&textDB)
 		if query.Error != nil {
 			return query.Error
@@ -290,18 +281,23 @@ func (backRepoText *BackRepoTextStruct) CheckoutPhaseOne() (Error error) {
 // models version of the textDB
 func (backRepoText *BackRepoTextStruct) CheckoutPhaseOneInstance(textDB *TextDB) (Error error) {
 
-	// if absent, create entries in the backRepoText maps.
-	textWithNewFieldValues := textDB.Text
-	if _, ok := (*backRepoText.Map_TextDBID_TextPtr)[textDB.ID]; !ok {
+	text, ok := (*backRepoText.Map_TextDBID_TextPtr)[textDB.ID]
+	if !ok {
+		text = new(models.Text)
 
-		(*backRepoText.Map_TextDBID_TextPtr)[textDB.ID] = &textWithNewFieldValues
-		(*backRepoText.Map_TextPtr_TextDBID)[&textWithNewFieldValues] = textDB.ID
+		(*backRepoText.Map_TextDBID_TextPtr)[textDB.ID] = text
+		(*backRepoText.Map_TextPtr_TextDBID)[text] = textDB.ID
 
 		// append model store with the new element
-		textWithNewFieldValues.Stage()
+		text.Stage()
 	}
-	textDBWithNewFieldValues := *textDB
-	(*backRepoText.Map_TextDBID_TextDB)[textDB.ID] = &textDBWithNewFieldValues
+	textDB.CopyBasicFieldsToText(text)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_TextDBID_TextDB)[textDB hold variable pointers
+	textDB_Data := *textDB
+	preservedPtrToText := &textDB_Data
+	(*backRepoText.Map_TextDBID_TextDB)[textDB.ID] = preservedPtrToText
 
 	return
 }
@@ -323,32 +319,8 @@ func (backRepoText *BackRepoTextStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 
 	text := (*backRepoText.Map_TextDBID_TextPtr)[textDB.ID]
 	_ = text // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			text.Name = textDB.Name_Data.String
 
-			text.X = textDB.X_Data.Float64
-
-			text.Y = textDB.Y_Data.Float64
-
-			text.Content = textDB.Content_Data.String
-
-			text.Color = textDB.Color_Data.String
-
-			text.FillOpacity = textDB.FillOpacity_Data.Float64
-
-			text.Stroke = textDB.Stroke_Data.String
-
-			text.StrokeWidth = textDB.StrokeWidth_Data.Float64
-
-			text.StrokeDashArray = textDB.StrokeDashArray_Data.String
-
-			text.Transform = textDB.Transform_Data.String
-
-		}
-	}
+	// insertion point for checkout of pointer encoding
 	return
 }
 
@@ -375,5 +347,120 @@ func (backRepo *BackRepoStruct) CheckoutText(text *models.Text) {
 			backRepo.BackRepoText.CheckoutPhaseOneInstance(&textDB)
 			backRepo.BackRepoText.CheckoutPhaseTwoInstance(backRepo, &textDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToTextDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (textDB *TextDB) CopyBasicFieldsFromText(text *models.Text) {
+	// insertion point for fields commit
+	textDB.Name_Data.String = text.Name
+	textDB.Name_Data.Valid = true
+
+	textDB.X_Data.Float64 = text.X
+	textDB.X_Data.Valid = true
+
+	textDB.Y_Data.Float64 = text.Y
+	textDB.Y_Data.Valid = true
+
+	textDB.Content_Data.String = text.Content
+	textDB.Content_Data.Valid = true
+
+	textDB.Color_Data.String = text.Color
+	textDB.Color_Data.Valid = true
+
+	textDB.FillOpacity_Data.Float64 = text.FillOpacity
+	textDB.FillOpacity_Data.Valid = true
+
+	textDB.Stroke_Data.String = text.Stroke
+	textDB.Stroke_Data.Valid = true
+
+	textDB.StrokeWidth_Data.Float64 = text.StrokeWidth
+	textDB.StrokeWidth_Data.Valid = true
+
+	textDB.StrokeDashArray_Data.String = text.StrokeDashArray
+	textDB.StrokeDashArray_Data.Valid = true
+
+	textDB.Transform_Data.String = text.Transform
+	textDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToTextDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (textDB *TextDB) CopyBasicFieldsToText(text *models.Text) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	text.Name = textDB.Name_Data.String
+	text.X = textDB.X_Data.Float64
+	text.Y = textDB.Y_Data.Float64
+	text.Content = textDB.Content_Data.String
+	text.Color = textDB.Color_Data.String
+	text.FillOpacity = textDB.FillOpacity_Data.Float64
+	text.Stroke = textDB.Stroke_Data.String
+	text.StrokeWidth = textDB.StrokeWidth_Data.Float64
+	text.StrokeDashArray = textDB.StrokeDashArray_Data.String
+	text.Transform = textDB.Transform_Data.String
+}
+
+// Backup generates a json file from a slice of all TextDB instances in the backrepo
+func (backRepoText *BackRepoTextStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "TextDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*TextDB
+	for _, textDB := range *backRepoText.Map_TextDBID_TextDB {
+		forBackup = append(forBackup, textDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json Text ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json Text file", err.Error())
+	}
+}
+
+func (backRepoText *BackRepoTextStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "TextDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json Text file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*TextDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_TextDBID_TextDB
+	for _, textDB := range forRestore {
+
+		textDB_ID := textDB.ID
+		textDB.ID = 0
+		query := backRepoText.db.Create(textDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if textDB_ID != textDB.ID {
+			log.Panicf("ID of Text restore ID %d, name %s, has wrong ID %d in DB after create",
+				textDB_ID, textDB.Name_Data.String, textDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json Text file", err.Error())
 	}
 }

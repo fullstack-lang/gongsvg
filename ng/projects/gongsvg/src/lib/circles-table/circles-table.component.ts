@@ -116,7 +116,6 @@ export class CirclesTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.circles = this.frontRepo.Circles_array;
 
@@ -154,8 +153,6 @@ export class CirclesTableComponent implements OnInit {
     this.circleService.deleteCircle(circleID).subscribe(
       circle => {
         this.circleService.CircleServiceChanged.next("delete")
-
-        console.log("circle deleted")
       }
     );
   }
@@ -217,7 +214,6 @@ export class CirclesTableComponent implements OnInit {
     // from selection, set circle that belong to circle through Anarrayofb
     this.selection.selected.forEach(
       circle => {
-        console.log("selection ID " + circle.ID)
         let ID = +this.dialogData.ID
         circle[this.dialogData.ReversePointer].Int64 = ID
         circle[this.dialogData.ReversePointer].Valid = true
@@ -231,7 +227,6 @@ export class CirclesTableComponent implements OnInit {
         this.circleService.updateCircle(circle)
           .subscribe(circle => {
             this.circleService.CircleServiceChanged.next("update")
-            console.log("circle saved")
           });
       }
     )

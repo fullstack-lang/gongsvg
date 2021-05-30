@@ -49,8 +49,9 @@ type RectInput struct {
 func GetRects(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var rects []orm.RectDB
-	query := db.Find(&rects)
+	// source slice
+	var rectDBs []orm.RectDB
+	query := db.Find(&rectDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,58 +60,23 @@ func GetRects(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var rectAPIs []orm.RectAPI
+
 	// for each rect, update fields from the database nullable fields
-	for idx := range rects {
-		rect := &rects[idx]
-		_ = rect
+	for idx := range rectDBs {
+		rectDB := &rectDBs[idx]
+		_ = rectDB
+		var rectAPI orm.RectAPI
+
 		// insertion point for updating fields
-		if rect.Name_Data.Valid {
-			rect.Name = rect.Name_Data.String
-		}
-
-		if rect.X_Data.Valid {
-			rect.X = rect.X_Data.Float64
-		}
-
-		if rect.Y_Data.Valid {
-			rect.Y = rect.Y_Data.Float64
-		}
-
-		if rect.Width_Data.Valid {
-			rect.Width = rect.Width_Data.Float64
-		}
-
-		if rect.Height_Data.Valid {
-			rect.Height = rect.Height_Data.Float64
-		}
-
-		if rect.Color_Data.Valid {
-			rect.Color = rect.Color_Data.String
-		}
-
-		if rect.FillOpacity_Data.Valid {
-			rect.FillOpacity = rect.FillOpacity_Data.Float64
-		}
-
-		if rect.Stroke_Data.Valid {
-			rect.Stroke = rect.Stroke_Data.String
-		}
-
-		if rect.StrokeWidth_Data.Valid {
-			rect.StrokeWidth = rect.StrokeWidth_Data.Float64
-		}
-
-		if rect.StrokeDashArray_Data.Valid {
-			rect.StrokeDashArray = rect.StrokeDashArray_Data.String
-		}
-
-		if rect.Transform_Data.Valid {
-			rect.Transform = rect.Transform_Data.String
-		}
-
+		rectAPI.ID = rectDB.ID
+		rectDB.CopyBasicFieldsToRect(&rectAPI.Rect)
+		rectAPI.RectPointersEnconding = rectDB.RectPointersEnconding
+		rectAPIs = append(rectAPIs, rectAPI)
 	}
 
-	c.JSON(http.StatusOK, rects)
+	c.JSON(http.StatusOK, rectAPIs)
 }
 
 // PostRect
@@ -143,40 +109,8 @@ func PostRect(c *gin.Context) {
 
 	// Create rect
 	rectDB := orm.RectDB{}
-	rectDB.RectAPI = input
-	// insertion point for nullable field set
-	rectDB.Name_Data.String = input.Name
-	rectDB.Name_Data.Valid = true
-
-	rectDB.X_Data.Float64 = input.X
-	rectDB.X_Data.Valid = true
-
-	rectDB.Y_Data.Float64 = input.Y
-	rectDB.Y_Data.Valid = true
-
-	rectDB.Width_Data.Float64 = input.Width
-	rectDB.Width_Data.Valid = true
-
-	rectDB.Height_Data.Float64 = input.Height
-	rectDB.Height_Data.Valid = true
-
-	rectDB.Color_Data.String = input.Color
-	rectDB.Color_Data.Valid = true
-
-	rectDB.FillOpacity_Data.Float64 = input.FillOpacity
-	rectDB.FillOpacity_Data.Valid = true
-
-	rectDB.Stroke_Data.String = input.Stroke
-	rectDB.Stroke_Data.Valid = true
-
-	rectDB.StrokeWidth_Data.Float64 = input.StrokeWidth
-	rectDB.StrokeWidth_Data.Valid = true
-
-	rectDB.StrokeDashArray_Data.String = input.StrokeDashArray
-	rectDB.StrokeDashArray_Data.Valid = true
-
-	rectDB.Transform_Data.String = input.Transform
-	rectDB.Transform_Data.Valid = true
+	rectDB.RectPointersEnconding = input.RectPointersEnconding
+	rectDB.CopyBasicFieldsFromRect(&input.Rect)
 
 	query := db.Create(&rectDB)
 	if query.Error != nil {
@@ -206,9 +140,9 @@ func PostRect(c *gin.Context) {
 func GetRect(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get rect in DB
-	var rect orm.RectDB
-	if err := db.First(&rect, c.Param("id")).Error; err != nil {
+	// Get rectDB in DB
+	var rectDB orm.RectDB
+	if err := db.First(&rectDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -216,52 +150,12 @@ func GetRect(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if rect.Name_Data.Valid {
-		rect.Name = rect.Name_Data.String
-	}
+	var rectAPI orm.RectAPI
+	rectAPI.ID = rectDB.ID
+	rectAPI.RectPointersEnconding = rectDB.RectPointersEnconding
+	rectDB.CopyBasicFieldsToRect(&rectAPI.Rect)
 
-	if rect.X_Data.Valid {
-		rect.X = rect.X_Data.Float64
-	}
-
-	if rect.Y_Data.Valid {
-		rect.Y = rect.Y_Data.Float64
-	}
-
-	if rect.Width_Data.Valid {
-		rect.Width = rect.Width_Data.Float64
-	}
-
-	if rect.Height_Data.Valid {
-		rect.Height = rect.Height_Data.Float64
-	}
-
-	if rect.Color_Data.Valid {
-		rect.Color = rect.Color_Data.String
-	}
-
-	if rect.FillOpacity_Data.Valid {
-		rect.FillOpacity = rect.FillOpacity_Data.Float64
-	}
-
-	if rect.Stroke_Data.Valid {
-		rect.Stroke = rect.Stroke_Data.String
-	}
-
-	if rect.StrokeWidth_Data.Valid {
-		rect.StrokeWidth = rect.StrokeWidth_Data.Float64
-	}
-
-	if rect.StrokeDashArray_Data.Valid {
-		rect.StrokeDashArray = rect.StrokeDashArray_Data.String
-	}
-
-	if rect.Transform_Data.Valid {
-		rect.Transform = rect.Transform_Data.String
-	}
-
-	c.JSON(http.StatusOK, rect)
+	c.JSON(http.StatusOK, rectAPI)
 }
 
 // UpdateRect
@@ -298,41 +192,10 @@ func UpdateRect(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	rectDB.CopyBasicFieldsFromRect(&input.Rect)
+	rectDB.RectPointersEnconding = input.RectPointersEnconding
 
-	input.X_Data.Float64 = input.X
-	input.X_Data.Valid = true
-
-	input.Y_Data.Float64 = input.Y
-	input.Y_Data.Valid = true
-
-	input.Width_Data.Float64 = input.Width
-	input.Width_Data.Valid = true
-
-	input.Height_Data.Float64 = input.Height
-	input.Height_Data.Valid = true
-
-	input.Color_Data.String = input.Color
-	input.Color_Data.Valid = true
-
-	input.FillOpacity_Data.Float64 = input.FillOpacity
-	input.FillOpacity_Data.Valid = true
-
-	input.Stroke_Data.String = input.Stroke
-	input.Stroke_Data.Valid = true
-
-	input.StrokeWidth_Data.Float64 = input.StrokeWidth
-	input.StrokeWidth_Data.Valid = true
-
-	input.StrokeDashArray_Data.String = input.StrokeDashArray
-	input.StrokeDashArray_Data.Valid = true
-
-	input.Transform_Data.String = input.Transform
-	input.Transform_Data.Valid = true
-
-	query = db.Model(&rectDB).Updates(input)
+	query = db.Model(&rectDB).Updates(rectDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

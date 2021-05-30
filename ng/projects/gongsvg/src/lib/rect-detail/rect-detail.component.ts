@@ -63,8 +63,6 @@ export class RectDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo RectPull returned")
-
 				if (id != 0 && association == undefined) {
 					this.rect = frontRepo.Rects.get(id)
 				} else {
@@ -94,6 +92,7 @@ export class RectDetailComponent implements OnInit {
 				this.rect.SVG_RectsDBID = new NullInt64
 				this.rect.SVG_RectsDBID.Int64 = this.rect.SVG_Rects_reverse.ID
 				this.rect.SVG_RectsDBID.Valid = true
+				this.rect.SVG_RectsDBID_Index = new NullInt64
 				this.rect.SVG_RectsDBID_Index.Valid = true
 				this.rect.SVG_Rects_reverse = undefined // very important, otherwise, circular JSON
 			}
@@ -104,8 +103,6 @@ export class RectDetailComponent implements OnInit {
 			this.rectService.updateRect(this.rect)
 				.subscribe(rect => {
 					this.rectService.RectServiceChanged.next("update")
-
-					console.log("rect saved")
 				});
 		} else {
 			switch (association) {
@@ -114,6 +111,7 @@ export class RectDetailComponent implements OnInit {
 					this.rect.SVG_RectsDBID = new NullInt64
 					this.rect.SVG_RectsDBID.Int64 = id
 					this.rect.SVG_RectsDBID.Valid = true
+					this.rect.SVG_RectsDBID_Index = new NullInt64
 					this.rect.SVG_RectsDBID_Index.Valid = true
 					break
 			}
@@ -122,7 +120,6 @@ export class RectDetailComponent implements OnInit {
 				this.rectService.RectServiceChanged.next("post")
 
 				this.rect = {} // reset fields
-				console.log("rect added")
 			});
 		}
 	}
@@ -151,7 +148,6 @@ export class RectDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -174,7 +170,6 @@ export class RectDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }

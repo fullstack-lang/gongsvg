@@ -112,7 +112,6 @@ export class PathsTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.paths = this.frontRepo.Paths_array;
 
@@ -150,8 +149,6 @@ export class PathsTableComponent implements OnInit {
     this.pathService.deletePath(pathID).subscribe(
       path => {
         this.pathService.PathServiceChanged.next("delete")
-
-        console.log("path deleted")
       }
     );
   }
@@ -213,7 +210,6 @@ export class PathsTableComponent implements OnInit {
     // from selection, set path that belong to path through Anarrayofb
     this.selection.selected.forEach(
       path => {
-        console.log("selection ID " + path.ID)
         let ID = +this.dialogData.ID
         path[this.dialogData.ReversePointer].Int64 = ID
         path[this.dialogData.ReversePointer].Valid = true
@@ -227,7 +223,6 @@ export class PathsTableComponent implements OnInit {
         this.pathService.updatePath(path)
           .subscribe(path => {
             this.pathService.PathServiceChanged.next("update")
-            console.log("path saved")
           });
       }
     )

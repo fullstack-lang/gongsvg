@@ -49,8 +49,9 @@ type PathInput struct {
 func GetPaths(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var paths []orm.PathDB
-	query := db.Find(&paths)
+	// source slice
+	var pathDBs []orm.PathDB
+	query := db.Find(&pathDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,46 +60,23 @@ func GetPaths(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var pathAPIs []orm.PathAPI
+
 	// for each path, update fields from the database nullable fields
-	for idx := range paths {
-		path := &paths[idx]
-		_ = path
+	for idx := range pathDBs {
+		pathDB := &pathDBs[idx]
+		_ = pathDB
+		var pathAPI orm.PathAPI
+
 		// insertion point for updating fields
-		if path.Name_Data.Valid {
-			path.Name = path.Name_Data.String
-		}
-
-		if path.Definition_Data.Valid {
-			path.Definition = path.Definition_Data.String
-		}
-
-		if path.Color_Data.Valid {
-			path.Color = path.Color_Data.String
-		}
-
-		if path.FillOpacity_Data.Valid {
-			path.FillOpacity = path.FillOpacity_Data.Float64
-		}
-
-		if path.Stroke_Data.Valid {
-			path.Stroke = path.Stroke_Data.String
-		}
-
-		if path.StrokeWidth_Data.Valid {
-			path.StrokeWidth = path.StrokeWidth_Data.Float64
-		}
-
-		if path.StrokeDashArray_Data.Valid {
-			path.StrokeDashArray = path.StrokeDashArray_Data.String
-		}
-
-		if path.Transform_Data.Valid {
-			path.Transform = path.Transform_Data.String
-		}
-
+		pathAPI.ID = pathDB.ID
+		pathDB.CopyBasicFieldsToPath(&pathAPI.Path)
+		pathAPI.PathPointersEnconding = pathDB.PathPointersEnconding
+		pathAPIs = append(pathAPIs, pathAPI)
 	}
 
-	c.JSON(http.StatusOK, paths)
+	c.JSON(http.StatusOK, pathAPIs)
 }
 
 // PostPath
@@ -131,31 +109,8 @@ func PostPath(c *gin.Context) {
 
 	// Create path
 	pathDB := orm.PathDB{}
-	pathDB.PathAPI = input
-	// insertion point for nullable field set
-	pathDB.Name_Data.String = input.Name
-	pathDB.Name_Data.Valid = true
-
-	pathDB.Definition_Data.String = input.Definition
-	pathDB.Definition_Data.Valid = true
-
-	pathDB.Color_Data.String = input.Color
-	pathDB.Color_Data.Valid = true
-
-	pathDB.FillOpacity_Data.Float64 = input.FillOpacity
-	pathDB.FillOpacity_Data.Valid = true
-
-	pathDB.Stroke_Data.String = input.Stroke
-	pathDB.Stroke_Data.Valid = true
-
-	pathDB.StrokeWidth_Data.Float64 = input.StrokeWidth
-	pathDB.StrokeWidth_Data.Valid = true
-
-	pathDB.StrokeDashArray_Data.String = input.StrokeDashArray
-	pathDB.StrokeDashArray_Data.Valid = true
-
-	pathDB.Transform_Data.String = input.Transform
-	pathDB.Transform_Data.Valid = true
+	pathDB.PathPointersEnconding = input.PathPointersEnconding
+	pathDB.CopyBasicFieldsFromPath(&input.Path)
 
 	query := db.Create(&pathDB)
 	if query.Error != nil {
@@ -185,9 +140,9 @@ func PostPath(c *gin.Context) {
 func GetPath(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get path in DB
-	var path orm.PathDB
-	if err := db.First(&path, c.Param("id")).Error; err != nil {
+	// Get pathDB in DB
+	var pathDB orm.PathDB
+	if err := db.First(&pathDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -195,40 +150,12 @@ func GetPath(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if path.Name_Data.Valid {
-		path.Name = path.Name_Data.String
-	}
+	var pathAPI orm.PathAPI
+	pathAPI.ID = pathDB.ID
+	pathAPI.PathPointersEnconding = pathDB.PathPointersEnconding
+	pathDB.CopyBasicFieldsToPath(&pathAPI.Path)
 
-	if path.Definition_Data.Valid {
-		path.Definition = path.Definition_Data.String
-	}
-
-	if path.Color_Data.Valid {
-		path.Color = path.Color_Data.String
-	}
-
-	if path.FillOpacity_Data.Valid {
-		path.FillOpacity = path.FillOpacity_Data.Float64
-	}
-
-	if path.Stroke_Data.Valid {
-		path.Stroke = path.Stroke_Data.String
-	}
-
-	if path.StrokeWidth_Data.Valid {
-		path.StrokeWidth = path.StrokeWidth_Data.Float64
-	}
-
-	if path.StrokeDashArray_Data.Valid {
-		path.StrokeDashArray = path.StrokeDashArray_Data.String
-	}
-
-	if path.Transform_Data.Valid {
-		path.Transform = path.Transform_Data.String
-	}
-
-	c.JSON(http.StatusOK, path)
+	c.JSON(http.StatusOK, pathAPI)
 }
 
 // UpdatePath
@@ -265,32 +192,10 @@ func UpdatePath(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	pathDB.CopyBasicFieldsFromPath(&input.Path)
+	pathDB.PathPointersEnconding = input.PathPointersEnconding
 
-	input.Definition_Data.String = input.Definition
-	input.Definition_Data.Valid = true
-
-	input.Color_Data.String = input.Color
-	input.Color_Data.Valid = true
-
-	input.FillOpacity_Data.Float64 = input.FillOpacity
-	input.FillOpacity_Data.Valid = true
-
-	input.Stroke_Data.String = input.Stroke
-	input.Stroke_Data.Valid = true
-
-	input.StrokeWidth_Data.Float64 = input.StrokeWidth
-	input.StrokeWidth_Data.Valid = true
-
-	input.StrokeDashArray_Data.String = input.StrokeDashArray
-	input.StrokeDashArray_Data.Valid = true
-
-	input.Transform_Data.String = input.Transform
-	input.Transform_Data.Valid = true
-
-	query = db.Model(&pathDB).Updates(input)
+	query = db.Model(&pathDB).Updates(pathDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

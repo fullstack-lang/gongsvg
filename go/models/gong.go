@@ -35,7 +35,7 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
-	
+
 	// if set will be called before each commit to the back repo
 	OnInitCommitCallback OnInitCommitInterface
 }
@@ -47,6 +47,8 @@ type OnInitCommitInterface interface {
 type BackRepoInterface interface {
 	Commit(stage *StageStruct)
 	Checkout(stage *StageStruct)
+	Backup(stage *StageStruct, dirPath string)
+	Restore(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
 	CommitCircle(circle *Circle)
 	CheckoutCircle(circle *Circle)
@@ -100,6 +102,21 @@ func (stage *StageStruct) Commit() {
 func (stage *StageStruct) Checkout() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
+	}
+}
+
+// backup generates backup files in the dirPath
+func (stage *StageStruct) Backup(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.Backup(stage, dirPath)
+	}
+}
+
+// Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
+// Restore shall be performed only on a new database with rowids at 0 (otherwise, it will panic)
+func (stage *StageStruct) Restore(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.Restore(stage, dirPath)
 	}
 }
 
@@ -1022,14 +1039,23 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Circles = make(map[*Circle]struct{}, 0)
+
 	stage.Ellipses = make(map[*Ellipse]struct{}, 0)
+
 	stage.Lines = make(map[*Line]struct{}, 0)
+
 	stage.Paths = make(map[*Path]struct{}, 0)
+
 	stage.Polygones = make(map[*Polygone]struct{}, 0)
+
 	stage.Polylines = make(map[*Polyline]struct{}, 0)
+
 	stage.Rects = make(map[*Rect]struct{}, 0)
+
 	stage.SVGs = make(map[*SVG]struct{}, 0)
+
 	stage.Texts = make(map[*Text]struct{}, 0)
+
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil

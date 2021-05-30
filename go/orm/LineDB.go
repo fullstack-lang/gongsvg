@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,9 +31,35 @@ var dummy_Line_sort sort.Float64Slice
 //
 // swagger:model lineAPI
 type LineAPI struct {
+	gorm.Model
+
 	models.Line
 
-	// insertion for fields declaration
+	// encoding of pointers
+	LinePointersEnconding
+}
+
+// LinePointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type LinePointersEnconding struct {
+	// insertion for pointer fields encoding declaration
+	// Implementation of a reverse ID for field SVG{}.Lines []*Line
+	SVG_LinesDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	SVG_LinesDBID_Index sql.NullInt64
+}
+
+// LineDB describes a line in the database
+//
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
+//
+// swagger:model lineDB
+type LineDB struct {
+	gorm.Model
+
+	// insertion for basic fields declaration
 	// Declation for basic field lineDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -63,22 +93,8 @@ type LineAPI struct {
 	// Declation for basic field lineDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
 
-	// Implementation of a reverse ID for field SVG{}.Lines []*Line
-	SVG_LinesDBID sql.NullInt64
-	SVG_LinesDBID_Index sql.NullInt64
-
-	// end of insertion
-}
-
-// LineDB describes a line in the database
-//
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
-//
-// swagger:model lineDB
-type LineDB struct {
-	gorm.Model
-
-	LineAPI
+	// encoding of pointers
+	LinePointersEnconding
 }
 
 // LineDBs arrays lineDBs
@@ -102,6 +118,13 @@ type BackRepoLineStruct struct {
 	Map_LineDBID_LinePtr *map[uint]*models.Line
 
 	db *gorm.DB
+}
+
+// GetLineDBFromLinePtr is a handy function to access the back repo instance from the stage instance
+func (backRepoLine *BackRepoLineStruct) GetLineDBFromLinePtr(line *models.Line) (lineDB *LineDB) {
+	id := (*backRepoLine.Map_LinePtr_LineDBID)[line]
+	lineDB = (*backRepoLine.Map_LineDBID_LineDB)[id]
+	return
 }
 
 // BackRepoLine.Init set up the BackRepo of the Line
@@ -185,7 +208,7 @@ func (backRepoLine *BackRepoLineStruct) CommitPhaseOneInstance(line *models.Line
 
 	// initiate line
 	var lineDB LineDB
-	lineDB.Line = *line
+	lineDB.CopyBasicFieldsFromLine(line)
 
 	query := backRepoLine.db.Create(&lineDB)
 	if query.Error != nil {
@@ -218,44 +241,9 @@ func (backRepoLine *BackRepoLineStruct) CommitPhaseTwoInstance(backRepo *BackRep
 	// fetch matching lineDB
 	if lineDB, ok := (*backRepoLine.Map_LineDBID_LineDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				lineDB.Name_Data.String = line.Name
-				lineDB.Name_Data.Valid = true
+		lineDB.CopyBasicFieldsFromLine(line)
 
-				lineDB.X1_Data.Float64 = line.X1
-				lineDB.X1_Data.Valid = true
-
-				lineDB.Y1_Data.Float64 = line.Y1
-				lineDB.Y1_Data.Valid = true
-
-				lineDB.X2_Data.Float64 = line.X2
-				lineDB.X2_Data.Valid = true
-
-				lineDB.Y2_Data.Float64 = line.Y2
-				lineDB.Y2_Data.Valid = true
-
-				lineDB.Color_Data.String = line.Color
-				lineDB.Color_Data.Valid = true
-
-				lineDB.FillOpacity_Data.Float64 = line.FillOpacity
-				lineDB.FillOpacity_Data.Valid = true
-
-				lineDB.Stroke_Data.String = line.Stroke
-				lineDB.Stroke_Data.Valid = true
-
-				lineDB.StrokeWidth_Data.Float64 = line.StrokeWidth
-				lineDB.StrokeWidth_Data.Valid = true
-
-				lineDB.StrokeDashArray_Data.String = line.StrokeDashArray
-				lineDB.StrokeDashArray_Data.Valid = true
-
-				lineDB.Transform_Data.String = line.Transform
-				lineDB.Transform_Data.Valid = true
-
-			}
-		}
+		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoLine.db.Save(&lineDB)
 		if query.Error != nil {
 			return query.Error
@@ -296,18 +284,23 @@ func (backRepoLine *BackRepoLineStruct) CheckoutPhaseOne() (Error error) {
 // models version of the lineDB
 func (backRepoLine *BackRepoLineStruct) CheckoutPhaseOneInstance(lineDB *LineDB) (Error error) {
 
-	// if absent, create entries in the backRepoLine maps.
-	lineWithNewFieldValues := lineDB.Line
-	if _, ok := (*backRepoLine.Map_LineDBID_LinePtr)[lineDB.ID]; !ok {
+	line, ok := (*backRepoLine.Map_LineDBID_LinePtr)[lineDB.ID]
+	if !ok {
+		line = new(models.Line)
 
-		(*backRepoLine.Map_LineDBID_LinePtr)[lineDB.ID] = &lineWithNewFieldValues
-		(*backRepoLine.Map_LinePtr_LineDBID)[&lineWithNewFieldValues] = lineDB.ID
+		(*backRepoLine.Map_LineDBID_LinePtr)[lineDB.ID] = line
+		(*backRepoLine.Map_LinePtr_LineDBID)[line] = lineDB.ID
 
 		// append model store with the new element
-		lineWithNewFieldValues.Stage()
+		line.Stage()
 	}
-	lineDBWithNewFieldValues := *lineDB
-	(*backRepoLine.Map_LineDBID_LineDB)[lineDB.ID] = &lineDBWithNewFieldValues
+	lineDB.CopyBasicFieldsToLine(line)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_LineDBID_LineDB)[lineDB hold variable pointers
+	lineDB_Data := *lineDB
+	preservedPtrToLine := &lineDB_Data
+	(*backRepoLine.Map_LineDBID_LineDB)[lineDB.ID] = preservedPtrToLine
 
 	return
 }
@@ -329,34 +322,8 @@ func (backRepoLine *BackRepoLineStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 
 	line := (*backRepoLine.Map_LineDBID_LinePtr)[lineDB.ID]
 	_ = line // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			line.Name = lineDB.Name_Data.String
 
-			line.X1 = lineDB.X1_Data.Float64
-
-			line.Y1 = lineDB.Y1_Data.Float64
-
-			line.X2 = lineDB.X2_Data.Float64
-
-			line.Y2 = lineDB.Y2_Data.Float64
-
-			line.Color = lineDB.Color_Data.String
-
-			line.FillOpacity = lineDB.FillOpacity_Data.Float64
-
-			line.Stroke = lineDB.Stroke_Data.String
-
-			line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
-
-			line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
-
-			line.Transform = lineDB.Transform_Data.String
-
-		}
-	}
+	// insertion point for checkout of pointer encoding
 	return
 }
 
@@ -383,5 +350,124 @@ func (backRepo *BackRepoStruct) CheckoutLine(line *models.Line) {
 			backRepo.BackRepoLine.CheckoutPhaseOneInstance(&lineDB)
 			backRepo.BackRepoLine.CheckoutPhaseTwoInstance(backRepo, &lineDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToLineDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (lineDB *LineDB) CopyBasicFieldsFromLine(line *models.Line) {
+	// insertion point for fields commit
+	lineDB.Name_Data.String = line.Name
+	lineDB.Name_Data.Valid = true
+
+	lineDB.X1_Data.Float64 = line.X1
+	lineDB.X1_Data.Valid = true
+
+	lineDB.Y1_Data.Float64 = line.Y1
+	lineDB.Y1_Data.Valid = true
+
+	lineDB.X2_Data.Float64 = line.X2
+	lineDB.X2_Data.Valid = true
+
+	lineDB.Y2_Data.Float64 = line.Y2
+	lineDB.Y2_Data.Valid = true
+
+	lineDB.Color_Data.String = line.Color
+	lineDB.Color_Data.Valid = true
+
+	lineDB.FillOpacity_Data.Float64 = line.FillOpacity
+	lineDB.FillOpacity_Data.Valid = true
+
+	lineDB.Stroke_Data.String = line.Stroke
+	lineDB.Stroke_Data.Valid = true
+
+	lineDB.StrokeWidth_Data.Float64 = line.StrokeWidth
+	lineDB.StrokeWidth_Data.Valid = true
+
+	lineDB.StrokeDashArray_Data.String = line.StrokeDashArray
+	lineDB.StrokeDashArray_Data.Valid = true
+
+	lineDB.Transform_Data.String = line.Transform
+	lineDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToLineDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (lineDB *LineDB) CopyBasicFieldsToLine(line *models.Line) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	line.Name = lineDB.Name_Data.String
+	line.X1 = lineDB.X1_Data.Float64
+	line.Y1 = lineDB.Y1_Data.Float64
+	line.X2 = lineDB.X2_Data.Float64
+	line.Y2 = lineDB.Y2_Data.Float64
+	line.Color = lineDB.Color_Data.String
+	line.FillOpacity = lineDB.FillOpacity_Data.Float64
+	line.Stroke = lineDB.Stroke_Data.String
+	line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
+	line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
+	line.Transform = lineDB.Transform_Data.String
+}
+
+// Backup generates a json file from a slice of all LineDB instances in the backrepo
+func (backRepoLine *BackRepoLineStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "LineDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*LineDB
+	for _, lineDB := range *backRepoLine.Map_LineDBID_LineDB {
+		forBackup = append(forBackup, lineDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json Line ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json Line file", err.Error())
+	}
+}
+
+func (backRepoLine *BackRepoLineStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "LineDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json Line file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*LineDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_LineDBID_LineDB
+	for _, lineDB := range forRestore {
+
+		lineDB_ID := lineDB.ID
+		lineDB.ID = 0
+		query := backRepoLine.db.Create(lineDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if lineDB_ID != lineDB.ID {
+			log.Panicf("ID of Line restore ID %d, name %s, has wrong ID %d in DB after create",
+				lineDB_ID, lineDB.Name_Data.String, lineDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json Line file", err.Error())
 	}
 }

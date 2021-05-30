@@ -49,8 +49,9 @@ type PolygoneInput struct {
 func GetPolygones(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var polygones []orm.PolygoneDB
-	query := db.Find(&polygones)
+	// source slice
+	var polygoneDBs []orm.PolygoneDB
+	query := db.Find(&polygoneDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,46 +60,23 @@ func GetPolygones(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var polygoneAPIs []orm.PolygoneAPI
+
 	// for each polygone, update fields from the database nullable fields
-	for idx := range polygones {
-		polygone := &polygones[idx]
-		_ = polygone
+	for idx := range polygoneDBs {
+		polygoneDB := &polygoneDBs[idx]
+		_ = polygoneDB
+		var polygoneAPI orm.PolygoneAPI
+
 		// insertion point for updating fields
-		if polygone.Name_Data.Valid {
-			polygone.Name = polygone.Name_Data.String
-		}
-
-		if polygone.Points_Data.Valid {
-			polygone.Points = polygone.Points_Data.String
-		}
-
-		if polygone.Color_Data.Valid {
-			polygone.Color = polygone.Color_Data.String
-		}
-
-		if polygone.FillOpacity_Data.Valid {
-			polygone.FillOpacity = polygone.FillOpacity_Data.Float64
-		}
-
-		if polygone.Stroke_Data.Valid {
-			polygone.Stroke = polygone.Stroke_Data.String
-		}
-
-		if polygone.StrokeWidth_Data.Valid {
-			polygone.StrokeWidth = polygone.StrokeWidth_Data.Float64
-		}
-
-		if polygone.StrokeDashArray_Data.Valid {
-			polygone.StrokeDashArray = polygone.StrokeDashArray_Data.String
-		}
-
-		if polygone.Transform_Data.Valid {
-			polygone.Transform = polygone.Transform_Data.String
-		}
-
+		polygoneAPI.ID = polygoneDB.ID
+		polygoneDB.CopyBasicFieldsToPolygone(&polygoneAPI.Polygone)
+		polygoneAPI.PolygonePointersEnconding = polygoneDB.PolygonePointersEnconding
+		polygoneAPIs = append(polygoneAPIs, polygoneAPI)
 	}
 
-	c.JSON(http.StatusOK, polygones)
+	c.JSON(http.StatusOK, polygoneAPIs)
 }
 
 // PostPolygone
@@ -131,31 +109,8 @@ func PostPolygone(c *gin.Context) {
 
 	// Create polygone
 	polygoneDB := orm.PolygoneDB{}
-	polygoneDB.PolygoneAPI = input
-	// insertion point for nullable field set
-	polygoneDB.Name_Data.String = input.Name
-	polygoneDB.Name_Data.Valid = true
-
-	polygoneDB.Points_Data.String = input.Points
-	polygoneDB.Points_Data.Valid = true
-
-	polygoneDB.Color_Data.String = input.Color
-	polygoneDB.Color_Data.Valid = true
-
-	polygoneDB.FillOpacity_Data.Float64 = input.FillOpacity
-	polygoneDB.FillOpacity_Data.Valid = true
-
-	polygoneDB.Stroke_Data.String = input.Stroke
-	polygoneDB.Stroke_Data.Valid = true
-
-	polygoneDB.StrokeWidth_Data.Float64 = input.StrokeWidth
-	polygoneDB.StrokeWidth_Data.Valid = true
-
-	polygoneDB.StrokeDashArray_Data.String = input.StrokeDashArray
-	polygoneDB.StrokeDashArray_Data.Valid = true
-
-	polygoneDB.Transform_Data.String = input.Transform
-	polygoneDB.Transform_Data.Valid = true
+	polygoneDB.PolygonePointersEnconding = input.PolygonePointersEnconding
+	polygoneDB.CopyBasicFieldsFromPolygone(&input.Polygone)
 
 	query := db.Create(&polygoneDB)
 	if query.Error != nil {
@@ -185,9 +140,9 @@ func PostPolygone(c *gin.Context) {
 func GetPolygone(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get polygone in DB
-	var polygone orm.PolygoneDB
-	if err := db.First(&polygone, c.Param("id")).Error; err != nil {
+	// Get polygoneDB in DB
+	var polygoneDB orm.PolygoneDB
+	if err := db.First(&polygoneDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -195,40 +150,12 @@ func GetPolygone(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if polygone.Name_Data.Valid {
-		polygone.Name = polygone.Name_Data.String
-	}
+	var polygoneAPI orm.PolygoneAPI
+	polygoneAPI.ID = polygoneDB.ID
+	polygoneAPI.PolygonePointersEnconding = polygoneDB.PolygonePointersEnconding
+	polygoneDB.CopyBasicFieldsToPolygone(&polygoneAPI.Polygone)
 
-	if polygone.Points_Data.Valid {
-		polygone.Points = polygone.Points_Data.String
-	}
-
-	if polygone.Color_Data.Valid {
-		polygone.Color = polygone.Color_Data.String
-	}
-
-	if polygone.FillOpacity_Data.Valid {
-		polygone.FillOpacity = polygone.FillOpacity_Data.Float64
-	}
-
-	if polygone.Stroke_Data.Valid {
-		polygone.Stroke = polygone.Stroke_Data.String
-	}
-
-	if polygone.StrokeWidth_Data.Valid {
-		polygone.StrokeWidth = polygone.StrokeWidth_Data.Float64
-	}
-
-	if polygone.StrokeDashArray_Data.Valid {
-		polygone.StrokeDashArray = polygone.StrokeDashArray_Data.String
-	}
-
-	if polygone.Transform_Data.Valid {
-		polygone.Transform = polygone.Transform_Data.String
-	}
-
-	c.JSON(http.StatusOK, polygone)
+	c.JSON(http.StatusOK, polygoneAPI)
 }
 
 // UpdatePolygone
@@ -265,32 +192,10 @@ func UpdatePolygone(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	polygoneDB.CopyBasicFieldsFromPolygone(&input.Polygone)
+	polygoneDB.PolygonePointersEnconding = input.PolygonePointersEnconding
 
-	input.Points_Data.String = input.Points
-	input.Points_Data.Valid = true
-
-	input.Color_Data.String = input.Color
-	input.Color_Data.Valid = true
-
-	input.FillOpacity_Data.Float64 = input.FillOpacity
-	input.FillOpacity_Data.Valid = true
-
-	input.Stroke_Data.String = input.Stroke
-	input.Stroke_Data.Valid = true
-
-	input.StrokeWidth_Data.Float64 = input.StrokeWidth
-	input.StrokeWidth_Data.Valid = true
-
-	input.StrokeDashArray_Data.String = input.StrokeDashArray
-	input.StrokeDashArray_Data.Valid = true
-
-	input.Transform_Data.String = input.Transform
-	input.Transform_Data.Valid = true
-
-	query = db.Model(&polygoneDB).Updates(input)
+	query = db.Model(&polygoneDB).Updates(polygoneDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

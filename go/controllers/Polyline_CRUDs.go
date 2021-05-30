@@ -49,8 +49,9 @@ type PolylineInput struct {
 func GetPolylines(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var polylines []orm.PolylineDB
-	query := db.Find(&polylines)
+	// source slice
+	var polylineDBs []orm.PolylineDB
+	query := db.Find(&polylineDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,46 +60,23 @@ func GetPolylines(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var polylineAPIs []orm.PolylineAPI
+
 	// for each polyline, update fields from the database nullable fields
-	for idx := range polylines {
-		polyline := &polylines[idx]
-		_ = polyline
+	for idx := range polylineDBs {
+		polylineDB := &polylineDBs[idx]
+		_ = polylineDB
+		var polylineAPI orm.PolylineAPI
+
 		// insertion point for updating fields
-		if polyline.Name_Data.Valid {
-			polyline.Name = polyline.Name_Data.String
-		}
-
-		if polyline.Points_Data.Valid {
-			polyline.Points = polyline.Points_Data.String
-		}
-
-		if polyline.Color_Data.Valid {
-			polyline.Color = polyline.Color_Data.String
-		}
-
-		if polyline.FillOpacity_Data.Valid {
-			polyline.FillOpacity = polyline.FillOpacity_Data.Float64
-		}
-
-		if polyline.Stroke_Data.Valid {
-			polyline.Stroke = polyline.Stroke_Data.String
-		}
-
-		if polyline.StrokeWidth_Data.Valid {
-			polyline.StrokeWidth = polyline.StrokeWidth_Data.Float64
-		}
-
-		if polyline.StrokeDashArray_Data.Valid {
-			polyline.StrokeDashArray = polyline.StrokeDashArray_Data.String
-		}
-
-		if polyline.Transform_Data.Valid {
-			polyline.Transform = polyline.Transform_Data.String
-		}
-
+		polylineAPI.ID = polylineDB.ID
+		polylineDB.CopyBasicFieldsToPolyline(&polylineAPI.Polyline)
+		polylineAPI.PolylinePointersEnconding = polylineDB.PolylinePointersEnconding
+		polylineAPIs = append(polylineAPIs, polylineAPI)
 	}
 
-	c.JSON(http.StatusOK, polylines)
+	c.JSON(http.StatusOK, polylineAPIs)
 }
 
 // PostPolyline
@@ -131,31 +109,8 @@ func PostPolyline(c *gin.Context) {
 
 	// Create polyline
 	polylineDB := orm.PolylineDB{}
-	polylineDB.PolylineAPI = input
-	// insertion point for nullable field set
-	polylineDB.Name_Data.String = input.Name
-	polylineDB.Name_Data.Valid = true
-
-	polylineDB.Points_Data.String = input.Points
-	polylineDB.Points_Data.Valid = true
-
-	polylineDB.Color_Data.String = input.Color
-	polylineDB.Color_Data.Valid = true
-
-	polylineDB.FillOpacity_Data.Float64 = input.FillOpacity
-	polylineDB.FillOpacity_Data.Valid = true
-
-	polylineDB.Stroke_Data.String = input.Stroke
-	polylineDB.Stroke_Data.Valid = true
-
-	polylineDB.StrokeWidth_Data.Float64 = input.StrokeWidth
-	polylineDB.StrokeWidth_Data.Valid = true
-
-	polylineDB.StrokeDashArray_Data.String = input.StrokeDashArray
-	polylineDB.StrokeDashArray_Data.Valid = true
-
-	polylineDB.Transform_Data.String = input.Transform
-	polylineDB.Transform_Data.Valid = true
+	polylineDB.PolylinePointersEnconding = input.PolylinePointersEnconding
+	polylineDB.CopyBasicFieldsFromPolyline(&input.Polyline)
 
 	query := db.Create(&polylineDB)
 	if query.Error != nil {
@@ -185,9 +140,9 @@ func PostPolyline(c *gin.Context) {
 func GetPolyline(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get polyline in DB
-	var polyline orm.PolylineDB
-	if err := db.First(&polyline, c.Param("id")).Error; err != nil {
+	// Get polylineDB in DB
+	var polylineDB orm.PolylineDB
+	if err := db.First(&polylineDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -195,40 +150,12 @@ func GetPolyline(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if polyline.Name_Data.Valid {
-		polyline.Name = polyline.Name_Data.String
-	}
+	var polylineAPI orm.PolylineAPI
+	polylineAPI.ID = polylineDB.ID
+	polylineAPI.PolylinePointersEnconding = polylineDB.PolylinePointersEnconding
+	polylineDB.CopyBasicFieldsToPolyline(&polylineAPI.Polyline)
 
-	if polyline.Points_Data.Valid {
-		polyline.Points = polyline.Points_Data.String
-	}
-
-	if polyline.Color_Data.Valid {
-		polyline.Color = polyline.Color_Data.String
-	}
-
-	if polyline.FillOpacity_Data.Valid {
-		polyline.FillOpacity = polyline.FillOpacity_Data.Float64
-	}
-
-	if polyline.Stroke_Data.Valid {
-		polyline.Stroke = polyline.Stroke_Data.String
-	}
-
-	if polyline.StrokeWidth_Data.Valid {
-		polyline.StrokeWidth = polyline.StrokeWidth_Data.Float64
-	}
-
-	if polyline.StrokeDashArray_Data.Valid {
-		polyline.StrokeDashArray = polyline.StrokeDashArray_Data.String
-	}
-
-	if polyline.Transform_Data.Valid {
-		polyline.Transform = polyline.Transform_Data.String
-	}
-
-	c.JSON(http.StatusOK, polyline)
+	c.JSON(http.StatusOK, polylineAPI)
 }
 
 // UpdatePolyline
@@ -265,32 +192,10 @@ func UpdatePolyline(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	polylineDB.CopyBasicFieldsFromPolyline(&input.Polyline)
+	polylineDB.PolylinePointersEnconding = input.PolylinePointersEnconding
 
-	input.Points_Data.String = input.Points
-	input.Points_Data.Valid = true
-
-	input.Color_Data.String = input.Color
-	input.Color_Data.Valid = true
-
-	input.FillOpacity_Data.Float64 = input.FillOpacity
-	input.FillOpacity_Data.Valid = true
-
-	input.Stroke_Data.String = input.Stroke
-	input.Stroke_Data.Valid = true
-
-	input.StrokeWidth_Data.Float64 = input.StrokeWidth
-	input.StrokeWidth_Data.Valid = true
-
-	input.StrokeDashArray_Data.String = input.StrokeDashArray
-	input.StrokeDashArray_Data.Valid = true
-
-	input.Transform_Data.String = input.Transform
-	input.Transform_Data.Valid = true
-
-	query = db.Model(&polylineDB).Updates(input)
+	query = db.Model(&polylineDB).Updates(polylineDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

@@ -49,8 +49,9 @@ type LineInput struct {
 func GetLines(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var lines []orm.LineDB
-	query := db.Find(&lines)
+	// source slice
+	var lineDBs []orm.LineDB
+	query := db.Find(&lineDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,58 +60,23 @@ func GetLines(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var lineAPIs []orm.LineAPI
+
 	// for each line, update fields from the database nullable fields
-	for idx := range lines {
-		line := &lines[idx]
-		_ = line
+	for idx := range lineDBs {
+		lineDB := &lineDBs[idx]
+		_ = lineDB
+		var lineAPI orm.LineAPI
+
 		// insertion point for updating fields
-		if line.Name_Data.Valid {
-			line.Name = line.Name_Data.String
-		}
-
-		if line.X1_Data.Valid {
-			line.X1 = line.X1_Data.Float64
-		}
-
-		if line.Y1_Data.Valid {
-			line.Y1 = line.Y1_Data.Float64
-		}
-
-		if line.X2_Data.Valid {
-			line.X2 = line.X2_Data.Float64
-		}
-
-		if line.Y2_Data.Valid {
-			line.Y2 = line.Y2_Data.Float64
-		}
-
-		if line.Color_Data.Valid {
-			line.Color = line.Color_Data.String
-		}
-
-		if line.FillOpacity_Data.Valid {
-			line.FillOpacity = line.FillOpacity_Data.Float64
-		}
-
-		if line.Stroke_Data.Valid {
-			line.Stroke = line.Stroke_Data.String
-		}
-
-		if line.StrokeWidth_Data.Valid {
-			line.StrokeWidth = line.StrokeWidth_Data.Float64
-		}
-
-		if line.StrokeDashArray_Data.Valid {
-			line.StrokeDashArray = line.StrokeDashArray_Data.String
-		}
-
-		if line.Transform_Data.Valid {
-			line.Transform = line.Transform_Data.String
-		}
-
+		lineAPI.ID = lineDB.ID
+		lineDB.CopyBasicFieldsToLine(&lineAPI.Line)
+		lineAPI.LinePointersEnconding = lineDB.LinePointersEnconding
+		lineAPIs = append(lineAPIs, lineAPI)
 	}
 
-	c.JSON(http.StatusOK, lines)
+	c.JSON(http.StatusOK, lineAPIs)
 }
 
 // PostLine
@@ -143,40 +109,8 @@ func PostLine(c *gin.Context) {
 
 	// Create line
 	lineDB := orm.LineDB{}
-	lineDB.LineAPI = input
-	// insertion point for nullable field set
-	lineDB.Name_Data.String = input.Name
-	lineDB.Name_Data.Valid = true
-
-	lineDB.X1_Data.Float64 = input.X1
-	lineDB.X1_Data.Valid = true
-
-	lineDB.Y1_Data.Float64 = input.Y1
-	lineDB.Y1_Data.Valid = true
-
-	lineDB.X2_Data.Float64 = input.X2
-	lineDB.X2_Data.Valid = true
-
-	lineDB.Y2_Data.Float64 = input.Y2
-	lineDB.Y2_Data.Valid = true
-
-	lineDB.Color_Data.String = input.Color
-	lineDB.Color_Data.Valid = true
-
-	lineDB.FillOpacity_Data.Float64 = input.FillOpacity
-	lineDB.FillOpacity_Data.Valid = true
-
-	lineDB.Stroke_Data.String = input.Stroke
-	lineDB.Stroke_Data.Valid = true
-
-	lineDB.StrokeWidth_Data.Float64 = input.StrokeWidth
-	lineDB.StrokeWidth_Data.Valid = true
-
-	lineDB.StrokeDashArray_Data.String = input.StrokeDashArray
-	lineDB.StrokeDashArray_Data.Valid = true
-
-	lineDB.Transform_Data.String = input.Transform
-	lineDB.Transform_Data.Valid = true
+	lineDB.LinePointersEnconding = input.LinePointersEnconding
+	lineDB.CopyBasicFieldsFromLine(&input.Line)
 
 	query := db.Create(&lineDB)
 	if query.Error != nil {
@@ -206,9 +140,9 @@ func PostLine(c *gin.Context) {
 func GetLine(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get line in DB
-	var line orm.LineDB
-	if err := db.First(&line, c.Param("id")).Error; err != nil {
+	// Get lineDB in DB
+	var lineDB orm.LineDB
+	if err := db.First(&lineDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -216,52 +150,12 @@ func GetLine(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if line.Name_Data.Valid {
-		line.Name = line.Name_Data.String
-	}
+	var lineAPI orm.LineAPI
+	lineAPI.ID = lineDB.ID
+	lineAPI.LinePointersEnconding = lineDB.LinePointersEnconding
+	lineDB.CopyBasicFieldsToLine(&lineAPI.Line)
 
-	if line.X1_Data.Valid {
-		line.X1 = line.X1_Data.Float64
-	}
-
-	if line.Y1_Data.Valid {
-		line.Y1 = line.Y1_Data.Float64
-	}
-
-	if line.X2_Data.Valid {
-		line.X2 = line.X2_Data.Float64
-	}
-
-	if line.Y2_Data.Valid {
-		line.Y2 = line.Y2_Data.Float64
-	}
-
-	if line.Color_Data.Valid {
-		line.Color = line.Color_Data.String
-	}
-
-	if line.FillOpacity_Data.Valid {
-		line.FillOpacity = line.FillOpacity_Data.Float64
-	}
-
-	if line.Stroke_Data.Valid {
-		line.Stroke = line.Stroke_Data.String
-	}
-
-	if line.StrokeWidth_Data.Valid {
-		line.StrokeWidth = line.StrokeWidth_Data.Float64
-	}
-
-	if line.StrokeDashArray_Data.Valid {
-		line.StrokeDashArray = line.StrokeDashArray_Data.String
-	}
-
-	if line.Transform_Data.Valid {
-		line.Transform = line.Transform_Data.String
-	}
-
-	c.JSON(http.StatusOK, line)
+	c.JSON(http.StatusOK, lineAPI)
 }
 
 // UpdateLine
@@ -298,41 +192,10 @@ func UpdateLine(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	lineDB.CopyBasicFieldsFromLine(&input.Line)
+	lineDB.LinePointersEnconding = input.LinePointersEnconding
 
-	input.X1_Data.Float64 = input.X1
-	input.X1_Data.Valid = true
-
-	input.Y1_Data.Float64 = input.Y1
-	input.Y1_Data.Valid = true
-
-	input.X2_Data.Float64 = input.X2
-	input.X2_Data.Valid = true
-
-	input.Y2_Data.Float64 = input.Y2
-	input.Y2_Data.Valid = true
-
-	input.Color_Data.String = input.Color
-	input.Color_Data.Valid = true
-
-	input.FillOpacity_Data.Float64 = input.FillOpacity
-	input.FillOpacity_Data.Valid = true
-
-	input.Stroke_Data.String = input.Stroke
-	input.Stroke_Data.Valid = true
-
-	input.StrokeWidth_Data.Float64 = input.StrokeWidth
-	input.StrokeWidth_Data.Valid = true
-
-	input.StrokeDashArray_Data.String = input.StrokeDashArray
-	input.StrokeDashArray_Data.Valid = true
-
-	input.Transform_Data.String = input.Transform
-	input.Transform_Data.Valid = true
-
-	query = db.Model(&lineDB).Updates(input)
+	query = db.Model(&lineDB).Updates(lineDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

@@ -49,8 +49,9 @@ type EllipseInput struct {
 func GetEllipses(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var ellipses []orm.EllipseDB
-	query := db.Find(&ellipses)
+	// source slice
+	var ellipseDBs []orm.EllipseDB
+	query := db.Find(&ellipseDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,58 +60,23 @@ func GetEllipses(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var ellipseAPIs []orm.EllipseAPI
+
 	// for each ellipse, update fields from the database nullable fields
-	for idx := range ellipses {
-		ellipse := &ellipses[idx]
-		_ = ellipse
+	for idx := range ellipseDBs {
+		ellipseDB := &ellipseDBs[idx]
+		_ = ellipseDB
+		var ellipseAPI orm.EllipseAPI
+
 		// insertion point for updating fields
-		if ellipse.Name_Data.Valid {
-			ellipse.Name = ellipse.Name_Data.String
-		}
-
-		if ellipse.CX_Data.Valid {
-			ellipse.CX = ellipse.CX_Data.Float64
-		}
-
-		if ellipse.CY_Data.Valid {
-			ellipse.CY = ellipse.CY_Data.Float64
-		}
-
-		if ellipse.RX_Data.Valid {
-			ellipse.RX = ellipse.RX_Data.Float64
-		}
-
-		if ellipse.RY_Data.Valid {
-			ellipse.RY = ellipse.RY_Data.Float64
-		}
-
-		if ellipse.Color_Data.Valid {
-			ellipse.Color = ellipse.Color_Data.String
-		}
-
-		if ellipse.FillOpacity_Data.Valid {
-			ellipse.FillOpacity = ellipse.FillOpacity_Data.Float64
-		}
-
-		if ellipse.Stroke_Data.Valid {
-			ellipse.Stroke = ellipse.Stroke_Data.String
-		}
-
-		if ellipse.StrokeWidth_Data.Valid {
-			ellipse.StrokeWidth = ellipse.StrokeWidth_Data.Float64
-		}
-
-		if ellipse.StrokeDashArray_Data.Valid {
-			ellipse.StrokeDashArray = ellipse.StrokeDashArray_Data.String
-		}
-
-		if ellipse.Transform_Data.Valid {
-			ellipse.Transform = ellipse.Transform_Data.String
-		}
-
+		ellipseAPI.ID = ellipseDB.ID
+		ellipseDB.CopyBasicFieldsToEllipse(&ellipseAPI.Ellipse)
+		ellipseAPI.EllipsePointersEnconding = ellipseDB.EllipsePointersEnconding
+		ellipseAPIs = append(ellipseAPIs, ellipseAPI)
 	}
 
-	c.JSON(http.StatusOK, ellipses)
+	c.JSON(http.StatusOK, ellipseAPIs)
 }
 
 // PostEllipse
@@ -143,40 +109,8 @@ func PostEllipse(c *gin.Context) {
 
 	// Create ellipse
 	ellipseDB := orm.EllipseDB{}
-	ellipseDB.EllipseAPI = input
-	// insertion point for nullable field set
-	ellipseDB.Name_Data.String = input.Name
-	ellipseDB.Name_Data.Valid = true
-
-	ellipseDB.CX_Data.Float64 = input.CX
-	ellipseDB.CX_Data.Valid = true
-
-	ellipseDB.CY_Data.Float64 = input.CY
-	ellipseDB.CY_Data.Valid = true
-
-	ellipseDB.RX_Data.Float64 = input.RX
-	ellipseDB.RX_Data.Valid = true
-
-	ellipseDB.RY_Data.Float64 = input.RY
-	ellipseDB.RY_Data.Valid = true
-
-	ellipseDB.Color_Data.String = input.Color
-	ellipseDB.Color_Data.Valid = true
-
-	ellipseDB.FillOpacity_Data.Float64 = input.FillOpacity
-	ellipseDB.FillOpacity_Data.Valid = true
-
-	ellipseDB.Stroke_Data.String = input.Stroke
-	ellipseDB.Stroke_Data.Valid = true
-
-	ellipseDB.StrokeWidth_Data.Float64 = input.StrokeWidth
-	ellipseDB.StrokeWidth_Data.Valid = true
-
-	ellipseDB.StrokeDashArray_Data.String = input.StrokeDashArray
-	ellipseDB.StrokeDashArray_Data.Valid = true
-
-	ellipseDB.Transform_Data.String = input.Transform
-	ellipseDB.Transform_Data.Valid = true
+	ellipseDB.EllipsePointersEnconding = input.EllipsePointersEnconding
+	ellipseDB.CopyBasicFieldsFromEllipse(&input.Ellipse)
 
 	query := db.Create(&ellipseDB)
 	if query.Error != nil {
@@ -206,9 +140,9 @@ func PostEllipse(c *gin.Context) {
 func GetEllipse(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get ellipse in DB
-	var ellipse orm.EllipseDB
-	if err := db.First(&ellipse, c.Param("id")).Error; err != nil {
+	// Get ellipseDB in DB
+	var ellipseDB orm.EllipseDB
+	if err := db.First(&ellipseDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -216,52 +150,12 @@ func GetEllipse(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if ellipse.Name_Data.Valid {
-		ellipse.Name = ellipse.Name_Data.String
-	}
+	var ellipseAPI orm.EllipseAPI
+	ellipseAPI.ID = ellipseDB.ID
+	ellipseAPI.EllipsePointersEnconding = ellipseDB.EllipsePointersEnconding
+	ellipseDB.CopyBasicFieldsToEllipse(&ellipseAPI.Ellipse)
 
-	if ellipse.CX_Data.Valid {
-		ellipse.CX = ellipse.CX_Data.Float64
-	}
-
-	if ellipse.CY_Data.Valid {
-		ellipse.CY = ellipse.CY_Data.Float64
-	}
-
-	if ellipse.RX_Data.Valid {
-		ellipse.RX = ellipse.RX_Data.Float64
-	}
-
-	if ellipse.RY_Data.Valid {
-		ellipse.RY = ellipse.RY_Data.Float64
-	}
-
-	if ellipse.Color_Data.Valid {
-		ellipse.Color = ellipse.Color_Data.String
-	}
-
-	if ellipse.FillOpacity_Data.Valid {
-		ellipse.FillOpacity = ellipse.FillOpacity_Data.Float64
-	}
-
-	if ellipse.Stroke_Data.Valid {
-		ellipse.Stroke = ellipse.Stroke_Data.String
-	}
-
-	if ellipse.StrokeWidth_Data.Valid {
-		ellipse.StrokeWidth = ellipse.StrokeWidth_Data.Float64
-	}
-
-	if ellipse.StrokeDashArray_Data.Valid {
-		ellipse.StrokeDashArray = ellipse.StrokeDashArray_Data.String
-	}
-
-	if ellipse.Transform_Data.Valid {
-		ellipse.Transform = ellipse.Transform_Data.String
-	}
-
-	c.JSON(http.StatusOK, ellipse)
+	c.JSON(http.StatusOK, ellipseAPI)
 }
 
 // UpdateEllipse
@@ -298,41 +192,10 @@ func UpdateEllipse(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	ellipseDB.CopyBasicFieldsFromEllipse(&input.Ellipse)
+	ellipseDB.EllipsePointersEnconding = input.EllipsePointersEnconding
 
-	input.CX_Data.Float64 = input.CX
-	input.CX_Data.Valid = true
-
-	input.CY_Data.Float64 = input.CY
-	input.CY_Data.Valid = true
-
-	input.RX_Data.Float64 = input.RX
-	input.RX_Data.Valid = true
-
-	input.RY_Data.Float64 = input.RY
-	input.RY_Data.Valid = true
-
-	input.Color_Data.String = input.Color
-	input.Color_Data.Valid = true
-
-	input.FillOpacity_Data.Float64 = input.FillOpacity
-	input.FillOpacity_Data.Valid = true
-
-	input.Stroke_Data.String = input.Stroke
-	input.Stroke_Data.Valid = true
-
-	input.StrokeWidth_Data.Float64 = input.StrokeWidth
-	input.StrokeWidth_Data.Valid = true
-
-	input.StrokeDashArray_Data.String = input.StrokeDashArray
-	input.StrokeDashArray_Data.Valid = true
-
-	input.Transform_Data.String = input.Transform
-	input.Transform_Data.Valid = true
-
-	query = db.Model(&ellipseDB).Updates(input)
+	query = db.Model(&ellipseDB).Updates(ellipseDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

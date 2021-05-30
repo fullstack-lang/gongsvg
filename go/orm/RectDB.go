@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,9 +31,35 @@ var dummy_Rect_sort sort.Float64Slice
 //
 // swagger:model rectAPI
 type RectAPI struct {
+	gorm.Model
+
 	models.Rect
 
-	// insertion for fields declaration
+	// encoding of pointers
+	RectPointersEnconding
+}
+
+// RectPointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type RectPointersEnconding struct {
+	// insertion for pointer fields encoding declaration
+	// Implementation of a reverse ID for field SVG{}.Rects []*Rect
+	SVG_RectsDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	SVG_RectsDBID_Index sql.NullInt64
+}
+
+// RectDB describes a rect in the database
+//
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
+//
+// swagger:model rectDB
+type RectDB struct {
+	gorm.Model
+
+	// insertion for basic fields declaration
 	// Declation for basic field rectDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -63,22 +93,8 @@ type RectAPI struct {
 	// Declation for basic field rectDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
 
-	// Implementation of a reverse ID for field SVG{}.Rects []*Rect
-	SVG_RectsDBID sql.NullInt64
-	SVG_RectsDBID_Index sql.NullInt64
-
-	// end of insertion
-}
-
-// RectDB describes a rect in the database
-//
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
-//
-// swagger:model rectDB
-type RectDB struct {
-	gorm.Model
-
-	RectAPI
+	// encoding of pointers
+	RectPointersEnconding
 }
 
 // RectDBs arrays rectDBs
@@ -102,6 +118,13 @@ type BackRepoRectStruct struct {
 	Map_RectDBID_RectPtr *map[uint]*models.Rect
 
 	db *gorm.DB
+}
+
+// GetRectDBFromRectPtr is a handy function to access the back repo instance from the stage instance
+func (backRepoRect *BackRepoRectStruct) GetRectDBFromRectPtr(rect *models.Rect) (rectDB *RectDB) {
+	id := (*backRepoRect.Map_RectPtr_RectDBID)[rect]
+	rectDB = (*backRepoRect.Map_RectDBID_RectDB)[id]
+	return
 }
 
 // BackRepoRect.Init set up the BackRepo of the Rect
@@ -185,7 +208,7 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseOneInstance(rect *models.Rect
 
 	// initiate rect
 	var rectDB RectDB
-	rectDB.Rect = *rect
+	rectDB.CopyBasicFieldsFromRect(rect)
 
 	query := backRepoRect.db.Create(&rectDB)
 	if query.Error != nil {
@@ -218,44 +241,9 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 	// fetch matching rectDB
 	if rectDB, ok := (*backRepoRect.Map_RectDBID_RectDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				rectDB.Name_Data.String = rect.Name
-				rectDB.Name_Data.Valid = true
+		rectDB.CopyBasicFieldsFromRect(rect)
 
-				rectDB.X_Data.Float64 = rect.X
-				rectDB.X_Data.Valid = true
-
-				rectDB.Y_Data.Float64 = rect.Y
-				rectDB.Y_Data.Valid = true
-
-				rectDB.Width_Data.Float64 = rect.Width
-				rectDB.Width_Data.Valid = true
-
-				rectDB.Height_Data.Float64 = rect.Height
-				rectDB.Height_Data.Valid = true
-
-				rectDB.Color_Data.String = rect.Color
-				rectDB.Color_Data.Valid = true
-
-				rectDB.FillOpacity_Data.Float64 = rect.FillOpacity
-				rectDB.FillOpacity_Data.Valid = true
-
-				rectDB.Stroke_Data.String = rect.Stroke
-				rectDB.Stroke_Data.Valid = true
-
-				rectDB.StrokeWidth_Data.Float64 = rect.StrokeWidth
-				rectDB.StrokeWidth_Data.Valid = true
-
-				rectDB.StrokeDashArray_Data.String = rect.StrokeDashArray
-				rectDB.StrokeDashArray_Data.Valid = true
-
-				rectDB.Transform_Data.String = rect.Transform
-				rectDB.Transform_Data.Valid = true
-
-			}
-		}
+		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoRect.db.Save(&rectDB)
 		if query.Error != nil {
 			return query.Error
@@ -296,18 +284,23 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseOne() (Error error) {
 // models version of the rectDB
 func (backRepoRect *BackRepoRectStruct) CheckoutPhaseOneInstance(rectDB *RectDB) (Error error) {
 
-	// if absent, create entries in the backRepoRect maps.
-	rectWithNewFieldValues := rectDB.Rect
-	if _, ok := (*backRepoRect.Map_RectDBID_RectPtr)[rectDB.ID]; !ok {
+	rect, ok := (*backRepoRect.Map_RectDBID_RectPtr)[rectDB.ID]
+	if !ok {
+		rect = new(models.Rect)
 
-		(*backRepoRect.Map_RectDBID_RectPtr)[rectDB.ID] = &rectWithNewFieldValues
-		(*backRepoRect.Map_RectPtr_RectDBID)[&rectWithNewFieldValues] = rectDB.ID
+		(*backRepoRect.Map_RectDBID_RectPtr)[rectDB.ID] = rect
+		(*backRepoRect.Map_RectPtr_RectDBID)[rect] = rectDB.ID
 
 		// append model store with the new element
-		rectWithNewFieldValues.Stage()
+		rect.Stage()
 	}
-	rectDBWithNewFieldValues := *rectDB
-	(*backRepoRect.Map_RectDBID_RectDB)[rectDB.ID] = &rectDBWithNewFieldValues
+	rectDB.CopyBasicFieldsToRect(rect)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_RectDBID_RectDB)[rectDB hold variable pointers
+	rectDB_Data := *rectDB
+	preservedPtrToRect := &rectDB_Data
+	(*backRepoRect.Map_RectDBID_RectDB)[rectDB.ID] = preservedPtrToRect
 
 	return
 }
@@ -329,34 +322,8 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 
 	rect := (*backRepoRect.Map_RectDBID_RectPtr)[rectDB.ID]
 	_ = rect // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			rect.Name = rectDB.Name_Data.String
 
-			rect.X = rectDB.X_Data.Float64
-
-			rect.Y = rectDB.Y_Data.Float64
-
-			rect.Width = rectDB.Width_Data.Float64
-
-			rect.Height = rectDB.Height_Data.Float64
-
-			rect.Color = rectDB.Color_Data.String
-
-			rect.FillOpacity = rectDB.FillOpacity_Data.Float64
-
-			rect.Stroke = rectDB.Stroke_Data.String
-
-			rect.StrokeWidth = rectDB.StrokeWidth_Data.Float64
-
-			rect.StrokeDashArray = rectDB.StrokeDashArray_Data.String
-
-			rect.Transform = rectDB.Transform_Data.String
-
-		}
-	}
+	// insertion point for checkout of pointer encoding
 	return
 }
 
@@ -383,5 +350,124 @@ func (backRepo *BackRepoStruct) CheckoutRect(rect *models.Rect) {
 			backRepo.BackRepoRect.CheckoutPhaseOneInstance(&rectDB)
 			backRepo.BackRepoRect.CheckoutPhaseTwoInstance(backRepo, &rectDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToRectDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
+	// insertion point for fields commit
+	rectDB.Name_Data.String = rect.Name
+	rectDB.Name_Data.Valid = true
+
+	rectDB.X_Data.Float64 = rect.X
+	rectDB.X_Data.Valid = true
+
+	rectDB.Y_Data.Float64 = rect.Y
+	rectDB.Y_Data.Valid = true
+
+	rectDB.Width_Data.Float64 = rect.Width
+	rectDB.Width_Data.Valid = true
+
+	rectDB.Height_Data.Float64 = rect.Height
+	rectDB.Height_Data.Valid = true
+
+	rectDB.Color_Data.String = rect.Color
+	rectDB.Color_Data.Valid = true
+
+	rectDB.FillOpacity_Data.Float64 = rect.FillOpacity
+	rectDB.FillOpacity_Data.Valid = true
+
+	rectDB.Stroke_Data.String = rect.Stroke
+	rectDB.Stroke_Data.Valid = true
+
+	rectDB.StrokeWidth_Data.Float64 = rect.StrokeWidth
+	rectDB.StrokeWidth_Data.Valid = true
+
+	rectDB.StrokeDashArray_Data.String = rect.StrokeDashArray
+	rectDB.StrokeDashArray_Data.Valid = true
+
+	rectDB.Transform_Data.String = rect.Transform
+	rectDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToRectDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	rect.Name = rectDB.Name_Data.String
+	rect.X = rectDB.X_Data.Float64
+	rect.Y = rectDB.Y_Data.Float64
+	rect.Width = rectDB.Width_Data.Float64
+	rect.Height = rectDB.Height_Data.Float64
+	rect.Color = rectDB.Color_Data.String
+	rect.FillOpacity = rectDB.FillOpacity_Data.Float64
+	rect.Stroke = rectDB.Stroke_Data.String
+	rect.StrokeWidth = rectDB.StrokeWidth_Data.Float64
+	rect.StrokeDashArray = rectDB.StrokeDashArray_Data.String
+	rect.Transform = rectDB.Transform_Data.String
+}
+
+// Backup generates a json file from a slice of all RectDB instances in the backrepo
+func (backRepoRect *BackRepoRectStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "RectDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*RectDB
+	for _, rectDB := range *backRepoRect.Map_RectDBID_RectDB {
+		forBackup = append(forBackup, rectDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json Rect ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json Rect file", err.Error())
+	}
+}
+
+func (backRepoRect *BackRepoRectStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "RectDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json Rect file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*RectDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_RectDBID_RectDB
+	for _, rectDB := range forRestore {
+
+		rectDB_ID := rectDB.ID
+		rectDB.ID = 0
+		query := backRepoRect.db.Create(rectDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if rectDB_ID != rectDB.ID {
+			log.Panicf("ID of Rect restore ID %d, name %s, has wrong ID %d in DB after create",
+				rectDB_ID, rectDB.Name_Data.String, rectDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json Rect file", err.Error())
 	}
 }

@@ -63,8 +63,6 @@ export class EllipseDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo EllipsePull returned")
-
 				if (id != 0 && association == undefined) {
 					this.ellipse = frontRepo.Ellipses.get(id)
 				} else {
@@ -94,6 +92,7 @@ export class EllipseDetailComponent implements OnInit {
 				this.ellipse.SVG_EllipsesDBID = new NullInt64
 				this.ellipse.SVG_EllipsesDBID.Int64 = this.ellipse.SVG_Ellipses_reverse.ID
 				this.ellipse.SVG_EllipsesDBID.Valid = true
+				this.ellipse.SVG_EllipsesDBID_Index = new NullInt64
 				this.ellipse.SVG_EllipsesDBID_Index.Valid = true
 				this.ellipse.SVG_Ellipses_reverse = undefined // very important, otherwise, circular JSON
 			}
@@ -104,8 +103,6 @@ export class EllipseDetailComponent implements OnInit {
 			this.ellipseService.updateEllipse(this.ellipse)
 				.subscribe(ellipse => {
 					this.ellipseService.EllipseServiceChanged.next("update")
-
-					console.log("ellipse saved")
 				});
 		} else {
 			switch (association) {
@@ -114,6 +111,7 @@ export class EllipseDetailComponent implements OnInit {
 					this.ellipse.SVG_EllipsesDBID = new NullInt64
 					this.ellipse.SVG_EllipsesDBID.Int64 = id
 					this.ellipse.SVG_EllipsesDBID.Valid = true
+					this.ellipse.SVG_EllipsesDBID_Index = new NullInt64
 					this.ellipse.SVG_EllipsesDBID_Index.Valid = true
 					break
 			}
@@ -122,7 +120,6 @@ export class EllipseDetailComponent implements OnInit {
 				this.ellipseService.EllipseServiceChanged.next("post")
 
 				this.ellipse = {} // reset fields
-				console.log("ellipse added")
 			});
 		}
 	}
@@ -151,7 +148,6 @@ export class EllipseDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -174,7 +170,6 @@ export class EllipseDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }

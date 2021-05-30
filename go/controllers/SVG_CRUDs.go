@@ -49,8 +49,9 @@ type SVGInput struct {
 func GetSVGs(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var svgs []orm.SVGDB
-	query := db.Find(&svgs)
+	// source slice
+	var svgDBs []orm.SVGDB
+	query := db.Find(&svgDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,20 +60,23 @@ func GetSVGs(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var svgAPIs []orm.SVGAPI
+
 	// for each svg, update fields from the database nullable fields
-	for idx := range svgs {
-		svg := &svgs[idx]
-		_ = svg
+	for idx := range svgDBs {
+		svgDB := &svgDBs[idx]
+		_ = svgDB
+		var svgAPI orm.SVGAPI
+
 		// insertion point for updating fields
-		svg.Display = svg.Display_Data.Bool
-
-		if svg.Name_Data.Valid {
-			svg.Name = svg.Name_Data.String
-		}
-
+		svgAPI.ID = svgDB.ID
+		svgDB.CopyBasicFieldsToSVG(&svgAPI.SVG)
+		svgAPI.SVGPointersEnconding = svgDB.SVGPointersEnconding
+		svgAPIs = append(svgAPIs, svgAPI)
 	}
 
-	c.JSON(http.StatusOK, svgs)
+	c.JSON(http.StatusOK, svgAPIs)
 }
 
 // PostSVG
@@ -105,13 +109,8 @@ func PostSVG(c *gin.Context) {
 
 	// Create svg
 	svgDB := orm.SVGDB{}
-	svgDB.SVGAPI = input
-	// insertion point for nullable field set
-	svgDB.Display_Data.Bool = input.Display
-	svgDB.Display_Data.Valid = true
-
-	svgDB.Name_Data.String = input.Name
-	svgDB.Name_Data.Valid = true
+	svgDB.SVGPointersEnconding = input.SVGPointersEnconding
+	svgDB.CopyBasicFieldsFromSVG(&input.SVG)
 
 	query := db.Create(&svgDB)
 	if query.Error != nil {
@@ -141,9 +140,9 @@ func PostSVG(c *gin.Context) {
 func GetSVG(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get svg in DB
-	var svg orm.SVGDB
-	if err := db.First(&svg, c.Param("id")).Error; err != nil {
+	// Get svgDB in DB
+	var svgDB orm.SVGDB
+	if err := db.First(&svgDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -151,14 +150,12 @@ func GetSVG(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	svg.Display = svg.Display_Data.Bool
+	var svgAPI orm.SVGAPI
+	svgAPI.ID = svgDB.ID
+	svgAPI.SVGPointersEnconding = svgDB.SVGPointersEnconding
+	svgDB.CopyBasicFieldsToSVG(&svgAPI.SVG)
 
-	if svg.Name_Data.Valid {
-		svg.Name = svg.Name_Data.String
-	}
-
-	c.JSON(http.StatusOK, svg)
+	c.JSON(http.StatusOK, svgAPI)
 }
 
 // UpdateSVG
@@ -195,14 +192,10 @@ func UpdateSVG(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Display_Data.Bool = input.Display
-	input.Display_Data.Valid = true
+	svgDB.CopyBasicFieldsFromSVG(&input.SVG)
+	svgDB.SVGPointersEnconding = input.SVGPointersEnconding
 
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
-
-	query = db.Model(&svgDB).Updates(input)
+	query = db.Model(&svgDB).Updates(svgDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

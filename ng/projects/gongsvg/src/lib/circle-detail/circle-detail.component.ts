@@ -63,8 +63,6 @@ export class CircleDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo CirclePull returned")
-
 				if (id != 0 && association == undefined) {
 					this.circle = frontRepo.Circles.get(id)
 				} else {
@@ -94,6 +92,7 @@ export class CircleDetailComponent implements OnInit {
 				this.circle.SVG_CirclesDBID = new NullInt64
 				this.circle.SVG_CirclesDBID.Int64 = this.circle.SVG_Circles_reverse.ID
 				this.circle.SVG_CirclesDBID.Valid = true
+				this.circle.SVG_CirclesDBID_Index = new NullInt64
 				this.circle.SVG_CirclesDBID_Index.Valid = true
 				this.circle.SVG_Circles_reverse = undefined // very important, otherwise, circular JSON
 			}
@@ -104,8 +103,6 @@ export class CircleDetailComponent implements OnInit {
 			this.circleService.updateCircle(this.circle)
 				.subscribe(circle => {
 					this.circleService.CircleServiceChanged.next("update")
-
-					console.log("circle saved")
 				});
 		} else {
 			switch (association) {
@@ -114,6 +111,7 @@ export class CircleDetailComponent implements OnInit {
 					this.circle.SVG_CirclesDBID = new NullInt64
 					this.circle.SVG_CirclesDBID.Int64 = id
 					this.circle.SVG_CirclesDBID.Valid = true
+					this.circle.SVG_CirclesDBID_Index = new NullInt64
 					this.circle.SVG_CirclesDBID_Index.Valid = true
 					break
 			}
@@ -122,7 +120,6 @@ export class CircleDetailComponent implements OnInit {
 				this.circleService.CircleServiceChanged.next("post")
 
 				this.circle = {} // reset fields
-				console.log("circle added")
 			});
 		}
 	}
@@ -151,7 +148,6 @@ export class CircleDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -174,7 +170,6 @@ export class CircleDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }

@@ -112,7 +112,6 @@ export class PolygonesTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.polygones = this.frontRepo.Polygones_array;
 
@@ -150,8 +149,6 @@ export class PolygonesTableComponent implements OnInit {
     this.polygoneService.deletePolygone(polygoneID).subscribe(
       polygone => {
         this.polygoneService.PolygoneServiceChanged.next("delete")
-
-        console.log("polygone deleted")
       }
     );
   }
@@ -213,7 +210,6 @@ export class PolygonesTableComponent implements OnInit {
     // from selection, set polygone that belong to polygone through Anarrayofb
     this.selection.selected.forEach(
       polygone => {
-        console.log("selection ID " + polygone.ID)
         let ID = +this.dialogData.ID
         polygone[this.dialogData.ReversePointer].Int64 = ID
         polygone[this.dialogData.ReversePointer].Valid = true
@@ -227,7 +223,6 @@ export class PolygonesTableComponent implements OnInit {
         this.polygoneService.updatePolygone(polygone)
           .subscribe(polygone => {
             this.polygoneService.PolygoneServiceChanged.next("update")
-            console.log("polygone saved")
           });
       }
     )

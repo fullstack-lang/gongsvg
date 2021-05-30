@@ -118,7 +118,6 @@ export class EllipsesTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.ellipses = this.frontRepo.Ellipses_array;
 
@@ -156,8 +155,6 @@ export class EllipsesTableComponent implements OnInit {
     this.ellipseService.deleteEllipse(ellipseID).subscribe(
       ellipse => {
         this.ellipseService.EllipseServiceChanged.next("delete")
-
-        console.log("ellipse deleted")
       }
     );
   }
@@ -219,7 +216,6 @@ export class EllipsesTableComponent implements OnInit {
     // from selection, set ellipse that belong to ellipse through Anarrayofb
     this.selection.selected.forEach(
       ellipse => {
-        console.log("selection ID " + ellipse.ID)
         let ID = +this.dialogData.ID
         ellipse[this.dialogData.ReversePointer].Int64 = ID
         ellipse[this.dialogData.ReversePointer].Valid = true
@@ -233,7 +229,6 @@ export class EllipsesTableComponent implements OnInit {
         this.ellipseService.updateEllipse(ellipse)
           .subscribe(ellipse => {
             this.ellipseService.EllipseServiceChanged.next("update")
-            console.log("ellipse saved")
           });
       }
     )

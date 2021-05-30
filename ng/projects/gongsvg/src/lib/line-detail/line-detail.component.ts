@@ -63,8 +63,6 @@ export class LineDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo LinePull returned")
-
 				if (id != 0 && association == undefined) {
 					this.line = frontRepo.Lines.get(id)
 				} else {
@@ -94,6 +92,7 @@ export class LineDetailComponent implements OnInit {
 				this.line.SVG_LinesDBID = new NullInt64
 				this.line.SVG_LinesDBID.Int64 = this.line.SVG_Lines_reverse.ID
 				this.line.SVG_LinesDBID.Valid = true
+				this.line.SVG_LinesDBID_Index = new NullInt64
 				this.line.SVG_LinesDBID_Index.Valid = true
 				this.line.SVG_Lines_reverse = undefined // very important, otherwise, circular JSON
 			}
@@ -104,8 +103,6 @@ export class LineDetailComponent implements OnInit {
 			this.lineService.updateLine(this.line)
 				.subscribe(line => {
 					this.lineService.LineServiceChanged.next("update")
-
-					console.log("line saved")
 				});
 		} else {
 			switch (association) {
@@ -114,6 +111,7 @@ export class LineDetailComponent implements OnInit {
 					this.line.SVG_LinesDBID = new NullInt64
 					this.line.SVG_LinesDBID.Int64 = id
 					this.line.SVG_LinesDBID.Valid = true
+					this.line.SVG_LinesDBID_Index = new NullInt64
 					this.line.SVG_LinesDBID_Index.Valid = true
 					break
 			}
@@ -122,7 +120,6 @@ export class LineDetailComponent implements OnInit {
 				this.lineService.LineServiceChanged.next("post")
 
 				this.line = {} // reset fields
-				console.log("line added")
 			});
 		}
 	}
@@ -151,7 +148,6 @@ export class LineDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -174,7 +170,6 @@ export class LineDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }

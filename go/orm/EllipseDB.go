@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,9 +31,35 @@ var dummy_Ellipse_sort sort.Float64Slice
 //
 // swagger:model ellipseAPI
 type EllipseAPI struct {
+	gorm.Model
+
 	models.Ellipse
 
-	// insertion for fields declaration
+	// encoding of pointers
+	EllipsePointersEnconding
+}
+
+// EllipsePointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type EllipsePointersEnconding struct {
+	// insertion for pointer fields encoding declaration
+	// Implementation of a reverse ID for field SVG{}.Ellipses []*Ellipse
+	SVG_EllipsesDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	SVG_EllipsesDBID_Index sql.NullInt64
+}
+
+// EllipseDB describes a ellipse in the database
+//
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
+//
+// swagger:model ellipseDB
+type EllipseDB struct {
+	gorm.Model
+
+	// insertion for basic fields declaration
 	// Declation for basic field ellipseDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -63,22 +93,8 @@ type EllipseAPI struct {
 	// Declation for basic field ellipseDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
 
-	// Implementation of a reverse ID for field SVG{}.Ellipses []*Ellipse
-	SVG_EllipsesDBID sql.NullInt64
-	SVG_EllipsesDBID_Index sql.NullInt64
-
-	// end of insertion
-}
-
-// EllipseDB describes a ellipse in the database
-//
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
-//
-// swagger:model ellipseDB
-type EllipseDB struct {
-	gorm.Model
-
-	EllipseAPI
+	// encoding of pointers
+	EllipsePointersEnconding
 }
 
 // EllipseDBs arrays ellipseDBs
@@ -102,6 +118,13 @@ type BackRepoEllipseStruct struct {
 	Map_EllipseDBID_EllipsePtr *map[uint]*models.Ellipse
 
 	db *gorm.DB
+}
+
+// GetEllipseDBFromEllipsePtr is a handy function to access the back repo instance from the stage instance
+func (backRepoEllipse *BackRepoEllipseStruct) GetEllipseDBFromEllipsePtr(ellipse *models.Ellipse) (ellipseDB *EllipseDB) {
+	id := (*backRepoEllipse.Map_EllipsePtr_EllipseDBID)[ellipse]
+	ellipseDB = (*backRepoEllipse.Map_EllipseDBID_EllipseDB)[id]
+	return
 }
 
 // BackRepoEllipse.Init set up the BackRepo of the Ellipse
@@ -185,7 +208,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseOneInstance(ellipse *mo
 
 	// initiate ellipse
 	var ellipseDB EllipseDB
-	ellipseDB.Ellipse = *ellipse
+	ellipseDB.CopyBasicFieldsFromEllipse(ellipse)
 
 	query := backRepoEllipse.db.Create(&ellipseDB)
 	if query.Error != nil {
@@ -218,44 +241,9 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 	// fetch matching ellipseDB
 	if ellipseDB, ok := (*backRepoEllipse.Map_EllipseDBID_EllipseDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				ellipseDB.Name_Data.String = ellipse.Name
-				ellipseDB.Name_Data.Valid = true
+		ellipseDB.CopyBasicFieldsFromEllipse(ellipse)
 
-				ellipseDB.CX_Data.Float64 = ellipse.CX
-				ellipseDB.CX_Data.Valid = true
-
-				ellipseDB.CY_Data.Float64 = ellipse.CY
-				ellipseDB.CY_Data.Valid = true
-
-				ellipseDB.RX_Data.Float64 = ellipse.RX
-				ellipseDB.RX_Data.Valid = true
-
-				ellipseDB.RY_Data.Float64 = ellipse.RY
-				ellipseDB.RY_Data.Valid = true
-
-				ellipseDB.Color_Data.String = ellipse.Color
-				ellipseDB.Color_Data.Valid = true
-
-				ellipseDB.FillOpacity_Data.Float64 = ellipse.FillOpacity
-				ellipseDB.FillOpacity_Data.Valid = true
-
-				ellipseDB.Stroke_Data.String = ellipse.Stroke
-				ellipseDB.Stroke_Data.Valid = true
-
-				ellipseDB.StrokeWidth_Data.Float64 = ellipse.StrokeWidth
-				ellipseDB.StrokeWidth_Data.Valid = true
-
-				ellipseDB.StrokeDashArray_Data.String = ellipse.StrokeDashArray
-				ellipseDB.StrokeDashArray_Data.Valid = true
-
-				ellipseDB.Transform_Data.String = ellipse.Transform
-				ellipseDB.Transform_Data.Valid = true
-
-			}
-		}
+		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoEllipse.db.Save(&ellipseDB)
 		if query.Error != nil {
 			return query.Error
@@ -296,18 +284,23 @@ func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseOne() (Error error) {
 // models version of the ellipseDB
 func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseOneInstance(ellipseDB *EllipseDB) (Error error) {
 
-	// if absent, create entries in the backRepoEllipse maps.
-	ellipseWithNewFieldValues := ellipseDB.Ellipse
-	if _, ok := (*backRepoEllipse.Map_EllipseDBID_EllipsePtr)[ellipseDB.ID]; !ok {
+	ellipse, ok := (*backRepoEllipse.Map_EllipseDBID_EllipsePtr)[ellipseDB.ID]
+	if !ok {
+		ellipse = new(models.Ellipse)
 
-		(*backRepoEllipse.Map_EllipseDBID_EllipsePtr)[ellipseDB.ID] = &ellipseWithNewFieldValues
-		(*backRepoEllipse.Map_EllipsePtr_EllipseDBID)[&ellipseWithNewFieldValues] = ellipseDB.ID
+		(*backRepoEllipse.Map_EllipseDBID_EllipsePtr)[ellipseDB.ID] = ellipse
+		(*backRepoEllipse.Map_EllipsePtr_EllipseDBID)[ellipse] = ellipseDB.ID
 
 		// append model store with the new element
-		ellipseWithNewFieldValues.Stage()
+		ellipse.Stage()
 	}
-	ellipseDBWithNewFieldValues := *ellipseDB
-	(*backRepoEllipse.Map_EllipseDBID_EllipseDB)[ellipseDB.ID] = &ellipseDBWithNewFieldValues
+	ellipseDB.CopyBasicFieldsToEllipse(ellipse)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_EllipseDBID_EllipseDB)[ellipseDB hold variable pointers
+	ellipseDB_Data := *ellipseDB
+	preservedPtrToEllipse := &ellipseDB_Data
+	(*backRepoEllipse.Map_EllipseDBID_EllipseDB)[ellipseDB.ID] = preservedPtrToEllipse
 
 	return
 }
@@ -329,34 +322,8 @@ func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseTwoInstance(backRepo 
 
 	ellipse := (*backRepoEllipse.Map_EllipseDBID_EllipsePtr)[ellipseDB.ID]
 	_ = ellipse // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			ellipse.Name = ellipseDB.Name_Data.String
 
-			ellipse.CX = ellipseDB.CX_Data.Float64
-
-			ellipse.CY = ellipseDB.CY_Data.Float64
-
-			ellipse.RX = ellipseDB.RX_Data.Float64
-
-			ellipse.RY = ellipseDB.RY_Data.Float64
-
-			ellipse.Color = ellipseDB.Color_Data.String
-
-			ellipse.FillOpacity = ellipseDB.FillOpacity_Data.Float64
-
-			ellipse.Stroke = ellipseDB.Stroke_Data.String
-
-			ellipse.StrokeWidth = ellipseDB.StrokeWidth_Data.Float64
-
-			ellipse.StrokeDashArray = ellipseDB.StrokeDashArray_Data.String
-
-			ellipse.Transform = ellipseDB.Transform_Data.String
-
-		}
-	}
+	// insertion point for checkout of pointer encoding
 	return
 }
 
@@ -383,5 +350,124 @@ func (backRepo *BackRepoStruct) CheckoutEllipse(ellipse *models.Ellipse) {
 			backRepo.BackRepoEllipse.CheckoutPhaseOneInstance(&ellipseDB)
 			backRepo.BackRepoEllipse.CheckoutPhaseTwoInstance(backRepo, &ellipseDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToEllipseDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipse(ellipse *models.Ellipse) {
+	// insertion point for fields commit
+	ellipseDB.Name_Data.String = ellipse.Name
+	ellipseDB.Name_Data.Valid = true
+
+	ellipseDB.CX_Data.Float64 = ellipse.CX
+	ellipseDB.CX_Data.Valid = true
+
+	ellipseDB.CY_Data.Float64 = ellipse.CY
+	ellipseDB.CY_Data.Valid = true
+
+	ellipseDB.RX_Data.Float64 = ellipse.RX
+	ellipseDB.RX_Data.Valid = true
+
+	ellipseDB.RY_Data.Float64 = ellipse.RY
+	ellipseDB.RY_Data.Valid = true
+
+	ellipseDB.Color_Data.String = ellipse.Color
+	ellipseDB.Color_Data.Valid = true
+
+	ellipseDB.FillOpacity_Data.Float64 = ellipse.FillOpacity
+	ellipseDB.FillOpacity_Data.Valid = true
+
+	ellipseDB.Stroke_Data.String = ellipse.Stroke
+	ellipseDB.Stroke_Data.Valid = true
+
+	ellipseDB.StrokeWidth_Data.Float64 = ellipse.StrokeWidth
+	ellipseDB.StrokeWidth_Data.Valid = true
+
+	ellipseDB.StrokeDashArray_Data.String = ellipse.StrokeDashArray
+	ellipseDB.StrokeDashArray_Data.Valid = true
+
+	ellipseDB.Transform_Data.String = ellipse.Transform
+	ellipseDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToEllipseDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (ellipseDB *EllipseDB) CopyBasicFieldsToEllipse(ellipse *models.Ellipse) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	ellipse.Name = ellipseDB.Name_Data.String
+	ellipse.CX = ellipseDB.CX_Data.Float64
+	ellipse.CY = ellipseDB.CY_Data.Float64
+	ellipse.RX = ellipseDB.RX_Data.Float64
+	ellipse.RY = ellipseDB.RY_Data.Float64
+	ellipse.Color = ellipseDB.Color_Data.String
+	ellipse.FillOpacity = ellipseDB.FillOpacity_Data.Float64
+	ellipse.Stroke = ellipseDB.Stroke_Data.String
+	ellipse.StrokeWidth = ellipseDB.StrokeWidth_Data.Float64
+	ellipse.StrokeDashArray = ellipseDB.StrokeDashArray_Data.String
+	ellipse.Transform = ellipseDB.Transform_Data.String
+}
+
+// Backup generates a json file from a slice of all EllipseDB instances in the backrepo
+func (backRepoEllipse *BackRepoEllipseStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "EllipseDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*EllipseDB
+	for _, ellipseDB := range *backRepoEllipse.Map_EllipseDBID_EllipseDB {
+		forBackup = append(forBackup, ellipseDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json Ellipse ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json Ellipse file", err.Error())
+	}
+}
+
+func (backRepoEllipse *BackRepoEllipseStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "EllipseDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json Ellipse file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*EllipseDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_EllipseDBID_EllipseDB
+	for _, ellipseDB := range forRestore {
+
+		ellipseDB_ID := ellipseDB.ID
+		ellipseDB.ID = 0
+		query := backRepoEllipse.db.Create(ellipseDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if ellipseDB_ID != ellipseDB.ID {
+			log.Panicf("ID of Ellipse restore ID %d, name %s, has wrong ID %d in DB after create",
+				ellipseDB_ID, ellipseDB.Name_Data.String, ellipseDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json Ellipse file", err.Error())
 	}
 }

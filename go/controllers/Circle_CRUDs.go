@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gongsvg/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type CircleInput struct {
 //    default: genericError
 //        200: circleDBsResponse
 func GetCircles(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoCircle.GetDB()
+	
 	// source slice
 	var circleDBs []orm.CircleDB
 	query := db.Find(&circleDBs)
@@ -93,7 +92,7 @@ func GetCircles(c *gin.Context) {
 //     Responses:
 //       200: circleDBResponse
 func PostCircle(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoCircle.GetDB()
 
 	// Validate input
 	var input orm.CircleAPI
@@ -138,7 +137,7 @@ func PostCircle(c *gin.Context) {
 //    default: genericError
 //        200: circleDBResponse
 func GetCircle(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoCircle.GetDB()
 
 	// Get circleDB in DB
 	var circleDB orm.CircleDB
@@ -168,7 +167,7 @@ func GetCircle(c *gin.Context) {
 //    default: genericError
 //        200: circleDBResponse
 func UpdateCircle(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoCircle.GetDB()
 
 	// Get model if exist
 	var circleDB orm.CircleDB
@@ -221,7 +220,7 @@ func UpdateCircle(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteCircle(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoCircle.GetDB()
 
 	// Get model if exist
 	var circleDB orm.CircleDB

@@ -120,6 +120,10 @@ type BackRepoLineStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoLine *BackRepoLineStruct) GetDB() *gorm.DB {
+	return backRepoLine.db
+}
+
 // GetLineDBFromLinePtr is a handy function to access the back repo instance from the stage instance
 func (backRepoLine *BackRepoLineStruct) GetLineDBFromLinePtr(line *models.Line) (lineDB *LineDB) {
 	id := (*backRepoLine.Map_LinePtr_LineDBID)[line]

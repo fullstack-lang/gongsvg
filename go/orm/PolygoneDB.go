@@ -111,6 +111,10 @@ type BackRepoPolygoneStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoPolygone *BackRepoPolygoneStruct) GetDB() *gorm.DB {
+	return backRepoPolygone.db
+}
+
 // GetPolygoneDBFromPolygonePtr is a handy function to access the back repo instance from the stage instance
 func (backRepoPolygone *BackRepoPolygoneStruct) GetPolygoneDBFromPolygonePtr(polygone *models.Polygone) (polygoneDB *PolygoneDB) {
 	id := (*backRepoPolygone.Map_PolygonePtr_PolygoneDBID)[polygone]

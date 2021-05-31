@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gongsvg/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type RectInput struct {
 //    default: genericError
 //        200: rectDBsResponse
 func GetRects(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoRect.GetDB()
+	
 	// source slice
 	var rectDBs []orm.RectDB
 	query := db.Find(&rectDBs)
@@ -93,7 +92,7 @@ func GetRects(c *gin.Context) {
 //     Responses:
 //       200: rectDBResponse
 func PostRect(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoRect.GetDB()
 
 	// Validate input
 	var input orm.RectAPI
@@ -138,7 +137,7 @@ func PostRect(c *gin.Context) {
 //    default: genericError
 //        200: rectDBResponse
 func GetRect(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoRect.GetDB()
 
 	// Get rectDB in DB
 	var rectDB orm.RectDB
@@ -168,7 +167,7 @@ func GetRect(c *gin.Context) {
 //    default: genericError
 //        200: rectDBResponse
 func UpdateRect(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoRect.GetDB()
 
 	// Get model if exist
 	var rectDB orm.RectDB
@@ -221,7 +220,7 @@ func UpdateRect(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteRect(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoRect.GetDB()
 
 	// Get model if exist
 	var rectDB orm.RectDB

@@ -111,6 +111,10 @@ type BackRepoPathStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoPath *BackRepoPathStruct) GetDB() *gorm.DB {
+	return backRepoPath.db
+}
+
 // GetPathDBFromPathPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoPath *BackRepoPathStruct) GetPathDBFromPathPtr(path *models.Path) (pathDB *PathDB) {
 	id := (*backRepoPath.Map_PathPtr_PathDBID)[path]

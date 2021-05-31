@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gongsvg/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type SVGInput struct {
 //    default: genericError
 //        200: svgDBsResponse
 func GetSVGs(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoSVG.GetDB()
+	
 	// source slice
 	var svgDBs []orm.SVGDB
 	query := db.Find(&svgDBs)
@@ -93,7 +92,7 @@ func GetSVGs(c *gin.Context) {
 //     Responses:
 //       200: svgDBResponse
 func PostSVG(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoSVG.GetDB()
 
 	// Validate input
 	var input orm.SVGAPI
@@ -138,7 +137,7 @@ func PostSVG(c *gin.Context) {
 //    default: genericError
 //        200: svgDBResponse
 func GetSVG(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoSVG.GetDB()
 
 	// Get svgDB in DB
 	var svgDB orm.SVGDB
@@ -168,7 +167,7 @@ func GetSVG(c *gin.Context) {
 //    default: genericError
 //        200: svgDBResponse
 func UpdateSVG(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoSVG.GetDB()
 
 	// Get model if exist
 	var svgDB orm.SVGDB
@@ -221,7 +220,7 @@ func UpdateSVG(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteSVG(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoSVG.GetDB()
 
 	// Get model if exist
 	var svgDB orm.SVGDB

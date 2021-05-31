@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gongsvg/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type PolygoneInput struct {
 //    default: genericError
 //        200: polygoneDBsResponse
 func GetPolygones(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoPolygone.GetDB()
+	
 	// source slice
 	var polygoneDBs []orm.PolygoneDB
 	query := db.Find(&polygoneDBs)
@@ -93,7 +92,7 @@ func GetPolygones(c *gin.Context) {
 //     Responses:
 //       200: polygoneDBResponse
 func PostPolygone(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPolygone.GetDB()
 
 	// Validate input
 	var input orm.PolygoneAPI
@@ -138,7 +137,7 @@ func PostPolygone(c *gin.Context) {
 //    default: genericError
 //        200: polygoneDBResponse
 func GetPolygone(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPolygone.GetDB()
 
 	// Get polygoneDB in DB
 	var polygoneDB orm.PolygoneDB
@@ -168,7 +167,7 @@ func GetPolygone(c *gin.Context) {
 //    default: genericError
 //        200: polygoneDBResponse
 func UpdatePolygone(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPolygone.GetDB()
 
 	// Get model if exist
 	var polygoneDB orm.PolygoneDB
@@ -221,7 +220,7 @@ func UpdatePolygone(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeletePolygone(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPolygone.GetDB()
 
 	// Get model if exist
 	var polygoneDB orm.PolygoneDB

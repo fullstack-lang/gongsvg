@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gongsvg/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type PolylineInput struct {
 //    default: genericError
 //        200: polylineDBsResponse
 func GetPolylines(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoPolyline.GetDB()
+	
 	// source slice
 	var polylineDBs []orm.PolylineDB
 	query := db.Find(&polylineDBs)
@@ -93,7 +92,7 @@ func GetPolylines(c *gin.Context) {
 //     Responses:
 //       200: polylineDBResponse
 func PostPolyline(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPolyline.GetDB()
 
 	// Validate input
 	var input orm.PolylineAPI
@@ -138,7 +137,7 @@ func PostPolyline(c *gin.Context) {
 //    default: genericError
 //        200: polylineDBResponse
 func GetPolyline(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPolyline.GetDB()
 
 	// Get polylineDB in DB
 	var polylineDB orm.PolylineDB
@@ -168,7 +167,7 @@ func GetPolyline(c *gin.Context) {
 //    default: genericError
 //        200: polylineDBResponse
 func UpdatePolyline(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPolyline.GetDB()
 
 	// Get model if exist
 	var polylineDB orm.PolylineDB
@@ -221,7 +220,7 @@ func UpdatePolyline(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeletePolyline(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPolyline.GetDB()
 
 	// Get model if exist
 	var polylineDB orm.PolylineDB

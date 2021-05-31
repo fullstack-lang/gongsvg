@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gongsvg/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type PathInput struct {
 //    default: genericError
 //        200: pathDBsResponse
 func GetPaths(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoPath.GetDB()
+	
 	// source slice
 	var pathDBs []orm.PathDB
 	query := db.Find(&pathDBs)
@@ -93,7 +92,7 @@ func GetPaths(c *gin.Context) {
 //     Responses:
 //       200: pathDBResponse
 func PostPath(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPath.GetDB()
 
 	// Validate input
 	var input orm.PathAPI
@@ -138,7 +137,7 @@ func PostPath(c *gin.Context) {
 //    default: genericError
 //        200: pathDBResponse
 func GetPath(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPath.GetDB()
 
 	// Get pathDB in DB
 	var pathDB orm.PathDB
@@ -168,7 +167,7 @@ func GetPath(c *gin.Context) {
 //    default: genericError
 //        200: pathDBResponse
 func UpdatePath(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPath.GetDB()
 
 	// Get model if exist
 	var pathDB orm.PathDB
@@ -221,7 +220,7 @@ func UpdatePath(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeletePath(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPath.GetDB()
 
 	// Get model if exist
 	var pathDB orm.PathDB

@@ -117,6 +117,10 @@ type BackRepoCircleStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoCircle *BackRepoCircleStruct) GetDB() *gorm.DB {
+	return backRepoCircle.db
+}
+
 // GetCircleDBFromCirclePtr is a handy function to access the back repo instance from the stage instance
 func (backRepoCircle *BackRepoCircleStruct) GetCircleDBFromCirclePtr(circle *models.Circle) (circleDB *CircleDB) {
 	id := (*backRepoCircle.Map_CirclePtr_CircleDBID)[circle]

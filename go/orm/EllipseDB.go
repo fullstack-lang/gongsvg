@@ -120,6 +120,10 @@ type BackRepoEllipseStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoEllipse *BackRepoEllipseStruct) GetDB() *gorm.DB {
+	return backRepoEllipse.db
+}
+
 // GetEllipseDBFromEllipsePtr is a handy function to access the back repo instance from the stage instance
 func (backRepoEllipse *BackRepoEllipseStruct) GetEllipseDBFromEllipsePtr(ellipse *models.Ellipse) (ellipseDB *EllipseDB) {
 	id := (*backRepoEllipse.Map_EllipsePtr_EllipseDBID)[ellipse]

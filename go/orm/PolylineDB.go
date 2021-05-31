@@ -111,6 +111,10 @@ type BackRepoPolylineStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoPolyline *BackRepoPolylineStruct) GetDB() *gorm.DB {
+	return backRepoPolyline.db
+}
+
 // GetPolylineDBFromPolylinePtr is a handy function to access the back repo instance from the stage instance
 func (backRepoPolyline *BackRepoPolylineStruct) GetPolylineDBFromPolylinePtr(polyline *models.Polyline) (polylineDB *PolylineDB) {
 	id := (*backRepoPolyline.Map_PolylinePtr_PolylineDBID)[polyline]

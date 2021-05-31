@@ -117,6 +117,10 @@ type BackRepoTextStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoText *BackRepoTextStruct) GetDB() *gorm.DB {
+	return backRepoText.db
+}
+
 // GetTextDBFromTextPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoText *BackRepoTextStruct) GetTextDBFromTextPtr(text *models.Text) (textDB *TextDB) {
 	id := (*backRepoText.Map_TextPtr_TextDBID)[text]

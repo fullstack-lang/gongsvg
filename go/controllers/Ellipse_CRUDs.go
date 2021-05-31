@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gongsvg/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type EllipseInput struct {
 //    default: genericError
 //        200: ellipseDBsResponse
 func GetEllipses(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoEllipse.GetDB()
+	
 	// source slice
 	var ellipseDBs []orm.EllipseDB
 	query := db.Find(&ellipseDBs)
@@ -93,7 +92,7 @@ func GetEllipses(c *gin.Context) {
 //     Responses:
 //       200: ellipseDBResponse
 func PostEllipse(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoEllipse.GetDB()
 
 	// Validate input
 	var input orm.EllipseAPI
@@ -138,7 +137,7 @@ func PostEllipse(c *gin.Context) {
 //    default: genericError
 //        200: ellipseDBResponse
 func GetEllipse(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoEllipse.GetDB()
 
 	// Get ellipseDB in DB
 	var ellipseDB orm.EllipseDB
@@ -168,7 +167,7 @@ func GetEllipse(c *gin.Context) {
 //    default: genericError
 //        200: ellipseDBResponse
 func UpdateEllipse(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoEllipse.GetDB()
 
 	// Get model if exist
 	var ellipseDB orm.EllipseDB
@@ -221,7 +220,7 @@ func UpdateEllipse(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteEllipse(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoEllipse.GetDB()
 
 	// Get model if exist
 	var ellipseDB orm.EllipseDB

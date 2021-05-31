@@ -123,6 +123,10 @@ type BackRepoRectStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoRect *BackRepoRectStruct) GetDB() *gorm.DB {
+	return backRepoRect.db
+}
+
 // GetRectDBFromRectPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoRect *BackRepoRectStruct) GetRectDBFromRectPtr(rect *models.Rect) (rectDB *RectDB) {
 	id := (*backRepoRect.Map_RectPtr_RectDBID)[rect]

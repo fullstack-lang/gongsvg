@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gongsvg/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type TextInput struct {
 //    default: genericError
 //        200: textDBsResponse
 func GetTexts(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoText.GetDB()
+	
 	// source slice
 	var textDBs []orm.TextDB
 	query := db.Find(&textDBs)
@@ -93,7 +92,7 @@ func GetTexts(c *gin.Context) {
 //     Responses:
 //       200: textDBResponse
 func PostText(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoText.GetDB()
 
 	// Validate input
 	var input orm.TextAPI
@@ -138,7 +137,7 @@ func PostText(c *gin.Context) {
 //    default: genericError
 //        200: textDBResponse
 func GetText(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoText.GetDB()
 
 	// Get textDB in DB
 	var textDB orm.TextDB
@@ -168,7 +167,7 @@ func GetText(c *gin.Context) {
 //    default: genericError
 //        200: textDBResponse
 func UpdateText(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoText.GetDB()
 
 	// Get model if exist
 	var textDB orm.TextDB
@@ -221,7 +220,7 @@ func UpdateText(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteText(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoText.GetDB()
 
 	// Get model if exist
 	var textDB orm.TextDB

@@ -89,6 +89,10 @@ type BackRepoSVGStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoSVG *BackRepoSVGStruct) GetDB() *gorm.DB {
+	return backRepoSVG.db
+}
+
 // GetSVGDBFromSVGPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoSVG *BackRepoSVGStruct) GetSVGDBFromSVGPtr(svg *models.SVG) (svgDB *SVGDB) {
 	id := (*backRepoSVG.Map_SVGPtr_SVGDBID)[svg]

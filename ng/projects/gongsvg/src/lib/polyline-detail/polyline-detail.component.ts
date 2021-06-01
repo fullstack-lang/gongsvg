@@ -172,4 +172,10 @@ export class PolylineDetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.polyline.Name == undefined) {
+			this.polyline.Name = event.value.Name		
+		}
+	}
 }

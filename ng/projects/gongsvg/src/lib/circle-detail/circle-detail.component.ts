@@ -172,4 +172,10 @@ export class CircleDetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.circle.Name == undefined) {
+			this.circle.Name = event.value.Name		
+		}
+	}
 }

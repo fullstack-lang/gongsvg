@@ -297,7 +297,7 @@ func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseOneInstance(circleDB *C
 	}
 	circleDB.CopyBasicFieldsToCircle(circle)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to circleDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_CircleDBID_CircleDB)[circleDB hold variable pointers
 	circleDB_Data := *circleDB
 	preservedPtrToCircle := &circleDB_Data
@@ -412,7 +412,7 @@ func (backRepoCircle *BackRepoCircleStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*CircleDB
+	forBackup := make([]*CircleDB, 0)
 	for _, circleDB := range *backRepoCircle.Map_CircleDBID_CircleDB {
 		forBackup = append(forBackup, circleDB)
 	}
@@ -433,7 +433,13 @@ func (backRepoCircle *BackRepoCircleStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoCircle *BackRepoCircleStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "CircleDB.json" in dirPath that stores an array
+// of CircleDB and stores it in the database
+// the map BackRepoCircleid_atBckpTime_newID is updated accordingly
+func (backRepoCircle *BackRepoCircleStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoCircleid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "CircleDB.json")
 	jsonFile, err := os.Open(filename)
@@ -452,19 +458,46 @@ func (backRepoCircle *BackRepoCircleStruct) Restore(dirPath string) {
 	// fill up Map_CircleDBID_CircleDB
 	for _, circleDB := range forRestore {
 
-		circleDB_ID := circleDB.ID
+		circleDB_ID_atBackupTime := circleDB.ID
 		circleDB.ID = 0
 		query := backRepoCircle.db.Create(circleDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if circleDB_ID != circleDB.ID {
-			log.Panicf("ID of Circle restore ID %d, name %s, has wrong ID %d in DB after create",
-				circleDB_ID, circleDB.Name_Data.String, circleDB.ID)
-		}
+		(*backRepoCircle.Map_CircleDBID_CircleDB)[circleDB.ID] = circleDB
+		BackRepoCircleid_atBckpTime_newID[circleDB_ID_atBackupTime] = circleDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json Circle file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<Circle>id_atBckpTime_newID
+// to compute new index
+func (backRepoCircle *BackRepoCircleStruct) RestorePhaseTwo() {
+
+	for _, circleDB := range (*backRepoCircle.Map_CircleDBID_CircleDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = circleDB
+
+		// insertion point for reindexing pointers encoding
+		// This reindex circle.Circles
+		if circleDB.SVG_CirclesDBID.Int64 != 0 {
+			circleDB.SVG_CirclesDBID.Int64 = 
+				int64(BackRepoSVGid_atBckpTime_newID[uint(circleDB.SVG_CirclesDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoCircle.db.Model(circleDB).Updates(*circleDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoCircleid_atBckpTime_newID map[uint]uint

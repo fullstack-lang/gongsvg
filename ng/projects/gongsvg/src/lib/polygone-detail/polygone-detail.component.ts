@@ -172,4 +172,10 @@ export class PolygoneDetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.polygone.Name == undefined) {
+			this.polygone.Name = event.value.Name		
+		}
+	}
 }

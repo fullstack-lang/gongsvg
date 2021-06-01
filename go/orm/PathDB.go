@@ -291,7 +291,7 @@ func (backRepoPath *BackRepoPathStruct) CheckoutPhaseOneInstance(pathDB *PathDB)
 	}
 	pathDB.CopyBasicFieldsToPath(path)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to pathDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_PathDBID_PathDB)[pathDB hold variable pointers
 	pathDB_Data := *pathDB
 	preservedPtrToPath := &pathDB_Data
@@ -398,7 +398,7 @@ func (backRepoPath *BackRepoPathStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*PathDB
+	forBackup := make([]*PathDB, 0)
 	for _, pathDB := range *backRepoPath.Map_PathDBID_PathDB {
 		forBackup = append(forBackup, pathDB)
 	}
@@ -419,7 +419,13 @@ func (backRepoPath *BackRepoPathStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoPath *BackRepoPathStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "PathDB.json" in dirPath that stores an array
+// of PathDB and stores it in the database
+// the map BackRepoPathid_atBckpTime_newID is updated accordingly
+func (backRepoPath *BackRepoPathStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoPathid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "PathDB.json")
 	jsonFile, err := os.Open(filename)
@@ -438,19 +444,46 @@ func (backRepoPath *BackRepoPathStruct) Restore(dirPath string) {
 	// fill up Map_PathDBID_PathDB
 	for _, pathDB := range forRestore {
 
-		pathDB_ID := pathDB.ID
+		pathDB_ID_atBackupTime := pathDB.ID
 		pathDB.ID = 0
 		query := backRepoPath.db.Create(pathDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if pathDB_ID != pathDB.ID {
-			log.Panicf("ID of Path restore ID %d, name %s, has wrong ID %d in DB after create",
-				pathDB_ID, pathDB.Name_Data.String, pathDB.ID)
-		}
+		(*backRepoPath.Map_PathDBID_PathDB)[pathDB.ID] = pathDB
+		BackRepoPathid_atBckpTime_newID[pathDB_ID_atBackupTime] = pathDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json Path file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<Path>id_atBckpTime_newID
+// to compute new index
+func (backRepoPath *BackRepoPathStruct) RestorePhaseTwo() {
+
+	for _, pathDB := range (*backRepoPath.Map_PathDBID_PathDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = pathDB
+
+		// insertion point for reindexing pointers encoding
+		// This reindex path.Paths
+		if pathDB.SVG_PathsDBID.Int64 != 0 {
+			pathDB.SVG_PathsDBID.Int64 = 
+				int64(BackRepoSVGid_atBckpTime_newID[uint(pathDB.SVG_PathsDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoPath.db.Model(pathDB).Updates(*pathDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoPathid_atBckpTime_newID map[uint]uint

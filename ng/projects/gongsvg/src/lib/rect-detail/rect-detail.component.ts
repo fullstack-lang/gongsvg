@@ -172,4 +172,10 @@ export class RectDetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.rect.Name == undefined) {
+			this.rect.Name = event.value.Name		
+		}
+	}
 }

@@ -172,4 +172,10 @@ export class LineDetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.line.Name == undefined) {
+			this.line.Name = event.value.Name		
+		}
+	}
 }

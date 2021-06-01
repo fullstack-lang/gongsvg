@@ -303,7 +303,7 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseOneInstance(rectDB *RectDB)
 	}
 	rectDB.CopyBasicFieldsToRect(rect)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to rectDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_RectDBID_RectDB)[rectDB hold variable pointers
 	rectDB_Data := *rectDB
 	preservedPtrToRect := &rectDB_Data
@@ -426,7 +426,7 @@ func (backRepoRect *BackRepoRectStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*RectDB
+	forBackup := make([]*RectDB, 0)
 	for _, rectDB := range *backRepoRect.Map_RectDBID_RectDB {
 		forBackup = append(forBackup, rectDB)
 	}
@@ -447,7 +447,13 @@ func (backRepoRect *BackRepoRectStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoRect *BackRepoRectStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "RectDB.json" in dirPath that stores an array
+// of RectDB and stores it in the database
+// the map BackRepoRectid_atBckpTime_newID is updated accordingly
+func (backRepoRect *BackRepoRectStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoRectid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "RectDB.json")
 	jsonFile, err := os.Open(filename)
@@ -466,19 +472,46 @@ func (backRepoRect *BackRepoRectStruct) Restore(dirPath string) {
 	// fill up Map_RectDBID_RectDB
 	for _, rectDB := range forRestore {
 
-		rectDB_ID := rectDB.ID
+		rectDB_ID_atBackupTime := rectDB.ID
 		rectDB.ID = 0
 		query := backRepoRect.db.Create(rectDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if rectDB_ID != rectDB.ID {
-			log.Panicf("ID of Rect restore ID %d, name %s, has wrong ID %d in DB after create",
-				rectDB_ID, rectDB.Name_Data.String, rectDB.ID)
-		}
+		(*backRepoRect.Map_RectDBID_RectDB)[rectDB.ID] = rectDB
+		BackRepoRectid_atBckpTime_newID[rectDB_ID_atBackupTime] = rectDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json Rect file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<Rect>id_atBckpTime_newID
+// to compute new index
+func (backRepoRect *BackRepoRectStruct) RestorePhaseTwo() {
+
+	for _, rectDB := range (*backRepoRect.Map_RectDBID_RectDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = rectDB
+
+		// insertion point for reindexing pointers encoding
+		// This reindex rect.Rects
+		if rectDB.SVG_RectsDBID.Int64 != 0 {
+			rectDB.SVG_RectsDBID.Int64 = 
+				int64(BackRepoSVGid_atBckpTime_newID[uint(rectDB.SVG_RectsDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoRect.db.Model(rectDB).Updates(*rectDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoRectid_atBckpTime_newID map[uint]uint

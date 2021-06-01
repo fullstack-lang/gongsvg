@@ -14,6 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/gongsvg/go/controllers"
+	"github.com/fullstack-lang/gongsvg/go/models"
 	"github.com/fullstack-lang/gongsvg/go/orm"
 )
 
@@ -21,6 +22,9 @@ var (
 	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
 	apiFlag    = flag.Bool("api", false, "it true, use api controllers instead of default controllers")
+
+	backupFlag  = flag.Bool("backup", false, "read database file, generate backup and exits")
+	restoreFlag = flag.Bool("restore", false, "generate restore and exits")
 )
 
 func main() {
@@ -30,6 +34,32 @@ func main() {
 
 	// parse program arguments
 	flag.Parse()
+
+	if *backupFlag {
+
+		// setup GORM
+		db := orm.SetupModels(*logDBFlag, "./test.db")
+		// mandatory, otherwise, bizarre errors occurs
+		db.DB().SetMaxOpenConns(1)
+		orm.AutoMigrate(db)
+		orm.BackRepo.Init(db)
+		models.Stage.Checkout()
+		models.Stage.Backup("bckp")
+
+		return
+	}
+	if *restoreFlag {
+
+		// setup GORM
+		db := orm.SetupModels(*logDBFlag, "./test.db")
+		// mandatory, otherwise, bizarre errors occurs
+		db.DB().SetMaxOpenConns(1)
+		orm.AutoMigrate(db)
+		orm.BackRepo.Init(db)
+		models.Stage.Restore("bckp")
+
+		return
+	}
 
 	// setup controlers
 	if !*logGINFlag {

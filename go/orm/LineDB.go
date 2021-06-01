@@ -300,7 +300,7 @@ func (backRepoLine *BackRepoLineStruct) CheckoutPhaseOneInstance(lineDB *LineDB)
 	}
 	lineDB.CopyBasicFieldsToLine(line)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to lineDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_LineDBID_LineDB)[lineDB hold variable pointers
 	lineDB_Data := *lineDB
 	preservedPtrToLine := &lineDB_Data
@@ -419,7 +419,7 @@ func (backRepoLine *BackRepoLineStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*LineDB
+	forBackup := make([]*LineDB, 0)
 	for _, lineDB := range *backRepoLine.Map_LineDBID_LineDB {
 		forBackup = append(forBackup, lineDB)
 	}
@@ -440,7 +440,13 @@ func (backRepoLine *BackRepoLineStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoLine *BackRepoLineStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "LineDB.json" in dirPath that stores an array
+// of LineDB and stores it in the database
+// the map BackRepoLineid_atBckpTime_newID is updated accordingly
+func (backRepoLine *BackRepoLineStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoLineid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "LineDB.json")
 	jsonFile, err := os.Open(filename)
@@ -459,19 +465,46 @@ func (backRepoLine *BackRepoLineStruct) Restore(dirPath string) {
 	// fill up Map_LineDBID_LineDB
 	for _, lineDB := range forRestore {
 
-		lineDB_ID := lineDB.ID
+		lineDB_ID_atBackupTime := lineDB.ID
 		lineDB.ID = 0
 		query := backRepoLine.db.Create(lineDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if lineDB_ID != lineDB.ID {
-			log.Panicf("ID of Line restore ID %d, name %s, has wrong ID %d in DB after create",
-				lineDB_ID, lineDB.Name_Data.String, lineDB.ID)
-		}
+		(*backRepoLine.Map_LineDBID_LineDB)[lineDB.ID] = lineDB
+		BackRepoLineid_atBckpTime_newID[lineDB_ID_atBackupTime] = lineDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json Line file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<Line>id_atBckpTime_newID
+// to compute new index
+func (backRepoLine *BackRepoLineStruct) RestorePhaseTwo() {
+
+	for _, lineDB := range (*backRepoLine.Map_LineDBID_LineDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = lineDB
+
+		// insertion point for reindexing pointers encoding
+		// This reindex line.Lines
+		if lineDB.SVG_LinesDBID.Int64 != 0 {
+			lineDB.SVG_LinesDBID.Int64 = 
+				int64(BackRepoSVGid_atBckpTime_newID[uint(lineDB.SVG_LinesDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoLine.db.Model(lineDB).Updates(*lineDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoLineid_atBckpTime_newID map[uint]uint

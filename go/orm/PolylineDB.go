@@ -291,7 +291,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) CheckoutPhaseOneInstance(polylin
 	}
 	polylineDB.CopyBasicFieldsToPolyline(polyline)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to polylineDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_PolylineDBID_PolylineDB)[polylineDB hold variable pointers
 	polylineDB_Data := *polylineDB
 	preservedPtrToPolyline := &polylineDB_Data
@@ -398,7 +398,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*PolylineDB
+	forBackup := make([]*PolylineDB, 0)
 	for _, polylineDB := range *backRepoPolyline.Map_PolylineDBID_PolylineDB {
 		forBackup = append(forBackup, polylineDB)
 	}
@@ -419,7 +419,13 @@ func (backRepoPolyline *BackRepoPolylineStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoPolyline *BackRepoPolylineStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "PolylineDB.json" in dirPath that stores an array
+// of PolylineDB and stores it in the database
+// the map BackRepoPolylineid_atBckpTime_newID is updated accordingly
+func (backRepoPolyline *BackRepoPolylineStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoPolylineid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "PolylineDB.json")
 	jsonFile, err := os.Open(filename)
@@ -438,19 +444,46 @@ func (backRepoPolyline *BackRepoPolylineStruct) Restore(dirPath string) {
 	// fill up Map_PolylineDBID_PolylineDB
 	for _, polylineDB := range forRestore {
 
-		polylineDB_ID := polylineDB.ID
+		polylineDB_ID_atBackupTime := polylineDB.ID
 		polylineDB.ID = 0
 		query := backRepoPolyline.db.Create(polylineDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if polylineDB_ID != polylineDB.ID {
-			log.Panicf("ID of Polyline restore ID %d, name %s, has wrong ID %d in DB after create",
-				polylineDB_ID, polylineDB.Name_Data.String, polylineDB.ID)
-		}
+		(*backRepoPolyline.Map_PolylineDBID_PolylineDB)[polylineDB.ID] = polylineDB
+		BackRepoPolylineid_atBckpTime_newID[polylineDB_ID_atBackupTime] = polylineDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json Polyline file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<Polyline>id_atBckpTime_newID
+// to compute new index
+func (backRepoPolyline *BackRepoPolylineStruct) RestorePhaseTwo() {
+
+	for _, polylineDB := range (*backRepoPolyline.Map_PolylineDBID_PolylineDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = polylineDB
+
+		// insertion point for reindexing pointers encoding
+		// This reindex polyline.Polylines
+		if polylineDB.SVG_PolylinesDBID.Int64 != 0 {
+			polylineDB.SVG_PolylinesDBID.Int64 = 
+				int64(BackRepoSVGid_atBckpTime_newID[uint(polylineDB.SVG_PolylinesDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoPolyline.db.Model(polylineDB).Updates(*polylineDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoPolylineid_atBckpTime_newID map[uint]uint

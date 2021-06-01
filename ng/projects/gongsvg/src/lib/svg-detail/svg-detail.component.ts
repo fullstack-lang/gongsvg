@@ -160,4 +160,10 @@ export class SVGDetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.svg.Name == undefined) {
+			this.svg.Name = event.value.Name		
+		}
+	}
 }

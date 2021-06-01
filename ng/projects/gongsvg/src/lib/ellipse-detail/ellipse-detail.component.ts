@@ -172,4 +172,10 @@ export class EllipseDetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.ellipse.Name == undefined) {
+			this.ellipse.Name = event.value.Name		
+		}
+	}
 }

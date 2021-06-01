@@ -172,4 +172,10 @@ export class TextDetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.text.Name == undefined) {
+			this.text.Name = event.value.Name		
+		}
+	}
 }

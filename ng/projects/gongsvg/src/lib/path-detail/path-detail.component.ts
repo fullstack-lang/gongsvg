@@ -172,4 +172,10 @@ export class PathDetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.path.Name == undefined) {
+			this.path.Name = event.value.Name		
+		}
+	}
 }

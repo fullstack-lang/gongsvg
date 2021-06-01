@@ -291,7 +291,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseOneInstance(polygon
 	}
 	polygoneDB.CopyBasicFieldsToPolygone(polygone)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to polygoneDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_PolygoneDBID_PolygoneDB)[polygoneDB hold variable pointers
 	polygoneDB_Data := *polygoneDB
 	preservedPtrToPolygone := &polygoneDB_Data
@@ -398,7 +398,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*PolygoneDB
+	forBackup := make([]*PolygoneDB, 0)
 	for _, polygoneDB := range *backRepoPolygone.Map_PolygoneDBID_PolygoneDB {
 		forBackup = append(forBackup, polygoneDB)
 	}
@@ -419,7 +419,13 @@ func (backRepoPolygone *BackRepoPolygoneStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoPolygone *BackRepoPolygoneStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "PolygoneDB.json" in dirPath that stores an array
+// of PolygoneDB and stores it in the database
+// the map BackRepoPolygoneid_atBckpTime_newID is updated accordingly
+func (backRepoPolygone *BackRepoPolygoneStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoPolygoneid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "PolygoneDB.json")
 	jsonFile, err := os.Open(filename)
@@ -438,19 +444,46 @@ func (backRepoPolygone *BackRepoPolygoneStruct) Restore(dirPath string) {
 	// fill up Map_PolygoneDBID_PolygoneDB
 	for _, polygoneDB := range forRestore {
 
-		polygoneDB_ID := polygoneDB.ID
+		polygoneDB_ID_atBackupTime := polygoneDB.ID
 		polygoneDB.ID = 0
 		query := backRepoPolygone.db.Create(polygoneDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if polygoneDB_ID != polygoneDB.ID {
-			log.Panicf("ID of Polygone restore ID %d, name %s, has wrong ID %d in DB after create",
-				polygoneDB_ID, polygoneDB.Name_Data.String, polygoneDB.ID)
-		}
+		(*backRepoPolygone.Map_PolygoneDBID_PolygoneDB)[polygoneDB.ID] = polygoneDB
+		BackRepoPolygoneid_atBckpTime_newID[polygoneDB_ID_atBackupTime] = polygoneDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json Polygone file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<Polygone>id_atBckpTime_newID
+// to compute new index
+func (backRepoPolygone *BackRepoPolygoneStruct) RestorePhaseTwo() {
+
+	for _, polygoneDB := range (*backRepoPolygone.Map_PolygoneDBID_PolygoneDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = polygoneDB
+
+		// insertion point for reindexing pointers encoding
+		// This reindex polygone.Polygones
+		if polygoneDB.SVG_PolygonesDBID.Int64 != 0 {
+			polygoneDB.SVG_PolygonesDBID.Int64 = 
+				int64(BackRepoSVGid_atBckpTime_newID[uint(polygoneDB.SVG_PolygonesDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoPolygone.db.Model(polygoneDB).Updates(*polygoneDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoPolygoneid_atBckpTime_newID map[uint]uint

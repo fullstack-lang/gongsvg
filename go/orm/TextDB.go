@@ -297,7 +297,7 @@ func (backRepoText *BackRepoTextStruct) CheckoutPhaseOneInstance(textDB *TextDB)
 	}
 	textDB.CopyBasicFieldsToText(text)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to textDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_TextDBID_TextDB)[textDB hold variable pointers
 	textDB_Data := *textDB
 	preservedPtrToText := &textDB_Data
@@ -412,7 +412,7 @@ func (backRepoText *BackRepoTextStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*TextDB
+	forBackup := make([]*TextDB, 0)
 	for _, textDB := range *backRepoText.Map_TextDBID_TextDB {
 		forBackup = append(forBackup, textDB)
 	}
@@ -433,7 +433,13 @@ func (backRepoText *BackRepoTextStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoText *BackRepoTextStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "TextDB.json" in dirPath that stores an array
+// of TextDB and stores it in the database
+// the map BackRepoTextid_atBckpTime_newID is updated accordingly
+func (backRepoText *BackRepoTextStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoTextid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "TextDB.json")
 	jsonFile, err := os.Open(filename)
@@ -452,19 +458,46 @@ func (backRepoText *BackRepoTextStruct) Restore(dirPath string) {
 	// fill up Map_TextDBID_TextDB
 	for _, textDB := range forRestore {
 
-		textDB_ID := textDB.ID
+		textDB_ID_atBackupTime := textDB.ID
 		textDB.ID = 0
 		query := backRepoText.db.Create(textDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if textDB_ID != textDB.ID {
-			log.Panicf("ID of Text restore ID %d, name %s, has wrong ID %d in DB after create",
-				textDB_ID, textDB.Name_Data.String, textDB.ID)
-		}
+		(*backRepoText.Map_TextDBID_TextDB)[textDB.ID] = textDB
+		BackRepoTextid_atBckpTime_newID[textDB_ID_atBackupTime] = textDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json Text file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<Text>id_atBckpTime_newID
+// to compute new index
+func (backRepoText *BackRepoTextStruct) RestorePhaseTwo() {
+
+	for _, textDB := range (*backRepoText.Map_TextDBID_TextDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = textDB
+
+		// insertion point for reindexing pointers encoding
+		// This reindex text.Texts
+		if textDB.SVG_TextsDBID.Int64 != 0 {
+			textDB.SVG_TextsDBID.Int64 = 
+				int64(BackRepoSVGid_atBckpTime_newID[uint(textDB.SVG_TextsDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoText.db.Model(textDB).Updates(*textDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoTextid_atBckpTime_newID map[uint]uint

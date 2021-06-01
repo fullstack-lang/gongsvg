@@ -421,7 +421,7 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseOneInstance(svgDB *SVGDB) (Er
 	}
 	svgDB.CopyBasicFieldsToSVG(svg)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to svgDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_SVGDBID_SVGDB)[svgDB hold variable pointers
 	svgDB_Data := *svgDB
 	preservedPtrToSVG := &svgDB_Data
@@ -720,7 +720,7 @@ func (backRepoSVG *BackRepoSVGStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*SVGDB
+	forBackup := make([]*SVGDB, 0)
 	for _, svgDB := range *backRepoSVG.Map_SVGDBID_SVGDB {
 		forBackup = append(forBackup, svgDB)
 	}
@@ -741,7 +741,13 @@ func (backRepoSVG *BackRepoSVGStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoSVG *BackRepoSVGStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "SVGDB.json" in dirPath that stores an array
+// of SVGDB and stores it in the database
+// the map BackRepoSVGid_atBckpTime_newID is updated accordingly
+func (backRepoSVG *BackRepoSVGStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoSVGid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "SVGDB.json")
 	jsonFile, err := os.Open(filename)
@@ -760,19 +766,40 @@ func (backRepoSVG *BackRepoSVGStruct) Restore(dirPath string) {
 	// fill up Map_SVGDBID_SVGDB
 	for _, svgDB := range forRestore {
 
-		svgDB_ID := svgDB.ID
+		svgDB_ID_atBackupTime := svgDB.ID
 		svgDB.ID = 0
 		query := backRepoSVG.db.Create(svgDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if svgDB_ID != svgDB.ID {
-			log.Panicf("ID of SVG restore ID %d, name %s, has wrong ID %d in DB after create",
-				svgDB_ID, svgDB.Name_Data.String, svgDB.ID)
-		}
+		(*backRepoSVG.Map_SVGDBID_SVGDB)[svgDB.ID] = svgDB
+		BackRepoSVGid_atBckpTime_newID[svgDB_ID_atBackupTime] = svgDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json SVG file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<SVG>id_atBckpTime_newID
+// to compute new index
+func (backRepoSVG *BackRepoSVGStruct) RestorePhaseTwo() {
+
+	for _, svgDB := range (*backRepoSVG.Map_SVGDBID_SVGDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = svgDB
+
+		// insertion point for reindexing pointers encoding
+		// update databse with new index encoding
+		query := backRepoSVG.db.Model(svgDB).Updates(*svgDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoSVGid_atBckpTime_newID map[uint]uint

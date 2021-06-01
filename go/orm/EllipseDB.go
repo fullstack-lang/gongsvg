@@ -300,7 +300,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseOneInstance(ellipseDB
 	}
 	ellipseDB.CopyBasicFieldsToEllipse(ellipse)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to ellipseDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_EllipseDBID_EllipseDB)[ellipseDB hold variable pointers
 	ellipseDB_Data := *ellipseDB
 	preservedPtrToEllipse := &ellipseDB_Data
@@ -419,7 +419,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*EllipseDB
+	forBackup := make([]*EllipseDB, 0)
 	for _, ellipseDB := range *backRepoEllipse.Map_EllipseDBID_EllipseDB {
 		forBackup = append(forBackup, ellipseDB)
 	}
@@ -440,7 +440,13 @@ func (backRepoEllipse *BackRepoEllipseStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoEllipse *BackRepoEllipseStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "EllipseDB.json" in dirPath that stores an array
+// of EllipseDB and stores it in the database
+// the map BackRepoEllipseid_atBckpTime_newID is updated accordingly
+func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoEllipseid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "EllipseDB.json")
 	jsonFile, err := os.Open(filename)
@@ -459,19 +465,46 @@ func (backRepoEllipse *BackRepoEllipseStruct) Restore(dirPath string) {
 	// fill up Map_EllipseDBID_EllipseDB
 	for _, ellipseDB := range forRestore {
 
-		ellipseDB_ID := ellipseDB.ID
+		ellipseDB_ID_atBackupTime := ellipseDB.ID
 		ellipseDB.ID = 0
 		query := backRepoEllipse.db.Create(ellipseDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if ellipseDB_ID != ellipseDB.ID {
-			log.Panicf("ID of Ellipse restore ID %d, name %s, has wrong ID %d in DB after create",
-				ellipseDB_ID, ellipseDB.Name_Data.String, ellipseDB.ID)
-		}
+		(*backRepoEllipse.Map_EllipseDBID_EllipseDB)[ellipseDB.ID] = ellipseDB
+		BackRepoEllipseid_atBckpTime_newID[ellipseDB_ID_atBackupTime] = ellipseDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json Ellipse file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<Ellipse>id_atBckpTime_newID
+// to compute new index
+func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseTwo() {
+
+	for _, ellipseDB := range (*backRepoEllipse.Map_EllipseDBID_EllipseDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = ellipseDB
+
+		// insertion point for reindexing pointers encoding
+		// This reindex ellipse.Ellipses
+		if ellipseDB.SVG_EllipsesDBID.Int64 != 0 {
+			ellipseDB.SVG_EllipsesDBID.Int64 = 
+				int64(BackRepoSVGid_atBckpTime_newID[uint(ellipseDB.SVG_EllipsesDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoEllipse.db.Model(ellipseDB).Updates(*ellipseDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoEllipseid_atBckpTime_newID map[uint]uint

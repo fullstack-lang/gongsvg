@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-polylines-table',
+  selector: 'app-polylinestable',
   templateUrl: './polylines-table.component.html',
   styleUrls: ['./polylines-table.component.css'],
 })
@@ -47,6 +47,44 @@ export class PolylinesTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (polylineDB: PolylineDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				case 'Polylines':
+					return this.frontRepo.SVGs.get(polylineDB.SVG_PolylinesDBID.Int64)?.Name;
+
+				default:
+					return PolylineDB[property];
+		}
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (polylineDB: PolylineDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the polylineDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += polylineDB.Name.toLowerCase()
+		mergedContent += polylineDB.Points.toLowerCase()
+		mergedContent += polylineDB.Color.toLowerCase()
+		mergedContent += polylineDB.FillOpacity.toString()
+		mergedContent += polylineDB.Stroke.toLowerCase()
+		mergedContent += polylineDB.StrokeWidth.toString()
+		mergedContent += polylineDB.StrokeDashArray.toLowerCase()
+		mergedContent += polylineDB.Transform.toLowerCase()
+		if (polylineDB.SVG_PolylinesDBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.SVGs.get(polylineDB.SVG_PolylinesDBID.Int64)?.Name.toLowerCase()
+    	}
+
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
@@ -159,14 +197,14 @@ export class PolylinesTableComponent implements OnInit {
 
   // display polyline in router
   displayPolylineInRouter(polylineID: number) {
-    this.router.navigate(["polyline-display", polylineID])
+    this.router.navigate(["github_com_fullstack_lang_gongsvg_go-" + "polyline-display", polylineID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(polylineID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["polyline-detail", polylineID]
+        github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + "polyline-detail", polylineID]
       }
     }]);
   }
@@ -175,7 +213,7 @@ export class PolylinesTableComponent implements OnInit {
   setPresentationRouterOutlet(polylineID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["polyline-presentation", polylineID]
+        github_com_fullstack_lang_gongsvg_go_presentation: ["github_com_fullstack_lang_gongsvg_go-" + "polyline-presentation", polylineID]
       }
     }]);
   }

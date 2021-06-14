@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-circles-table',
+  selector: 'app-circlestable',
   templateUrl: './circles-table.component.html',
   styleUrls: ['./circles-table.component.css'],
 })
@@ -47,6 +47,46 @@ export class CirclesTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (circleDB: CircleDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				case 'Circles':
+					return this.frontRepo.SVGs.get(circleDB.SVG_CirclesDBID.Int64)?.Name;
+
+				default:
+					return CircleDB[property];
+		}
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (circleDB: CircleDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the circleDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += circleDB.Name.toLowerCase()
+		mergedContent += circleDB.CX.toString()
+		mergedContent += circleDB.CY.toString()
+		mergedContent += circleDB.Radius.toString()
+		mergedContent += circleDB.Color.toLowerCase()
+		mergedContent += circleDB.FillOpacity.toString()
+		mergedContent += circleDB.Stroke.toLowerCase()
+		mergedContent += circleDB.StrokeWidth.toString()
+		mergedContent += circleDB.StrokeDashArray.toLowerCase()
+		mergedContent += circleDB.Transform.toLowerCase()
+		if (circleDB.SVG_CirclesDBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.SVGs.get(circleDB.SVG_CirclesDBID.Int64)?.Name.toLowerCase()
+    	}
+
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
@@ -163,14 +203,14 @@ export class CirclesTableComponent implements OnInit {
 
   // display circle in router
   displayCircleInRouter(circleID: number) {
-    this.router.navigate(["circle-display", circleID])
+    this.router.navigate(["github_com_fullstack_lang_gongsvg_go-" + "circle-display", circleID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(circleID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["circle-detail", circleID]
+        github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + "circle-detail", circleID]
       }
     }]);
   }
@@ -179,7 +219,7 @@ export class CirclesTableComponent implements OnInit {
   setPresentationRouterOutlet(circleID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["circle-presentation", circleID]
+        github_com_fullstack_lang_gongsvg_go_presentation: ["github_com_fullstack_lang_gongsvg_go-" + "circle-presentation", circleID]
       }
     }]);
   }

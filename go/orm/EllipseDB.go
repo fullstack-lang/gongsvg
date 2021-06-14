@@ -13,7 +13,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+
+	"github.com/tealeg/xlsx/v3"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
@@ -106,6 +108,54 @@ type EllipseDBs []EllipseDB
 type EllipseDBResponse struct {
 	EllipseDB
 }
+
+// EllipseWOP is a Ellipse without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type EllipseWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	CX float64
+
+	CY float64
+
+	RX float64
+
+	RY float64
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeDashArray string
+
+	Transform string
+	// insertion for WOP pointer fields
+}
+
+var Ellipse_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"CX",
+	"CY",
+	"RX",
+	"RY",
+	"Color",
+	"FillOpacity",
+	"Stroke",
+	"StrokeWidth",
+	"StrokeDashArray",
+	"Transform",
+}
+
 
 type BackRepoEllipseStruct struct {
 	// stores EllipseDB according to their gorm ID
@@ -296,6 +346,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseOneInstance(ellipseDB
 		(*backRepoEllipse.Map_EllipsePtr_EllipseDBID)[ellipse] = ellipseDB.ID
 
 		// append model store with the new element
+		ellipse.Name = ellipseDB.Name_Data.String
 		ellipse.Stage()
 	}
 	ellipseDB.CopyBasicFieldsToEllipse(ellipse)
@@ -357,7 +408,7 @@ func (backRepo *BackRepoStruct) CheckoutEllipse(ellipse *models.Ellipse) {
 	}
 }
 
-// CopyBasicFieldsToEllipseDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromEllipse
 func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipse(ellipse *models.Ellipse) {
 	// insertion point for fields commit
 	ellipseDB.Name_Data.String = ellipse.Name
@@ -395,9 +446,63 @@ func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipse(ellipse *models.Ellipse) 
 
 }
 
-// CopyBasicFieldsToEllipseDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (ellipseDB *EllipseDB) CopyBasicFieldsToEllipse(ellipse *models.Ellipse) {
+// CopyBasicFieldsFromEllipseWOP
+func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipseWOP(ellipse *EllipseWOP) {
+	// insertion point for fields commit
+	ellipseDB.Name_Data.String = ellipse.Name
+	ellipseDB.Name_Data.Valid = true
 
+	ellipseDB.CX_Data.Float64 = ellipse.CX
+	ellipseDB.CX_Data.Valid = true
+
+	ellipseDB.CY_Data.Float64 = ellipse.CY
+	ellipseDB.CY_Data.Valid = true
+
+	ellipseDB.RX_Data.Float64 = ellipse.RX
+	ellipseDB.RX_Data.Valid = true
+
+	ellipseDB.RY_Data.Float64 = ellipse.RY
+	ellipseDB.RY_Data.Valid = true
+
+	ellipseDB.Color_Data.String = ellipse.Color
+	ellipseDB.Color_Data.Valid = true
+
+	ellipseDB.FillOpacity_Data.Float64 = ellipse.FillOpacity
+	ellipseDB.FillOpacity_Data.Valid = true
+
+	ellipseDB.Stroke_Data.String = ellipse.Stroke
+	ellipseDB.Stroke_Data.Valid = true
+
+	ellipseDB.StrokeWidth_Data.Float64 = ellipse.StrokeWidth
+	ellipseDB.StrokeWidth_Data.Valid = true
+
+	ellipseDB.StrokeDashArray_Data.String = ellipse.StrokeDashArray
+	ellipseDB.StrokeDashArray_Data.Valid = true
+
+	ellipseDB.Transform_Data.String = ellipse.Transform
+	ellipseDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToEllipse
+func (ellipseDB *EllipseDB) CopyBasicFieldsToEllipse(ellipse *models.Ellipse) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	ellipse.Name = ellipseDB.Name_Data.String
+	ellipse.CX = ellipseDB.CX_Data.Float64
+	ellipse.CY = ellipseDB.CY_Data.Float64
+	ellipse.RX = ellipseDB.RX_Data.Float64
+	ellipse.RY = ellipseDB.RY_Data.Float64
+	ellipse.Color = ellipseDB.Color_Data.String
+	ellipse.FillOpacity = ellipseDB.FillOpacity_Data.Float64
+	ellipse.Stroke = ellipseDB.Stroke_Data.String
+	ellipse.StrokeWidth = ellipseDB.StrokeWidth_Data.Float64
+	ellipse.StrokeDashArray = ellipseDB.StrokeDashArray_Data.String
+	ellipse.Transform = ellipseDB.Transform_Data.String
+}
+
+// CopyBasicFieldsToEllipseWOP
+func (ellipseDB *EllipseDB) CopyBasicFieldsToEllipseWOP(ellipse *EllipseWOP) {
+	ellipse.ID = int(ellipseDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	ellipse.Name = ellipseDB.Name_Data.String
 	ellipse.CX = ellipseDB.CX_Data.Float64
@@ -437,6 +542,38 @@ func (backRepoEllipse *BackRepoEllipseStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Ellipse file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all EllipseDB instances in the backrepo
+func (backRepoEllipse *BackRepoEllipseStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*EllipseDB, 0)
+	for _, ellipseDB := range *backRepoEllipse.Map_EllipseDBID_EllipseDB {
+		forBackup = append(forBackup, ellipseDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Ellipse")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&Ellipse_Fields, -1)
+	for _, ellipseDB := range forBackup {
+
+		var ellipseWOP EllipseWOP
+		ellipseDB.CopyBasicFieldsToEllipseWOP(&ellipseWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&ellipseWOP, -1)
 	}
 }
 

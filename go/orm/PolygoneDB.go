@@ -13,7 +13,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+
+	"github.com/tealeg/xlsx/v3"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
@@ -97,6 +99,45 @@ type PolygoneDBs []PolygoneDB
 type PolygoneDBResponse struct {
 	PolygoneDB
 }
+
+// PolygoneWOP is a Polygone without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type PolygoneWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	Points string
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeDashArray string
+
+	Transform string
+	// insertion for WOP pointer fields
+}
+
+var Polygone_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"Points",
+	"Color",
+	"FillOpacity",
+	"Stroke",
+	"StrokeWidth",
+	"StrokeDashArray",
+	"Transform",
+}
+
 
 type BackRepoPolygoneStruct struct {
 	// stores PolygoneDB according to their gorm ID
@@ -287,6 +328,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseOneInstance(polygon
 		(*backRepoPolygone.Map_PolygonePtr_PolygoneDBID)[polygone] = polygoneDB.ID
 
 		// append model store with the new element
+		polygone.Name = polygoneDB.Name_Data.String
 		polygone.Stage()
 	}
 	polygoneDB.CopyBasicFieldsToPolygone(polygone)
@@ -348,7 +390,7 @@ func (backRepo *BackRepoStruct) CheckoutPolygone(polygone *models.Polygone) {
 	}
 }
 
-// CopyBasicFieldsToPolygoneDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromPolygone
 func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygone(polygone *models.Polygone) {
 	// insertion point for fields commit
 	polygoneDB.Name_Data.String = polygone.Name
@@ -377,9 +419,51 @@ func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygone(polygone *models.Polyg
 
 }
 
-// CopyBasicFieldsToPolygoneDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (polygoneDB *PolygoneDB) CopyBasicFieldsToPolygone(polygone *models.Polygone) {
+// CopyBasicFieldsFromPolygoneWOP
+func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygoneWOP(polygone *PolygoneWOP) {
+	// insertion point for fields commit
+	polygoneDB.Name_Data.String = polygone.Name
+	polygoneDB.Name_Data.Valid = true
 
+	polygoneDB.Points_Data.String = polygone.Points
+	polygoneDB.Points_Data.Valid = true
+
+	polygoneDB.Color_Data.String = polygone.Color
+	polygoneDB.Color_Data.Valid = true
+
+	polygoneDB.FillOpacity_Data.Float64 = polygone.FillOpacity
+	polygoneDB.FillOpacity_Data.Valid = true
+
+	polygoneDB.Stroke_Data.String = polygone.Stroke
+	polygoneDB.Stroke_Data.Valid = true
+
+	polygoneDB.StrokeWidth_Data.Float64 = polygone.StrokeWidth
+	polygoneDB.StrokeWidth_Data.Valid = true
+
+	polygoneDB.StrokeDashArray_Data.String = polygone.StrokeDashArray
+	polygoneDB.StrokeDashArray_Data.Valid = true
+
+	polygoneDB.Transform_Data.String = polygone.Transform
+	polygoneDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToPolygone
+func (polygoneDB *PolygoneDB) CopyBasicFieldsToPolygone(polygone *models.Polygone) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	polygone.Name = polygoneDB.Name_Data.String
+	polygone.Points = polygoneDB.Points_Data.String
+	polygone.Color = polygoneDB.Color_Data.String
+	polygone.FillOpacity = polygoneDB.FillOpacity_Data.Float64
+	polygone.Stroke = polygoneDB.Stroke_Data.String
+	polygone.StrokeWidth = polygoneDB.StrokeWidth_Data.Float64
+	polygone.StrokeDashArray = polygoneDB.StrokeDashArray_Data.String
+	polygone.Transform = polygoneDB.Transform_Data.String
+}
+
+// CopyBasicFieldsToPolygoneWOP
+func (polygoneDB *PolygoneDB) CopyBasicFieldsToPolygoneWOP(polygone *PolygoneWOP) {
+	polygone.ID = int(polygoneDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	polygone.Name = polygoneDB.Name_Data.String
 	polygone.Points = polygoneDB.Points_Data.String
@@ -416,6 +500,38 @@ func (backRepoPolygone *BackRepoPolygoneStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Polygone file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all PolygoneDB instances in the backrepo
+func (backRepoPolygone *BackRepoPolygoneStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*PolygoneDB, 0)
+	for _, polygoneDB := range *backRepoPolygone.Map_PolygoneDBID_PolygoneDB {
+		forBackup = append(forBackup, polygoneDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Polygone")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&Polygone_Fields, -1)
+	for _, polygoneDB := range forBackup {
+
+		var polygoneWOP PolygoneWOP
+		polygoneDB.CopyBasicFieldsToPolygoneWOP(&polygoneWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&polygoneWOP, -1)
 	}
 }
 

@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-ellipses-table',
+  selector: 'app-ellipsestable',
   templateUrl: './ellipses-table.component.html',
   styleUrls: ['./ellipses-table.component.css'],
 })
@@ -47,6 +47,47 @@ export class EllipsesTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (ellipseDB: EllipseDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				case 'Ellipses':
+					return this.frontRepo.SVGs.get(ellipseDB.SVG_EllipsesDBID.Int64)?.Name;
+
+				default:
+					return EllipseDB[property];
+		}
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (ellipseDB: EllipseDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the ellipseDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += ellipseDB.Name.toLowerCase()
+		mergedContent += ellipseDB.CX.toString()
+		mergedContent += ellipseDB.CY.toString()
+		mergedContent += ellipseDB.RX.toString()
+		mergedContent += ellipseDB.RY.toString()
+		mergedContent += ellipseDB.Color.toLowerCase()
+		mergedContent += ellipseDB.FillOpacity.toString()
+		mergedContent += ellipseDB.Stroke.toLowerCase()
+		mergedContent += ellipseDB.StrokeWidth.toString()
+		mergedContent += ellipseDB.StrokeDashArray.toLowerCase()
+		mergedContent += ellipseDB.Transform.toLowerCase()
+		if (ellipseDB.SVG_EllipsesDBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.SVGs.get(ellipseDB.SVG_EllipsesDBID.Int64)?.Name.toLowerCase()
+    	}
+
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
@@ -165,14 +206,14 @@ export class EllipsesTableComponent implements OnInit {
 
   // display ellipse in router
   displayEllipseInRouter(ellipseID: number) {
-    this.router.navigate(["ellipse-display", ellipseID])
+    this.router.navigate(["github_com_fullstack_lang_gongsvg_go-" + "ellipse-display", ellipseID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(ellipseID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["ellipse-detail", ellipseID]
+        github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + "ellipse-detail", ellipseID]
       }
     }]);
   }
@@ -181,7 +222,7 @@ export class EllipsesTableComponent implements OnInit {
   setPresentationRouterOutlet(ellipseID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["ellipse-presentation", ellipseID]
+        github_com_fullstack_lang_gongsvg_go_presentation: ["github_com_fullstack_lang_gongsvg_go-" + "ellipse-presentation", ellipseID]
       }
     }]);
   }

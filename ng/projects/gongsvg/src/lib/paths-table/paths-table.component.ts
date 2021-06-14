@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-paths-table',
+  selector: 'app-pathstable',
   templateUrl: './paths-table.component.html',
   styleUrls: ['./paths-table.component.css'],
 })
@@ -47,6 +47,44 @@ export class PathsTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (pathDB: PathDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				case 'Paths':
+					return this.frontRepo.SVGs.get(pathDB.SVG_PathsDBID.Int64)?.Name;
+
+				default:
+					return PathDB[property];
+		}
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (pathDB: PathDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the pathDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += pathDB.Name.toLowerCase()
+		mergedContent += pathDB.Definition.toLowerCase()
+		mergedContent += pathDB.Color.toLowerCase()
+		mergedContent += pathDB.FillOpacity.toString()
+		mergedContent += pathDB.Stroke.toLowerCase()
+		mergedContent += pathDB.StrokeWidth.toString()
+		mergedContent += pathDB.StrokeDashArray.toLowerCase()
+		mergedContent += pathDB.Transform.toLowerCase()
+		if (pathDB.SVG_PathsDBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.SVGs.get(pathDB.SVG_PathsDBID.Int64)?.Name.toLowerCase()
+    	}
+
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
@@ -159,14 +197,14 @@ export class PathsTableComponent implements OnInit {
 
   // display path in router
   displayPathInRouter(pathID: number) {
-    this.router.navigate(["path-display", pathID])
+    this.router.navigate(["github_com_fullstack_lang_gongsvg_go-" + "path-display", pathID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(pathID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["path-detail", pathID]
+        github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + "path-detail", pathID]
       }
     }]);
   }
@@ -175,7 +213,7 @@ export class PathsTableComponent implements OnInit {
   setPresentationRouterOutlet(pathID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["path-presentation", pathID]
+        github_com_fullstack_lang_gongsvg_go_presentation: ["github_com_fullstack_lang_gongsvg_go-" + "path-presentation", pathID]
       }
     }]);
   }

@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-polygones-table',
+  selector: 'app-polygonestable',
   templateUrl: './polygones-table.component.html',
   styleUrls: ['./polygones-table.component.css'],
 })
@@ -47,6 +47,44 @@ export class PolygonesTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (polygoneDB: PolygoneDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				case 'Polygones':
+					return this.frontRepo.SVGs.get(polygoneDB.SVG_PolygonesDBID.Int64)?.Name;
+
+				default:
+					return PolygoneDB[property];
+		}
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (polygoneDB: PolygoneDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the polygoneDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += polygoneDB.Name.toLowerCase()
+		mergedContent += polygoneDB.Points.toLowerCase()
+		mergedContent += polygoneDB.Color.toLowerCase()
+		mergedContent += polygoneDB.FillOpacity.toString()
+		mergedContent += polygoneDB.Stroke.toLowerCase()
+		mergedContent += polygoneDB.StrokeWidth.toString()
+		mergedContent += polygoneDB.StrokeDashArray.toLowerCase()
+		mergedContent += polygoneDB.Transform.toLowerCase()
+		if (polygoneDB.SVG_PolygonesDBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.SVGs.get(polygoneDB.SVG_PolygonesDBID.Int64)?.Name.toLowerCase()
+    	}
+
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
@@ -159,14 +197,14 @@ export class PolygonesTableComponent implements OnInit {
 
   // display polygone in router
   displayPolygoneInRouter(polygoneID: number) {
-    this.router.navigate(["polygone-display", polygoneID])
+    this.router.navigate(["github_com_fullstack_lang_gongsvg_go-" + "polygone-display", polygoneID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(polygoneID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["polygone-detail", polygoneID]
+        github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + "polygone-detail", polygoneID]
       }
     }]);
   }
@@ -175,7 +213,7 @@ export class PolygonesTableComponent implements OnInit {
   setPresentationRouterOutlet(polygoneID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["polygone-presentation", polygoneID]
+        github_com_fullstack_lang_gongsvg_go_presentation: ["github_com_fullstack_lang_gongsvg_go-" + "polygone-presentation", polygoneID]
       }
     }]);
   }

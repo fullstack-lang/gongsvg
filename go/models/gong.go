@@ -13,22 +13,31 @@ var __member __void
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
 	Circles map[*Circle]struct{}
+	Circles_mapString map[string]*Circle
 
 	Ellipses map[*Ellipse]struct{}
+	Ellipses_mapString map[string]*Ellipse
 
 	Lines map[*Line]struct{}
+	Lines_mapString map[string]*Line
 
 	Paths map[*Path]struct{}
+	Paths_mapString map[string]*Path
 
 	Polygones map[*Polygone]struct{}
+	Polygones_mapString map[string]*Polygone
 
 	Polylines map[*Polyline]struct{}
+	Polylines_mapString map[string]*Polyline
 
 	Rects map[*Rect]struct{}
+	Rects_mapString map[string]*Rect
 
 	SVGs map[*SVG]struct{}
+	SVGs_mapString map[string]*SVG
 
 	Texts map[*Text]struct{}
+	Texts_mapString map[string]*Text
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -49,6 +58,8 @@ type BackRepoInterface interface {
 	Checkout(stage *StageStruct)
 	Backup(stage *StageStruct, dirPath string)
 	Restore(stage *StageStruct, dirPath string)
+	BackupXL(stage *StageStruct, dirPath string)
+	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
 	CommitCircle(circle *Circle)
 	CheckoutCircle(circle *Circle)
@@ -74,23 +85,33 @@ type BackRepoInterface interface {
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
 	Circles: make(map[*Circle]struct{}, 0),
+	Circles_mapString: make(map[string]*Circle, 0),
 
 	Ellipses: make(map[*Ellipse]struct{}, 0),
+	Ellipses_mapString: make(map[string]*Ellipse, 0),
 
 	Lines: make(map[*Line]struct{}, 0),
+	Lines_mapString: make(map[string]*Line, 0),
 
 	Paths: make(map[*Path]struct{}, 0),
+	Paths_mapString: make(map[string]*Path, 0),
 
 	Polygones: make(map[*Polygone]struct{}, 0),
+	Polygones_mapString: make(map[string]*Polygone, 0),
 
 	Polylines: make(map[*Polyline]struct{}, 0),
+	Polylines_mapString: make(map[string]*Polyline, 0),
 
 	Rects: make(map[*Rect]struct{}, 0),
+	Rects_mapString: make(map[string]*Rect, 0),
 
 	SVGs: make(map[*SVG]struct{}, 0),
+	SVGs_mapString: make(map[string]*SVG, 0),
 
 	Texts: make(map[*Text]struct{}, 0),
+	Texts_mapString: make(map[string]*Text, 0),
 
+	// end of insertion point
 }
 
 func (stage *StageStruct) Commit() {
@@ -113,10 +134,23 @@ func (stage *StageStruct) Backup(dirPath string) {
 }
 
 // Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
-// Restore shall be performed only on a new database with rowids at 0 (otherwise, it will panic)
 func (stage *StageStruct) Restore(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Restore(stage, dirPath)
+	}
+}
+
+// backup generates backup files in the dirPath
+func (stage *StageStruct) BackupXL(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.BackupXL(stage, dirPath)
+	}
+}
+
+// Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
+func (stage *StageStruct) RestoreXL(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.RestoreXL(stage, dirPath)
 	}
 }
 
@@ -136,12 +170,15 @@ func (stage *StageStruct) getCircleOrderedStructWithNameField() []*Circle {
 // Stage puts circle to the model stage
 func (circle *Circle) Stage() *Circle {
 	Stage.Circles[circle] = __member
+	Stage.Circles_mapString[circle.Name] = circle
+	
 	return circle
 }
 
 // Unstage removes circle off the model stage
 func (circle *Circle) Unstage() *Circle {
 	delete(Stage.Circles, circle)
+	delete(Stage.Circles_mapString, circle.Name)
 	return circle
 }
 
@@ -235,12 +272,15 @@ func (stage *StageStruct) getEllipseOrderedStructWithNameField() []*Ellipse {
 // Stage puts ellipse to the model stage
 func (ellipse *Ellipse) Stage() *Ellipse {
 	Stage.Ellipses[ellipse] = __member
+	Stage.Ellipses_mapString[ellipse.Name] = ellipse
+	
 	return ellipse
 }
 
 // Unstage removes ellipse off the model stage
 func (ellipse *Ellipse) Unstage() *Ellipse {
 	delete(Stage.Ellipses, ellipse)
+	delete(Stage.Ellipses_mapString, ellipse.Name)
 	return ellipse
 }
 
@@ -334,12 +374,15 @@ func (stage *StageStruct) getLineOrderedStructWithNameField() []*Line {
 // Stage puts line to the model stage
 func (line *Line) Stage() *Line {
 	Stage.Lines[line] = __member
+	Stage.Lines_mapString[line.Name] = line
+	
 	return line
 }
 
 // Unstage removes line off the model stage
 func (line *Line) Unstage() *Line {
 	delete(Stage.Lines, line)
+	delete(Stage.Lines_mapString, line.Name)
 	return line
 }
 
@@ -433,12 +476,15 @@ func (stage *StageStruct) getPathOrderedStructWithNameField() []*Path {
 // Stage puts path to the model stage
 func (path *Path) Stage() *Path {
 	Stage.Paths[path] = __member
+	Stage.Paths_mapString[path.Name] = path
+	
 	return path
 }
 
 // Unstage removes path off the model stage
 func (path *Path) Unstage() *Path {
 	delete(Stage.Paths, path)
+	delete(Stage.Paths_mapString, path.Name)
 	return path
 }
 
@@ -532,12 +578,15 @@ func (stage *StageStruct) getPolygoneOrderedStructWithNameField() []*Polygone {
 // Stage puts polygone to the model stage
 func (polygone *Polygone) Stage() *Polygone {
 	Stage.Polygones[polygone] = __member
+	Stage.Polygones_mapString[polygone.Name] = polygone
+	
 	return polygone
 }
 
 // Unstage removes polygone off the model stage
 func (polygone *Polygone) Unstage() *Polygone {
 	delete(Stage.Polygones, polygone)
+	delete(Stage.Polygones_mapString, polygone.Name)
 	return polygone
 }
 
@@ -631,12 +680,15 @@ func (stage *StageStruct) getPolylineOrderedStructWithNameField() []*Polyline {
 // Stage puts polyline to the model stage
 func (polyline *Polyline) Stage() *Polyline {
 	Stage.Polylines[polyline] = __member
+	Stage.Polylines_mapString[polyline.Name] = polyline
+	
 	return polyline
 }
 
 // Unstage removes polyline off the model stage
 func (polyline *Polyline) Unstage() *Polyline {
 	delete(Stage.Polylines, polyline)
+	delete(Stage.Polylines_mapString, polyline.Name)
 	return polyline
 }
 
@@ -730,12 +782,15 @@ func (stage *StageStruct) getRectOrderedStructWithNameField() []*Rect {
 // Stage puts rect to the model stage
 func (rect *Rect) Stage() *Rect {
 	Stage.Rects[rect] = __member
+	Stage.Rects_mapString[rect.Name] = rect
+	
 	return rect
 }
 
 // Unstage removes rect off the model stage
 func (rect *Rect) Unstage() *Rect {
 	delete(Stage.Rects, rect)
+	delete(Stage.Rects_mapString, rect.Name)
 	return rect
 }
 
@@ -829,12 +884,15 @@ func (stage *StageStruct) getSVGOrderedStructWithNameField() []*SVG {
 // Stage puts svg to the model stage
 func (svg *SVG) Stage() *SVG {
 	Stage.SVGs[svg] = __member
+	Stage.SVGs_mapString[svg.Name] = svg
+	
 	return svg
 }
 
 // Unstage removes svg off the model stage
 func (svg *SVG) Unstage() *SVG {
 	delete(Stage.SVGs, svg)
+	delete(Stage.SVGs_mapString, svg.Name)
 	return svg
 }
 
@@ -928,12 +986,15 @@ func (stage *StageStruct) getTextOrderedStructWithNameField() []*Text {
 // Stage puts text to the model stage
 func (text *Text) Stage() *Text {
 	Stage.Texts[text] = __member
+	Stage.Texts_mapString[text.Name] = text
+	
 	return text
 }
 
 // Unstage removes text off the model stage
 func (text *Text) Unstage() *Text {
 	delete(Stage.Texts, text)
+	delete(Stage.Texts_mapString, text.Name)
 	return text
 }
 
@@ -1039,33 +1100,60 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Circles = make(map[*Circle]struct{}, 0)
+	stage.Circles_mapString = make(map[string]*Circle, 0)
 
 	stage.Ellipses = make(map[*Ellipse]struct{}, 0)
+	stage.Ellipses_mapString = make(map[string]*Ellipse, 0)
 
 	stage.Lines = make(map[*Line]struct{}, 0)
+	stage.Lines_mapString = make(map[string]*Line, 0)
 
 	stage.Paths = make(map[*Path]struct{}, 0)
+	stage.Paths_mapString = make(map[string]*Path, 0)
 
 	stage.Polygones = make(map[*Polygone]struct{}, 0)
+	stage.Polygones_mapString = make(map[string]*Polygone, 0)
 
 	stage.Polylines = make(map[*Polyline]struct{}, 0)
+	stage.Polylines_mapString = make(map[string]*Polyline, 0)
 
 	stage.Rects = make(map[*Rect]struct{}, 0)
+	stage.Rects_mapString = make(map[string]*Rect, 0)
 
 	stage.SVGs = make(map[*SVG]struct{}, 0)
+	stage.SVGs_mapString = make(map[string]*SVG, 0)
 
 	stage.Texts = make(map[*Text]struct{}, 0)
+	stage.Texts_mapString = make(map[string]*Text, 0)
 
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Circles = nil
+	stage.Circles_mapString = nil
+
 	stage.Ellipses = nil
+	stage.Ellipses_mapString = nil
+
 	stage.Lines = nil
+	stage.Lines_mapString = nil
+
 	stage.Paths = nil
+	stage.Paths_mapString = nil
+
 	stage.Polygones = nil
+	stage.Polygones_mapString = nil
+
 	stage.Polylines = nil
+	stage.Polylines_mapString = nil
+
 	stage.Rects = nil
+	stage.Rects_mapString = nil
+
 	stage.SVGs = nil
+	stage.SVGs_mapString = nil
+
 	stage.Texts = nil
+	stage.Texts_mapString = nil
+
 }

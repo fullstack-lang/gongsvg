@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-texts-table',
+  selector: 'app-textstable',
   templateUrl: './texts-table.component.html',
   styleUrls: ['./texts-table.component.css'],
 })
@@ -47,6 +47,46 @@ export class TextsTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (textDB: TextDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				case 'Texts':
+					return this.frontRepo.SVGs.get(textDB.SVG_TextsDBID.Int64)?.Name;
+
+				default:
+					return TextDB[property];
+		}
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (textDB: TextDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the textDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += textDB.Name.toLowerCase()
+		mergedContent += textDB.X.toString()
+		mergedContent += textDB.Y.toString()
+		mergedContent += textDB.Content.toLowerCase()
+		mergedContent += textDB.Color.toLowerCase()
+		mergedContent += textDB.FillOpacity.toString()
+		mergedContent += textDB.Stroke.toLowerCase()
+		mergedContent += textDB.StrokeWidth.toString()
+		mergedContent += textDB.StrokeDashArray.toLowerCase()
+		mergedContent += textDB.Transform.toLowerCase()
+		if (textDB.SVG_TextsDBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.SVGs.get(textDB.SVG_TextsDBID.Int64)?.Name.toLowerCase()
+    	}
+
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
@@ -163,14 +203,14 @@ export class TextsTableComponent implements OnInit {
 
   // display text in router
   displayTextInRouter(textID: number) {
-    this.router.navigate(["text-display", textID])
+    this.router.navigate(["github_com_fullstack_lang_gongsvg_go-" + "text-display", textID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(textID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["text-detail", textID]
+        github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + "text-detail", textID]
       }
     }]);
   }
@@ -179,7 +219,7 @@ export class TextsTableComponent implements OnInit {
   setPresentationRouterOutlet(textID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["text-presentation", textID]
+        github_com_fullstack_lang_gongsvg_go_presentation: ["github_com_fullstack_lang_gongsvg_go-" + "text-presentation", textID]
       }
     }]);
   }

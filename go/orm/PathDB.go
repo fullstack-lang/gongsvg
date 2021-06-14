@@ -13,7 +13,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+
+	"github.com/tealeg/xlsx/v3"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
@@ -97,6 +99,45 @@ type PathDBs []PathDB
 type PathDBResponse struct {
 	PathDB
 }
+
+// PathWOP is a Path without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type PathWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	Definition string
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeDashArray string
+
+	Transform string
+	// insertion for WOP pointer fields
+}
+
+var Path_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"Definition",
+	"Color",
+	"FillOpacity",
+	"Stroke",
+	"StrokeWidth",
+	"StrokeDashArray",
+	"Transform",
+}
+
 
 type BackRepoPathStruct struct {
 	// stores PathDB according to their gorm ID
@@ -287,6 +328,7 @@ func (backRepoPath *BackRepoPathStruct) CheckoutPhaseOneInstance(pathDB *PathDB)
 		(*backRepoPath.Map_PathPtr_PathDBID)[path] = pathDB.ID
 
 		// append model store with the new element
+		path.Name = pathDB.Name_Data.String
 		path.Stage()
 	}
 	pathDB.CopyBasicFieldsToPath(path)
@@ -348,7 +390,7 @@ func (backRepo *BackRepoStruct) CheckoutPath(path *models.Path) {
 	}
 }
 
-// CopyBasicFieldsToPathDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromPath
 func (pathDB *PathDB) CopyBasicFieldsFromPath(path *models.Path) {
 	// insertion point for fields commit
 	pathDB.Name_Data.String = path.Name
@@ -377,9 +419,51 @@ func (pathDB *PathDB) CopyBasicFieldsFromPath(path *models.Path) {
 
 }
 
-// CopyBasicFieldsToPathDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (pathDB *PathDB) CopyBasicFieldsToPath(path *models.Path) {
+// CopyBasicFieldsFromPathWOP
+func (pathDB *PathDB) CopyBasicFieldsFromPathWOP(path *PathWOP) {
+	// insertion point for fields commit
+	pathDB.Name_Data.String = path.Name
+	pathDB.Name_Data.Valid = true
 
+	pathDB.Definition_Data.String = path.Definition
+	pathDB.Definition_Data.Valid = true
+
+	pathDB.Color_Data.String = path.Color
+	pathDB.Color_Data.Valid = true
+
+	pathDB.FillOpacity_Data.Float64 = path.FillOpacity
+	pathDB.FillOpacity_Data.Valid = true
+
+	pathDB.Stroke_Data.String = path.Stroke
+	pathDB.Stroke_Data.Valid = true
+
+	pathDB.StrokeWidth_Data.Float64 = path.StrokeWidth
+	pathDB.StrokeWidth_Data.Valid = true
+
+	pathDB.StrokeDashArray_Data.String = path.StrokeDashArray
+	pathDB.StrokeDashArray_Data.Valid = true
+
+	pathDB.Transform_Data.String = path.Transform
+	pathDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToPath
+func (pathDB *PathDB) CopyBasicFieldsToPath(path *models.Path) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	path.Name = pathDB.Name_Data.String
+	path.Definition = pathDB.Definition_Data.String
+	path.Color = pathDB.Color_Data.String
+	path.FillOpacity = pathDB.FillOpacity_Data.Float64
+	path.Stroke = pathDB.Stroke_Data.String
+	path.StrokeWidth = pathDB.StrokeWidth_Data.Float64
+	path.StrokeDashArray = pathDB.StrokeDashArray_Data.String
+	path.Transform = pathDB.Transform_Data.String
+}
+
+// CopyBasicFieldsToPathWOP
+func (pathDB *PathDB) CopyBasicFieldsToPathWOP(path *PathWOP) {
+	path.ID = int(pathDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	path.Name = pathDB.Name_Data.String
 	path.Definition = pathDB.Definition_Data.String
@@ -416,6 +500,38 @@ func (backRepoPath *BackRepoPathStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Path file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all PathDB instances in the backrepo
+func (backRepoPath *BackRepoPathStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*PathDB, 0)
+	for _, pathDB := range *backRepoPath.Map_PathDBID_PathDB {
+		forBackup = append(forBackup, pathDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Path")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&Path_Fields, -1)
+	for _, pathDB := range forBackup {
+
+		var pathWOP PathWOP
+		pathDB.CopyBasicFieldsToPathWOP(&pathWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&pathWOP, -1)
 	}
 }
 

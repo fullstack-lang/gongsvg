@@ -13,7 +13,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+
+	"github.com/tealeg/xlsx/v3"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
@@ -103,6 +105,51 @@ type TextDBs []TextDB
 type TextDBResponse struct {
 	TextDB
 }
+
+// TextWOP is a Text without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type TextWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	X float64
+
+	Y float64
+
+	Content string
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeDashArray string
+
+	Transform string
+	// insertion for WOP pointer fields
+}
+
+var Text_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"X",
+	"Y",
+	"Content",
+	"Color",
+	"FillOpacity",
+	"Stroke",
+	"StrokeWidth",
+	"StrokeDashArray",
+	"Transform",
+}
+
 
 type BackRepoTextStruct struct {
 	// stores TextDB according to their gorm ID
@@ -293,6 +340,7 @@ func (backRepoText *BackRepoTextStruct) CheckoutPhaseOneInstance(textDB *TextDB)
 		(*backRepoText.Map_TextPtr_TextDBID)[text] = textDB.ID
 
 		// append model store with the new element
+		text.Name = textDB.Name_Data.String
 		text.Stage()
 	}
 	textDB.CopyBasicFieldsToText(text)
@@ -354,7 +402,7 @@ func (backRepo *BackRepoStruct) CheckoutText(text *models.Text) {
 	}
 }
 
-// CopyBasicFieldsToTextDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromText
 func (textDB *TextDB) CopyBasicFieldsFromText(text *models.Text) {
 	// insertion point for fields commit
 	textDB.Name_Data.String = text.Name
@@ -389,9 +437,59 @@ func (textDB *TextDB) CopyBasicFieldsFromText(text *models.Text) {
 
 }
 
-// CopyBasicFieldsToTextDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (textDB *TextDB) CopyBasicFieldsToText(text *models.Text) {
+// CopyBasicFieldsFromTextWOP
+func (textDB *TextDB) CopyBasicFieldsFromTextWOP(text *TextWOP) {
+	// insertion point for fields commit
+	textDB.Name_Data.String = text.Name
+	textDB.Name_Data.Valid = true
 
+	textDB.X_Data.Float64 = text.X
+	textDB.X_Data.Valid = true
+
+	textDB.Y_Data.Float64 = text.Y
+	textDB.Y_Data.Valid = true
+
+	textDB.Content_Data.String = text.Content
+	textDB.Content_Data.Valid = true
+
+	textDB.Color_Data.String = text.Color
+	textDB.Color_Data.Valid = true
+
+	textDB.FillOpacity_Data.Float64 = text.FillOpacity
+	textDB.FillOpacity_Data.Valid = true
+
+	textDB.Stroke_Data.String = text.Stroke
+	textDB.Stroke_Data.Valid = true
+
+	textDB.StrokeWidth_Data.Float64 = text.StrokeWidth
+	textDB.StrokeWidth_Data.Valid = true
+
+	textDB.StrokeDashArray_Data.String = text.StrokeDashArray
+	textDB.StrokeDashArray_Data.Valid = true
+
+	textDB.Transform_Data.String = text.Transform
+	textDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToText
+func (textDB *TextDB) CopyBasicFieldsToText(text *models.Text) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	text.Name = textDB.Name_Data.String
+	text.X = textDB.X_Data.Float64
+	text.Y = textDB.Y_Data.Float64
+	text.Content = textDB.Content_Data.String
+	text.Color = textDB.Color_Data.String
+	text.FillOpacity = textDB.FillOpacity_Data.Float64
+	text.Stroke = textDB.Stroke_Data.String
+	text.StrokeWidth = textDB.StrokeWidth_Data.Float64
+	text.StrokeDashArray = textDB.StrokeDashArray_Data.String
+	text.Transform = textDB.Transform_Data.String
+}
+
+// CopyBasicFieldsToTextWOP
+func (textDB *TextDB) CopyBasicFieldsToTextWOP(text *TextWOP) {
+	text.ID = int(textDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	text.Name = textDB.Name_Data.String
 	text.X = textDB.X_Data.Float64
@@ -430,6 +528,38 @@ func (backRepoText *BackRepoTextStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Text file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all TextDB instances in the backrepo
+func (backRepoText *BackRepoTextStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*TextDB, 0)
+	for _, textDB := range *backRepoText.Map_TextDBID_TextDB {
+		forBackup = append(forBackup, textDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Text")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&Text_Fields, -1)
+	for _, textDB := range forBackup {
+
+		var textWOP TextWOP
+		textDB.CopyBasicFieldsToTextWOP(&textWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&textWOP, -1)
 	}
 }
 

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { PolygoneDB } from '../polygone-db'
 import { PolygoneService } from '../polygone.service'
+
+import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
@@ -25,9 +27,13 @@ export class PolygonePresentationComponent implements OnInit {
 	dataSource = ELEMENT_DATA;
 
 	polygone: PolygoneDB;
+
+	// front repo
+	frontRepo: FrontRepo
  
 	constructor(
 		private polygoneService: PolygoneService,
+		private frontRepoService: FrontRepoService,
 		private route: ActivatedRoute,
 		private router: Router,
 	) {
@@ -51,22 +57,22 @@ export class PolygonePresentationComponent implements OnInit {
 
 	getPolygone(): void {
 		const id = +this.route.snapshot.paramMap.get('id');
-		this.polygoneService.getPolygone(id)
-			.subscribe(
-				polygone => {
-					this.polygone = polygone
+		this.frontRepoService.pull().subscribe(
+			frontRepo => {
+				this.frontRepo = frontRepo
 
-					// insertion point for recovery of durations
+				this.polygone = this.frontRepo.Polygones.get(id)
 
-				}
-			);
+				// insertion point for recovery of durations
+			}
+		);
 	}
 
 	// set presentation outlet
 	setPresentationRouterOutlet(structName: string, ID: number) {
 		this.router.navigate([{
 			outlets: {
-				presentation: [structName + "-presentation", ID]
+				github_com_fullstack_lang_gongsvg_go_presentation: ["github_com_fullstack_lang_gongsvg_go-" + structName + "-presentation", ID]
 			}
 		}]);
 	}
@@ -75,7 +81,7 @@ export class PolygonePresentationComponent implements OnInit {
 	setEditorRouterOutlet(ID: number) {
 		this.router.navigate([{
 			outlets: {
-				editor: ["polygone-detail", ID]
+				github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + "polygone-detail", ID]
 			}
 		}]);
 	}

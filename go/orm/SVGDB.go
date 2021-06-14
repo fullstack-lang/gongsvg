@@ -13,7 +13,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+
+	"github.com/tealeg/xlsx/v3"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
@@ -75,6 +77,27 @@ type SVGDBs []SVGDB
 type SVGDBResponse struct {
 	SVGDB
 }
+
+// SVGWOP is a SVG without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type SVGWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Display bool
+
+	Name string
+	// insertion for WOP pointer fields
+}
+
+var SVG_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Display",
+	"Name",
+}
+
 
 type BackRepoSVGStruct struct {
 	// stores SVGDB according to their gorm ID
@@ -417,6 +440,7 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseOneInstance(svgDB *SVGDB) (Er
 		(*backRepoSVG.Map_SVGPtr_SVGDBID)[svg] = svgDB.ID
 
 		// append model store with the new element
+		svg.Name = svgDB.Name_Data.String
 		svg.Stage()
 	}
 	svgDB.CopyBasicFieldsToSVG(svg)
@@ -694,7 +718,7 @@ func (backRepo *BackRepoStruct) CheckoutSVG(svg *models.SVG) {
 	}
 }
 
-// CopyBasicFieldsToSVGDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromSVG
 func (svgDB *SVGDB) CopyBasicFieldsFromSVG(svg *models.SVG) {
 	// insertion point for fields commit
 	svgDB.Display_Data.Bool = svg.Display
@@ -705,9 +729,27 @@ func (svgDB *SVGDB) CopyBasicFieldsFromSVG(svg *models.SVG) {
 
 }
 
-// CopyBasicFieldsToSVGDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (svgDB *SVGDB) CopyBasicFieldsToSVG(svg *models.SVG) {
+// CopyBasicFieldsFromSVGWOP
+func (svgDB *SVGDB) CopyBasicFieldsFromSVGWOP(svg *SVGWOP) {
+	// insertion point for fields commit
+	svgDB.Display_Data.Bool = svg.Display
+	svgDB.Display_Data.Valid = true
 
+	svgDB.Name_Data.String = svg.Name
+	svgDB.Name_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToSVG
+func (svgDB *SVGDB) CopyBasicFieldsToSVG(svg *models.SVG) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	svg.Display = svgDB.Display_Data.Bool
+	svg.Name = svgDB.Name_Data.String
+}
+
+// CopyBasicFieldsToSVGWOP
+func (svgDB *SVGDB) CopyBasicFieldsToSVGWOP(svg *SVGWOP) {
+	svg.ID = int(svgDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	svg.Display = svgDB.Display_Data.Bool
 	svg.Name = svgDB.Name_Data.String
@@ -738,6 +780,38 @@ func (backRepoSVG *BackRepoSVGStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json SVG file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all SVGDB instances in the backrepo
+func (backRepoSVG *BackRepoSVGStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*SVGDB, 0)
+	for _, svgDB := range *backRepoSVG.Map_SVGDBID_SVGDB {
+		forBackup = append(forBackup, svgDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("SVG")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&SVG_Fields, -1)
+	for _, svgDB := range forBackup {
+
+		var svgWOP SVGWOP
+		svgDB.CopyBasicFieldsToSVGWOP(&svgWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&svgWOP, -1)
 	}
 }
 

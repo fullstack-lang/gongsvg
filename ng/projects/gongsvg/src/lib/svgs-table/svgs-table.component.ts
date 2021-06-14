@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-svgs-table',
+  selector: 'app-svgstable',
   templateUrl: './svgs-table.component.html',
   styleUrls: ['./svgs-table.component.css'],
 })
@@ -47,6 +47,30 @@ export class SVGsTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (svgDB: SVGDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				default:
+					return SVGDB[property];
+		}
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (svgDB: SVGDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the svgDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += svgDB.Name.toLowerCase()
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
@@ -145,14 +169,14 @@ export class SVGsTableComponent implements OnInit {
 
   // display svg in router
   displaySVGInRouter(svgID: number) {
-    this.router.navigate(["svg-display", svgID])
+    this.router.navigate(["github_com_fullstack_lang_gongsvg_go-" + "svg-display", svgID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(svgID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["svg-detail", svgID]
+        github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + "svg-detail", svgID]
       }
     }]);
   }
@@ -161,7 +185,7 @@ export class SVGsTableComponent implements OnInit {
   setPresentationRouterOutlet(svgID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["svg-presentation", svgID]
+        github_com_fullstack_lang_gongsvg_go_presentation: ["github_com_fullstack_lang_gongsvg_go-" + "svg-presentation", svgID]
       }
     }]);
   }

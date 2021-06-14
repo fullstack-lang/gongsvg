@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-lines-table',
+  selector: 'app-linestable',
   templateUrl: './lines-table.component.html',
   styleUrls: ['./lines-table.component.css'],
 })
@@ -47,6 +47,47 @@ export class LinesTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (lineDB: LineDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				case 'Lines':
+					return this.frontRepo.SVGs.get(lineDB.SVG_LinesDBID.Int64)?.Name;
+
+				default:
+					return LineDB[property];
+		}
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (lineDB: LineDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the lineDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += lineDB.Name.toLowerCase()
+		mergedContent += lineDB.X1.toString()
+		mergedContent += lineDB.Y1.toString()
+		mergedContent += lineDB.X2.toString()
+		mergedContent += lineDB.Y2.toString()
+		mergedContent += lineDB.Color.toLowerCase()
+		mergedContent += lineDB.FillOpacity.toString()
+		mergedContent += lineDB.Stroke.toLowerCase()
+		mergedContent += lineDB.StrokeWidth.toString()
+		mergedContent += lineDB.StrokeDashArray.toLowerCase()
+		mergedContent += lineDB.Transform.toLowerCase()
+		if (lineDB.SVG_LinesDBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.SVGs.get(lineDB.SVG_LinesDBID.Int64)?.Name.toLowerCase()
+    	}
+
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
@@ -165,14 +206,14 @@ export class LinesTableComponent implements OnInit {
 
   // display line in router
   displayLineInRouter(lineID: number) {
-    this.router.navigate(["line-display", lineID])
+    this.router.navigate(["github_com_fullstack_lang_gongsvg_go-" + "line-display", lineID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(lineID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["line-detail", lineID]
+        github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + "line-detail", lineID]
       }
     }]);
   }
@@ -181,7 +222,7 @@ export class LinesTableComponent implements OnInit {
   setPresentationRouterOutlet(lineID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["line-presentation", lineID]
+        github_com_fullstack_lang_gongsvg_go_presentation: ["github_com_fullstack_lang_gongsvg_go-" + "line-presentation", lineID]
       }
     }]);
   }

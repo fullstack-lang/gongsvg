@@ -13,7 +13,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+
+	"github.com/tealeg/xlsx/v3"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
@@ -106,6 +108,54 @@ type LineDBs []LineDB
 type LineDBResponse struct {
 	LineDB
 }
+
+// LineWOP is a Line without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type LineWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	X1 float64
+
+	Y1 float64
+
+	X2 float64
+
+	Y2 float64
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeDashArray string
+
+	Transform string
+	// insertion for WOP pointer fields
+}
+
+var Line_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"X1",
+	"Y1",
+	"X2",
+	"Y2",
+	"Color",
+	"FillOpacity",
+	"Stroke",
+	"StrokeWidth",
+	"StrokeDashArray",
+	"Transform",
+}
+
 
 type BackRepoLineStruct struct {
 	// stores LineDB according to their gorm ID
@@ -296,6 +346,7 @@ func (backRepoLine *BackRepoLineStruct) CheckoutPhaseOneInstance(lineDB *LineDB)
 		(*backRepoLine.Map_LinePtr_LineDBID)[line] = lineDB.ID
 
 		// append model store with the new element
+		line.Name = lineDB.Name_Data.String
 		line.Stage()
 	}
 	lineDB.CopyBasicFieldsToLine(line)
@@ -357,7 +408,7 @@ func (backRepo *BackRepoStruct) CheckoutLine(line *models.Line) {
 	}
 }
 
-// CopyBasicFieldsToLineDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromLine
 func (lineDB *LineDB) CopyBasicFieldsFromLine(line *models.Line) {
 	// insertion point for fields commit
 	lineDB.Name_Data.String = line.Name
@@ -395,9 +446,63 @@ func (lineDB *LineDB) CopyBasicFieldsFromLine(line *models.Line) {
 
 }
 
-// CopyBasicFieldsToLineDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (lineDB *LineDB) CopyBasicFieldsToLine(line *models.Line) {
+// CopyBasicFieldsFromLineWOP
+func (lineDB *LineDB) CopyBasicFieldsFromLineWOP(line *LineWOP) {
+	// insertion point for fields commit
+	lineDB.Name_Data.String = line.Name
+	lineDB.Name_Data.Valid = true
 
+	lineDB.X1_Data.Float64 = line.X1
+	lineDB.X1_Data.Valid = true
+
+	lineDB.Y1_Data.Float64 = line.Y1
+	lineDB.Y1_Data.Valid = true
+
+	lineDB.X2_Data.Float64 = line.X2
+	lineDB.X2_Data.Valid = true
+
+	lineDB.Y2_Data.Float64 = line.Y2
+	lineDB.Y2_Data.Valid = true
+
+	lineDB.Color_Data.String = line.Color
+	lineDB.Color_Data.Valid = true
+
+	lineDB.FillOpacity_Data.Float64 = line.FillOpacity
+	lineDB.FillOpacity_Data.Valid = true
+
+	lineDB.Stroke_Data.String = line.Stroke
+	lineDB.Stroke_Data.Valid = true
+
+	lineDB.StrokeWidth_Data.Float64 = line.StrokeWidth
+	lineDB.StrokeWidth_Data.Valid = true
+
+	lineDB.StrokeDashArray_Data.String = line.StrokeDashArray
+	lineDB.StrokeDashArray_Data.Valid = true
+
+	lineDB.Transform_Data.String = line.Transform
+	lineDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToLine
+func (lineDB *LineDB) CopyBasicFieldsToLine(line *models.Line) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	line.Name = lineDB.Name_Data.String
+	line.X1 = lineDB.X1_Data.Float64
+	line.Y1 = lineDB.Y1_Data.Float64
+	line.X2 = lineDB.X2_Data.Float64
+	line.Y2 = lineDB.Y2_Data.Float64
+	line.Color = lineDB.Color_Data.String
+	line.FillOpacity = lineDB.FillOpacity_Data.Float64
+	line.Stroke = lineDB.Stroke_Data.String
+	line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
+	line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
+	line.Transform = lineDB.Transform_Data.String
+}
+
+// CopyBasicFieldsToLineWOP
+func (lineDB *LineDB) CopyBasicFieldsToLineWOP(line *LineWOP) {
+	line.ID = int(lineDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	line.Name = lineDB.Name_Data.String
 	line.X1 = lineDB.X1_Data.Float64
@@ -437,6 +542,38 @@ func (backRepoLine *BackRepoLineStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Line file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all LineDB instances in the backrepo
+func (backRepoLine *BackRepoLineStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*LineDB, 0)
+	for _, lineDB := range *backRepoLine.Map_LineDBID_LineDB {
+		forBackup = append(forBackup, lineDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Line")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&Line_Fields, -1)
+	for _, lineDB := range forBackup {
+
+		var lineWOP LineWOP
+		lineDB.CopyBasicFieldsToLineWOP(&lineWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&lineWOP, -1)
 	}
 }
 

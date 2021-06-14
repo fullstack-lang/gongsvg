@@ -40,7 +40,6 @@ func main() {
 		// setup GORM
 		db := orm.SetupModels(*logDBFlag, "./test.db")
 		// mandatory, otherwise, bizarre errors occurs
-		db.DB().SetMaxOpenConns(1)
 		orm.AutoMigrate(db)
 		orm.BackRepo.Init(db)
 		models.Stage.Checkout()
@@ -53,7 +52,6 @@ func main() {
 		// setup GORM
 		db := orm.SetupModels(*logDBFlag, "./test.db")
 		// mandatory, otherwise, bizarre errors occurs
-		db.DB().SetMaxOpenConns(1)
 		orm.AutoMigrate(db)
 		orm.BackRepo.Init(db)
 		models.Stage.Restore("bckp")
@@ -72,7 +70,6 @@ func main() {
 	// setup GORM
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 	// mandatory, otherwise, bizarre errors occurs
-	db.DB().SetMaxOpenConns(1)
 	orm.BackRepo.Init(db)
 
 	controllers.RegisterControllers(r)

@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-rects-table',
+  selector: 'app-rectstable',
   templateUrl: './rects-table.component.html',
   styleUrls: ['./rects-table.component.css'],
 })
@@ -47,6 +47,48 @@ export class RectsTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (rectDB: RectDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				case 'Rects':
+					return this.frontRepo.SVGs.get(rectDB.SVG_RectsDBID.Int64)?.Name;
+
+				default:
+					return RectDB[property];
+		}
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (rectDB: RectDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the rectDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += rectDB.Name.toLowerCase()
+		mergedContent += rectDB.X.toString()
+		mergedContent += rectDB.Y.toString()
+		mergedContent += rectDB.Width.toString()
+		mergedContent += rectDB.Height.toString()
+		mergedContent += rectDB.RX.toString()
+		mergedContent += rectDB.Color.toLowerCase()
+		mergedContent += rectDB.FillOpacity.toString()
+		mergedContent += rectDB.Stroke.toLowerCase()
+		mergedContent += rectDB.StrokeWidth.toString()
+		mergedContent += rectDB.StrokeDashArray.toLowerCase()
+		mergedContent += rectDB.Transform.toLowerCase()
+		if (rectDB.SVG_RectsDBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.SVGs.get(rectDB.SVG_RectsDBID.Int64)?.Name.toLowerCase()
+    	}
+
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
@@ -167,14 +209,14 @@ export class RectsTableComponent implements OnInit {
 
   // display rect in router
   displayRectInRouter(rectID: number) {
-    this.router.navigate(["rect-display", rectID])
+    this.router.navigate(["github_com_fullstack_lang_gongsvg_go-" + "rect-display", rectID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(rectID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["rect-detail", rectID]
+        github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + "rect-detail", rectID]
       }
     }]);
   }
@@ -183,7 +225,7 @@ export class RectsTableComponent implements OnInit {
   setPresentationRouterOutlet(rectID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["rect-presentation", rectID]
+        github_com_fullstack_lang_gongsvg_go_presentation: ["github_com_fullstack_lang_gongsvg_go-" + "rect-presentation", rectID]
       }
     }]);
   }

@@ -13,7 +13,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+
+	"github.com/tealeg/xlsx/v3"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
@@ -103,6 +105,51 @@ type CircleDBs []CircleDB
 type CircleDBResponse struct {
 	CircleDB
 }
+
+// CircleWOP is a Circle without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type CircleWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	CX float64
+
+	CY float64
+
+	Radius float64
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeDashArray string
+
+	Transform string
+	// insertion for WOP pointer fields
+}
+
+var Circle_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"CX",
+	"CY",
+	"Radius",
+	"Color",
+	"FillOpacity",
+	"Stroke",
+	"StrokeWidth",
+	"StrokeDashArray",
+	"Transform",
+}
+
 
 type BackRepoCircleStruct struct {
 	// stores CircleDB according to their gorm ID
@@ -293,6 +340,7 @@ func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseOneInstance(circleDB *C
 		(*backRepoCircle.Map_CirclePtr_CircleDBID)[circle] = circleDB.ID
 
 		// append model store with the new element
+		circle.Name = circleDB.Name_Data.String
 		circle.Stage()
 	}
 	circleDB.CopyBasicFieldsToCircle(circle)
@@ -354,7 +402,7 @@ func (backRepo *BackRepoStruct) CheckoutCircle(circle *models.Circle) {
 	}
 }
 
-// CopyBasicFieldsToCircleDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromCircle
 func (circleDB *CircleDB) CopyBasicFieldsFromCircle(circle *models.Circle) {
 	// insertion point for fields commit
 	circleDB.Name_Data.String = circle.Name
@@ -389,9 +437,59 @@ func (circleDB *CircleDB) CopyBasicFieldsFromCircle(circle *models.Circle) {
 
 }
 
-// CopyBasicFieldsToCircleDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (circleDB *CircleDB) CopyBasicFieldsToCircle(circle *models.Circle) {
+// CopyBasicFieldsFromCircleWOP
+func (circleDB *CircleDB) CopyBasicFieldsFromCircleWOP(circle *CircleWOP) {
+	// insertion point for fields commit
+	circleDB.Name_Data.String = circle.Name
+	circleDB.Name_Data.Valid = true
 
+	circleDB.CX_Data.Float64 = circle.CX
+	circleDB.CX_Data.Valid = true
+
+	circleDB.CY_Data.Float64 = circle.CY
+	circleDB.CY_Data.Valid = true
+
+	circleDB.Radius_Data.Float64 = circle.Radius
+	circleDB.Radius_Data.Valid = true
+
+	circleDB.Color_Data.String = circle.Color
+	circleDB.Color_Data.Valid = true
+
+	circleDB.FillOpacity_Data.Float64 = circle.FillOpacity
+	circleDB.FillOpacity_Data.Valid = true
+
+	circleDB.Stroke_Data.String = circle.Stroke
+	circleDB.Stroke_Data.Valid = true
+
+	circleDB.StrokeWidth_Data.Float64 = circle.StrokeWidth
+	circleDB.StrokeWidth_Data.Valid = true
+
+	circleDB.StrokeDashArray_Data.String = circle.StrokeDashArray
+	circleDB.StrokeDashArray_Data.Valid = true
+
+	circleDB.Transform_Data.String = circle.Transform
+	circleDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToCircle
+func (circleDB *CircleDB) CopyBasicFieldsToCircle(circle *models.Circle) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	circle.Name = circleDB.Name_Data.String
+	circle.CX = circleDB.CX_Data.Float64
+	circle.CY = circleDB.CY_Data.Float64
+	circle.Radius = circleDB.Radius_Data.Float64
+	circle.Color = circleDB.Color_Data.String
+	circle.FillOpacity = circleDB.FillOpacity_Data.Float64
+	circle.Stroke = circleDB.Stroke_Data.String
+	circle.StrokeWidth = circleDB.StrokeWidth_Data.Float64
+	circle.StrokeDashArray = circleDB.StrokeDashArray_Data.String
+	circle.Transform = circleDB.Transform_Data.String
+}
+
+// CopyBasicFieldsToCircleWOP
+func (circleDB *CircleDB) CopyBasicFieldsToCircleWOP(circle *CircleWOP) {
+	circle.ID = int(circleDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	circle.Name = circleDB.Name_Data.String
 	circle.CX = circleDB.CX_Data.Float64
@@ -430,6 +528,38 @@ func (backRepoCircle *BackRepoCircleStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Circle file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all CircleDB instances in the backrepo
+func (backRepoCircle *BackRepoCircleStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*CircleDB, 0)
+	for _, circleDB := range *backRepoCircle.Map_CircleDBID_CircleDB {
+		forBackup = append(forBackup, circleDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Circle")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&Circle_Fields, -1)
+	for _, circleDB := range forBackup {
+
+		var circleWOP CircleWOP
+		circleDB.CopyBasicFieldsToCircleWOP(&circleWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&circleWOP, -1)
 	}
 }
 

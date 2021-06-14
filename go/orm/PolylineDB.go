@@ -13,7 +13,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+
+	"github.com/tealeg/xlsx/v3"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
@@ -97,6 +99,45 @@ type PolylineDBs []PolylineDB
 type PolylineDBResponse struct {
 	PolylineDB
 }
+
+// PolylineWOP is a Polyline without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type PolylineWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	Points string
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeDashArray string
+
+	Transform string
+	// insertion for WOP pointer fields
+}
+
+var Polyline_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"Points",
+	"Color",
+	"FillOpacity",
+	"Stroke",
+	"StrokeWidth",
+	"StrokeDashArray",
+	"Transform",
+}
+
 
 type BackRepoPolylineStruct struct {
 	// stores PolylineDB according to their gorm ID
@@ -287,6 +328,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) CheckoutPhaseOneInstance(polylin
 		(*backRepoPolyline.Map_PolylinePtr_PolylineDBID)[polyline] = polylineDB.ID
 
 		// append model store with the new element
+		polyline.Name = polylineDB.Name_Data.String
 		polyline.Stage()
 	}
 	polylineDB.CopyBasicFieldsToPolyline(polyline)
@@ -348,7 +390,7 @@ func (backRepo *BackRepoStruct) CheckoutPolyline(polyline *models.Polyline) {
 	}
 }
 
-// CopyBasicFieldsToPolylineDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromPolyline
 func (polylineDB *PolylineDB) CopyBasicFieldsFromPolyline(polyline *models.Polyline) {
 	// insertion point for fields commit
 	polylineDB.Name_Data.String = polyline.Name
@@ -377,9 +419,51 @@ func (polylineDB *PolylineDB) CopyBasicFieldsFromPolyline(polyline *models.Polyl
 
 }
 
-// CopyBasicFieldsToPolylineDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (polylineDB *PolylineDB) CopyBasicFieldsToPolyline(polyline *models.Polyline) {
+// CopyBasicFieldsFromPolylineWOP
+func (polylineDB *PolylineDB) CopyBasicFieldsFromPolylineWOP(polyline *PolylineWOP) {
+	// insertion point for fields commit
+	polylineDB.Name_Data.String = polyline.Name
+	polylineDB.Name_Data.Valid = true
 
+	polylineDB.Points_Data.String = polyline.Points
+	polylineDB.Points_Data.Valid = true
+
+	polylineDB.Color_Data.String = polyline.Color
+	polylineDB.Color_Data.Valid = true
+
+	polylineDB.FillOpacity_Data.Float64 = polyline.FillOpacity
+	polylineDB.FillOpacity_Data.Valid = true
+
+	polylineDB.Stroke_Data.String = polyline.Stroke
+	polylineDB.Stroke_Data.Valid = true
+
+	polylineDB.StrokeWidth_Data.Float64 = polyline.StrokeWidth
+	polylineDB.StrokeWidth_Data.Valid = true
+
+	polylineDB.StrokeDashArray_Data.String = polyline.StrokeDashArray
+	polylineDB.StrokeDashArray_Data.Valid = true
+
+	polylineDB.Transform_Data.String = polyline.Transform
+	polylineDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToPolyline
+func (polylineDB *PolylineDB) CopyBasicFieldsToPolyline(polyline *models.Polyline) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	polyline.Name = polylineDB.Name_Data.String
+	polyline.Points = polylineDB.Points_Data.String
+	polyline.Color = polylineDB.Color_Data.String
+	polyline.FillOpacity = polylineDB.FillOpacity_Data.Float64
+	polyline.Stroke = polylineDB.Stroke_Data.String
+	polyline.StrokeWidth = polylineDB.StrokeWidth_Data.Float64
+	polyline.StrokeDashArray = polylineDB.StrokeDashArray_Data.String
+	polyline.Transform = polylineDB.Transform_Data.String
+}
+
+// CopyBasicFieldsToPolylineWOP
+func (polylineDB *PolylineDB) CopyBasicFieldsToPolylineWOP(polyline *PolylineWOP) {
+	polyline.ID = int(polylineDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	polyline.Name = polylineDB.Name_Data.String
 	polyline.Points = polylineDB.Points_Data.String
@@ -416,6 +500,38 @@ func (backRepoPolyline *BackRepoPolylineStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Polyline file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all PolylineDB instances in the backrepo
+func (backRepoPolyline *BackRepoPolylineStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*PolylineDB, 0)
+	for _, polylineDB := range *backRepoPolyline.Map_PolylineDBID_PolylineDB {
+		forBackup = append(forBackup, polylineDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Polyline")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&Polyline_Fields, -1)
+	for _, polylineDB := range forBackup {
+
+		var polylineWOP PolylineWOP
+		polylineDB.CopyBasicFieldsToPolylineWOP(&polylineWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&polylineWOP, -1)
 	}
 }
 

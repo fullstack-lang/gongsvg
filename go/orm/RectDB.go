@@ -13,7 +13,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+
+	"github.com/tealeg/xlsx/v3"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
@@ -109,6 +111,57 @@ type RectDBs []RectDB
 type RectDBResponse struct {
 	RectDB
 }
+
+// RectWOP is a Rect without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type RectWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	RX float64
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeDashArray string
+
+	Transform string
+	// insertion for WOP pointer fields
+}
+
+var Rect_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"X",
+	"Y",
+	"Width",
+	"Height",
+	"RX",
+	"Color",
+	"FillOpacity",
+	"Stroke",
+	"StrokeWidth",
+	"StrokeDashArray",
+	"Transform",
+}
+
 
 type BackRepoRectStruct struct {
 	// stores RectDB according to their gorm ID
@@ -299,6 +352,7 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseOneInstance(rectDB *RectDB)
 		(*backRepoRect.Map_RectPtr_RectDBID)[rect] = rectDB.ID
 
 		// append model store with the new element
+		rect.Name = rectDB.Name_Data.String
 		rect.Stage()
 	}
 	rectDB.CopyBasicFieldsToRect(rect)
@@ -360,7 +414,7 @@ func (backRepo *BackRepoStruct) CheckoutRect(rect *models.Rect) {
 	}
 }
 
-// CopyBasicFieldsToRectDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromRect
 func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 	// insertion point for fields commit
 	rectDB.Name_Data.String = rect.Name
@@ -401,9 +455,67 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 
 }
 
-// CopyBasicFieldsToRectDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
+// CopyBasicFieldsFromRectWOP
+func (rectDB *RectDB) CopyBasicFieldsFromRectWOP(rect *RectWOP) {
+	// insertion point for fields commit
+	rectDB.Name_Data.String = rect.Name
+	rectDB.Name_Data.Valid = true
 
+	rectDB.X_Data.Float64 = rect.X
+	rectDB.X_Data.Valid = true
+
+	rectDB.Y_Data.Float64 = rect.Y
+	rectDB.Y_Data.Valid = true
+
+	rectDB.Width_Data.Float64 = rect.Width
+	rectDB.Width_Data.Valid = true
+
+	rectDB.Height_Data.Float64 = rect.Height
+	rectDB.Height_Data.Valid = true
+
+	rectDB.RX_Data.Float64 = rect.RX
+	rectDB.RX_Data.Valid = true
+
+	rectDB.Color_Data.String = rect.Color
+	rectDB.Color_Data.Valid = true
+
+	rectDB.FillOpacity_Data.Float64 = rect.FillOpacity
+	rectDB.FillOpacity_Data.Valid = true
+
+	rectDB.Stroke_Data.String = rect.Stroke
+	rectDB.Stroke_Data.Valid = true
+
+	rectDB.StrokeWidth_Data.Float64 = rect.StrokeWidth
+	rectDB.StrokeWidth_Data.Valid = true
+
+	rectDB.StrokeDashArray_Data.String = rect.StrokeDashArray
+	rectDB.StrokeDashArray_Data.Valid = true
+
+	rectDB.Transform_Data.String = rect.Transform
+	rectDB.Transform_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToRect
+func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	rect.Name = rectDB.Name_Data.String
+	rect.X = rectDB.X_Data.Float64
+	rect.Y = rectDB.Y_Data.Float64
+	rect.Width = rectDB.Width_Data.Float64
+	rect.Height = rectDB.Height_Data.Float64
+	rect.RX = rectDB.RX_Data.Float64
+	rect.Color = rectDB.Color_Data.String
+	rect.FillOpacity = rectDB.FillOpacity_Data.Float64
+	rect.Stroke = rectDB.Stroke_Data.String
+	rect.StrokeWidth = rectDB.StrokeWidth_Data.Float64
+	rect.StrokeDashArray = rectDB.StrokeDashArray_Data.String
+	rect.Transform = rectDB.Transform_Data.String
+}
+
+// CopyBasicFieldsToRectWOP
+func (rectDB *RectDB) CopyBasicFieldsToRectWOP(rect *RectWOP) {
+	rect.ID = int(rectDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	rect.Name = rectDB.Name_Data.String
 	rect.X = rectDB.X_Data.Float64
@@ -444,6 +556,38 @@ func (backRepoRect *BackRepoRectStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Rect file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all RectDB instances in the backrepo
+func (backRepoRect *BackRepoRectStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*RectDB, 0)
+	for _, rectDB := range *backRepoRect.Map_RectDBID_RectDB {
+		forBackup = append(forBackup, rectDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Rect")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&Rect_Fields, -1)
+	for _, rectDB := range forBackup {
+
+		var rectWOP RectWOP
+		rectDB.CopyBasicFieldsToRectWOP(&rectWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&rectWOP, -1)
 	}
 }
 

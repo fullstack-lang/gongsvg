@@ -1,0 +1,56 @@
+[
+ {
+  "ID": 1,
+  "CreatedAt": "2021-04-30T17:10:53.3392207+02:00",
+  "UpdatedAt": "2021-04-30T17:14:51.2382624+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "C1",
+   "Valid": true
+  },
+  "CX_Data": {
+   "Float64": 150,
+   "Valid": true
+  },
+  "CY_Data": {
+   "Float64": 300,
+   "Valid": true
+  },
+  "Radius_Data": {
+   "Float64": 50,
+   "Valid": true
+  },
+  "Color_Data": {
+   "String": "green",
+   "Valid": true
+  },
+  "FillOpacity_Data": {
+   "Float64": 0.2,
+   "Valid": true
+  },
+  "Stroke_Data": {
+   "String": "blue",
+   "Valid": true
+  },
+  "StrokeWidth_Data": {
+   "Float64": 1,
+   "Valid": true
+  },
+  "StrokeDashArray_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "Transform_Data": {
+   "String": "",
+   "Valid": false
+  },
+  "SVG_CirclesDBID": {
+   "Int64": 2,
+   "Valid": true
+  },
+  "SVG_CirclesDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  }
+ }
+]

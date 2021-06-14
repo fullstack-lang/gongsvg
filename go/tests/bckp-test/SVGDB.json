@@ -1,0 +1,30 @@
+[
+ {
+  "ID": 1,
+  "CreatedAt": "2021-04-16T07:49:50.775377+02:00",
+  "UpdatedAt": "2021-04-16T09:30:40.498323+02:00",
+  "DeletedAt": null,
+  "Display_Data": {
+   "Bool": true,
+   "Valid": true
+  },
+  "Name_Data": {
+   "String": "SVG1",
+   "Valid": true
+  }
+ },
+ {
+  "ID": 2,
+  "CreatedAt": "2021-04-16T09:22:21.237605+02:00",
+  "UpdatedAt": "2021-04-30T14:28:16.9569035+02:00",
+  "DeletedAt": null,
+  "Display_Data": {
+   "Bool": true,
+   "Valid": true
+  },
+  "Name_Data": {
+   "String": "SVG2",
+   "Valid": true
+  }
+ }
+]

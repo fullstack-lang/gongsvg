@@ -106,7 +106,7 @@ type CircleDBResponse struct {
 	CircleDB
 }
 
-// CircleWOP is a Circle without pointers
+// CircleWOP is a Circle without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type CircleWOP struct {
 	ID int
@@ -149,7 +149,6 @@ var Circle_Fields = []string{
 	"StrokeDashArray",
 	"Transform",
 }
-
 
 type BackRepoCircleStruct struct {
 	// stores CircleDB according to their gorm ID
@@ -308,9 +307,8 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 // BackRepoCircle.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseOne() (Error error) {
 
@@ -320,9 +318,34 @@ func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseOne() (Error error) {
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	circleInstancesToBeRemovedFromTheStage := make(map[*models.Circle]struct{})
+	for key, value := range models.Stage.Circles {
+		circleInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, circleDB := range circleDBArray {
 		backRepoCircle.CheckoutPhaseOneInstance(&circleDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		circle, ok := (*backRepoCircle.Map_CircleDBID_CirclePtr)[circleDB.ID]
+		if ok {
+			delete(circleInstancesToBeRemovedFromTheStage, circle)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all circles that are not in the checkout
+	for circle := range circleInstancesToBeRemovedFromTheStage {
+		circle.Unstage()
+
+		// remove instance from the back repo 3 maps
+		circleID := (*backRepoCircle.Map_CirclePtr_CircleDBID)[circle]
+		delete((*backRepoCircle.Map_CirclePtr_CircleDBID), circle)
+		delete((*backRepoCircle.Map_CircleDBID_CircleDB), circleID)
+		delete((*backRepoCircle.Map_CircleDBID_CirclePtr), circleID)
 	}
 
 	return
@@ -607,7 +630,7 @@ func (backRepoCircle *BackRepoCircleStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoCircle *BackRepoCircleStruct) RestorePhaseTwo() {
 
-	for _, circleDB := range (*backRepoCircle.Map_CircleDBID_CircleDB) {
+	for _, circleDB := range *backRepoCircle.Map_CircleDBID_CircleDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = circleDB
@@ -615,7 +638,7 @@ func (backRepoCircle *BackRepoCircleStruct) RestorePhaseTwo() {
 		// insertion point for reindexing pointers encoding
 		// This reindex circle.Circles
 		if circleDB.SVG_CirclesDBID.Int64 != 0 {
-			circleDB.SVG_CirclesDBID.Int64 = 
+			circleDB.SVG_CirclesDBID.Int64 =
 				int64(BackRepoSVGid_atBckpTime_newID[uint(circleDB.SVG_CirclesDBID.Int64)])
 		}
 

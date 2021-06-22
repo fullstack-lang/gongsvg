@@ -52,6 +52,30 @@ export class PolylinesTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (polylineDB: PolylineDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Name':
+				return polylineDB.Name;
+
+			case 'Points':
+				return polylineDB.Points;
+
+			case 'Color':
+				return polylineDB.Color;
+
+			case 'FillOpacity':
+				return polylineDB.FillOpacity;
+
+			case 'Stroke':
+				return polylineDB.Stroke;
+
+			case 'StrokeWidth':
+				return polylineDB.StrokeWidth;
+
+			case 'StrokeDashArray':
+				return polylineDB.StrokeDashArray;
+
+			case 'Transform':
+				return polylineDB.Transform;
+
 				case 'Polylines':
 					return this.frontRepo.SVGs.get(polylineDB.SVG_PolylinesDBID.Int64)?.Name;
 

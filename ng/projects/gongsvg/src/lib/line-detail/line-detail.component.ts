@@ -89,10 +89,14 @@ export class LineDetailComponent implements OnInit {
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
 			if (this.line.SVG_Lines_reverse != undefined) {
-				this.line.SVG_LinesDBID = new NullInt64
+				if (this.line.SVG_LinesDBID == undefined) {
+					this.line.SVG_LinesDBID = new NullInt64
+				}
 				this.line.SVG_LinesDBID.Int64 = this.line.SVG_Lines_reverse.ID
 				this.line.SVG_LinesDBID.Valid = true
-				this.line.SVG_LinesDBID_Index = new NullInt64
+				if (this.line.SVG_LinesDBID_Index == undefined) {
+					this.line.SVG_LinesDBID_Index = new NullInt64
+				}
 				this.line.SVG_LinesDBID_Index.Valid = true
 				this.line.SVG_Lines_reverse = undefined // very important, otherwise, circular JSON
 			}

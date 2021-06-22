@@ -122,7 +122,7 @@ func PostPath(c *gin.Context) {
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementCommitNb()
+	orm.BackRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, pathDB)
 }
@@ -205,7 +205,7 @@ func UpdatePath(c *gin.Context) {
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementCommitNb()
+	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the pathDB
 	c.JSON(http.StatusOK, pathDB)
@@ -237,7 +237,7 @@ func DeletePath(c *gin.Context) {
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementCommitNb()
+	orm.BackRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

@@ -89,10 +89,14 @@ export class PolylineDetailComponent implements OnInit {
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
 			if (this.polyline.SVG_Polylines_reverse != undefined) {
-				this.polyline.SVG_PolylinesDBID = new NullInt64
+				if (this.polyline.SVG_PolylinesDBID == undefined) {
+					this.polyline.SVG_PolylinesDBID = new NullInt64
+				}
 				this.polyline.SVG_PolylinesDBID.Int64 = this.polyline.SVG_Polylines_reverse.ID
 				this.polyline.SVG_PolylinesDBID.Valid = true
-				this.polyline.SVG_PolylinesDBID_Index = new NullInt64
+				if (this.polyline.SVG_PolylinesDBID_Index == undefined) {
+					this.polyline.SVG_PolylinesDBID_Index = new NullInt64
+				}
 				this.polyline.SVG_PolylinesDBID_Index.Valid = true
 				this.polyline.SVG_Polylines_reverse = undefined // very important, otherwise, circular JSON
 			}

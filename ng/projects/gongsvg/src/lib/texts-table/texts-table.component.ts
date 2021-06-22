@@ -52,6 +52,36 @@ export class TextsTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (textDB: TextDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Name':
+				return textDB.Name;
+
+			case 'X':
+				return textDB.X;
+
+			case 'Y':
+				return textDB.Y;
+
+			case 'Content':
+				return textDB.Content;
+
+			case 'Color':
+				return textDB.Color;
+
+			case 'FillOpacity':
+				return textDB.FillOpacity;
+
+			case 'Stroke':
+				return textDB.Stroke;
+
+			case 'StrokeWidth':
+				return textDB.StrokeWidth;
+
+			case 'StrokeDashArray':
+				return textDB.StrokeDashArray;
+
+			case 'Transform':
+				return textDB.Transform;
+
 				case 'Texts':
 					return this.frontRepo.SVGs.get(textDB.SVG_TextsDBID.Int64)?.Name;
 

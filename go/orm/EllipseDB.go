@@ -109,7 +109,7 @@ type EllipseDBResponse struct {
 	EllipseDB
 }
 
-// EllipseWOP is a Ellipse without pointers
+// EllipseWOP is a Ellipse without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type EllipseWOP struct {
 	ID int
@@ -155,7 +155,6 @@ var Ellipse_Fields = []string{
 	"StrokeDashArray",
 	"Transform",
 }
-
 
 type BackRepoEllipseStruct struct {
 	// stores EllipseDB according to their gorm ID
@@ -314,9 +313,8 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 
 // BackRepoEllipse.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseOne() (Error error) {
 
@@ -326,9 +324,34 @@ func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseOne() (Error error) {
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	ellipseInstancesToBeRemovedFromTheStage := make(map[*models.Ellipse]struct{})
+	for key, value := range models.Stage.Ellipses {
+		ellipseInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, ellipseDB := range ellipseDBArray {
 		backRepoEllipse.CheckoutPhaseOneInstance(&ellipseDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		ellipse, ok := (*backRepoEllipse.Map_EllipseDBID_EllipsePtr)[ellipseDB.ID]
+		if ok {
+			delete(ellipseInstancesToBeRemovedFromTheStage, ellipse)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all ellipses that are not in the checkout
+	for ellipse := range ellipseInstancesToBeRemovedFromTheStage {
+		ellipse.Unstage()
+
+		// remove instance from the back repo 3 maps
+		ellipseID := (*backRepoEllipse.Map_EllipsePtr_EllipseDBID)[ellipse]
+		delete((*backRepoEllipse.Map_EllipsePtr_EllipseDBID), ellipse)
+		delete((*backRepoEllipse.Map_EllipseDBID_EllipseDB), ellipseID)
+		delete((*backRepoEllipse.Map_EllipseDBID_EllipsePtr), ellipseID)
 	}
 
 	return
@@ -621,7 +644,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseTwo() {
 
-	for _, ellipseDB := range (*backRepoEllipse.Map_EllipseDBID_EllipseDB) {
+	for _, ellipseDB := range *backRepoEllipse.Map_EllipseDBID_EllipseDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = ellipseDB
@@ -629,7 +652,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseTwo() {
 		// insertion point for reindexing pointers encoding
 		// This reindex ellipse.Ellipses
 		if ellipseDB.SVG_EllipsesDBID.Int64 != 0 {
-			ellipseDB.SVG_EllipsesDBID.Int64 = 
+			ellipseDB.SVG_EllipsesDBID.Int64 =
 				int64(BackRepoSVGid_atBckpTime_newID[uint(ellipseDB.SVG_EllipsesDBID.Int64)])
 		}
 

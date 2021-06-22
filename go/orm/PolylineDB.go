@@ -100,7 +100,7 @@ type PolylineDBResponse struct {
 	PolylineDB
 }
 
-// PolylineWOP is a Polyline without pointers
+// PolylineWOP is a Polyline without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type PolylineWOP struct {
 	ID int
@@ -137,7 +137,6 @@ var Polyline_Fields = []string{
 	"StrokeDashArray",
 	"Transform",
 }
-
 
 type BackRepoPolylineStruct struct {
 	// stores PolylineDB according to their gorm ID
@@ -296,9 +295,8 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseTwoInstance(backRepo 
 
 // BackRepoPolyline.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoPolyline *BackRepoPolylineStruct) CheckoutPhaseOne() (Error error) {
 
@@ -308,9 +306,34 @@ func (backRepoPolyline *BackRepoPolylineStruct) CheckoutPhaseOne() (Error error)
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	polylineInstancesToBeRemovedFromTheStage := make(map[*models.Polyline]struct{})
+	for key, value := range models.Stage.Polylines {
+		polylineInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, polylineDB := range polylineDBArray {
 		backRepoPolyline.CheckoutPhaseOneInstance(&polylineDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		polyline, ok := (*backRepoPolyline.Map_PolylineDBID_PolylinePtr)[polylineDB.ID]
+		if ok {
+			delete(polylineInstancesToBeRemovedFromTheStage, polyline)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all polylines that are not in the checkout
+	for polyline := range polylineInstancesToBeRemovedFromTheStage {
+		polyline.Unstage()
+
+		// remove instance from the back repo 3 maps
+		polylineID := (*backRepoPolyline.Map_PolylinePtr_PolylineDBID)[polyline]
+		delete((*backRepoPolyline.Map_PolylinePtr_PolylineDBID), polyline)
+		delete((*backRepoPolyline.Map_PolylineDBID_PolylineDB), polylineID)
+		delete((*backRepoPolyline.Map_PolylineDBID_PolylinePtr), polylineID)
 	}
 
 	return
@@ -579,7 +602,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) RestorePhaseOne(dirPath string) 
 // to compute new index
 func (backRepoPolyline *BackRepoPolylineStruct) RestorePhaseTwo() {
 
-	for _, polylineDB := range (*backRepoPolyline.Map_PolylineDBID_PolylineDB) {
+	for _, polylineDB := range *backRepoPolyline.Map_PolylineDBID_PolylineDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = polylineDB
@@ -587,7 +610,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) RestorePhaseTwo() {
 		// insertion point for reindexing pointers encoding
 		// This reindex polyline.Polylines
 		if polylineDB.SVG_PolylinesDBID.Int64 != 0 {
-			polylineDB.SVG_PolylinesDBID.Int64 = 
+			polylineDB.SVG_PolylinesDBID.Int64 =
 				int64(BackRepoSVGid_atBckpTime_newID[uint(polylineDB.SVG_PolylinesDBID.Int64)])
 		}
 

@@ -89,10 +89,14 @@ export class PolygoneDetailComponent implements OnInit {
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
 			if (this.polygone.SVG_Polygones_reverse != undefined) {
-				this.polygone.SVG_PolygonesDBID = new NullInt64
+				if (this.polygone.SVG_PolygonesDBID == undefined) {
+					this.polygone.SVG_PolygonesDBID = new NullInt64
+				}
 				this.polygone.SVG_PolygonesDBID.Int64 = this.polygone.SVG_Polygones_reverse.ID
 				this.polygone.SVG_PolygonesDBID.Valid = true
-				this.polygone.SVG_PolygonesDBID_Index = new NullInt64
+				if (this.polygone.SVG_PolygonesDBID_Index == undefined) {
+					this.polygone.SVG_PolygonesDBID_Index = new NullInt64
+				}
 				this.polygone.SVG_PolygonesDBID_Index.Valid = true
 				this.polygone.SVG_Polygones_reverse = undefined // very important, otherwise, circular JSON
 			}

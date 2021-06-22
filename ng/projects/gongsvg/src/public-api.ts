@@ -9,7 +9,10 @@ export * from './lib/splitter/splitter.component'
 export * from './lib/sidebar/sidebar.component'
 
 export * from './lib/front-repo.service'
+
 export * from './lib/commitnb.service'
+
+export * from './lib/push-from-front-nb.service'
 
 
 export * from './lib/circle-detail/circle-detail.component'

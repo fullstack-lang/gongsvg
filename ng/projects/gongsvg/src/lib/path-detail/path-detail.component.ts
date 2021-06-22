@@ -89,10 +89,14 @@ export class PathDetailComponent implements OnInit {
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
 			if (this.path.SVG_Paths_reverse != undefined) {
-				this.path.SVG_PathsDBID = new NullInt64
+				if (this.path.SVG_PathsDBID == undefined) {
+					this.path.SVG_PathsDBID = new NullInt64
+				}
 				this.path.SVG_PathsDBID.Int64 = this.path.SVG_Paths_reverse.ID
 				this.path.SVG_PathsDBID.Valid = true
-				this.path.SVG_PathsDBID_Index = new NullInt64
+				if (this.path.SVG_PathsDBID_Index == undefined) {
+					this.path.SVG_PathsDBID_Index = new NullInt64
+				}
 				this.path.SVG_PathsDBID_Index.Valid = true
 				this.path.SVG_Paths_reverse = undefined // very important, otherwise, circular JSON
 			}

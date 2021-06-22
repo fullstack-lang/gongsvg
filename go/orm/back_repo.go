@@ -38,10 +38,16 @@ type BackRepoStruct struct {
 	BackRepoText BackRepoTextStruct
 
 	CommitNb uint // this ng is updated at the BackRepo level but also at the BackRepo<GongStruct> level
+
+	PushFromFrontNb uint // records increments from push from front
 }
 
 func (backRepo *BackRepoStruct) GetLastCommitNb() uint {
 	return backRepo.CommitNb
+}
+
+func (backRepo *BackRepoStruct) GetLastPushFromFrontNb() uint {
+	return backRepo.PushFromFrontNb
 }
 
 func (backRepo *BackRepoStruct) IncrementCommitNb() uint {
@@ -49,6 +55,11 @@ func (backRepo *BackRepoStruct) IncrementCommitNb() uint {
 		models.Stage.OnInitCommitCallback.BeforeCommit(&models.Stage)
 	}
 	backRepo.CommitNb = backRepo.CommitNb + 1
+	return backRepo.CommitNb
+}
+
+func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
+	backRepo.PushFromFrontNb = backRepo.PushFromFrontNb + 1
 	return backRepo.CommitNb
 }
 
@@ -126,6 +137,10 @@ func GetLastCommitNb() uint {
 	return BackRepo.GetLastCommitNb()
 }
 
+func GetLastPushFromFrontNb() uint {
+	return BackRepo.GetLastPushFromFrontNb()
+}
+
 // Backup the BackRepoStruct
 func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string) {
 	os.Mkdir(dirPath, os.ModePerm)
@@ -196,7 +211,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	//
 	// restauration second phase (reindex pointers with the new ID)
 	//
-	
+
 	// insertion point for per struct backup
 	backRepo.BackRepoCircle.RestorePhaseTwo()
 	backRepo.BackRepoEllipse.RestorePhaseTwo()

@@ -109,7 +109,7 @@ type LineDBResponse struct {
 	LineDB
 }
 
-// LineWOP is a Line without pointers
+// LineWOP is a Line without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type LineWOP struct {
 	ID int
@@ -155,7 +155,6 @@ var Line_Fields = []string{
 	"StrokeDashArray",
 	"Transform",
 }
-
 
 type BackRepoLineStruct struct {
 	// stores LineDB according to their gorm ID
@@ -314,9 +313,8 @@ func (backRepoLine *BackRepoLineStruct) CommitPhaseTwoInstance(backRepo *BackRep
 
 // BackRepoLine.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoLine *BackRepoLineStruct) CheckoutPhaseOne() (Error error) {
 
@@ -326,9 +324,34 @@ func (backRepoLine *BackRepoLineStruct) CheckoutPhaseOne() (Error error) {
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	lineInstancesToBeRemovedFromTheStage := make(map[*models.Line]struct{})
+	for key, value := range models.Stage.Lines {
+		lineInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, lineDB := range lineDBArray {
 		backRepoLine.CheckoutPhaseOneInstance(&lineDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		line, ok := (*backRepoLine.Map_LineDBID_LinePtr)[lineDB.ID]
+		if ok {
+			delete(lineInstancesToBeRemovedFromTheStage, line)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all lines that are not in the checkout
+	for line := range lineInstancesToBeRemovedFromTheStage {
+		line.Unstage()
+
+		// remove instance from the back repo 3 maps
+		lineID := (*backRepoLine.Map_LinePtr_LineDBID)[line]
+		delete((*backRepoLine.Map_LinePtr_LineDBID), line)
+		delete((*backRepoLine.Map_LineDBID_LineDB), lineID)
+		delete((*backRepoLine.Map_LineDBID_LinePtr), lineID)
 	}
 
 	return
@@ -621,7 +644,7 @@ func (backRepoLine *BackRepoLineStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoLine *BackRepoLineStruct) RestorePhaseTwo() {
 
-	for _, lineDB := range (*backRepoLine.Map_LineDBID_LineDB) {
+	for _, lineDB := range *backRepoLine.Map_LineDBID_LineDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = lineDB
@@ -629,7 +652,7 @@ func (backRepoLine *BackRepoLineStruct) RestorePhaseTwo() {
 		// insertion point for reindexing pointers encoding
 		// This reindex line.Lines
 		if lineDB.SVG_LinesDBID.Int64 != 0 {
-			lineDB.SVG_LinesDBID.Int64 = 
+			lineDB.SVG_LinesDBID.Int64 =
 				int64(BackRepoSVGid_atBckpTime_newID[uint(lineDB.SVG_LinesDBID.Int64)])
 		}
 

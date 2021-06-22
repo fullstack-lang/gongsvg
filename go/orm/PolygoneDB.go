@@ -100,7 +100,7 @@ type PolygoneDBResponse struct {
 	PolygoneDB
 }
 
-// PolygoneWOP is a Polygone without pointers
+// PolygoneWOP is a Polygone without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type PolygoneWOP struct {
 	ID int
@@ -137,7 +137,6 @@ var Polygone_Fields = []string{
 	"StrokeDashArray",
 	"Transform",
 }
-
 
 type BackRepoPolygoneStruct struct {
 	// stores PolygoneDB according to their gorm ID
@@ -296,9 +295,8 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 
 // BackRepoPolygone.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseOne() (Error error) {
 
@@ -308,9 +306,34 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseOne() (Error error)
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	polygoneInstancesToBeRemovedFromTheStage := make(map[*models.Polygone]struct{})
+	for key, value := range models.Stage.Polygones {
+		polygoneInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, polygoneDB := range polygoneDBArray {
 		backRepoPolygone.CheckoutPhaseOneInstance(&polygoneDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		polygone, ok := (*backRepoPolygone.Map_PolygoneDBID_PolygonePtr)[polygoneDB.ID]
+		if ok {
+			delete(polygoneInstancesToBeRemovedFromTheStage, polygone)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all polygones that are not in the checkout
+	for polygone := range polygoneInstancesToBeRemovedFromTheStage {
+		polygone.Unstage()
+
+		// remove instance from the back repo 3 maps
+		polygoneID := (*backRepoPolygone.Map_PolygonePtr_PolygoneDBID)[polygone]
+		delete((*backRepoPolygone.Map_PolygonePtr_PolygoneDBID), polygone)
+		delete((*backRepoPolygone.Map_PolygoneDBID_PolygoneDB), polygoneID)
+		delete((*backRepoPolygone.Map_PolygoneDBID_PolygonePtr), polygoneID)
 	}
 
 	return
@@ -579,7 +602,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) RestorePhaseOne(dirPath string) 
 // to compute new index
 func (backRepoPolygone *BackRepoPolygoneStruct) RestorePhaseTwo() {
 
-	for _, polygoneDB := range (*backRepoPolygone.Map_PolygoneDBID_PolygoneDB) {
+	for _, polygoneDB := range *backRepoPolygone.Map_PolygoneDBID_PolygoneDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = polygoneDB
@@ -587,7 +610,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) RestorePhaseTwo() {
 		// insertion point for reindexing pointers encoding
 		// This reindex polygone.Polygones
 		if polygoneDB.SVG_PolygonesDBID.Int64 != 0 {
-			polygoneDB.SVG_PolygonesDBID.Int64 = 
+			polygoneDB.SVG_PolygonesDBID.Int64 =
 				int64(BackRepoSVGid_atBckpTime_newID[uint(polygoneDB.SVG_PolygonesDBID.Int64)])
 		}
 

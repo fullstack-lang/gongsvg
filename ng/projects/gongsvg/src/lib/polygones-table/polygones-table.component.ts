@@ -52,6 +52,30 @@ export class PolygonesTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (polygoneDB: PolygoneDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Name':
+				return polygoneDB.Name;
+
+			case 'Points':
+				return polygoneDB.Points;
+
+			case 'Color':
+				return polygoneDB.Color;
+
+			case 'FillOpacity':
+				return polygoneDB.FillOpacity;
+
+			case 'Stroke':
+				return polygoneDB.Stroke;
+
+			case 'StrokeWidth':
+				return polygoneDB.StrokeWidth;
+
+			case 'StrokeDashArray':
+				return polygoneDB.StrokeDashArray;
+
+			case 'Transform':
+				return polygoneDB.Transform;
+
 				case 'Polygones':
 					return this.frontRepo.SVGs.get(polygoneDB.SVG_PolygonesDBID.Int64)?.Name;
 

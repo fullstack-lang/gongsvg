@@ -33,11 +33,13 @@ export class SvgComponent implements OnInit {
  */
   checkCommitNbTimer: Observable<number> = timer(500, 500);
   lastCommitNb = -1
+  lastPushFromFrontNb = -1
   currTime: number
 
   constructor(
     private gongsvgFrontRepoService: gongsvg.FrontRepoService,
     private gongsvgCommitNbService: gongsvg.CommitNbService,
+    private gongsvgPushFromFrontNbService: gongsvg.PushFromFrontNbService,
   ) { }
 
   ngOnInit(): void {
@@ -54,6 +56,18 @@ export class SvgComponent implements OnInit {
               console.log("last commit nb " + this.lastCommitNb + " new: " + commitNb)
               this.refresh()
               this.lastCommitNb = commitNb
+            }
+          }
+        )
+
+        // see above for the explanation
+        this.gongsvgPushFromFrontNbService.getPushFromFrontNb().subscribe(
+          pushFromFrontNb => {
+            if (this.lastPushFromFrontNb < pushFromFrontNb) {
+
+              console.log("last commit nb " + this.lastPushFromFrontNb + " new: " + pushFromFrontNb)
+              this.refresh()
+              this.lastPushFromFrontNb = pushFromFrontNb
             }
           }
         )

@@ -126,7 +126,6 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 		TextDetailComponent,
 		TextPresentationComponent,
 
-
 		SplitterComponent,
 		SidebarComponent
 	],

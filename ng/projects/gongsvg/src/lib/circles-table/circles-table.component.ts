@@ -52,6 +52,36 @@ export class CirclesTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (circleDB: CircleDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Name':
+				return circleDB.Name;
+
+			case 'CX':
+				return circleDB.CX;
+
+			case 'CY':
+				return circleDB.CY;
+
+			case 'Radius':
+				return circleDB.Radius;
+
+			case 'Color':
+				return circleDB.Color;
+
+			case 'FillOpacity':
+				return circleDB.FillOpacity;
+
+			case 'Stroke':
+				return circleDB.Stroke;
+
+			case 'StrokeWidth':
+				return circleDB.StrokeWidth;
+
+			case 'StrokeDashArray':
+				return circleDB.StrokeDashArray;
+
+			case 'Transform':
+				return circleDB.Transform;
+
 				case 'Circles':
 					return this.frontRepo.SVGs.get(circleDB.SVG_CirclesDBID.Int64)?.Name;
 

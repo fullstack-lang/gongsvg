@@ -89,10 +89,14 @@ export class CircleDetailComponent implements OnInit {
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
 			if (this.circle.SVG_Circles_reverse != undefined) {
-				this.circle.SVG_CirclesDBID = new NullInt64
+				if (this.circle.SVG_CirclesDBID == undefined) {
+					this.circle.SVG_CirclesDBID = new NullInt64
+				}
 				this.circle.SVG_CirclesDBID.Int64 = this.circle.SVG_Circles_reverse.ID
 				this.circle.SVG_CirclesDBID.Valid = true
-				this.circle.SVG_CirclesDBID_Index = new NullInt64
+				if (this.circle.SVG_CirclesDBID_Index == undefined) {
+					this.circle.SVG_CirclesDBID_Index = new NullInt64
+				}
 				this.circle.SVG_CirclesDBID_Index.Valid = true
 				this.circle.SVG_Circles_reverse = undefined // very important, otherwise, circular JSON
 			}

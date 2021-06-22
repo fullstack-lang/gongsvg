@@ -52,6 +52,39 @@ export class EllipsesTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (ellipseDB: EllipseDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Name':
+				return ellipseDB.Name;
+
+			case 'CX':
+				return ellipseDB.CX;
+
+			case 'CY':
+				return ellipseDB.CY;
+
+			case 'RX':
+				return ellipseDB.RX;
+
+			case 'RY':
+				return ellipseDB.RY;
+
+			case 'Color':
+				return ellipseDB.Color;
+
+			case 'FillOpacity':
+				return ellipseDB.FillOpacity;
+
+			case 'Stroke':
+				return ellipseDB.Stroke;
+
+			case 'StrokeWidth':
+				return ellipseDB.StrokeWidth;
+
+			case 'StrokeDashArray':
+				return ellipseDB.StrokeDashArray;
+
+			case 'Transform':
+				return ellipseDB.Transform;
+
 				case 'Ellipses':
 					return this.frontRepo.SVGs.get(ellipseDB.SVG_EllipsesDBID.Int64)?.Name;
 

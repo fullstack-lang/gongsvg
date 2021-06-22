@@ -52,6 +52,30 @@ export class PathsTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (pathDB: PathDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Name':
+				return pathDB.Name;
+
+			case 'Definition':
+				return pathDB.Definition;
+
+			case 'Color':
+				return pathDB.Color;
+
+			case 'FillOpacity':
+				return pathDB.FillOpacity;
+
+			case 'Stroke':
+				return pathDB.Stroke;
+
+			case 'StrokeWidth':
+				return pathDB.StrokeWidth;
+
+			case 'StrokeDashArray':
+				return pathDB.StrokeDashArray;
+
+			case 'Transform':
+				return pathDB.Transform;
+
 				case 'Paths':
 					return this.frontRepo.SVGs.get(pathDB.SVG_PathsDBID.Int64)?.Name;
 

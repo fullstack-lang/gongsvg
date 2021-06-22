@@ -89,10 +89,14 @@ export class EllipseDetailComponent implements OnInit {
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
 			if (this.ellipse.SVG_Ellipses_reverse != undefined) {
-				this.ellipse.SVG_EllipsesDBID = new NullInt64
+				if (this.ellipse.SVG_EllipsesDBID == undefined) {
+					this.ellipse.SVG_EllipsesDBID = new NullInt64
+				}
 				this.ellipse.SVG_EllipsesDBID.Int64 = this.ellipse.SVG_Ellipses_reverse.ID
 				this.ellipse.SVG_EllipsesDBID.Valid = true
-				this.ellipse.SVG_EllipsesDBID_Index = new NullInt64
+				if (this.ellipse.SVG_EllipsesDBID_Index == undefined) {
+					this.ellipse.SVG_EllipsesDBID_Index = new NullInt64
+				}
 				this.ellipse.SVG_EllipsesDBID_Index.Valid = true
 				this.ellipse.SVG_Ellipses_reverse = undefined // very important, otherwise, circular JSON
 			}

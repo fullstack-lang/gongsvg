@@ -52,6 +52,42 @@ export class RectsTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (rectDB: RectDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Name':
+				return rectDB.Name;
+
+			case 'X':
+				return rectDB.X;
+
+			case 'Y':
+				return rectDB.Y;
+
+			case 'Width':
+				return rectDB.Width;
+
+			case 'Height':
+				return rectDB.Height;
+
+			case 'RX':
+				return rectDB.RX;
+
+			case 'Color':
+				return rectDB.Color;
+
+			case 'FillOpacity':
+				return rectDB.FillOpacity;
+
+			case 'Stroke':
+				return rectDB.Stroke;
+
+			case 'StrokeWidth':
+				return rectDB.StrokeWidth;
+
+			case 'StrokeDashArray':
+				return rectDB.StrokeDashArray;
+
+			case 'Transform':
+				return rectDB.Transform;
+
 				case 'Rects':
 					return this.frontRepo.SVGs.get(rectDB.SVG_RectsDBID.Int64)?.Name;
 

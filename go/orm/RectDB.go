@@ -112,7 +112,7 @@ type RectDBResponse struct {
 	RectDB
 }
 
-// RectWOP is a Rect without pointers
+// RectWOP is a Rect without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type RectWOP struct {
 	ID int
@@ -161,7 +161,6 @@ var Rect_Fields = []string{
 	"StrokeDashArray",
 	"Transform",
 }
-
 
 type BackRepoRectStruct struct {
 	// stores RectDB according to their gorm ID
@@ -320,9 +319,8 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 
 // BackRepoRect.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoRect *BackRepoRectStruct) CheckoutPhaseOne() (Error error) {
 
@@ -332,9 +330,34 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseOne() (Error error) {
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	rectInstancesToBeRemovedFromTheStage := make(map[*models.Rect]struct{})
+	for key, value := range models.Stage.Rects {
+		rectInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, rectDB := range rectDBArray {
 		backRepoRect.CheckoutPhaseOneInstance(&rectDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		rect, ok := (*backRepoRect.Map_RectDBID_RectPtr)[rectDB.ID]
+		if ok {
+			delete(rectInstancesToBeRemovedFromTheStage, rect)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all rects that are not in the checkout
+	for rect := range rectInstancesToBeRemovedFromTheStage {
+		rect.Unstage()
+
+		// remove instance from the back repo 3 maps
+		rectID := (*backRepoRect.Map_RectPtr_RectDBID)[rect]
+		delete((*backRepoRect.Map_RectPtr_RectDBID), rect)
+		delete((*backRepoRect.Map_RectDBID_RectDB), rectID)
+		delete((*backRepoRect.Map_RectDBID_RectPtr), rectID)
 	}
 
 	return
@@ -635,7 +658,7 @@ func (backRepoRect *BackRepoRectStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoRect *BackRepoRectStruct) RestorePhaseTwo() {
 
-	for _, rectDB := range (*backRepoRect.Map_RectDBID_RectDB) {
+	for _, rectDB := range *backRepoRect.Map_RectDBID_RectDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = rectDB
@@ -643,7 +666,7 @@ func (backRepoRect *BackRepoRectStruct) RestorePhaseTwo() {
 		// insertion point for reindexing pointers encoding
 		// This reindex rect.Rects
 		if rectDB.SVG_RectsDBID.Int64 != 0 {
-			rectDB.SVG_RectsDBID.Int64 = 
+			rectDB.SVG_RectsDBID.Int64 =
 				int64(BackRepoSVGid_atBckpTime_newID[uint(rectDB.SVG_RectsDBID.Int64)])
 		}
 

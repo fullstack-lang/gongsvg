@@ -52,6 +52,39 @@ export class LinesTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (lineDB: LineDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Name':
+				return lineDB.Name;
+
+			case 'X1':
+				return lineDB.X1;
+
+			case 'Y1':
+				return lineDB.Y1;
+
+			case 'X2':
+				return lineDB.X2;
+
+			case 'Y2':
+				return lineDB.Y2;
+
+			case 'Color':
+				return lineDB.Color;
+
+			case 'FillOpacity':
+				return lineDB.FillOpacity;
+
+			case 'Stroke':
+				return lineDB.Stroke;
+
+			case 'StrokeWidth':
+				return lineDB.StrokeWidth;
+
+			case 'StrokeDashArray':
+				return lineDB.StrokeDashArray;
+
+			case 'Transform':
+				return lineDB.Transform;
+
 				case 'Lines':
 					return this.frontRepo.SVGs.get(lineDB.SVG_LinesDBID.Int64)?.Name;
 

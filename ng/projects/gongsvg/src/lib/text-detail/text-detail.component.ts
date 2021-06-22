@@ -89,10 +89,14 @@ export class TextDetailComponent implements OnInit {
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
 			if (this.text.SVG_Texts_reverse != undefined) {
-				this.text.SVG_TextsDBID = new NullInt64
+				if (this.text.SVG_TextsDBID == undefined) {
+					this.text.SVG_TextsDBID = new NullInt64
+				}
 				this.text.SVG_TextsDBID.Int64 = this.text.SVG_Texts_reverse.ID
 				this.text.SVG_TextsDBID.Valid = true
-				this.text.SVG_TextsDBID_Index = new NullInt64
+				if (this.text.SVG_TextsDBID_Index == undefined) {
+					this.text.SVG_TextsDBID_Index = new NullInt64
+				}
 				this.text.SVG_TextsDBID_Index.Valid = true
 				this.text.SVG_Texts_reverse = undefined // very important, otherwise, circular JSON
 			}

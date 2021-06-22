@@ -78,7 +78,7 @@ type SVGDBResponse struct {
 	SVGDB
 }
 
-// SVGWOP is a SVG without pointers
+// SVGWOP is a SVG without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type SVGWOP struct {
 	ID int
@@ -97,7 +97,6 @@ var SVG_Fields = []string{
 	"Display",
 	"Name",
 }
-
 
 type BackRepoSVGStruct struct {
 	// stores SVGDB according to their gorm ID
@@ -247,7 +246,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 
 			// get the back repo instance at the association end
 			rectAssocEnd_DB :=
-				backRepo.BackRepoRect.GetRectDBFromRectPtr( rectAssocEnd)
+				backRepo.BackRepoRect.GetRectDBFromRectPtr(rectAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			rectAssocEnd_DB.SVG_RectsDBID.Int64 = int64(svgDB.ID)
@@ -266,7 +265,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 
 			// get the back repo instance at the association end
 			textAssocEnd_DB :=
-				backRepo.BackRepoText.GetTextDBFromTextPtr( textAssocEnd)
+				backRepo.BackRepoText.GetTextDBFromTextPtr(textAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			textAssocEnd_DB.SVG_TextsDBID.Int64 = int64(svgDB.ID)
@@ -285,7 +284,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 
 			// get the back repo instance at the association end
 			circleAssocEnd_DB :=
-				backRepo.BackRepoCircle.GetCircleDBFromCirclePtr( circleAssocEnd)
+				backRepo.BackRepoCircle.GetCircleDBFromCirclePtr(circleAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			circleAssocEnd_DB.SVG_CirclesDBID.Int64 = int64(svgDB.ID)
@@ -304,7 +303,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 
 			// get the back repo instance at the association end
 			lineAssocEnd_DB :=
-				backRepo.BackRepoLine.GetLineDBFromLinePtr( lineAssocEnd)
+				backRepo.BackRepoLine.GetLineDBFromLinePtr(lineAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			lineAssocEnd_DB.SVG_LinesDBID.Int64 = int64(svgDB.ID)
@@ -323,7 +322,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 
 			// get the back repo instance at the association end
 			ellipseAssocEnd_DB :=
-				backRepo.BackRepoEllipse.GetEllipseDBFromEllipsePtr( ellipseAssocEnd)
+				backRepo.BackRepoEllipse.GetEllipseDBFromEllipsePtr(ellipseAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			ellipseAssocEnd_DB.SVG_EllipsesDBID.Int64 = int64(svgDB.ID)
@@ -342,7 +341,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 
 			// get the back repo instance at the association end
 			polylineAssocEnd_DB :=
-				backRepo.BackRepoPolyline.GetPolylineDBFromPolylinePtr( polylineAssocEnd)
+				backRepo.BackRepoPolyline.GetPolylineDBFromPolylinePtr(polylineAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			polylineAssocEnd_DB.SVG_PolylinesDBID.Int64 = int64(svgDB.ID)
@@ -361,7 +360,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 
 			// get the back repo instance at the association end
 			polygoneAssocEnd_DB :=
-				backRepo.BackRepoPolygone.GetPolygoneDBFromPolygonePtr( polygoneAssocEnd)
+				backRepo.BackRepoPolygone.GetPolygoneDBFromPolygonePtr(polygoneAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			polygoneAssocEnd_DB.SVG_PolygonesDBID.Int64 = int64(svgDB.ID)
@@ -380,7 +379,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 
 			// get the back repo instance at the association end
 			pathAssocEnd_DB :=
-				backRepo.BackRepoPath.GetPathDBFromPathPtr( pathAssocEnd)
+				backRepo.BackRepoPath.GetPathDBFromPathPtr(pathAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			pathAssocEnd_DB.SVG_PathsDBID.Int64 = int64(svgDB.ID)
@@ -408,9 +407,8 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 
 // BackRepoSVG.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseOne() (Error error) {
 
@@ -420,9 +418,34 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseOne() (Error error) {
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	svgInstancesToBeRemovedFromTheStage := make(map[*models.SVG]struct{})
+	for key, value := range models.Stage.SVGs {
+		svgInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, svgDB := range svgDBArray {
 		backRepoSVG.CheckoutPhaseOneInstance(&svgDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		svg, ok := (*backRepoSVG.Map_SVGDBID_SVGPtr)[svgDB.ID]
+		if ok {
+			delete(svgInstancesToBeRemovedFromTheStage, svg)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all svgs that are not in the checkout
+	for svg := range svgInstancesToBeRemovedFromTheStage {
+		svg.Unstage()
+
+		// remove instance from the back repo 3 maps
+		svgID := (*backRepoSVG.Map_SVGPtr_SVGDBID)[svg]
+		delete((*backRepoSVG.Map_SVGPtr_SVGDBID), svg)
+		delete((*backRepoSVG.Map_SVGDBID_SVGDB), svgID)
+		delete((*backRepoSVG.Map_SVGDBID_SVGPtr), svgID)
 	}
 
 	return
@@ -859,7 +882,7 @@ func (backRepoSVG *BackRepoSVGStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoSVG *BackRepoSVGStruct) RestorePhaseTwo() {
 
-	for _, svgDB := range (*backRepoSVG.Map_SVGDBID_SVGDB) {
+	for _, svgDB := range *backRepoSVG.Map_SVGDBID_SVGDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = svgDB

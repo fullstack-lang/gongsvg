@@ -100,7 +100,7 @@ type PathDBResponse struct {
 	PathDB
 }
 
-// PathWOP is a Path without pointers
+// PathWOP is a Path without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type PathWOP struct {
 	ID int
@@ -137,7 +137,6 @@ var Path_Fields = []string{
 	"StrokeDashArray",
 	"Transform",
 }
-
 
 type BackRepoPathStruct struct {
 	// stores PathDB according to their gorm ID
@@ -296,9 +295,8 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 
 // BackRepoPath.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoPath *BackRepoPathStruct) CheckoutPhaseOne() (Error error) {
 
@@ -308,9 +306,34 @@ func (backRepoPath *BackRepoPathStruct) CheckoutPhaseOne() (Error error) {
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	pathInstancesToBeRemovedFromTheStage := make(map[*models.Path]struct{})
+	for key, value := range models.Stage.Paths {
+		pathInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, pathDB := range pathDBArray {
 		backRepoPath.CheckoutPhaseOneInstance(&pathDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		path, ok := (*backRepoPath.Map_PathDBID_PathPtr)[pathDB.ID]
+		if ok {
+			delete(pathInstancesToBeRemovedFromTheStage, path)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all paths that are not in the checkout
+	for path := range pathInstancesToBeRemovedFromTheStage {
+		path.Unstage()
+
+		// remove instance from the back repo 3 maps
+		pathID := (*backRepoPath.Map_PathPtr_PathDBID)[path]
+		delete((*backRepoPath.Map_PathPtr_PathDBID), path)
+		delete((*backRepoPath.Map_PathDBID_PathDB), pathID)
+		delete((*backRepoPath.Map_PathDBID_PathPtr), pathID)
 	}
 
 	return
@@ -579,7 +602,7 @@ func (backRepoPath *BackRepoPathStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoPath *BackRepoPathStruct) RestorePhaseTwo() {
 
-	for _, pathDB := range (*backRepoPath.Map_PathDBID_PathDB) {
+	for _, pathDB := range *backRepoPath.Map_PathDBID_PathDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = pathDB
@@ -587,7 +610,7 @@ func (backRepoPath *BackRepoPathStruct) RestorePhaseTwo() {
 		// insertion point for reindexing pointers encoding
 		// This reindex path.Paths
 		if pathDB.SVG_PathsDBID.Int64 != 0 {
-			pathDB.SVG_PathsDBID.Int64 = 
+			pathDB.SVG_PathsDBID.Int64 =
 				int64(BackRepoSVGid_atBckpTime_newID[uint(pathDB.SVG_PathsDBID.Int64)])
 		}
 

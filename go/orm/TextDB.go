@@ -106,7 +106,7 @@ type TextDBResponse struct {
 	TextDB
 }
 
-// TextWOP is a Text without pointers
+// TextWOP is a Text without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type TextWOP struct {
 	ID int
@@ -149,7 +149,6 @@ var Text_Fields = []string{
 	"StrokeDashArray",
 	"Transform",
 }
-
 
 type BackRepoTextStruct struct {
 	// stores TextDB according to their gorm ID
@@ -308,9 +307,8 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseTwoInstance(backRepo *BackRep
 
 // BackRepoText.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoText *BackRepoTextStruct) CheckoutPhaseOne() (Error error) {
 
@@ -320,9 +318,34 @@ func (backRepoText *BackRepoTextStruct) CheckoutPhaseOne() (Error error) {
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	textInstancesToBeRemovedFromTheStage := make(map[*models.Text]struct{})
+	for key, value := range models.Stage.Texts {
+		textInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, textDB := range textDBArray {
 		backRepoText.CheckoutPhaseOneInstance(&textDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		text, ok := (*backRepoText.Map_TextDBID_TextPtr)[textDB.ID]
+		if ok {
+			delete(textInstancesToBeRemovedFromTheStage, text)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all texts that are not in the checkout
+	for text := range textInstancesToBeRemovedFromTheStage {
+		text.Unstage()
+
+		// remove instance from the back repo 3 maps
+		textID := (*backRepoText.Map_TextPtr_TextDBID)[text]
+		delete((*backRepoText.Map_TextPtr_TextDBID), text)
+		delete((*backRepoText.Map_TextDBID_TextDB), textID)
+		delete((*backRepoText.Map_TextDBID_TextPtr), textID)
 	}
 
 	return
@@ -607,7 +630,7 @@ func (backRepoText *BackRepoTextStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoText *BackRepoTextStruct) RestorePhaseTwo() {
 
-	for _, textDB := range (*backRepoText.Map_TextDBID_TextDB) {
+	for _, textDB := range *backRepoText.Map_TextDBID_TextDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = textDB
@@ -615,7 +638,7 @@ func (backRepoText *BackRepoTextStruct) RestorePhaseTwo() {
 		// insertion point for reindexing pointers encoding
 		// This reindex text.Texts
 		if textDB.SVG_TextsDBID.Int64 != 0 {
-			textDB.SVG_TextsDBID.Int64 = 
+			textDB.SVG_TextsDBID.Int64 =
 				int64(BackRepoSVGid_atBckpTime_newID[uint(textDB.SVG_TextsDBID.Int64)])
 		}
 

@@ -52,6 +52,12 @@ export class SVGsTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (svgDB: SVGDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Display':
+				return svgDB.Display;
+
+			case 'Name':
+				return svgDB.Name;
+
 				default:
 					return SVGDB[property];
 		}

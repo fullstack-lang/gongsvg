@@ -89,10 +89,14 @@ export class RectDetailComponent implements OnInit {
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
 			if (this.rect.SVG_Rects_reverse != undefined) {
-				this.rect.SVG_RectsDBID = new NullInt64
+				if (this.rect.SVG_RectsDBID == undefined) {
+					this.rect.SVG_RectsDBID = new NullInt64
+				}
 				this.rect.SVG_RectsDBID.Int64 = this.rect.SVG_Rects_reverse.ID
 				this.rect.SVG_RectsDBID.Valid = true
-				this.rect.SVG_RectsDBID_Index = new NullInt64
+				if (this.rect.SVG_RectsDBID_Index == undefined) {
+					this.rect.SVG_RectsDBID_Index = new NullInt64
+				}
 				this.rect.SVG_RectsDBID_Index.Valid = true
 				this.rect.SVG_Rects_reverse = undefined // very important, otherwise, circular JSON
 			}

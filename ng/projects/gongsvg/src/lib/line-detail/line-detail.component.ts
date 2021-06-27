@@ -17,6 +17,15 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
+// LineDetailComponent is initilizaed from different routes
+// LineDetailComponentState detail different cases 
+enum LineDetailComponentState {
+	CREATE_INSTANCE,
+	UPDATE_INSTANCE,
+	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Lines_SET,
+}
+
 @Component({
 	selector: 'app-line-detail',
 	templateUrl: './line-detail.component.html',
@@ -37,6 +46,17 @@ export class LineDetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
+	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
+	state: LineDetailComponentState
+
+	// in UDPATE state, if is the id of the instance to update
+	// in CREATE state with one association set, this is the id of the associated instance
+	id: number
+
+	// in CREATE state with one association set, this is the id of the associated instance
+	originStruct: string
+	originStructFieldName: string
+
 	constructor(
 		private lineService: LineService,
 		private frontRepoService: FrontRepoService,
@@ -47,6 +67,31 @@ export class LineDetailComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+
+		// compute state
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+
+		const association = this.route.snapshot.paramMap.get('association');
+		if (this.id == 0) {
+			this.state = LineDetailComponentState.CREATE_INSTANCE
+		} else {
+			if (this.originStruct == undefined) {
+				this.state = LineDetailComponentState.UPDATE_INSTANCE
+			} else {
+				switch (this.originStructFieldName) {
+					// insertion point for state computation
+					case "Lines":
+						console.log("Line" + " is instanciated with back pointer to instance " + this.id + " SVG association Lines")
+						this.state = LineDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Lines_SET
+						break;
+					default:
+						console.log(this.originStructFieldName + " is unkown association")
+				}
+			}
+		}
+
 		this.getLine()
 
 		// observable for changes in structs
@@ -62,16 +107,25 @@ export class LineDetailComponent implements OnInit {
 	}
 
 	getLine(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				if (id != 0 && association == undefined) {
-					this.line = frontRepo.Lines.get(id)
-				} else {
-					this.line = new (LineDB)
+
+				switch (this.state) {
+					case LineDetailComponentState.CREATE_INSTANCE:
+						this.line = new (LineDB)
+						break;
+					case LineDetailComponentState.UPDATE_INSTANCE:
+						this.line = frontRepo.Lines.get(this.id)
+						break;
+					// insertion point for init of association field
+					case LineDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Lines_SET:
+						this.line = new (LineDB)
+						this.line.SVG_Lines_reverse = frontRepo.SVGs.get(this.id)
+						break;
+					default:
+						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
@@ -82,8 +136,6 @@ export class LineDetailComponent implements OnInit {
 	}
 
 	save(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
@@ -91,45 +143,33 @@ export class LineDetailComponent implements OnInit {
 		// insertion point for translation/nullation of each field
 
 		// save from the front pointer space to the non pointer space for serialization
-		if (association == undefined) {
-			// insertion point for translation/nullation of each pointers
-			if (this.line.SVG_Lines_reverse != undefined) {
-				if (this.line.SVG_LinesDBID == undefined) {
-					this.line.SVG_LinesDBID = new NullInt64
-				}
-				this.line.SVG_LinesDBID.Int64 = this.line.SVG_Lines_reverse.ID
-				this.line.SVG_LinesDBID.Valid = true
-				if (this.line.SVG_LinesDBID_Index == undefined) {
-					this.line.SVG_LinesDBID_Index = new NullInt64
-				}
-				this.line.SVG_LinesDBID_Index.Valid = true
-				this.line.SVG_Lines_reverse = undefined // very important, otherwise, circular JSON
+
+		// insertion point for translation/nullation of each pointers
+		if (this.line.SVG_Lines_reverse != undefined) {
+			if (this.line.SVG_LinesDBID == undefined) {
+				this.line.SVG_LinesDBID = new NullInt64
 			}
+			this.line.SVG_LinesDBID.Int64 = this.line.SVG_Lines_reverse.ID
+			this.line.SVG_LinesDBID.Valid = true
+			if (this.line.SVG_LinesDBID_Index == undefined) {
+				this.line.SVG_LinesDBID_Index = new NullInt64
+			}
+			this.line.SVG_LinesDBID_Index.Valid = true
+			this.line.SVG_Lines_reverse = undefined // very important, otherwise, circular JSON
 		}
 
-		if (id != 0 && association == undefined) {
-
-			this.lineService.updateLine(this.line)
-				.subscribe(line => {
-					this.lineService.LineServiceChanged.next("update")
+		switch (this.state) {
+			case LineDetailComponentState.UPDATE_INSTANCE:
+				this.lineService.updateLine(this.line)
+					.subscribe(line => {
+						this.lineService.LineServiceChanged.next("update")
+					});
+				break;
+			default:
+				this.lineService.postLine(this.line).subscribe(line => {
+					this.lineService.LineServiceChanged.next("post")
+					this.line = {} // reset fields
 				});
-		} else {
-			switch (association) {
-				// insertion point for saving value of ONE_MANY association reverse pointer
-				case "SVG_Lines":
-					this.line.SVG_LinesDBID = new NullInt64
-					this.line.SVG_LinesDBID.Int64 = id
-					this.line.SVG_LinesDBID.Valid = true
-					this.line.SVG_LinesDBID_Index = new NullInt64
-					this.line.SVG_LinesDBID_Index.Valid = true
-					break
-			}
-			this.lineService.postLine(this.line).subscribe(line => {
-
-				this.lineService.LineServiceChanged.next("post")
-
-				this.line = {} // reset fields
-			});
 		}
 	}
 

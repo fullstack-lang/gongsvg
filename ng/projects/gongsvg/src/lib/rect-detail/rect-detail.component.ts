@@ -17,6 +17,15 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
+// RectDetailComponent is initilizaed from different routes
+// RectDetailComponentState detail different cases 
+enum RectDetailComponentState {
+	CREATE_INSTANCE,
+	UPDATE_INSTANCE,
+	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Rects_SET,
+}
+
 @Component({
 	selector: 'app-rect-detail',
 	templateUrl: './rect-detail.component.html',
@@ -37,6 +46,17 @@ export class RectDetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
+	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
+	state: RectDetailComponentState
+
+	// in UDPATE state, if is the id of the instance to update
+	// in CREATE state with one association set, this is the id of the associated instance
+	id: number
+
+	// in CREATE state with one association set, this is the id of the associated instance
+	originStruct: string
+	originStructFieldName: string
+
 	constructor(
 		private rectService: RectService,
 		private frontRepoService: FrontRepoService,
@@ -47,6 +67,31 @@ export class RectDetailComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+
+		// compute state
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+
+		const association = this.route.snapshot.paramMap.get('association');
+		if (this.id == 0) {
+			this.state = RectDetailComponentState.CREATE_INSTANCE
+		} else {
+			if (this.originStruct == undefined) {
+				this.state = RectDetailComponentState.UPDATE_INSTANCE
+			} else {
+				switch (this.originStructFieldName) {
+					// insertion point for state computation
+					case "Rects":
+						console.log("Rect" + " is instanciated with back pointer to instance " + this.id + " SVG association Rects")
+						this.state = RectDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Rects_SET
+						break;
+					default:
+						console.log(this.originStructFieldName + " is unkown association")
+				}
+			}
+		}
+
 		this.getRect()
 
 		// observable for changes in structs
@@ -62,16 +107,25 @@ export class RectDetailComponent implements OnInit {
 	}
 
 	getRect(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				if (id != 0 && association == undefined) {
-					this.rect = frontRepo.Rects.get(id)
-				} else {
-					this.rect = new (RectDB)
+
+				switch (this.state) {
+					case RectDetailComponentState.CREATE_INSTANCE:
+						this.rect = new (RectDB)
+						break;
+					case RectDetailComponentState.UPDATE_INSTANCE:
+						this.rect = frontRepo.Rects.get(this.id)
+						break;
+					// insertion point for init of association field
+					case RectDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Rects_SET:
+						this.rect = new (RectDB)
+						this.rect.SVG_Rects_reverse = frontRepo.SVGs.get(this.id)
+						break;
+					default:
+						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
@@ -82,8 +136,6 @@ export class RectDetailComponent implements OnInit {
 	}
 
 	save(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
@@ -91,45 +143,33 @@ export class RectDetailComponent implements OnInit {
 		// insertion point for translation/nullation of each field
 
 		// save from the front pointer space to the non pointer space for serialization
-		if (association == undefined) {
-			// insertion point for translation/nullation of each pointers
-			if (this.rect.SVG_Rects_reverse != undefined) {
-				if (this.rect.SVG_RectsDBID == undefined) {
-					this.rect.SVG_RectsDBID = new NullInt64
-				}
-				this.rect.SVG_RectsDBID.Int64 = this.rect.SVG_Rects_reverse.ID
-				this.rect.SVG_RectsDBID.Valid = true
-				if (this.rect.SVG_RectsDBID_Index == undefined) {
-					this.rect.SVG_RectsDBID_Index = new NullInt64
-				}
-				this.rect.SVG_RectsDBID_Index.Valid = true
-				this.rect.SVG_Rects_reverse = undefined // very important, otherwise, circular JSON
+
+		// insertion point for translation/nullation of each pointers
+		if (this.rect.SVG_Rects_reverse != undefined) {
+			if (this.rect.SVG_RectsDBID == undefined) {
+				this.rect.SVG_RectsDBID = new NullInt64
 			}
+			this.rect.SVG_RectsDBID.Int64 = this.rect.SVG_Rects_reverse.ID
+			this.rect.SVG_RectsDBID.Valid = true
+			if (this.rect.SVG_RectsDBID_Index == undefined) {
+				this.rect.SVG_RectsDBID_Index = new NullInt64
+			}
+			this.rect.SVG_RectsDBID_Index.Valid = true
+			this.rect.SVG_Rects_reverse = undefined // very important, otherwise, circular JSON
 		}
 
-		if (id != 0 && association == undefined) {
-
-			this.rectService.updateRect(this.rect)
-				.subscribe(rect => {
-					this.rectService.RectServiceChanged.next("update")
+		switch (this.state) {
+			case RectDetailComponentState.UPDATE_INSTANCE:
+				this.rectService.updateRect(this.rect)
+					.subscribe(rect => {
+						this.rectService.RectServiceChanged.next("update")
+					});
+				break;
+			default:
+				this.rectService.postRect(this.rect).subscribe(rect => {
+					this.rectService.RectServiceChanged.next("post")
+					this.rect = {} // reset fields
 				});
-		} else {
-			switch (association) {
-				// insertion point for saving value of ONE_MANY association reverse pointer
-				case "SVG_Rects":
-					this.rect.SVG_RectsDBID = new NullInt64
-					this.rect.SVG_RectsDBID.Int64 = id
-					this.rect.SVG_RectsDBID.Valid = true
-					this.rect.SVG_RectsDBID_Index = new NullInt64
-					this.rect.SVG_RectsDBID_Index.Valid = true
-					break
-			}
-			this.rectService.postRect(this.rect).subscribe(rect => {
-
-				this.rectService.RectServiceChanged.next("post")
-
-				this.rect = {} // reset fields
-			});
 		}
 	}
 

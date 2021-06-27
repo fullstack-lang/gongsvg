@@ -45,6 +45,7 @@ interface GongNode {
   children?: GongNode[];
   type: GongNodeType;
   structName: string;
+  associationField: string;
   associatedStructName: string;
   id: number;
   uniqueIdPerStack: number;
@@ -60,6 +61,7 @@ interface GongFlatNode {
   level: number;
   type: GongNodeType;
   structName: string;
+  associationField: string;
   associatedStructName: string;
   id: number;
   uniqueIdPerStack: number;
@@ -94,6 +96,7 @@ export class SidebarComponent implements OnInit {
       level: level,
       type: node.type,
       structName: node.structName,
+      associationField: node.associationField,
       associatedStructName: node.associatedStructName,
       id: node.id,
       uniqueIdPerStack: node.uniqueIdPerStack,
@@ -279,6 +282,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Circle",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -303,6 +307,7 @@ export class SidebarComponent implements OnInit {
             id: circleDB.ID,
             uniqueIdPerStack: getCircleUniqueID(circleDB.ID),
             structName: "Circle",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -321,6 +326,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Ellipse",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -345,6 +351,7 @@ export class SidebarComponent implements OnInit {
             id: ellipseDB.ID,
             uniqueIdPerStack: getEllipseUniqueID(ellipseDB.ID),
             structName: "Ellipse",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -363,6 +370,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Line",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -387,6 +395,7 @@ export class SidebarComponent implements OnInit {
             id: lineDB.ID,
             uniqueIdPerStack: getLineUniqueID(lineDB.ID),
             structName: "Line",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -405,6 +414,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Path",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -429,6 +439,7 @@ export class SidebarComponent implements OnInit {
             id: pathDB.ID,
             uniqueIdPerStack: getPathUniqueID(pathDB.ID),
             structName: "Path",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -447,6 +458,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Polygone",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -471,6 +483,7 @@ export class SidebarComponent implements OnInit {
             id: polygoneDB.ID,
             uniqueIdPerStack: getPolygoneUniqueID(polygoneDB.ID),
             structName: "Polygone",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -489,6 +502,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Polyline",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -513,6 +527,7 @@ export class SidebarComponent implements OnInit {
             id: polylineDB.ID,
             uniqueIdPerStack: getPolylineUniqueID(polylineDB.ID),
             structName: "Polyline",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -531,6 +546,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Rect",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -555,6 +571,7 @@ export class SidebarComponent implements OnInit {
             id: rectDB.ID,
             uniqueIdPerStack: getRectUniqueID(rectDB.ID),
             structName: "Rect",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -573,6 +590,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "SVG",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -597,6 +615,7 @@ export class SidebarComponent implements OnInit {
             id: svgDB.ID,
             uniqueIdPerStack: getSVGUniqueID(svgDB.ID),
             structName: "SVG",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -612,6 +631,7 @@ export class SidebarComponent implements OnInit {
             id: svgDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "SVG",
+            associationField: "Rects",
             associatedStructName: "Rect",
             children: new Array<GongNode>()
           }
@@ -627,6 +647,7 @@ export class SidebarComponent implements OnInit {
                 7 * getSVGUniqueID(svgDB.ID)
                 + 11 * getRectUniqueID(rectDB.ID),
               structName: "Rect",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -642,6 +663,7 @@ export class SidebarComponent implements OnInit {
             id: svgDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "SVG",
+            associationField: "Texts",
             associatedStructName: "Text",
             children: new Array<GongNode>()
           }
@@ -657,6 +679,7 @@ export class SidebarComponent implements OnInit {
                 7 * getSVGUniqueID(svgDB.ID)
                 + 11 * getTextUniqueID(textDB.ID),
               structName: "Text",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -672,6 +695,7 @@ export class SidebarComponent implements OnInit {
             id: svgDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "SVG",
+            associationField: "Circles",
             associatedStructName: "Circle",
             children: new Array<GongNode>()
           }
@@ -687,6 +711,7 @@ export class SidebarComponent implements OnInit {
                 7 * getSVGUniqueID(svgDB.ID)
                 + 11 * getCircleUniqueID(circleDB.ID),
               structName: "Circle",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -702,6 +727,7 @@ export class SidebarComponent implements OnInit {
             id: svgDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "SVG",
+            associationField: "Lines",
             associatedStructName: "Line",
             children: new Array<GongNode>()
           }
@@ -717,6 +743,7 @@ export class SidebarComponent implements OnInit {
                 7 * getSVGUniqueID(svgDB.ID)
                 + 11 * getLineUniqueID(lineDB.ID),
               structName: "Line",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -732,6 +759,7 @@ export class SidebarComponent implements OnInit {
             id: svgDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "SVG",
+            associationField: "Ellipses",
             associatedStructName: "Ellipse",
             children: new Array<GongNode>()
           }
@@ -747,6 +775,7 @@ export class SidebarComponent implements OnInit {
                 7 * getSVGUniqueID(svgDB.ID)
                 + 11 * getEllipseUniqueID(ellipseDB.ID),
               structName: "Ellipse",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -762,6 +791,7 @@ export class SidebarComponent implements OnInit {
             id: svgDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "SVG",
+            associationField: "Polylines",
             associatedStructName: "Polyline",
             children: new Array<GongNode>()
           }
@@ -777,6 +807,7 @@ export class SidebarComponent implements OnInit {
                 7 * getSVGUniqueID(svgDB.ID)
                 + 11 * getPolylineUniqueID(polylineDB.ID),
               structName: "Polyline",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -792,6 +823,7 @@ export class SidebarComponent implements OnInit {
             id: svgDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "SVG",
+            associationField: "Polygones",
             associatedStructName: "Polygone",
             children: new Array<GongNode>()
           }
@@ -807,6 +839,7 @@ export class SidebarComponent implements OnInit {
                 7 * getSVGUniqueID(svgDB.ID)
                 + 11 * getPolygoneUniqueID(polygoneDB.ID),
               structName: "Polygone",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -822,6 +855,7 @@ export class SidebarComponent implements OnInit {
             id: svgDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "SVG",
+            associationField: "Paths",
             associatedStructName: "Path",
             children: new Array<GongNode>()
           }
@@ -837,6 +871,7 @@ export class SidebarComponent implements OnInit {
                 7 * getSVGUniqueID(svgDB.ID)
                 + 11 * getPathUniqueID(pathDB.ID),
               structName: "Path",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -855,6 +890,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Text",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -879,6 +915,7 @@ export class SidebarComponent implements OnInit {
             id: textDB.ID,
             uniqueIdPerStack: getTextUniqueID(textDB.ID),
             structName: "Text",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -959,7 +996,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet( node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
+        github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
       }
     }]);
   }

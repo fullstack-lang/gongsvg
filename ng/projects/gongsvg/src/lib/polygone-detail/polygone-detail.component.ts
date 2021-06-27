@@ -17,6 +17,15 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
+// PolygoneDetailComponent is initilizaed from different routes
+// PolygoneDetailComponentState detail different cases 
+enum PolygoneDetailComponentState {
+	CREATE_INSTANCE,
+	UPDATE_INSTANCE,
+	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Polygones_SET,
+}
+
 @Component({
 	selector: 'app-polygone-detail',
 	templateUrl: './polygone-detail.component.html',
@@ -37,6 +46,17 @@ export class PolygoneDetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
+	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
+	state: PolygoneDetailComponentState
+
+	// in UDPATE state, if is the id of the instance to update
+	// in CREATE state with one association set, this is the id of the associated instance
+	id: number
+
+	// in CREATE state with one association set, this is the id of the associated instance
+	originStruct: string
+	originStructFieldName: string
+
 	constructor(
 		private polygoneService: PolygoneService,
 		private frontRepoService: FrontRepoService,
@@ -47,6 +67,31 @@ export class PolygoneDetailComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+
+		// compute state
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+
+		const association = this.route.snapshot.paramMap.get('association');
+		if (this.id == 0) {
+			this.state = PolygoneDetailComponentState.CREATE_INSTANCE
+		} else {
+			if (this.originStruct == undefined) {
+				this.state = PolygoneDetailComponentState.UPDATE_INSTANCE
+			} else {
+				switch (this.originStructFieldName) {
+					// insertion point for state computation
+					case "Polygones":
+						console.log("Polygone" + " is instanciated with back pointer to instance " + this.id + " SVG association Polygones")
+						this.state = PolygoneDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Polygones_SET
+						break;
+					default:
+						console.log(this.originStructFieldName + " is unkown association")
+				}
+			}
+		}
+
 		this.getPolygone()
 
 		// observable for changes in structs
@@ -62,16 +107,25 @@ export class PolygoneDetailComponent implements OnInit {
 	}
 
 	getPolygone(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				if (id != 0 && association == undefined) {
-					this.polygone = frontRepo.Polygones.get(id)
-				} else {
-					this.polygone = new (PolygoneDB)
+
+				switch (this.state) {
+					case PolygoneDetailComponentState.CREATE_INSTANCE:
+						this.polygone = new (PolygoneDB)
+						break;
+					case PolygoneDetailComponentState.UPDATE_INSTANCE:
+						this.polygone = frontRepo.Polygones.get(this.id)
+						break;
+					// insertion point for init of association field
+					case PolygoneDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Polygones_SET:
+						this.polygone = new (PolygoneDB)
+						this.polygone.SVG_Polygones_reverse = frontRepo.SVGs.get(this.id)
+						break;
+					default:
+						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
@@ -82,8 +136,6 @@ export class PolygoneDetailComponent implements OnInit {
 	}
 
 	save(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
@@ -91,45 +143,33 @@ export class PolygoneDetailComponent implements OnInit {
 		// insertion point for translation/nullation of each field
 
 		// save from the front pointer space to the non pointer space for serialization
-		if (association == undefined) {
-			// insertion point for translation/nullation of each pointers
-			if (this.polygone.SVG_Polygones_reverse != undefined) {
-				if (this.polygone.SVG_PolygonesDBID == undefined) {
-					this.polygone.SVG_PolygonesDBID = new NullInt64
-				}
-				this.polygone.SVG_PolygonesDBID.Int64 = this.polygone.SVG_Polygones_reverse.ID
-				this.polygone.SVG_PolygonesDBID.Valid = true
-				if (this.polygone.SVG_PolygonesDBID_Index == undefined) {
-					this.polygone.SVG_PolygonesDBID_Index = new NullInt64
-				}
-				this.polygone.SVG_PolygonesDBID_Index.Valid = true
-				this.polygone.SVG_Polygones_reverse = undefined // very important, otherwise, circular JSON
+
+		// insertion point for translation/nullation of each pointers
+		if (this.polygone.SVG_Polygones_reverse != undefined) {
+			if (this.polygone.SVG_PolygonesDBID == undefined) {
+				this.polygone.SVG_PolygonesDBID = new NullInt64
 			}
+			this.polygone.SVG_PolygonesDBID.Int64 = this.polygone.SVG_Polygones_reverse.ID
+			this.polygone.SVG_PolygonesDBID.Valid = true
+			if (this.polygone.SVG_PolygonesDBID_Index == undefined) {
+				this.polygone.SVG_PolygonesDBID_Index = new NullInt64
+			}
+			this.polygone.SVG_PolygonesDBID_Index.Valid = true
+			this.polygone.SVG_Polygones_reverse = undefined // very important, otherwise, circular JSON
 		}
 
-		if (id != 0 && association == undefined) {
-
-			this.polygoneService.updatePolygone(this.polygone)
-				.subscribe(polygone => {
-					this.polygoneService.PolygoneServiceChanged.next("update")
+		switch (this.state) {
+			case PolygoneDetailComponentState.UPDATE_INSTANCE:
+				this.polygoneService.updatePolygone(this.polygone)
+					.subscribe(polygone => {
+						this.polygoneService.PolygoneServiceChanged.next("update")
+					});
+				break;
+			default:
+				this.polygoneService.postPolygone(this.polygone).subscribe(polygone => {
+					this.polygoneService.PolygoneServiceChanged.next("post")
+					this.polygone = {} // reset fields
 				});
-		} else {
-			switch (association) {
-				// insertion point for saving value of ONE_MANY association reverse pointer
-				case "SVG_Polygones":
-					this.polygone.SVG_PolygonesDBID = new NullInt64
-					this.polygone.SVG_PolygonesDBID.Int64 = id
-					this.polygone.SVG_PolygonesDBID.Valid = true
-					this.polygone.SVG_PolygonesDBID_Index = new NullInt64
-					this.polygone.SVG_PolygonesDBID_Index.Valid = true
-					break
-			}
-			this.polygoneService.postPolygone(this.polygone).subscribe(polygone => {
-
-				this.polygoneService.PolygoneServiceChanged.next("post")
-
-				this.polygone = {} // reset fields
-			});
 		}
 	}
 

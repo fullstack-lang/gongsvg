@@ -17,6 +17,15 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
+// TextDetailComponent is initilizaed from different routes
+// TextDetailComponentState detail different cases 
+enum TextDetailComponentState {
+	CREATE_INSTANCE,
+	UPDATE_INSTANCE,
+	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Texts_SET,
+}
+
 @Component({
 	selector: 'app-text-detail',
 	templateUrl: './text-detail.component.html',
@@ -37,6 +46,17 @@ export class TextDetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
+	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
+	state: TextDetailComponentState
+
+	// in UDPATE state, if is the id of the instance to update
+	// in CREATE state with one association set, this is the id of the associated instance
+	id: number
+
+	// in CREATE state with one association set, this is the id of the associated instance
+	originStruct: string
+	originStructFieldName: string
+
 	constructor(
 		private textService: TextService,
 		private frontRepoService: FrontRepoService,
@@ -47,6 +67,31 @@ export class TextDetailComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+
+		// compute state
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+
+		const association = this.route.snapshot.paramMap.get('association');
+		if (this.id == 0) {
+			this.state = TextDetailComponentState.CREATE_INSTANCE
+		} else {
+			if (this.originStruct == undefined) {
+				this.state = TextDetailComponentState.UPDATE_INSTANCE
+			} else {
+				switch (this.originStructFieldName) {
+					// insertion point for state computation
+					case "Texts":
+						console.log("Text" + " is instanciated with back pointer to instance " + this.id + " SVG association Texts")
+						this.state = TextDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Texts_SET
+						break;
+					default:
+						console.log(this.originStructFieldName + " is unkown association")
+				}
+			}
+		}
+
 		this.getText()
 
 		// observable for changes in structs
@@ -62,16 +107,25 @@ export class TextDetailComponent implements OnInit {
 	}
 
 	getText(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				if (id != 0 && association == undefined) {
-					this.text = frontRepo.Texts.get(id)
-				} else {
-					this.text = new (TextDB)
+
+				switch (this.state) {
+					case TextDetailComponentState.CREATE_INSTANCE:
+						this.text = new (TextDB)
+						break;
+					case TextDetailComponentState.UPDATE_INSTANCE:
+						this.text = frontRepo.Texts.get(this.id)
+						break;
+					// insertion point for init of association field
+					case TextDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Texts_SET:
+						this.text = new (TextDB)
+						this.text.SVG_Texts_reverse = frontRepo.SVGs.get(this.id)
+						break;
+					default:
+						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
@@ -82,8 +136,6 @@ export class TextDetailComponent implements OnInit {
 	}
 
 	save(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
@@ -91,45 +143,33 @@ export class TextDetailComponent implements OnInit {
 		// insertion point for translation/nullation of each field
 
 		// save from the front pointer space to the non pointer space for serialization
-		if (association == undefined) {
-			// insertion point for translation/nullation of each pointers
-			if (this.text.SVG_Texts_reverse != undefined) {
-				if (this.text.SVG_TextsDBID == undefined) {
-					this.text.SVG_TextsDBID = new NullInt64
-				}
-				this.text.SVG_TextsDBID.Int64 = this.text.SVG_Texts_reverse.ID
-				this.text.SVG_TextsDBID.Valid = true
-				if (this.text.SVG_TextsDBID_Index == undefined) {
-					this.text.SVG_TextsDBID_Index = new NullInt64
-				}
-				this.text.SVG_TextsDBID_Index.Valid = true
-				this.text.SVG_Texts_reverse = undefined // very important, otherwise, circular JSON
+
+		// insertion point for translation/nullation of each pointers
+		if (this.text.SVG_Texts_reverse != undefined) {
+			if (this.text.SVG_TextsDBID == undefined) {
+				this.text.SVG_TextsDBID = new NullInt64
 			}
+			this.text.SVG_TextsDBID.Int64 = this.text.SVG_Texts_reverse.ID
+			this.text.SVG_TextsDBID.Valid = true
+			if (this.text.SVG_TextsDBID_Index == undefined) {
+				this.text.SVG_TextsDBID_Index = new NullInt64
+			}
+			this.text.SVG_TextsDBID_Index.Valid = true
+			this.text.SVG_Texts_reverse = undefined // very important, otherwise, circular JSON
 		}
 
-		if (id != 0 && association == undefined) {
-
-			this.textService.updateText(this.text)
-				.subscribe(text => {
-					this.textService.TextServiceChanged.next("update")
+		switch (this.state) {
+			case TextDetailComponentState.UPDATE_INSTANCE:
+				this.textService.updateText(this.text)
+					.subscribe(text => {
+						this.textService.TextServiceChanged.next("update")
+					});
+				break;
+			default:
+				this.textService.postText(this.text).subscribe(text => {
+					this.textService.TextServiceChanged.next("post")
+					this.text = {} // reset fields
 				});
-		} else {
-			switch (association) {
-				// insertion point for saving value of ONE_MANY association reverse pointer
-				case "SVG_Texts":
-					this.text.SVG_TextsDBID = new NullInt64
-					this.text.SVG_TextsDBID.Int64 = id
-					this.text.SVG_TextsDBID.Valid = true
-					this.text.SVG_TextsDBID_Index = new NullInt64
-					this.text.SVG_TextsDBID_Index.Valid = true
-					break
-			}
-			this.textService.postText(this.text).subscribe(text => {
-
-				this.textService.TextServiceChanged.next("post")
-
-				this.text = {} // reset fields
-			});
 		}
 	}
 

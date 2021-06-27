@@ -1,8 +1,8 @@
 <form *ngIf="path" class="details">
-    <h1 class="details__title">path</h1>
+    <h2 class="details__title">path</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="path.Name">
@@ -21,8 +21,8 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="path.Name"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Definition")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("Definition")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Definition</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="path.Definition">
@@ -41,8 +41,8 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="path.Definition"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Color")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("Color")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Color</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="path.Color">
@@ -67,8 +67,8 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="path.FillOpacity" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Stroke")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("Stroke")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Stroke</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="path.Stroke">
@@ -93,8 +93,8 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="path.StrokeWidth" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("StrokeDashArray")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("StrokeDashArray")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>StrokeDashArray</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="path.StrokeDashArray">
@@ -113,8 +113,8 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="path.StrokeDashArray"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Transform")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("Transform")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Transform</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="path.Transform">
@@ -134,7 +134,7 @@
     </mat-form-field>
 
     <mat-form-field class="detail-full-width">
-        <mat-label><- Paths</mat-label>
+        <mat-label>(SVG) Paths</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="path.SVG_Paths_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let svg of frontRepo.SVGs_array" [value]="svg">

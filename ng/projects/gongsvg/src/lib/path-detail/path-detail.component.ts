@@ -17,6 +17,15 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
+// PathDetailComponent is initilizaed from different routes
+// PathDetailComponentState detail different cases 
+enum PathDetailComponentState {
+	CREATE_INSTANCE,
+	UPDATE_INSTANCE,
+	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Paths_SET,
+}
+
 @Component({
 	selector: 'app-path-detail',
 	templateUrl: './path-detail.component.html',
@@ -37,6 +46,17 @@ export class PathDetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
+	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
+	state: PathDetailComponentState
+
+	// in UDPATE state, if is the id of the instance to update
+	// in CREATE state with one association set, this is the id of the associated instance
+	id: number
+
+	// in CREATE state with one association set, this is the id of the associated instance
+	originStruct: string
+	originStructFieldName: string
+
 	constructor(
 		private pathService: PathService,
 		private frontRepoService: FrontRepoService,
@@ -47,6 +67,31 @@ export class PathDetailComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+
+		// compute state
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+
+		const association = this.route.snapshot.paramMap.get('association');
+		if (this.id == 0) {
+			this.state = PathDetailComponentState.CREATE_INSTANCE
+		} else {
+			if (this.originStruct == undefined) {
+				this.state = PathDetailComponentState.UPDATE_INSTANCE
+			} else {
+				switch (this.originStructFieldName) {
+					// insertion point for state computation
+					case "Paths":
+						console.log("Path" + " is instanciated with back pointer to instance " + this.id + " SVG association Paths")
+						this.state = PathDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Paths_SET
+						break;
+					default:
+						console.log(this.originStructFieldName + " is unkown association")
+				}
+			}
+		}
+
 		this.getPath()
 
 		// observable for changes in structs
@@ -62,16 +107,25 @@ export class PathDetailComponent implements OnInit {
 	}
 
 	getPath(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				if (id != 0 && association == undefined) {
-					this.path = frontRepo.Paths.get(id)
-				} else {
-					this.path = new (PathDB)
+
+				switch (this.state) {
+					case PathDetailComponentState.CREATE_INSTANCE:
+						this.path = new (PathDB)
+						break;
+					case PathDetailComponentState.UPDATE_INSTANCE:
+						this.path = frontRepo.Paths.get(this.id)
+						break;
+					// insertion point for init of association field
+					case PathDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Paths_SET:
+						this.path = new (PathDB)
+						this.path.SVG_Paths_reverse = frontRepo.SVGs.get(this.id)
+						break;
+					default:
+						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
@@ -82,8 +136,6 @@ export class PathDetailComponent implements OnInit {
 	}
 
 	save(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
@@ -91,45 +143,33 @@ export class PathDetailComponent implements OnInit {
 		// insertion point for translation/nullation of each field
 
 		// save from the front pointer space to the non pointer space for serialization
-		if (association == undefined) {
-			// insertion point for translation/nullation of each pointers
-			if (this.path.SVG_Paths_reverse != undefined) {
-				if (this.path.SVG_PathsDBID == undefined) {
-					this.path.SVG_PathsDBID = new NullInt64
-				}
-				this.path.SVG_PathsDBID.Int64 = this.path.SVG_Paths_reverse.ID
-				this.path.SVG_PathsDBID.Valid = true
-				if (this.path.SVG_PathsDBID_Index == undefined) {
-					this.path.SVG_PathsDBID_Index = new NullInt64
-				}
-				this.path.SVG_PathsDBID_Index.Valid = true
-				this.path.SVG_Paths_reverse = undefined // very important, otherwise, circular JSON
+
+		// insertion point for translation/nullation of each pointers
+		if (this.path.SVG_Paths_reverse != undefined) {
+			if (this.path.SVG_PathsDBID == undefined) {
+				this.path.SVG_PathsDBID = new NullInt64
 			}
+			this.path.SVG_PathsDBID.Int64 = this.path.SVG_Paths_reverse.ID
+			this.path.SVG_PathsDBID.Valid = true
+			if (this.path.SVG_PathsDBID_Index == undefined) {
+				this.path.SVG_PathsDBID_Index = new NullInt64
+			}
+			this.path.SVG_PathsDBID_Index.Valid = true
+			this.path.SVG_Paths_reverse = undefined // very important, otherwise, circular JSON
 		}
 
-		if (id != 0 && association == undefined) {
-
-			this.pathService.updatePath(this.path)
-				.subscribe(path => {
-					this.pathService.PathServiceChanged.next("update")
+		switch (this.state) {
+			case PathDetailComponentState.UPDATE_INSTANCE:
+				this.pathService.updatePath(this.path)
+					.subscribe(path => {
+						this.pathService.PathServiceChanged.next("update")
+					});
+				break;
+			default:
+				this.pathService.postPath(this.path).subscribe(path => {
+					this.pathService.PathServiceChanged.next("post")
+					this.path = {} // reset fields
 				});
-		} else {
-			switch (association) {
-				// insertion point for saving value of ONE_MANY association reverse pointer
-				case "SVG_Paths":
-					this.path.SVG_PathsDBID = new NullInt64
-					this.path.SVG_PathsDBID.Int64 = id
-					this.path.SVG_PathsDBID.Valid = true
-					this.path.SVG_PathsDBID_Index = new NullInt64
-					this.path.SVG_PathsDBID_Index.Valid = true
-					break
-			}
-			this.pathService.postPath(this.path).subscribe(path => {
-
-				this.pathService.PathServiceChanged.next("post")
-
-				this.path = {} // reset fields
-			});
 		}
 	}
 

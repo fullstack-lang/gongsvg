@@ -1,8 +1,8 @@
 <form *ngIf="circle" class="details">
-    <h1 class="details__title">circle</h1>
+    <h2 class="details__title">circle</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="circle.Name">
@@ -39,8 +39,8 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="circle.Radius" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Color")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("Color")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Color</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="circle.Color">
@@ -65,8 +65,8 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="circle.FillOpacity" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Stroke")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("Stroke")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Stroke</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="circle.Stroke">
@@ -91,8 +91,8 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="circle.StrokeWidth" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("StrokeDashArray")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("StrokeDashArray")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>StrokeDashArray</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="circle.StrokeDashArray">
@@ -111,8 +111,8 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="circle.StrokeDashArray"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Transform")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("Transform")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Transform</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="circle.Transform">
@@ -132,7 +132,7 @@
     </mat-form-field>
 
     <mat-form-field class="detail-full-width">
-        <mat-label><- Circles</mat-label>
+        <mat-label>(SVG) Circles</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="circle.SVG_Circles_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let svg of frontRepo.SVGs_array" [value]="svg">

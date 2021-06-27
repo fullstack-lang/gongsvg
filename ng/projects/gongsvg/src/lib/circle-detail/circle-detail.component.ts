@@ -17,6 +17,15 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
+// CircleDetailComponent is initilizaed from different routes
+// CircleDetailComponentState detail different cases 
+enum CircleDetailComponentState {
+	CREATE_INSTANCE,
+	UPDATE_INSTANCE,
+	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Circles_SET,
+}
+
 @Component({
 	selector: 'app-circle-detail',
 	templateUrl: './circle-detail.component.html',
@@ -37,6 +46,17 @@ export class CircleDetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
+	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
+	state: CircleDetailComponentState
+
+	// in UDPATE state, if is the id of the instance to update
+	// in CREATE state with one association set, this is the id of the associated instance
+	id: number
+
+	// in CREATE state with one association set, this is the id of the associated instance
+	originStruct: string
+	originStructFieldName: string
+
 	constructor(
 		private circleService: CircleService,
 		private frontRepoService: FrontRepoService,
@@ -47,6 +67,31 @@ export class CircleDetailComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+
+		// compute state
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+
+		const association = this.route.snapshot.paramMap.get('association');
+		if (this.id == 0) {
+			this.state = CircleDetailComponentState.CREATE_INSTANCE
+		} else {
+			if (this.originStruct == undefined) {
+				this.state = CircleDetailComponentState.UPDATE_INSTANCE
+			} else {
+				switch (this.originStructFieldName) {
+					// insertion point for state computation
+					case "Circles":
+						console.log("Circle" + " is instanciated with back pointer to instance " + this.id + " SVG association Circles")
+						this.state = CircleDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Circles_SET
+						break;
+					default:
+						console.log(this.originStructFieldName + " is unkown association")
+				}
+			}
+		}
+
 		this.getCircle()
 
 		// observable for changes in structs
@@ -62,16 +107,25 @@ export class CircleDetailComponent implements OnInit {
 	}
 
 	getCircle(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				if (id != 0 && association == undefined) {
-					this.circle = frontRepo.Circles.get(id)
-				} else {
-					this.circle = new (CircleDB)
+
+				switch (this.state) {
+					case CircleDetailComponentState.CREATE_INSTANCE:
+						this.circle = new (CircleDB)
+						break;
+					case CircleDetailComponentState.UPDATE_INSTANCE:
+						this.circle = frontRepo.Circles.get(this.id)
+						break;
+					// insertion point for init of association field
+					case CircleDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Circles_SET:
+						this.circle = new (CircleDB)
+						this.circle.SVG_Circles_reverse = frontRepo.SVGs.get(this.id)
+						break;
+					default:
+						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
@@ -82,8 +136,6 @@ export class CircleDetailComponent implements OnInit {
 	}
 
 	save(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
@@ -91,45 +143,33 @@ export class CircleDetailComponent implements OnInit {
 		// insertion point for translation/nullation of each field
 
 		// save from the front pointer space to the non pointer space for serialization
-		if (association == undefined) {
-			// insertion point for translation/nullation of each pointers
-			if (this.circle.SVG_Circles_reverse != undefined) {
-				if (this.circle.SVG_CirclesDBID == undefined) {
-					this.circle.SVG_CirclesDBID = new NullInt64
-				}
-				this.circle.SVG_CirclesDBID.Int64 = this.circle.SVG_Circles_reverse.ID
-				this.circle.SVG_CirclesDBID.Valid = true
-				if (this.circle.SVG_CirclesDBID_Index == undefined) {
-					this.circle.SVG_CirclesDBID_Index = new NullInt64
-				}
-				this.circle.SVG_CirclesDBID_Index.Valid = true
-				this.circle.SVG_Circles_reverse = undefined // very important, otherwise, circular JSON
+
+		// insertion point for translation/nullation of each pointers
+		if (this.circle.SVG_Circles_reverse != undefined) {
+			if (this.circle.SVG_CirclesDBID == undefined) {
+				this.circle.SVG_CirclesDBID = new NullInt64
 			}
+			this.circle.SVG_CirclesDBID.Int64 = this.circle.SVG_Circles_reverse.ID
+			this.circle.SVG_CirclesDBID.Valid = true
+			if (this.circle.SVG_CirclesDBID_Index == undefined) {
+				this.circle.SVG_CirclesDBID_Index = new NullInt64
+			}
+			this.circle.SVG_CirclesDBID_Index.Valid = true
+			this.circle.SVG_Circles_reverse = undefined // very important, otherwise, circular JSON
 		}
 
-		if (id != 0 && association == undefined) {
-
-			this.circleService.updateCircle(this.circle)
-				.subscribe(circle => {
-					this.circleService.CircleServiceChanged.next("update")
+		switch (this.state) {
+			case CircleDetailComponentState.UPDATE_INSTANCE:
+				this.circleService.updateCircle(this.circle)
+					.subscribe(circle => {
+						this.circleService.CircleServiceChanged.next("update")
+					});
+				break;
+			default:
+				this.circleService.postCircle(this.circle).subscribe(circle => {
+					this.circleService.CircleServiceChanged.next("post")
+					this.circle = {} // reset fields
 				});
-		} else {
-			switch (association) {
-				// insertion point for saving value of ONE_MANY association reverse pointer
-				case "SVG_Circles":
-					this.circle.SVG_CirclesDBID = new NullInt64
-					this.circle.SVG_CirclesDBID.Int64 = id
-					this.circle.SVG_CirclesDBID.Valid = true
-					this.circle.SVG_CirclesDBID_Index = new NullInt64
-					this.circle.SVG_CirclesDBID_Index.Valid = true
-					break
-			}
-			this.circleService.postCircle(this.circle).subscribe(circle => {
-
-				this.circleService.CircleServiceChanged.next("post")
-
-				this.circle = {} // reset fields
-			});
 		}
 	}
 

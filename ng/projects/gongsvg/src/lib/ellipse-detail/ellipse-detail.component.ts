@@ -17,6 +17,15 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
+// EllipseDetailComponent is initilizaed from different routes
+// EllipseDetailComponentState detail different cases 
+enum EllipseDetailComponentState {
+	CREATE_INSTANCE,
+	UPDATE_INSTANCE,
+	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Ellipses_SET,
+}
+
 @Component({
 	selector: 'app-ellipse-detail',
 	templateUrl: './ellipse-detail.component.html',
@@ -37,6 +46,17 @@ export class EllipseDetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
+	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
+	state: EllipseDetailComponentState
+
+	// in UDPATE state, if is the id of the instance to update
+	// in CREATE state with one association set, this is the id of the associated instance
+	id: number
+
+	// in CREATE state with one association set, this is the id of the associated instance
+	originStruct: string
+	originStructFieldName: string
+
 	constructor(
 		private ellipseService: EllipseService,
 		private frontRepoService: FrontRepoService,
@@ -47,6 +67,31 @@ export class EllipseDetailComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+
+		// compute state
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+
+		const association = this.route.snapshot.paramMap.get('association');
+		if (this.id == 0) {
+			this.state = EllipseDetailComponentState.CREATE_INSTANCE
+		} else {
+			if (this.originStruct == undefined) {
+				this.state = EllipseDetailComponentState.UPDATE_INSTANCE
+			} else {
+				switch (this.originStructFieldName) {
+					// insertion point for state computation
+					case "Ellipses":
+						console.log("Ellipse" + " is instanciated with back pointer to instance " + this.id + " SVG association Ellipses")
+						this.state = EllipseDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Ellipses_SET
+						break;
+					default:
+						console.log(this.originStructFieldName + " is unkown association")
+				}
+			}
+		}
+
 		this.getEllipse()
 
 		// observable for changes in structs
@@ -62,16 +107,25 @@ export class EllipseDetailComponent implements OnInit {
 	}
 
 	getEllipse(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				if (id != 0 && association == undefined) {
-					this.ellipse = frontRepo.Ellipses.get(id)
-				} else {
-					this.ellipse = new (EllipseDB)
+
+				switch (this.state) {
+					case EllipseDetailComponentState.CREATE_INSTANCE:
+						this.ellipse = new (EllipseDB)
+						break;
+					case EllipseDetailComponentState.UPDATE_INSTANCE:
+						this.ellipse = frontRepo.Ellipses.get(this.id)
+						break;
+					// insertion point for init of association field
+					case EllipseDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Ellipses_SET:
+						this.ellipse = new (EllipseDB)
+						this.ellipse.SVG_Ellipses_reverse = frontRepo.SVGs.get(this.id)
+						break;
+					default:
+						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
@@ -82,8 +136,6 @@ export class EllipseDetailComponent implements OnInit {
 	}
 
 	save(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
@@ -91,45 +143,33 @@ export class EllipseDetailComponent implements OnInit {
 		// insertion point for translation/nullation of each field
 
 		// save from the front pointer space to the non pointer space for serialization
-		if (association == undefined) {
-			// insertion point for translation/nullation of each pointers
-			if (this.ellipse.SVG_Ellipses_reverse != undefined) {
-				if (this.ellipse.SVG_EllipsesDBID == undefined) {
-					this.ellipse.SVG_EllipsesDBID = new NullInt64
-				}
-				this.ellipse.SVG_EllipsesDBID.Int64 = this.ellipse.SVG_Ellipses_reverse.ID
-				this.ellipse.SVG_EllipsesDBID.Valid = true
-				if (this.ellipse.SVG_EllipsesDBID_Index == undefined) {
-					this.ellipse.SVG_EllipsesDBID_Index = new NullInt64
-				}
-				this.ellipse.SVG_EllipsesDBID_Index.Valid = true
-				this.ellipse.SVG_Ellipses_reverse = undefined // very important, otherwise, circular JSON
+
+		// insertion point for translation/nullation of each pointers
+		if (this.ellipse.SVG_Ellipses_reverse != undefined) {
+			if (this.ellipse.SVG_EllipsesDBID == undefined) {
+				this.ellipse.SVG_EllipsesDBID = new NullInt64
 			}
+			this.ellipse.SVG_EllipsesDBID.Int64 = this.ellipse.SVG_Ellipses_reverse.ID
+			this.ellipse.SVG_EllipsesDBID.Valid = true
+			if (this.ellipse.SVG_EllipsesDBID_Index == undefined) {
+				this.ellipse.SVG_EllipsesDBID_Index = new NullInt64
+			}
+			this.ellipse.SVG_EllipsesDBID_Index.Valid = true
+			this.ellipse.SVG_Ellipses_reverse = undefined // very important, otherwise, circular JSON
 		}
 
-		if (id != 0 && association == undefined) {
-
-			this.ellipseService.updateEllipse(this.ellipse)
-				.subscribe(ellipse => {
-					this.ellipseService.EllipseServiceChanged.next("update")
+		switch (this.state) {
+			case EllipseDetailComponentState.UPDATE_INSTANCE:
+				this.ellipseService.updateEllipse(this.ellipse)
+					.subscribe(ellipse => {
+						this.ellipseService.EllipseServiceChanged.next("update")
+					});
+				break;
+			default:
+				this.ellipseService.postEllipse(this.ellipse).subscribe(ellipse => {
+					this.ellipseService.EllipseServiceChanged.next("post")
+					this.ellipse = {} // reset fields
 				});
-		} else {
-			switch (association) {
-				// insertion point for saving value of ONE_MANY association reverse pointer
-				case "SVG_Ellipses":
-					this.ellipse.SVG_EllipsesDBID = new NullInt64
-					this.ellipse.SVG_EllipsesDBID.Int64 = id
-					this.ellipse.SVG_EllipsesDBID.Valid = true
-					this.ellipse.SVG_EllipsesDBID_Index = new NullInt64
-					this.ellipse.SVG_EllipsesDBID_Index.Valid = true
-					break
-			}
-			this.ellipseService.postEllipse(this.ellipse).subscribe(ellipse => {
-
-				this.ellipseService.EllipseServiceChanged.next("post")
-
-				this.ellipse = {} // reset fields
-			});
 		}
 	}
 

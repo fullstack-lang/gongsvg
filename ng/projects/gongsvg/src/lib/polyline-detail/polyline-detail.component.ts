@@ -17,6 +17,15 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
+// PolylineDetailComponent is initilizaed from different routes
+// PolylineDetailComponentState detail different cases 
+enum PolylineDetailComponentState {
+	CREATE_INSTANCE,
+	UPDATE_INSTANCE,
+	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Polylines_SET,
+}
+
 @Component({
 	selector: 'app-polyline-detail',
 	templateUrl: './polyline-detail.component.html',
@@ -37,6 +46,17 @@ export class PolylineDetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
+	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
+	state: PolylineDetailComponentState
+
+	// in UDPATE state, if is the id of the instance to update
+	// in CREATE state with one association set, this is the id of the associated instance
+	id: number
+
+	// in CREATE state with one association set, this is the id of the associated instance
+	originStruct: string
+	originStructFieldName: string
+
 	constructor(
 		private polylineService: PolylineService,
 		private frontRepoService: FrontRepoService,
@@ -47,6 +67,31 @@ export class PolylineDetailComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+
+		// compute state
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+
+		const association = this.route.snapshot.paramMap.get('association');
+		if (this.id == 0) {
+			this.state = PolylineDetailComponentState.CREATE_INSTANCE
+		} else {
+			if (this.originStruct == undefined) {
+				this.state = PolylineDetailComponentState.UPDATE_INSTANCE
+			} else {
+				switch (this.originStructFieldName) {
+					// insertion point for state computation
+					case "Polylines":
+						console.log("Polyline" + " is instanciated with back pointer to instance " + this.id + " SVG association Polylines")
+						this.state = PolylineDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Polylines_SET
+						break;
+					default:
+						console.log(this.originStructFieldName + " is unkown association")
+				}
+			}
+		}
+
 		this.getPolyline()
 
 		// observable for changes in structs
@@ -62,16 +107,25 @@ export class PolylineDetailComponent implements OnInit {
 	}
 
 	getPolyline(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				if (id != 0 && association == undefined) {
-					this.polyline = frontRepo.Polylines.get(id)
-				} else {
-					this.polyline = new (PolylineDB)
+
+				switch (this.state) {
+					case PolylineDetailComponentState.CREATE_INSTANCE:
+						this.polyline = new (PolylineDB)
+						break;
+					case PolylineDetailComponentState.UPDATE_INSTANCE:
+						this.polyline = frontRepo.Polylines.get(this.id)
+						break;
+					// insertion point for init of association field
+					case PolylineDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Polylines_SET:
+						this.polyline = new (PolylineDB)
+						this.polyline.SVG_Polylines_reverse = frontRepo.SVGs.get(this.id)
+						break;
+					default:
+						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
@@ -82,8 +136,6 @@ export class PolylineDetailComponent implements OnInit {
 	}
 
 	save(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
@@ -91,45 +143,33 @@ export class PolylineDetailComponent implements OnInit {
 		// insertion point for translation/nullation of each field
 
 		// save from the front pointer space to the non pointer space for serialization
-		if (association == undefined) {
-			// insertion point for translation/nullation of each pointers
-			if (this.polyline.SVG_Polylines_reverse != undefined) {
-				if (this.polyline.SVG_PolylinesDBID == undefined) {
-					this.polyline.SVG_PolylinesDBID = new NullInt64
-				}
-				this.polyline.SVG_PolylinesDBID.Int64 = this.polyline.SVG_Polylines_reverse.ID
-				this.polyline.SVG_PolylinesDBID.Valid = true
-				if (this.polyline.SVG_PolylinesDBID_Index == undefined) {
-					this.polyline.SVG_PolylinesDBID_Index = new NullInt64
-				}
-				this.polyline.SVG_PolylinesDBID_Index.Valid = true
-				this.polyline.SVG_Polylines_reverse = undefined // very important, otherwise, circular JSON
+
+		// insertion point for translation/nullation of each pointers
+		if (this.polyline.SVG_Polylines_reverse != undefined) {
+			if (this.polyline.SVG_PolylinesDBID == undefined) {
+				this.polyline.SVG_PolylinesDBID = new NullInt64
 			}
+			this.polyline.SVG_PolylinesDBID.Int64 = this.polyline.SVG_Polylines_reverse.ID
+			this.polyline.SVG_PolylinesDBID.Valid = true
+			if (this.polyline.SVG_PolylinesDBID_Index == undefined) {
+				this.polyline.SVG_PolylinesDBID_Index = new NullInt64
+			}
+			this.polyline.SVG_PolylinesDBID_Index.Valid = true
+			this.polyline.SVG_Polylines_reverse = undefined // very important, otherwise, circular JSON
 		}
 
-		if (id != 0 && association == undefined) {
-
-			this.polylineService.updatePolyline(this.polyline)
-				.subscribe(polyline => {
-					this.polylineService.PolylineServiceChanged.next("update")
+		switch (this.state) {
+			case PolylineDetailComponentState.UPDATE_INSTANCE:
+				this.polylineService.updatePolyline(this.polyline)
+					.subscribe(polyline => {
+						this.polylineService.PolylineServiceChanged.next("update")
+					});
+				break;
+			default:
+				this.polylineService.postPolyline(this.polyline).subscribe(polyline => {
+					this.polylineService.PolylineServiceChanged.next("post")
+					this.polyline = {} // reset fields
 				});
-		} else {
-			switch (association) {
-				// insertion point for saving value of ONE_MANY association reverse pointer
-				case "SVG_Polylines":
-					this.polyline.SVG_PolylinesDBID = new NullInt64
-					this.polyline.SVG_PolylinesDBID.Int64 = id
-					this.polyline.SVG_PolylinesDBID.Valid = true
-					this.polyline.SVG_PolylinesDBID_Index = new NullInt64
-					this.polyline.SVG_PolylinesDBID_Index.Valid = true
-					break
-			}
-			this.polylineService.postPolyline(this.polyline).subscribe(polyline => {
-
-				this.polylineService.PolylineServiceChanged.next("post")
-
-				this.polyline = {} // reset fields
-			});
 		}
 	}
 

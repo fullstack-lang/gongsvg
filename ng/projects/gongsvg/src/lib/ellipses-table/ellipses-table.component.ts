@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData } from '../front-repo.service'
+import { DialogData, FrontRepoService, FrontRepo, NullInt64, SelectionMode } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -16,7 +16,13 @@ import { Router, RouterState } from '@angular/router';
 import { EllipseDB } from '../ellipse-db'
 import { EllipseService } from '../ellipse.service'
 
-import { FrontRepoService, FrontRepo } from '../front-repo.service'
+// TableComponent is initilizaed from different routes
+// TableComponentMode detail different cases 
+enum TableComponentMode {
+  DISPLAY_MODE,
+  ONE_MANY_ASSOCIATION_MODE,
+  MANY_MANY_ASSOCIATION_MODE,
+}
 
 // generated table component
 @Component({
@@ -26,6 +32,9 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 })
 export class EllipsesTableComponent implements OnInit {
 
+  // mode at invocation
+  mode: TableComponentMode
+
   // used if the component is called as a selection component of Ellipse instances
   selection: SelectionModel<EllipseDB>;
   initialSelection = new Array<EllipseDB>();
@@ -33,7 +42,6 @@ export class EllipsesTableComponent implements OnInit {
   // the data source for the table
   ellipses: EllipseDB[];
   matTableDataSource: MatTableDataSource<EllipseDB>
-
 
   // front repo, that will be referenced by this.ellipses
   frontRepo: FrontRepo
@@ -48,78 +56,78 @@ export class EllipsesTableComponent implements OnInit {
 
   ngAfterViewInit() {
 
-	// enable sorting on all fields (including pointers and reverse pointer)
-	this.matTableDataSource.sortingDataAccessor = (ellipseDB: EllipseDB, property: string) => {
-		switch (property) {
-				// insertion point for specific sorting accessor
-			case 'Name':
-				return ellipseDB.Name;
+    // enable sorting on all fields (including pointers and reverse pointer)
+    this.matTableDataSource.sortingDataAccessor = (ellipseDB: EllipseDB, property: string) => {
+      switch (property) {
+        // insertion point for specific sorting accessor
+        case 'Name':
+          return ellipseDB.Name;
 
-			case 'CX':
-				return ellipseDB.CX;
+        case 'CX':
+          return ellipseDB.CX;
 
-			case 'CY':
-				return ellipseDB.CY;
+        case 'CY':
+          return ellipseDB.CY;
 
-			case 'RX':
-				return ellipseDB.RX;
+        case 'RX':
+          return ellipseDB.RX;
 
-			case 'RY':
-				return ellipseDB.RY;
+        case 'RY':
+          return ellipseDB.RY;
 
-			case 'Color':
-				return ellipseDB.Color;
+        case 'Color':
+          return ellipseDB.Color;
 
-			case 'FillOpacity':
-				return ellipseDB.FillOpacity;
+        case 'FillOpacity':
+          return ellipseDB.FillOpacity;
 
-			case 'Stroke':
-				return ellipseDB.Stroke;
+        case 'Stroke':
+          return ellipseDB.Stroke;
 
-			case 'StrokeWidth':
-				return ellipseDB.StrokeWidth;
+        case 'StrokeWidth':
+          return ellipseDB.StrokeWidth;
 
-			case 'StrokeDashArray':
-				return ellipseDB.StrokeDashArray;
+        case 'StrokeDashArray':
+          return ellipseDB.StrokeDashArray;
 
-			case 'Transform':
-				return ellipseDB.Transform;
+        case 'Transform':
+          return ellipseDB.Transform;
 
-				case 'Ellipses':
-					return this.frontRepo.SVGs.get(ellipseDB.SVG_EllipsesDBID.Int64)?.Name;
+        case 'Ellipses':
+          return this.frontRepo.SVGs.get(ellipseDB.SVG_EllipsesDBID.Int64)?.Name;
 
-				default:
-					return EllipseDB[property];
-		}
-	}; 
+        default:
+          return EllipseDB[property];
+      }
+    };
 
-	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-	this.matTableDataSource.filterPredicate = (ellipseDB: EllipseDB, filter: string) => {
+    // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+    this.matTableDataSource.filterPredicate = (ellipseDB: EllipseDB, filter: string) => {
 
-		// filtering is based on finding a lower case filter into a concatenated string
-		// the ellipseDB properties
-		let mergedContent = ""
+      // filtering is based on finding a lower case filter into a concatenated string
+      // the ellipseDB properties
+      let mergedContent = ""
 
-		// insertion point for merging of fields
-		mergedContent += ellipseDB.Name.toLowerCase()
-		mergedContent += ellipseDB.CX.toString()
-		mergedContent += ellipseDB.CY.toString()
-		mergedContent += ellipseDB.RX.toString()
-		mergedContent += ellipseDB.RY.toString()
-		mergedContent += ellipseDB.Color.toLowerCase()
-		mergedContent += ellipseDB.FillOpacity.toString()
-		mergedContent += ellipseDB.Stroke.toLowerCase()
-		mergedContent += ellipseDB.StrokeWidth.toString()
-		mergedContent += ellipseDB.StrokeDashArray.toLowerCase()
-		mergedContent += ellipseDB.Transform.toLowerCase()
-		if (ellipseDB.SVG_EllipsesDBID.Int64 != 0) {
-        	mergedContent += this.frontRepo.SVGs.get(ellipseDB.SVG_EllipsesDBID.Int64)?.Name.toLowerCase()
-    	}
+      // insertion point for merging of fields
+      mergedContent += ellipseDB.Name.toLowerCase()
+      mergedContent += ellipseDB.CX.toString()
+      mergedContent += ellipseDB.CY.toString()
+      mergedContent += ellipseDB.RX.toString()
+      mergedContent += ellipseDB.RY.toString()
+      mergedContent += ellipseDB.Color.toLowerCase()
+      mergedContent += ellipseDB.FillOpacity.toString()
+      mergedContent += ellipseDB.Stroke.toLowerCase()
+      mergedContent += ellipseDB.StrokeWidth.toString()
+      mergedContent += ellipseDB.StrokeDashArray.toLowerCase()
+      mergedContent += ellipseDB.Transform.toLowerCase()
+      if (ellipseDB.SVG_EllipsesDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.SVGs.get(ellipseDB.SVG_EllipsesDBID.Int64)?.Name.toLowerCase()
+      }
 
 
-		let isSelected = mergedContent.includes(filter.toLowerCase())
-		return isSelected
-	};
+      let isSelected = mergedContent.includes(filter.toLowerCase())
+      return isSelected
+    };
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
@@ -140,6 +148,22 @@ export class EllipsesTableComponent implements OnInit {
 
     private router: Router,
   ) {
+
+    // compute mode
+    if (dialogData == undefined) {
+      this.mode = TableComponentMode.DISPLAY_MODE
+    } else {
+      switch (dialogData.SelectionMode) {
+        case SelectionMode.ONE_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+          break
+        case SelectionMode.MANY_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.MANY_MANY_ASSOCIATION_MODE
+          break
+        default:
+      }
+    }
+
     // observable for changes in structs
     this.ellipseService.EllipseServiceChanged.subscribe(
       message => {
@@ -148,7 +172,7 @@ export class EllipsesTableComponent implements OnInit {
         }
       }
     )
-    if (dialogData == undefined) {
+    if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "CX",
@@ -198,7 +222,7 @@ export class EllipsesTableComponent implements OnInit {
         // insertion point for variables Recoveries
 
         // in case the component is called as a selection component
-        if (this.dialogData != undefined) {
+        if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           this.ellipses.forEach(
             ellipse => {
               let ID = this.dialogData.ID
@@ -208,6 +232,20 @@ export class EllipsesTableComponent implements OnInit {
               }
             }
           )
+          this.selection = new SelectionModel<EllipseDB>(allowMultiSelect, this.initialSelection);
+        }
+
+        if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+          if (sourceInstance[this.dialogData.SourceField]) {
+            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+              let ellipse = associationInstance[this.dialogData.IntermediateStructField]
+              this.initialSelection.push(ellipse)
+            }
+          }
           this.selection = new SelectionModel<EllipseDB>(allowMultiSelect, this.initialSelection);
         }
 
@@ -276,36 +314,106 @@ export class EllipsesTableComponent implements OnInit {
 
   save() {
 
-    let toUpdate = new Set<EllipseDB>()
+    if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-    // reset all initial selection of ellipse that belong to ellipse through Anarrayofb
-    this.initialSelection.forEach(
-      ellipse => {
-        ellipse[this.dialogData.ReversePointer].Int64 = 0
-        ellipse[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(ellipse)
-      }
-    )
+      let toUpdate = new Set<EllipseDB>()
 
-    // from selection, set ellipse that belong to ellipse through Anarrayofb
-    this.selection.selected.forEach(
-      ellipse => {
-        let ID = +this.dialogData.ID
-        ellipse[this.dialogData.ReversePointer].Int64 = ID
-        ellipse[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(ellipse)
-      }
-    )
+      // reset all initial selection of ellipse that belong to ellipse
+      this.initialSelection.forEach(
+        ellipse => {
+          ellipse[this.dialogData.ReversePointer].Int64 = 0
+          ellipse[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(ellipse)
+        }
+      )
 
-    // update all ellipse (only update selection & initial selection)
-    toUpdate.forEach(
-      ellipse => {
-        this.ellipseService.updateEllipse(ellipse)
-          .subscribe(ellipse => {
-            this.ellipseService.EllipseServiceChanged.next("update")
-          });
+      // from selection, set ellipse that belong to ellipse
+      this.selection.selected.forEach(
+        ellipse => {
+          let ID = +this.dialogData.ID
+          ellipse[this.dialogData.ReversePointer].Int64 = ID
+          ellipse[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(ellipse)
+        }
+      )
+
+      // update all ellipse (only update selection & initial selection)
+      toUpdate.forEach(
+        ellipse => {
+          this.ellipseService.updateEllipse(ellipse)
+            .subscribe(ellipse => {
+              this.ellipseService.EllipseServiceChanged.next("update")
+            });
+        }
+      )
+    }
+
+    if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+      // First, parse all instance of the association struct and remove the instance
+      // that have unselect
+      let unselectedEllipse = new Set<number>()
+      for (let ellipse of this.initialSelection) {
+        if (this.selection.selected.includes(ellipse)) {
+          // console.log("ellipse " + ellipse.Name + " is still selected")
+        } else {
+          console.log("ellipse " + ellipse.Name + " has been unselected")
+          unselectedEllipse.add(ellipse.ID)
+          console.log("is unselected " + unselectedEllipse.has(ellipse.ID))
+        }
       }
-    )
+
+      // delete the association instance
+      if (sourceInstance[this.dialogData.SourceField]) {
+        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+          let ellipse = associationInstance[this.dialogData.IntermediateStructField]
+          if (unselectedEllipse.has(ellipse.ID)) {
+
+            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
+          }
+        }
+      }
+
+      // is the source array is emptyn create it
+      if (sourceInstance[this.dialogData.SourceField] == undefined) {
+        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      }
+
+      // second, parse all instance of the selected
+      if (sourceInstance[this.dialogData.SourceField]) {
+        this.selection.selected.forEach(
+          ellipse => {
+            if (!this.initialSelection.includes(ellipse)) {
+              // console.log("ellipse " + ellipse.Name + " has been added to the selection")
+
+              let associationInstance = {
+                Name: sourceInstance["Name"] + "-" + ellipse.Name,
+              }
+
+              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = ellipse.ID
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+
+              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+
+            } else {
+              // console.log("ellipse " + ellipse.Name + " is still selected")
+            }
+          }
+        )
+      }
+
+      // this.selection = new SelectionModel<EllipseDB>(allowMultiSelect, this.initialSelection);
+    }
+
+    // why pizza ?
     this.dialogRef.close('Pizza!');
   }
 }

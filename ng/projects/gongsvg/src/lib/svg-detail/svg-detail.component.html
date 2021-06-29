@@ -5,7 +5,7 @@
     <mat-checkbox [formControl]="DisplayFormControl">Display</mat-checkbox>
 
     <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="svg.Name">
@@ -25,10 +25,10 @@
     </mat-form-field>
 
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Rect', 'SVG_RectsDBID')">Rects</button>
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Rect', 'SVG_RectsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Rects</button>
         </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Rect', 'SVG_RectsDBID')">
                 <mat-icon>
@@ -38,10 +38,10 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Text', 'SVG_TextsDBID')">Texts</button>
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Text', 'SVG_TextsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Texts</button>
         </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Text', 'SVG_TextsDBID')">
                 <mat-icon>
@@ -51,10 +51,10 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Circle', 'SVG_CirclesDBID')">Circles</button>
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Circle', 'SVG_CirclesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Circles</button>
         </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Circle', 'SVG_CirclesDBID')">
                 <mat-icon>
@@ -64,10 +64,10 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Line', 'SVG_LinesDBID')">Lines</button>
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Line', 'SVG_LinesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Lines</button>
         </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Line', 'SVG_LinesDBID')">
                 <mat-icon>
@@ -77,10 +77,10 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Ellipse', 'SVG_EllipsesDBID')">Ellipses</button>
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Ellipse', 'SVG_EllipsesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Ellipses</button>
         </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Ellipse', 'SVG_EllipsesDBID')">
                 <mat-icon>
@@ -90,10 +90,10 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Polyline', 'SVG_PolylinesDBID')">Polylines</button>
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Polyline', 'SVG_PolylinesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Polylines</button>
         </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Polyline', 'SVG_PolylinesDBID')">
                 <mat-icon>
@@ -103,10 +103,10 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Polygone', 'SVG_PolygonesDBID')">Polygones</button>
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Polygone', 'SVG_PolygonesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Polygones</button>
         </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Polygone', 'SVG_PolygonesDBID')">
                 <mat-icon>
@@ -116,10 +116,10 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Path', 'SVG_PathsDBID')">Paths</button>
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Path', 'SVG_PathsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Paths</button>
         </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Path', 'SVG_PathsDBID')">
                 <mat-icon>
@@ -130,7 +130,7 @@
     </mat-grid-list>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
-			Save svg
-		</button>
+            Save svg
+        </button>
     </div>
 </form>

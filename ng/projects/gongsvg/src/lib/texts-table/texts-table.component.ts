@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData } from '../front-repo.service'
+import { DialogData, FrontRepoService, FrontRepo, NullInt64, SelectionMode } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -16,7 +16,13 @@ import { Router, RouterState } from '@angular/router';
 import { TextDB } from '../text-db'
 import { TextService } from '../text.service'
 
-import { FrontRepoService, FrontRepo } from '../front-repo.service'
+// TableComponent is initilizaed from different routes
+// TableComponentMode detail different cases 
+enum TableComponentMode {
+  DISPLAY_MODE,
+  ONE_MANY_ASSOCIATION_MODE,
+  MANY_MANY_ASSOCIATION_MODE,
+}
 
 // generated table component
 @Component({
@@ -26,6 +32,9 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 })
 export class TextsTableComponent implements OnInit {
 
+  // mode at invocation
+  mode: TableComponentMode
+
   // used if the component is called as a selection component of Text instances
   selection: SelectionModel<TextDB>;
   initialSelection = new Array<TextDB>();
@@ -33,7 +42,6 @@ export class TextsTableComponent implements OnInit {
   // the data source for the table
   texts: TextDB[];
   matTableDataSource: MatTableDataSource<TextDB>
-
 
   // front repo, that will be referenced by this.texts
   frontRepo: FrontRepo
@@ -48,74 +56,74 @@ export class TextsTableComponent implements OnInit {
 
   ngAfterViewInit() {
 
-	// enable sorting on all fields (including pointers and reverse pointer)
-	this.matTableDataSource.sortingDataAccessor = (textDB: TextDB, property: string) => {
-		switch (property) {
-				// insertion point for specific sorting accessor
-			case 'Name':
-				return textDB.Name;
+    // enable sorting on all fields (including pointers and reverse pointer)
+    this.matTableDataSource.sortingDataAccessor = (textDB: TextDB, property: string) => {
+      switch (property) {
+        // insertion point for specific sorting accessor
+        case 'Name':
+          return textDB.Name;
 
-			case 'X':
-				return textDB.X;
+        case 'X':
+          return textDB.X;
 
-			case 'Y':
-				return textDB.Y;
+        case 'Y':
+          return textDB.Y;
 
-			case 'Content':
-				return textDB.Content;
+        case 'Content':
+          return textDB.Content;
 
-			case 'Color':
-				return textDB.Color;
+        case 'Color':
+          return textDB.Color;
 
-			case 'FillOpacity':
-				return textDB.FillOpacity;
+        case 'FillOpacity':
+          return textDB.FillOpacity;
 
-			case 'Stroke':
-				return textDB.Stroke;
+        case 'Stroke':
+          return textDB.Stroke;
 
-			case 'StrokeWidth':
-				return textDB.StrokeWidth;
+        case 'StrokeWidth':
+          return textDB.StrokeWidth;
 
-			case 'StrokeDashArray':
-				return textDB.StrokeDashArray;
+        case 'StrokeDashArray':
+          return textDB.StrokeDashArray;
 
-			case 'Transform':
-				return textDB.Transform;
+        case 'Transform':
+          return textDB.Transform;
 
-				case 'Texts':
-					return this.frontRepo.SVGs.get(textDB.SVG_TextsDBID.Int64)?.Name;
+        case 'Texts':
+          return this.frontRepo.SVGs.get(textDB.SVG_TextsDBID.Int64)?.Name;
 
-				default:
-					return TextDB[property];
-		}
-	}; 
+        default:
+          return TextDB[property];
+      }
+    };
 
-	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-	this.matTableDataSource.filterPredicate = (textDB: TextDB, filter: string) => {
+    // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+    this.matTableDataSource.filterPredicate = (textDB: TextDB, filter: string) => {
 
-		// filtering is based on finding a lower case filter into a concatenated string
-		// the textDB properties
-		let mergedContent = ""
+      // filtering is based on finding a lower case filter into a concatenated string
+      // the textDB properties
+      let mergedContent = ""
 
-		// insertion point for merging of fields
-		mergedContent += textDB.Name.toLowerCase()
-		mergedContent += textDB.X.toString()
-		mergedContent += textDB.Y.toString()
-		mergedContent += textDB.Content.toLowerCase()
-		mergedContent += textDB.Color.toLowerCase()
-		mergedContent += textDB.FillOpacity.toString()
-		mergedContent += textDB.Stroke.toLowerCase()
-		mergedContent += textDB.StrokeWidth.toString()
-		mergedContent += textDB.StrokeDashArray.toLowerCase()
-		mergedContent += textDB.Transform.toLowerCase()
-		if (textDB.SVG_TextsDBID.Int64 != 0) {
-        	mergedContent += this.frontRepo.SVGs.get(textDB.SVG_TextsDBID.Int64)?.Name.toLowerCase()
-    	}
+      // insertion point for merging of fields
+      mergedContent += textDB.Name.toLowerCase()
+      mergedContent += textDB.X.toString()
+      mergedContent += textDB.Y.toString()
+      mergedContent += textDB.Content.toLowerCase()
+      mergedContent += textDB.Color.toLowerCase()
+      mergedContent += textDB.FillOpacity.toString()
+      mergedContent += textDB.Stroke.toLowerCase()
+      mergedContent += textDB.StrokeWidth.toString()
+      mergedContent += textDB.StrokeDashArray.toLowerCase()
+      mergedContent += textDB.Transform.toLowerCase()
+      if (textDB.SVG_TextsDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.SVGs.get(textDB.SVG_TextsDBID.Int64)?.Name.toLowerCase()
+      }
 
 
-		let isSelected = mergedContent.includes(filter.toLowerCase())
-		return isSelected
-	};
+      let isSelected = mergedContent.includes(filter.toLowerCase())
+      return isSelected
+    };
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
@@ -136,6 +144,22 @@ export class TextsTableComponent implements OnInit {
 
     private router: Router,
   ) {
+
+    // compute mode
+    if (dialogData == undefined) {
+      this.mode = TableComponentMode.DISPLAY_MODE
+    } else {
+      switch (dialogData.SelectionMode) {
+        case SelectionMode.ONE_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+          break
+        case SelectionMode.MANY_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.MANY_MANY_ASSOCIATION_MODE
+          break
+        default:
+      }
+    }
+
     // observable for changes in structs
     this.textService.TextServiceChanged.subscribe(
       message => {
@@ -144,7 +168,7 @@ export class TextsTableComponent implements OnInit {
         }
       }
     )
-    if (dialogData == undefined) {
+    if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "X",
@@ -192,7 +216,7 @@ export class TextsTableComponent implements OnInit {
         // insertion point for variables Recoveries
 
         // in case the component is called as a selection component
-        if (this.dialogData != undefined) {
+        if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           this.texts.forEach(
             text => {
               let ID = this.dialogData.ID
@@ -202,6 +226,20 @@ export class TextsTableComponent implements OnInit {
               }
             }
           )
+          this.selection = new SelectionModel<TextDB>(allowMultiSelect, this.initialSelection);
+        }
+
+        if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+          if (sourceInstance[this.dialogData.SourceField]) {
+            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+              let text = associationInstance[this.dialogData.IntermediateStructField]
+              this.initialSelection.push(text)
+            }
+          }
           this.selection = new SelectionModel<TextDB>(allowMultiSelect, this.initialSelection);
         }
 
@@ -270,36 +308,106 @@ export class TextsTableComponent implements OnInit {
 
   save() {
 
-    let toUpdate = new Set<TextDB>()
+    if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-    // reset all initial selection of text that belong to text through Anarrayofb
-    this.initialSelection.forEach(
-      text => {
-        text[this.dialogData.ReversePointer].Int64 = 0
-        text[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(text)
-      }
-    )
+      let toUpdate = new Set<TextDB>()
 
-    // from selection, set text that belong to text through Anarrayofb
-    this.selection.selected.forEach(
-      text => {
-        let ID = +this.dialogData.ID
-        text[this.dialogData.ReversePointer].Int64 = ID
-        text[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(text)
-      }
-    )
+      // reset all initial selection of text that belong to text
+      this.initialSelection.forEach(
+        text => {
+          text[this.dialogData.ReversePointer].Int64 = 0
+          text[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(text)
+        }
+      )
 
-    // update all text (only update selection & initial selection)
-    toUpdate.forEach(
-      text => {
-        this.textService.updateText(text)
-          .subscribe(text => {
-            this.textService.TextServiceChanged.next("update")
-          });
+      // from selection, set text that belong to text
+      this.selection.selected.forEach(
+        text => {
+          let ID = +this.dialogData.ID
+          text[this.dialogData.ReversePointer].Int64 = ID
+          text[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(text)
+        }
+      )
+
+      // update all text (only update selection & initial selection)
+      toUpdate.forEach(
+        text => {
+          this.textService.updateText(text)
+            .subscribe(text => {
+              this.textService.TextServiceChanged.next("update")
+            });
+        }
+      )
+    }
+
+    if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+      // First, parse all instance of the association struct and remove the instance
+      // that have unselect
+      let unselectedText = new Set<number>()
+      for (let text of this.initialSelection) {
+        if (this.selection.selected.includes(text)) {
+          // console.log("text " + text.Name + " is still selected")
+        } else {
+          console.log("text " + text.Name + " has been unselected")
+          unselectedText.add(text.ID)
+          console.log("is unselected " + unselectedText.has(text.ID))
+        }
       }
-    )
+
+      // delete the association instance
+      if (sourceInstance[this.dialogData.SourceField]) {
+        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+          let text = associationInstance[this.dialogData.IntermediateStructField]
+          if (unselectedText.has(text.ID)) {
+
+            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
+          }
+        }
+      }
+
+      // is the source array is emptyn create it
+      if (sourceInstance[this.dialogData.SourceField] == undefined) {
+        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      }
+
+      // second, parse all instance of the selected
+      if (sourceInstance[this.dialogData.SourceField]) {
+        this.selection.selected.forEach(
+          text => {
+            if (!this.initialSelection.includes(text)) {
+              // console.log("text " + text.Name + " has been added to the selection")
+
+              let associationInstance = {
+                Name: sourceInstance["Name"] + "-" + text.Name,
+              }
+
+              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = text.ID
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+
+              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+
+            } else {
+              // console.log("text " + text.Name + " is still selected")
+            }
+          }
+        )
+      }
+
+      // this.selection = new SelectionModel<TextDB>(allowMultiSelect, this.initialSelection);
+    }
+
+    // why pizza ?
     this.dialogRef.close('Pizza!');
   }
 }

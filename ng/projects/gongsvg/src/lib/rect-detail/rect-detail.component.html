@@ -2,7 +2,7 @@
     <h2 class="details__title">rect</h2>
     <!-- insertion point for fields specific code -->
     <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Name">
@@ -52,7 +52,7 @@
     </mat-form-field>
 
     <mat-grid-list *ngIf='!isATextArea("Color")' cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Color</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Color">
@@ -78,7 +78,7 @@
     </mat-form-field>
 
     <mat-grid-list *ngIf='!isATextArea("Stroke")' cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Stroke</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Stroke">
@@ -104,7 +104,7 @@
     </mat-form-field>
 
     <mat-grid-list *ngIf='!isATextArea("StrokeDashArray")' cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>StrokeDashArray</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.StrokeDashArray">
@@ -124,7 +124,7 @@
     </mat-form-field>
 
     <mat-grid-list *ngIf='!isATextArea("Transform")' cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Transform</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Transform">
@@ -154,7 +154,7 @@
     </mat-form-field>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
-			Save rect
-		</button>
+            Save rect
+        </button>
     </div>
 </form>

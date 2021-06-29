@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData } from '../front-repo.service'
+import { DialogData, FrontRepoService, FrontRepo, NullInt64, SelectionMode } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -16,7 +16,13 @@ import { Router, RouterState } from '@angular/router';
 import { RectDB } from '../rect-db'
 import { RectService } from '../rect.service'
 
-import { FrontRepoService, FrontRepo } from '../front-repo.service'
+// TableComponent is initilizaed from different routes
+// TableComponentMode detail different cases 
+enum TableComponentMode {
+  DISPLAY_MODE,
+  ONE_MANY_ASSOCIATION_MODE,
+  MANY_MANY_ASSOCIATION_MODE,
+}
 
 // generated table component
 @Component({
@@ -26,6 +32,9 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 })
 export class RectsTableComponent implements OnInit {
 
+  // mode at invocation
+  mode: TableComponentMode
+
   // used if the component is called as a selection component of Rect instances
   selection: SelectionModel<RectDB>;
   initialSelection = new Array<RectDB>();
@@ -33,7 +42,6 @@ export class RectsTableComponent implements OnInit {
   // the data source for the table
   rects: RectDB[];
   matTableDataSource: MatTableDataSource<RectDB>
-
 
   // front repo, that will be referenced by this.rects
   frontRepo: FrontRepo
@@ -48,82 +56,82 @@ export class RectsTableComponent implements OnInit {
 
   ngAfterViewInit() {
 
-	// enable sorting on all fields (including pointers and reverse pointer)
-	this.matTableDataSource.sortingDataAccessor = (rectDB: RectDB, property: string) => {
-		switch (property) {
-				// insertion point for specific sorting accessor
-			case 'Name':
-				return rectDB.Name;
+    // enable sorting on all fields (including pointers and reverse pointer)
+    this.matTableDataSource.sortingDataAccessor = (rectDB: RectDB, property: string) => {
+      switch (property) {
+        // insertion point for specific sorting accessor
+        case 'Name':
+          return rectDB.Name;
 
-			case 'X':
-				return rectDB.X;
+        case 'X':
+          return rectDB.X;
 
-			case 'Y':
-				return rectDB.Y;
+        case 'Y':
+          return rectDB.Y;
 
-			case 'Width':
-				return rectDB.Width;
+        case 'Width':
+          return rectDB.Width;
 
-			case 'Height':
-				return rectDB.Height;
+        case 'Height':
+          return rectDB.Height;
 
-			case 'RX':
-				return rectDB.RX;
+        case 'RX':
+          return rectDB.RX;
 
-			case 'Color':
-				return rectDB.Color;
+        case 'Color':
+          return rectDB.Color;
 
-			case 'FillOpacity':
-				return rectDB.FillOpacity;
+        case 'FillOpacity':
+          return rectDB.FillOpacity;
 
-			case 'Stroke':
-				return rectDB.Stroke;
+        case 'Stroke':
+          return rectDB.Stroke;
 
-			case 'StrokeWidth':
-				return rectDB.StrokeWidth;
+        case 'StrokeWidth':
+          return rectDB.StrokeWidth;
 
-			case 'StrokeDashArray':
-				return rectDB.StrokeDashArray;
+        case 'StrokeDashArray':
+          return rectDB.StrokeDashArray;
 
-			case 'Transform':
-				return rectDB.Transform;
+        case 'Transform':
+          return rectDB.Transform;
 
-				case 'Rects':
-					return this.frontRepo.SVGs.get(rectDB.SVG_RectsDBID.Int64)?.Name;
+        case 'Rects':
+          return this.frontRepo.SVGs.get(rectDB.SVG_RectsDBID.Int64)?.Name;
 
-				default:
-					return RectDB[property];
-		}
-	}; 
+        default:
+          return RectDB[property];
+      }
+    };
 
-	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-	this.matTableDataSource.filterPredicate = (rectDB: RectDB, filter: string) => {
+    // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+    this.matTableDataSource.filterPredicate = (rectDB: RectDB, filter: string) => {
 
-		// filtering is based on finding a lower case filter into a concatenated string
-		// the rectDB properties
-		let mergedContent = ""
+      // filtering is based on finding a lower case filter into a concatenated string
+      // the rectDB properties
+      let mergedContent = ""
 
-		// insertion point for merging of fields
-		mergedContent += rectDB.Name.toLowerCase()
-		mergedContent += rectDB.X.toString()
-		mergedContent += rectDB.Y.toString()
-		mergedContent += rectDB.Width.toString()
-		mergedContent += rectDB.Height.toString()
-		mergedContent += rectDB.RX.toString()
-		mergedContent += rectDB.Color.toLowerCase()
-		mergedContent += rectDB.FillOpacity.toString()
-		mergedContent += rectDB.Stroke.toLowerCase()
-		mergedContent += rectDB.StrokeWidth.toString()
-		mergedContent += rectDB.StrokeDashArray.toLowerCase()
-		mergedContent += rectDB.Transform.toLowerCase()
-		if (rectDB.SVG_RectsDBID.Int64 != 0) {
-        	mergedContent += this.frontRepo.SVGs.get(rectDB.SVG_RectsDBID.Int64)?.Name.toLowerCase()
-    	}
+      // insertion point for merging of fields
+      mergedContent += rectDB.Name.toLowerCase()
+      mergedContent += rectDB.X.toString()
+      mergedContent += rectDB.Y.toString()
+      mergedContent += rectDB.Width.toString()
+      mergedContent += rectDB.Height.toString()
+      mergedContent += rectDB.RX.toString()
+      mergedContent += rectDB.Color.toLowerCase()
+      mergedContent += rectDB.FillOpacity.toString()
+      mergedContent += rectDB.Stroke.toLowerCase()
+      mergedContent += rectDB.StrokeWidth.toString()
+      mergedContent += rectDB.StrokeDashArray.toLowerCase()
+      mergedContent += rectDB.Transform.toLowerCase()
+      if (rectDB.SVG_RectsDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.SVGs.get(rectDB.SVG_RectsDBID.Int64)?.Name.toLowerCase()
+      }
 
 
-		let isSelected = mergedContent.includes(filter.toLowerCase())
-		return isSelected
-	};
+      let isSelected = mergedContent.includes(filter.toLowerCase())
+      return isSelected
+    };
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
@@ -144,6 +152,22 @@ export class RectsTableComponent implements OnInit {
 
     private router: Router,
   ) {
+
+    // compute mode
+    if (dialogData == undefined) {
+      this.mode = TableComponentMode.DISPLAY_MODE
+    } else {
+      switch (dialogData.SelectionMode) {
+        case SelectionMode.ONE_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+          break
+        case SelectionMode.MANY_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.MANY_MANY_ASSOCIATION_MODE
+          break
+        default:
+      }
+    }
+
     // observable for changes in structs
     this.rectService.RectServiceChanged.subscribe(
       message => {
@@ -152,7 +176,7 @@ export class RectsTableComponent implements OnInit {
         }
       }
     )
-    if (dialogData == undefined) {
+    if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "X",
@@ -204,7 +228,7 @@ export class RectsTableComponent implements OnInit {
         // insertion point for variables Recoveries
 
         // in case the component is called as a selection component
-        if (this.dialogData != undefined) {
+        if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           this.rects.forEach(
             rect => {
               let ID = this.dialogData.ID
@@ -214,6 +238,20 @@ export class RectsTableComponent implements OnInit {
               }
             }
           )
+          this.selection = new SelectionModel<RectDB>(allowMultiSelect, this.initialSelection);
+        }
+
+        if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+          if (sourceInstance[this.dialogData.SourceField]) {
+            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+              let rect = associationInstance[this.dialogData.IntermediateStructField]
+              this.initialSelection.push(rect)
+            }
+          }
           this.selection = new SelectionModel<RectDB>(allowMultiSelect, this.initialSelection);
         }
 
@@ -282,36 +320,106 @@ export class RectsTableComponent implements OnInit {
 
   save() {
 
-    let toUpdate = new Set<RectDB>()
+    if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-    // reset all initial selection of rect that belong to rect through Anarrayofb
-    this.initialSelection.forEach(
-      rect => {
-        rect[this.dialogData.ReversePointer].Int64 = 0
-        rect[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(rect)
-      }
-    )
+      let toUpdate = new Set<RectDB>()
 
-    // from selection, set rect that belong to rect through Anarrayofb
-    this.selection.selected.forEach(
-      rect => {
-        let ID = +this.dialogData.ID
-        rect[this.dialogData.ReversePointer].Int64 = ID
-        rect[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(rect)
-      }
-    )
+      // reset all initial selection of rect that belong to rect
+      this.initialSelection.forEach(
+        rect => {
+          rect[this.dialogData.ReversePointer].Int64 = 0
+          rect[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(rect)
+        }
+      )
 
-    // update all rect (only update selection & initial selection)
-    toUpdate.forEach(
-      rect => {
-        this.rectService.updateRect(rect)
-          .subscribe(rect => {
-            this.rectService.RectServiceChanged.next("update")
-          });
+      // from selection, set rect that belong to rect
+      this.selection.selected.forEach(
+        rect => {
+          let ID = +this.dialogData.ID
+          rect[this.dialogData.ReversePointer].Int64 = ID
+          rect[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(rect)
+        }
+      )
+
+      // update all rect (only update selection & initial selection)
+      toUpdate.forEach(
+        rect => {
+          this.rectService.updateRect(rect)
+            .subscribe(rect => {
+              this.rectService.RectServiceChanged.next("update")
+            });
+        }
+      )
+    }
+
+    if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+      // First, parse all instance of the association struct and remove the instance
+      // that have unselect
+      let unselectedRect = new Set<number>()
+      for (let rect of this.initialSelection) {
+        if (this.selection.selected.includes(rect)) {
+          // console.log("rect " + rect.Name + " is still selected")
+        } else {
+          console.log("rect " + rect.Name + " has been unselected")
+          unselectedRect.add(rect.ID)
+          console.log("is unselected " + unselectedRect.has(rect.ID))
+        }
       }
-    )
+
+      // delete the association instance
+      if (sourceInstance[this.dialogData.SourceField]) {
+        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+          let rect = associationInstance[this.dialogData.IntermediateStructField]
+          if (unselectedRect.has(rect.ID)) {
+
+            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
+          }
+        }
+      }
+
+      // is the source array is emptyn create it
+      if (sourceInstance[this.dialogData.SourceField] == undefined) {
+        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      }
+
+      // second, parse all instance of the selected
+      if (sourceInstance[this.dialogData.SourceField]) {
+        this.selection.selected.forEach(
+          rect => {
+            if (!this.initialSelection.includes(rect)) {
+              // console.log("rect " + rect.Name + " has been added to the selection")
+
+              let associationInstance = {
+                Name: sourceInstance["Name"] + "-" + rect.Name,
+              }
+
+              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = rect.ID
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+
+              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+
+            } else {
+              // console.log("rect " + rect.Name + " is still selected")
+            }
+          }
+        )
+      }
+
+      // this.selection = new SelectionModel<RectDB>(allowMultiSelect, this.initialSelection);
+    }
+
+    // why pizza ?
     this.dialogRef.close('Pizza!');
   }
 }

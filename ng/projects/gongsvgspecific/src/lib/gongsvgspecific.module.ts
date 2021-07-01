@@ -1,14 +1,8 @@
 import { NgModule } from '@angular/core';
 import { GongsvgspecificComponent } from './gongsvgspecific.component';
 import { SvgComponent } from './svg/svg.component';
-import { SvgRectComponent } from './svg-rect/svg-rect.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { TextComponent } from './text/text.component';
-import { LineComponent } from './line/line.component';
-import { EllipseComponent } from './ellipse/ellipse.component';
-import { PolylineComponent } from './polyline/polyline.component';
-import { PathComponent } from './path/path.component';
-import { PolygoneComponent } from './polygone/polygone.component'
+
 
 
 
@@ -16,13 +10,6 @@ import { PolygoneComponent } from './polygone/polygone.component'
   declarations: [
     GongsvgspecificComponent,
     SvgComponent,
-    SvgRectComponent,
-    TextComponent,
-    LineComponent,
-    EllipseComponent,
-    PolylineComponent,
-    PathComponent,
-    PolygoneComponent
   ],
   imports: [
     BrowserModule
@@ -30,8 +17,6 @@ import { PolygoneComponent } from './polygone/polygone.component'
   exports: [
     GongsvgspecificComponent,
     SvgComponent,
-    SvgRectComponent,
-    TextComponent
   ]
 })
 export class GongsvgspecificModule { }

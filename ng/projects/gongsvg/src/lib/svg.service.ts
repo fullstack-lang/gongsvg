@@ -56,13 +56,6 @@ export class SVGService {
   postSVG(svgdb: SVGDB): Observable<SVGDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    svgdb.Rects = []
-    svgdb.Texts = []
-    svgdb.Lines = []
-    svgdb.Ellipses = []
-    svgdb.Polylines = []
-    svgdb.Polygones = []
-    svgdb.Paths = []
 
 		return this.http.post<SVGDB>(this.svgsUrl, svgdb, this.httpOptions).pipe(
 			tap(_ => {
@@ -90,13 +83,6 @@ export class SVGService {
     const url = `${this.svgsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    svgdb.Rects = []
-    svgdb.Texts = []
-    svgdb.Lines = []
-    svgdb.Ellipses = []
-    svgdb.Polylines = []
-    svgdb.Polygones = []
-    svgdb.Paths = []
 
     return this.http.put(url, svgdb, this.httpOptions).pipe(
       tap(_ => {

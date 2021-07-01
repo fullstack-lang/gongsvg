@@ -60,9 +60,6 @@ export class SVGsTableComponent implements OnInit {
     this.matTableDataSource.sortingDataAccessor = (svgDB: SVGDB, property: string) => {
       switch (property) {
         // insertion point for specific sorting accessor
-        case 'Display':
-          return svgDB.Display;
-
         case 'Name':
           return svgDB.Name;
 
@@ -130,12 +127,10 @@ export class SVGsTableComponent implements OnInit {
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
-        "Display",
         "Name",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
-        "Display",
         "Name",
       ]
       this.selection = new SelectionModel<SVGDB>(allowMultiSelect, this.initialSelection);

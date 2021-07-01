@@ -33,7 +33,6 @@ enum SVGDetailComponentState {
 export class SVGDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	DisplayFormControl = new FormControl(false);
 
 	// the SVGDB of interest
 	svg: SVGDB;
@@ -121,7 +120,6 @@ export class SVGDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
-				this.DisplayFormControl.setValue(this.svg.Display)
 			}
 		)
 
@@ -134,7 +132,6 @@ export class SVGDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
-		this.svg.Display = this.DisplayFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

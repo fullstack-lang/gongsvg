@@ -16,13 +16,6 @@ export class SvgComponent implements OnInit {
 
   public gongsvgFrontRepo: gongsvg.FrontRepo
 
-  public Rects = new Array<gongsvg.RectDB>()
-  public Texts = new Array<gongsvg.TextDB>()
-  public Lines = new Array<gongsvg.LineDB>()
-  public Ellipses = new Array<gongsvg.EllipseDB>()
-  public Paths = new Array<gongsvg.PathDB>()
-  public Polygones = new Array<gongsvg.PolygoneDB>()
-  public Polylines = new Array<gongsvg.PolylineDB>()
 
   /**
  * the component is refreshed when modification are performed in the back repo 
@@ -80,76 +73,8 @@ export class SvgComponent implements OnInit {
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
 
-        this.Rects = new Array<gongsvg.RectDB>()
-        this.Texts = new Array<gongsvg.TextDB>()
-        this.Lines = new Array<gongsvg.LineDB>()
-        this.Ellipses = new Array<gongsvg.EllipseDB>()
-        this.Paths = new Array<gongsvg.PathDB>()
-        this.Polygones = new Array<gongsvg.PolygoneDB>()
-        this.Polylines = new Array<gongsvg.PolylineDB>()
-
-        for (let svg of this.gongsvgFrontRepo.SVGs_array) {
-
-          if (svg.Display) {
-
-            svg.Rects?.forEach(
-              rect => {
-                this.Rects.push(rect)
-              }
-            )
-
-            svg.Texts?.forEach(
-              Text => {
-                this.Texts.push(Text)
-              }
-            )
-
-            svg.Lines?.forEach(
-              Line => {
-                this.Lines.push(Line)
-              }
-            )
-
-            svg.Ellipses?.forEach(
-              Ellipse => {
-                this.Ellipses.push(Ellipse)
-              }
-            )
-
-            svg.Paths?.forEach(
-              Path => {
-                this.Paths.push(Path)
-              }
-            )
-
-            svg.Polygones?.forEach(
-              Polygone => {
-                this.Polygones.push(Polygone)
-              }
-            )
-
-            svg.Polylines?.forEach(
-              Polyline => {
-                this.Polylines.push(Polyline)
-              }
-            )
-          }
-        }
-
       }
 
     )
   }
-
-  fillColor = 'rgb(255, 0, 0)';
-  Text = "Toto"
-  width = 150
-  height = 200
-  changeColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    this.fillColor = `rgb(${r}, ${g}, ${b})`;
-  }
-
 }

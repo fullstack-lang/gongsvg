@@ -277,25 +277,6 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 			}
 		}
 
-		// This loop encodes the slice of pointers svg.Circles into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, circleAssocEnd := range svg.Circles {
-
-			// get the back repo instance at the association end
-			circleAssocEnd_DB :=
-				backRepo.BackRepoCircle.GetCircleDBFromCirclePtr(circleAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			circleAssocEnd_DB.SVG_CirclesDBID.Int64 = int64(svgDB.ID)
-			circleAssocEnd_DB.SVG_CirclesDBID.Valid = true
-			circleAssocEnd_DB.SVG_CirclesDBID_Index.Int64 = int64(idx)
-			circleAssocEnd_DB.SVG_CirclesDBID_Index.Valid = true
-			if q := backRepoSVG.db.Save(circleAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// This loop encodes the slice of pointers svg.Lines into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -548,33 +529,6 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseTwoInstance(backRepo *BackRep
 		textDB_j := (*backRepo.BackRepoText.Map_TextDBID_TextDB)[textDB_j_ID]
 
 		return textDB_i.SVG_TextsDBID_Index.Int64 < textDB_j.SVG_TextsDBID_Index.Int64
-	})
-
-	// This loop redeem svg.Circles in the stage from the encode in the back repo
-	// It parses all CircleDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	svg.Circles = svg.Circles[:0]
-	// 2. loop all instances in the type in the association end
-	for _, circleDB_AssocEnd := range *backRepo.BackRepoCircle.Map_CircleDBID_CircleDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if circleDB_AssocEnd.SVG_CirclesDBID.Int64 == int64(svgDB.ID) {
-			// 4. fetch the associated instance in the stage
-			circle_AssocEnd := (*backRepo.BackRepoCircle.Map_CircleDBID_CirclePtr)[circleDB_AssocEnd.ID]
-			// 5. append it the association slice
-			svg.Circles = append(svg.Circles, circle_AssocEnd)
-		}
-	}
-
-	// sort the array according to the order
-	sort.Slice(svg.Circles, func(i, j int) bool {
-		circleDB_i_ID := (*backRepo.BackRepoCircle.Map_CirclePtr_CircleDBID)[svg.Circles[i]]
-		circleDB_j_ID := (*backRepo.BackRepoCircle.Map_CirclePtr_CircleDBID)[svg.Circles[j]]
-
-		circleDB_i := (*backRepo.BackRepoCircle.Map_CircleDBID_CircleDB)[circleDB_i_ID]
-		circleDB_j := (*backRepo.BackRepoCircle.Map_CircleDBID_CircleDB)[circleDB_j_ID]
-
-		return circleDB_i.SVG_CirclesDBID_Index.Int64 < circleDB_j.SVG_CirclesDBID_Index.Int64
 	})
 
 	// This loop redeem svg.Lines in the stage from the encode in the back repo

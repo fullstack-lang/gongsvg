@@ -4,7 +4,6 @@ import { SvgComponent } from './svg/svg.component';
 import { SvgRectComponent } from './svg-rect/svg-rect.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { TextComponent } from './text/text.component';
-import { CircleComponent } from './circle/circle.component';
 import { LineComponent } from './line/line.component';
 import { EllipseComponent } from './ellipse/ellipse.component';
 import { PolylineComponent } from './polyline/polyline.component';
@@ -19,7 +18,6 @@ import { PolygoneComponent } from './polygone/polygone.component'
     SvgComponent,
     SvgRectComponent,
     TextComponent,
-    CircleComponent,
     LineComponent,
     EllipseComponent,
     PolylineComponent,

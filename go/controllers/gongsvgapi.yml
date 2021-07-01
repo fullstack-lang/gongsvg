@@ -2,37 +2,6 @@ basePath: /api/github.com/fullstack-lang/gongsvg/go/v1
 consumes:
 - application/json
 definitions:
-  Circle:
-    properties:
-      CX:
-        format: double
-        type: number
-        x-go-name: Radius
-      Color:
-        type: string
-      FillOpacity:
-        format: double
-        type: number
-      Name:
-        type: string
-      Stroke:
-        type: string
-      StrokeDashArray:
-        type: string
-      StrokeWidth:
-        format: double
-        type: number
-      Transform:
-        description: |-
-          Transform is a string componding SVG transform
-
-          for instance : rotate(-10 50 100)
-          translate(-36 45.5)
-          skewX(40)
-          scale(1 0.5)
-        type: string
-    type: object
-    x-go-package: github.com/fullstack-lang/gongsvg/go/models
   DeletedAt:
     $ref: '#/definitions/NullTime'
   Ellipse:
@@ -336,102 +305,6 @@ definitions:
         x-go-name: "Y"
     type: object
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
-  circleAPI:
-    description: |-
-      for POST, API, one needs the fields of the model as well as the fields
-      from associations ("Has One" and "Has Many") that are generated to
-      fullfill the ORM requirements for associations
-    properties:
-      CX:
-        format: double
-        type: number
-        x-go-name: Radius
-      Color:
-        type: string
-      CreatedAt:
-        format: date-time
-        type: string
-      DeletedAt:
-        $ref: '#/definitions/DeletedAt'
-      FillOpacity:
-        format: double
-        type: number
-      ID:
-        format: uint64
-        type: integer
-      Name:
-        type: string
-      SVG_CirclesDBID:
-        $ref: '#/definitions/NullInt64'
-      SVG_CirclesDBID_Index:
-        $ref: '#/definitions/NullInt64'
-      Stroke:
-        type: string
-      StrokeDashArray:
-        type: string
-      StrokeWidth:
-        format: double
-        type: number
-      Transform:
-        description: |-
-          Transform is a string componding SVG transform
-
-          for instance : rotate(-10 50 100)
-          translate(-36 45.5)
-          skewX(40)
-          scale(1 0.5)
-        type: string
-      UpdatedAt:
-        format: date-time
-        type: string
-    title: CircleAPI is the input in POST API
-    type: object
-    x-go-name: CircleAPI
-    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
-  circleDB:
-    description: |-
-      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
-      the encoded version of pointers
-    properties:
-      CX_Data:
-        $ref: '#/definitions/NullFloat64'
-      CY_Data:
-        $ref: '#/definitions/NullFloat64'
-      Color_Data:
-        $ref: '#/definitions/NullString'
-      CreatedAt:
-        format: date-time
-        type: string
-      DeletedAt:
-        $ref: '#/definitions/DeletedAt'
-      FillOpacity_Data:
-        $ref: '#/definitions/NullFloat64'
-      ID:
-        format: uint64
-        type: integer
-      Name_Data:
-        $ref: '#/definitions/NullString'
-      Radius_Data:
-        $ref: '#/definitions/NullFloat64'
-      SVG_CirclesDBID:
-        $ref: '#/definitions/NullInt64'
-      SVG_CirclesDBID_Index:
-        $ref: '#/definitions/NullInt64'
-      Stroke_Data:
-        $ref: '#/definitions/NullString'
-      StrokeDashArray_Data:
-        $ref: '#/definitions/NullString'
-      StrokeWidth_Data:
-        $ref: '#/definitions/NullFloat64'
-      Transform_Data:
-        $ref: '#/definitions/NullString'
-      UpdatedAt:
-        format: date-time
-        type: string
-    title: CircleDB describes a circle in the database
-    type: object
-    x-go-name: CircleDB
-    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   ellipseAPI:
     description: |-
       for POST, API, one needs the fields of the model as well as the fields
@@ -1020,10 +893,6 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      Circles:
-        items:
-          $ref: '#/definitions/Circle'
-        type: array
       CreatedAt:
         format: date-time
         type: string
@@ -1199,90 +1068,6 @@ info:
   title: gongsvg backend API
   version: "0.1"
 paths:
-  /circles:
-    get:
-      description: Get all circles
-      operationId: getCircles
-      responses:
-        "200":
-          $ref: '#/responses/circleDBsResponse'
-        default:
-          $ref: '#/responses/genericError'
-      tags:
-      - circles
-    post:
-      consumes:
-      - application/json
-      description: Creates a circle
-      operationId: postCircle
-      parameters:
-      - description: The Circle to submit or modify
-        in: body
-        name: Circle
-        schema:
-          $ref: '#/definitions/circleAPI'
-      produces:
-      - application/json
-      responses:
-        "200":
-          $ref: '#/responses/circleDBResponse'
-      tags:
-      - circles
-  /circles/{ID}:
-    delete:
-      description: Delete a circle
-      operationId: deleteCircle
-      parameters:
-      - description: The ID of the order
-        format: int64
-        in: path
-        name: ID
-        required: true
-        type: integer
-      responses:
-        default:
-          $ref: '#/responses/genericError'
-      tags:
-      - circles
-    get:
-      operationId: getCircle
-      parameters:
-      - description: The ID of the order
-        format: int64
-        in: path
-        name: ID
-        required: true
-        type: integer
-      responses:
-        "200":
-          $ref: '#/responses/circleDBResponse'
-        default:
-          $ref: '#/responses/genericError'
-      summary: Gets the details for a circle.
-      tags:
-      - circles
-    patch:
-      description: Update a circle
-      operationId: updateCircle
-      parameters:
-      - description: The ID of the order
-        format: int64
-        in: path
-        name: ID
-        required: true
-        type: integer
-      - description: The Circle to submit or modify
-        in: body
-        name: Circle
-        schema:
-          $ref: '#/definitions/circleAPI'
-      responses:
-        "200":
-          $ref: '#/responses/circleDBResponse'
-        default:
-          $ref: '#/responses/genericError'
-      tags:
-      - circles
   /commitnb:
     get:
       operationId: GetLastCommitNb
@@ -1968,62 +1753,6 @@ paths:
 produces:
 - application/json
 responses:
-  circleDBResponse:
-    description: CircleDBResponse provides response
-    headers:
-      CX_Data:
-        description: Declation for basic field circleDB.CX {{BasicKind}} (to be completed)
-      CY_Data:
-        description: Declation for basic field circleDB.CY {{BasicKind}} (to be completed)
-      Color_Data:
-        description: Declation for basic field circleDB.Color {{BasicKind}} (to be
-          completed)
-      CreatedAt:
-        format: date-time
-        type: string
-      DeletedAt: {}
-      FillOpacity_Data:
-        description: Declation for basic field circleDB.FillOpacity {{BasicKind}}
-          (to be completed)
-      ID:
-        format: uint64
-        type: integer
-      Name_Data:
-        description: |-
-          insertion for basic fields declaration
-          Declation for basic field circleDB.Name {{BasicKind}} (to be completed)
-      Radius_Data:
-        description: Declation for basic field circleDB.Radius {{BasicKind}} (to be
-          completed)
-      SVG_CirclesDBID:
-        description: |-
-          insertion for pointer fields encoding declaration
-          Implementation of a reverse ID for field SVG{}.Circles []*Circle
-      SVG_CirclesDBID_Index:
-        description: implementation of the index of the withing the slice
-      Stroke_Data:
-        description: Declation for basic field circleDB.Stroke {{BasicKind}} (to be
-          completed)
-      StrokeDashArray_Data:
-        description: Declation for basic field circleDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
-      StrokeWidth_Data:
-        description: Declation for basic field circleDB.StrokeWidth {{BasicKind}}
-          (to be completed)
-      Transform_Data:
-        description: Declation for basic field circleDB.Transform {{BasicKind}} (to
-          be completed)
-      UpdatedAt:
-        format: date-time
-        type: string
-    schema:
-      $ref: '#/definitions/NullInt64'
-  circleDBsResponse:
-    description: CircleDBs arrays circleDBs
-    schema:
-      items:
-        $ref: '#/definitions/circleDB'
-      type: array
   ellipseDBResponse:
     description: EllipseDBResponse provides response
     headers:

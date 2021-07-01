@@ -4,9 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, combineLatest } from 'rxjs';
 
 // insertion point sub template for services imports 
-import { CircleDB } from './circle-db'
-import { CircleService } from './circle.service'
-
 import { EllipseDB } from './ellipse-db'
 import { EllipseService } from './ellipse.service'
 
@@ -34,9 +31,6 @@ import { TextService } from './text.service'
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
-  Circles_array = new Array<CircleDB>(); // array of repo instances
-  Circles = new Map<number, CircleDB>(); // map of repo instances
-  Circles_batch = new Map<number, CircleDB>(); // same but only in last GET (for finding repo instances to delete)
   Ellipses_array = new Array<EllipseDB>(); // array of repo instances
   Ellipses = new Map<number, EllipseDB>(); // map of repo instances
   Ellipses_batch = new Map<number, EllipseDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -125,7 +119,6 @@ export class FrontRepoService {
 
   constructor(
     private http: HttpClient, // insertion point sub template 
-    private circleService: CircleService,
     private ellipseService: EllipseService,
     private lineService: LineService,
     private pathService: PathService,
@@ -158,7 +151,6 @@ export class FrontRepoService {
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
-    Observable<CircleDB[]>,
     Observable<EllipseDB[]>,
     Observable<LineDB[]>,
     Observable<PathDB[]>,
@@ -168,7 +160,6 @@ export class FrontRepoService {
     Observable<SVGDB[]>,
     Observable<TextDB[]>,
   ] = [ // insertion point sub template 
-      this.circleService.getCircles(),
       this.ellipseService.getEllipses(),
       this.lineService.getLines(),
       this.pathService.getPaths(),
@@ -192,7 +183,6 @@ export class FrontRepoService {
           this.observableFrontRepo
         ).subscribe(
           ([ // insertion point sub template for declarations 
-            circles_,
             ellipses_,
             lines_,
             paths_,
@@ -204,8 +194,6 @@ export class FrontRepoService {
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
-            var circles: CircleDB[]
-            circles = circles_
             var ellipses: EllipseDB[]
             ellipses = ellipses_
             var lines: LineDB[]
@@ -226,39 +214,6 @@ export class FrontRepoService {
             // 
             // First Step: init map of instances
             // insertion point sub template for init 
-            // init the array
-            FrontRepoSingloton.Circles_array = circles
-
-            // clear the map that counts Circle in the GET
-            FrontRepoSingloton.Circles_batch.clear()
-
-            circles.forEach(
-              circle => {
-                FrontRepoSingloton.Circles.set(circle.ID, circle)
-                FrontRepoSingloton.Circles_batch.set(circle.ID, circle)
-              }
-            )
-
-            // clear circles that are absent from the batch
-            FrontRepoSingloton.Circles.forEach(
-              circle => {
-                if (FrontRepoSingloton.Circles_batch.get(circle.ID) == undefined) {
-                  FrontRepoSingloton.Circles.delete(circle.ID)
-                }
-              }
-            )
-
-            // sort Circles_array array
-            FrontRepoSingloton.Circles_array.sort((t1, t2) => {
-              if (t1.Name > t2.Name) {
-                return 1;
-              }
-              if (t1.Name < t2.Name) {
-                return -1;
-              }
-              return 0;
-            });
-
             // init the array
             FrontRepoSingloton.Ellipses_array = ellipses
 
@@ -527,26 +482,6 @@ export class FrontRepoService {
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
             // insertion point sub template for redeem 
-            circles.forEach(
-              circle => {
-                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field SVG.Circles redeeming
-                {
-                  let _svg = FrontRepoSingloton.SVGs.get(circle.SVG_CirclesDBID.Int64)
-                  if (_svg) {
-                    if (_svg.Circles == undefined) {
-                      _svg.Circles = new Array<CircleDB>()
-                    }
-                    _svg.Circles.push(circle)
-                    if (circle.SVG_Circles_reverse == undefined) {
-                      circle.SVG_Circles_reverse = _svg
-                    }
-                  }
-                }
-              }
-            )
             ellipses.forEach(
               ellipse => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
@@ -704,70 +639,6 @@ export class FrontRepoService {
   }
 
   // insertion point for pull per struct 
-
-  // CirclePull performs a GET on Circle of the stack and redeem association pointers 
-  CirclePull(): Observable<FrontRepo> {
-    return new Observable<FrontRepo>(
-      (observer) => {
-        combineLatest([
-          this.circleService.getCircles()
-        ]).subscribe(
-          ([ // insertion point sub template 
-            circles,
-          ]) => {
-            // init the array
-            FrontRepoSingloton.Circles_array = circles
-
-            // clear the map that counts Circle in the GET
-            FrontRepoSingloton.Circles_batch.clear()
-
-            // 
-            // First Step: init map of instances
-            // insertion point sub template 
-            circles.forEach(
-              circle => {
-                FrontRepoSingloton.Circles.set(circle.ID, circle)
-                FrontRepoSingloton.Circles_batch.set(circle.ID, circle)
-
-                // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field SVG.Circles redeeming
-                {
-                  let _svg = FrontRepoSingloton.SVGs.get(circle.SVG_CirclesDBID.Int64)
-                  if (_svg) {
-                    if (_svg.Circles == undefined) {
-                      _svg.Circles = new Array<CircleDB>()
-                    }
-                    _svg.Circles.push(circle)
-                    if (circle.SVG_Circles_reverse == undefined) {
-                      circle.SVG_Circles_reverse = _svg
-                    }
-                  }
-                }
-              }
-            )
-
-            // clear circles that are absent from the GET
-            FrontRepoSingloton.Circles.forEach(
-              circle => {
-                if (FrontRepoSingloton.Circles_batch.get(circle.ID) == undefined) {
-                  FrontRepoSingloton.Circles.delete(circle.ID)
-                }
-              }
-            )
-
-            // 
-            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
-            // insertion point sub template 
-
-            // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
-          }
-        )
-      }
-    )
-  }
 
   // EllipsePull performs a GET on Ellipse of the stack and redeem association pointers 
   EllipsePull(): Observable<FrontRepo> {
@@ -1270,30 +1141,27 @@ export class FrontRepoService {
 }
 
 // insertion point for get unique ID per struct 
-export function getCircleUniqueID(id: number): number {
+export function getEllipseUniqueID(id: number): number {
   return 31 * id
 }
-export function getEllipseUniqueID(id: number): number {
+export function getLineUniqueID(id: number): number {
   return 37 * id
 }
-export function getLineUniqueID(id: number): number {
+export function getPathUniqueID(id: number): number {
   return 41 * id
 }
-export function getPathUniqueID(id: number): number {
+export function getPolygoneUniqueID(id: number): number {
   return 43 * id
 }
-export function getPolygoneUniqueID(id: number): number {
+export function getPolylineUniqueID(id: number): number {
   return 47 * id
 }
-export function getPolylineUniqueID(id: number): number {
+export function getRectUniqueID(id: number): number {
   return 53 * id
 }
-export function getRectUniqueID(id: number): number {
+export function getSVGUniqueID(id: number): number {
   return 59 * id
 }
-export function getSVGUniqueID(id: number): number {
-  return 61 * id
-}
 export function getTextUniqueID(id: number): number {
-  return 67 * id
+  return 61 * id
 }

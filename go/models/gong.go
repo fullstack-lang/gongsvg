@@ -12,9 +12,6 @@ var __member __void
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
-	Circles           map[*Circle]struct{}
-	Circles_mapString map[string]*Circle
-
 	Ellipses           map[*Ellipse]struct{}
 	Ellipses_mapString map[string]*Ellipse
 
@@ -61,8 +58,6 @@ type BackRepoInterface interface {
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
-	CommitCircle(circle *Circle)
-	CheckoutCircle(circle *Circle)
 	CommitEllipse(ellipse *Ellipse)
 	CheckoutEllipse(ellipse *Ellipse)
 	CommitLine(line *Line)
@@ -85,9 +80,6 @@ type BackRepoInterface interface {
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Circles:           make(map[*Circle]struct{}, 0),
-	Circles_mapString: make(map[string]*Circle, 0),
-
 	Ellipses:           make(map[*Ellipse]struct{}, 0),
 	Ellipses_mapString: make(map[string]*Ellipse, 0),
 
@@ -156,108 +148,6 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-func (stage *StageStruct) getCircleOrderedStructWithNameField() []*Circle {
-	// have alphabetical order generation
-	circleOrdered := []*Circle{}
-	for circle := range stage.Circles {
-		circleOrdered = append(circleOrdered, circle)
-	}
-	sort.Slice(circleOrdered[:], func(i, j int) bool {
-		return circleOrdered[i].Name < circleOrdered[j].Name
-	})
-	return circleOrdered
-}
-
-// Stage puts circle to the model stage
-func (circle *Circle) Stage() *Circle {
-	Stage.Circles[circle] = __member
-	Stage.Circles_mapString[circle.Name] = circle
-
-	return circle
-}
-
-// Unstage removes circle off the model stage
-func (circle *Circle) Unstage() *Circle {
-	delete(Stage.Circles, circle)
-	delete(Stage.Circles_mapString, circle.Name)
-	return circle
-}
-
-// commit circle to the back repo (if it is already staged)
-func (circle *Circle) Commit() *Circle {
-	if _, ok := Stage.Circles[circle]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitCircle(circle)
-		}
-	}
-	return circle
-}
-
-// Checkout circle to the back repo (if it is already staged)
-func (circle *Circle) Checkout() *Circle {
-	if _, ok := Stage.Circles[circle]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutCircle(circle)
-		}
-	}
-	return circle
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of circle to the model stage
-func (circle *Circle) StageCopy() *Circle {
-	_circle := new(Circle)
-	*_circle = *circle
-	_circle.Stage()
-	return _circle
-}
-
-// StageAndCommit appends circle to the model stage and commit to the orm repo
-func (circle *Circle) StageAndCommit() *Circle {
-	circle.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMCircle(circle)
-	}
-	return circle
-}
-
-// DeleteStageAndCommit appends circle to the model stage and commit to the orm repo
-func (circle *Circle) DeleteStageAndCommit() *Circle {
-	circle.Unstage()
-	DeleteORMCircle(circle)
-	return circle
-}
-
-// StageCopyAndCommit appends a copy of circle to the model stage and commit to the orm repo
-func (circle *Circle) StageCopyAndCommit() *Circle {
-	_circle := new(Circle)
-	*_circle = *circle
-	_circle.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMCircle(circle)
-	}
-	return _circle
-}
-
-// CreateORMCircle enables dynamic staging of a Circle instance
-func CreateORMCircle(circle *Circle) {
-	circle.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMCircle(circle)
-	}
-}
-
-// DeleteORMCircle enables dynamic staging of a Circle instance
-func DeleteORMCircle(circle *Circle) {
-	circle.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMCircle(circle)
-	}
-}
-
 func (stage *StageStruct) getEllipseOrderedStructWithNameField() []*Ellipse {
 	// have alphabetical order generation
 	ellipseOrdered := []*Ellipse{}
@@ -1076,7 +966,6 @@ func DeleteORMText(text *Text) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMCircle(Circle *Circle)
 	CreateORMEllipse(Ellipse *Ellipse)
 	CreateORMLine(Line *Line)
 	CreateORMPath(Path *Path)
@@ -1088,7 +977,6 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMCircle(Circle *Circle)
 	DeleteORMEllipse(Ellipse *Ellipse)
 	DeleteORMLine(Line *Line)
 	DeleteORMPath(Path *Path)
@@ -1100,9 +988,6 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Circles = make(map[*Circle]struct{}, 0)
-	stage.Circles_mapString = make(map[string]*Circle, 0)
-
 	stage.Ellipses = make(map[*Ellipse]struct{}, 0)
 	stage.Ellipses_mapString = make(map[string]*Ellipse, 0)
 
@@ -1130,9 +1015,6 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
-	stage.Circles = nil
-	stage.Circles_mapString = nil
-
 	stage.Ellipses = nil
 	stage.Ellipses_mapString = nil
 

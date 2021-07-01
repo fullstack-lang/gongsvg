@@ -52,19 +52,6 @@
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
-            <button mat-raised-button (click)="openReverseSelection('Circle', 'SVG_CirclesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Circles</button>
-        </mat-grid-tile>
-        <!-- insertion point for the button of the MANY_MANY association-->
-        <mat-grid-tile>
-            <button mat-raised-button (click)="openDragAndDropOrdering('Circle', 'SVG_CirclesDBID')">
-                <mat-icon>
-                    shuffle
-                </mat-icon>
-            </button>
-        </mat-grid-tile>
-    </mat-grid-list>
-    <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="3">
             <button mat-raised-button (click)="openReverseSelection('Line', 'SVG_LinesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Lines</button>
         </mat-grid-tile>
         <!-- insertion point for the button of the MANY_MANY association-->

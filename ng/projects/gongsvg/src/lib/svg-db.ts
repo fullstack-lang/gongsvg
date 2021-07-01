@@ -1,7 +1,6 @@
 // insertion point for imports
 import { RectDB } from './rect-db'
 import { TextDB } from './text-db'
-import { CircleDB } from './circle-db'
 import { LineDB } from './line-db'
 import { EllipseDB } from './ellipse-db'
 import { PolylineDB } from './polyline-db'
@@ -23,7 +22,6 @@ export class SVGDB {
 	// insertion point for other declarations
 	Rects?: Array<RectDB>
 	Texts?: Array<TextDB>
-	Circles?: Array<CircleDB>
 	Lines?: Array<LineDB>
 	Ellipses?: Array<EllipseDB>
 	Polylines?: Array<PolylineDB>

@@ -7,7 +7,6 @@ type SVG struct {
 
 	Rects     []*Rect
 	Texts     []*Text
-	Circles   []*Circle
 	Lines     []*Line
 	Ellipses  []*Ellipse
 	Polylines []*Polyline

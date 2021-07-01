@@ -1,6 +1,4 @@
 // insertion point sub template for components imports 
-  import { CirclesTableComponent } from './circles-table/circles-table.component'
-  import { CircleSortingComponent } from './circle-sorting/circle-sorting.component'
   import { EllipsesTableComponent } from './ellipses-table/ellipses-table.component'
   import { EllipseSortingComponent } from './ellipse-sorting/ellipse-sorting.component'
   import { LinesTableComponent } from './lines-table/lines-table.component'
@@ -19,8 +17,6 @@
   import { TextSortingComponent } from './text-sorting/text-sorting.component'
 
 // insertion point sub template for map of components per struct 
-  export const MapOfCirclesComponents: Map<string, any> = new Map([["CirclesTableComponent", CirclesTableComponent],])
-  export const MapOfCircleSortingComponents: Map<string, any> = new Map([["CircleSortingComponent", CircleSortingComponent],])
   export const MapOfEllipsesComponents: Map<string, any> = new Map([["EllipsesTableComponent", EllipsesTableComponent],])
   export const MapOfEllipseSortingComponents: Map<string, any> = new Map([["EllipseSortingComponent", EllipseSortingComponent],])
   export const MapOfLinesComponents: Map<string, any> = new Map([["LinesTableComponent", LinesTableComponent],])
@@ -43,7 +39,6 @@ export const MapOfComponents: Map<string, any> =
   new Map(
     [
       // insertion point sub template for map of components 
-      ["Circle", MapOfCirclesComponents],
       ["Ellipse", MapOfEllipsesComponents],
       ["Line", MapOfLinesComponents],
       ["Path", MapOfPathsComponents],
@@ -60,7 +55,6 @@ export const MapOfSortingComponents: Map<string, any> =
   new Map(
     [
     // insertion point sub template for map of sorting components 
-      ["Circle", MapOfCircleSortingComponents],
       ["Ellipse", MapOfEllipseSortingComponents],
       ["Line", MapOfLineSortingComponents],
       ["Path", MapOfPathSortingComponents],

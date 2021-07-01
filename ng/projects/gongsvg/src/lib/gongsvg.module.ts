@@ -32,11 +32,6 @@ import { SplitterComponent } from './splitter/splitter.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 // insertion point for imports 
-import { CirclesTableComponent } from './circles-table/circles-table.component'
-import { CircleSortingComponent } from './circle-sorting/circle-sorting.component'
-import { CircleDetailComponent } from './circle-detail/circle-detail.component'
-import { CirclePresentationComponent } from './circle-presentation/circle-presentation.component'
-
 import { EllipsesTableComponent } from './ellipses-table/ellipses-table.component'
 import { EllipseSortingComponent } from './ellipse-sorting/ellipse-sorting.component'
 import { EllipseDetailComponent } from './ellipse-detail/ellipse-detail.component'
@@ -81,11 +76,6 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
-		CirclesTableComponent,
-		CircleSortingComponent,
-		CircleDetailComponent,
-		CirclePresentationComponent,
-
 		EllipsesTableComponent,
 		EllipseSortingComponent,
 		EllipseDetailComponent,
@@ -161,11 +151,6 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 	],
 	exports: [
 		// insertion point for declarations 
-		CirclesTableComponent,
-		CircleSortingComponent,
-		CircleDetailComponent,
-		CirclePresentationComponent,
-
 		EllipsesTableComponent,
 		EllipseSortingComponent,
 		EllipseDetailComponent,

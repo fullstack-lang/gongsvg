@@ -13,13 +13,6 @@ export * from './lib/commitnb.service'
 export * from './lib/push_from_front_nb.service'
 
 
-export * from './lib/circle-detail/circle-detail.component'
-export * from './lib/circle-presentation/circle-presentation.component'
-export * from './lib/circles-table/circles-table.component'
-export * from './lib/circle-db'
-export * from './lib/circle-api'
-export * from './lib/circle.service'
-
 export * from './lib/ellipse-detail/ellipse-detail.component'
 export * from './lib/ellipse-presentation/ellipse-presentation.component'
 export * from './lib/ellipses-table/ellipses-table.component'

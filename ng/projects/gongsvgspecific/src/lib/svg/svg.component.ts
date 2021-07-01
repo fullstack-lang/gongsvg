@@ -19,7 +19,6 @@ export class SvgComponent implements OnInit {
   public Rects = new Array<gongsvg.RectDB>()
   public Texts = new Array<gongsvg.TextDB>()
   public Lines = new Array<gongsvg.LineDB>()
-  public Circles = new Array<gongsvg.CircleDB>()
   public Ellipses = new Array<gongsvg.EllipseDB>()
   public Paths = new Array<gongsvg.PathDB>()
   public Polygones = new Array<gongsvg.PolygoneDB>()
@@ -84,7 +83,6 @@ export class SvgComponent implements OnInit {
         this.Rects = new Array<gongsvg.RectDB>()
         this.Texts = new Array<gongsvg.TextDB>()
         this.Lines = new Array<gongsvg.LineDB>()
-        this.Circles = new Array<gongsvg.CircleDB>()
         this.Ellipses = new Array<gongsvg.EllipseDB>()
         this.Paths = new Array<gongsvg.PathDB>()
         this.Polygones = new Array<gongsvg.PolygoneDB>()
@@ -109,12 +107,6 @@ export class SvgComponent implements OnInit {
             svg.Lines?.forEach(
               Line => {
                 this.Lines.push(Line)
-              }
-            )
-
-            svg.Circles?.forEach(
-              Circle => {
-                this.Circles.push(Circle)
               }
             )
 

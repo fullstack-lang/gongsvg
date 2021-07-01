@@ -58,7 +58,6 @@ export class SVGService {
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     svgdb.Rects = []
     svgdb.Texts = []
-    svgdb.Circles = []
     svgdb.Lines = []
     svgdb.Ellipses = []
     svgdb.Polylines = []
@@ -93,7 +92,6 @@ export class SVGService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     svgdb.Rects = []
     svgdb.Texts = []
-    svgdb.Circles = []
     svgdb.Lines = []
     svgdb.Ellipses = []
     svgdb.Polylines = []

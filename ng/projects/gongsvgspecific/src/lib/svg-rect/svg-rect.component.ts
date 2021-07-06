@@ -20,9 +20,20 @@ export class SvgRectComponent implements OnInit {
   @Input() StrokeDashArray: string
   @Input() Transform: string
 
+  AttributeName: string
+  Values: string
+  Dur: string
+  RepeatCount: string
+
   constructor() { }
 
   ngOnInit(): void {
+
+    this.AttributeName = "rx"
+    this.Values = "0;100;0"
+    this.Dur = "3s"
+    this.RepeatCount = "indefinite"
+
     // console.log("X " + this.X)
     // console.log("Y " + this.Y)
     // console.log("Height " + this.Height)

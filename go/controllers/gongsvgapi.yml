@@ -1976,15 +1976,13 @@ responses:
       CY_Data:
         description: Declation for basic field circleDB.CY {{BasicKind}} (to be completed)
       Color_Data:
-        description: Declation for basic field circleDB.Color {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field circleDB.Color {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field circleDB.FillOpacity {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field circleDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -1993,8 +1991,7 @@ responses:
           insertion for basic fields declaration
           Declation for basic field circleDB.Name {{BasicKind}} (to be completed)
       Radius_Data:
-        description: Declation for basic field circleDB.Radius {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field circleDB.Radius {{BasicKind}} (to be completed)
       SVG_CirclesDBID:
         description: |-
           insertion for pointer fields encoding declaration
@@ -2002,17 +1999,13 @@ responses:
       SVG_CirclesDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field circleDB.Stroke {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field circleDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field circleDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field circleDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field circleDB.StrokeWidth {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field circleDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field circleDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field circleDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2032,15 +2025,13 @@ responses:
       CY_Data:
         description: Declation for basic field ellipseDB.CY {{BasicKind}} (to be completed)
       Color_Data:
-        description: Declation for basic field ellipseDB.Color {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field ellipseDB.Color {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field ellipseDB.FillOpacity {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field ellipseDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2059,17 +2050,13 @@ responses:
       SVG_EllipsesDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field ellipseDB.Stroke {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field ellipseDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field ellipseDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field ellipseDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field ellipseDB.StrokeWidth {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field ellipseDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field ellipseDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field ellipseDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2105,8 +2092,7 @@ responses:
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field lineDB.FillOpacity {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field lineDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2121,17 +2107,13 @@ responses:
       SVG_LinesDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field lineDB.Stroke {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field lineDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field lineDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field lineDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field lineDB.StrokeWidth {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field lineDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field lineDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field lineDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2160,12 +2142,10 @@ responses:
         format: date-time
         type: string
       Definition_Data:
-        description: Declation for basic field pathDB.Definition {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field pathDB.Definition {{BasicKind}} (to be completed)
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field pathDB.FillOpacity {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field pathDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2180,17 +2160,13 @@ responses:
       SVG_PathsDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field pathDB.Stroke {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field pathDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field pathDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field pathDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field pathDB.StrokeWidth {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field pathDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field pathDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field pathDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2206,15 +2182,13 @@ responses:
     description: PolygoneDBResponse provides response
     headers:
       Color_Data:
-        description: Declation for basic field polygoneDB.Color {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polygoneDB.Color {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field polygoneDB.FillOpacity {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polygoneDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2223,8 +2197,7 @@ responses:
           insertion for basic fields declaration
           Declation for basic field polygoneDB.Name {{BasicKind}} (to be completed)
       Points_Data:
-        description: Declation for basic field polygoneDB.Points {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polygoneDB.Points {{BasicKind}} (to be completed)
       SVG_PolygonesDBID:
         description: |-
           insertion for pointer fields encoding declaration
@@ -2232,17 +2205,13 @@ responses:
       SVG_PolygonesDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field polygoneDB.Stroke {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polygoneDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field polygoneDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polygoneDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field polygoneDB.StrokeWidth {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polygoneDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field polygoneDB.Transform {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polygoneDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2258,15 +2227,13 @@ responses:
     description: PolylineDBResponse provides response
     headers:
       Color_Data:
-        description: Declation for basic field polylineDB.Color {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polylineDB.Color {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field polylineDB.FillOpacity {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polylineDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2275,8 +2242,7 @@ responses:
           insertion for basic fields declaration
           Declation for basic field polylineDB.Name {{BasicKind}} (to be completed)
       Points_Data:
-        description: Declation for basic field polylineDB.Points {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polylineDB.Points {{BasicKind}} (to be completed)
       SVG_PolylinesDBID:
         description: |-
           insertion for pointer fields encoding declaration
@@ -2284,17 +2250,13 @@ responses:
       SVG_PolylinesDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field polylineDB.Stroke {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polylineDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field polylineDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polylineDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field polylineDB.StrokeWidth {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polylineDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field polylineDB.Transform {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polylineDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2316,11 +2278,9 @@ responses:
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to be completed)
       Height_Data:
-        description: Declation for basic field rectDB.Height {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field rectDB.Height {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2337,17 +2297,13 @@ responses:
       SVG_RectsDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field rectDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field rectDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field rectDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field rectDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2399,15 +2355,13 @@ responses:
       Color_Data:
         description: Declation for basic field textDB.Color {{BasicKind}} (to be completed)
       Content_Data:
-        description: Declation for basic field textDB.Content {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field textDB.Content {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field textDB.FillOpacity {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field textDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2422,17 +2376,13 @@ responses:
       SVG_TextsDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field textDB.Stroke {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field textDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field textDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field textDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field textDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field textDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string

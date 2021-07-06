@@ -50,11 +50,41 @@ type AnimatePointersEnconding struct {
 
 	// implementation of the index of the withing the slice
 	Circle_AnimationsDBID_Index sql.NullInt64
+	// Implementation of a reverse ID for field Ellipse{}.Animates []*Animate
+	Ellipse_AnimatesDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Ellipse_AnimatesDBID_Index sql.NullInt64
+	// Implementation of a reverse ID for field Line{}.Animates []*Animate
+	Line_AnimatesDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Line_AnimatesDBID_Index sql.NullInt64
+	// Implementation of a reverse ID for field Path{}.Animates []*Animate
+	Path_AnimatesDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Path_AnimatesDBID_Index sql.NullInt64
+	// Implementation of a reverse ID for field Polygone{}.Animates []*Animate
+	Polygone_AnimatesDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Polygone_AnimatesDBID_Index sql.NullInt64
+	// Implementation of a reverse ID for field Polyline{}.Animates []*Animate
+	Polyline_AnimatesDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Polyline_AnimatesDBID_Index sql.NullInt64
 	// Implementation of a reverse ID for field Rect{}.Animations []*Animate
 	Rect_AnimationsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
 	Rect_AnimationsDBID_Index sql.NullInt64
+	// Implementation of a reverse ID for field Text{}.Animates []*Animate
+	Text_AnimatesDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Text_AnimatesDBID_Index sql.NullInt64
 }
 
 // AnimateDB describes a animate in the database
@@ -577,10 +607,46 @@ func (backRepoAnimate *BackRepoAnimateStruct) RestorePhaseTwo() {
 				int64(BackRepoCircleid_atBckpTime_newID[uint(animateDB.Circle_AnimationsDBID.Int64)])
 		}
 
+		// This reindex animate.Animates
+		if animateDB.Ellipse_AnimatesDBID.Int64 != 0 {
+			animateDB.Ellipse_AnimatesDBID.Int64 =
+				int64(BackRepoEllipseid_atBckpTime_newID[uint(animateDB.Ellipse_AnimatesDBID.Int64)])
+		}
+
+		// This reindex animate.Animates
+		if animateDB.Line_AnimatesDBID.Int64 != 0 {
+			animateDB.Line_AnimatesDBID.Int64 =
+				int64(BackRepoLineid_atBckpTime_newID[uint(animateDB.Line_AnimatesDBID.Int64)])
+		}
+
+		// This reindex animate.Animates
+		if animateDB.Path_AnimatesDBID.Int64 != 0 {
+			animateDB.Path_AnimatesDBID.Int64 =
+				int64(BackRepoPathid_atBckpTime_newID[uint(animateDB.Path_AnimatesDBID.Int64)])
+		}
+
+		// This reindex animate.Animates
+		if animateDB.Polygone_AnimatesDBID.Int64 != 0 {
+			animateDB.Polygone_AnimatesDBID.Int64 =
+				int64(BackRepoPolygoneid_atBckpTime_newID[uint(animateDB.Polygone_AnimatesDBID.Int64)])
+		}
+
+		// This reindex animate.Animates
+		if animateDB.Polyline_AnimatesDBID.Int64 != 0 {
+			animateDB.Polyline_AnimatesDBID.Int64 =
+				int64(BackRepoPolylineid_atBckpTime_newID[uint(animateDB.Polyline_AnimatesDBID.Int64)])
+		}
+
 		// This reindex animate.Animations
 		if animateDB.Rect_AnimationsDBID.Int64 != 0 {
 			animateDB.Rect_AnimationsDBID.Int64 =
 				int64(BackRepoRectid_atBckpTime_newID[uint(animateDB.Rect_AnimationsDBID.Int64)])
+		}
+
+		// This reindex animate.Animates
+		if animateDB.Text_AnimatesDBID.Int64 != 0 {
+			animateDB.Text_AnimatesDBID.Int64 =
+				int64(BackRepoTextid_atBckpTime_newID[uint(animateDB.Text_AnimatesDBID.Int64)])
 		}
 
 		// update databse with new index encoding

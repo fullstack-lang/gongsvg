@@ -56,6 +56,7 @@ export class LineService {
   postLine(linedb: LineDB): Observable<LineDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    linedb.Animates = []
     let _SVG_Lines_reverse = linedb.SVG_Lines_reverse
     linedb.SVG_Lines_reverse = {}
 
@@ -86,6 +87,7 @@ export class LineService {
     const url = `${this.linesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    linedb.Animates = []
     let _SVG_Lines_reverse = linedb.SVG_Lines_reverse
     linedb.SVG_Lines_reverse = {}
 

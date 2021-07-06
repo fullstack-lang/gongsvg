@@ -111,11 +111,65 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class="detail-full-width">
+        <mat-label>(Ellipse) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Ellipse_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let ellipse of frontRepo.Ellipses_array" [value]="ellipse">
+                {{ellipse.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Line) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Line_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let line of frontRepo.Lines_array" [value]="line">
+                {{line.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Path) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Path_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let path of frontRepo.Paths_array" [value]="path">
+                {{path.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Polygone) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Polygone_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let polygone of frontRepo.Polygones_array" [value]="polygone">
+                {{polygone.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Polyline) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Polyline_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let polyline of frontRepo.Polylines_array" [value]="polyline">
+                {{polyline.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
         <mat-label>(Rect) Animations</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Rect_Animations_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
                 {{rect.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Text) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Text_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let text of frontRepo.Texts_array" [value]="text">
+                {{text.Name}}
             </mat-option>
         </mat-select>
     </mat-form-field>

@@ -291,6 +291,25 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		textDB.CopyBasicFieldsFromText(text)
 
 		// insertion point for translating pointers encodings into actual pointers
+		// This loop encodes the slice of pointers text.Animates into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, animateAssocEnd := range text.Animates {
+
+			// get the back repo instance at the association end
+			animateAssocEnd_DB :=
+				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			animateAssocEnd_DB.Text_AnimatesDBID.Int64 = int64(textDB.ID)
+			animateAssocEnd_DB.Text_AnimatesDBID.Valid = true
+			animateAssocEnd_DB.Text_AnimatesDBID_Index.Int64 = int64(idx)
+			animateAssocEnd_DB.Text_AnimatesDBID_Index.Valid = true
+			if q := backRepoText.db.Save(animateAssocEnd_DB); q.Error != nil {
+				return q.Error
+			}
+		}
+
 		query := backRepoText.db.Save(&textDB)
 		if query.Error != nil {
 			return query.Error
@@ -396,6 +415,33 @@ func (backRepoText *BackRepoTextStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	_ = text // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
+	// This loop redeem text.Animates in the stage from the encode in the back repo
+	// It parses all AnimateDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	text.Animates = text.Animates[:0]
+	// 2. loop all instances in the type in the association end
+	for _, animateDB_AssocEnd := range *backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if animateDB_AssocEnd.Text_AnimatesDBID.Int64 == int64(textDB.ID) {
+			// 4. fetch the associated instance in the stage
+			animate_AssocEnd := (*backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr)[animateDB_AssocEnd.ID]
+			// 5. append it the association slice
+			text.Animates = append(text.Animates, animate_AssocEnd)
+		}
+	}
+
+	// sort the array according to the order
+	sort.Slice(text.Animates, func(i, j int) bool {
+		animateDB_i_ID := (*backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID)[text.Animates[i]]
+		animateDB_j_ID := (*backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID)[text.Animates[j]]
+
+		animateDB_i := (*backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB)[animateDB_i_ID]
+		animateDB_j := (*backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB)[animateDB_j_ID]
+
+		return animateDB_i.Text_AnimatesDBID_Index.Int64 < animateDB_j.Text_AnimatesDBID_Index.Int64
+	})
+
 	return
 }
 

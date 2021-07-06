@@ -20,5 +20,5 @@ type Path struct {
 	// ClosePath: Z, z
 	Definition string
 	Presentation
-	// Animates []*Animate
+	Animates []*Animate
 }

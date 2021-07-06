@@ -590,6 +590,71 @@ export class FrontRepoService {
                     }
                   }
                 }
+                // insertion point for slice of pointer field Ellipse.Animates redeeming
+                {
+                  let _ellipse = FrontRepoSingloton.Ellipses.get(animate.Ellipse_AnimatesDBID.Int64)
+                  if (_ellipse) {
+                    if (_ellipse.Animates == undefined) {
+                      _ellipse.Animates = new Array<AnimateDB>()
+                    }
+                    _ellipse.Animates.push(animate)
+                    if (animate.Ellipse_Animates_reverse == undefined) {
+                      animate.Ellipse_Animates_reverse = _ellipse
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Line.Animates redeeming
+                {
+                  let _line = FrontRepoSingloton.Lines.get(animate.Line_AnimatesDBID.Int64)
+                  if (_line) {
+                    if (_line.Animates == undefined) {
+                      _line.Animates = new Array<AnimateDB>()
+                    }
+                    _line.Animates.push(animate)
+                    if (animate.Line_Animates_reverse == undefined) {
+                      animate.Line_Animates_reverse = _line
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Path.Animates redeeming
+                {
+                  let _path = FrontRepoSingloton.Paths.get(animate.Path_AnimatesDBID.Int64)
+                  if (_path) {
+                    if (_path.Animates == undefined) {
+                      _path.Animates = new Array<AnimateDB>()
+                    }
+                    _path.Animates.push(animate)
+                    if (animate.Path_Animates_reverse == undefined) {
+                      animate.Path_Animates_reverse = _path
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Polygone.Animates redeeming
+                {
+                  let _polygone = FrontRepoSingloton.Polygones.get(animate.Polygone_AnimatesDBID.Int64)
+                  if (_polygone) {
+                    if (_polygone.Animates == undefined) {
+                      _polygone.Animates = new Array<AnimateDB>()
+                    }
+                    _polygone.Animates.push(animate)
+                    if (animate.Polygone_Animates_reverse == undefined) {
+                      animate.Polygone_Animates_reverse = _polygone
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Polyline.Animates redeeming
+                {
+                  let _polyline = FrontRepoSingloton.Polylines.get(animate.Polyline_AnimatesDBID.Int64)
+                  if (_polyline) {
+                    if (_polyline.Animates == undefined) {
+                      _polyline.Animates = new Array<AnimateDB>()
+                    }
+                    _polyline.Animates.push(animate)
+                    if (animate.Polyline_Animates_reverse == undefined) {
+                      animate.Polyline_Animates_reverse = _polyline
+                    }
+                  }
+                }
                 // insertion point for slice of pointer field Rect.Animations redeeming
                 {
                   let _rect = FrontRepoSingloton.Rects.get(animate.Rect_AnimationsDBID.Int64)
@@ -600,6 +665,19 @@ export class FrontRepoService {
                     _rect.Animations.push(animate)
                     if (animate.Rect_Animations_reverse == undefined) {
                       animate.Rect_Animations_reverse = _rect
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Text.Animates redeeming
+                {
+                  let _text = FrontRepoSingloton.Texts.get(animate.Text_AnimatesDBID.Int64)
+                  if (_text) {
+                    if (_text.Animates == undefined) {
+                      _text.Animates = new Array<AnimateDB>()
+                    }
+                    _text.Animates.push(animate)
+                    if (animate.Text_Animates_reverse == undefined) {
+                      animate.Text_Animates_reverse = _text
                     }
                   }
                 }
@@ -823,6 +901,71 @@ export class FrontRepoService {
                     }
                   }
                 }
+                // insertion point for slice of pointer field Ellipse.Animates redeeming
+                {
+                  let _ellipse = FrontRepoSingloton.Ellipses.get(animate.Ellipse_AnimatesDBID.Int64)
+                  if (_ellipse) {
+                    if (_ellipse.Animates == undefined) {
+                      _ellipse.Animates = new Array<AnimateDB>()
+                    }
+                    _ellipse.Animates.push(animate)
+                    if (animate.Ellipse_Animates_reverse == undefined) {
+                      animate.Ellipse_Animates_reverse = _ellipse
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Line.Animates redeeming
+                {
+                  let _line = FrontRepoSingloton.Lines.get(animate.Line_AnimatesDBID.Int64)
+                  if (_line) {
+                    if (_line.Animates == undefined) {
+                      _line.Animates = new Array<AnimateDB>()
+                    }
+                    _line.Animates.push(animate)
+                    if (animate.Line_Animates_reverse == undefined) {
+                      animate.Line_Animates_reverse = _line
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Path.Animates redeeming
+                {
+                  let _path = FrontRepoSingloton.Paths.get(animate.Path_AnimatesDBID.Int64)
+                  if (_path) {
+                    if (_path.Animates == undefined) {
+                      _path.Animates = new Array<AnimateDB>()
+                    }
+                    _path.Animates.push(animate)
+                    if (animate.Path_Animates_reverse == undefined) {
+                      animate.Path_Animates_reverse = _path
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Polygone.Animates redeeming
+                {
+                  let _polygone = FrontRepoSingloton.Polygones.get(animate.Polygone_AnimatesDBID.Int64)
+                  if (_polygone) {
+                    if (_polygone.Animates == undefined) {
+                      _polygone.Animates = new Array<AnimateDB>()
+                    }
+                    _polygone.Animates.push(animate)
+                    if (animate.Polygone_Animates_reverse == undefined) {
+                      animate.Polygone_Animates_reverse = _polygone
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Polyline.Animates redeeming
+                {
+                  let _polyline = FrontRepoSingloton.Polylines.get(animate.Polyline_AnimatesDBID.Int64)
+                  if (_polyline) {
+                    if (_polyline.Animates == undefined) {
+                      _polyline.Animates = new Array<AnimateDB>()
+                    }
+                    _polyline.Animates.push(animate)
+                    if (animate.Polyline_Animates_reverse == undefined) {
+                      animate.Polyline_Animates_reverse = _polyline
+                    }
+                  }
+                }
                 // insertion point for slice of pointer field Rect.Animations redeeming
                 {
                   let _rect = FrontRepoSingloton.Rects.get(animate.Rect_AnimationsDBID.Int64)
@@ -833,6 +976,19 @@ export class FrontRepoService {
                     _rect.Animations.push(animate)
                     if (animate.Rect_Animations_reverse == undefined) {
                       animate.Rect_Animations_reverse = _rect
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Text.Animates redeeming
+                {
+                  let _text = FrontRepoSingloton.Texts.get(animate.Text_AnimatesDBID.Int64)
+                  if (_text) {
+                    if (_text.Animates == undefined) {
+                      _text.Animates = new Array<AnimateDB>()
+                    }
+                    _text.Animates.push(animate)
+                    if (animate.Text_Animates_reverse == undefined) {
+                      animate.Text_Animates_reverse = _text
                     }
                   }
                 }

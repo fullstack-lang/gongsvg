@@ -445,6 +445,38 @@ export class SidebarComponent implements OnInit {
           ellipseGongNodeStruct.children.push(ellipseGongNodeInstance)
 
           // insertion point for per field code
+          /**
+          * let append a node for the slide of pointer Animates
+          */
+          let AnimatesGongNodeAssociation: GongNode = {
+            name: "(Animate) Animates",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: ellipseDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Ellipse",
+            associationField: "Animates",
+            associatedStructName: "Animate",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          ellipseGongNodeInstance.children.push(AnimatesGongNodeAssociation)
+
+          ellipseDB.Animates?.forEach(animateDB => {
+            let animateNode: GongNode = {
+              name: animateDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: animateDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getEllipseUniqueID(ellipseDB.ID)
+                + 11 * getAnimateUniqueID(animateDB.ID),
+              structName: "Animate",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AnimatesGongNodeAssociation.children.push(animateNode)
+          })
+
         }
       )
 
@@ -489,6 +521,38 @@ export class SidebarComponent implements OnInit {
           lineGongNodeStruct.children.push(lineGongNodeInstance)
 
           // insertion point for per field code
+          /**
+          * let append a node for the slide of pointer Animates
+          */
+          let AnimatesGongNodeAssociation: GongNode = {
+            name: "(Animate) Animates",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: lineDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Line",
+            associationField: "Animates",
+            associatedStructName: "Animate",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          lineGongNodeInstance.children.push(AnimatesGongNodeAssociation)
+
+          lineDB.Animates?.forEach(animateDB => {
+            let animateNode: GongNode = {
+              name: animateDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: animateDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getLineUniqueID(lineDB.ID)
+                + 11 * getAnimateUniqueID(animateDB.ID),
+              structName: "Animate",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AnimatesGongNodeAssociation.children.push(animateNode)
+          })
+
         }
       )
 
@@ -533,6 +597,38 @@ export class SidebarComponent implements OnInit {
           pathGongNodeStruct.children.push(pathGongNodeInstance)
 
           // insertion point for per field code
+          /**
+          * let append a node for the slide of pointer Animates
+          */
+          let AnimatesGongNodeAssociation: GongNode = {
+            name: "(Animate) Animates",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: pathDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Path",
+            associationField: "Animates",
+            associatedStructName: "Animate",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          pathGongNodeInstance.children.push(AnimatesGongNodeAssociation)
+
+          pathDB.Animates?.forEach(animateDB => {
+            let animateNode: GongNode = {
+              name: animateDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: animateDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getPathUniqueID(pathDB.ID)
+                + 11 * getAnimateUniqueID(animateDB.ID),
+              structName: "Animate",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AnimatesGongNodeAssociation.children.push(animateNode)
+          })
+
         }
       )
 
@@ -577,6 +673,38 @@ export class SidebarComponent implements OnInit {
           polygoneGongNodeStruct.children.push(polygoneGongNodeInstance)
 
           // insertion point for per field code
+          /**
+          * let append a node for the slide of pointer Animates
+          */
+          let AnimatesGongNodeAssociation: GongNode = {
+            name: "(Animate) Animates",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: polygoneDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Polygone",
+            associationField: "Animates",
+            associatedStructName: "Animate",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          polygoneGongNodeInstance.children.push(AnimatesGongNodeAssociation)
+
+          polygoneDB.Animates?.forEach(animateDB => {
+            let animateNode: GongNode = {
+              name: animateDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: animateDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getPolygoneUniqueID(polygoneDB.ID)
+                + 11 * getAnimateUniqueID(animateDB.ID),
+              structName: "Animate",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AnimatesGongNodeAssociation.children.push(animateNode)
+          })
+
         }
       )
 
@@ -621,6 +749,38 @@ export class SidebarComponent implements OnInit {
           polylineGongNodeStruct.children.push(polylineGongNodeInstance)
 
           // insertion point for per field code
+          /**
+          * let append a node for the slide of pointer Animates
+          */
+          let AnimatesGongNodeAssociation: GongNode = {
+            name: "(Animate) Animates",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: polylineDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Polyline",
+            associationField: "Animates",
+            associatedStructName: "Animate",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          polylineGongNodeInstance.children.push(AnimatesGongNodeAssociation)
+
+          polylineDB.Animates?.forEach(animateDB => {
+            let animateNode: GongNode = {
+              name: animateDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: animateDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getPolylineUniqueID(polylineDB.ID)
+                + 11 * getAnimateUniqueID(animateDB.ID),
+              structName: "Animate",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AnimatesGongNodeAssociation.children.push(animateNode)
+          })
+
         }
       )
 
@@ -1041,6 +1201,38 @@ export class SidebarComponent implements OnInit {
           textGongNodeStruct.children.push(textGongNodeInstance)
 
           // insertion point for per field code
+          /**
+          * let append a node for the slide of pointer Animates
+          */
+          let AnimatesGongNodeAssociation: GongNode = {
+            name: "(Animate) Animates",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: textDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Text",
+            associationField: "Animates",
+            associatedStructName: "Animate",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          textGongNodeInstance.children.push(AnimatesGongNodeAssociation)
+
+          textDB.Animates?.forEach(animateDB => {
+            let animateNode: GongNode = {
+              name: animateDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: animateDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getTextUniqueID(textDB.ID)
+                + 11 * getAnimateUniqueID(animateDB.ID),
+              structName: "Animate",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AnimatesGongNodeAssociation.children.push(animateNode)
+          })
+
         }
       )
 

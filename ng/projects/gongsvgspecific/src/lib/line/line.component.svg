@@ -4,10 +4,10 @@
             [attr.fill-opacity]="Line.FillOpacity" [attr.stroke]="Line.Stroke" [attr.stroke-width]="Line.StrokeWidth"
             [attr.stroke-dasharray]="Line.StrokeDashArray" [attr.transform]="Line.Transform" />
 
-        <!-- <animate *ngFor="let animate of Line.Animates" 
+        <animate *ngFor="let animate of Line.Animates" 
             [attr.attributeName]="animate.AttributeName" 
             [attr.values]="animate.Values" 
             [attr.dur]="animate.Dur" 
-            [attr.repeatCount]="animate.RepeatCount" /> -->
+            [attr.repeatCount]="animate.RepeatCount" />
     </g>
 </svg>

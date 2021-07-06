@@ -78,8 +78,26 @@ export class AnimatesTableComponent implements OnInit {
         case 'Circle_Animations':
           return this.frontRepo.Circles.get(animateDB.Circle_AnimationsDBID.Int64)?.Name;
 
+        case 'Ellipse_Animates':
+          return this.frontRepo.Ellipses.get(animateDB.Ellipse_AnimatesDBID.Int64)?.Name;
+
+        case 'Line_Animates':
+          return this.frontRepo.Lines.get(animateDB.Line_AnimatesDBID.Int64)?.Name;
+
+        case 'Path_Animates':
+          return this.frontRepo.Paths.get(animateDB.Path_AnimatesDBID.Int64)?.Name;
+
+        case 'Polygone_Animates':
+          return this.frontRepo.Polygones.get(animateDB.Polygone_AnimatesDBID.Int64)?.Name;
+
+        case 'Polyline_Animates':
+          return this.frontRepo.Polylines.get(animateDB.Polyline_AnimatesDBID.Int64)?.Name;
+
         case 'Rect_Animations':
           return this.frontRepo.Rects.get(animateDB.Rect_AnimationsDBID.Int64)?.Name;
+
+        case 'Text_Animates':
+          return this.frontRepo.Texts.get(animateDB.Text_AnimatesDBID.Int64)?.Name;
 
         default:
           return AnimateDB[property];
@@ -103,8 +121,32 @@ export class AnimatesTableComponent implements OnInit {
         mergedContent += this.frontRepo.Circles.get(animateDB.Circle_AnimationsDBID.Int64)?.Name.toLowerCase()
       }
 
+      if (animateDB.Ellipse_AnimatesDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Ellipses.get(animateDB.Ellipse_AnimatesDBID.Int64)?.Name.toLowerCase()
+      }
+
+      if (animateDB.Line_AnimatesDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Lines.get(animateDB.Line_AnimatesDBID.Int64)?.Name.toLowerCase()
+      }
+
+      if (animateDB.Path_AnimatesDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Paths.get(animateDB.Path_AnimatesDBID.Int64)?.Name.toLowerCase()
+      }
+
+      if (animateDB.Polygone_AnimatesDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Polygones.get(animateDB.Polygone_AnimatesDBID.Int64)?.Name.toLowerCase()
+      }
+
+      if (animateDB.Polyline_AnimatesDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Polylines.get(animateDB.Polyline_AnimatesDBID.Int64)?.Name.toLowerCase()
+      }
+
       if (animateDB.Rect_AnimationsDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Rects.get(animateDB.Rect_AnimationsDBID.Int64)?.Name.toLowerCase()
+      }
+
+      if (animateDB.Text_AnimatesDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Texts.get(animateDB.Text_AnimatesDBID.Int64)?.Name.toLowerCase()
       }
 
 
@@ -163,7 +205,13 @@ export class AnimatesTableComponent implements OnInit {
         "Dur",
         "RepeatCount",
         "Circle_Animations",
+        "Ellipse_Animates",
+        "Line_Animates",
+        "Path_Animates",
+        "Polygone_Animates",
+        "Polyline_Animates",
         "Rect_Animations",
+        "Text_Animates",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -173,7 +221,13 @@ export class AnimatesTableComponent implements OnInit {
         "Dur",
         "RepeatCount",
         "Circle_Animations",
+        "Ellipse_Animates",
+        "Line_Animates",
+        "Path_Animates",
+        "Polygone_Animates",
+        "Polyline_Animates",
         "Rect_Animations",
+        "Text_Animates",
       ]
       this.selection = new SelectionModel<AnimateDB>(allowMultiSelect, this.initialSelection);
     }

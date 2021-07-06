@@ -4,5 +4,5 @@ type Polyline struct {
 	Name   string
 	Points string
 	Presentation
-	// Animates []*Animate
+	Animates []*Animate
 }

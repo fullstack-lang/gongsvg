@@ -58,14 +58,32 @@ export class AnimateService {
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _Circle_Animations_reverse = animatedb.Circle_Animations_reverse
     animatedb.Circle_Animations_reverse = {}
+    let _Ellipse_Animates_reverse = animatedb.Ellipse_Animates_reverse
+    animatedb.Ellipse_Animates_reverse = {}
+    let _Line_Animates_reverse = animatedb.Line_Animates_reverse
+    animatedb.Line_Animates_reverse = {}
+    let _Path_Animates_reverse = animatedb.Path_Animates_reverse
+    animatedb.Path_Animates_reverse = {}
+    let _Polygone_Animates_reverse = animatedb.Polygone_Animates_reverse
+    animatedb.Polygone_Animates_reverse = {}
+    let _Polyline_Animates_reverse = animatedb.Polyline_Animates_reverse
+    animatedb.Polyline_Animates_reverse = {}
     let _Rect_Animations_reverse = animatedb.Rect_Animations_reverse
     animatedb.Rect_Animations_reverse = {}
+    let _Text_Animates_reverse = animatedb.Text_Animates_reverse
+    animatedb.Text_Animates_reverse = {}
 
 		return this.http.post<AnimateDB>(this.animatesUrl, animatedb, this.httpOptions).pipe(
 			tap(_ => {
 				// insertion point for restoration of reverse pointers
         animatedb.Circle_Animations_reverse = _Circle_Animations_reverse
+        animatedb.Ellipse_Animates_reverse = _Ellipse_Animates_reverse
+        animatedb.Line_Animates_reverse = _Line_Animates_reverse
+        animatedb.Path_Animates_reverse = _Path_Animates_reverse
+        animatedb.Polygone_Animates_reverse = _Polygone_Animates_reverse
+        animatedb.Polyline_Animates_reverse = _Polyline_Animates_reverse
         animatedb.Rect_Animations_reverse = _Rect_Animations_reverse
+        animatedb.Text_Animates_reverse = _Text_Animates_reverse
 				this.log(`posted animatedb id=${animatedb.ID}`)
 			}),
 			catchError(this.handleError<AnimateDB>('postAnimate'))
@@ -91,14 +109,32 @@ export class AnimateService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _Circle_Animations_reverse = animatedb.Circle_Animations_reverse
     animatedb.Circle_Animations_reverse = {}
+    let _Ellipse_Animates_reverse = animatedb.Ellipse_Animates_reverse
+    animatedb.Ellipse_Animates_reverse = {}
+    let _Line_Animates_reverse = animatedb.Line_Animates_reverse
+    animatedb.Line_Animates_reverse = {}
+    let _Path_Animates_reverse = animatedb.Path_Animates_reverse
+    animatedb.Path_Animates_reverse = {}
+    let _Polygone_Animates_reverse = animatedb.Polygone_Animates_reverse
+    animatedb.Polygone_Animates_reverse = {}
+    let _Polyline_Animates_reverse = animatedb.Polyline_Animates_reverse
+    animatedb.Polyline_Animates_reverse = {}
     let _Rect_Animations_reverse = animatedb.Rect_Animations_reverse
     animatedb.Rect_Animations_reverse = {}
+    let _Text_Animates_reverse = animatedb.Text_Animates_reverse
+    animatedb.Text_Animates_reverse = {}
 
     return this.http.put(url, animatedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         animatedb.Circle_Animations_reverse = _Circle_Animations_reverse
+        animatedb.Ellipse_Animates_reverse = _Ellipse_Animates_reverse
+        animatedb.Line_Animates_reverse = _Line_Animates_reverse
+        animatedb.Path_Animates_reverse = _Path_Animates_reverse
+        animatedb.Polygone_Animates_reverse = _Polygone_Animates_reverse
+        animatedb.Polyline_Animates_reverse = _Polyline_Animates_reverse
         animatedb.Rect_Animations_reverse = _Rect_Animations_reverse
+        animatedb.Text_Animates_reverse = _Text_Animates_reverse
         this.log(`updated animatedb id=${animatedb.ID}`)
       }),
       catchError(this.handleError<AnimateDB>('updateAnimate'))

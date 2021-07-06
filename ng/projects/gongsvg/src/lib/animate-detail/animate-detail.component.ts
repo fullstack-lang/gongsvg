@@ -24,7 +24,13 @@ enum AnimateDetailComponentState {
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
 	CREATE_INSTANCE_WITH_ASSOCIATION_Circle_Animations_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Ellipse_Animates_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Line_Animates_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Path_Animates_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Polygone_Animates_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Polyline_Animates_SET,
 	CREATE_INSTANCE_WITH_ASSOCIATION_Rect_Animations_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Text_Animates_SET,
 }
 
 @Component({
@@ -87,9 +93,33 @@ export class AnimateDetailComponent implements OnInit {
 						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Circle association Animations")
 						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Circle_Animations_SET
 						break;
+					case "Animates":
+						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Ellipse association Animates")
+						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Ellipse_Animates_SET
+						break;
+					case "Animates":
+						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Line association Animates")
+						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Line_Animates_SET
+						break;
+					case "Animates":
+						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Path association Animates")
+						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Path_Animates_SET
+						break;
+					case "Animates":
+						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Polygone association Animates")
+						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Polygone_Animates_SET
+						break;
+					case "Animates":
+						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Polyline association Animates")
+						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Polyline_Animates_SET
+						break;
 					case "Animations":
 						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Rect association Animations")
 						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Rect_Animations_SET
+						break;
+					case "Animates":
+						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Text association Animates")
+						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Text_Animates_SET
 						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
@@ -129,9 +159,33 @@ export class AnimateDetailComponent implements OnInit {
 						this.animate = new (AnimateDB)
 						this.animate.Circle_Animations_reverse = frontRepo.Circles.get(this.id)
 						break;
+					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Ellipse_Animates_SET:
+						this.animate = new (AnimateDB)
+						this.animate.Ellipse_Animates_reverse = frontRepo.Ellipses.get(this.id)
+						break;
+					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Line_Animates_SET:
+						this.animate = new (AnimateDB)
+						this.animate.Line_Animates_reverse = frontRepo.Lines.get(this.id)
+						break;
+					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Path_Animates_SET:
+						this.animate = new (AnimateDB)
+						this.animate.Path_Animates_reverse = frontRepo.Paths.get(this.id)
+						break;
+					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Polygone_Animates_SET:
+						this.animate = new (AnimateDB)
+						this.animate.Polygone_Animates_reverse = frontRepo.Polygones.get(this.id)
+						break;
+					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Polyline_Animates_SET:
+						this.animate = new (AnimateDB)
+						this.animate.Polyline_Animates_reverse = frontRepo.Polylines.get(this.id)
+						break;
 					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Rect_Animations_SET:
 						this.animate = new (AnimateDB)
 						this.animate.Rect_Animations_reverse = frontRepo.Rects.get(this.id)
+						break;
+					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Text_Animates_SET:
+						this.animate = new (AnimateDB)
+						this.animate.Text_Animates_reverse = frontRepo.Texts.get(this.id)
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -166,6 +220,66 @@ export class AnimateDetailComponent implements OnInit {
 			this.animate.Circle_AnimationsDBID_Index.Valid = true
 			this.animate.Circle_Animations_reverse = undefined // very important, otherwise, circular JSON
 		}
+		if (this.animate.Ellipse_Animates_reverse != undefined) {
+			if (this.animate.Ellipse_AnimatesDBID == undefined) {
+				this.animate.Ellipse_AnimatesDBID = new NullInt64
+			}
+			this.animate.Ellipse_AnimatesDBID.Int64 = this.animate.Ellipse_Animates_reverse.ID
+			this.animate.Ellipse_AnimatesDBID.Valid = true
+			if (this.animate.Ellipse_AnimatesDBID_Index == undefined) {
+				this.animate.Ellipse_AnimatesDBID_Index = new NullInt64
+			}
+			this.animate.Ellipse_AnimatesDBID_Index.Valid = true
+			this.animate.Ellipse_Animates_reverse = undefined // very important, otherwise, circular JSON
+		}
+		if (this.animate.Line_Animates_reverse != undefined) {
+			if (this.animate.Line_AnimatesDBID == undefined) {
+				this.animate.Line_AnimatesDBID = new NullInt64
+			}
+			this.animate.Line_AnimatesDBID.Int64 = this.animate.Line_Animates_reverse.ID
+			this.animate.Line_AnimatesDBID.Valid = true
+			if (this.animate.Line_AnimatesDBID_Index == undefined) {
+				this.animate.Line_AnimatesDBID_Index = new NullInt64
+			}
+			this.animate.Line_AnimatesDBID_Index.Valid = true
+			this.animate.Line_Animates_reverse = undefined // very important, otherwise, circular JSON
+		}
+		if (this.animate.Path_Animates_reverse != undefined) {
+			if (this.animate.Path_AnimatesDBID == undefined) {
+				this.animate.Path_AnimatesDBID = new NullInt64
+			}
+			this.animate.Path_AnimatesDBID.Int64 = this.animate.Path_Animates_reverse.ID
+			this.animate.Path_AnimatesDBID.Valid = true
+			if (this.animate.Path_AnimatesDBID_Index == undefined) {
+				this.animate.Path_AnimatesDBID_Index = new NullInt64
+			}
+			this.animate.Path_AnimatesDBID_Index.Valid = true
+			this.animate.Path_Animates_reverse = undefined // very important, otherwise, circular JSON
+		}
+		if (this.animate.Polygone_Animates_reverse != undefined) {
+			if (this.animate.Polygone_AnimatesDBID == undefined) {
+				this.animate.Polygone_AnimatesDBID = new NullInt64
+			}
+			this.animate.Polygone_AnimatesDBID.Int64 = this.animate.Polygone_Animates_reverse.ID
+			this.animate.Polygone_AnimatesDBID.Valid = true
+			if (this.animate.Polygone_AnimatesDBID_Index == undefined) {
+				this.animate.Polygone_AnimatesDBID_Index = new NullInt64
+			}
+			this.animate.Polygone_AnimatesDBID_Index.Valid = true
+			this.animate.Polygone_Animates_reverse = undefined // very important, otherwise, circular JSON
+		}
+		if (this.animate.Polyline_Animates_reverse != undefined) {
+			if (this.animate.Polyline_AnimatesDBID == undefined) {
+				this.animate.Polyline_AnimatesDBID = new NullInt64
+			}
+			this.animate.Polyline_AnimatesDBID.Int64 = this.animate.Polyline_Animates_reverse.ID
+			this.animate.Polyline_AnimatesDBID.Valid = true
+			if (this.animate.Polyline_AnimatesDBID_Index == undefined) {
+				this.animate.Polyline_AnimatesDBID_Index = new NullInt64
+			}
+			this.animate.Polyline_AnimatesDBID_Index.Valid = true
+			this.animate.Polyline_Animates_reverse = undefined // very important, otherwise, circular JSON
+		}
 		if (this.animate.Rect_Animations_reverse != undefined) {
 			if (this.animate.Rect_AnimationsDBID == undefined) {
 				this.animate.Rect_AnimationsDBID = new NullInt64
@@ -177,6 +291,18 @@ export class AnimateDetailComponent implements OnInit {
 			}
 			this.animate.Rect_AnimationsDBID_Index.Valid = true
 			this.animate.Rect_Animations_reverse = undefined // very important, otherwise, circular JSON
+		}
+		if (this.animate.Text_Animates_reverse != undefined) {
+			if (this.animate.Text_AnimatesDBID == undefined) {
+				this.animate.Text_AnimatesDBID = new NullInt64
+			}
+			this.animate.Text_AnimatesDBID.Int64 = this.animate.Text_Animates_reverse.ID
+			this.animate.Text_AnimatesDBID.Valid = true
+			if (this.animate.Text_AnimatesDBID_Index == undefined) {
+				this.animate.Text_AnimatesDBID_Index = new NullInt64
+			}
+			this.animate.Text_AnimatesDBID_Index.Valid = true
+			this.animate.Text_Animates_reverse = undefined // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {

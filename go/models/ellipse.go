@@ -6,5 +6,5 @@ type Ellipse struct {
 
 	Presentation
 
-	// Animates []*Animate
+	Animates []*Animate
 }

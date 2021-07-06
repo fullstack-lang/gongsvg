@@ -1,4 +1,5 @@
 // insertion point for imports
+import { AnimateDB } from './animate-db'
 import { SVGDB } from './svg-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -23,6 +24,7 @@ export class EllipseDB {
 	Transform?: string
 
 	// insertion point for other declarations
+	Animates?: Array<AnimateDB>
 	SVG_EllipsesDBID?: NullInt64
 	SVG_EllipsesDBID_Index?: NullInt64 // store the index of the ellipse instance in SVG.Ellipses
 	SVG_Ellipses_reverse?: SVGDB

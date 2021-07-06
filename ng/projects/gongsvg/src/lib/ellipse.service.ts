@@ -56,6 +56,7 @@ export class EllipseService {
   postEllipse(ellipsedb: EllipseDB): Observable<EllipseDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    ellipsedb.Animates = []
     let _SVG_Ellipses_reverse = ellipsedb.SVG_Ellipses_reverse
     ellipsedb.SVG_Ellipses_reverse = {}
 
@@ -86,6 +87,7 @@ export class EllipseService {
     const url = `${this.ellipsesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    ellipsedb.Animates = []
     let _SVG_Ellipses_reverse = ellipsedb.SVG_Ellipses_reverse
     ellipsedb.SVG_Ellipses_reverse = {}
 

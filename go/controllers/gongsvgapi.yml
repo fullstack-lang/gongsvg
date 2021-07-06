@@ -55,6 +55,10 @@ definitions:
     $ref: '#/definitions/NullTime'
   Ellipse:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       CX:
         format: double
         type: number
@@ -86,6 +90,10 @@ definitions:
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Line:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       FillOpacity:
@@ -189,6 +197,10 @@ definitions:
     x-go-package: database/sql
   Path:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       Definition:
@@ -234,6 +246,10 @@ definitions:
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Polygone:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       FillOpacity:
@@ -263,6 +279,10 @@ definitions:
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Polyline:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       FillOpacity:
@@ -327,6 +347,10 @@ definitions:
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Text:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       Content:
@@ -377,17 +401,41 @@ definitions:
         $ref: '#/definitions/DeletedAt'
       Dur:
         type: string
+      Ellipse_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Ellipse_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
       ID:
         format: uint64
         type: integer
+      Line_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Line_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
       Name:
         type: string
+      Path_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Path_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Polygone_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Polygone_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Polyline_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Polyline_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
       Rect_AnimationsDBID:
         $ref: '#/definitions/NullInt64'
       Rect_AnimationsDBID_Index:
         $ref: '#/definitions/NullInt64'
       RepeatCount:
         type: string
+      Text_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Text_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
       UpdatedAt:
         format: date-time
         type: string
@@ -415,17 +463,41 @@ definitions:
         $ref: '#/definitions/DeletedAt'
       Dur_Data:
         $ref: '#/definitions/NullString'
+      Ellipse_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Ellipse_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
       ID:
         format: uint64
         type: integer
+      Line_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Line_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
       Name_Data:
         $ref: '#/definitions/NullString'
+      Path_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Path_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Polygone_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Polygone_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Polyline_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Polyline_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
       Rect_AnimationsDBID:
         $ref: '#/definitions/NullInt64'
       Rect_AnimationsDBID_Index:
         $ref: '#/definitions/NullInt64'
       RepeatCount_Data:
         $ref: '#/definitions/NullString'
+      Text_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Text_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
       UpdatedAt:
         format: date-time
         type: string
@@ -541,6 +613,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       CX:
         format: double
         type: number
@@ -639,6 +715,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       CreatedAt:
@@ -737,6 +817,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       CreatedAt:
@@ -843,6 +927,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       CreatedAt:
@@ -933,6 +1021,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       CreatedAt:
@@ -1208,6 +1300,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       Content:
@@ -2176,19 +2272,43 @@ responses:
       DeletedAt: {}
       Dur_Data:
         description: Declation for basic field animateDB.Dur {{BasicKind}} (to be completed)
+      Ellipse_AnimatesDBID:
+        description: Implementation of a reverse ID for field Ellipse{}.Animates []*Animate
+      Ellipse_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
       ID:
         format: uint64
         type: integer
+      Line_AnimatesDBID:
+        description: Implementation of a reverse ID for field Line{}.Animates []*Animate
+      Line_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
       Name_Data:
         description: |-
           insertion for basic fields declaration
           Declation for basic field animateDB.Name {{BasicKind}} (to be completed)
+      Path_AnimatesDBID:
+        description: Implementation of a reverse ID for field Path{}.Animates []*Animate
+      Path_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
+      Polygone_AnimatesDBID:
+        description: Implementation of a reverse ID for field Polygone{}.Animates []*Animate
+      Polygone_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
+      Polyline_AnimatesDBID:
+        description: Implementation of a reverse ID for field Polyline{}.Animates []*Animate
+      Polyline_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
       Rect_AnimationsDBID:
         description: Implementation of a reverse ID for field Rect{}.Animations []*Animate
       Rect_AnimationsDBID_Index:
         description: implementation of the index of the withing the slice
       RepeatCount_Data:
         description: Declation for basic field animateDB.RepeatCount {{BasicKind}} (to be completed)
+      Text_AnimatesDBID:
+        description: Implementation of a reverse ID for field Text{}.Animates []*Animate
+      Text_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
       UpdatedAt:
         format: date-time
         type: string

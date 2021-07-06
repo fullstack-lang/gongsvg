@@ -1,4 +1,5 @@
 // insertion point for imports
+import { AnimateDB } from './animate-db'
 import { SVGDB } from './svg-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -22,6 +23,7 @@ export class TextDB {
 	Transform?: string
 
 	// insertion point for other declarations
+	Animates?: Array<AnimateDB>
 	SVG_TextsDBID?: NullInt64
 	SVG_TextsDBID_Index?: NullInt64 // store the index of the text instance in SVG.Texts
 	SVG_Texts_reverse?: SVGDB

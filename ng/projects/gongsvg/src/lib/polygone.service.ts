@@ -56,6 +56,7 @@ export class PolygoneService {
   postPolygone(polygonedb: PolygoneDB): Observable<PolygoneDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    polygonedb.Animates = []
     let _SVG_Polygones_reverse = polygonedb.SVG_Polygones_reverse
     polygonedb.SVG_Polygones_reverse = {}
 
@@ -86,6 +87,7 @@ export class PolygoneService {
     const url = `${this.polygonesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    polygonedb.Animates = []
     let _SVG_Polygones_reverse = polygonedb.SVG_Polygones_reverse
     polygonedb.SVG_Polygones_reverse = {}
 

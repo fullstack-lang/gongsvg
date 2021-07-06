@@ -279,6 +279,25 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 		polygoneDB.CopyBasicFieldsFromPolygone(polygone)
 
 		// insertion point for translating pointers encodings into actual pointers
+		// This loop encodes the slice of pointers polygone.Animates into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, animateAssocEnd := range polygone.Animates {
+
+			// get the back repo instance at the association end
+			animateAssocEnd_DB :=
+				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			animateAssocEnd_DB.Polygone_AnimatesDBID.Int64 = int64(polygoneDB.ID)
+			animateAssocEnd_DB.Polygone_AnimatesDBID.Valid = true
+			animateAssocEnd_DB.Polygone_AnimatesDBID_Index.Int64 = int64(idx)
+			animateAssocEnd_DB.Polygone_AnimatesDBID_Index.Valid = true
+			if q := backRepoPolygone.db.Save(animateAssocEnd_DB); q.Error != nil {
+				return q.Error
+			}
+		}
+
 		query := backRepoPolygone.db.Save(&polygoneDB)
 		if query.Error != nil {
 			return query.Error
@@ -384,6 +403,33 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseTwoInstance(backRep
 	_ = polygone // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
+	// This loop redeem polygone.Animates in the stage from the encode in the back repo
+	// It parses all AnimateDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	polygone.Animates = polygone.Animates[:0]
+	// 2. loop all instances in the type in the association end
+	for _, animateDB_AssocEnd := range *backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if animateDB_AssocEnd.Polygone_AnimatesDBID.Int64 == int64(polygoneDB.ID) {
+			// 4. fetch the associated instance in the stage
+			animate_AssocEnd := (*backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr)[animateDB_AssocEnd.ID]
+			// 5. append it the association slice
+			polygone.Animates = append(polygone.Animates, animate_AssocEnd)
+		}
+	}
+
+	// sort the array according to the order
+	sort.Slice(polygone.Animates, func(i, j int) bool {
+		animateDB_i_ID := (*backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID)[polygone.Animates[i]]
+		animateDB_j_ID := (*backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID)[polygone.Animates[j]]
+
+		animateDB_i := (*backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB)[animateDB_i_ID]
+		animateDB_j := (*backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB)[animateDB_j_ID]
+
+		return animateDB_i.Polygone_AnimatesDBID_Index.Int64 < animateDB_j.Polygone_AnimatesDBID_Index.Int64
+	})
+
 	return
 }
 

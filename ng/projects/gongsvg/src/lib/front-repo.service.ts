@@ -4,6 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, combineLatest } from 'rxjs';
 
 // insertion point sub template for services imports 
+import { AnimateDB } from './animate-db'
+import { AnimateService } from './animate.service'
+
 import { CircleDB } from './circle-db'
 import { CircleService } from './circle.service'
 
@@ -34,6 +37,9 @@ import { TextService } from './text.service'
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
+  Animates_array = new Array<AnimateDB>(); // array of repo instances
+  Animates = new Map<number, AnimateDB>(); // map of repo instances
+  Animates_batch = new Map<number, AnimateDB>(); // same but only in last GET (for finding repo instances to delete)
   Circles_array = new Array<CircleDB>(); // array of repo instances
   Circles = new Map<number, CircleDB>(); // map of repo instances
   Circles_batch = new Map<number, CircleDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -125,6 +131,7 @@ export class FrontRepoService {
 
   constructor(
     private http: HttpClient, // insertion point sub template 
+    private animateService: AnimateService,
     private circleService: CircleService,
     private ellipseService: EllipseService,
     private lineService: LineService,
@@ -158,6 +165,7 @@ export class FrontRepoService {
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
+    Observable<AnimateDB[]>,
     Observable<CircleDB[]>,
     Observable<EllipseDB[]>,
     Observable<LineDB[]>,
@@ -168,6 +176,7 @@ export class FrontRepoService {
     Observable<SVGDB[]>,
     Observable<TextDB[]>,
   ] = [ // insertion point sub template 
+      this.animateService.getAnimates(),
       this.circleService.getCircles(),
       this.ellipseService.getEllipses(),
       this.lineService.getLines(),
@@ -192,6 +201,7 @@ export class FrontRepoService {
           this.observableFrontRepo
         ).subscribe(
           ([ // insertion point sub template for declarations 
+            animates_,
             circles_,
             ellipses_,
             lines_,
@@ -204,6 +214,8 @@ export class FrontRepoService {
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
+            var animates: AnimateDB[]
+            animates = animates_
             var circles: CircleDB[]
             circles = circles_
             var ellipses: EllipseDB[]
@@ -226,6 +238,39 @@ export class FrontRepoService {
             // 
             // First Step: init map of instances
             // insertion point sub template for init 
+            // init the array
+            FrontRepoSingloton.Animates_array = animates
+
+            // clear the map that counts Animate in the GET
+            FrontRepoSingloton.Animates_batch.clear()
+
+            animates.forEach(
+              animate => {
+                FrontRepoSingloton.Animates.set(animate.ID, animate)
+                FrontRepoSingloton.Animates_batch.set(animate.ID, animate)
+              }
+            )
+
+            // clear animates that are absent from the batch
+            FrontRepoSingloton.Animates.forEach(
+              animate => {
+                if (FrontRepoSingloton.Animates_batch.get(animate.ID) == undefined) {
+                  FrontRepoSingloton.Animates.delete(animate.ID)
+                }
+              }
+            )
+
+            // sort Animates_array array
+            FrontRepoSingloton.Animates_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
             // init the array
             FrontRepoSingloton.Circles_array = circles
 
@@ -527,6 +572,117 @@ export class FrontRepoService {
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
             // insertion point sub template for redeem 
+            animates.forEach(
+              animate => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Circle.Animations redeeming
+                {
+                  let _circle = FrontRepoSingloton.Circles.get(animate.Circle_AnimationsDBID.Int64)
+                  if (_circle) {
+                    if (_circle.Animations == undefined) {
+                      _circle.Animations = new Array<AnimateDB>()
+                    }
+                    _circle.Animations.push(animate)
+                    if (animate.Circle_Animations_reverse == undefined) {
+                      animate.Circle_Animations_reverse = _circle
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Ellipse.Animates redeeming
+                {
+                  let _ellipse = FrontRepoSingloton.Ellipses.get(animate.Ellipse_AnimatesDBID.Int64)
+                  if (_ellipse) {
+                    if (_ellipse.Animates == undefined) {
+                      _ellipse.Animates = new Array<AnimateDB>()
+                    }
+                    _ellipse.Animates.push(animate)
+                    if (animate.Ellipse_Animates_reverse == undefined) {
+                      animate.Ellipse_Animates_reverse = _ellipse
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Line.Animates redeeming
+                {
+                  let _line = FrontRepoSingloton.Lines.get(animate.Line_AnimatesDBID.Int64)
+                  if (_line) {
+                    if (_line.Animates == undefined) {
+                      _line.Animates = new Array<AnimateDB>()
+                    }
+                    _line.Animates.push(animate)
+                    if (animate.Line_Animates_reverse == undefined) {
+                      animate.Line_Animates_reverse = _line
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Path.Animates redeeming
+                {
+                  let _path = FrontRepoSingloton.Paths.get(animate.Path_AnimatesDBID.Int64)
+                  if (_path) {
+                    if (_path.Animates == undefined) {
+                      _path.Animates = new Array<AnimateDB>()
+                    }
+                    _path.Animates.push(animate)
+                    if (animate.Path_Animates_reverse == undefined) {
+                      animate.Path_Animates_reverse = _path
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Polygone.Animates redeeming
+                {
+                  let _polygone = FrontRepoSingloton.Polygones.get(animate.Polygone_AnimatesDBID.Int64)
+                  if (_polygone) {
+                    if (_polygone.Animates == undefined) {
+                      _polygone.Animates = new Array<AnimateDB>()
+                    }
+                    _polygone.Animates.push(animate)
+                    if (animate.Polygone_Animates_reverse == undefined) {
+                      animate.Polygone_Animates_reverse = _polygone
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Polyline.Animates redeeming
+                {
+                  let _polyline = FrontRepoSingloton.Polylines.get(animate.Polyline_AnimatesDBID.Int64)
+                  if (_polyline) {
+                    if (_polyline.Animates == undefined) {
+                      _polyline.Animates = new Array<AnimateDB>()
+                    }
+                    _polyline.Animates.push(animate)
+                    if (animate.Polyline_Animates_reverse == undefined) {
+                      animate.Polyline_Animates_reverse = _polyline
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Rect.Animations redeeming
+                {
+                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_AnimationsDBID.Int64)
+                  if (_rect) {
+                    if (_rect.Animations == undefined) {
+                      _rect.Animations = new Array<AnimateDB>()
+                    }
+                    _rect.Animations.push(animate)
+                    if (animate.Rect_Animations_reverse == undefined) {
+                      animate.Rect_Animations_reverse = _rect
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Text.Animates redeeming
+                {
+                  let _text = FrontRepoSingloton.Texts.get(animate.Text_AnimatesDBID.Int64)
+                  if (_text) {
+                    if (_text.Animates == undefined) {
+                      _text.Animates = new Array<AnimateDB>()
+                    }
+                    _text.Animates.push(animate)
+                    if (animate.Text_Animates_reverse == undefined) {
+                      animate.Text_Animates_reverse = _text
+                    }
+                  }
+                }
+              }
+            )
             circles.forEach(
               circle => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
@@ -704,6 +860,161 @@ export class FrontRepoService {
   }
 
   // insertion point for pull per struct 
+
+  // AnimatePull performs a GET on Animate of the stack and redeem association pointers 
+  AnimatePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.animateService.getAnimates()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            animates,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Animates_array = animates
+
+            // clear the map that counts Animate in the GET
+            FrontRepoSingloton.Animates_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            animates.forEach(
+              animate => {
+                FrontRepoSingloton.Animates.set(animate.ID, animate)
+                FrontRepoSingloton.Animates_batch.set(animate.ID, animate)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Circle.Animations redeeming
+                {
+                  let _circle = FrontRepoSingloton.Circles.get(animate.Circle_AnimationsDBID.Int64)
+                  if (_circle) {
+                    if (_circle.Animations == undefined) {
+                      _circle.Animations = new Array<AnimateDB>()
+                    }
+                    _circle.Animations.push(animate)
+                    if (animate.Circle_Animations_reverse == undefined) {
+                      animate.Circle_Animations_reverse = _circle
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Ellipse.Animates redeeming
+                {
+                  let _ellipse = FrontRepoSingloton.Ellipses.get(animate.Ellipse_AnimatesDBID.Int64)
+                  if (_ellipse) {
+                    if (_ellipse.Animates == undefined) {
+                      _ellipse.Animates = new Array<AnimateDB>()
+                    }
+                    _ellipse.Animates.push(animate)
+                    if (animate.Ellipse_Animates_reverse == undefined) {
+                      animate.Ellipse_Animates_reverse = _ellipse
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Line.Animates redeeming
+                {
+                  let _line = FrontRepoSingloton.Lines.get(animate.Line_AnimatesDBID.Int64)
+                  if (_line) {
+                    if (_line.Animates == undefined) {
+                      _line.Animates = new Array<AnimateDB>()
+                    }
+                    _line.Animates.push(animate)
+                    if (animate.Line_Animates_reverse == undefined) {
+                      animate.Line_Animates_reverse = _line
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Path.Animates redeeming
+                {
+                  let _path = FrontRepoSingloton.Paths.get(animate.Path_AnimatesDBID.Int64)
+                  if (_path) {
+                    if (_path.Animates == undefined) {
+                      _path.Animates = new Array<AnimateDB>()
+                    }
+                    _path.Animates.push(animate)
+                    if (animate.Path_Animates_reverse == undefined) {
+                      animate.Path_Animates_reverse = _path
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Polygone.Animates redeeming
+                {
+                  let _polygone = FrontRepoSingloton.Polygones.get(animate.Polygone_AnimatesDBID.Int64)
+                  if (_polygone) {
+                    if (_polygone.Animates == undefined) {
+                      _polygone.Animates = new Array<AnimateDB>()
+                    }
+                    _polygone.Animates.push(animate)
+                    if (animate.Polygone_Animates_reverse == undefined) {
+                      animate.Polygone_Animates_reverse = _polygone
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Polyline.Animates redeeming
+                {
+                  let _polyline = FrontRepoSingloton.Polylines.get(animate.Polyline_AnimatesDBID.Int64)
+                  if (_polyline) {
+                    if (_polyline.Animates == undefined) {
+                      _polyline.Animates = new Array<AnimateDB>()
+                    }
+                    _polyline.Animates.push(animate)
+                    if (animate.Polyline_Animates_reverse == undefined) {
+                      animate.Polyline_Animates_reverse = _polyline
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Rect.Animations redeeming
+                {
+                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_AnimationsDBID.Int64)
+                  if (_rect) {
+                    if (_rect.Animations == undefined) {
+                      _rect.Animations = new Array<AnimateDB>()
+                    }
+                    _rect.Animations.push(animate)
+                    if (animate.Rect_Animations_reverse == undefined) {
+                      animate.Rect_Animations_reverse = _rect
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Text.Animates redeeming
+                {
+                  let _text = FrontRepoSingloton.Texts.get(animate.Text_AnimatesDBID.Int64)
+                  if (_text) {
+                    if (_text.Animates == undefined) {
+                      _text.Animates = new Array<AnimateDB>()
+                    }
+                    _text.Animates.push(animate)
+                    if (animate.Text_Animates_reverse == undefined) {
+                      animate.Text_Animates_reverse = _text
+                    }
+                  }
+                }
+              }
+            )
+
+            // clear animates that are absent from the GET
+            FrontRepoSingloton.Animates.forEach(
+              animate => {
+                if (FrontRepoSingloton.Animates_batch.get(animate.ID) == undefined) {
+                  FrontRepoSingloton.Animates.delete(animate.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
 
   // CirclePull performs a GET on Circle of the stack and redeem association pointers 
   CirclePull(): Observable<FrontRepo> {
@@ -1270,30 +1581,33 @@ export class FrontRepoService {
 }
 
 // insertion point for get unique ID per struct 
-export function getCircleUniqueID(id: number): number {
+export function getAnimateUniqueID(id: number): number {
   return 31 * id
 }
-export function getEllipseUniqueID(id: number): number {
+export function getCircleUniqueID(id: number): number {
   return 37 * id
 }
-export function getLineUniqueID(id: number): number {
+export function getEllipseUniqueID(id: number): number {
   return 41 * id
 }
-export function getPathUniqueID(id: number): number {
+export function getLineUniqueID(id: number): number {
   return 43 * id
 }
-export function getPolygoneUniqueID(id: number): number {
+export function getPathUniqueID(id: number): number {
   return 47 * id
 }
-export function getPolylineUniqueID(id: number): number {
+export function getPolygoneUniqueID(id: number): number {
   return 53 * id
 }
-export function getRectUniqueID(id: number): number {
+export function getPolylineUniqueID(id: number): number {
   return 59 * id
 }
-export function getSVGUniqueID(id: number): number {
+export function getRectUniqueID(id: number): number {
   return 61 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getSVGUniqueID(id: number): number {
   return 67 * id
+}
+export function getTextUniqueID(id: number): number {
+  return 71 * id
 }

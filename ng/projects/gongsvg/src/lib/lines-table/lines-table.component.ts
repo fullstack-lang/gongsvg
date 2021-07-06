@@ -93,7 +93,7 @@ export class LinesTableComponent implements OnInit {
         case 'Transform':
           return lineDB.Transform;
 
-        case 'Lines':
+        case 'SVG_Lines':
           return this.frontRepo.SVGs.get(lineDB.SVG_LinesDBID.Int64)?.Name;
 
         default:
@@ -185,7 +185,7 @@ export class LinesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Lines",
+        "SVG_Lines",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -200,7 +200,7 @@ export class LinesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Lines",
+        "SVG_Lines",
       ]
       this.selection = new SelectionModel<LineDB>(allowMultiSelect, this.initialSelection);
     }

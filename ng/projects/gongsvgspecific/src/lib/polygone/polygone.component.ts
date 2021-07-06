@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import * as gongsvg from 'gongsvg'
 @Component({
   selector: 'lib-polygone',
   templateUrl: './polygone.component.svg',
@@ -7,13 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PolygoneComponent implements OnInit {
 
-  @Input() Points: string
-
-  @Input() Color: string
-  @Input() Stroke: string
-  @Input() StrokeWidth: string
-  @Input() FillOpacity: number
-  @Input() StrokeDashArray: string
+  @Input() Polygone: gongsvg.PolygoneDB
 
   constructor() { }
 

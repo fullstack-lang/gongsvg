@@ -90,7 +90,7 @@ export class TextsTableComponent implements OnInit {
         case 'Transform':
           return textDB.Transform;
 
-        case 'Texts':
+        case 'SVG_Texts':
           return this.frontRepo.SVGs.get(textDB.SVG_TextsDBID.Int64)?.Name;
 
         default:
@@ -180,7 +180,7 @@ export class TextsTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Texts",
+        "SVG_Texts",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -194,7 +194,7 @@ export class TextsTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Texts",
+        "SVG_Texts",
       ]
       this.selection = new SelectionModel<TextDB>(allowMultiSelect, this.initialSelection);
     }

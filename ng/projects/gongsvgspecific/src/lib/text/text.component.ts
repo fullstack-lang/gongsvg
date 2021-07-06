@@ -1,11 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import * as gongsvg from 'gongsvg'
 @Component({
   selector: 'lib-text',
   templateUrl: './text.component.svg',
   styleUrls: ['./text.component.css']
 })
 export class TextComponent implements OnInit {
+
+  @Input() Text: gongsvg.TextDB
 
   @Input() X: number
   @Input() Y: number

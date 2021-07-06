@@ -90,7 +90,7 @@ export class CirclesTableComponent implements OnInit {
         case 'Transform':
           return circleDB.Transform;
 
-        case 'Circles':
+        case 'SVG_Circles':
           return this.frontRepo.SVGs.get(circleDB.SVG_CirclesDBID.Int64)?.Name;
 
         default:
@@ -180,7 +180,7 @@ export class CirclesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Circles",
+        "SVG_Circles",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -194,7 +194,7 @@ export class CirclesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Circles",
+        "SVG_Circles",
       ]
       this.selection = new SelectionModel<CircleDB>(allowMultiSelect, this.initialSelection);
     }

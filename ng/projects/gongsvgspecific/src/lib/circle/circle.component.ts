@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import * as gongsvg from 'gongsvg'
 @Component({
   selector: 'lib-circle',
   templateUrl: './circle.component.svg',
@@ -7,23 +8,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CircleComponent implements OnInit {
 
-  @Input() Name: string
-
-  @Input() CX: number
-  @Input() CY: number
-  @Input() Radius: number
-
-  @Input() Color: string
-  @Input() Stroke: string
-  @Input() StrokeWidth: string
-  @Input() FillOpacity: number
-  @Input() StrokeDashArray: string
-  @Input() Transform: string
+  @Input() Circle: gongsvg.CircleDB
 
   constructor() { }
 
   ngOnInit(): void {
-    console.log("circle X1 " + this.Name)
   }
 
 }

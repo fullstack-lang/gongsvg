@@ -84,7 +84,7 @@ export class PolylinesTableComponent implements OnInit {
         case 'Transform':
           return polylineDB.Transform;
 
-        case 'Polylines':
+        case 'SVG_Polylines':
           return this.frontRepo.SVGs.get(polylineDB.SVG_PolylinesDBID.Int64)?.Name;
 
         default:
@@ -170,7 +170,7 @@ export class PolylinesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Polylines",
+        "SVG_Polylines",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -182,7 +182,7 @@ export class PolylinesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Polylines",
+        "SVG_Polylines",
       ]
       this.selection = new SelectionModel<PolylineDB>(allowMultiSelect, this.initialSelection);
     }

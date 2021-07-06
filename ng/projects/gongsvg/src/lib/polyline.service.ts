@@ -56,6 +56,7 @@ export class PolylineService {
   postPolyline(polylinedb: PolylineDB): Observable<PolylineDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    polylinedb.Animates = []
     let _SVG_Polylines_reverse = polylinedb.SVG_Polylines_reverse
     polylinedb.SVG_Polylines_reverse = {}
 
@@ -86,6 +87,7 @@ export class PolylineService {
     const url = `${this.polylinesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    polylinedb.Animates = []
     let _SVG_Polylines_reverse = polylinedb.SVG_Polylines_reverse
     polylinedb.SVG_Polylines_reverse = {}
 

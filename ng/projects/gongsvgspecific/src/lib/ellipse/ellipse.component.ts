@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import * as gongsvg from 'gongsvg'
 @Component({
   selector: 'lib-ellipse',
   templateUrl: './ellipse.component.svg',
@@ -7,16 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class EllipseComponent implements OnInit {
 
-  @Input() CX: number
-  @Input() CY: number
-  @Input() RX: number
-  @Input() RY: number
-
-  @Input() Color: string
-  @Input() Stroke: string
-  @Input() StrokeWidth: string
-  @Input() FillOpacity: number
-  @Input() StrokeDashArray: string
+  @Input() Ellipse: gongsvg.EllipseDB
 
   constructor() { }
 

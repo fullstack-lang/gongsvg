@@ -12,6 +12,9 @@ var __member __void
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
+	Animates           map[*Animate]struct{}
+	Animates_mapString map[string]*Animate
+
 	Circles           map[*Circle]struct{}
 	Circles_mapString map[string]*Circle
 
@@ -61,6 +64,8 @@ type BackRepoInterface interface {
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
+	CommitAnimate(animate *Animate)
+	CheckoutAnimate(animate *Animate)
 	CommitCircle(circle *Circle)
 	CheckoutCircle(circle *Circle)
 	CommitEllipse(ellipse *Ellipse)
@@ -85,6 +90,9 @@ type BackRepoInterface interface {
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
+	Animates:           make(map[*Animate]struct{}, 0),
+	Animates_mapString: make(map[string]*Animate, 0),
+
 	Circles:           make(map[*Circle]struct{}, 0),
 	Circles_mapString: make(map[string]*Circle, 0),
 
@@ -156,6 +164,108 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
+func (stage *StageStruct) getAnimateOrderedStructWithNameField() []*Animate {
+	// have alphabetical order generation
+	animateOrdered := []*Animate{}
+	for animate := range stage.Animates {
+		animateOrdered = append(animateOrdered, animate)
+	}
+	sort.Slice(animateOrdered[:], func(i, j int) bool {
+		return animateOrdered[i].Name < animateOrdered[j].Name
+	})
+	return animateOrdered
+}
+
+// Stage puts animate to the model stage
+func (animate *Animate) Stage() *Animate {
+	Stage.Animates[animate] = __member
+	Stage.Animates_mapString[animate.Name] = animate
+
+	return animate
+}
+
+// Unstage removes animate off the model stage
+func (animate *Animate) Unstage() *Animate {
+	delete(Stage.Animates, animate)
+	delete(Stage.Animates_mapString, animate.Name)
+	return animate
+}
+
+// commit animate to the back repo (if it is already staged)
+func (animate *Animate) Commit() *Animate {
+	if _, ok := Stage.Animates[animate]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitAnimate(animate)
+		}
+	}
+	return animate
+}
+
+// Checkout animate to the back repo (if it is already staged)
+func (animate *Animate) Checkout() *Animate {
+	if _, ok := Stage.Animates[animate]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutAnimate(animate)
+		}
+	}
+	return animate
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of animate to the model stage
+func (animate *Animate) StageCopy() *Animate {
+	_animate := new(Animate)
+	*_animate = *animate
+	_animate.Stage()
+	return _animate
+}
+
+// StageAndCommit appends animate to the model stage and commit to the orm repo
+func (animate *Animate) StageAndCommit() *Animate {
+	animate.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMAnimate(animate)
+	}
+	return animate
+}
+
+// DeleteStageAndCommit appends animate to the model stage and commit to the orm repo
+func (animate *Animate) DeleteStageAndCommit() *Animate {
+	animate.Unstage()
+	DeleteORMAnimate(animate)
+	return animate
+}
+
+// StageCopyAndCommit appends a copy of animate to the model stage and commit to the orm repo
+func (animate *Animate) StageCopyAndCommit() *Animate {
+	_animate := new(Animate)
+	*_animate = *animate
+	_animate.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMAnimate(animate)
+	}
+	return _animate
+}
+
+// CreateORMAnimate enables dynamic staging of a Animate instance
+func CreateORMAnimate(animate *Animate) {
+	animate.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMAnimate(animate)
+	}
+}
+
+// DeleteORMAnimate enables dynamic staging of a Animate instance
+func DeleteORMAnimate(animate *Animate) {
+	animate.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMAnimate(animate)
+	}
+}
+
 func (stage *StageStruct) getCircleOrderedStructWithNameField() []*Circle {
 	// have alphabetical order generation
 	circleOrdered := []*Circle{}
@@ -1076,6 +1186,7 @@ func DeleteORMText(text *Text) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMAnimate(Animate *Animate)
 	CreateORMCircle(Circle *Circle)
 	CreateORMEllipse(Ellipse *Ellipse)
 	CreateORMLine(Line *Line)
@@ -1088,6 +1199,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMAnimate(Animate *Animate)
 	DeleteORMCircle(Circle *Circle)
 	DeleteORMEllipse(Ellipse *Ellipse)
 	DeleteORMLine(Line *Line)
@@ -1100,6 +1212,9 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
+	stage.Animates = make(map[*Animate]struct{}, 0)
+	stage.Animates_mapString = make(map[string]*Animate, 0)
+
 	stage.Circles = make(map[*Circle]struct{}, 0)
 	stage.Circles_mapString = make(map[string]*Circle, 0)
 
@@ -1130,6 +1245,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
+	stage.Animates = nil
+	stage.Animates_mapString = nil
+
 	stage.Circles = nil
 	stage.Circles_mapString = nil
 

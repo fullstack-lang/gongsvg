@@ -56,6 +56,7 @@ export class TextService {
   postText(textdb: TextDB): Observable<TextDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    textdb.Animates = []
     let _SVG_Texts_reverse = textdb.SVG_Texts_reverse
     textdb.SVG_Texts_reverse = {}
 
@@ -86,6 +87,7 @@ export class TextService {
     const url = `${this.textsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    textdb.Animates = []
     let _SVG_Texts_reverse = textdb.SVG_Texts_reverse
     textdb.SVG_Texts_reverse = {}
 

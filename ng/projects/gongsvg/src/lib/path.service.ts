@@ -56,6 +56,7 @@ export class PathService {
   postPath(pathdb: PathDB): Observable<PathDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    pathdb.Animates = []
     let _SVG_Paths_reverse = pathdb.SVG_Paths_reverse
     pathdb.SVG_Paths_reverse = {}
 
@@ -86,6 +87,7 @@ export class PathService {
     const url = `${this.pathsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    pathdb.Animates = []
     let _SVG_Paths_reverse = pathdb.SVG_Paths_reverse
     pathdb.SVG_Paths_reverse = {}
 

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import * as gongsvg from 'gongsvg'
 @Component({
   selector: 'lib-polyline',
   templateUrl: './polyline.component.svg',
@@ -7,13 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PolylineComponent implements OnInit {
 
-  @Input() Points: string
-
-  @Input() Color: string
-  @Input() Stroke: string
-  @Input() StrokeWidth: string
-  @Input() FillOpacity: number
-  @Input() StrokeDashArray: string
+  @Input() Polyline: gongsvg.PolylineDB
 
   constructor() { }
 

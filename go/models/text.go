@@ -5,4 +5,5 @@ type Text struct {
 	X, Y    float64
 	Content string
 	Presentation
+	Animates []*Animate
 }

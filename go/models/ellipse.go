@@ -5,4 +5,6 @@ type Ellipse struct {
 	CX, CY, RX, RY float64
 
 	Presentation
+
+	Animates []*Animate
 }

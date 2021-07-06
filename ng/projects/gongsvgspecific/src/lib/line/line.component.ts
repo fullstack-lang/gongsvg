@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import * as gongsvg from 'gongsvg'
 @Component({
   selector: 'lib-line',
   templateUrl: './line.component.svg',
@@ -7,17 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class LineComponent implements OnInit {
 
-  @Input() X1: number
-  @Input() Y1: number
-  @Input() X2: number
-  @Input() Y2: number
-
-  @Input() Color: string
-  @Input() Stroke: string
-  @Input() StrokeWidth: string
-  @Input() FillOpacity: number
-  @Input() StrokeDashArray: string
-  @Input() Transform: string
+  @Input() Line: gongsvg.LineDB
 
   constructor() { }
 

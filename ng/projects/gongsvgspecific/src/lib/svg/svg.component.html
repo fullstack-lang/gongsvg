@@ -1,57 +1,42 @@
-<div *ngFor="let elt of Rects" class="parent">
-    <lib-svg-rect [X]="elt.X" [Y]="elt.Y" [Width]="elt.Width" [Height]="elt.Height" [RX]="elt.RX" [Color]="elt.Color"
-        [FillOpacity]="elt.FillOpacity" [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth"
-        [StrokeDashArray]="elt.StrokeDashArray" [Transform]="elt.Transform">
-    </lib-svg-rect>
-</div>
-
-<div *ngFor="let elt of Texts" class="parent">
-    <lib-text [X]="elt.X" [Y]="elt.Y" [Content]="elt.Content" [Color]="elt.Color" [FillOpacity]="elt.FillOpacity"
-        [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth" [StrokeDashArray]="elt.StrokeDashArray"
-        [Transform]="elt.Transform">
-    </lib-text>
-</div>
 
 <div *ngFor="let elt of Circles" class="parent">
-    <lib-circle [Name]="elt.Name" [CX]="elt.CX" [CY]="elt.CY" [Radius]="elt.Radius" [Color]="elt.Color"
-        [FillOpacity]="elt.FillOpacity" [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth"
-        [StrokeDashArray]="elt.StrokeDashArray" [Transform]="elt.Transform">
+    <lib-circle [Circle]="elt">
     </lib-circle>
 </div>
 
-<div *ngFor="let elt of Lines" class="parent">
-    <lib-line [X1]="elt.X1" [Y1]="elt.Y1" [X2]="elt.X2" [Y2]="elt.Y2" [Color]="elt.Color"
-        [FillOpacity]="elt.FillOpacity" [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth"
-        [StrokeDashArray]="elt.StrokeDashArray" [Transform]="elt.Transform">
-    </lib-line>
+<div *ngFor="let elt of Rects" class="parent">
+    <lib-rect [Rect]="elt">
+    </lib-rect>
 </div>
 
 <div *ngFor="let ellipse of Ellipses" class="parent">
-    <lib-ellipse [CX]="ellipse.CX" [CY]="ellipse.CY" [RX]="ellipse.RX" [RY]="ellipse.RY" [Color]="ellipse.Color"
-        [FillOpacity]="ellipse.FillOpacity" [Stroke]="ellipse.Stroke" [StrokeWidth]="ellipse.StrokeWidth"
-        [StrokeDashArray]="ellipse.StrokeDashArray">
+    <lib-ellipse [Ellipse]="ellipse">
     </lib-ellipse>
 </div>
 
+
+<div *ngFor="let line of Lines" class="parent">
+    <lib-line [Line]="line">
+    </lib-line>
+</div>
+
 <div *ngFor="let path of Paths" class="parent">
-    <lib-path [Definition]="path.Definition" [Color]="path.Color" [FillOpacity]="path.FillOpacity"
-        [Stroke]="path.Stroke" [StrokeWidth]="path.StrokeWidth" [StrokeDashArray]="path.StrokeDashArray">
+    <lib-path [Path]="path">
     </lib-path>
 </div>
 
 <div *ngFor="let polygone of Polygones" class="parent">
-    <lib-polygone [Points]="polygone.Points" [Color]="polygone.Color" [FillOpacity]="polygone.FillOpacity"
-        [Stroke]="polygone.Stroke" [StrokeWidth]="polygone.StrokeWidth" [StrokeDashArray]="polygone.StrokeDashArray">
+    <lib-polygone [Polygone]="polygone">
     </lib-polygone>
 </div>
 
 
 <div *ngFor="let polyline of Polylines" class="parent">
-    <lib-polyline [Points]="polyline.Points" [Color]="polyline.Color" [FillOpacity]="polyline.FillOpacity"
-        [Stroke]="polyline.Stroke" [StrokeWidth]="polyline.StrokeWidth" [StrokeDashArray]="polyline.StrokeDashArray">
+    <lib-polyline [Polyline]="polyline">
     </lib-polyline>
 </div>
 
-
-
-<!-- <lib-svg-rect></lib-svg-rect> -->
+<div *ngFor="let elt of Texts" class="parent">
+    <lib-text [Text]="elt">
+    </lib-text>
+</div>

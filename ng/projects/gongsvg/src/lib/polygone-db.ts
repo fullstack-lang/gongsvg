@@ -1,4 +1,5 @@
 // insertion point for imports
+import { AnimateDB } from './animate-db'
 import { SVGDB } from './svg-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -20,6 +21,7 @@ export class PolygoneDB {
 	Transform?: string
 
 	// insertion point for other declarations
+	Animates?: Array<AnimateDB>
 	SVG_PolygonesDBID?: NullInt64
 	SVG_PolygonesDBID_Index?: NullInt64 // store the index of the polygone instance in SVG.Polygones
 	SVG_Polygones_reverse?: SVGDB

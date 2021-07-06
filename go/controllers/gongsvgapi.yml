@@ -2,8 +2,26 @@ basePath: /api/github.com/fullstack-lang/gongsvg/go/v1
 consumes:
 - application/json
 definitions:
+  Animate:
+    properties:
+      AttributeName:
+        type: string
+      Dur:
+        type: string
+      Name:
+        type: string
+      RepeatCount:
+        type: string
+      Values:
+        type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Circle:
     properties:
+      Animations:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       CX:
         format: double
         type: number
@@ -37,6 +55,10 @@ definitions:
     $ref: '#/definitions/NullTime'
   Ellipse:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       CX:
         format: double
         type: number
@@ -68,6 +90,10 @@ definitions:
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Line:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       FillOpacity:
@@ -171,6 +197,10 @@ definitions:
     x-go-package: database/sql
   Path:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       Definition:
@@ -216,6 +246,10 @@ definitions:
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Polygone:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       FillOpacity:
@@ -245,6 +279,10 @@ definitions:
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Polyline:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       FillOpacity:
@@ -274,6 +312,10 @@ definitions:
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Rect:
     properties:
+      Animations:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       FillOpacity:
@@ -305,6 +347,10 @@ definitions:
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Text:
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       Content:
@@ -336,12 +382,141 @@ definitions:
         x-go-name: "Y"
     type: object
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
+  animateAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      AttributeName:
+        type: string
+      Circle_AnimationsDBID:
+        $ref: '#/definitions/NullInt64'
+      Circle_AnimationsDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        $ref: '#/definitions/DeletedAt'
+      Dur:
+        type: string
+      Ellipse_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Ellipse_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      ID:
+        format: uint64
+        type: integer
+      Line_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Line_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Name:
+        type: string
+      Path_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Path_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Polygone_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Polygone_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Polyline_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Polyline_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Rect_AnimationsDBID:
+        $ref: '#/definitions/NullInt64'
+      Rect_AnimationsDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      RepeatCount:
+        type: string
+      Text_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Text_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      UpdatedAt:
+        format: date-time
+        type: string
+      Values:
+        type: string
+    title: AnimateAPI is the input in POST API
+    type: object
+    x-go-name: AnimateAPI
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
+  animateDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      AttributeName_Data:
+        $ref: '#/definitions/NullString'
+      Circle_AnimationsDBID:
+        $ref: '#/definitions/NullInt64'
+      Circle_AnimationsDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        $ref: '#/definitions/DeletedAt'
+      Dur_Data:
+        $ref: '#/definitions/NullString'
+      Ellipse_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Ellipse_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      ID:
+        format: uint64
+        type: integer
+      Line_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Line_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Path_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Path_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Polygone_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Polygone_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Polyline_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Polyline_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Rect_AnimationsDBID:
+        $ref: '#/definitions/NullInt64'
+      Rect_AnimationsDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      RepeatCount_Data:
+        $ref: '#/definitions/NullString'
+      Text_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Text_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      UpdatedAt:
+        format: date-time
+        type: string
+      Values_Data:
+        $ref: '#/definitions/NullString'
+    title: AnimateDB describes a animate in the database
+    type: object
+    x-go-name: AnimateDB
+    x-go-package: github.com/fullstack-lang/gongsvg/go/orm
   circleAPI:
     description: |-
       for POST, API, one needs the fields of the model as well as the fields
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animations:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       CX:
         format: double
         type: number
@@ -438,6 +613,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       CX:
         format: double
         type: number
@@ -536,6 +715,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       CreatedAt:
@@ -634,6 +817,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       CreatedAt:
@@ -740,6 +927,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       CreatedAt:
@@ -830,6 +1021,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       CreatedAt:
@@ -920,6 +1115,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animations:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       CreatedAt:
@@ -1101,6 +1300,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       Content:
@@ -1199,6 +1402,90 @@ info:
   title: gongsvg backend API
   version: "0.1"
 paths:
+  /animates:
+    get:
+      description: Get all animates
+      operationId: getAnimates
+      responses:
+        "200":
+          $ref: '#/responses/animateDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - animates
+    post:
+      consumes:
+      - application/json
+      description: Creates a animate
+      operationId: postAnimate
+      parameters:
+      - description: The Animate to submit or modify
+        in: body
+        name: Animate
+        schema:
+          $ref: '#/definitions/animateAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/animateDBResponse'
+      tags:
+      - animates
+  /animates/{ID}:
+    delete:
+      description: Delete a animate
+      operationId: deleteAnimate
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - animates
+    get:
+      operationId: getAnimate
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/animateDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a animate.
+      tags:
+      - animates
+    patch:
+      description: Update a animate
+      operationId: updateAnimate
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Animate to submit or modify
+        in: body
+        name: Animate
+        schema:
+          $ref: '#/definitions/animateAPI'
+      responses:
+        "200":
+          $ref: '#/responses/animateDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - animates
   /circles:
     get:
       description: Get all circles
@@ -1968,6 +2255,73 @@ paths:
 produces:
 - application/json
 responses:
+  animateDBResponse:
+    description: AnimateDBResponse provides response
+    headers:
+      AttributeName_Data:
+        description: Declation for basic field animateDB.AttributeName {{BasicKind}} (to be completed)
+      Circle_AnimationsDBID:
+        description: |-
+          insertion for pointer fields encoding declaration
+          Implementation of a reverse ID for field Circle{}.Animations []*Animate
+      Circle_AnimationsDBID_Index:
+        description: implementation of the index of the withing the slice
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt: {}
+      Dur_Data:
+        description: Declation for basic field animateDB.Dur {{BasicKind}} (to be completed)
+      Ellipse_AnimatesDBID:
+        description: Implementation of a reverse ID for field Ellipse{}.Animates []*Animate
+      Ellipse_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
+      ID:
+        format: uint64
+        type: integer
+      Line_AnimatesDBID:
+        description: Implementation of a reverse ID for field Line{}.Animates []*Animate
+      Line_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
+      Name_Data:
+        description: |-
+          insertion for basic fields declaration
+          Declation for basic field animateDB.Name {{BasicKind}} (to be completed)
+      Path_AnimatesDBID:
+        description: Implementation of a reverse ID for field Path{}.Animates []*Animate
+      Path_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
+      Polygone_AnimatesDBID:
+        description: Implementation of a reverse ID for field Polygone{}.Animates []*Animate
+      Polygone_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
+      Polyline_AnimatesDBID:
+        description: Implementation of a reverse ID for field Polyline{}.Animates []*Animate
+      Polyline_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
+      Rect_AnimationsDBID:
+        description: Implementation of a reverse ID for field Rect{}.Animations []*Animate
+      Rect_AnimationsDBID_Index:
+        description: implementation of the index of the withing the slice
+      RepeatCount_Data:
+        description: Declation for basic field animateDB.RepeatCount {{BasicKind}} (to be completed)
+      Text_AnimatesDBID:
+        description: Implementation of a reverse ID for field Text{}.Animates []*Animate
+      Text_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
+      UpdatedAt:
+        format: date-time
+        type: string
+      Values_Data:
+        description: Declation for basic field animateDB.Values {{BasicKind}} (to be completed)
+    schema:
+      $ref: '#/definitions/NullInt64'
+  animateDBsResponse:
+    description: AnimateDBs arrays animateDBs
+    schema:
+      items:
+        $ref: '#/definitions/animateDB'
+      type: array
   circleDBResponse:
     description: CircleDBResponse provides response
     headers:
@@ -1976,15 +2330,13 @@ responses:
       CY_Data:
         description: Declation for basic field circleDB.CY {{BasicKind}} (to be completed)
       Color_Data:
-        description: Declation for basic field circleDB.Color {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field circleDB.Color {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field circleDB.FillOpacity {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field circleDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -1993,8 +2345,7 @@ responses:
           insertion for basic fields declaration
           Declation for basic field circleDB.Name {{BasicKind}} (to be completed)
       Radius_Data:
-        description: Declation for basic field circleDB.Radius {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field circleDB.Radius {{BasicKind}} (to be completed)
       SVG_CirclesDBID:
         description: |-
           insertion for pointer fields encoding declaration
@@ -2002,17 +2353,13 @@ responses:
       SVG_CirclesDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field circleDB.Stroke {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field circleDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field circleDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field circleDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field circleDB.StrokeWidth {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field circleDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field circleDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field circleDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2032,15 +2379,13 @@ responses:
       CY_Data:
         description: Declation for basic field ellipseDB.CY {{BasicKind}} (to be completed)
       Color_Data:
-        description: Declation for basic field ellipseDB.Color {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field ellipseDB.Color {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field ellipseDB.FillOpacity {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field ellipseDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2059,17 +2404,13 @@ responses:
       SVG_EllipsesDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field ellipseDB.Stroke {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field ellipseDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field ellipseDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field ellipseDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field ellipseDB.StrokeWidth {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field ellipseDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field ellipseDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field ellipseDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2105,8 +2446,7 @@ responses:
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field lineDB.FillOpacity {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field lineDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2121,17 +2461,13 @@ responses:
       SVG_LinesDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field lineDB.Stroke {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field lineDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field lineDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field lineDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field lineDB.StrokeWidth {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field lineDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field lineDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field lineDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2160,12 +2496,10 @@ responses:
         format: date-time
         type: string
       Definition_Data:
-        description: Declation for basic field pathDB.Definition {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field pathDB.Definition {{BasicKind}} (to be completed)
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field pathDB.FillOpacity {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field pathDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2180,17 +2514,13 @@ responses:
       SVG_PathsDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field pathDB.Stroke {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field pathDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field pathDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field pathDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field pathDB.StrokeWidth {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field pathDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field pathDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field pathDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2206,15 +2536,13 @@ responses:
     description: PolygoneDBResponse provides response
     headers:
       Color_Data:
-        description: Declation for basic field polygoneDB.Color {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polygoneDB.Color {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field polygoneDB.FillOpacity {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polygoneDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2223,8 +2551,7 @@ responses:
           insertion for basic fields declaration
           Declation for basic field polygoneDB.Name {{BasicKind}} (to be completed)
       Points_Data:
-        description: Declation for basic field polygoneDB.Points {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polygoneDB.Points {{BasicKind}} (to be completed)
       SVG_PolygonesDBID:
         description: |-
           insertion for pointer fields encoding declaration
@@ -2232,17 +2559,13 @@ responses:
       SVG_PolygonesDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field polygoneDB.Stroke {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polygoneDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field polygoneDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polygoneDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field polygoneDB.StrokeWidth {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polygoneDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field polygoneDB.Transform {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polygoneDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2258,15 +2581,13 @@ responses:
     description: PolylineDBResponse provides response
     headers:
       Color_Data:
-        description: Declation for basic field polylineDB.Color {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polylineDB.Color {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field polylineDB.FillOpacity {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polylineDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2275,8 +2596,7 @@ responses:
           insertion for basic fields declaration
           Declation for basic field polylineDB.Name {{BasicKind}} (to be completed)
       Points_Data:
-        description: Declation for basic field polylineDB.Points {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polylineDB.Points {{BasicKind}} (to be completed)
       SVG_PolylinesDBID:
         description: |-
           insertion for pointer fields encoding declaration
@@ -2284,17 +2604,13 @@ responses:
       SVG_PolylinesDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field polylineDB.Stroke {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field polylineDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field polylineDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polylineDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field polylineDB.StrokeWidth {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polylineDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field polylineDB.Transform {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field polylineDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2316,11 +2632,9 @@ responses:
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field rectDB.FillOpacity {{BasicKind}} (to be completed)
       Height_Data:
-        description: Declation for basic field rectDB.Height {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field rectDB.Height {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2337,17 +2651,13 @@ responses:
       SVG_RectsDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field rectDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field rectDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field rectDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field rectDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field rectDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
@@ -2399,15 +2709,13 @@ responses:
       Color_Data:
         description: Declation for basic field textDB.Color {{BasicKind}} (to be completed)
       Content_Data:
-        description: Declation for basic field textDB.Content {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field textDB.Content {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string
       DeletedAt: {}
       FillOpacity_Data:
-        description: Declation for basic field textDB.FillOpacity {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field textDB.FillOpacity {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
@@ -2422,17 +2730,13 @@ responses:
       SVG_TextsDBID_Index:
         description: implementation of the index of the withing the slice
       Stroke_Data:
-        description: Declation for basic field textDB.Stroke {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field textDB.Stroke {{BasicKind}} (to be completed)
       StrokeDashArray_Data:
-        description: Declation for basic field textDB.StrokeDashArray {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field textDB.StrokeDashArray {{BasicKind}} (to be completed)
       StrokeWidth_Data:
-        description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field textDB.StrokeWidth {{BasicKind}} (to be completed)
       Transform_Data:
-        description: Declation for basic field textDB.Transform {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field textDB.Transform {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string

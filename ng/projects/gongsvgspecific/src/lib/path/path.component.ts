@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import * as gongsvg from 'gongsvg'
 @Component({
   selector: 'lib-path',
   templateUrl: './path.component.svg',
@@ -7,13 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PathComponent implements OnInit {
 
-  @Input() Definition: string
+  @Input() Path: gongsvg.PathDB
 
-  @Input() Color: string
-  @Input() Stroke: string
-  @Input() StrokeWidth: string
-  @Input() FillOpacity: number
-  @Input() StrokeDashArray: string
   constructor() { }
 
   ngOnInit(): void {

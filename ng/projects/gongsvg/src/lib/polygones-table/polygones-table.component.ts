@@ -84,7 +84,7 @@ export class PolygonesTableComponent implements OnInit {
         case 'Transform':
           return polygoneDB.Transform;
 
-        case 'Polygones':
+        case 'SVG_Polygones':
           return this.frontRepo.SVGs.get(polygoneDB.SVG_PolygonesDBID.Int64)?.Name;
 
         default:
@@ -170,7 +170,7 @@ export class PolygonesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Polygones",
+        "SVG_Polygones",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -182,7 +182,7 @@ export class PolygonesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Polygones",
+        "SVG_Polygones",
       ]
       this.selection = new SelectionModel<PolygoneDB>(allowMultiSelect, this.initialSelection);
     }

@@ -32,6 +32,11 @@ import { SplitterComponent } from './splitter/splitter.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 // insertion point for imports 
+import { AnimatesTableComponent } from './animates-table/animates-table.component'
+import { AnimateSortingComponent } from './animate-sorting/animate-sorting.component'
+import { AnimateDetailComponent } from './animate-detail/animate-detail.component'
+import { AnimatePresentationComponent } from './animate-presentation/animate-presentation.component'
+
 import { CirclesTableComponent } from './circles-table/circles-table.component'
 import { CircleSortingComponent } from './circle-sorting/circle-sorting.component'
 import { CircleDetailComponent } from './circle-detail/circle-detail.component'
@@ -81,6 +86,11 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
+		AnimatesTableComponent,
+		AnimateSortingComponent,
+		AnimateDetailComponent,
+		AnimatePresentationComponent,
+
 		CirclesTableComponent,
 		CircleSortingComponent,
 		CircleDetailComponent,
@@ -161,6 +171,11 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 	],
 	exports: [
 		// insertion point for declarations 
+		AnimatesTableComponent,
+		AnimateSortingComponent,
+		AnimateDetailComponent,
+		AnimatePresentationComponent,
+
 		CirclesTableComponent,
 		CircleSortingComponent,
 		CircleDetailComponent,

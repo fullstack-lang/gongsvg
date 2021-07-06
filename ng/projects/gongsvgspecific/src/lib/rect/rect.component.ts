@@ -16,7 +16,7 @@ export class RectComponent implements OnInit {
   Dur: string
   RepeatCount: string
 
-  Animates = new Array<gongsvg.AnimateDB>()
+  // Animates = new Array<gongsvg.AnimateDB>()
 
   constructor() { }
 
@@ -33,7 +33,7 @@ export class RectComponent implements OnInit {
     animate.Values = "0;100;0"
     animate.RepeatCount= "indefinite"
 
-    this.Animates.push(animate)
+    // this.Animates.push(animate)
 
     // console.log("X " + this.X)
     // console.log("Y " + this.Y)

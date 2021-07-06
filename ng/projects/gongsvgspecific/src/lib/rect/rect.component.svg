@@ -4,7 +4,7 @@
             [attr.fill-opacity]="Rect.FillOpacity" [attr.stroke]="Rect.Stroke" [attr.stroke-width]="Rect.StrokeWidth"
             [attr.stroke-dasharray]="Rect.StrokeDashArray" [attr.transform]="Rect.Transform" (click)="changeColor()">
 
-            <animate *ngFor="let animate of Animates" [attr.attributeName]="animate.AttributeName" [attr.values]="animate.Values" [attr.dur]="animate.Dur" [attr.repeatCount]="animate.RepeatCount" />
+            <animate *ngFor="let animate of Rect.Animates" [attr.attributeName]="animate.AttributeName" [attr.values]="animate.Values" [attr.dur]="animate.Dur" [attr.repeatCount]="animate.RepeatCount" />
         </rect>
     </g>
 </svg>

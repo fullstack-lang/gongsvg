@@ -25,7 +25,7 @@ export class RectDB {
 	Transform?: string
 
 	// insertion point for other declarations
-	Animates?: Array<AnimateDB>
+	RectAnimations?: Array<AnimateDB>
 	SVG_RectsDBID?: NullInt64
 	SVG_RectsDBID_Index?: NullInt64 // store the index of the rect instance in SVG.Rects
 	SVG_Rects_reverse?: SVGDB

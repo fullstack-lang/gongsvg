@@ -1,4 +1,5 @@
 // insertion point for imports
+import { CircleDB } from './circle-db'
 import { RectDB } from './rect-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -17,8 +18,12 @@ export class AnimateDB {
 	RepeatCount?: string
 
 	// insertion point for other declarations
-	Rect_AnimatesDBID?: NullInt64
-	Rect_AnimatesDBID_Index?: NullInt64 // store the index of the animate instance in Rect.Animates
-	Rect_Animates_reverse?: RectDB
+	Circle_CircleAnimationsDBID?: NullInt64
+	Circle_CircleAnimationsDBID_Index?: NullInt64 // store the index of the animate instance in Circle.CircleAnimations
+	Circle_CircleAnimations_reverse?: CircleDB
+
+	Rect_RectAnimationsDBID?: NullInt64
+	Rect_RectAnimationsDBID_Index?: NullInt64 // store the index of the animate instance in Rect.RectAnimations
+	Rect_RectAnimations_reverse?: RectDB
 
 }

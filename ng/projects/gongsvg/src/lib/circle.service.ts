@@ -56,6 +56,7 @@ export class CircleService {
   postCircle(circledb: CircleDB): Observable<CircleDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    circledb.CircleAnimations = []
     let _SVG_Circles_reverse = circledb.SVG_Circles_reverse
     circledb.SVG_Circles_reverse = {}
 
@@ -86,6 +87,7 @@ export class CircleService {
     const url = `${this.circlesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    circledb.CircleAnimations = []
     let _SVG_Circles_reverse = circledb.SVG_Circles_reverse
     circledb.SVG_Circles_reverse = {}
 

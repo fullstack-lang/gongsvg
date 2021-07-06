@@ -54,10 +54,17 @@
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="Animates">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Rect) Animates </th>
+        <ng-container matColumnDef="CircleAnimations">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Circle) CircleAnimations </th>
             <td mat-cell *matCellDef="let animate">
-                {{frontRepo.Rects.get(animate.Rect_AnimatesDBID.Int64)?.Name}}
+                {{frontRepo.Circles.get(animate.Circle_CircleAnimationsDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="RectAnimations">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Rect) RectAnimations </th>
+            <td mat-cell *matCellDef="let animate">
+                {{frontRepo.Rects.get(animate.Rect_RectAnimationsDBID.Int64)?.Name}}
             </td>
         </ng-container>
 

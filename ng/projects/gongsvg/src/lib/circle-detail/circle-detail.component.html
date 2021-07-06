@@ -131,6 +131,19 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="circle.Transform"></textarea>
     </mat-form-field>
 
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Animate', 'Circle_CircleAnimationsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">CircleAnimations</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Animate', 'Circle_CircleAnimationsDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
     <mat-form-field class="detail-full-width">
         <mat-label>(SVG) Circles</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="circle.SVG_Circles_reverse" [ngModelOptions]="{standalone: true}">

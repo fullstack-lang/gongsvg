@@ -22,6 +22,10 @@ definitions:
         format: double
         type: number
         x-go-name: Radius
+      CircleAnimations:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       FillOpacity:
@@ -288,11 +292,6 @@ definitions:
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Rect:
     properties:
-      Animates:
-        description: Animates specifies svg <animate > elements
-        items:
-          $ref: '#/definitions/Animate'
-        type: array
       Color:
         type: string
       FillOpacity:
@@ -300,6 +299,10 @@ definitions:
         type: number
       Name:
         type: string
+      RectAnimations:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Stroke:
         type: string
       StrokeDashArray:
@@ -363,6 +366,10 @@ definitions:
     properties:
       AttributeName:
         type: string
+      Circle_CircleAnimationsDBID:
+        $ref: '#/definitions/NullInt64'
+      Circle_CircleAnimationsDBID_Index:
+        $ref: '#/definitions/NullInt64'
       CreatedAt:
         format: date-time
         type: string
@@ -375,9 +382,9 @@ definitions:
         type: integer
       Name:
         type: string
-      Rect_AnimatesDBID:
+      Rect_RectAnimationsDBID:
         $ref: '#/definitions/NullInt64'
-      Rect_AnimatesDBID_Index:
+      Rect_RectAnimationsDBID_Index:
         $ref: '#/definitions/NullInt64'
       RepeatCount:
         type: string
@@ -397,6 +404,10 @@ definitions:
     properties:
       AttributeName_Data:
         $ref: '#/definitions/NullString'
+      Circle_CircleAnimationsDBID:
+        $ref: '#/definitions/NullInt64'
+      Circle_CircleAnimationsDBID_Index:
+        $ref: '#/definitions/NullInt64'
       CreatedAt:
         format: date-time
         type: string
@@ -409,9 +420,9 @@ definitions:
         type: integer
       Name_Data:
         $ref: '#/definitions/NullString'
-      Rect_AnimatesDBID:
+      Rect_RectAnimationsDBID:
         $ref: '#/definitions/NullInt64'
-      Rect_AnimatesDBID_Index:
+      Rect_RectAnimationsDBID_Index:
         $ref: '#/definitions/NullInt64'
       RepeatCount_Data:
         $ref: '#/definitions/NullString'
@@ -434,6 +445,10 @@ definitions:
         format: double
         type: number
         x-go-name: Radius
+      CircleAnimations:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       CreatedAt:
@@ -1008,11 +1023,6 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      Animates:
-        description: Animates specifies svg <animate > elements
-        items:
-          $ref: '#/definitions/Animate'
-        type: array
       Color:
         type: string
       CreatedAt:
@@ -1028,6 +1038,10 @@ definitions:
         type: integer
       Name:
         type: string
+      RectAnimations:
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       SVG_RectsDBID:
         $ref: '#/definitions/NullInt64'
       SVG_RectsDBID_Index:
@@ -2150,6 +2164,12 @@ responses:
     headers:
       AttributeName_Data:
         description: Declation for basic field animateDB.AttributeName {{BasicKind}} (to be completed)
+      Circle_CircleAnimationsDBID:
+        description: |-
+          insertion for pointer fields encoding declaration
+          Implementation of a reverse ID for field Circle{}.CircleAnimations []*Animate
+      Circle_CircleAnimationsDBID_Index:
+        description: implementation of the index of the withing the slice
       CreatedAt:
         format: date-time
         type: string
@@ -2163,11 +2183,9 @@ responses:
         description: |-
           insertion for basic fields declaration
           Declation for basic field animateDB.Name {{BasicKind}} (to be completed)
-      Rect_AnimatesDBID:
-        description: |-
-          insertion for pointer fields encoding declaration
-          Implementation of a reverse ID for field Rect{}.Animates []*Animate
-      Rect_AnimatesDBID_Index:
+      Rect_RectAnimationsDBID:
+        description: Implementation of a reverse ID for field Rect{}.RectAnimations []*Animate
+      Rect_RectAnimationsDBID_Index:
         description: implementation of the index of the withing the slice
       RepeatCount_Data:
         description: Declation for basic field animateDB.RepeatCount {{BasicKind}} (to be completed)

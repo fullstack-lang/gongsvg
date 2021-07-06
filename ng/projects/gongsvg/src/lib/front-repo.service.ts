@@ -577,16 +577,29 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Rect.Animates redeeming
+                // insertion point for slice of pointer field Circle.CircleAnimations redeeming
                 {
-                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_AnimatesDBID.Int64)
-                  if (_rect) {
-                    if (_rect.Animates == undefined) {
-                      _rect.Animates = new Array<AnimateDB>()
+                  let _circle = FrontRepoSingloton.Circles.get(animate.Circle_CircleAnimationsDBID.Int64)
+                  if (_circle) {
+                    if (_circle.CircleAnimations == undefined) {
+                      _circle.CircleAnimations = new Array<AnimateDB>()
                     }
-                    _rect.Animates.push(animate)
-                    if (animate.Rect_Animates_reverse == undefined) {
-                      animate.Rect_Animates_reverse = _rect
+                    _circle.CircleAnimations.push(animate)
+                    if (animate.Circle_CircleAnimations_reverse == undefined) {
+                      animate.Circle_CircleAnimations_reverse = _circle
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Rect.RectAnimations redeeming
+                {
+                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_RectAnimationsDBID.Int64)
+                  if (_rect) {
+                    if (_rect.RectAnimations == undefined) {
+                      _rect.RectAnimations = new Array<AnimateDB>()
+                    }
+                    _rect.RectAnimations.push(animate)
+                    if (animate.Rect_RectAnimations_reverse == undefined) {
+                      animate.Rect_RectAnimations_reverse = _rect
                     }
                   }
                 }
@@ -797,16 +810,29 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Rect.Animates redeeming
+                // insertion point for slice of pointer field Circle.CircleAnimations redeeming
                 {
-                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_AnimatesDBID.Int64)
-                  if (_rect) {
-                    if (_rect.Animates == undefined) {
-                      _rect.Animates = new Array<AnimateDB>()
+                  let _circle = FrontRepoSingloton.Circles.get(animate.Circle_CircleAnimationsDBID.Int64)
+                  if (_circle) {
+                    if (_circle.CircleAnimations == undefined) {
+                      _circle.CircleAnimations = new Array<AnimateDB>()
                     }
-                    _rect.Animates.push(animate)
-                    if (animate.Rect_Animates_reverse == undefined) {
-                      animate.Rect_Animates_reverse = _rect
+                    _circle.CircleAnimations.push(animate)
+                    if (animate.Circle_CircleAnimations_reverse == undefined) {
+                      animate.Circle_CircleAnimations_reverse = _circle
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Rect.RectAnimations redeeming
+                {
+                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_RectAnimationsDBID.Int64)
+                  if (_rect) {
+                    if (_rect.RectAnimations == undefined) {
+                      _rect.RectAnimations = new Array<AnimateDB>()
+                    }
+                    _rect.RectAnimations.push(animate)
+                    if (animate.Rect_RectAnimations_reverse == undefined) {
+                      animate.Rect_RectAnimations_reverse = _rect
                     }
                   }
                 }

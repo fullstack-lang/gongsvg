@@ -20,32 +20,23 @@
     </lib-line>
 </div>
 
-<div *ngFor="let elt of Texts" class="parent">
-    <lib-text [X]="elt.X" [Y]="elt.Y" [Content]="elt.Content" [Color]="elt.Color" [FillOpacity]="elt.FillOpacity"
-        [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth" [StrokeDashArray]="elt.StrokeDashArray"
-        [Transform]="elt.Transform">
-    </lib-text>
-</div>
-
 <div *ngFor="let path of Paths" class="parent">
-    <lib-path [Definition]="path.Definition" [Color]="path.Color" [FillOpacity]="path.FillOpacity"
-        [Stroke]="path.Stroke" [StrokeWidth]="path.StrokeWidth" [StrokeDashArray]="path.StrokeDashArray">
+    <lib-path [Path]="path">
     </lib-path>
 </div>
 
 <div *ngFor="let polygone of Polygones" class="parent">
-    <lib-polygone [Points]="polygone.Points" [Color]="polygone.Color" [FillOpacity]="polygone.FillOpacity"
-        [Stroke]="polygone.Stroke" [StrokeWidth]="polygone.StrokeWidth" [StrokeDashArray]="polygone.StrokeDashArray">
+    <lib-polygone [Polygone]="polygone">
     </lib-polygone>
 </div>
 
 
 <div *ngFor="let polyline of Polylines" class="parent">
-    <lib-polyline [Points]="polyline.Points" [Color]="polyline.Color" [FillOpacity]="polyline.FillOpacity"
-        [Stroke]="polyline.Stroke" [StrokeWidth]="polyline.StrokeWidth" [StrokeDashArray]="polyline.StrokeDashArray">
+    <lib-polyline [Polyline]="polyline">
     </lib-polyline>
 </div>
 
-
-
-<!-- <lib-rect></lib-rect> -->
+<div *ngFor="let elt of Texts" class="parent">
+    <lib-text [Text]="elt">
+    </lib-text>
+</div>

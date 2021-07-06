@@ -1,6 +1,6 @@
 <svg class="child">
     <g>
-        <polyline [attr.points]="Points" [attr.fill]="Color" [attr.fill-opacity]="FillOpacity" [attr.stroke]="Stroke"
-            [attr.stroke-width]="StrokeWidth" [attr.stroke-dasharray]="StrokeDashArray" />
+        <polyline [attr.points]="Polyline.Points" [attr.fill]="Polyline.Color" [attr.fill-opacity]="Polyline.FillOpacity" [attr.stroke]="Polyline.Stroke"
+            [attr.stroke-width]="Polyline.StrokeWidth" [attr.stroke-dasharray]="Polyline.StrokeDashArray" />
     </g>
 </svg>

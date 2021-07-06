@@ -9,6 +9,11 @@
     </lib-rect>
 </div>
 
+<div *ngFor="let ellipse of Ellipses" class="parent">
+    <lib-ellipse [Ellipse]="ellipse">
+    </lib-ellipse>
+</div>
+
 <div *ngFor="let elt of Texts" class="parent">
     <lib-text [X]="elt.X" [Y]="elt.Y" [Content]="elt.Content" [Color]="elt.Color" [FillOpacity]="elt.FillOpacity"
         [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth" [StrokeDashArray]="elt.StrokeDashArray"
@@ -21,13 +26,6 @@
         [FillOpacity]="elt.FillOpacity" [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth"
         [StrokeDashArray]="elt.StrokeDashArray" [Transform]="elt.Transform">
     </lib-line>
-</div>
-
-<div *ngFor="let ellipse of Ellipses" class="parent">
-    <lib-ellipse [CX]="ellipse.CX" [CY]="ellipse.CY" [RX]="ellipse.RX" [RY]="ellipse.RY" [Color]="ellipse.Color"
-        [FillOpacity]="ellipse.FillOpacity" [Stroke]="ellipse.Stroke" [StrokeWidth]="ellipse.StrokeWidth"
-        [StrokeDashArray]="ellipse.StrokeDashArray">
-    </lib-ellipse>
 </div>
 
 <div *ngFor="let path of Paths" class="parent">

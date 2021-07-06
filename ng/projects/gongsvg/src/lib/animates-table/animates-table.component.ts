@@ -75,6 +75,9 @@ export class AnimatesTableComponent implements OnInit {
         case 'RepeatCount':
           return animateDB.RepeatCount;
 
+        case 'Animates':
+          return this.frontRepo.Rects.get(animateDB.Rect_AnimatesDBID.Int64)?.Name;
+
         default:
           return AnimateDB[property];
       }
@@ -93,6 +96,10 @@ export class AnimatesTableComponent implements OnInit {
       mergedContent += animateDB.Values.toLowerCase()
       mergedContent += animateDB.Dur.toLowerCase()
       mergedContent += animateDB.RepeatCount.toLowerCase()
+      if (animateDB.Rect_AnimatesDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Rects.get(animateDB.Rect_AnimatesDBID.Int64)?.Name.toLowerCase()
+      }
+
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -148,6 +155,7 @@ export class AnimatesTableComponent implements OnInit {
         "Values",
         "Dur",
         "RepeatCount",
+        "Animates",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -156,6 +164,7 @@ export class AnimatesTableComponent implements OnInit {
         "Values",
         "Dur",
         "RepeatCount",
+        "Animates",
       ]
       this.selection = new SelectionModel<AnimateDB>(allowMultiSelect, this.initialSelection);
     }

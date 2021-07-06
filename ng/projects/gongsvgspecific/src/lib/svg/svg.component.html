@@ -1,7 +1,5 @@
 <div *ngFor="let elt of Rects" class="parent">
-    <lib-svg-rect [X]="elt.X" [Y]="elt.Y" [Width]="elt.Width" [Height]="elt.Height" [RX]="elt.RX" [Color]="elt.Color"
-        [FillOpacity]="elt.FillOpacity" [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth"
-        [StrokeDashArray]="elt.StrokeDashArray" [Transform]="elt.Transform">
+    <lib-svg-rect [Rect]="elt">
     </lib-svg-rect>
 </div>
 

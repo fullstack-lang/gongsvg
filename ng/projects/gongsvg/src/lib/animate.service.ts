@@ -56,10 +56,13 @@ export class AnimateService {
   postAnimate(animatedb: AnimateDB): Observable<AnimateDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _Rect_Animates_reverse = animatedb.Rect_Animates_reverse
+    animatedb.Rect_Animates_reverse = {}
 
 		return this.http.post<AnimateDB>(this.animatesUrl, animatedb, this.httpOptions).pipe(
 			tap(_ => {
 				// insertion point for restoration of reverse pointers
+        animatedb.Rect_Animates_reverse = _Rect_Animates_reverse
 				this.log(`posted animatedb id=${animatedb.ID}`)
 			}),
 			catchError(this.handleError<AnimateDB>('postAnimate'))
@@ -83,10 +86,13 @@ export class AnimateService {
     const url = `${this.animatesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let _Rect_Animates_reverse = animatedb.Rect_Animates_reverse
+    animatedb.Rect_Animates_reverse = {}
 
     return this.http.put(url, animatedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        animatedb.Rect_Animates_reverse = _Rect_Animates_reverse
         this.log(`updated animatedb id=${animatedb.ID}`)
       }),
       catchError(this.handleError<AnimateDB>('updateAnimate'))

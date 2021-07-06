@@ -2,6 +2,20 @@ basePath: /api/github.com/fullstack-lang/gongsvg/go/v1
 consumes:
 - application/json
 definitions:
+  Animate:
+    properties:
+      AttributeName:
+        type: string
+      Dur:
+        type: string
+      Name:
+        type: string
+      RepeatCount:
+        type: string
+      Values:
+        type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Circle:
     properties:
       CX:
@@ -274,6 +288,11 @@ definitions:
     x-go-package: github.com/fullstack-lang/gongsvg/go/models
   Rect:
     properties:
+      Animates:
+        description: Animates specifies svg <animate > elements
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       FillOpacity:
@@ -356,6 +375,10 @@ definitions:
         type: integer
       Name:
         type: string
+      Rect_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Rect_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
       RepeatCount:
         type: string
       UpdatedAt:
@@ -386,6 +409,10 @@ definitions:
         type: integer
       Name_Data:
         $ref: '#/definitions/NullString'
+      Rect_AnimatesDBID:
+        $ref: '#/definitions/NullInt64'
+      Rect_AnimatesDBID_Index:
+        $ref: '#/definitions/NullInt64'
       RepeatCount_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
@@ -981,6 +1008,11 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Animates:
+        description: Animates specifies svg <animate > elements
+        items:
+          $ref: '#/definitions/Animate'
+        type: array
       Color:
         type: string
       CreatedAt:
@@ -2131,6 +2163,12 @@ responses:
         description: |-
           insertion for basic fields declaration
           Declation for basic field animateDB.Name {{BasicKind}} (to be completed)
+      Rect_AnimatesDBID:
+        description: |-
+          insertion for pointer fields encoding declaration
+          Implementation of a reverse ID for field Rect{}.Animates []*Animate
+      Rect_AnimatesDBID_Index:
+        description: implementation of the index of the withing the slice
       RepeatCount_Data:
         description: Declation for basic field animateDB.RepeatCount {{BasicKind}} (to be completed)
       UpdatedAt:
@@ -2139,7 +2177,7 @@ responses:
       Values_Data:
         description: Declation for basic field animateDB.Values {{BasicKind}} (to be completed)
     schema:
-      $ref: '#/definitions/NullString'
+      $ref: '#/definitions/NullInt64'
   animateDBsResponse:
     description: AnimateDBs arrays animateDBs
     schema:

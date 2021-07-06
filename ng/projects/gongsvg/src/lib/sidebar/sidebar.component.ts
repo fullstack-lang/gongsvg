@@ -633,6 +633,38 @@ export class SidebarComponent implements OnInit {
           rectGongNodeStruct.children.push(rectGongNodeInstance)
 
           // insertion point for per field code
+          /**
+          * let append a node for the slide of pointer Animates
+          */
+          let AnimatesGongNodeAssociation: GongNode = {
+            name: "(Animate) Animates",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: rectDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Rect",
+            associationField: "Animates",
+            associatedStructName: "Animate",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          rectGongNodeInstance.children.push(AnimatesGongNodeAssociation)
+
+          rectDB.Animates?.forEach(animateDB => {
+            let animateNode: GongNode = {
+              name: animateDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: animateDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getRectUniqueID(rectDB.ID)
+                + 11 * getAnimateUniqueID(animateDB.ID),
+              structName: "Animate",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AnimatesGongNodeAssociation.children.push(animateNode)
+          })
+
         }
       )
 

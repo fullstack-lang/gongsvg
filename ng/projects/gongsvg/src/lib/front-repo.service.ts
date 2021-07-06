@@ -577,6 +577,19 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Rect.Animates redeeming
+                {
+                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_AnimatesDBID.Int64)
+                  if (_rect) {
+                    if (_rect.Animates == undefined) {
+                      _rect.Animates = new Array<AnimateDB>()
+                    }
+                    _rect.Animates.push(animate)
+                    if (animate.Rect_Animates_reverse == undefined) {
+                      animate.Rect_Animates_reverse = _rect
+                    }
+                  }
+                }
               }
             )
             circles.forEach(
@@ -784,6 +797,19 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Rect.Animates redeeming
+                {
+                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_AnimatesDBID.Int64)
+                  if (_rect) {
+                    if (_rect.Animates == undefined) {
+                      _rect.Animates = new Array<AnimateDB>()
+                    }
+                    _rect.Animates.push(animate)
+                    if (animate.Rect_Animates_reverse == undefined) {
+                      animate.Rect_Animates_reverse = _rect
+                    }
+                  }
+                }
               }
             )
 

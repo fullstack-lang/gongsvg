@@ -9,18 +9,7 @@ import * as gongsvg from 'gongsvg'
 })
 export class SvgRectComponent implements OnInit {
 
-  @Input() X: number
-  @Input() Y: number
-  @Input() Width: number
-  @Input() Height: number
-  @Input() RX: number
-
-  @Input() Color: string
-  @Input() Stroke: string
-  @Input() StrokeWidth: string
-  @Input() FillOpacity: number
-  @Input() StrokeDashArray: string
-  @Input() Transform: string
+  @Input() Rect: gongsvg.RectDB
 
   AttributeName: string
   Values: string

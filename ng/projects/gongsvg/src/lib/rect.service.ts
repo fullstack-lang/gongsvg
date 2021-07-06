@@ -56,6 +56,7 @@ export class RectService {
   postRect(rectdb: RectDB): Observable<RectDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    rectdb.Animates = []
     let _SVG_Rects_reverse = rectdb.SVG_Rects_reverse
     rectdb.SVG_Rects_reverse = {}
 
@@ -86,6 +87,7 @@ export class RectService {
     const url = `${this.rectsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    rectdb.Animates = []
     let _SVG_Rects_reverse = rectdb.SVG_Rects_reverse
     rectdb.SVG_Rects_reverse = {}
 

@@ -1,4 +1,5 @@
 // insertion point for imports
+import { AnimateDB } from './animate-db'
 import { SVGDB } from './svg-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -24,6 +25,7 @@ export class RectDB {
 	Transform?: string
 
 	// insertion point for other declarations
+	Animates?: Array<AnimateDB>
 	SVG_RectsDBID?: NullInt64
 	SVG_RectsDBID_Index?: NullInt64 // store the index of the rect instance in SVG.Rects
 	SVG_Rects_reverse?: SVGDB

@@ -23,6 +23,7 @@ enum AnimateDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_Rect_Animates_SET,
 }
 
 @Component({
@@ -81,6 +82,10 @@ export class AnimateDetailComponent implements OnInit {
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
+					case "Animates":
+						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Rect association Animates")
+						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Rect_Animates_SET
+						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
 				}
@@ -115,6 +120,10 @@ export class AnimateDetailComponent implements OnInit {
 						this.animate = frontRepo.Animates.get(this.id)
 						break;
 					// insertion point for init of association field
+					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Rect_Animates_SET:
+						this.animate = new (AnimateDB)
+						this.animate.Rect_Animates_reverse = frontRepo.Rects.get(this.id)
+						break;
 					default:
 						console.log(this.state + " is unkown state")
 				}
@@ -136,6 +145,18 @@ export class AnimateDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
+		if (this.animate.Rect_Animates_reverse != undefined) {
+			if (this.animate.Rect_AnimatesDBID == undefined) {
+				this.animate.Rect_AnimatesDBID = new NullInt64
+			}
+			this.animate.Rect_AnimatesDBID.Int64 = this.animate.Rect_Animates_reverse.ID
+			this.animate.Rect_AnimatesDBID.Valid = true
+			if (this.animate.Rect_AnimatesDBID_Index == undefined) {
+				this.animate.Rect_AnimatesDBID_Index = new NullInt64
+			}
+			this.animate.Rect_AnimatesDBID_Index.Valid = true
+			this.animate.Rect_Animates_reverse = undefined // very important, otherwise, circular JSON
+		}
 
 		switch (this.state) {
 			case AnimateDetailComponentState.UPDATE_INSTANCE:

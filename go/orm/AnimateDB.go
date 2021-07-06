@@ -45,6 +45,11 @@ type AnimateAPI struct {
 // reverse pointers of slice of poitners to Struct
 type AnimatePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+	// Implementation of a reverse ID for field Rect{}.Animates []*Animate
+	Rect_AnimatesDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Rect_AnimatesDBID_Index sql.NullInt64
 }
 
 // AnimateDB describes a animate in the database
@@ -561,6 +566,12 @@ func (backRepoAnimate *BackRepoAnimateStruct) RestorePhaseTwo() {
 		_ = animateDB
 
 		// insertion point for reindexing pointers encoding
+		// This reindex animate.Animates
+		if animateDB.Rect_AnimatesDBID.Int64 != 0 {
+			animateDB.Rect_AnimatesDBID.Int64 =
+				int64(BackRepoRectid_atBckpTime_newID[uint(animateDB.Rect_AnimatesDBID.Int64)])
+		}
+
 		// update databse with new index encoding
 		query := backRepoAnimate.db.Model(animateDB).Updates(*animateDB)
 		if query.Error != nil {

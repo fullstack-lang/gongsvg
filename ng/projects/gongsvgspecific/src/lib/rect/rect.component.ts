@@ -3,11 +3,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 
 @Component({
-  selector: 'lib-svg-rect',
-  templateUrl: './svg-rect.component.svg',
-  styleUrls: ['./svg-rect.component.css']
+  selector: 'lib-rect',
+  templateUrl: './rect.component.svg',
+  styleUrls: ['./rect.component.css']
 })
-export class SvgRectComponent implements OnInit {
+export class RectComponent implements OnInit {
 
   @Input() Rect: gongsvg.RectDB
 

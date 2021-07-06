@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { GongsvgspecificComponent } from './gongsvgspecific.component';
 import { SvgComponent } from './svg/svg.component';
-import { SvgRectComponent } from './svg-rect/svg-rect.component';
+import { RectComponent } from './rect/rect.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { TextComponent } from './text/text.component';
 import { CircleComponent } from './circle/circle.component';
@@ -17,7 +17,7 @@ import { PolygoneComponent } from './polygone/polygone.component'
   declarations: [
     GongsvgspecificComponent,
     SvgComponent,
-    SvgRectComponent,
+    RectComponent,
     TextComponent,
     CircleComponent,
     LineComponent,
@@ -31,9 +31,7 @@ import { PolygoneComponent } from './polygone/polygone.component'
   ],
   exports: [
     GongsvgspecificComponent,
-    SvgComponent,
-    SvgRectComponent,
-    TextComponent
+    SvgComponent
   ]
 })
 export class GongsvgspecificModule { }

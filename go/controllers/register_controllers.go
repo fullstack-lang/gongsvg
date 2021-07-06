@@ -43,6 +43,13 @@ type ValidationError struct {
 func RegisterControllers(r *gin.Engine) {
 	v1 := r.Group("/api/github.com/fullstack-lang/gongsvg/go")
 	{ // insertion point for registrations
+		v1.GET("/v1/animates", GetAnimates)
+		v1.GET("/v1/animates/:id", GetAnimate)
+		v1.POST("/v1/animates", PostAnimate)
+		v1.PATCH("/v1/animates/:id", UpdateAnimate)
+		v1.PUT("/v1/animates/:id", UpdateAnimate)
+		v1.DELETE("/v1/animates/:id", DeleteAnimate)
+
 		v1.GET("/v1/circles", GetCircles)
 		v1.GET("/v1/circles/:id", GetCircle)
 		v1.POST("/v1/circles", PostCircle)

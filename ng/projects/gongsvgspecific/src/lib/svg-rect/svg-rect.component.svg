@@ -3,8 +3,8 @@
         <rect [attr.x]="X" [attr.y]="Y" [attr.width]="Width" [attr.height]="Height" [attr.rx]="RX" [attr.fill]="Color"
             [attr.fill-opacity]="FillOpacity" [attr.stroke]="Stroke" [attr.stroke-width]="StrokeWidth"
             [attr.stroke-dasharray]="StrokeDashArray" [attr.transform]="Transform" (click)="changeColor()">
-                <animate [attr.attributeName]="AttributeName" [attr.values]="Values" [attr.dur]="Dur" [attr.repeatCount]="RepeatCount" />
-                <animate attributeName="x" from="0" to="100" fill="freeze" dur="4s" repeatCount="1" />
+
+            <animate *ngFor="let animate of Animates" [attr.attributeName]="animate.AttributeName" [attr.values]="animate.Values" [attr.dur]="animate.Dur" [attr.repeatCount]="animate.RepeatCount" />
         </rect>
     </g>
 </svg>

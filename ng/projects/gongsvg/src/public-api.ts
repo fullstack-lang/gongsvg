@@ -13,6 +13,13 @@ export * from './lib/commitnb.service'
 export * from './lib/push_from_front_nb.service'
 
 
+export * from './lib/animate-detail/animate-detail.component'
+export * from './lib/animate-presentation/animate-presentation.component'
+export * from './lib/animates-table/animates-table.component'
+export * from './lib/animate-db'
+export * from './lib/animate-api'
+export * from './lib/animate.service'
+
 export * from './lib/circle-detail/circle-detail.component'
 export * from './lib/circle-presentation/circle-presentation.component'
 export * from './lib/circles-table/circles-table.component'

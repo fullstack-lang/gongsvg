@@ -8,6 +8,8 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { CommitNbService } from '../commitnb.service'
 
 // insertion point for per struct import code
+import { AnimateService } from '../animate.service'
+import { getAnimateUniqueID } from '../front-repo.service'
 import { CircleService } from '../circle.service'
 import { getCircleUniqueID } from '../front-repo.service'
 import { EllipseService } from '../ellipse.service'
@@ -161,6 +163,7 @@ export class SidebarComponent implements OnInit {
     private commitNbService: CommitNbService,
 
     // insertion point for per struct service declaration
+    private animateService: AnimateService,
     private circleService: CircleService,
     private ellipseService: EllipseService,
     private lineService: LineService,
@@ -176,6 +179,14 @@ export class SidebarComponent implements OnInit {
     this.refresh()
 
     // insertion point for per struct observable for refresh trigger
+    // observable for changes in structs
+    this.animateService.AnimateServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
     // observable for changes in structs
     this.circleService.CircleServiceChanged.subscribe(
       message => {
@@ -273,6 +284,50 @@ export class SidebarComponent implements OnInit {
       this.gongNodeTree = new Array<GongNode>();
 
       // insertion point for per struct tree construction
+      /**
+      * fill up the Animate part of the mat tree
+      */
+      let animateGongNodeStruct: GongNode = {
+        name: "Animate",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Animate",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(animateGongNodeStruct)
+
+      this.frontRepo.Animates_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Animates_array.forEach(
+        animateDB => {
+          let animateGongNodeInstance: GongNode = {
+            name: animateDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: animateDB.ID,
+            uniqueIdPerStack: getAnimateUniqueID(animateDB.ID),
+            structName: "Animate",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          animateGongNodeStruct.children.push(animateGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
       /**
       * fill up the Circle part of the mat tree
       */

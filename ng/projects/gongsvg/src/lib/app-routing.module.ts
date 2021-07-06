@@ -2,6 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // insertion point for imports
+import { AnimatesTableComponent } from './animates-table/animates-table.component'
+import { AnimateDetailComponent } from './animate-detail/animate-detail.component'
+import { AnimatePresentationComponent } from './animate-presentation/animate-presentation.component'
+
 import { CirclesTableComponent } from './circles-table/circles-table.component'
 import { CircleDetailComponent } from './circle-detail/circle-detail.component'
 import { CirclePresentationComponent } from './circle-presentation/circle-presentation.component'
@@ -40,6 +44,13 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 
 
 const routes: Routes = [ // insertion point for routes declarations
+	{ path: 'github_com_fullstack_lang_gongsvg_go-animates', component: AnimatesTableComponent, outlet: 'github_com_fullstack_lang_gongsvg_go_table' },
+	{ path: 'github_com_fullstack_lang_gongsvg_go-animate-adder', component: AnimateDetailComponent, outlet: 'github_com_fullstack_lang_gongsvg_go_editor' },
+	{ path: 'github_com_fullstack_lang_gongsvg_go-animate-adder/:id/:originStruct/:originStructFieldName', component: AnimateDetailComponent, outlet: 'github_com_fullstack_lang_gongsvg_go_editor' },
+	{ path: 'github_com_fullstack_lang_gongsvg_go-animate-detail/:id', component: AnimateDetailComponent, outlet: 'github_com_fullstack_lang_gongsvg_go_editor' },
+	{ path: 'github_com_fullstack_lang_gongsvg_go-animate-presentation/:id', component: AnimatePresentationComponent, outlet: 'github_com_fullstack_lang_gongsvg_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gongsvg_go-animate-presentation-special/:id', component: AnimatePresentationComponent, outlet: 'github_com_fullstack_lang_gongsvg_goanimatepres' },
+
 	{ path: 'github_com_fullstack_lang_gongsvg_go-circles', component: CirclesTableComponent, outlet: 'github_com_fullstack_lang_gongsvg_go_table' },
 	{ path: 'github_com_fullstack_lang_gongsvg_go-circle-adder', component: CircleDetailComponent, outlet: 'github_com_fullstack_lang_gongsvg_go_editor' },
 	{ path: 'github_com_fullstack_lang_gongsvg_go-circle-adder/:id/:originStruct/:originStructFieldName', component: CircleDetailComponent, outlet: 'github_com_fullstack_lang_gongsvg_go_editor' },

@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import * as gongsvg from 'gongsvg'
+
 @Component({
   selector: 'lib-svg-rect',
   templateUrl: './svg-rect.component.svg',
@@ -25,6 +27,8 @@ export class SvgRectComponent implements OnInit {
   Dur: string
   RepeatCount: string
 
+  Animates = new Array<gongsvg.AnimateDB>()
+
   constructor() { }
 
   ngOnInit(): void {
@@ -33,6 +37,14 @@ export class SvgRectComponent implements OnInit {
     this.Values = "0;100;0"
     this.Dur = "3s"
     this.RepeatCount = "indefinite"
+
+    let animate = new gongsvg.AnimateDB()
+    animate.AttributeName ="x"
+    animate.Dur = "3s"
+    animate.Values = "0;100;0"
+    animate.RepeatCount= "indefinite"
+
+    this.Animates.push(animate)
 
     // console.log("X " + this.X)
     // console.log("Y " + this.Y)

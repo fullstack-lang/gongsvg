@@ -1,0 +1,109 @@
+<form *ngIf="animate" class="details">
+    <h2 class="details__title">animate</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Name"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("AttributeName")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>AttributeName</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.AttributeName">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('AttributeName')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("AttributeName")' mat-form-field class="detail-full-width">
+        <mat-label>AttributeName</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.AttributeName"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Values")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Values</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Values">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Values')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Values")' mat-form-field class="detail-full-width">
+        <mat-label>Values</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Values"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Dur")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Dur</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Dur">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Dur')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Dur")' mat-form-field class="detail-full-width">
+        <mat-label>Dur</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Dur"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("RepeatCount")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>RepeatCount</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.RepeatCount">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('RepeatCount')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("RepeatCount")' mat-form-field class="detail-full-width">
+        <mat-label>RepeatCount</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.RepeatCount"></textarea>
+    </mat-form-field>
+
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save animate
+        </button>
+    </div>
+</form>

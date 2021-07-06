@@ -84,7 +84,7 @@ export class PathsTableComponent implements OnInit {
         case 'Transform':
           return pathDB.Transform;
 
-        case 'Paths':
+        case 'SVG_Paths':
           return this.frontRepo.SVGs.get(pathDB.SVG_PathsDBID.Int64)?.Name;
 
         default:
@@ -170,7 +170,7 @@ export class PathsTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Paths",
+        "SVG_Paths",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -182,7 +182,7 @@ export class PathsTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Paths",
+        "SVG_Paths",
       ]
       this.selection = new SelectionModel<PathDB>(allowMultiSelect, this.initialSelection);
     }

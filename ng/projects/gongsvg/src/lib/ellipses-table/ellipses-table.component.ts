@@ -93,7 +93,7 @@ export class EllipsesTableComponent implements OnInit {
         case 'Transform':
           return ellipseDB.Transform;
 
-        case 'Ellipses':
+        case 'SVG_Ellipses':
           return this.frontRepo.SVGs.get(ellipseDB.SVG_EllipsesDBID.Int64)?.Name;
 
         default:
@@ -185,7 +185,7 @@ export class EllipsesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Ellipses",
+        "SVG_Ellipses",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -200,7 +200,7 @@ export class EllipsesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Ellipses",
+        "SVG_Ellipses",
       ]
       this.selection = new SelectionModel<EllipseDB>(allowMultiSelect, this.initialSelection);
     }

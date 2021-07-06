@@ -96,7 +96,7 @@ export class RectsTableComponent implements OnInit {
         case 'Transform':
           return rectDB.Transform;
 
-        case 'Rects':
+        case 'SVG_Rects':
           return this.frontRepo.SVGs.get(rectDB.SVG_RectsDBID.Int64)?.Name;
 
         default:
@@ -190,7 +190,7 @@ export class RectsTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Rects",
+        "SVG_Rects",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -206,7 +206,7 @@ export class RectsTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
-        "Rects",
+        "SVG_Rects",
       ]
       this.selection = new SelectionModel<RectDB>(allowMultiSelect, this.initialSelection);
     }

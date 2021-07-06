@@ -18,12 +18,12 @@ export class AnimateDB {
 	RepeatCount?: string
 
 	// insertion point for other declarations
-	Circle_CircleAnimationsDBID?: NullInt64
-	Circle_CircleAnimationsDBID_Index?: NullInt64 // store the index of the animate instance in Circle.CircleAnimations
-	Circle_CircleAnimations_reverse?: CircleDB
+	Circle_AnimationsDBID?: NullInt64
+	Circle_AnimationsDBID_Index?: NullInt64 // store the index of the animate instance in Circle.Animations
+	Circle_Animations_reverse?: CircleDB
 
-	Rect_RectAnimationsDBID?: NullInt64
-	Rect_RectAnimationsDBID_Index?: NullInt64 // store the index of the animate instance in Rect.RectAnimations
-	Rect_RectAnimations_reverse?: RectDB
+	Rect_AnimationsDBID?: NullInt64
+	Rect_AnimationsDBID_Index?: NullInt64 // store the index of the animate instance in Rect.Animations
+	Rect_Animations_reverse?: RectDB
 
 }

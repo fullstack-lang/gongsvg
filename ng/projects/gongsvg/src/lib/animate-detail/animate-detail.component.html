@@ -102,8 +102,8 @@
     </mat-form-field>
 
     <mat-form-field class="detail-full-width">
-        <mat-label>(Circle) CircleAnimations</mat-label>
-        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Circle_CircleAnimations_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-label>(Circle) Animations</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Circle_Animations_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let circle of frontRepo.Circles_array" [value]="circle">
                 {{circle.Name}}
@@ -111,8 +111,8 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class="detail-full-width">
-        <mat-label>(Rect) RectAnimations</mat-label>
-        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Rect_RectAnimations_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-label>(Rect) Animations</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Rect_Animations_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
                 {{rect.Name}}

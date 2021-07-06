@@ -4,7 +4,7 @@
             [attr.stroke]="Circle.Stroke" [attr.stroke-width]="Circle.StrokeWidth" [attr.stroke-dasharray]="Circle.StrokeDashArray"
             [attr.transform]="Circle.Transform">
 
-            <animate *ngFor="let animate of Circle.CircleAnimations" 
+            <animate *ngFor="let animate of Circle.Animations" 
             [attr.attributeName]="animate.AttributeName" 
             [attr.values]="animate.Values" 
             [attr.dur]="animate.Dur" 

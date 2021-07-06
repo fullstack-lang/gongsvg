@@ -370,22 +370,22 @@ export class SidebarComponent implements OnInit {
 
           // insertion point for per field code
           /**
-          * let append a node for the slide of pointer CircleAnimations
+          * let append a node for the slide of pointer Animations
           */
-          let CircleAnimationsGongNodeAssociation: GongNode = {
-            name: "(Animate) CircleAnimations",
+          let AnimationsGongNodeAssociation: GongNode = {
+            name: "(Animate) Animations",
             type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
             id: circleDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "Circle",
-            associationField: "CircleAnimations",
+            associationField: "Animations",
             associatedStructName: "Animate",
             children: new Array<GongNode>()
           }
           nonInstanceNodeId = nonInstanceNodeId + 1
-          circleGongNodeInstance.children.push(CircleAnimationsGongNodeAssociation)
+          circleGongNodeInstance.children.push(AnimationsGongNodeAssociation)
 
-          circleDB.CircleAnimations?.forEach(animateDB => {
+          circleDB.Animations?.forEach(animateDB => {
             let animateNode: GongNode = {
               name: animateDB.Name,
               type: GongNodeType.INSTANCE,
@@ -398,7 +398,7 @@ export class SidebarComponent implements OnInit {
               associatedStructName: "",
               children: new Array<GongNode>()
             }
-            CircleAnimationsGongNodeAssociation.children.push(animateNode)
+            AnimationsGongNodeAssociation.children.push(animateNode)
           })
 
         }
@@ -666,22 +666,22 @@ export class SidebarComponent implements OnInit {
 
           // insertion point for per field code
           /**
-          * let append a node for the slide of pointer RectAnimations
+          * let append a node for the slide of pointer Animations
           */
-          let RectAnimationsGongNodeAssociation: GongNode = {
-            name: "(Animate) RectAnimations",
+          let AnimationsGongNodeAssociation: GongNode = {
+            name: "(Animate) Animations",
             type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
             id: rectDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "Rect",
-            associationField: "RectAnimations",
+            associationField: "Animations",
             associatedStructName: "Animate",
             children: new Array<GongNode>()
           }
           nonInstanceNodeId = nonInstanceNodeId + 1
-          rectGongNodeInstance.children.push(RectAnimationsGongNodeAssociation)
+          rectGongNodeInstance.children.push(AnimationsGongNodeAssociation)
 
-          rectDB.RectAnimations?.forEach(animateDB => {
+          rectDB.Animations?.forEach(animateDB => {
             let animateNode: GongNode = {
               name: animateDB.Name,
               type: GongNodeType.INSTANCE,
@@ -694,7 +694,7 @@ export class SidebarComponent implements OnInit {
               associatedStructName: "",
               children: new Array<GongNode>()
             }
-            RectAnimationsGongNodeAssociation.children.push(animateNode)
+            AnimationsGongNodeAssociation.children.push(animateNode)
           })
 
         }

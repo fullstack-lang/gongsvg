@@ -45,16 +45,16 @@ type AnimateAPI struct {
 // reverse pointers of slice of poitners to Struct
 type AnimatePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
-	// Implementation of a reverse ID for field Circle{}.CircleAnimations []*Animate
-	Circle_CircleAnimationsDBID sql.NullInt64
+	// Implementation of a reverse ID for field Circle{}.Animations []*Animate
+	Circle_AnimationsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
-	Circle_CircleAnimationsDBID_Index sql.NullInt64
-	// Implementation of a reverse ID for field Rect{}.RectAnimations []*Animate
-	Rect_RectAnimationsDBID sql.NullInt64
+	Circle_AnimationsDBID_Index sql.NullInt64
+	// Implementation of a reverse ID for field Rect{}.Animations []*Animate
+	Rect_AnimationsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
-	Rect_RectAnimationsDBID_Index sql.NullInt64
+	Rect_AnimationsDBID_Index sql.NullInt64
 }
 
 // AnimateDB describes a animate in the database
@@ -571,16 +571,16 @@ func (backRepoAnimate *BackRepoAnimateStruct) RestorePhaseTwo() {
 		_ = animateDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex animate.CircleAnimations
-		if animateDB.Circle_CircleAnimationsDBID.Int64 != 0 {
-			animateDB.Circle_CircleAnimationsDBID.Int64 =
-				int64(BackRepoCircleid_atBckpTime_newID[uint(animateDB.Circle_CircleAnimationsDBID.Int64)])
+		// This reindex animate.Animations
+		if animateDB.Circle_AnimationsDBID.Int64 != 0 {
+			animateDB.Circle_AnimationsDBID.Int64 =
+				int64(BackRepoCircleid_atBckpTime_newID[uint(animateDB.Circle_AnimationsDBID.Int64)])
 		}
 
-		// This reindex animate.RectAnimations
-		if animateDB.Rect_RectAnimationsDBID.Int64 != 0 {
-			animateDB.Rect_RectAnimationsDBID.Int64 =
-				int64(BackRepoRectid_atBckpTime_newID[uint(animateDB.Rect_RectAnimationsDBID.Int64)])
+		// This reindex animate.Animations
+		if animateDB.Rect_AnimationsDBID.Int64 != 0 {
+			animateDB.Rect_AnimationsDBID.Int64 =
+				int64(BackRepoRectid_atBckpTime_newID[uint(animateDB.Rect_AnimationsDBID.Int64)])
 		}
 
 		// update databse with new index encoding

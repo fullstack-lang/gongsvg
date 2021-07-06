@@ -6,5 +6,5 @@ type Circle struct {
 
 	Presentation
 
-	CircleAnimations []*Animate
+	Animations []*Animate
 }

@@ -5,5 +5,5 @@ type Rect struct {
 	X, Y, Width, Height, RX float64
 	Presentation
 
-	RectAnimations []*Animate
+	Animations []*Animate
 }

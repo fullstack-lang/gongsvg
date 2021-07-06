@@ -23,8 +23,8 @@ enum AnimateDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
-	CREATE_INSTANCE_WITH_ASSOCIATION_Circle_CircleAnimations_SET,
-	CREATE_INSTANCE_WITH_ASSOCIATION_Rect_RectAnimations_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Circle_Animations_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Rect_Animations_SET,
 }
 
 @Component({
@@ -83,13 +83,13 @@ export class AnimateDetailComponent implements OnInit {
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
-					case "CircleAnimations":
-						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Circle association CircleAnimations")
-						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Circle_CircleAnimations_SET
+					case "Animations":
+						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Circle association Animations")
+						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Circle_Animations_SET
 						break;
-					case "RectAnimations":
-						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Rect association RectAnimations")
-						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Rect_RectAnimations_SET
+					case "Animations":
+						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Rect association Animations")
+						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Rect_Animations_SET
 						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
@@ -125,13 +125,13 @@ export class AnimateDetailComponent implements OnInit {
 						this.animate = frontRepo.Animates.get(this.id)
 						break;
 					// insertion point for init of association field
-					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Circle_CircleAnimations_SET:
+					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Circle_Animations_SET:
 						this.animate = new (AnimateDB)
-						this.animate.Circle_CircleAnimations_reverse = frontRepo.Circles.get(this.id)
+						this.animate.Circle_Animations_reverse = frontRepo.Circles.get(this.id)
 						break;
-					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Rect_RectAnimations_SET:
+					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Rect_Animations_SET:
 						this.animate = new (AnimateDB)
-						this.animate.Rect_RectAnimations_reverse = frontRepo.Rects.get(this.id)
+						this.animate.Rect_Animations_reverse = frontRepo.Rects.get(this.id)
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -154,29 +154,29 @@ export class AnimateDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
-		if (this.animate.Circle_CircleAnimations_reverse != undefined) {
-			if (this.animate.Circle_CircleAnimationsDBID == undefined) {
-				this.animate.Circle_CircleAnimationsDBID = new NullInt64
+		if (this.animate.Circle_Animations_reverse != undefined) {
+			if (this.animate.Circle_AnimationsDBID == undefined) {
+				this.animate.Circle_AnimationsDBID = new NullInt64
 			}
-			this.animate.Circle_CircleAnimationsDBID.Int64 = this.animate.Circle_CircleAnimations_reverse.ID
-			this.animate.Circle_CircleAnimationsDBID.Valid = true
-			if (this.animate.Circle_CircleAnimationsDBID_Index == undefined) {
-				this.animate.Circle_CircleAnimationsDBID_Index = new NullInt64
+			this.animate.Circle_AnimationsDBID.Int64 = this.animate.Circle_Animations_reverse.ID
+			this.animate.Circle_AnimationsDBID.Valid = true
+			if (this.animate.Circle_AnimationsDBID_Index == undefined) {
+				this.animate.Circle_AnimationsDBID_Index = new NullInt64
 			}
-			this.animate.Circle_CircleAnimationsDBID_Index.Valid = true
-			this.animate.Circle_CircleAnimations_reverse = undefined // very important, otherwise, circular JSON
+			this.animate.Circle_AnimationsDBID_Index.Valid = true
+			this.animate.Circle_Animations_reverse = undefined // very important, otherwise, circular JSON
 		}
-		if (this.animate.Rect_RectAnimations_reverse != undefined) {
-			if (this.animate.Rect_RectAnimationsDBID == undefined) {
-				this.animate.Rect_RectAnimationsDBID = new NullInt64
+		if (this.animate.Rect_Animations_reverse != undefined) {
+			if (this.animate.Rect_AnimationsDBID == undefined) {
+				this.animate.Rect_AnimationsDBID = new NullInt64
 			}
-			this.animate.Rect_RectAnimationsDBID.Int64 = this.animate.Rect_RectAnimations_reverse.ID
-			this.animate.Rect_RectAnimationsDBID.Valid = true
-			if (this.animate.Rect_RectAnimationsDBID_Index == undefined) {
-				this.animate.Rect_RectAnimationsDBID_Index = new NullInt64
+			this.animate.Rect_AnimationsDBID.Int64 = this.animate.Rect_Animations_reverse.ID
+			this.animate.Rect_AnimationsDBID.Valid = true
+			if (this.animate.Rect_AnimationsDBID_Index == undefined) {
+				this.animate.Rect_AnimationsDBID_Index = new NullInt64
 			}
-			this.animate.Rect_RectAnimationsDBID_Index.Valid = true
-			this.animate.Rect_RectAnimations_reverse = undefined // very important, otherwise, circular JSON
+			this.animate.Rect_AnimationsDBID_Index.Valid = true
+			this.animate.Rect_Animations_reverse = undefined // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {

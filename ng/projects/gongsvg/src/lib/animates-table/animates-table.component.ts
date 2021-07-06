@@ -75,11 +75,11 @@ export class AnimatesTableComponent implements OnInit {
         case 'RepeatCount':
           return animateDB.RepeatCount;
 
-        case 'CircleAnimations':
-          return this.frontRepo.Circles.get(animateDB.Circle_CircleAnimationsDBID.Int64)?.Name;
+        case 'Circle_Animations':
+          return this.frontRepo.Circles.get(animateDB.Circle_AnimationsDBID.Int64)?.Name;
 
-        case 'RectAnimations':
-          return this.frontRepo.Rects.get(animateDB.Rect_RectAnimationsDBID.Int64)?.Name;
+        case 'Rect_Animations':
+          return this.frontRepo.Rects.get(animateDB.Rect_AnimationsDBID.Int64)?.Name;
 
         default:
           return AnimateDB[property];
@@ -99,12 +99,12 @@ export class AnimatesTableComponent implements OnInit {
       mergedContent += animateDB.Values.toLowerCase()
       mergedContent += animateDB.Dur.toLowerCase()
       mergedContent += animateDB.RepeatCount.toLowerCase()
-      if (animateDB.Circle_CircleAnimationsDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Circles.get(animateDB.Circle_CircleAnimationsDBID.Int64)?.Name.toLowerCase()
+      if (animateDB.Circle_AnimationsDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Circles.get(animateDB.Circle_AnimationsDBID.Int64)?.Name.toLowerCase()
       }
 
-      if (animateDB.Rect_RectAnimationsDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Rects.get(animateDB.Rect_RectAnimationsDBID.Int64)?.Name.toLowerCase()
+      if (animateDB.Rect_AnimationsDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Rects.get(animateDB.Rect_AnimationsDBID.Int64)?.Name.toLowerCase()
       }
 
 
@@ -162,8 +162,8 @@ export class AnimatesTableComponent implements OnInit {
         "Values",
         "Dur",
         "RepeatCount",
-        "CircleAnimations",
-        "RectAnimations",
+        "Circle_Animations",
+        "Rect_Animations",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -172,8 +172,8 @@ export class AnimatesTableComponent implements OnInit {
         "Values",
         "Dur",
         "RepeatCount",
-        "CircleAnimations",
-        "RectAnimations",
+        "Circle_Animations",
+        "Rect_Animations",
       ]
       this.selection = new SelectionModel<AnimateDB>(allowMultiSelect, this.initialSelection);
     }

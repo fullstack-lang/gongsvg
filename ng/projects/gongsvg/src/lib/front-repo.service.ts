@@ -577,29 +577,29 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Circle.CircleAnimations redeeming
+                // insertion point for slice of pointer field Circle.Animations redeeming
                 {
-                  let _circle = FrontRepoSingloton.Circles.get(animate.Circle_CircleAnimationsDBID.Int64)
+                  let _circle = FrontRepoSingloton.Circles.get(animate.Circle_AnimationsDBID.Int64)
                   if (_circle) {
-                    if (_circle.CircleAnimations == undefined) {
-                      _circle.CircleAnimations = new Array<AnimateDB>()
+                    if (_circle.Animations == undefined) {
+                      _circle.Animations = new Array<AnimateDB>()
                     }
-                    _circle.CircleAnimations.push(animate)
-                    if (animate.Circle_CircleAnimations_reverse == undefined) {
-                      animate.Circle_CircleAnimations_reverse = _circle
+                    _circle.Animations.push(animate)
+                    if (animate.Circle_Animations_reverse == undefined) {
+                      animate.Circle_Animations_reverse = _circle
                     }
                   }
                 }
-                // insertion point for slice of pointer field Rect.RectAnimations redeeming
+                // insertion point for slice of pointer field Rect.Animations redeeming
                 {
-                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_RectAnimationsDBID.Int64)
+                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_AnimationsDBID.Int64)
                   if (_rect) {
-                    if (_rect.RectAnimations == undefined) {
-                      _rect.RectAnimations = new Array<AnimateDB>()
+                    if (_rect.Animations == undefined) {
+                      _rect.Animations = new Array<AnimateDB>()
                     }
-                    _rect.RectAnimations.push(animate)
-                    if (animate.Rect_RectAnimations_reverse == undefined) {
-                      animate.Rect_RectAnimations_reverse = _rect
+                    _rect.Animations.push(animate)
+                    if (animate.Rect_Animations_reverse == undefined) {
+                      animate.Rect_Animations_reverse = _rect
                     }
                   }
                 }
@@ -810,29 +810,29 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Circle.CircleAnimations redeeming
+                // insertion point for slice of pointer field Circle.Animations redeeming
                 {
-                  let _circle = FrontRepoSingloton.Circles.get(animate.Circle_CircleAnimationsDBID.Int64)
+                  let _circle = FrontRepoSingloton.Circles.get(animate.Circle_AnimationsDBID.Int64)
                   if (_circle) {
-                    if (_circle.CircleAnimations == undefined) {
-                      _circle.CircleAnimations = new Array<AnimateDB>()
+                    if (_circle.Animations == undefined) {
+                      _circle.Animations = new Array<AnimateDB>()
                     }
-                    _circle.CircleAnimations.push(animate)
-                    if (animate.Circle_CircleAnimations_reverse == undefined) {
-                      animate.Circle_CircleAnimations_reverse = _circle
+                    _circle.Animations.push(animate)
+                    if (animate.Circle_Animations_reverse == undefined) {
+                      animate.Circle_Animations_reverse = _circle
                     }
                   }
                 }
-                // insertion point for slice of pointer field Rect.RectAnimations redeeming
+                // insertion point for slice of pointer field Rect.Animations redeeming
                 {
-                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_RectAnimationsDBID.Int64)
+                  let _rect = FrontRepoSingloton.Rects.get(animate.Rect_AnimationsDBID.Int64)
                   if (_rect) {
-                    if (_rect.RectAnimations == undefined) {
-                      _rect.RectAnimations = new Array<AnimateDB>()
+                    if (_rect.Animations == undefined) {
+                      _rect.Animations = new Array<AnimateDB>()
                     }
-                    _rect.RectAnimations.push(animate)
-                    if (animate.Rect_RectAnimations_reverse == undefined) {
-                      animate.Rect_RectAnimations_reverse = _rect
+                    _rect.Animations.push(animate)
+                    if (animate.Rect_Animations_reverse == undefined) {
+                      animate.Rect_Animations_reverse = _rect
                     }
                   }
                 }

@@ -1,3 +1,9 @@
+
+<div *ngFor="let elt of Circles" class="parent">
+    <lib-circle [Circle]="elt">
+    </lib-circle>
+</div>
+
 <div *ngFor="let elt of Rects" class="parent">
     <lib-rect [Rect]="elt">
     </lib-rect>
@@ -8,13 +14,6 @@
         [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth" [StrokeDashArray]="elt.StrokeDashArray"
         [Transform]="elt.Transform">
     </lib-text>
-</div>
-
-<div *ngFor="let elt of Circles" class="parent">
-    <lib-circle [Name]="elt.Name" [CX]="elt.CX" [CY]="elt.CY" [Radius]="elt.Radius" [Color]="elt.Color"
-        [FillOpacity]="elt.FillOpacity" [Stroke]="elt.Stroke" [StrokeWidth]="elt.StrokeWidth"
-        [StrokeDashArray]="elt.StrokeDashArray" [Transform]="elt.Transform">
-    </lib-circle>
 </div>
 
 <div *ngFor="let elt of Lines" class="parent">

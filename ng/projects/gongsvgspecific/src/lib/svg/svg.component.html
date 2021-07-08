@@ -1,42 +1,42 @@
 
-<div *ngFor="let elt of Circles" class="parent">
-    <lib-circle [Circle]="elt">
-    </lib-circle>
-</div>
-
-<div *ngFor="let elt of Rects" class="parent">
+<div *ngFor="let elt of svgSingloton?.Rects" class="parent">
     <lib-rect [Rect]="elt">
     </lib-rect>
 </div>
 
-<div *ngFor="let ellipse of Ellipses" class="parent">
+<div *ngFor="let elt of svgSingloton?.Circles" class="parent">
+    <lib-circle [Circle]="elt">
+    </lib-circle>
+</div>
+
+<div *ngFor="let ellipse of svgSingloton?.Ellipses" class="parent">
     <lib-ellipse [Ellipse]="ellipse">
     </lib-ellipse>
 </div>
 
 
-<div *ngFor="let line of Lines" class="parent">
+<div *ngFor="let line of svgSingloton?.Lines" class="parent">
     <lib-line [Line]="line">
     </lib-line>
 </div>
 
-<div *ngFor="let path of Paths" class="parent">
+<div *ngFor="let path of svgSingloton?.Paths" class="parent">
     <lib-path [Path]="path">
     </lib-path>
 </div>
 
-<div *ngFor="let polygone of Polygones" class="parent">
+<div *ngFor="let polygone of svgSingloton?.Polygones" class="parent">
     <lib-polygone [Polygone]="polygone">
     </lib-polygone>
 </div>
 
 
-<div *ngFor="let polyline of Polylines" class="parent">
+<div *ngFor="let polyline of svgSingloton?.Polylines" class="parent">
     <lib-polyline [Polyline]="polyline">
     </lib-polyline>
 </div>
 
-<div *ngFor="let elt of Texts" class="parent">
+<div *ngFor="let elt of svgSingloton?.Texts" class="parent">
     <lib-text [Text]="elt">
     </lib-text>
 </div>

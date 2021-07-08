@@ -31,7 +31,7 @@
             "args": []
         },
         {
-            "name": "Launch firefox localhost:4200",
+            "name": "Launch firefox appv localhost:4200",
             "type": "firefox",
             "request": "launch",
             "firefoxExecutable": "C:/Users/peugeot/AppData/Local/Microsoft/AppV/Client/Integration/F8B22858-413B-4241-955C-7CDA2C0B6696/Root/VFS/ProgramFilesX64/Mozilla Firefox/firefox.exe",

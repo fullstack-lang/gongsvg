@@ -36,6 +36,8 @@ export class SvgComponent implements OnInit {
   lastPushFromFrontNb = -1
   currTime: number
 
+  svgSingloton : gongsvg.SVGDB
+
   constructor(
     private gongsvgFrontRepoService: gongsvg.FrontRepoService,
     private gongsvgCommitNbService: gongsvg.CommitNbService,
@@ -81,68 +83,8 @@ export class SvgComponent implements OnInit {
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
 
-        this.Rects = new Array<gongsvg.RectDB>()
-        this.Texts = new Array<gongsvg.TextDB>()
-        this.Lines = new Array<gongsvg.LineDB>()
-        this.Circles = new Array<gongsvg.CircleDB>()
-        this.Ellipses = new Array<gongsvg.EllipseDB>()
-        this.Paths = new Array<gongsvg.PathDB>()
-        this.Polygones = new Array<gongsvg.PolygoneDB>()
-        this.Polylines = new Array<gongsvg.PolylineDB>()
-
-        for (let svg of this.gongsvgFrontRepo.SVGs_array) {
-
-          if (svg.Display) {
-
-            svg.Rects?.forEach(
-              rect => {
-                this.Rects.push(rect)
-              }
-            )
-
-            svg.Texts?.forEach(
-              Text => {
-                this.Texts.push(Text)
-              }
-            )
-
-            svg.Lines?.forEach(
-              Line => {
-                this.Lines.push(Line)
-              }
-            )
-
-            svg.Circles?.forEach(
-              Circle => {
-                this.Circles.push(Circle)
-              }
-            )
-
-            svg.Ellipses?.forEach(
-              Ellipse => {
-                this.Ellipses.push(Ellipse)
-              }
-            )
-
-            svg.Paths?.forEach(
-              Path => {
-                this.Paths.push(Path)
-              }
-            )
-
-            svg.Polygones?.forEach(
-              Polygone => {
-                this.Polygones.push(Polygone)
-              }
-            )
-
-            svg.Polylines?.forEach(
-              Polyline => {
-                this.Polylines.push(Polyline)
-              }
-            )
-          }
-        }
+        this.svgSingloton = this.gongsvgFrontRepo.SVGs_array[0]
+        console.log("svgSingloton " + this.svgSingloton?.Name)
 
       }
 

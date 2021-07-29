@@ -10,7 +10,6 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { PresentationAPI } from './presentation-api';
 import { PresentationDB } from './presentation-db';
 
 @Injectable({

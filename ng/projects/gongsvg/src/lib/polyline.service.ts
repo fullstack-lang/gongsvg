@@ -10,7 +10,6 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { PolylineAPI } from './polyline-api';
 import { PolylineDB } from './polyline-db';
 
 @Injectable({

@@ -10,7 +10,6 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { RectAPI } from './rect-api';
 import { RectDB } from './rect-db';
 
 @Injectable({

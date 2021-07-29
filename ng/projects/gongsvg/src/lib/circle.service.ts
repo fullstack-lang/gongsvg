@@ -10,7 +10,6 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { CircleAPI } from './circle-api';
 import { CircleDB } from './circle-db';
 
 @Injectable({

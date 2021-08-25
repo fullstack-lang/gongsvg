@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_Ellipse sql.NullBool
-var __Ellipse_time__dummyDeclaration time.Duration
+var dummy_Ellipse_sql sql.NullBool
+var dummy_Ellipse_time time.Duration
 var dummy_Ellipse_sort sort.Float64Slice
 
 // EllipseAPI is the input in POST API

@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_Rect sql.NullBool
-var __Rect_time__dummyDeclaration time.Duration
+var dummy_Rect_sql sql.NullBool
+var dummy_Rect_time time.Duration
 var dummy_Rect_sort sort.Float64Slice
 
 // RectAPI is the input in POST API

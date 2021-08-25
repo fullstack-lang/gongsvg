@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_SVG sql.NullBool
-var __SVG_time__dummyDeclaration time.Duration
+var dummy_SVG_sql sql.NullBool
+var dummy_SVG_time time.Duration
 var dummy_SVG_sort sort.Float64Slice
 
 // SVGAPI is the input in POST API

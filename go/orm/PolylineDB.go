@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_Polyline sql.NullBool
-var __Polyline_time__dummyDeclaration time.Duration
+var dummy_Polyline_sql sql.NullBool
+var dummy_Polyline_time time.Duration
 var dummy_Polyline_sort sort.Float64Slice
 
 // PolylineAPI is the input in POST API

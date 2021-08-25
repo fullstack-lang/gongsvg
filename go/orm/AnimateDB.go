@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_Animate sql.NullBool
-var __Animate_time__dummyDeclaration time.Duration
+var dummy_Animate_sql sql.NullBool
+var dummy_Animate_time time.Duration
 var dummy_Animate_sort sort.Float64Slice
 
 // AnimateAPI is the input in POST API

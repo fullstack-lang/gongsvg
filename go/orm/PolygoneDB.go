@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_Polygone sql.NullBool
-var __Polygone_time__dummyDeclaration time.Duration
+var dummy_Polygone_sql sql.NullBool
+var dummy_Polygone_time time.Duration
 var dummy_Polygone_sort sort.Float64Slice
 
 // PolygoneAPI is the input in POST API

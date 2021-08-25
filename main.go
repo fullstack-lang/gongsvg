@@ -41,7 +41,6 @@ func main() {
 		db := orm.SetupModels(*logDBFlag, "./test.db")
 		// mandatory, otherwise, bizarre errors occurs
 		orm.AutoMigrate(db)
-		orm.BackRepo.Init(db)
 		models.Stage.Checkout()
 		models.Stage.Backup("bckp")
 
@@ -53,7 +52,6 @@ func main() {
 		db := orm.SetupModels(*logDBFlag, "./test.db")
 		// mandatory, otherwise, bizarre errors occurs
 		orm.AutoMigrate(db)
-		orm.BackRepo.Init(db)
 		models.Stage.Restore("bckp")
 
 		return
@@ -68,9 +66,7 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup GORM
-	db := orm.SetupModels(*logDBFlag, "./test.db")
-	// mandatory, otherwise, bizarre errors occurs
-	orm.BackRepo.Init(db)
+	orm.SetupModels(*logDBFlag, "./test.db")
 
 	controllers.RegisterControllers(r)
 

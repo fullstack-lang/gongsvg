@@ -90,35 +90,35 @@ type BackRepoInterface interface {
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Animates:           make(map[*Animate]struct{}, 0),
-	Animates_mapString: make(map[string]*Animate, 0),
+	Animates:           make(map[*Animate]struct{}),
+	Animates_mapString: make(map[string]*Animate),
 
-	Circles:           make(map[*Circle]struct{}, 0),
-	Circles_mapString: make(map[string]*Circle, 0),
+	Circles:           make(map[*Circle]struct{}),
+	Circles_mapString: make(map[string]*Circle),
 
-	Ellipses:           make(map[*Ellipse]struct{}, 0),
-	Ellipses_mapString: make(map[string]*Ellipse, 0),
+	Ellipses:           make(map[*Ellipse]struct{}),
+	Ellipses_mapString: make(map[string]*Ellipse),
 
-	Lines:           make(map[*Line]struct{}, 0),
-	Lines_mapString: make(map[string]*Line, 0),
+	Lines:           make(map[*Line]struct{}),
+	Lines_mapString: make(map[string]*Line),
 
-	Paths:           make(map[*Path]struct{}, 0),
-	Paths_mapString: make(map[string]*Path, 0),
+	Paths:           make(map[*Path]struct{}),
+	Paths_mapString: make(map[string]*Path),
 
-	Polygones:           make(map[*Polygone]struct{}, 0),
-	Polygones_mapString: make(map[string]*Polygone, 0),
+	Polygones:           make(map[*Polygone]struct{}),
+	Polygones_mapString: make(map[string]*Polygone),
 
-	Polylines:           make(map[*Polyline]struct{}, 0),
-	Polylines_mapString: make(map[string]*Polyline, 0),
+	Polylines:           make(map[*Polyline]struct{}),
+	Polylines_mapString: make(map[string]*Polyline),
 
-	Rects:           make(map[*Rect]struct{}, 0),
-	Rects_mapString: make(map[string]*Rect, 0),
+	Rects:           make(map[*Rect]struct{}),
+	Rects_mapString: make(map[string]*Rect),
 
-	SVGs:           make(map[*SVG]struct{}, 0),
-	SVGs_mapString: make(map[string]*SVG, 0),
+	SVGs:           make(map[*SVG]struct{}),
+	SVGs_mapString: make(map[string]*SVG),
 
-	Texts:           make(map[*Text]struct{}, 0),
-	Texts_mapString: make(map[string]*Text, 0),
+	Texts:           make(map[*Text]struct{}),
+	Texts_mapString: make(map[string]*Text),
 
 	// end of insertion point
 }
@@ -1212,35 +1212,35 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Animates = make(map[*Animate]struct{}, 0)
-	stage.Animates_mapString = make(map[string]*Animate, 0)
+	stage.Animates = make(map[*Animate]struct{})
+	stage.Animates_mapString = make(map[string]*Animate)
 
-	stage.Circles = make(map[*Circle]struct{}, 0)
-	stage.Circles_mapString = make(map[string]*Circle, 0)
+	stage.Circles = make(map[*Circle]struct{})
+	stage.Circles_mapString = make(map[string]*Circle)
 
-	stage.Ellipses = make(map[*Ellipse]struct{}, 0)
-	stage.Ellipses_mapString = make(map[string]*Ellipse, 0)
+	stage.Ellipses = make(map[*Ellipse]struct{})
+	stage.Ellipses_mapString = make(map[string]*Ellipse)
 
-	stage.Lines = make(map[*Line]struct{}, 0)
-	stage.Lines_mapString = make(map[string]*Line, 0)
+	stage.Lines = make(map[*Line]struct{})
+	stage.Lines_mapString = make(map[string]*Line)
 
-	stage.Paths = make(map[*Path]struct{}, 0)
-	stage.Paths_mapString = make(map[string]*Path, 0)
+	stage.Paths = make(map[*Path]struct{})
+	stage.Paths_mapString = make(map[string]*Path)
 
-	stage.Polygones = make(map[*Polygone]struct{}, 0)
-	stage.Polygones_mapString = make(map[string]*Polygone, 0)
+	stage.Polygones = make(map[*Polygone]struct{})
+	stage.Polygones_mapString = make(map[string]*Polygone)
 
-	stage.Polylines = make(map[*Polyline]struct{}, 0)
-	stage.Polylines_mapString = make(map[string]*Polyline, 0)
+	stage.Polylines = make(map[*Polyline]struct{})
+	stage.Polylines_mapString = make(map[string]*Polyline)
 
-	stage.Rects = make(map[*Rect]struct{}, 0)
-	stage.Rects_mapString = make(map[string]*Rect, 0)
+	stage.Rects = make(map[*Rect]struct{})
+	stage.Rects_mapString = make(map[string]*Rect)
 
-	stage.SVGs = make(map[*SVG]struct{}, 0)
-	stage.SVGs_mapString = make(map[string]*SVG, 0)
+	stage.SVGs = make(map[*SVG]struct{})
+	stage.SVGs_mapString = make(map[string]*SVG)
 
-	stage.Texts = make(map[*Text]struct{}, 0)
-	stage.Texts_mapString = make(map[string]*Text, 0)
+	stage.Texts = make(map[*Text]struct{})
+	stage.Texts_mapString = make(map[string]*Text)
 
 }
 

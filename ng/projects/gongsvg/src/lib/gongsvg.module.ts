@@ -26,6 +26,12 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AngularSplitModule, SplitComponent } from 'angular-split';
 
+import {
+	NgxMatDatetimePickerModule,
+	NgxMatNativeDateModule,
+	NgxMatTimepickerModule
+} from '@angular-material-components/datetime-picker';
+
 import { AppRoutingModule } from './app-routing.module';
 
 import { SplitterComponent } from './splitter/splitter.component'
@@ -166,6 +172,10 @@ import { TextPresentationComponent } from './text-presentation/text-presentation
 		MatGridListModule,
 		MatTreeModule,
 		DragDropModule,
+
+		NgxMatDatetimePickerModule,
+		NgxMatNativeDateModule,
+		NgxMatTimepickerModule,
 
 		AngularSplitModule,
 	],

@@ -23,13 +23,13 @@ export class PolylinePresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	polyline: PolylineDB;
+	polyline: PolylineDB = new (PolylineDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private polylineService: PolylineService,
@@ -56,12 +56,12 @@ export class PolylinePresentationComponent implements OnInit {
 	}
 
 	getPolyline(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.polyline = this.frontRepo.Polylines.get(id)
+				this.polyline = this.frontRepo.Polylines.get(id)!
 
 				// insertion point for recovery of durations
 			}

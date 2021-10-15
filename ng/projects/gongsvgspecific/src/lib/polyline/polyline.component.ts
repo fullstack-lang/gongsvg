@@ -8,7 +8,7 @@ import * as gongsvg from 'gongsvg'
 })
 export class PolylineComponent implements OnInit {
 
-  @Input() Polyline: gongsvg.PolylineDB
+  @Input() Polyline?: gongsvg.PolylineDB
 
   constructor() { }
 

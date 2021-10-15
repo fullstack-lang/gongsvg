@@ -13,6 +13,16 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { AnimateDB } from './animate-db';
 
+// insertion point for imports
+import { CircleDB } from './circle-db'
+import { EllipseDB } from './ellipse-db'
+import { LineDB } from './line-db'
+import { PathDB } from './path-db'
+import { PolygoneDB } from './polygone-db'
+import { PolylineDB } from './polyline-db'
+import { RectDB } from './rect-db'
+import { TextDB } from './text-db'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +45,14 @@ export class AnimateService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.animatesUrl = origin + '/api/github.com/fullstack-lang/gongsvg/go/v1/animates';
-   }
+  }
 
   /** GET animates from the server */
   getAnimates(): Observable<AnimateDB[]> {
@@ -67,27 +77,27 @@ export class AnimateService {
   /** POST: add a new animate to the server */
   postAnimate(animatedb: AnimateDB): Observable<AnimateDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _Circle_Animations_reverse = animatedb.Circle_Animations_reverse
-    animatedb.Circle_Animations_reverse = {}
+    animatedb.Circle_Animations_reverse = new CircleDB
     let _Ellipse_Animates_reverse = animatedb.Ellipse_Animates_reverse
-    animatedb.Ellipse_Animates_reverse = {}
+    animatedb.Ellipse_Animates_reverse = new EllipseDB
     let _Line_Animates_reverse = animatedb.Line_Animates_reverse
-    animatedb.Line_Animates_reverse = {}
+    animatedb.Line_Animates_reverse = new LineDB
     let _Path_Animates_reverse = animatedb.Path_Animates_reverse
-    animatedb.Path_Animates_reverse = {}
+    animatedb.Path_Animates_reverse = new PathDB
     let _Polygone_Animates_reverse = animatedb.Polygone_Animates_reverse
-    animatedb.Polygone_Animates_reverse = {}
+    animatedb.Polygone_Animates_reverse = new PolygoneDB
     let _Polyline_Animates_reverse = animatedb.Polyline_Animates_reverse
-    animatedb.Polyline_Animates_reverse = {}
+    animatedb.Polyline_Animates_reverse = new PolylineDB
     let _Rect_Animations_reverse = animatedb.Rect_Animations_reverse
-    animatedb.Rect_Animations_reverse = {}
+    animatedb.Rect_Animations_reverse = new RectDB
     let _Text_Animates_reverse = animatedb.Text_Animates_reverse
-    animatedb.Text_Animates_reverse = {}
+    animatedb.Text_Animates_reverse = new TextDB
 
-		return this.http.post<AnimateDB>(this.animatesUrl, animatedb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
+    return this.http.post<AnimateDB>(this.animatesUrl, animatedb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
         animatedb.Circle_Animations_reverse = _Circle_Animations_reverse
         animatedb.Ellipse_Animates_reverse = _Ellipse_Animates_reverse
         animatedb.Line_Animates_reverse = _Line_Animates_reverse
@@ -96,10 +106,10 @@ export class AnimateService {
         animatedb.Polyline_Animates_reverse = _Polyline_Animates_reverse
         animatedb.Rect_Animations_reverse = _Rect_Animations_reverse
         animatedb.Text_Animates_reverse = _Text_Animates_reverse
-				this.log(`posted animatedb id=${animatedb.ID}`)
-			}),
-			catchError(this.handleError<AnimateDB>('postAnimate'))
-		);
+        this.log(`posted animatedb id=${animatedb.ID}`)
+      }),
+      catchError(this.handleError<AnimateDB>('postAnimate'))
+    );
   }
 
   /** DELETE: delete the animatedb from the server */
@@ -120,23 +130,23 @@ export class AnimateService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _Circle_Animations_reverse = animatedb.Circle_Animations_reverse
-    animatedb.Circle_Animations_reverse = {}
+    animatedb.Circle_Animations_reverse = new CircleDB
     let _Ellipse_Animates_reverse = animatedb.Ellipse_Animates_reverse
-    animatedb.Ellipse_Animates_reverse = {}
+    animatedb.Ellipse_Animates_reverse = new EllipseDB
     let _Line_Animates_reverse = animatedb.Line_Animates_reverse
-    animatedb.Line_Animates_reverse = {}
+    animatedb.Line_Animates_reverse = new LineDB
     let _Path_Animates_reverse = animatedb.Path_Animates_reverse
-    animatedb.Path_Animates_reverse = {}
+    animatedb.Path_Animates_reverse = new PathDB
     let _Polygone_Animates_reverse = animatedb.Polygone_Animates_reverse
-    animatedb.Polygone_Animates_reverse = {}
+    animatedb.Polygone_Animates_reverse = new PolygoneDB
     let _Polyline_Animates_reverse = animatedb.Polyline_Animates_reverse
-    animatedb.Polyline_Animates_reverse = {}
+    animatedb.Polyline_Animates_reverse = new PolylineDB
     let _Rect_Animations_reverse = animatedb.Rect_Animations_reverse
-    animatedb.Rect_Animations_reverse = {}
+    animatedb.Rect_Animations_reverse = new RectDB
     let _Text_Animates_reverse = animatedb.Text_Animates_reverse
-    animatedb.Text_Animates_reverse = {}
+    animatedb.Text_Animates_reverse = new TextDB
 
-    return this.http.put(url, animatedb, this.httpOptions).pipe(
+    return this.http.put<AnimateDB>(url, animatedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         animatedb.Circle_Animations_reverse = _Circle_Animations_reverse

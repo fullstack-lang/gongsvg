@@ -23,13 +23,13 @@ export class LinePresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	line: LineDB;
+	line: LineDB = new (LineDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private lineService: LineService,
@@ -56,12 +56,12 @@ export class LinePresentationComponent implements OnInit {
 	}
 
 	getLine(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.line = this.frontRepo.Lines.get(id)
+				this.line = this.frontRepo.Lines.get(id)!
 
 				// insertion point for recovery of durations
 			}

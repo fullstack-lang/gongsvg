@@ -13,6 +13,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { PolylineDB } from './polyline-db';
 
+// insertion point for imports
+import { SVGDB } from './svg-db'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +38,14 @@ export class PolylineService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.polylinesUrl = origin + '/api/github.com/fullstack-lang/gongsvg/go/v1/polylines';
-   }
+  }
 
   /** GET polylines from the server */
   getPolylines(): Observable<PolylineDB[]> {
@@ -67,19 +70,19 @@ export class PolylineService {
   /** POST: add a new polyline to the server */
   postPolyline(polylinedb: PolylineDB): Observable<PolylineDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     polylinedb.Animates = []
     let _SVG_Polylines_reverse = polylinedb.SVG_Polylines_reverse
-    polylinedb.SVG_Polylines_reverse = {}
+    polylinedb.SVG_Polylines_reverse = new SVGDB
 
-		return this.http.post<PolylineDB>(this.polylinesUrl, polylinedb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
+    return this.http.post<PolylineDB>(this.polylinesUrl, polylinedb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
         polylinedb.SVG_Polylines_reverse = _SVG_Polylines_reverse
-				this.log(`posted polylinedb id=${polylinedb.ID}`)
-			}),
-			catchError(this.handleError<PolylineDB>('postPolyline'))
-		);
+        this.log(`posted polylinedb id=${polylinedb.ID}`)
+      }),
+      catchError(this.handleError<PolylineDB>('postPolyline'))
+    );
   }
 
   /** DELETE: delete the polylinedb from the server */
@@ -101,9 +104,9 @@ export class PolylineService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     polylinedb.Animates = []
     let _SVG_Polylines_reverse = polylinedb.SVG_Polylines_reverse
-    polylinedb.SVG_Polylines_reverse = {}
+    polylinedb.SVG_Polylines_reverse = new SVGDB
 
-    return this.http.put(url, polylinedb, this.httpOptions).pipe(
+    return this.http.put<PolylineDB>(url, polylinedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         polylinedb.SVG_Polylines_reverse = _SVG_Polylines_reverse

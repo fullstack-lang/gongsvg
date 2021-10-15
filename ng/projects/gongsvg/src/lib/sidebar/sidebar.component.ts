@@ -44,7 +44,7 @@ export enum GongNodeType {
  */
 interface GongNode {
   name: string; // if STRUCT, the name of the struct, if INSTANCE the name of the instance
-  children?: GongNode[];
+  children: GongNode[];
   type: GongNodeType;
   structName: string;
   associationField: string;
@@ -151,8 +151,8 @@ export class SidebarComponent implements OnInit {
   hasChild = (_: number, node: GongFlatNode) => node.expandable;
 
   // front repo
-  frontRepo: FrontRepo
-  commitNb: number
+  frontRepo: FrontRepo = new (FrontRepo)
+  commitNb: number = 0
 
   // "data" tree that is constructed during NgInit and is passed to the mat-tree component
   gongNodeTree = new Array<GongNode>();
@@ -269,20 +269,19 @@ export class SidebarComponent implements OnInit {
       let memoryOfExpandedNodes = new Map<number, boolean>()
       let nonInstanceNodeId = 1
 
-      if (this.treeControl.dataNodes != undefined) {
-        this.treeControl.dataNodes.forEach(
-          node => {
-            if (this.treeControl.isExpanded(node)) {
-              memoryOfExpandedNodes[node.uniqueIdPerStack] = true
-            } else {
-              memoryOfExpandedNodes[node.uniqueIdPerStack] = false
-            }
+      this.treeControl.dataNodes?.forEach(
+        node => {
+          if (this.treeControl.isExpanded(node)) {
+            memoryOfExpandedNodes.set(node.uniqueIdPerStack, true)
+          } else {
+            memoryOfExpandedNodes.set(node.uniqueIdPerStack, false)
           }
-        )
-      }
+        }
+      )
 
+      // reset the gong node tree
       this.gongNodeTree = new Array<GongNode>();
-
+      
       // insertion point for per struct tree construction
       /**
       * fill up the Animate part of the mat tree
@@ -322,7 +321,7 @@ export class SidebarComponent implements OnInit {
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          animateGongNodeStruct.children.push(animateGongNodeInstance)
+          animateGongNodeStruct.children!.push(animateGongNodeInstance)
 
           // insertion point for per field code
         }
@@ -366,7 +365,7 @@ export class SidebarComponent implements OnInit {
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          circleGongNodeStruct.children.push(circleGongNodeInstance)
+          circleGongNodeStruct.children!.push(circleGongNodeInstance)
 
           // insertion point for per field code
           /**
@@ -442,7 +441,7 @@ export class SidebarComponent implements OnInit {
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          ellipseGongNodeStruct.children.push(ellipseGongNodeInstance)
+          ellipseGongNodeStruct.children!.push(ellipseGongNodeInstance)
 
           // insertion point for per field code
           /**
@@ -518,7 +517,7 @@ export class SidebarComponent implements OnInit {
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          lineGongNodeStruct.children.push(lineGongNodeInstance)
+          lineGongNodeStruct.children!.push(lineGongNodeInstance)
 
           // insertion point for per field code
           /**
@@ -594,7 +593,7 @@ export class SidebarComponent implements OnInit {
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          pathGongNodeStruct.children.push(pathGongNodeInstance)
+          pathGongNodeStruct.children!.push(pathGongNodeInstance)
 
           // insertion point for per field code
           /**
@@ -670,7 +669,7 @@ export class SidebarComponent implements OnInit {
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          polygoneGongNodeStruct.children.push(polygoneGongNodeInstance)
+          polygoneGongNodeStruct.children!.push(polygoneGongNodeInstance)
 
           // insertion point for per field code
           /**
@@ -746,7 +745,7 @@ export class SidebarComponent implements OnInit {
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          polylineGongNodeStruct.children.push(polylineGongNodeInstance)
+          polylineGongNodeStruct.children!.push(polylineGongNodeInstance)
 
           // insertion point for per field code
           /**
@@ -822,7 +821,7 @@ export class SidebarComponent implements OnInit {
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          rectGongNodeStruct.children.push(rectGongNodeInstance)
+          rectGongNodeStruct.children!.push(rectGongNodeInstance)
 
           // insertion point for per field code
           /**
@@ -898,7 +897,7 @@ export class SidebarComponent implements OnInit {
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          svgGongNodeStruct.children.push(svgGongNodeInstance)
+          svgGongNodeStruct.children!.push(svgGongNodeInstance)
 
           // insertion point for per field code
           /**
@@ -1198,7 +1197,7 @@ export class SidebarComponent implements OnInit {
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          textGongNodeStruct.children.push(textGongNodeInstance)
+          textGongNodeStruct.children!.push(textGongNodeInstance)
 
           // insertion point for per field code
           /**
@@ -1240,17 +1239,13 @@ export class SidebarComponent implements OnInit {
       this.dataSource.data = this.gongNodeTree
 
       // expand nodes that were exapanded before
-      if (this.treeControl.dataNodes != undefined) {
-        this.treeControl.dataNodes.forEach(
-          node => {
-            if (memoryOfExpandedNodes[node.uniqueIdPerStack] != undefined) {
-              if (memoryOfExpandedNodes[node.uniqueIdPerStack]) {
-                this.treeControl.expand(node)
-              }
-            }
+      this.treeControl.dataNodes?.forEach(
+        node => {
+          if (memoryOfExpandedNodes.get(node.uniqueIdPerStack)) {
+            this.treeControl.expand(node)
           }
-        )
-      }
+        }
+      )
     });
 
     // fetch the number of commits
@@ -1296,7 +1291,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  setEditorRouterOutlet(path) {
+  setEditorRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + path.toLowerCase()]
@@ -1304,7 +1299,7 @@ export class SidebarComponent implements OnInit {
     }]);
   }
 
-  setEditorSpecialRouterOutlet( node: GongFlatNode) {
+  setEditorSpecialRouterOutlet(node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gongsvg_go_editor: ["github_com_fullstack_lang_gongsvg_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]

@@ -23,13 +23,13 @@ export class EllipsePresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	ellipse: EllipseDB;
+	ellipse: EllipseDB = new (EllipseDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private ellipseService: EllipseService,
@@ -56,12 +56,12 @@ export class EllipsePresentationComponent implements OnInit {
 	}
 
 	getEllipse(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.ellipse = this.frontRepo.Ellipses.get(id)
+				this.ellipse = this.frontRepo.Ellipses.get(id)!
 
 				// insertion point for recovery of durations
 			}

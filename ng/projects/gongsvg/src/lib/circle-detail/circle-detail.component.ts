@@ -10,12 +10,13 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
+import { SVGDB } from '../svg-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 
-import { NullInt64 } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
 
 // CircleDetailComponent is initilizaed from different routes
 // CircleDetailComponentState detail different cases 
@@ -36,10 +37,10 @@ export class CircleDetailComponent implements OnInit {
 	// insertion point for declarations
 
 	// the CircleDB of interest
-	circle: CircleDB;
+	circle: CircleDB = new CircleDB
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new FrontRepo
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
@@ -47,15 +48,15 @@ export class CircleDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: CircleDetailComponentState
+	state: CircleDetailComponentState = CircleDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
-	id: number
+	id: number = 0
 
 	// in CREATE state with one association set, this is the id of the associated instance
-	originStruct: string
-	originStructFieldName: string
+	originStruct: string = ""
+	originStructFieldName: string = ""
 
 	constructor(
 		private circleService: CircleService,
@@ -69,9 +70,9 @@ export class CircleDetailComponent implements OnInit {
 	ngOnInit(): void {
 
 		// compute state
-		this.id = +this.route.snapshot.paramMap.get('id');
-		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
-		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+		this.id = +this.route.snapshot.paramMap.get('id')!;
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct')!;
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName')!;
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
@@ -83,7 +84,7 @@ export class CircleDetailComponent implements OnInit {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
 					case "Circles":
-						console.log("Circle" + " is instanciated with back pointer to instance " + this.id + " SVG association Circles")
+						// console.log("Circle" + " is instanciated with back pointer to instance " + this.id + " SVG association Circles")
 						this.state = CircleDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Circles_SET
 						break;
 					default:
@@ -117,12 +118,14 @@ export class CircleDetailComponent implements OnInit {
 						this.circle = new (CircleDB)
 						break;
 					case CircleDetailComponentState.UPDATE_INSTANCE:
-						this.circle = frontRepo.Circles.get(this.id)
+						let circle = frontRepo.Circles.get(this.id)
+						console.assert(circle != undefined, "missing circle with id:" + this.id)
+						this.circle = circle!
 						break;
 					// insertion point for init of association field
 					case CircleDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Circles_SET:
 						this.circle = new (CircleDB)
-						this.circle.SVG_Circles_reverse = frontRepo.SVGs.get(this.id)
+						this.circle.SVG_Circles_reverse = frontRepo.SVGs.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -155,7 +158,7 @@ export class CircleDetailComponent implements OnInit {
 				this.circle.SVG_CirclesDBID_Index = new NullInt64
 			}
 			this.circle.SVG_CirclesDBID_Index.Valid = true
-			this.circle.SVG_Circles_reverse = undefined // very important, otherwise, circular JSON
+			this.circle.SVG_Circles_reverse = new SVGDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {
@@ -168,7 +171,7 @@ export class CircleDetailComponent implements OnInit {
 			default:
 				this.circleService.postCircle(this.circle).subscribe(circle => {
 					this.circleService.CircleServiceChanged.next("post")
-					this.circle = {} // reset fields
+					this.circle = new (CircleDB) // reset fields
 				});
 		}
 	}
@@ -177,7 +180,7 @@ export class CircleDetailComponent implements OnInit {
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
 	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: string,
-		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
+		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string) {
 
 		console.log("mode " + selectionMode)
 
@@ -191,7 +194,7 @@ export class CircleDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.circle.ID
+			dialogData.ID = this.circle.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -207,7 +210,7 @@ export class CircleDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.circle.ID
+			dialogData.ID = this.circle.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -258,7 +261,7 @@ export class CircleDetailComponent implements OnInit {
 		});
 	}
 
-	fillUpNameIfEmpty(event) {
+	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
 		if (this.circle.Name == undefined) {
 			this.circle.Name = event.value.Name
 		}
@@ -275,7 +278,7 @@ export class CircleDetailComponent implements OnInit {
 
 	isATextArea(fieldName: string): boolean {
 		if (this.mapFields_displayAsTextArea.has(fieldName)) {
-			return this.mapFields_displayAsTextArea.get(fieldName)
+			return this.mapFields_displayAsTextArea.get(fieldName)!
 		} else {
 			return false
 		}

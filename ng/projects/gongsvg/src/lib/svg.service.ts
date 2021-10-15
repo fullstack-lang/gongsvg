@@ -13,6 +13,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { SVGDB } from './svg-db';
 
+// insertion point for imports
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +37,14 @@ export class SVGService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.svgsUrl = origin + '/api/github.com/fullstack-lang/gongsvg/go/v1/svgs';
-   }
+  }
 
   /** GET svgs from the server */
   getSVGs(): Observable<SVGDB[]> {
@@ -67,7 +69,7 @@ export class SVGService {
   /** POST: add a new svg to the server */
   postSVG(svgdb: SVGDB): Observable<SVGDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     svgdb.Rects = []
     svgdb.Texts = []
     svgdb.Circles = []
@@ -77,13 +79,13 @@ export class SVGService {
     svgdb.Polygones = []
     svgdb.Paths = []
 
-		return this.http.post<SVGDB>(this.svgsUrl, svgdb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
-				this.log(`posted svgdb id=${svgdb.ID}`)
-			}),
-			catchError(this.handleError<SVGDB>('postSVG'))
-		);
+    return this.http.post<SVGDB>(this.svgsUrl, svgdb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
+        this.log(`posted svgdb id=${svgdb.ID}`)
+      }),
+      catchError(this.handleError<SVGDB>('postSVG'))
+    );
   }
 
   /** DELETE: delete the svgdb from the server */
@@ -112,7 +114,7 @@ export class SVGService {
     svgdb.Polygones = []
     svgdb.Paths = []
 
-    return this.http.put(url, svgdb, this.httpOptions).pipe(
+    return this.http.put<SVGDB>(url, svgdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated svgdb id=${svgdb.ID}`)

@@ -13,6 +13,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { LineDB } from './line-db';
 
+// insertion point for imports
+import { SVGDB } from './svg-db'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +38,14 @@ export class LineService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.linesUrl = origin + '/api/github.com/fullstack-lang/gongsvg/go/v1/lines';
-   }
+  }
 
   /** GET lines from the server */
   getLines(): Observable<LineDB[]> {
@@ -67,19 +70,19 @@ export class LineService {
   /** POST: add a new line to the server */
   postLine(linedb: LineDB): Observable<LineDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     linedb.Animates = []
     let _SVG_Lines_reverse = linedb.SVG_Lines_reverse
-    linedb.SVG_Lines_reverse = {}
+    linedb.SVG_Lines_reverse = new SVGDB
 
-		return this.http.post<LineDB>(this.linesUrl, linedb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
+    return this.http.post<LineDB>(this.linesUrl, linedb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
         linedb.SVG_Lines_reverse = _SVG_Lines_reverse
-				this.log(`posted linedb id=${linedb.ID}`)
-			}),
-			catchError(this.handleError<LineDB>('postLine'))
-		);
+        this.log(`posted linedb id=${linedb.ID}`)
+      }),
+      catchError(this.handleError<LineDB>('postLine'))
+    );
   }
 
   /** DELETE: delete the linedb from the server */
@@ -101,9 +104,9 @@ export class LineService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     linedb.Animates = []
     let _SVG_Lines_reverse = linedb.SVG_Lines_reverse
-    linedb.SVG_Lines_reverse = {}
+    linedb.SVG_Lines_reverse = new SVGDB
 
-    return this.http.put(url, linedb, this.httpOptions).pipe(
+    return this.http.put<LineDB>(url, linedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         linedb.SVG_Lines_reverse = _SVG_Lines_reverse

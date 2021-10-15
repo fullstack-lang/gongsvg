@@ -7,7 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData, FrontRepoService, FrontRepo, NullInt64, SelectionMode } from '../front-repo.service'
+import { DialogData, FrontRepoService, FrontRepo, SelectionMode } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -33,26 +34,28 @@ enum TableComponentMode {
 export class SVGsTableComponent implements OnInit {
 
   // mode at invocation
-  mode: TableComponentMode
+  mode: TableComponentMode = TableComponentMode.DISPLAY_MODE
 
   // used if the component is called as a selection component of SVG instances
-  selection: SelectionModel<SVGDB>;
-  initialSelection = new Array<SVGDB>();
+  selection: SelectionModel<SVGDB> = new (SelectionModel)
+  initialSelection = new Array<SVGDB>()
 
   // the data source for the table
-  svgs: SVGDB[];
-  matTableDataSource: MatTableDataSource<SVGDB>
+  svgs: SVGDB[] = []
+  matTableDataSource: MatTableDataSource<SVGDB> = new (MatTableDataSource)
 
   // front repo, that will be referenced by this.svgs
-  frontRepo: FrontRepo
+  frontRepo: FrontRepo = new (FrontRepo)
 
   // displayedColumns is referenced by the MatTable component for specify what columns
   // have to be displayed and in what order
   displayedColumns: string[];
 
   // for sorting & pagination
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort)
+  sort: MatSort | undefined
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator | undefined;
 
   ngAfterViewInit() {
 
@@ -61,13 +64,14 @@ export class SVGsTableComponent implements OnInit {
       switch (property) {
         // insertion point for specific sorting accessor
         case 'Display':
-          return svgDB.Display;
+          return svgDB.Display?"true":"false";
 
         case 'Name':
           return svgDB.Name;
 
         default:
-          return SVGDB[property];
+          console.assert(false, "Unknown field")
+          return "";
       }
     };
 
@@ -85,8 +89,8 @@ export class SVGsTableComponent implements OnInit {
       return isSelected
     };
 
-    this.matTableDataSource.sort = this.sort;
-    this.matTableDataSource.paginator = this.paginator;
+    this.matTableDataSource.sort = this.sort!
+    this.matTableDataSource.paginator = this.paginator!
   }
 
   applyFilter(event: Event) {
@@ -162,7 +166,7 @@ export class SVGsTableComponent implements OnInit {
           this.svgs.forEach(
             svg => {
               let ID = this.dialogData.ID
-              let revPointer = svg[this.dialogData.ReversePointer]
+              let revPointer = svg[this.dialogData.ReversePointer as keyof SVGDB] as unknown as NullInt64
               if (revPointer.Int64 == ID) {
                 this.initialSelection.push(svg)
               }
@@ -173,15 +177,15 @@ export class SVGsTableComponent implements OnInit {
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
-          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, SVGDB>
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          if (sourceInstance[this.dialogData.SourceField]) {
-            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-              let svg = associationInstance[this.dialogData.IntermediateStructField]
-              this.initialSelection.push(svg)
-            }
+          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as SVGDB[]
+          for (let associationInstance of sourceField) {
+            let svg = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as SVGDB
+            this.initialSelection.push(svg)
           }
+
           this.selection = new SelectionModel<SVGDB>(allowMultiSelect, this.initialSelection);
         }
 
@@ -257,8 +261,9 @@ export class SVGsTableComponent implements OnInit {
       // reset all initial selection of svg that belong to svg
       this.initialSelection.forEach(
         svg => {
-          svg[this.dialogData.ReversePointer].Int64 = 0
-          svg[this.dialogData.ReversePointer].Valid = true
+          let index = svg[this.dialogData.ReversePointer as keyof SVGDB] as unknown as NullInt64
+          index.Int64 = 0
+          index.Valid = true
           toUpdate.add(svg)
         }
       )
@@ -266,9 +271,9 @@ export class SVGsTableComponent implements OnInit {
       // from selection, set svg that belong to svg
       this.selection.selected.forEach(
         svg => {
-          let ID = +this.dialogData.ID
-          svg[this.dialogData.ReversePointer].Int64 = ID
-          svg[this.dialogData.ReversePointer].Valid = true
+          let ID = this.dialogData.ID as number
+          let reversePointer = svg[this.dialogData.ReversePointer  as keyof SVGDB] as unknown as NullInt64
+          reversePointer.Int64 = ID
           toUpdate.add(svg)
         }
       )
@@ -286,8 +291,9 @@ export class SVGsTableComponent implements OnInit {
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
-      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+      // get the source instance via the map of instances in the front repo
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, SVGDB>
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
       // First, parse all instance of the association struct and remove the instance
       // that have unselect
@@ -303,23 +309,21 @@ export class SVGsTableComponent implements OnInit {
       }
 
       // delete the association instance
-      if (sourceInstance[this.dialogData.SourceField]) {
-        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-          let svg = associationInstance[this.dialogData.IntermediateStructField]
-          if (unselectedSVG.has(svg.ID)) {
+      let associationInstance = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]
+      let svg = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as SVGDB
+      if (unselectedSVG.has(svg.ID)) {
+        this.frontRepoService.deleteService(this.dialogData.IntermediateStruct, associationInstance)
 
-            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
-          }
-        }
+
       }
 
-      // is the source array is emptyn create it
-      if (sourceInstance[this.dialogData.SourceField] == undefined) {
-        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      // is the source array is empty create it
+      if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] == undefined) {
+        (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] as unknown as Array<SVGDB>) = new Array<SVGDB>()
       }
 
       // second, parse all instance of the selected
-      if (sourceInstance[this.dialogData.SourceField]) {
+      if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]) {
         this.selection.selected.forEach(
           svg => {
             if (!this.initialSelection.includes(svg)) {
@@ -329,13 +333,11 @@ export class SVGsTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + svg.Name,
               }
 
-              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
-              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = svg.ID
-              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              index.Int64 = svg.ID
 
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              indexDB.Int64 = svg.ID
 
               this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
 

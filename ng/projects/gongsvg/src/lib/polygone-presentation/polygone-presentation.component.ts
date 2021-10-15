@@ -23,13 +23,13 @@ export class PolygonePresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	polygone: PolygoneDB;
+	polygone: PolygoneDB = new (PolygoneDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private polygoneService: PolygoneService,
@@ -56,12 +56,12 @@ export class PolygonePresentationComponent implements OnInit {
 	}
 
 	getPolygone(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.polygone = this.frontRepo.Polygones.get(id)
+				this.polygone = this.frontRepo.Polygones.get(id)!
 
 				// insertion point for recovery of durations
 			}

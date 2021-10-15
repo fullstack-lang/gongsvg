@@ -23,13 +23,13 @@ export class PathPresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	path: PathDB;
+	path: PathDB = new (PathDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private pathService: PathService,
@@ -56,12 +56,12 @@ export class PathPresentationComponent implements OnInit {
 	}
 
 	getPath(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.path = this.frontRepo.Paths.get(id)
+				this.path = this.frontRepo.Paths.get(id)!
 
 				// insertion point for recovery of durations
 			}

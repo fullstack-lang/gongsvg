@@ -23,13 +23,13 @@ export class CirclePresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	circle: CircleDB;
+	circle: CircleDB = new (CircleDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private circleService: CircleService,
@@ -56,12 +56,12 @@ export class CirclePresentationComponent implements OnInit {
 	}
 
 	getCircle(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.circle = this.frontRepo.Circles.get(id)
+				this.circle = this.frontRepo.Circles.get(id)!
 
 				// insertion point for recovery of durations
 			}

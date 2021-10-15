@@ -23,13 +23,13 @@ export class SVGPresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	svg: SVGDB;
+	svg: SVGDB = new (SVGDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private svgService: SVGService,
@@ -56,12 +56,12 @@ export class SVGPresentationComponent implements OnInit {
 	}
 
 	getSVG(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.svg = this.frontRepo.SVGs.get(id)
+				this.svg = this.frontRepo.SVGs.get(id)!
 
 				// insertion point for recovery of durations
 			}

@@ -13,6 +13,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { CircleDB } from './circle-db';
 
+// insertion point for imports
+import { SVGDB } from './svg-db'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +38,14 @@ export class CircleService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.circlesUrl = origin + '/api/github.com/fullstack-lang/gongsvg/go/v1/circles';
-   }
+  }
 
   /** GET circles from the server */
   getCircles(): Observable<CircleDB[]> {
@@ -67,19 +70,19 @@ export class CircleService {
   /** POST: add a new circle to the server */
   postCircle(circledb: CircleDB): Observable<CircleDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     circledb.Animations = []
     let _SVG_Circles_reverse = circledb.SVG_Circles_reverse
-    circledb.SVG_Circles_reverse = {}
+    circledb.SVG_Circles_reverse = new SVGDB
 
-		return this.http.post<CircleDB>(this.circlesUrl, circledb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
+    return this.http.post<CircleDB>(this.circlesUrl, circledb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
         circledb.SVG_Circles_reverse = _SVG_Circles_reverse
-				this.log(`posted circledb id=${circledb.ID}`)
-			}),
-			catchError(this.handleError<CircleDB>('postCircle'))
-		);
+        this.log(`posted circledb id=${circledb.ID}`)
+      }),
+      catchError(this.handleError<CircleDB>('postCircle'))
+    );
   }
 
   /** DELETE: delete the circledb from the server */
@@ -101,9 +104,9 @@ export class CircleService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     circledb.Animations = []
     let _SVG_Circles_reverse = circledb.SVG_Circles_reverse
-    circledb.SVG_Circles_reverse = {}
+    circledb.SVG_Circles_reverse = new SVGDB
 
-    return this.http.put(url, circledb, this.httpOptions).pipe(
+    return this.http.put<CircleDB>(url, circledb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         circledb.SVG_Circles_reverse = _SVG_Circles_reverse

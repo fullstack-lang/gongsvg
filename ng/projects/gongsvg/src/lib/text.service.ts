@@ -13,6 +13,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { TextDB } from './text-db';
 
+// insertion point for imports
+import { SVGDB } from './svg-db'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +38,14 @@ export class TextService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.textsUrl = origin + '/api/github.com/fullstack-lang/gongsvg/go/v1/texts';
-   }
+  }
 
   /** GET texts from the server */
   getTexts(): Observable<TextDB[]> {
@@ -67,19 +70,19 @@ export class TextService {
   /** POST: add a new text to the server */
   postText(textdb: TextDB): Observable<TextDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     textdb.Animates = []
     let _SVG_Texts_reverse = textdb.SVG_Texts_reverse
-    textdb.SVG_Texts_reverse = {}
+    textdb.SVG_Texts_reverse = new SVGDB
 
-		return this.http.post<TextDB>(this.textsUrl, textdb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
+    return this.http.post<TextDB>(this.textsUrl, textdb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
         textdb.SVG_Texts_reverse = _SVG_Texts_reverse
-				this.log(`posted textdb id=${textdb.ID}`)
-			}),
-			catchError(this.handleError<TextDB>('postText'))
-		);
+        this.log(`posted textdb id=${textdb.ID}`)
+      }),
+      catchError(this.handleError<TextDB>('postText'))
+    );
   }
 
   /** DELETE: delete the textdb from the server */
@@ -101,9 +104,9 @@ export class TextService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     textdb.Animates = []
     let _SVG_Texts_reverse = textdb.SVG_Texts_reverse
-    textdb.SVG_Texts_reverse = {}
+    textdb.SVG_Texts_reverse = new SVGDB
 
-    return this.http.put(url, textdb, this.httpOptions).pipe(
+    return this.http.put<TextDB>(url, textdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         textdb.SVG_Texts_reverse = _SVG_Texts_reverse

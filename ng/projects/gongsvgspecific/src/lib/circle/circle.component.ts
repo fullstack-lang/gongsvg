@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import * as gongsvg from 'gongsvg'
+import { CircleDB } from 'gongsvg';
 @Component({
   selector: 'lib-circle',
   templateUrl: './circle.component.svg',

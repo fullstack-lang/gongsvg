@@ -8,7 +8,7 @@ import * as gongsvg from 'gongsvg'
 })
 export class EllipseComponent implements OnInit {
 
-  @Input() Ellipse: gongsvg.EllipseDB
+  @Input() Ellipse?: gongsvg.EllipseDB
 
   constructor() { }
 

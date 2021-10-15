@@ -13,6 +13,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { EllipseDB } from './ellipse-db';
 
+// insertion point for imports
+import { SVGDB } from './svg-db'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +38,14 @@ export class EllipseService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.ellipsesUrl = origin + '/api/github.com/fullstack-lang/gongsvg/go/v1/ellipses';
-   }
+  }
 
   /** GET ellipses from the server */
   getEllipses(): Observable<EllipseDB[]> {
@@ -67,19 +70,19 @@ export class EllipseService {
   /** POST: add a new ellipse to the server */
   postEllipse(ellipsedb: EllipseDB): Observable<EllipseDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     ellipsedb.Animates = []
     let _SVG_Ellipses_reverse = ellipsedb.SVG_Ellipses_reverse
-    ellipsedb.SVG_Ellipses_reverse = {}
+    ellipsedb.SVG_Ellipses_reverse = new SVGDB
 
-		return this.http.post<EllipseDB>(this.ellipsesUrl, ellipsedb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
+    return this.http.post<EllipseDB>(this.ellipsesUrl, ellipsedb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
         ellipsedb.SVG_Ellipses_reverse = _SVG_Ellipses_reverse
-				this.log(`posted ellipsedb id=${ellipsedb.ID}`)
-			}),
-			catchError(this.handleError<EllipseDB>('postEllipse'))
-		);
+        this.log(`posted ellipsedb id=${ellipsedb.ID}`)
+      }),
+      catchError(this.handleError<EllipseDB>('postEllipse'))
+    );
   }
 
   /** DELETE: delete the ellipsedb from the server */
@@ -101,9 +104,9 @@ export class EllipseService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     ellipsedb.Animates = []
     let _SVG_Ellipses_reverse = ellipsedb.SVG_Ellipses_reverse
-    ellipsedb.SVG_Ellipses_reverse = {}
+    ellipsedb.SVG_Ellipses_reverse = new SVGDB
 
-    return this.http.put(url, ellipsedb, this.httpOptions).pipe(
+    return this.http.put<EllipseDB>(url, ellipsedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         ellipsedb.SVG_Ellipses_reverse = _SVG_Ellipses_reverse

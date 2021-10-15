@@ -23,13 +23,13 @@ export class TextPresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	text: TextDB;
+	text: TextDB = new (TextDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private textService: TextService,
@@ -56,12 +56,12 @@ export class TextPresentationComponent implements OnInit {
 	}
 
 	getText(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.text = this.frontRepo.Texts.get(id)
+				this.text = this.frontRepo.Texts.get(id)!
 
 				// insertion point for recovery of durations
 			}

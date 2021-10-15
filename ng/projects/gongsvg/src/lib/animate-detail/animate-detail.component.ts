@@ -10,12 +10,20 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
+import { CircleDB } from '../circle-db'
+import { EllipseDB } from '../ellipse-db'
+import { LineDB } from '../line-db'
+import { PathDB } from '../path-db'
+import { PolygoneDB } from '../polygone-db'
+import { PolylineDB } from '../polyline-db'
+import { RectDB } from '../rect-db'
+import { TextDB } from '../text-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 
-import { NullInt64 } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
 
 // AnimateDetailComponent is initilizaed from different routes
 // AnimateDetailComponentState detail different cases 
@@ -43,10 +51,10 @@ export class AnimateDetailComponent implements OnInit {
 	// insertion point for declarations
 
 	// the AnimateDB of interest
-	animate: AnimateDB;
+	animate: AnimateDB = new AnimateDB
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new FrontRepo
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
@@ -54,15 +62,15 @@ export class AnimateDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: AnimateDetailComponentState
+	state: AnimateDetailComponentState = AnimateDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
-	id: number
+	id: number = 0
 
 	// in CREATE state with one association set, this is the id of the associated instance
-	originStruct: string
-	originStructFieldName: string
+	originStruct: string = ""
+	originStructFieldName: string = ""
 
 	constructor(
 		private animateService: AnimateService,
@@ -76,9 +84,9 @@ export class AnimateDetailComponent implements OnInit {
 	ngOnInit(): void {
 
 		// compute state
-		this.id = +this.route.snapshot.paramMap.get('id');
-		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
-		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+		this.id = +this.route.snapshot.paramMap.get('id')!;
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct')!;
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName')!;
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
@@ -90,35 +98,35 @@ export class AnimateDetailComponent implements OnInit {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
 					case "Animations":
-						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Circle association Animations")
+						// console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Circle association Animations")
 						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Circle_Animations_SET
 						break;
 					case "Animates":
-						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Ellipse association Animates")
+						// console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Ellipse association Animates")
 						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Ellipse_Animates_SET
 						break;
 					case "Animates":
-						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Line association Animates")
+						// console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Line association Animates")
 						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Line_Animates_SET
 						break;
 					case "Animates":
-						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Path association Animates")
+						// console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Path association Animates")
 						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Path_Animates_SET
 						break;
 					case "Animates":
-						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Polygone association Animates")
+						// console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Polygone association Animates")
 						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Polygone_Animates_SET
 						break;
 					case "Animates":
-						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Polyline association Animates")
+						// console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Polyline association Animates")
 						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Polyline_Animates_SET
 						break;
 					case "Animations":
-						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Rect association Animations")
+						// console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Rect association Animations")
 						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Rect_Animations_SET
 						break;
 					case "Animates":
-						console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Text association Animates")
+						// console.log("Animate" + " is instanciated with back pointer to instance " + this.id + " Text association Animates")
 						this.state = AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Text_Animates_SET
 						break;
 					default:
@@ -152,40 +160,42 @@ export class AnimateDetailComponent implements OnInit {
 						this.animate = new (AnimateDB)
 						break;
 					case AnimateDetailComponentState.UPDATE_INSTANCE:
-						this.animate = frontRepo.Animates.get(this.id)
+						let animate = frontRepo.Animates.get(this.id)
+						console.assert(animate != undefined, "missing animate with id:" + this.id)
+						this.animate = animate!
 						break;
 					// insertion point for init of association field
 					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Circle_Animations_SET:
 						this.animate = new (AnimateDB)
-						this.animate.Circle_Animations_reverse = frontRepo.Circles.get(this.id)
+						this.animate.Circle_Animations_reverse = frontRepo.Circles.get(this.id)!
 						break;
 					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Ellipse_Animates_SET:
 						this.animate = new (AnimateDB)
-						this.animate.Ellipse_Animates_reverse = frontRepo.Ellipses.get(this.id)
+						this.animate.Ellipse_Animates_reverse = frontRepo.Ellipses.get(this.id)!
 						break;
 					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Line_Animates_SET:
 						this.animate = new (AnimateDB)
-						this.animate.Line_Animates_reverse = frontRepo.Lines.get(this.id)
+						this.animate.Line_Animates_reverse = frontRepo.Lines.get(this.id)!
 						break;
 					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Path_Animates_SET:
 						this.animate = new (AnimateDB)
-						this.animate.Path_Animates_reverse = frontRepo.Paths.get(this.id)
+						this.animate.Path_Animates_reverse = frontRepo.Paths.get(this.id)!
 						break;
 					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Polygone_Animates_SET:
 						this.animate = new (AnimateDB)
-						this.animate.Polygone_Animates_reverse = frontRepo.Polygones.get(this.id)
+						this.animate.Polygone_Animates_reverse = frontRepo.Polygones.get(this.id)!
 						break;
 					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Polyline_Animates_SET:
 						this.animate = new (AnimateDB)
-						this.animate.Polyline_Animates_reverse = frontRepo.Polylines.get(this.id)
+						this.animate.Polyline_Animates_reverse = frontRepo.Polylines.get(this.id)!
 						break;
 					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Rect_Animations_SET:
 						this.animate = new (AnimateDB)
-						this.animate.Rect_Animations_reverse = frontRepo.Rects.get(this.id)
+						this.animate.Rect_Animations_reverse = frontRepo.Rects.get(this.id)!
 						break;
 					case AnimateDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Text_Animates_SET:
 						this.animate = new (AnimateDB)
-						this.animate.Text_Animates_reverse = frontRepo.Texts.get(this.id)
+						this.animate.Text_Animates_reverse = frontRepo.Texts.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -218,7 +228,7 @@ export class AnimateDetailComponent implements OnInit {
 				this.animate.Circle_AnimationsDBID_Index = new NullInt64
 			}
 			this.animate.Circle_AnimationsDBID_Index.Valid = true
-			this.animate.Circle_Animations_reverse = undefined // very important, otherwise, circular JSON
+			this.animate.Circle_Animations_reverse = new CircleDB // very important, otherwise, circular JSON
 		}
 		if (this.animate.Ellipse_Animates_reverse != undefined) {
 			if (this.animate.Ellipse_AnimatesDBID == undefined) {
@@ -230,7 +240,7 @@ export class AnimateDetailComponent implements OnInit {
 				this.animate.Ellipse_AnimatesDBID_Index = new NullInt64
 			}
 			this.animate.Ellipse_AnimatesDBID_Index.Valid = true
-			this.animate.Ellipse_Animates_reverse = undefined // very important, otherwise, circular JSON
+			this.animate.Ellipse_Animates_reverse = new EllipseDB // very important, otherwise, circular JSON
 		}
 		if (this.animate.Line_Animates_reverse != undefined) {
 			if (this.animate.Line_AnimatesDBID == undefined) {
@@ -242,7 +252,7 @@ export class AnimateDetailComponent implements OnInit {
 				this.animate.Line_AnimatesDBID_Index = new NullInt64
 			}
 			this.animate.Line_AnimatesDBID_Index.Valid = true
-			this.animate.Line_Animates_reverse = undefined // very important, otherwise, circular JSON
+			this.animate.Line_Animates_reverse = new LineDB // very important, otherwise, circular JSON
 		}
 		if (this.animate.Path_Animates_reverse != undefined) {
 			if (this.animate.Path_AnimatesDBID == undefined) {
@@ -254,7 +264,7 @@ export class AnimateDetailComponent implements OnInit {
 				this.animate.Path_AnimatesDBID_Index = new NullInt64
 			}
 			this.animate.Path_AnimatesDBID_Index.Valid = true
-			this.animate.Path_Animates_reverse = undefined // very important, otherwise, circular JSON
+			this.animate.Path_Animates_reverse = new PathDB // very important, otherwise, circular JSON
 		}
 		if (this.animate.Polygone_Animates_reverse != undefined) {
 			if (this.animate.Polygone_AnimatesDBID == undefined) {
@@ -266,7 +276,7 @@ export class AnimateDetailComponent implements OnInit {
 				this.animate.Polygone_AnimatesDBID_Index = new NullInt64
 			}
 			this.animate.Polygone_AnimatesDBID_Index.Valid = true
-			this.animate.Polygone_Animates_reverse = undefined // very important, otherwise, circular JSON
+			this.animate.Polygone_Animates_reverse = new PolygoneDB // very important, otherwise, circular JSON
 		}
 		if (this.animate.Polyline_Animates_reverse != undefined) {
 			if (this.animate.Polyline_AnimatesDBID == undefined) {
@@ -278,7 +288,7 @@ export class AnimateDetailComponent implements OnInit {
 				this.animate.Polyline_AnimatesDBID_Index = new NullInt64
 			}
 			this.animate.Polyline_AnimatesDBID_Index.Valid = true
-			this.animate.Polyline_Animates_reverse = undefined // very important, otherwise, circular JSON
+			this.animate.Polyline_Animates_reverse = new PolylineDB // very important, otherwise, circular JSON
 		}
 		if (this.animate.Rect_Animations_reverse != undefined) {
 			if (this.animate.Rect_AnimationsDBID == undefined) {
@@ -290,7 +300,7 @@ export class AnimateDetailComponent implements OnInit {
 				this.animate.Rect_AnimationsDBID_Index = new NullInt64
 			}
 			this.animate.Rect_AnimationsDBID_Index.Valid = true
-			this.animate.Rect_Animations_reverse = undefined // very important, otherwise, circular JSON
+			this.animate.Rect_Animations_reverse = new RectDB // very important, otherwise, circular JSON
 		}
 		if (this.animate.Text_Animates_reverse != undefined) {
 			if (this.animate.Text_AnimatesDBID == undefined) {
@@ -302,7 +312,7 @@ export class AnimateDetailComponent implements OnInit {
 				this.animate.Text_AnimatesDBID_Index = new NullInt64
 			}
 			this.animate.Text_AnimatesDBID_Index.Valid = true
-			this.animate.Text_Animates_reverse = undefined // very important, otherwise, circular JSON
+			this.animate.Text_Animates_reverse = new TextDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {
@@ -315,7 +325,7 @@ export class AnimateDetailComponent implements OnInit {
 			default:
 				this.animateService.postAnimate(this.animate).subscribe(animate => {
 					this.animateService.AnimateServiceChanged.next("post")
-					this.animate = {} // reset fields
+					this.animate = new (AnimateDB) // reset fields
 				});
 		}
 	}
@@ -324,7 +334,7 @@ export class AnimateDetailComponent implements OnInit {
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
 	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: string,
-		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
+		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string) {
 
 		console.log("mode " + selectionMode)
 
@@ -338,7 +348,7 @@ export class AnimateDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.animate.ID
+			dialogData.ID = this.animate.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -354,7 +364,7 @@ export class AnimateDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.animate.ID
+			dialogData.ID = this.animate.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -405,7 +415,7 @@ export class AnimateDetailComponent implements OnInit {
 		});
 	}
 
-	fillUpNameIfEmpty(event) {
+	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
 		if (this.animate.Name == undefined) {
 			this.animate.Name = event.value.Name
 		}
@@ -422,7 +432,7 @@ export class AnimateDetailComponent implements OnInit {
 
 	isATextArea(fieldName: string): boolean {
 		if (this.mapFields_displayAsTextArea.has(fieldName)) {
-			return this.mapFields_displayAsTextArea.get(fieldName)
+			return this.mapFields_displayAsTextArea.get(fieldName)!
 		} else {
 			return false
 		}

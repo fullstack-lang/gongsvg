@@ -13,6 +13,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { PresentationDB } from './presentation-db';
 
+// insertion point for imports
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +37,14 @@ export class PresentationService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.presentationsUrl = origin + '/api/github.com/fullstack-lang/gongsvg/go/v1/presentations';
-   }
+  }
 
   /** GET presentations from the server */
   getPresentations(): Observable<PresentationDB[]> {
@@ -67,15 +69,15 @@ export class PresentationService {
   /** POST: add a new presentation to the server */
   postPresentation(presentationdb: PresentationDB): Observable<PresentationDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-		return this.http.post<PresentationDB>(this.presentationsUrl, presentationdb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
-				this.log(`posted presentationdb id=${presentationdb.ID}`)
-			}),
-			catchError(this.handleError<PresentationDB>('postPresentation'))
-		);
+    return this.http.post<PresentationDB>(this.presentationsUrl, presentationdb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
+        this.log(`posted presentationdb id=${presentationdb.ID}`)
+      }),
+      catchError(this.handleError<PresentationDB>('postPresentation'))
+    );
   }
 
   /** DELETE: delete the presentationdb from the server */
@@ -96,7 +98,7 @@ export class PresentationService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.put(url, presentationdb, this.httpOptions).pipe(
+    return this.http.put<PresentationDB>(url, presentationdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated presentationdb id=${presentationdb.ID}`)

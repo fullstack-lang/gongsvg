@@ -10,11 +10,11 @@ import * as gongsvg from 'gongsvg'
 })
 export class SvgComponent implements OnInit {
 
-  SVG: string
+  SVG: string = ""
 
-  rect: number
+  rect: number = 0
 
-  public gongsvgFrontRepo: gongsvg.FrontRepo
+  public gongsvgFrontRepo?: gongsvg.FrontRepo
 
   public Rects = new Array<gongsvg.RectDB>()
   public Texts = new Array<gongsvg.TextDB>()
@@ -34,9 +34,9 @@ export class SvgComponent implements OnInit {
   checkCommitNbTimer: Observable<number> = timer(500, 500);
   lastCommitNb = -1
   lastPushFromFrontNb = -1
-  currTime: number
+  currTime: number = 0
 
-  svgSingloton : gongsvg.SVGDB
+  svgSingloton?: gongsvg.SVGDB
 
   constructor(
     private gongsvgFrontRepoService: gongsvg.FrontRepoService,

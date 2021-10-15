@@ -23,13 +23,13 @@ export class RectPresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	rect: RectDB;
+	rect: RectDB = new (RectDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private rectService: RectService,
@@ -56,12 +56,12 @@ export class RectPresentationComponent implements OnInit {
 	}
 
 	getRect(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.rect = this.frontRepo.Rects.get(id)
+				this.rect = this.frontRepo.Rects.get(id)!
 
 				// insertion point for recovery of durations
 			}

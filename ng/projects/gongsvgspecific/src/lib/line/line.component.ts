@@ -8,7 +8,7 @@ import * as gongsvg from 'gongsvg'
 })
 export class LineComponent implements OnInit {
 
-  @Input() Line: gongsvg.LineDB
+  @Input() Line?: gongsvg.LineDB
 
   constructor() { }
 

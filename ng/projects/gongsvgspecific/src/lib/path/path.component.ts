@@ -8,7 +8,7 @@ import * as gongsvg from 'gongsvg'
 })
 export class PathComponent implements OnInit {
 
-  @Input() Path: gongsvg.PathDB
+  @Input() Path?: gongsvg.PathDB
 
   constructor() { }
 

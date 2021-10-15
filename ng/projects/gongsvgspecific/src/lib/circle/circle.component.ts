@@ -8,7 +8,7 @@ import * as gongsvg from 'gongsvg'
 })
 export class CircleComponent implements OnInit {
 
-  @Input() Circle: gongsvg.CircleDB
+  @Input() Circle?: gongsvg.CircleDB
 
   constructor() { }
 

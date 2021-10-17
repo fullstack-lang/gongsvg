@@ -227,16 +227,14 @@ export class EllipsesTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.ellipses.forEach(
-            ellipse => {
-              let ID = this.dialogData.ID
-              let revPointer = ellipse[this.dialogData.ReversePointer as keyof EllipseDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(ellipse)
-              }
+          for (let ellipse of this.ellipses) {
+            let ID = this.dialogData.ID
+            let revPointer = ellipse[this.dialogData.ReversePointer as keyof EllipseDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(ellipse)
             }
-          )
-          this.selection = new SelectionModel<EllipseDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<EllipseDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -323,34 +321,31 @@ export class EllipsesTableComponent implements OnInit {
       let toUpdate = new Set<EllipseDB>()
 
       // reset all initial selection of ellipse that belong to ellipse
-      this.initialSelection.forEach(
-        ellipse => {
-          let index = ellipse[this.dialogData.ReversePointer as keyof EllipseDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(ellipse)
-        }
-      )
+      for (let ellipse of this.initialSelection) {
+        let index = ellipse[this.dialogData.ReversePointer as keyof EllipseDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(ellipse)
+
+      }
 
       // from selection, set ellipse that belong to ellipse
-      this.selection.selected.forEach(
-        ellipse => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = ellipse[this.dialogData.ReversePointer  as keyof EllipseDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(ellipse)
-        }
-      )
+      for (let ellipse of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = ellipse[this.dialogData.ReversePointer as keyof EllipseDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(ellipse)
+      }
+
 
       // update all ellipse (only update selection & initial selection)
-      toUpdate.forEach(
-        ellipse => {
-          this.ellipseService.updateEllipse(ellipse)
-            .subscribe(ellipse => {
-              this.ellipseService.EllipseServiceChanged.next("update")
-            });
-        }
-      )
+      for (let ellipse of toUpdate) {
+        this.ellipseService.updateEllipse(ellipse)
+          .subscribe(ellipse => {
+            this.ellipseService.EllipseServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -397,13 +392,15 @@ export class EllipsesTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + ellipse.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = ellipse.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = ellipse.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("ellipse " + ellipse.Name + " is still selected")

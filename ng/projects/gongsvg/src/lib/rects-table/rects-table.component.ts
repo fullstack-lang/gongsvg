@@ -233,16 +233,14 @@ export class RectsTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.rects.forEach(
-            rect => {
-              let ID = this.dialogData.ID
-              let revPointer = rect[this.dialogData.ReversePointer as keyof RectDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(rect)
-              }
+          for (let rect of this.rects) {
+            let ID = this.dialogData.ID
+            let revPointer = rect[this.dialogData.ReversePointer as keyof RectDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(rect)
             }
-          )
-          this.selection = new SelectionModel<RectDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<RectDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -329,34 +327,31 @@ export class RectsTableComponent implements OnInit {
       let toUpdate = new Set<RectDB>()
 
       // reset all initial selection of rect that belong to rect
-      this.initialSelection.forEach(
-        rect => {
-          let index = rect[this.dialogData.ReversePointer as keyof RectDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(rect)
-        }
-      )
+      for (let rect of this.initialSelection) {
+        let index = rect[this.dialogData.ReversePointer as keyof RectDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(rect)
+
+      }
 
       // from selection, set rect that belong to rect
-      this.selection.selected.forEach(
-        rect => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = rect[this.dialogData.ReversePointer  as keyof RectDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(rect)
-        }
-      )
+      for (let rect of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = rect[this.dialogData.ReversePointer as keyof RectDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(rect)
+      }
+
 
       // update all rect (only update selection & initial selection)
-      toUpdate.forEach(
-        rect => {
-          this.rectService.updateRect(rect)
-            .subscribe(rect => {
-              this.rectService.RectServiceChanged.next("update")
-            });
-        }
-      )
+      for (let rect of toUpdate) {
+        this.rectService.updateRect(rect)
+          .subscribe(rect => {
+            this.rectService.RectServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -403,13 +398,15 @@ export class RectsTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + rect.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = rect.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = rect.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("rect " + rect.Name + " is still selected")

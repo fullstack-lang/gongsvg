@@ -254,16 +254,14 @@ export class AnimatesTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.animates.forEach(
-            animate => {
-              let ID = this.dialogData.ID
-              let revPointer = animate[this.dialogData.ReversePointer as keyof AnimateDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(animate)
-              }
+          for (let animate of this.animates) {
+            let ID = this.dialogData.ID
+            let revPointer = animate[this.dialogData.ReversePointer as keyof AnimateDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(animate)
             }
-          )
-          this.selection = new SelectionModel<AnimateDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<AnimateDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -350,34 +348,31 @@ export class AnimatesTableComponent implements OnInit {
       let toUpdate = new Set<AnimateDB>()
 
       // reset all initial selection of animate that belong to animate
-      this.initialSelection.forEach(
-        animate => {
-          let index = animate[this.dialogData.ReversePointer as keyof AnimateDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(animate)
-        }
-      )
+      for (let animate of this.initialSelection) {
+        let index = animate[this.dialogData.ReversePointer as keyof AnimateDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(animate)
+
+      }
 
       // from selection, set animate that belong to animate
-      this.selection.selected.forEach(
-        animate => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = animate[this.dialogData.ReversePointer  as keyof AnimateDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(animate)
-        }
-      )
+      for (let animate of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = animate[this.dialogData.ReversePointer as keyof AnimateDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(animate)
+      }
+
 
       // update all animate (only update selection & initial selection)
-      toUpdate.forEach(
-        animate => {
-          this.animateService.updateAnimate(animate)
-            .subscribe(animate => {
-              this.animateService.AnimateServiceChanged.next("update")
-            });
-        }
-      )
+      for (let animate of toUpdate) {
+        this.animateService.updateAnimate(animate)
+          .subscribe(animate => {
+            this.animateService.AnimateServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -424,13 +419,15 @@ export class AnimatesTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + animate.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = animate.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = animate.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("animate " + animate.Name + " is still selected")

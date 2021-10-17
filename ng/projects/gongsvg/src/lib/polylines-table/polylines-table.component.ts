@@ -209,16 +209,14 @@ export class PolylinesTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.polylines.forEach(
-            polyline => {
-              let ID = this.dialogData.ID
-              let revPointer = polyline[this.dialogData.ReversePointer as keyof PolylineDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(polyline)
-              }
+          for (let polyline of this.polylines) {
+            let ID = this.dialogData.ID
+            let revPointer = polyline[this.dialogData.ReversePointer as keyof PolylineDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(polyline)
             }
-          )
-          this.selection = new SelectionModel<PolylineDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<PolylineDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -305,34 +303,31 @@ export class PolylinesTableComponent implements OnInit {
       let toUpdate = new Set<PolylineDB>()
 
       // reset all initial selection of polyline that belong to polyline
-      this.initialSelection.forEach(
-        polyline => {
-          let index = polyline[this.dialogData.ReversePointer as keyof PolylineDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(polyline)
-        }
-      )
+      for (let polyline of this.initialSelection) {
+        let index = polyline[this.dialogData.ReversePointer as keyof PolylineDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(polyline)
+
+      }
 
       // from selection, set polyline that belong to polyline
-      this.selection.selected.forEach(
-        polyline => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = polyline[this.dialogData.ReversePointer  as keyof PolylineDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(polyline)
-        }
-      )
+      for (let polyline of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = polyline[this.dialogData.ReversePointer as keyof PolylineDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(polyline)
+      }
+
 
       // update all polyline (only update selection & initial selection)
-      toUpdate.forEach(
-        polyline => {
-          this.polylineService.updatePolyline(polyline)
-            .subscribe(polyline => {
-              this.polylineService.PolylineServiceChanged.next("update")
-            });
-        }
-      )
+      for (let polyline of toUpdate) {
+        this.polylineService.updatePolyline(polyline)
+          .subscribe(polyline => {
+            this.polylineService.PolylineServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -379,13 +374,15 @@ export class PolylinesTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + polyline.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = polyline.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = polyline.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("polyline " + polyline.Name + " is still selected")

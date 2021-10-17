@@ -209,16 +209,14 @@ export class PolygonesTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.polygones.forEach(
-            polygone => {
-              let ID = this.dialogData.ID
-              let revPointer = polygone[this.dialogData.ReversePointer as keyof PolygoneDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(polygone)
-              }
+          for (let polygone of this.polygones) {
+            let ID = this.dialogData.ID
+            let revPointer = polygone[this.dialogData.ReversePointer as keyof PolygoneDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(polygone)
             }
-          )
-          this.selection = new SelectionModel<PolygoneDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<PolygoneDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -305,34 +303,31 @@ export class PolygonesTableComponent implements OnInit {
       let toUpdate = new Set<PolygoneDB>()
 
       // reset all initial selection of polygone that belong to polygone
-      this.initialSelection.forEach(
-        polygone => {
-          let index = polygone[this.dialogData.ReversePointer as keyof PolygoneDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(polygone)
-        }
-      )
+      for (let polygone of this.initialSelection) {
+        let index = polygone[this.dialogData.ReversePointer as keyof PolygoneDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(polygone)
+
+      }
 
       // from selection, set polygone that belong to polygone
-      this.selection.selected.forEach(
-        polygone => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = polygone[this.dialogData.ReversePointer  as keyof PolygoneDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(polygone)
-        }
-      )
+      for (let polygone of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = polygone[this.dialogData.ReversePointer as keyof PolygoneDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(polygone)
+      }
+
 
       // update all polygone (only update selection & initial selection)
-      toUpdate.forEach(
-        polygone => {
-          this.polygoneService.updatePolygone(polygone)
-            .subscribe(polygone => {
-              this.polygoneService.PolygoneServiceChanged.next("update")
-            });
-        }
-      )
+      for (let polygone of toUpdate) {
+        this.polygoneService.updatePolygone(polygone)
+          .subscribe(polygone => {
+            this.polygoneService.PolygoneServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -379,13 +374,15 @@ export class PolygonesTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + polygone.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = polygone.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = polygone.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("polygone " + polygone.Name + " is still selected")

@@ -221,16 +221,14 @@ export class CirclesTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.circles.forEach(
-            circle => {
-              let ID = this.dialogData.ID
-              let revPointer = circle[this.dialogData.ReversePointer as keyof CircleDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(circle)
-              }
+          for (let circle of this.circles) {
+            let ID = this.dialogData.ID
+            let revPointer = circle[this.dialogData.ReversePointer as keyof CircleDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(circle)
             }
-          )
-          this.selection = new SelectionModel<CircleDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<CircleDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -317,34 +315,31 @@ export class CirclesTableComponent implements OnInit {
       let toUpdate = new Set<CircleDB>()
 
       // reset all initial selection of circle that belong to circle
-      this.initialSelection.forEach(
-        circle => {
-          let index = circle[this.dialogData.ReversePointer as keyof CircleDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(circle)
-        }
-      )
+      for (let circle of this.initialSelection) {
+        let index = circle[this.dialogData.ReversePointer as keyof CircleDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(circle)
+
+      }
 
       // from selection, set circle that belong to circle
-      this.selection.selected.forEach(
-        circle => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = circle[this.dialogData.ReversePointer  as keyof CircleDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(circle)
-        }
-      )
+      for (let circle of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = circle[this.dialogData.ReversePointer as keyof CircleDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(circle)
+      }
+
 
       // update all circle (only update selection & initial selection)
-      toUpdate.forEach(
-        circle => {
-          this.circleService.updateCircle(circle)
-            .subscribe(circle => {
-              this.circleService.CircleServiceChanged.next("update")
-            });
-        }
-      )
+      for (let circle of toUpdate) {
+        this.circleService.updateCircle(circle)
+          .subscribe(circle => {
+            this.circleService.CircleServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -391,13 +386,15 @@ export class CirclesTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + circle.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = circle.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = circle.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("circle " + circle.Name + " is still selected")

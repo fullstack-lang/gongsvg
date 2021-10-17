@@ -221,16 +221,14 @@ export class TextsTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.texts.forEach(
-            text => {
-              let ID = this.dialogData.ID
-              let revPointer = text[this.dialogData.ReversePointer as keyof TextDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(text)
-              }
+          for (let text of this.texts) {
+            let ID = this.dialogData.ID
+            let revPointer = text[this.dialogData.ReversePointer as keyof TextDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(text)
             }
-          )
-          this.selection = new SelectionModel<TextDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<TextDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -317,34 +315,31 @@ export class TextsTableComponent implements OnInit {
       let toUpdate = new Set<TextDB>()
 
       // reset all initial selection of text that belong to text
-      this.initialSelection.forEach(
-        text => {
-          let index = text[this.dialogData.ReversePointer as keyof TextDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(text)
-        }
-      )
+      for (let text of this.initialSelection) {
+        let index = text[this.dialogData.ReversePointer as keyof TextDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(text)
+
+      }
 
       // from selection, set text that belong to text
-      this.selection.selected.forEach(
-        text => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = text[this.dialogData.ReversePointer  as keyof TextDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(text)
-        }
-      )
+      for (let text of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = text[this.dialogData.ReversePointer as keyof TextDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(text)
+      }
+
 
       // update all text (only update selection & initial selection)
-      toUpdate.forEach(
-        text => {
-          this.textService.updateText(text)
-            .subscribe(text => {
-              this.textService.TextServiceChanged.next("update")
-            });
-        }
-      )
+      for (let text of toUpdate) {
+        this.textService.updateText(text)
+          .subscribe(text => {
+            this.textService.TextServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -391,13 +386,15 @@ export class TextsTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + text.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = text.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = text.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("text " + text.Name + " is still selected")

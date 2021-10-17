@@ -163,16 +163,14 @@ export class SVGsTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.svgs.forEach(
-            svg => {
-              let ID = this.dialogData.ID
-              let revPointer = svg[this.dialogData.ReversePointer as keyof SVGDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(svg)
-              }
+          for (let svg of this.svgs) {
+            let ID = this.dialogData.ID
+            let revPointer = svg[this.dialogData.ReversePointer as keyof SVGDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(svg)
             }
-          )
-          this.selection = new SelectionModel<SVGDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<SVGDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -259,34 +257,31 @@ export class SVGsTableComponent implements OnInit {
       let toUpdate = new Set<SVGDB>()
 
       // reset all initial selection of svg that belong to svg
-      this.initialSelection.forEach(
-        svg => {
-          let index = svg[this.dialogData.ReversePointer as keyof SVGDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(svg)
-        }
-      )
+      for (let svg of this.initialSelection) {
+        let index = svg[this.dialogData.ReversePointer as keyof SVGDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(svg)
+
+      }
 
       // from selection, set svg that belong to svg
-      this.selection.selected.forEach(
-        svg => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = svg[this.dialogData.ReversePointer  as keyof SVGDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(svg)
-        }
-      )
+      for (let svg of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = svg[this.dialogData.ReversePointer as keyof SVGDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(svg)
+      }
+
 
       // update all svg (only update selection & initial selection)
-      toUpdate.forEach(
-        svg => {
-          this.svgService.updateSVG(svg)
-            .subscribe(svg => {
-              this.svgService.SVGServiceChanged.next("update")
-            });
-        }
-      )
+      for (let svg of toUpdate) {
+        this.svgService.updateSVG(svg)
+          .subscribe(svg => {
+            this.svgService.SVGServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -333,13 +328,15 @@ export class SVGsTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + svg.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = svg.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = svg.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("svg " + svg.Name + " is still selected")

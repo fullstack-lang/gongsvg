@@ -209,16 +209,14 @@ export class PathsTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.paths.forEach(
-            path => {
-              let ID = this.dialogData.ID
-              let revPointer = path[this.dialogData.ReversePointer as keyof PathDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(path)
-              }
+          for (let path of this.paths) {
+            let ID = this.dialogData.ID
+            let revPointer = path[this.dialogData.ReversePointer as keyof PathDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(path)
             }
-          )
-          this.selection = new SelectionModel<PathDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<PathDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -305,34 +303,31 @@ export class PathsTableComponent implements OnInit {
       let toUpdate = new Set<PathDB>()
 
       // reset all initial selection of path that belong to path
-      this.initialSelection.forEach(
-        path => {
-          let index = path[this.dialogData.ReversePointer as keyof PathDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(path)
-        }
-      )
+      for (let path of this.initialSelection) {
+        let index = path[this.dialogData.ReversePointer as keyof PathDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(path)
+
+      }
 
       // from selection, set path that belong to path
-      this.selection.selected.forEach(
-        path => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = path[this.dialogData.ReversePointer  as keyof PathDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(path)
-        }
-      )
+      for (let path of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = path[this.dialogData.ReversePointer as keyof PathDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(path)
+      }
+
 
       // update all path (only update selection & initial selection)
-      toUpdate.forEach(
-        path => {
-          this.pathService.updatePath(path)
-            .subscribe(path => {
-              this.pathService.PathServiceChanged.next("update")
-            });
-        }
-      )
+      for (let path of toUpdate) {
+        this.pathService.updatePath(path)
+          .subscribe(path => {
+            this.pathService.PathServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -379,13 +374,15 @@ export class PathsTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + path.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = path.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = path.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("path " + path.Name + " is still selected")

@@ -227,16 +227,14 @@ export class LinesTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.lines.forEach(
-            line => {
-              let ID = this.dialogData.ID
-              let revPointer = line[this.dialogData.ReversePointer as keyof LineDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(line)
-              }
+          for (let line of this.lines) {
+            let ID = this.dialogData.ID
+            let revPointer = line[this.dialogData.ReversePointer as keyof LineDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(line)
             }
-          )
-          this.selection = new SelectionModel<LineDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<LineDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -323,34 +321,31 @@ export class LinesTableComponent implements OnInit {
       let toUpdate = new Set<LineDB>()
 
       // reset all initial selection of line that belong to line
-      this.initialSelection.forEach(
-        line => {
-          let index = line[this.dialogData.ReversePointer as keyof LineDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(line)
-        }
-      )
+      for (let line of this.initialSelection) {
+        let index = line[this.dialogData.ReversePointer as keyof LineDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(line)
+
+      }
 
       // from selection, set line that belong to line
-      this.selection.selected.forEach(
-        line => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = line[this.dialogData.ReversePointer  as keyof LineDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(line)
-        }
-      )
+      for (let line of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = line[this.dialogData.ReversePointer as keyof LineDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(line)
+      }
+
 
       // update all line (only update selection & initial selection)
-      toUpdate.forEach(
-        line => {
-          this.lineService.updateLine(line)
-            .subscribe(line => {
-              this.lineService.LineServiceChanged.next("update")
-            });
-        }
-      )
+      for (let line of toUpdate) {
+        this.lineService.updateLine(line)
+          .subscribe(line => {
+            this.lineService.LineServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -397,13 +392,15 @@ export class LinesTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + line.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = line.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = line.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("line " + line.Name + " is still selected")

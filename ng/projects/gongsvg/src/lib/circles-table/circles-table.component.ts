@@ -62,6 +62,9 @@ export class CirclesTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (circleDB: CircleDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return circleDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return circleDB.Name;

@@ -62,6 +62,9 @@ export class PathsTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (pathDB: PathDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return pathDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return pathDB.Name;

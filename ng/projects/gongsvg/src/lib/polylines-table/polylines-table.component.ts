@@ -62,6 +62,9 @@ export class PolylinesTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (polylineDB: PolylineDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return polylineDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return polylineDB.Name;

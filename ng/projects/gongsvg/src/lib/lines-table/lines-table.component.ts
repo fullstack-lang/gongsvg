@@ -62,6 +62,9 @@ export class LinesTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (lineDB: LineDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return lineDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return lineDB.Name;

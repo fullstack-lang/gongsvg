@@ -62,6 +62,9 @@ export class RectsTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (rectDB: RectDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return rectDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return rectDB.Name;

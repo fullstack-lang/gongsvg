@@ -62,6 +62,9 @@ export class EllipsesTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (ellipseDB: EllipseDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return ellipseDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return ellipseDB.Name;

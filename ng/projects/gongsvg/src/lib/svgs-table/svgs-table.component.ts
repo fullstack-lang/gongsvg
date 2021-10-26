@@ -62,6 +62,9 @@ export class SVGsTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (svgDB: SVGDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return svgDB.ID
+
         // insertion point for specific sorting accessor
         case 'Display':
           return svgDB.Display?"true":"false";

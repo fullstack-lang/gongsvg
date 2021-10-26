@@ -62,6 +62,9 @@ export class TextsTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (textDB: TextDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return textDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return textDB.Name;

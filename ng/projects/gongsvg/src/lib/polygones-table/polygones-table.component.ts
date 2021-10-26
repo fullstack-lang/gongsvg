@@ -62,6 +62,9 @@ export class PolygonesTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (polygoneDB: PolygoneDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return polygoneDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return polygoneDB.Name;

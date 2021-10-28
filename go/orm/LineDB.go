@@ -45,6 +45,7 @@ type LineAPI struct {
 // reverse pointers of slice of poitners to Struct
 type LinePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// Implementation of a reverse ID for field SVG{}.Lines []*Line
 	SVG_LinesDBID sql.NullInt64
 
@@ -62,6 +63,7 @@ type LineDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field lineDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -94,7 +96,6 @@ type LineDB struct {
 
 	// Declation for basic field lineDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
-
 	// encoding of pointers
 	LinePointersEnconding
 }
@@ -112,31 +113,31 @@ type LineDBResponse struct {
 // LineWOP is a Line without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type LineWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	X1 float64
+	X1 float64 `xlsx:"2"`
 
-	Y1 float64
+	Y1 float64 `xlsx:"3"`
 
-	X2 float64
+	X2 float64 `xlsx:"4"`
 
-	Y2 float64
+	Y2 float64 `xlsx:"5"`
 
-	Color string
+	Color string `xlsx:"6"`
 
-	FillOpacity float64
+	FillOpacity float64 `xlsx:"7"`
 
-	Stroke string
+	Stroke string `xlsx:"8"`
 
-	StrokeWidth float64
+	StrokeWidth float64 `xlsx:"9"`
 
-	StrokeDashArray string
+	StrokeDashArray string `xlsx:"10"`
 
-	Transform string
+	Transform string `xlsx:"11"`
 	// insertion for WOP pointer fields
 }
 
@@ -480,6 +481,7 @@ func (backRepo *BackRepoStruct) CheckoutLine(line *models.Line) {
 // CopyBasicFieldsFromLine
 func (lineDB *LineDB) CopyBasicFieldsFromLine(line *models.Line) {
 	// insertion point for fields commit
+
 	lineDB.Name_Data.String = line.Name
 	lineDB.Name_Data.Valid = true
 
@@ -512,12 +514,12 @@ func (lineDB *LineDB) CopyBasicFieldsFromLine(line *models.Line) {
 
 	lineDB.Transform_Data.String = line.Transform
 	lineDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromLineWOP
 func (lineDB *LineDB) CopyBasicFieldsFromLineWOP(line *LineWOP) {
 	// insertion point for fields commit
+
 	lineDB.Name_Data.String = line.Name
 	lineDB.Name_Data.Valid = true
 
@@ -550,7 +552,6 @@ func (lineDB *LineDB) CopyBasicFieldsFromLineWOP(line *LineWOP) {
 
 	lineDB.Transform_Data.String = line.Transform
 	lineDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToLine
@@ -644,6 +645,51 @@ func (backRepoLine *BackRepoLineStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&lineWOP, -1)
 	}
+}
+
+// RestoreXL from the "Line" sheet all LineDB instances
+func (backRepoLine *BackRepoLineStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoLineid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["Line"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoLine.rowVisitorLine)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoLine *BackRepoLineStruct) rowVisitorLine(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var lineWOP LineWOP
+		row.ReadStruct(&lineWOP)
+
+		// add the unmarshalled struct to the stage
+		lineDB := new(LineDB)
+		lineDB.CopyBasicFieldsFromLineWOP(&lineWOP)
+
+		lineDB_ID_atBackupTime := lineDB.ID
+		lineDB.ID = 0
+		query := backRepoLine.db.Create(lineDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoLine.Map_LineDBID_LineDB)[lineDB.ID] = lineDB
+		BackRepoLineid_atBckpTime_newID[lineDB_ID_atBackupTime] = lineDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "LineDB.json" in dirPath that stores an array

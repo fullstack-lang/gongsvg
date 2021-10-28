@@ -45,6 +45,7 @@ type PathAPI struct {
 // reverse pointers of slice of poitners to Struct
 type PathPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// Implementation of a reverse ID for field SVG{}.Paths []*Path
 	SVG_PathsDBID sql.NullInt64
 
@@ -62,6 +63,7 @@ type PathDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field pathDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -85,7 +87,6 @@ type PathDB struct {
 
 	// Declation for basic field pathDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
-
 	// encoding of pointers
 	PathPointersEnconding
 }
@@ -103,25 +104,25 @@ type PathDBResponse struct {
 // PathWOP is a Path without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type PathWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	Definition string
+	Definition string `xlsx:"2"`
 
-	Color string
+	Color string `xlsx:"3"`
 
-	FillOpacity float64
+	FillOpacity float64 `xlsx:"4"`
 
-	Stroke string
+	Stroke string `xlsx:"5"`
 
-	StrokeWidth float64
+	StrokeWidth float64 `xlsx:"6"`
 
-	StrokeDashArray string
+	StrokeDashArray string `xlsx:"7"`
 
-	Transform string
+	Transform string `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -462,6 +463,7 @@ func (backRepo *BackRepoStruct) CheckoutPath(path *models.Path) {
 // CopyBasicFieldsFromPath
 func (pathDB *PathDB) CopyBasicFieldsFromPath(path *models.Path) {
 	// insertion point for fields commit
+
 	pathDB.Name_Data.String = path.Name
 	pathDB.Name_Data.Valid = true
 
@@ -485,12 +487,12 @@ func (pathDB *PathDB) CopyBasicFieldsFromPath(path *models.Path) {
 
 	pathDB.Transform_Data.String = path.Transform
 	pathDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromPathWOP
 func (pathDB *PathDB) CopyBasicFieldsFromPathWOP(path *PathWOP) {
 	// insertion point for fields commit
+
 	pathDB.Name_Data.String = path.Name
 	pathDB.Name_Data.Valid = true
 
@@ -514,7 +516,6 @@ func (pathDB *PathDB) CopyBasicFieldsFromPathWOP(path *PathWOP) {
 
 	pathDB.Transform_Data.String = path.Transform
 	pathDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToPath
@@ -602,6 +603,51 @@ func (backRepoPath *BackRepoPathStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&pathWOP, -1)
 	}
+}
+
+// RestoreXL from the "Path" sheet all PathDB instances
+func (backRepoPath *BackRepoPathStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoPathid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["Path"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoPath.rowVisitorPath)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoPath *BackRepoPathStruct) rowVisitorPath(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var pathWOP PathWOP
+		row.ReadStruct(&pathWOP)
+
+		// add the unmarshalled struct to the stage
+		pathDB := new(PathDB)
+		pathDB.CopyBasicFieldsFromPathWOP(&pathWOP)
+
+		pathDB_ID_atBackupTime := pathDB.ID
+		pathDB.ID = 0
+		query := backRepoPath.db.Create(pathDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoPath.Map_PathDBID_PathDB)[pathDB.ID] = pathDB
+		BackRepoPathid_atBckpTime_newID[pathDB_ID_atBackupTime] = pathDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "PathDB.json" in dirPath that stores an array

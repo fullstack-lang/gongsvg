@@ -45,41 +45,49 @@ type AnimateAPI struct {
 // reverse pointers of slice of poitners to Struct
 type AnimatePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// Implementation of a reverse ID for field Circle{}.Animations []*Animate
 	Circle_AnimationsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
 	Circle_AnimationsDBID_Index sql.NullInt64
+
 	// Implementation of a reverse ID for field Ellipse{}.Animates []*Animate
 	Ellipse_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
 	Ellipse_AnimatesDBID_Index sql.NullInt64
+
 	// Implementation of a reverse ID for field Line{}.Animates []*Animate
 	Line_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
 	Line_AnimatesDBID_Index sql.NullInt64
+
 	// Implementation of a reverse ID for field Path{}.Animates []*Animate
 	Path_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
 	Path_AnimatesDBID_Index sql.NullInt64
+
 	// Implementation of a reverse ID for field Polygone{}.Animates []*Animate
 	Polygone_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
 	Polygone_AnimatesDBID_Index sql.NullInt64
+
 	// Implementation of a reverse ID for field Polyline{}.Animates []*Animate
 	Polyline_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
 	Polyline_AnimatesDBID_Index sql.NullInt64
+
 	// Implementation of a reverse ID for field Rect{}.Animations []*Animate
 	Rect_AnimationsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
 	Rect_AnimationsDBID_Index sql.NullInt64
+
 	// Implementation of a reverse ID for field Text{}.Animates []*Animate
 	Text_AnimatesDBID sql.NullInt64
 
@@ -97,6 +105,7 @@ type AnimateDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field animateDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -111,7 +120,6 @@ type AnimateDB struct {
 
 	// Declation for basic field animateDB.RepeatCount {{BasicKind}} (to be completed)
 	RepeatCount_Data sql.NullString
-
 	// encoding of pointers
 	AnimatePointersEnconding
 }
@@ -129,19 +137,19 @@ type AnimateDBResponse struct {
 // AnimateWOP is a Animate without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type AnimateWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	AttributeName string
+	AttributeName string `xlsx:"2"`
 
-	Values string
+	Values string `xlsx:"3"`
 
-	Dur string
+	Dur string `xlsx:"4"`
 
-	RepeatCount string
+	RepeatCount string `xlsx:"5"`
 	// insertion for WOP pointer fields
 }
 
@@ -433,6 +441,7 @@ func (backRepo *BackRepoStruct) CheckoutAnimate(animate *models.Animate) {
 // CopyBasicFieldsFromAnimate
 func (animateDB *AnimateDB) CopyBasicFieldsFromAnimate(animate *models.Animate) {
 	// insertion point for fields commit
+
 	animateDB.Name_Data.String = animate.Name
 	animateDB.Name_Data.Valid = true
 
@@ -447,12 +456,12 @@ func (animateDB *AnimateDB) CopyBasicFieldsFromAnimate(animate *models.Animate) 
 
 	animateDB.RepeatCount_Data.String = animate.RepeatCount
 	animateDB.RepeatCount_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromAnimateWOP
 func (animateDB *AnimateDB) CopyBasicFieldsFromAnimateWOP(animate *AnimateWOP) {
 	// insertion point for fields commit
+
 	animateDB.Name_Data.String = animate.Name
 	animateDB.Name_Data.Valid = true
 
@@ -467,7 +476,6 @@ func (animateDB *AnimateDB) CopyBasicFieldsFromAnimateWOP(animate *AnimateWOP) {
 
 	animateDB.RepeatCount_Data.String = animate.RepeatCount
 	animateDB.RepeatCount_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToAnimate
@@ -549,6 +557,51 @@ func (backRepoAnimate *BackRepoAnimateStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&animateWOP, -1)
 	}
+}
+
+// RestoreXL from the "Animate" sheet all AnimateDB instances
+func (backRepoAnimate *BackRepoAnimateStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoAnimateid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["Animate"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoAnimate.rowVisitorAnimate)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoAnimate *BackRepoAnimateStruct) rowVisitorAnimate(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var animateWOP AnimateWOP
+		row.ReadStruct(&animateWOP)
+
+		// add the unmarshalled struct to the stage
+		animateDB := new(AnimateDB)
+		animateDB.CopyBasicFieldsFromAnimateWOP(&animateWOP)
+
+		animateDB_ID_atBackupTime := animateDB.ID
+		animateDB.ID = 0
+		query := backRepoAnimate.db.Create(animateDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoAnimate.Map_AnimateDBID_AnimateDB)[animateDB.ID] = animateDB
+		BackRepoAnimateid_atBckpTime_newID[animateDB_ID_atBackupTime] = animateDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "AnimateDB.json" in dirPath that stores an array

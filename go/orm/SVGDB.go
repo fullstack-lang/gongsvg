@@ -57,13 +57,13 @@ type SVGDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field svgDB.Display bool (to be completed)
 	// provide the sql storage for the boolan
 	Display_Data sql.NullBool
 
 	// Declation for basic field svgDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
-
 	// encoding of pointers
 	SVGPointersEnconding
 }
@@ -81,13 +81,13 @@ type SVGDBResponse struct {
 // SVGWOP is a SVG without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type SVGWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Display bool
+	Display bool `xlsx:"1"`
 
-	Name string
+	Name string `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -744,23 +744,23 @@ func (backRepo *BackRepoStruct) CheckoutSVG(svg *models.SVG) {
 // CopyBasicFieldsFromSVG
 func (svgDB *SVGDB) CopyBasicFieldsFromSVG(svg *models.SVG) {
 	// insertion point for fields commit
+
 	svgDB.Display_Data.Bool = svg.Display
 	svgDB.Display_Data.Valid = true
 
 	svgDB.Name_Data.String = svg.Name
 	svgDB.Name_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromSVGWOP
 func (svgDB *SVGDB) CopyBasicFieldsFromSVGWOP(svg *SVGWOP) {
 	// insertion point for fields commit
+
 	svgDB.Display_Data.Bool = svg.Display
 	svgDB.Display_Data.Valid = true
 
 	svgDB.Name_Data.String = svg.Name
 	svgDB.Name_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToSVG
@@ -836,6 +836,51 @@ func (backRepoSVG *BackRepoSVGStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&svgWOP, -1)
 	}
+}
+
+// RestoreXL from the "SVG" sheet all SVGDB instances
+func (backRepoSVG *BackRepoSVGStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoSVGid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["SVG"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoSVG.rowVisitorSVG)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoSVG *BackRepoSVGStruct) rowVisitorSVG(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var svgWOP SVGWOP
+		row.ReadStruct(&svgWOP)
+
+		// add the unmarshalled struct to the stage
+		svgDB := new(SVGDB)
+		svgDB.CopyBasicFieldsFromSVGWOP(&svgWOP)
+
+		svgDB_ID_atBackupTime := svgDB.ID
+		svgDB.ID = 0
+		query := backRepoSVG.db.Create(svgDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoSVG.Map_SVGDBID_SVGDB)[svgDB.ID] = svgDB
+		BackRepoSVGid_atBckpTime_newID[svgDB_ID_atBackupTime] = svgDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "SVGDB.json" in dirPath that stores an array

@@ -45,6 +45,7 @@ type CircleAPI struct {
 // reverse pointers of slice of poitners to Struct
 type CirclePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// Implementation of a reverse ID for field SVG{}.Circles []*Circle
 	SVG_CirclesDBID sql.NullInt64
 
@@ -62,6 +63,7 @@ type CircleDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field circleDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -91,7 +93,6 @@ type CircleDB struct {
 
 	// Declation for basic field circleDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
-
 	// encoding of pointers
 	CirclePointersEnconding
 }
@@ -109,29 +110,29 @@ type CircleDBResponse struct {
 // CircleWOP is a Circle without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type CircleWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	CX float64
+	CX float64 `xlsx:"2"`
 
-	CY float64
+	CY float64 `xlsx:"3"`
 
-	Radius float64
+	Radius float64 `xlsx:"4"`
 
-	Color string
+	Color string `xlsx:"5"`
 
-	FillOpacity float64
+	FillOpacity float64 `xlsx:"6"`
 
-	Stroke string
+	Stroke string `xlsx:"7"`
 
-	StrokeWidth float64
+	StrokeWidth float64 `xlsx:"8"`
 
-	StrokeDashArray string
+	StrokeDashArray string `xlsx:"9"`
 
-	Transform string
+	Transform string `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -474,6 +475,7 @@ func (backRepo *BackRepoStruct) CheckoutCircle(circle *models.Circle) {
 // CopyBasicFieldsFromCircle
 func (circleDB *CircleDB) CopyBasicFieldsFromCircle(circle *models.Circle) {
 	// insertion point for fields commit
+
 	circleDB.Name_Data.String = circle.Name
 	circleDB.Name_Data.Valid = true
 
@@ -503,12 +505,12 @@ func (circleDB *CircleDB) CopyBasicFieldsFromCircle(circle *models.Circle) {
 
 	circleDB.Transform_Data.String = circle.Transform
 	circleDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromCircleWOP
 func (circleDB *CircleDB) CopyBasicFieldsFromCircleWOP(circle *CircleWOP) {
 	// insertion point for fields commit
+
 	circleDB.Name_Data.String = circle.Name
 	circleDB.Name_Data.Valid = true
 
@@ -538,7 +540,6 @@ func (circleDB *CircleDB) CopyBasicFieldsFromCircleWOP(circle *CircleWOP) {
 
 	circleDB.Transform_Data.String = circle.Transform
 	circleDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToCircle
@@ -630,6 +631,51 @@ func (backRepoCircle *BackRepoCircleStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&circleWOP, -1)
 	}
+}
+
+// RestoreXL from the "Circle" sheet all CircleDB instances
+func (backRepoCircle *BackRepoCircleStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoCircleid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["Circle"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoCircle.rowVisitorCircle)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoCircle *BackRepoCircleStruct) rowVisitorCircle(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var circleWOP CircleWOP
+		row.ReadStruct(&circleWOP)
+
+		// add the unmarshalled struct to the stage
+		circleDB := new(CircleDB)
+		circleDB.CopyBasicFieldsFromCircleWOP(&circleWOP)
+
+		circleDB_ID_atBackupTime := circleDB.ID
+		circleDB.ID = 0
+		query := backRepoCircle.db.Create(circleDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoCircle.Map_CircleDBID_CircleDB)[circleDB.ID] = circleDB
+		BackRepoCircleid_atBckpTime_newID[circleDB_ID_atBackupTime] = circleDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "CircleDB.json" in dirPath that stores an array

@@ -45,6 +45,7 @@ type EllipseAPI struct {
 // reverse pointers of slice of poitners to Struct
 type EllipsePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// Implementation of a reverse ID for field SVG{}.Ellipses []*Ellipse
 	SVG_EllipsesDBID sql.NullInt64
 
@@ -62,6 +63,7 @@ type EllipseDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field ellipseDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -94,7 +96,6 @@ type EllipseDB struct {
 
 	// Declation for basic field ellipseDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
-
 	// encoding of pointers
 	EllipsePointersEnconding
 }
@@ -112,31 +113,31 @@ type EllipseDBResponse struct {
 // EllipseWOP is a Ellipse without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type EllipseWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	CX float64
+	CX float64 `xlsx:"2"`
 
-	CY float64
+	CY float64 `xlsx:"3"`
 
-	RX float64
+	RX float64 `xlsx:"4"`
 
-	RY float64
+	RY float64 `xlsx:"5"`
 
-	Color string
+	Color string `xlsx:"6"`
 
-	FillOpacity float64
+	FillOpacity float64 `xlsx:"7"`
 
-	Stroke string
+	Stroke string `xlsx:"8"`
 
-	StrokeWidth float64
+	StrokeWidth float64 `xlsx:"9"`
 
-	StrokeDashArray string
+	StrokeDashArray string `xlsx:"10"`
 
-	Transform string
+	Transform string `xlsx:"11"`
 	// insertion for WOP pointer fields
 }
 
@@ -480,6 +481,7 @@ func (backRepo *BackRepoStruct) CheckoutEllipse(ellipse *models.Ellipse) {
 // CopyBasicFieldsFromEllipse
 func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipse(ellipse *models.Ellipse) {
 	// insertion point for fields commit
+
 	ellipseDB.Name_Data.String = ellipse.Name
 	ellipseDB.Name_Data.Valid = true
 
@@ -512,12 +514,12 @@ func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipse(ellipse *models.Ellipse) 
 
 	ellipseDB.Transform_Data.String = ellipse.Transform
 	ellipseDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromEllipseWOP
 func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipseWOP(ellipse *EllipseWOP) {
 	// insertion point for fields commit
+
 	ellipseDB.Name_Data.String = ellipse.Name
 	ellipseDB.Name_Data.Valid = true
 
@@ -550,7 +552,6 @@ func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipseWOP(ellipse *EllipseWOP) {
 
 	ellipseDB.Transform_Data.String = ellipse.Transform
 	ellipseDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToEllipse
@@ -644,6 +645,51 @@ func (backRepoEllipse *BackRepoEllipseStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&ellipseWOP, -1)
 	}
+}
+
+// RestoreXL from the "Ellipse" sheet all EllipseDB instances
+func (backRepoEllipse *BackRepoEllipseStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoEllipseid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["Ellipse"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoEllipse.rowVisitorEllipse)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoEllipse *BackRepoEllipseStruct) rowVisitorEllipse(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var ellipseWOP EllipseWOP
+		row.ReadStruct(&ellipseWOP)
+
+		// add the unmarshalled struct to the stage
+		ellipseDB := new(EllipseDB)
+		ellipseDB.CopyBasicFieldsFromEllipseWOP(&ellipseWOP)
+
+		ellipseDB_ID_atBackupTime := ellipseDB.ID
+		ellipseDB.ID = 0
+		query := backRepoEllipse.db.Create(ellipseDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoEllipse.Map_EllipseDBID_EllipseDB)[ellipseDB.ID] = ellipseDB
+		BackRepoEllipseid_atBckpTime_newID[ellipseDB_ID_atBackupTime] = ellipseDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "EllipseDB.json" in dirPath that stores an array

@@ -45,6 +45,7 @@ type PolygoneAPI struct {
 // reverse pointers of slice of poitners to Struct
 type PolygonePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// Implementation of a reverse ID for field SVG{}.Polygones []*Polygone
 	SVG_PolygonesDBID sql.NullInt64
 
@@ -62,6 +63,7 @@ type PolygoneDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field polygoneDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -85,7 +87,6 @@ type PolygoneDB struct {
 
 	// Declation for basic field polygoneDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
-
 	// encoding of pointers
 	PolygonePointersEnconding
 }
@@ -103,25 +104,25 @@ type PolygoneDBResponse struct {
 // PolygoneWOP is a Polygone without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type PolygoneWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	Points string
+	Points string `xlsx:"2"`
 
-	Color string
+	Color string `xlsx:"3"`
 
-	FillOpacity float64
+	FillOpacity float64 `xlsx:"4"`
 
-	Stroke string
+	Stroke string `xlsx:"5"`
 
-	StrokeWidth float64
+	StrokeWidth float64 `xlsx:"6"`
 
-	StrokeDashArray string
+	StrokeDashArray string `xlsx:"7"`
 
-	Transform string
+	Transform string `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -462,6 +463,7 @@ func (backRepo *BackRepoStruct) CheckoutPolygone(polygone *models.Polygone) {
 // CopyBasicFieldsFromPolygone
 func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygone(polygone *models.Polygone) {
 	// insertion point for fields commit
+
 	polygoneDB.Name_Data.String = polygone.Name
 	polygoneDB.Name_Data.Valid = true
 
@@ -485,12 +487,12 @@ func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygone(polygone *models.Polyg
 
 	polygoneDB.Transform_Data.String = polygone.Transform
 	polygoneDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromPolygoneWOP
 func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygoneWOP(polygone *PolygoneWOP) {
 	// insertion point for fields commit
+
 	polygoneDB.Name_Data.String = polygone.Name
 	polygoneDB.Name_Data.Valid = true
 
@@ -514,7 +516,6 @@ func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygoneWOP(polygone *PolygoneW
 
 	polygoneDB.Transform_Data.String = polygone.Transform
 	polygoneDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToPolygone
@@ -602,6 +603,51 @@ func (backRepoPolygone *BackRepoPolygoneStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&polygoneWOP, -1)
 	}
+}
+
+// RestoreXL from the "Polygone" sheet all PolygoneDB instances
+func (backRepoPolygone *BackRepoPolygoneStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoPolygoneid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["Polygone"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoPolygone.rowVisitorPolygone)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoPolygone *BackRepoPolygoneStruct) rowVisitorPolygone(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var polygoneWOP PolygoneWOP
+		row.ReadStruct(&polygoneWOP)
+
+		// add the unmarshalled struct to the stage
+		polygoneDB := new(PolygoneDB)
+		polygoneDB.CopyBasicFieldsFromPolygoneWOP(&polygoneWOP)
+
+		polygoneDB_ID_atBackupTime := polygoneDB.ID
+		polygoneDB.ID = 0
+		query := backRepoPolygone.db.Create(polygoneDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoPolygone.Map_PolygoneDBID_PolygoneDB)[polygoneDB.ID] = polygoneDB
+		BackRepoPolygoneid_atBckpTime_newID[polygoneDB_ID_atBackupTime] = polygoneDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "PolygoneDB.json" in dirPath that stores an array

@@ -45,6 +45,7 @@ type TextAPI struct {
 // reverse pointers of slice of poitners to Struct
 type TextPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// Implementation of a reverse ID for field SVG{}.Texts []*Text
 	SVG_TextsDBID sql.NullInt64
 
@@ -62,6 +63,7 @@ type TextDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field textDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -91,7 +93,6 @@ type TextDB struct {
 
 	// Declation for basic field textDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
-
 	// encoding of pointers
 	TextPointersEnconding
 }
@@ -109,29 +110,29 @@ type TextDBResponse struct {
 // TextWOP is a Text without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type TextWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	X float64
+	X float64 `xlsx:"2"`
 
-	Y float64
+	Y float64 `xlsx:"3"`
 
-	Content string
+	Content string `xlsx:"4"`
 
-	Color string
+	Color string `xlsx:"5"`
 
-	FillOpacity float64
+	FillOpacity float64 `xlsx:"6"`
 
-	Stroke string
+	Stroke string `xlsx:"7"`
 
-	StrokeWidth float64
+	StrokeWidth float64 `xlsx:"8"`
 
-	StrokeDashArray string
+	StrokeDashArray string `xlsx:"9"`
 
-	Transform string
+	Transform string `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -474,6 +475,7 @@ func (backRepo *BackRepoStruct) CheckoutText(text *models.Text) {
 // CopyBasicFieldsFromText
 func (textDB *TextDB) CopyBasicFieldsFromText(text *models.Text) {
 	// insertion point for fields commit
+
 	textDB.Name_Data.String = text.Name
 	textDB.Name_Data.Valid = true
 
@@ -503,12 +505,12 @@ func (textDB *TextDB) CopyBasicFieldsFromText(text *models.Text) {
 
 	textDB.Transform_Data.String = text.Transform
 	textDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromTextWOP
 func (textDB *TextDB) CopyBasicFieldsFromTextWOP(text *TextWOP) {
 	// insertion point for fields commit
+
 	textDB.Name_Data.String = text.Name
 	textDB.Name_Data.Valid = true
 
@@ -538,7 +540,6 @@ func (textDB *TextDB) CopyBasicFieldsFromTextWOP(text *TextWOP) {
 
 	textDB.Transform_Data.String = text.Transform
 	textDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToText
@@ -630,6 +631,51 @@ func (backRepoText *BackRepoTextStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&textWOP, -1)
 	}
+}
+
+// RestoreXL from the "Text" sheet all TextDB instances
+func (backRepoText *BackRepoTextStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoTextid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["Text"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoText.rowVisitorText)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoText *BackRepoTextStruct) rowVisitorText(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var textWOP TextWOP
+		row.ReadStruct(&textWOP)
+
+		// add the unmarshalled struct to the stage
+		textDB := new(TextDB)
+		textDB.CopyBasicFieldsFromTextWOP(&textWOP)
+
+		textDB_ID_atBackupTime := textDB.ID
+		textDB.ID = 0
+		query := backRepoText.db.Create(textDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoText.Map_TextDBID_TextDB)[textDB.ID] = textDB
+		BackRepoTextid_atBckpTime_newID[textDB_ID_atBackupTime] = textDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "TextDB.json" in dirPath that stores an array

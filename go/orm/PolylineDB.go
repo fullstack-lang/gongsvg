@@ -45,6 +45,7 @@ type PolylineAPI struct {
 // reverse pointers of slice of poitners to Struct
 type PolylinePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// Implementation of a reverse ID for field SVG{}.Polylines []*Polyline
 	SVG_PolylinesDBID sql.NullInt64
 
@@ -62,6 +63,7 @@ type PolylineDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field polylineDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -85,7 +87,6 @@ type PolylineDB struct {
 
 	// Declation for basic field polylineDB.Transform {{BasicKind}} (to be completed)
 	Transform_Data sql.NullString
-
 	// encoding of pointers
 	PolylinePointersEnconding
 }
@@ -103,25 +104,25 @@ type PolylineDBResponse struct {
 // PolylineWOP is a Polyline without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type PolylineWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	Points string
+	Points string `xlsx:"2"`
 
-	Color string
+	Color string `xlsx:"3"`
 
-	FillOpacity float64
+	FillOpacity float64 `xlsx:"4"`
 
-	Stroke string
+	Stroke string `xlsx:"5"`
 
-	StrokeWidth float64
+	StrokeWidth float64 `xlsx:"6"`
 
-	StrokeDashArray string
+	StrokeDashArray string `xlsx:"7"`
 
-	Transform string
+	Transform string `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -462,6 +463,7 @@ func (backRepo *BackRepoStruct) CheckoutPolyline(polyline *models.Polyline) {
 // CopyBasicFieldsFromPolyline
 func (polylineDB *PolylineDB) CopyBasicFieldsFromPolyline(polyline *models.Polyline) {
 	// insertion point for fields commit
+
 	polylineDB.Name_Data.String = polyline.Name
 	polylineDB.Name_Data.Valid = true
 
@@ -485,12 +487,12 @@ func (polylineDB *PolylineDB) CopyBasicFieldsFromPolyline(polyline *models.Polyl
 
 	polylineDB.Transform_Data.String = polyline.Transform
 	polylineDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromPolylineWOP
 func (polylineDB *PolylineDB) CopyBasicFieldsFromPolylineWOP(polyline *PolylineWOP) {
 	// insertion point for fields commit
+
 	polylineDB.Name_Data.String = polyline.Name
 	polylineDB.Name_Data.Valid = true
 
@@ -514,7 +516,6 @@ func (polylineDB *PolylineDB) CopyBasicFieldsFromPolylineWOP(polyline *PolylineW
 
 	polylineDB.Transform_Data.String = polyline.Transform
 	polylineDB.Transform_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToPolyline
@@ -602,6 +603,51 @@ func (backRepoPolyline *BackRepoPolylineStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&polylineWOP, -1)
 	}
+}
+
+// RestoreXL from the "Polyline" sheet all PolylineDB instances
+func (backRepoPolyline *BackRepoPolylineStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoPolylineid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["Polyline"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoPolyline.rowVisitorPolyline)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoPolyline *BackRepoPolylineStruct) rowVisitorPolyline(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var polylineWOP PolylineWOP
+		row.ReadStruct(&polylineWOP)
+
+		// add the unmarshalled struct to the stage
+		polylineDB := new(PolylineDB)
+		polylineDB.CopyBasicFieldsFromPolylineWOP(&polylineWOP)
+
+		polylineDB_ID_atBackupTime := polylineDB.ID
+		polylineDB.ID = 0
+		query := backRepoPolyline.db.Create(polylineDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoPolyline.Map_PolylineDBID_PolylineDB)[polylineDB.ID] = polylineDB
+		BackRepoPolylineid_atBckpTime_newID[polylineDB_ID_atBackupTime] = polylineDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "PolylineDB.json" in dirPath that stores an array

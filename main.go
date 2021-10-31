@@ -13,6 +13,8 @@ import (
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
+	gongdoc_ng "github.com/fullstack-lang/gongdoc/ng"
+
 	"github.com/fullstack-lang/gongsvg/go/controllers"
 	"github.com/fullstack-lang/gongsvg/go/models"
 	"github.com/fullstack-lang/gongsvg/go/orm"
@@ -77,6 +79,9 @@ func main() {
 		c.Redirect(http.StatusMovedPermanently, "/")
 		c.Abort()
 	})
+
+	dirs, _ := gongdoc_ng.NgProjectGongdocSrc.ReadDir(".")
+	log.Printf("Nb of sources dirs for gongdoc %d", len(dirs))
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()

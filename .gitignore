@@ -1,6 +1,6 @@
 __debug_bin
 .DS_Store
-gongsvg
 go/controllers/gongsvgapi.yml
 gongsvg.exe
 go/tests/debug.test
+go/cmd/gongsvg/gongsvg

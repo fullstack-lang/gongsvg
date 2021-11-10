@@ -14,7 +14,7 @@
 			"label": "02 - go run",
 			"type": "shell",
 			"options": {
-				"cwd": "."
+				"cwd": "./go/cmd/gongsvg"
 			},
 			"command": "go",
 			"args": [

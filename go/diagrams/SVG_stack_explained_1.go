@@ -184,7 +184,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 						X: 410.000000,
 						Y: 91.500000,
 					},
-					Multiplicity: "*",
+					TargetMultiplicity: "*",
 				},
 				{
 					Field: models.SVG{}.Ellipses,
@@ -192,7 +192,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 						X: 460.000000,
 						Y: 216.500000,
 					},
-					Multiplicity: "*",
+					TargetMultiplicity: "*",
 				},
 				{
 					Field: models.SVG{}.Lines,
@@ -200,7 +200,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 						X: 470.000000,
 						Y: 351.500000,
 					},
-					Multiplicity: "*",
+					TargetMultiplicity: "*",
 				},
 				{
 					Field: models.SVG{}.Paths,
@@ -208,7 +208,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 						X: 470.000000,
 						Y: 446.500000,
 					},
-					Multiplicity: "*",
+					TargetMultiplicity: "*",
 				},
 				{
 					Field: models.SVG{}.Polygones,
@@ -216,7 +216,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 						X: 460.000000,
 						Y: 556.500000,
 					},
-					Multiplicity: "*",
+					TargetMultiplicity: "*",
 				},
 				{
 					Field: models.SVG{}.Polylines,
@@ -224,7 +224,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 						X: 460.000000,
 						Y: 671.500000,
 					},
-					Multiplicity: "*",
+					TargetMultiplicity: "*",
 				},
 				{
 					Field: models.SVG{}.Rects,
@@ -232,7 +232,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 						X: 410.000000,
 						Y: 791.500000,
 					},
-					Multiplicity: "*",
+					TargetMultiplicity: "*",
 				},
 				{
 					Field: models.SVG{}.Texts,
@@ -240,7 +240,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 						X: 360.000000,
 						Y: 921.500000,
 					},
-					Multiplicity: "*",
+					TargetMultiplicity: "*",
 				},
 			},
 			Fields: []*uml.Field{

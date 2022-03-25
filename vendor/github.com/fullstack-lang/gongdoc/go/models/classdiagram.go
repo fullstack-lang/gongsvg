@@ -145,8 +145,7 @@ func (classdiagram *Classdiagram) Unmarshall(expr ast.Expr, fset *token.FileSet)
 									}
 								}
 							case *ast.CompositeLit: // this is a definition
-								var _classshape Classshape
-								classshape = &_classshape
+								classshape = new(Classshape)
 								classshape.Unmarshall(exp, fset)
 							default:
 								log.Panic("Value shoud be a composite lit or a unary" +
@@ -336,8 +335,7 @@ func (classDiagram *Classdiagram) Marshall(pkgelt *Pkgelt, pkgPath string) error
 	prelude := strings.ReplaceAll(preludeRef, "{{filename}}", filename)
 	prelude = strings.ReplaceAll(prelude, "{{ClassdiagramName}}", classDiagram.Name)
 	if len(classDiagram.Classshapes) > 0 {
-		prelude = strings.ReplaceAll(prelude, "{{Imports}}", "\n\t\""+
-			strings.ReplaceAll(pkgelt.Name, "diagrams", "models")+"\"")
+		prelude = strings.ReplaceAll(prelude, "{{Imports}}", "\n\t\""+pkgelt.GongModelPath+"\"")
 	} else {
 		prelude = strings.ReplaceAll(prelude, "{{Imports}}", "")
 	}

@@ -1336,6 +1336,9 @@ const IdentifiersDecls = `
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
 
+const StringEnumInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
 const NumberInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
@@ -3003,5 +3006,307 @@ func (colortype *ColorType) FromString(input string) {
 	case "yellowgreen":
 		*colortype = Yellowgreen
 	}
+}
+
+func (colortype *ColorType) ToCodeString() (res string) {
+
+	switch *colortype {
+	// insertion code per enum code
+	case Aliceblue:
+		res = "Aliceblue"
+	case Antiquewhite:
+		res = "Antiquewhite"
+	case Aqua:
+		res = "Aqua"
+	case Aquamarine:
+		res = "Aquamarine"
+	case Azure:
+		res = "Azure"
+	case Beige:
+		res = "Beige"
+	case Bisque:
+		res = "Bisque"
+	case Black:
+		res = "Black"
+	case Blanchedalmond:
+		res = "Blanchedalmond"
+	case Blue:
+		res = "Blue"
+	case Blueviolet:
+		res = "Blueviolet"
+	case Brown:
+		res = "Brown"
+	case Burlywood:
+		res = "Burlywood"
+	case Cadetblue:
+		res = "Cadetblue"
+	case Chartreuse:
+		res = "Chartreuse"
+	case Chocolate:
+		res = "Chocolate"
+	case Coral:
+		res = "Coral"
+	case Cornflowerblue:
+		res = "Cornflowerblue"
+	case Cornsilk:
+		res = "Cornsilk"
+	case Crimson:
+		res = "Crimson"
+	case Cyan:
+		res = "Cyan"
+	case Darkblue:
+		res = "Darkblue"
+	case Darkcyan:
+		res = "Darkcyan"
+	case Darkgoldenrod:
+		res = "Darkgoldenrod"
+	case Darkgray:
+		res = "Darkgray"
+	case Darkgreen:
+		res = "Darkgreen"
+	case Darkgrey:
+		res = "Darkgrey"
+	case Darkkhaki:
+		res = "Darkkhaki"
+	case Darkmagenta:
+		res = "Darkmagenta"
+	case Darkolivegreen:
+		res = "Darkolivegreen"
+	case Darkorange:
+		res = "Darkorange"
+	case Darkorchid:
+		res = "Darkorchid"
+	case Darkred:
+		res = "Darkred"
+	case Darksalmon:
+		res = "Darksalmon"
+	case Darkseagreen:
+		res = "Darkseagreen"
+	case Darkslateblue:
+		res = "Darkslateblue"
+	case Darkslategray:
+		res = "Darkslategray"
+	case Darkslategrey:
+		res = "Darkslategrey"
+	case Darkturquoise:
+		res = "Darkturquoise"
+	case Darkviolet:
+		res = "Darkviolet"
+	case Deeppink:
+		res = "Deeppink"
+	case Deepskyblue:
+		res = "Deepskyblue"
+	case Dimgray:
+		res = "Dimgray"
+	case Dimgrey:
+		res = "Dimgrey"
+	case Dodgerblue:
+		res = "Dodgerblue"
+	case Firebrick:
+		res = "Firebrick"
+	case Floralwhite:
+		res = "Floralwhite"
+	case Forestgreen:
+		res = "Forestgreen"
+	case Fuchsia:
+		res = "Fuchsia"
+	case Gainsboro:
+		res = "Gainsboro"
+	case Ghostwhite:
+		res = "Ghostwhite"
+	case Gold:
+		res = "Gold"
+	case Goldenrod:
+		res = "Goldenrod"
+	case Gray:
+		res = "Gray"
+	case Green:
+		res = "Green"
+	case Greenyellow:
+		res = "Greenyellow"
+	case Grey:
+		res = "Grey"
+	case Honeydew:
+		res = "Honeydew"
+	case Hotpink:
+		res = "Hotpink"
+	case Indianred:
+		res = "Indianred"
+	case Indigo:
+		res = "Indigo"
+	case Ivory:
+		res = "Ivory"
+	case Khaki:
+		res = "Khaki"
+	case Lavender:
+		res = "Lavender"
+	case Lavenderblush:
+		res = "Lavenderblush"
+	case Lawngreen:
+		res = "Lawngreen"
+	case Lemonchiffon:
+		res = "Lemonchiffon"
+	case Lightblue:
+		res = "Lightblue"
+	case Lightcoral:
+		res = "Lightcoral"
+	case Lightcyan:
+		res = "Lightcyan"
+	case Lightgoldenrodyellow:
+		res = "Lightgoldenrodyellow"
+	case Lightgray:
+		res = "Lightgray"
+	case Lightgreen:
+		res = "Lightgreen"
+	case Lightgrey:
+		res = "Lightgrey"
+	case Lightpink:
+		res = "Lightpink"
+	case Lightsalmon:
+		res = "Lightsalmon"
+	case Lightseagreen:
+		res = "Lightseagreen"
+	case Lightskyblue:
+		res = "Lightskyblue"
+	case Lightslategray:
+		res = "Lightslategray"
+	case Lightslategrey:
+		res = "Lightslategrey"
+	case Lightsteelblue:
+		res = "Lightsteelblue"
+	case Lightyellow:
+		res = "Lightyellow"
+	case Lime:
+		res = "Lime"
+	case Limegreen:
+		res = "Limegreen"
+	case Linen:
+		res = "Linen"
+	case Magenta:
+		res = "Magenta"
+	case Maroon:
+		res = "Maroon"
+	case Mediumaquamarine:
+		res = "Mediumaquamarine"
+	case Mediumblue:
+		res = "Mediumblue"
+	case Mediumorchid:
+		res = "Mediumorchid"
+	case Mediumpurple:
+		res = "Mediumpurple"
+	case Mediumseagreen:
+		res = "Mediumseagreen"
+	case Mediumslateblue:
+		res = "Mediumslateblue"
+	case Mediumspringgreen:
+		res = "Mediumspringgreen"
+	case Mediumturquoise:
+		res = "Mediumturquoise"
+	case Mediumvioletred:
+		res = "Mediumvioletred"
+	case Midnightblue:
+		res = "Midnightblue"
+	case Mintcream:
+		res = "Mintcream"
+	case Mistyrose:
+		res = "Mistyrose"
+	case Moccasin:
+		res = "Moccasin"
+	case Navajowhite:
+		res = "Navajowhite"
+	case Navy:
+		res = "Navy"
+	case Oldlace:
+		res = "Oldlace"
+	case Olive:
+		res = "Olive"
+	case Olivedrab:
+		res = "Olivedrab"
+	case Orange:
+		res = "Orange"
+	case Orangered:
+		res = "Orangered"
+	case Orchid:
+		res = "Orchid"
+	case Palegoldenrod:
+		res = "Palegoldenrod"
+	case Palegreen:
+		res = "Palegreen"
+	case Paleturquoise:
+		res = "Paleturquoise"
+	case Palevioletred:
+		res = "Palevioletred"
+	case Papayawhip:
+		res = "Papayawhip"
+	case Peachpuff:
+		res = "Peachpuff"
+	case Peru:
+		res = "Peru"
+	case Pink:
+		res = "Pink"
+	case Plum:
+		res = "Plum"
+	case Powderblue:
+		res = "Powderblue"
+	case Purple:
+		res = "Purple"
+	case Red:
+		res = "Red"
+	case Rosybrown:
+		res = "Rosybrown"
+	case Royalblue:
+		res = "Royalblue"
+	case Saddlebrown:
+		res = "Saddlebrown"
+	case Salmon:
+		res = "Salmon"
+	case Sandybrown:
+		res = "Sandybrown"
+	case Seagreen:
+		res = "Seagreen"
+	case Seashell:
+		res = "Seashell"
+	case Sienna:
+		res = "Sienna"
+	case Silver:
+		res = "Silver"
+	case Skyblue:
+		res = "Skyblue"
+	case Slateblue:
+		res = "Slateblue"
+	case Slategray:
+		res = "Slategray"
+	case Slategrey:
+		res = "Slategrey"
+	case Snow:
+		res = "Snow"
+	case Springgreen:
+		res = "Springgreen"
+	case Steelblue:
+		res = "Steelblue"
+	case Tan:
+		res = "Tan"
+	case Teal:
+		res = "Teal"
+	case Thistle:
+		res = "Thistle"
+	case Tomato:
+		res = "Tomato"
+	case Turquoise:
+		res = "Turquoise"
+	case Violet:
+		res = "Violet"
+	case Wheat:
+		res = "Wheat"
+	case White:
+		res = "White"
+	case Whitesmoke:
+		res = "Whitesmoke"
+	case Yellow:
+		res = "Yellow"
+	case Yellowgreen:
+		res = "Yellowgreen"
+	}
+	return
 }
 

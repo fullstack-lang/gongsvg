@@ -307,8 +307,8 @@ func (animate *Animate) GetName() (res string) {
 }
 
 func (animate *Animate) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "AttributeName", "Values", "Dur", "RepeatCount",  }
+	// list of fields
+	res = []string{"Name", "AttributeName", "Values", "Dur", "RepeatCount"}
 	return
 }
 
@@ -437,8 +437,8 @@ func (circle *Circle) GetName() (res string) {
 }
 
 func (circle *Circle) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations",  }
+	// list of fields
+	res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations"}
 	return
 }
 
@@ -584,8 +584,8 @@ func (ellipse *Ellipse) GetName() (res string) {
 }
 
 func (ellipse *Ellipse) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates",  }
+	// list of fields
+	res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
 	return
 }
 
@@ -733,8 +733,8 @@ func (line *Line) GetName() (res string) {
 }
 
 func (line *Line) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates",  }
+	// list of fields
+	res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
 	return
 }
 
@@ -882,8 +882,8 @@ func (path *Path) GetName() (res string) {
 }
 
 func (path *Path) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates",  }
+	// list of fields
+	res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
 	return
 }
 
@@ -1025,8 +1025,8 @@ func (polygone *Polygone) GetName() (res string) {
 }
 
 func (polygone *Polygone) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates",  }
+	// list of fields
+	res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
 	return
 }
 
@@ -1168,8 +1168,8 @@ func (polyline *Polyline) GetName() (res string) {
 }
 
 func (polyline *Polyline) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates",  }
+	// list of fields
+	res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
 	return
 }
 
@@ -1311,8 +1311,8 @@ func (rect *Rect) GetName() (res string) {
 }
 
 func (rect *Rect) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations",  }
+	// list of fields
+	res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations"}
 	return
 }
 
@@ -1462,8 +1462,8 @@ func (svg *SVG) GetName() (res string) {
 }
 
 func (svg *SVG) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths",  }
+	// list of fields
+	res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths"}
 	return
 }
 
@@ -1642,8 +1642,8 @@ func (text *Text) GetName() (res string) {
 }
 
 func (text *Text) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates",  }
+	// list of fields
+	res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
 	return
 }
 
@@ -2869,6 +2869,210 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 	return
 }
+
+// insertion point of functions that provide maps for reverse associations
+// generate function for reverse association maps of Animate
+// generate function for reverse association maps of Circle
+func (stageStruct *StageStruct) CreateReverseMap_Circle_Animations() (res map[*Animate]*Circle) {
+	res = make(map[*Animate]*Circle)
+
+	for circle := range stageStruct.Circles {
+		for _, animate_ := range circle.Animations {
+			res[animate_] = circle
+		}
+	}
+
+	return
+}
+
+// generate function for reverse association maps of Ellipse
+func (stageStruct *StageStruct) CreateReverseMap_Ellipse_Animates() (res map[*Animate]*Ellipse) {
+	res = make(map[*Animate]*Ellipse)
+
+	for ellipse := range stageStruct.Ellipses {
+		for _, animate_ := range ellipse.Animates {
+			res[animate_] = ellipse
+		}
+	}
+
+	return
+}
+
+// generate function for reverse association maps of Line
+func (stageStruct *StageStruct) CreateReverseMap_Line_Animates() (res map[*Animate]*Line) {
+	res = make(map[*Animate]*Line)
+
+	for line := range stageStruct.Lines {
+		for _, animate_ := range line.Animates {
+			res[animate_] = line
+		}
+	}
+
+	return
+}
+
+// generate function for reverse association maps of Path
+func (stageStruct *StageStruct) CreateReverseMap_Path_Animates() (res map[*Animate]*Path) {
+	res = make(map[*Animate]*Path)
+
+	for path := range stageStruct.Paths {
+		for _, animate_ := range path.Animates {
+			res[animate_] = path
+		}
+	}
+
+	return
+}
+
+// generate function for reverse association maps of Polygone
+func (stageStruct *StageStruct) CreateReverseMap_Polygone_Animates() (res map[*Animate]*Polygone) {
+	res = make(map[*Animate]*Polygone)
+
+	for polygone := range stageStruct.Polygones {
+		for _, animate_ := range polygone.Animates {
+			res[animate_] = polygone
+		}
+	}
+
+	return
+}
+
+// generate function for reverse association maps of Polyline
+func (stageStruct *StageStruct) CreateReverseMap_Polyline_Animates() (res map[*Animate]*Polyline) {
+	res = make(map[*Animate]*Polyline)
+
+	for polyline := range stageStruct.Polylines {
+		for _, animate_ := range polyline.Animates {
+			res[animate_] = polyline
+		}
+	}
+
+	return
+}
+
+// generate function for reverse association maps of Rect
+func (stageStruct *StageStruct) CreateReverseMap_Rect_Animations() (res map[*Animate]*Rect) {
+	res = make(map[*Animate]*Rect)
+
+	for rect := range stageStruct.Rects {
+		for _, animate_ := range rect.Animations {
+			res[animate_] = rect
+		}
+	}
+
+	return
+}
+
+// generate function for reverse association maps of SVG
+func (stageStruct *StageStruct) CreateReverseMap_SVG_Rects() (res map[*Rect]*SVG) {
+	res = make(map[*Rect]*SVG)
+
+	for svg := range stageStruct.SVGs {
+		for _, rect_ := range svg.Rects {
+			res[rect_] = svg
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_SVG_Texts() (res map[*Text]*SVG) {
+	res = make(map[*Text]*SVG)
+
+	for svg := range stageStruct.SVGs {
+		for _, text_ := range svg.Texts {
+			res[text_] = svg
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_SVG_Circles() (res map[*Circle]*SVG) {
+	res = make(map[*Circle]*SVG)
+
+	for svg := range stageStruct.SVGs {
+		for _, circle_ := range svg.Circles {
+			res[circle_] = svg
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_SVG_Lines() (res map[*Line]*SVG) {
+	res = make(map[*Line]*SVG)
+
+	for svg := range stageStruct.SVGs {
+		for _, line_ := range svg.Lines {
+			res[line_] = svg
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_SVG_Ellipses() (res map[*Ellipse]*SVG) {
+	res = make(map[*Ellipse]*SVG)
+
+	for svg := range stageStruct.SVGs {
+		for _, ellipse_ := range svg.Ellipses {
+			res[ellipse_] = svg
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_SVG_Polylines() (res map[*Polyline]*SVG) {
+	res = make(map[*Polyline]*SVG)
+
+	for svg := range stageStruct.SVGs {
+		for _, polyline_ := range svg.Polylines {
+			res[polyline_] = svg
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_SVG_Polygones() (res map[*Polygone]*SVG) {
+	res = make(map[*Polygone]*SVG)
+
+	for svg := range stageStruct.SVGs {
+		for _, polygone_ := range svg.Polygones {
+			res[polygone_] = svg
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_SVG_Paths() (res map[*Path]*SVG) {
+	res = make(map[*Path]*SVG)
+
+	for svg := range stageStruct.SVGs {
+		for _, path_ := range svg.Paths {
+			res[path_] = svg
+		}
+	}
+
+	return
+}
+
+// generate function for reverse association maps of Text
+func (stageStruct *StageStruct) CreateReverseMap_Text_Animates() (res map[*Animate]*Text) {
+	res = make(map[*Animate]*Text)
+
+	for text := range stageStruct.Texts {
+		for _, animate_ := range text.Animates {
+			res[animate_] = text
+		}
+	}
+
+	return
+}
+
 
 // insertion point of enum utility functions
 // Utility function for ColorType

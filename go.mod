@@ -9,6 +9,7 @@ require (
 	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.7.4
 	github.com/glebarez/sqlite v1.3.5
+	github.com/llgcode/draw2d v0.0.0-20210904075650-80aa0a2a901d
 	github.com/tealeg/xlsx/v3 v3.2.3
 	gorm.io/gorm v1.22.5
 )

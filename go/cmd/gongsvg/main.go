@@ -14,6 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/gongsvg/go/controllers"
+	"github.com/fullstack-lang/gongsvg/go/gongsvg2png"
 	"github.com/fullstack-lang/gongsvg/go/models"
 	"github.com/fullstack-lang/gongsvg/go/orm"
 
@@ -69,6 +70,8 @@ func main() {
 
 	// setup GORM
 	orm.SetupModels(*logDBFlag, "./test.db")
+
+	gongsvg2png.Gongsvg2png(&models.Stage, "./test.png")
 
 	controllers.RegisterControllers(r)
 

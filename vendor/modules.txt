@@ -126,6 +126,12 @@ github.com/kr/text
 # github.com/leodido/go-urn v1.2.1
 ## explicit; go 1.13
 github.com/leodido/go-urn
+# github.com/llgcode/draw2d v0.0.0-20210904075650-80aa0a2a901d
+## explicit
+github.com/llgcode/draw2d
+github.com/llgcode/draw2d/draw2dbase
+github.com/llgcode/draw2d/draw2dimg
+github.com/llgcode/draw2d/draw2dkit
 # github.com/mattn/go-isatty v0.0.14
 ## explicit; go 1.12
 github.com/mattn/go-isatty

@@ -346,7 +346,7 @@ func (backRepoLine *BackRepoLineStruct) CheckoutPhaseOne() (Error error) {
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	lineInstancesToBeRemovedFromTheStage := make(map[*models.Line]struct{})
+	lineInstancesToBeRemovedFromTheStage := make(map[*models.Line]any)
 	for key, value := range models.Stage.Lines {
 		lineInstancesToBeRemovedFromTheStage[key] = value
 	}

@@ -12,7 +12,7 @@ import (
 )
 
 // swagger:ignore
-type __void struct{}
+type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
@@ -28,34 +28,34 @@ type GongStructInterface interface {
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
-	Animates           map[*Animate]struct{}
+	Animates           map[*Animate]any
 	Animates_mapString map[string]*Animate
 
-	Circles           map[*Circle]struct{}
+	Circles           map[*Circle]any
 	Circles_mapString map[string]*Circle
 
-	Ellipses           map[*Ellipse]struct{}
+	Ellipses           map[*Ellipse]any
 	Ellipses_mapString map[string]*Ellipse
 
-	Lines           map[*Line]struct{}
+	Lines           map[*Line]any
 	Lines_mapString map[string]*Line
 
-	Paths           map[*Path]struct{}
+	Paths           map[*Path]any
 	Paths_mapString map[string]*Path
 
-	Polygones           map[*Polygone]struct{}
+	Polygones           map[*Polygone]any
 	Polygones_mapString map[string]*Polygone
 
-	Polylines           map[*Polyline]struct{}
+	Polylines           map[*Polyline]any
 	Polylines_mapString map[string]*Polyline
 
-	Rects           map[*Rect]struct{}
+	Rects           map[*Rect]any
 	Rects_mapString map[string]*Rect
 
-	SVGs           map[*SVG]struct{}
+	SVGs           map[*SVG]any
 	SVGs_mapString map[string]*SVG
 
-	Texts           map[*Text]struct{}
+	Texts           map[*Text]any
 	Texts_mapString map[string]*Text
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
@@ -111,34 +111,34 @@ type BackRepoInterface interface {
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Animates:           make(map[*Animate]struct{}),
+	Animates:           make(map[*Animate]any),
 	Animates_mapString: make(map[string]*Animate),
 
-	Circles:           make(map[*Circle]struct{}),
+	Circles:           make(map[*Circle]any),
 	Circles_mapString: make(map[string]*Circle),
 
-	Ellipses:           make(map[*Ellipse]struct{}),
+	Ellipses:           make(map[*Ellipse]any),
 	Ellipses_mapString: make(map[string]*Ellipse),
 
-	Lines:           make(map[*Line]struct{}),
+	Lines:           make(map[*Line]any),
 	Lines_mapString: make(map[string]*Line),
 
-	Paths:           make(map[*Path]struct{}),
+	Paths:           make(map[*Path]any),
 	Paths_mapString: make(map[string]*Path),
 
-	Polygones:           make(map[*Polygone]struct{}),
+	Polygones:           make(map[*Polygone]any),
 	Polygones_mapString: make(map[string]*Polygone),
 
-	Polylines:           make(map[*Polyline]struct{}),
+	Polylines:           make(map[*Polyline]any),
 	Polylines_mapString: make(map[string]*Polyline),
 
-	Rects:           make(map[*Rect]struct{}),
+	Rects:           make(map[*Rect]any),
 	Rects_mapString: make(map[string]*Rect),
 
-	SVGs:           make(map[*SVG]struct{}),
+	SVGs:           make(map[*SVG]any),
 	SVGs_mapString: make(map[string]*SVG),
 
-	Texts:           make(map[*Text]struct{}),
+	Texts:           make(map[*Text]any),
 	Texts_mapString: make(map[string]*Text),
 
 	// end of insertion point
@@ -1709,34 +1709,34 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Animates = make(map[*Animate]struct{})
+	stage.Animates = make(map[*Animate]any)
 	stage.Animates_mapString = make(map[string]*Animate)
 
-	stage.Circles = make(map[*Circle]struct{})
+	stage.Circles = make(map[*Circle]any)
 	stage.Circles_mapString = make(map[string]*Circle)
 
-	stage.Ellipses = make(map[*Ellipse]struct{})
+	stage.Ellipses = make(map[*Ellipse]any)
 	stage.Ellipses_mapString = make(map[string]*Ellipse)
 
-	stage.Lines = make(map[*Line]struct{})
+	stage.Lines = make(map[*Line]any)
 	stage.Lines_mapString = make(map[string]*Line)
 
-	stage.Paths = make(map[*Path]struct{})
+	stage.Paths = make(map[*Path]any)
 	stage.Paths_mapString = make(map[string]*Path)
 
-	stage.Polygones = make(map[*Polygone]struct{})
+	stage.Polygones = make(map[*Polygone]any)
 	stage.Polygones_mapString = make(map[string]*Polygone)
 
-	stage.Polylines = make(map[*Polyline]struct{})
+	stage.Polylines = make(map[*Polyline]any)
 	stage.Polylines_mapString = make(map[string]*Polyline)
 
-	stage.Rects = make(map[*Rect]struct{})
+	stage.Rects = make(map[*Rect]any)
 	stage.Rects_mapString = make(map[string]*Rect)
 
-	stage.SVGs = make(map[*SVG]struct{})
+	stage.SVGs = make(map[*SVG]any)
 	stage.SVGs_mapString = make(map[string]*SVG)
 
-	stage.Texts = make(map[*Text]struct{})
+	stage.Texts = make(map[*Text]any)
 	stage.Texts_mapString = make(map[string]*Text)
 
 }
@@ -2871,7 +2871,9 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 }
 
 // insertion point of functions that provide maps for reverse associations
+
 // generate function for reverse association maps of Animate
+
 // generate function for reverse association maps of Circle
 func (stageStruct *StageStruct) CreateReverseMap_Circle_Animations() (res map[*Animate]*Circle) {
 	res = make(map[*Animate]*Circle)
@@ -2884,6 +2886,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Circle_Animations() (res map[*A
 
 	return
 }
+
 
 // generate function for reverse association maps of Ellipse
 func (stageStruct *StageStruct) CreateReverseMap_Ellipse_Animates() (res map[*Animate]*Ellipse) {
@@ -2898,6 +2901,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Ellipse_Animates() (res map[*An
 	return
 }
 
+
 // generate function for reverse association maps of Line
 func (stageStruct *StageStruct) CreateReverseMap_Line_Animates() (res map[*Animate]*Line) {
 	res = make(map[*Animate]*Line)
@@ -2910,6 +2914,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Line_Animates() (res map[*Anima
 
 	return
 }
+
 
 // generate function for reverse association maps of Path
 func (stageStruct *StageStruct) CreateReverseMap_Path_Animates() (res map[*Animate]*Path) {
@@ -2924,6 +2929,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Path_Animates() (res map[*Anima
 	return
 }
 
+
 // generate function for reverse association maps of Polygone
 func (stageStruct *StageStruct) CreateReverseMap_Polygone_Animates() (res map[*Animate]*Polygone) {
 	res = make(map[*Animate]*Polygone)
@@ -2936,6 +2942,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Polygone_Animates() (res map[*A
 
 	return
 }
+
 
 // generate function for reverse association maps of Polyline
 func (stageStruct *StageStruct) CreateReverseMap_Polyline_Animates() (res map[*Animate]*Polyline) {
@@ -2950,6 +2957,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Polyline_Animates() (res map[*A
 	return
 }
 
+
 // generate function for reverse association maps of Rect
 func (stageStruct *StageStruct) CreateReverseMap_Rect_Animations() (res map[*Animate]*Rect) {
 	res = make(map[*Animate]*Rect)
@@ -2962,6 +2970,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Rect_Animations() (res map[*Ani
 
 	return
 }
+
 
 // generate function for reverse association maps of SVG
 func (stageStruct *StageStruct) CreateReverseMap_SVG_Rects() (res map[*Rect]*SVG) {
@@ -3060,6 +3069,7 @@ func (stageStruct *StageStruct) CreateReverseMap_SVG_Paths() (res map[*Path]*SVG
 	return
 }
 
+
 // generate function for reverse association maps of Text
 func (stageStruct *StageStruct) CreateReverseMap_Text_Animates() (res map[*Animate]*Text) {
 	res = make(map[*Animate]*Text)
@@ -3073,6 +3083,102 @@ func (stageStruct *StageStruct) CreateReverseMap_Text_Animates() (res map[*Anima
 	return
 }
 
+
+type GongstructSet interface {
+	map[any]any |
+		// insertion point for generic types
+		map[*Animate]any |
+		map[*Circle]any |
+		map[*Ellipse]any |
+		map[*Line]any |
+		map[*Path]any |
+		map[*Polygone]any |
+		map[*Polyline]any |
+		map[*Rect]any |
+		map[*SVG]any |
+		map[*Text]any |
+		map[*any]any // because go does not support an extra "|" at the end of type specifications
+}
+
+type GongstructMapString interface {
+	map[any]any |
+		// insertion point for generic types
+		map[string]*Animate |
+		map[string]*Circle |
+		map[string]*Ellipse |
+		map[string]*Line |
+		map[string]*Path |
+		map[string]*Polygone |
+		map[string]*Polyline |
+		map[string]*Rect |
+		map[string]*SVG |
+		map[string]*Text |
+		map[*any]any // because go does not support an extra "|" at the end of type specifications
+}
+
+// GongGetSet returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GongGetSet[Type GongstructSet]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case map[*Animate]any:
+		return any(&Stage.Animates).(*Type)
+	case map[*Circle]any:
+		return any(&Stage.Circles).(*Type)
+	case map[*Ellipse]any:
+		return any(&Stage.Ellipses).(*Type)
+	case map[*Line]any:
+		return any(&Stage.Lines).(*Type)
+	case map[*Path]any:
+		return any(&Stage.Paths).(*Type)
+	case map[*Polygone]any:
+		return any(&Stage.Polygones).(*Type)
+	case map[*Polyline]any:
+		return any(&Stage.Polylines).(*Type)
+	case map[*Rect]any:
+		return any(&Stage.Rects).(*Type)
+	case map[*SVG]any:
+		return any(&Stage.SVGs).(*Type)
+	case map[*Text]any:
+		return any(&Stage.Texts).(*Type)
+	default:
+		return nil
+	}
+}
+
+// GongGetMap returns the map of staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GongGetMap[Type GongstructMapString]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case map[string]*Animate:
+		return any(&Stage.Animates_mapString).(*Type)
+	case map[string]*Circle:
+		return any(&Stage.Circles_mapString).(*Type)
+	case map[string]*Ellipse:
+		return any(&Stage.Ellipses_mapString).(*Type)
+	case map[string]*Line:
+		return any(&Stage.Lines_mapString).(*Type)
+	case map[string]*Path:
+		return any(&Stage.Paths_mapString).(*Type)
+	case map[string]*Polygone:
+		return any(&Stage.Polygones_mapString).(*Type)
+	case map[string]*Polyline:
+		return any(&Stage.Polylines_mapString).(*Type)
+	case map[string]*Rect:
+		return any(&Stage.Rects_mapString).(*Type)
+	case map[string]*SVG:
+		return any(&Stage.SVGs_mapString).(*Type)
+	case map[string]*Text:
+		return any(&Stage.Texts_mapString).(*Type)
+	default:
+		return nil
+	}
+}
 
 // insertion point of enum utility functions
 // Utility function for ColorType

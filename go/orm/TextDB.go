@@ -340,7 +340,7 @@ func (backRepoText *BackRepoTextStruct) CheckoutPhaseOne() (Error error) {
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	textInstancesToBeRemovedFromTheStage := make(map[*models.Text]struct{})
+	textInstancesToBeRemovedFromTheStage := make(map[*models.Text]any)
 	for key, value := range models.Stage.Texts {
 		textInstancesToBeRemovedFromTheStage[key] = value
 	}

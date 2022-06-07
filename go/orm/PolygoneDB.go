@@ -328,7 +328,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseOne() (Error error)
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	polygoneInstancesToBeRemovedFromTheStage := make(map[*models.Polygone]struct{})
+	polygoneInstancesToBeRemovedFromTheStage := make(map[*models.Polygone]any)
 	for key, value := range models.Stage.Polygones {
 		polygoneInstancesToBeRemovedFromTheStage[key] = value
 	}

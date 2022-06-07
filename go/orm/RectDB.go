@@ -352,7 +352,7 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseOne() (Error error) {
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	rectInstancesToBeRemovedFromTheStage := make(map[*models.Rect]struct{})
+	rectInstancesToBeRemovedFromTheStage := make(map[*models.Rect]any)
 	for key, value := range models.Stage.Rects {
 		rectInstancesToBeRemovedFromTheStage[key] = value
 	}

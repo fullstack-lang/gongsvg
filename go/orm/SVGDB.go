@@ -420,7 +420,7 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseOne() (Error error) {
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	svgInstancesToBeRemovedFromTheStage := make(map[*models.SVG]struct{})
+	svgInstancesToBeRemovedFromTheStage := make(map[*models.SVG]any)
 	for key, value := range models.Stage.SVGs {
 		svgInstancesToBeRemovedFromTheStage[key] = value
 	}

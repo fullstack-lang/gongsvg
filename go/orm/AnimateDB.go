@@ -333,7 +333,7 @@ func (backRepoAnimate *BackRepoAnimateStruct) CheckoutPhaseOne() (Error error) {
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	animateInstancesToBeRemovedFromTheStage := make(map[*models.Animate]struct{})
+	animateInstancesToBeRemovedFromTheStage := make(map[*models.Animate]any)
 	for key, value := range models.Stage.Animates {
 		animateInstancesToBeRemovedFromTheStage[key] = value
 	}

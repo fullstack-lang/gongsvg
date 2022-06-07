@@ -346,7 +346,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseOne() (Error error) {
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	ellipseInstancesToBeRemovedFromTheStage := make(map[*models.Ellipse]struct{})
+	ellipseInstancesToBeRemovedFromTheStage := make(map[*models.Ellipse]any)
 	for key, value := range models.Stage.Ellipses {
 		ellipseInstancesToBeRemovedFromTheStage[key] = value
 	}

@@ -328,7 +328,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) CheckoutPhaseOne() (Error error)
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	polylineInstancesToBeRemovedFromTheStage := make(map[*models.Polyline]struct{})
+	polylineInstancesToBeRemovedFromTheStage := make(map[*models.Polyline]any)
 	for key, value := range models.Stage.Polylines {
 		polylineInstancesToBeRemovedFromTheStage[key] = value
 	}

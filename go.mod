@@ -11,6 +11,7 @@ require (
 	github.com/glebarez/sqlite v1.3.5
 	github.com/llgcode/draw2d v0.0.0-20210904075650-80aa0a2a901d
 	github.com/tealeg/xlsx/v3 v3.2.3
+	golang.org/x/image v0.0.0-20210628002857-a66eb6448b8d
 	gorm.io/gorm v1.22.5
 )
 
@@ -52,7 +53,6 @@ require (
 	github.com/tdewolff/parse/v2 v2.5.22 // indirect
 	github.com/ugorji/go/codec v1.2.6 // indirect
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
-	golang.org/x/image v0.0.0-20210628002857-a66eb6448b8d // indirect
 	golang.org/x/mod v0.5.1 // indirect
 	golang.org/x/sys v0.0.0-20211015200801-69063c4bb744 // indirect
 	golang.org/x/text v0.3.7 // indirect

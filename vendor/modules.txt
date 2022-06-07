@@ -185,6 +185,7 @@ golang.org/x/crypto/sha3
 ## explicit; go 1.12
 golang.org/x/image/bmp
 golang.org/x/image/ccitt
+golang.org/x/image/colornames
 golang.org/x/image/draw
 golang.org/x/image/font
 golang.org/x/image/font/gofont/gobold

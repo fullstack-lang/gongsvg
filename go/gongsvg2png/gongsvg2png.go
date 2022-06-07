@@ -1,6 +1,9 @@
 package gongsvg2png
 
 import (
+	"fmt"
+	"strings"
+
 	gongsvg_models "github.com/fullstack-lang/gongsvg/go/models"
 
 	"image"
@@ -8,34 +11,82 @@ import (
 	"log"
 	"math"
 
+	"golang.org/x/image/colornames"
+
 	"github.com/llgcode/draw2d"
 	"github.com/llgcode/draw2d/draw2dimg"
 	"github.com/llgcode/draw2d/draw2dkit"
 )
 
 func Gongsvg2png(stage *gongsvg_models.StageStruct, path string) {
-	// Initialize the graphic context on an RGBA image
-	dest := image.NewRGBA(image.Rect(0, 0, 297, 210.0))
-	gc := draw2dimg.NewGraphicContext(dest)
 
-	// Draw(gc, 65, 0)
 	gongsvg_models.Stage.Checkout()
-	for line := range stage.Lines {
-		line2gc(gc, line, 20, 20)
-	}
+	for svg := range stage.SVGs {
 
-	pathPng := "./test.png"
+		// Initialize the graphic context on an RGBA image
+		dest := image.NewRGBA(image.Rect(0, 0, 400, 400))
+		gc := draw2dimg.NewGraphicContext(dest)
 
-	// Save to png
-	err := draw2dimg.SaveToPngFile(pathPng, dest)
-	if err != nil {
-		log.Printf("Saving %q failed: %v", pathPng, err)
-		return
+		for _, line := range svg.Lines {
+			line2gc(gc, line)
+		}
+
+		for _, rect := range svg.Rects {
+			rect2gc(gc, rect)
+		}
+
+		pathPng := fmt.Sprintf("./%s.png", svg.Name)
+
+		// Save to png
+		err := draw2dimg.SaveToPngFile(pathPng, dest)
+		if err != nil {
+			log.Printf("Saving %q failed: %v", pathPng, err)
+			return
+		}
 	}
 
 }
 
-func line2gc(gc draw2d.GraphicContext, line *gongsvg_models.Line, x, y float64) {
+func rect2gc(gc draw2d.GraphicContext, rect *gongsvg_models.Rect) {
+
+	// set rect properties
+	gc.SetLineCap(draw2d.RoundCap)
+	gc.SetLineWidth(rect.StrokeWidth)
+	gc.SetFillColor(color.RGBA{0x44, 0xff, 0x44, 0xff})
+	gc.SetStrokeColor(color.RGBA{0x44, 0x44, 0x44, 0xff})
+	fillOpacityUint := uint8(rect.FillOpacity * 255.0)
+
+	var rectFillColor color.Color
+	if strings.HasPrefix(rect.Color, "rgb") {
+		var red, green, blue int
+		_, err := fmt.Sscanf(rect.Color, "rgb(%d,%d,%d)", &red, &green, &blue)
+
+		if err != nil {
+			panic(err)
+		}
+		rectFillColor = color.RGBA{uint8(red), uint8(green), uint8(blue), fillOpacityUint}
+
+	} else {
+		rectFillColor = colornames.Map[rect.Color]
+		r, g, b, _ := rectFillColor.RGBA()
+		rectFillColor = color.RGBA64{uint16(r), uint16(g), uint16(b), uint16(fillOpacityUint)}
+	}
+	gc.SetFillColor(rectFillColor)
+
+	gc.BeginPath()
+	gc.MoveTo(rect.X, rect.Y)
+	gc.LineTo(rect.X+rect.Width, rect.Y)
+	gc.LineTo(rect.X+rect.Width, rect.Y+rect.Height)
+	gc.LineTo(rect.X, rect.Y+rect.Height)
+	gc.Close()
+	gc.FillStroke()
+	path := gc.GetPath()
+	gc.Fill(&path)
+	gc.Stroke()
+
+}
+
+func line2gc(gc draw2d.GraphicContext, line *gongsvg_models.Line) {
 
 	// set line properties
 	gc.SetLineCap(draw2d.RoundCap)
@@ -43,8 +94,8 @@ func line2gc(gc draw2d.GraphicContext, line *gongsvg_models.Line, x, y float64) 
 	gc.SetFillColor(color.RGBA{0x44, 0xff, 0x44, 0xff})
 	gc.SetStrokeColor(color.RGBA{0x44, 0x44, 0x44, 0xff})
 
-	gc.MoveTo(x+line.X1, y+line.Y1)
-	gc.LineTo(x+line.X2, y+line.Y2)
+	gc.MoveTo(line.X1, line.Y1)
+	gc.LineTo(line.X2, line.Y2)
 	gc.Stroke()
 }
 

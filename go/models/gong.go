@@ -306,29 +306,6 @@ func (animate *Animate) GetName() (res string) {
 	return animate.Name
 }
 
-func (animate *Animate) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "AttributeName", "Values", "Dur", "RepeatCount"}
-	return
-}
-
-func (animate *Animate) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = animate.Name
-	case "AttributeName":
-		res = animate.AttributeName
-	case "Values":
-		res = animate.Values
-	case "Dur":
-		res = animate.Dur
-	case "RepeatCount":
-		res = animate.RepeatCount
-	}
-	return
-}
-
 func (stage *StageStruct) getCircleOrderedStructWithNameField() []*Circle {
 	// have alphabetical order generation
 	circleOrdered := []*Circle{}
@@ -434,46 +411,6 @@ func DeleteORMCircle(circle *Circle) {
 // for satisfaction of GongStruct interface
 func (circle *Circle) GetName() (res string) {
 	return circle.Name
-}
-
-func (circle *Circle) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations"}
-	return
-}
-
-func (circle *Circle) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = circle.Name
-	case "CX":
-		res = fmt.Sprintf("%f", circle.CX)
-	case "CY":
-		res = fmt.Sprintf("%f", circle.CY)
-	case "Radius":
-		res = fmt.Sprintf("%f", circle.Radius)
-	case "Color":
-		res = circle.Color
-	case "FillOpacity":
-		res = fmt.Sprintf("%f", circle.FillOpacity)
-	case "Stroke":
-		res = circle.Stroke
-	case "StrokeWidth":
-		res = fmt.Sprintf("%f", circle.StrokeWidth)
-	case "StrokeDashArray":
-		res = circle.StrokeDashArray
-	case "Transform":
-		res = circle.Transform
-	case "Animations":
-		for idx, __instance__ := range circle.Animations {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	}
-	return
 }
 
 func (stage *StageStruct) getEllipseOrderedStructWithNameField() []*Ellipse {
@@ -583,48 +520,6 @@ func (ellipse *Ellipse) GetName() (res string) {
 	return ellipse.Name
 }
 
-func (ellipse *Ellipse) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
-	return
-}
-
-func (ellipse *Ellipse) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = ellipse.Name
-	case "CX":
-		res = fmt.Sprintf("%f", ellipse.CX)
-	case "CY":
-		res = fmt.Sprintf("%f", ellipse.CY)
-	case "RX":
-		res = fmt.Sprintf("%f", ellipse.RX)
-	case "RY":
-		res = fmt.Sprintf("%f", ellipse.RY)
-	case "Color":
-		res = ellipse.Color
-	case "FillOpacity":
-		res = fmt.Sprintf("%f", ellipse.FillOpacity)
-	case "Stroke":
-		res = ellipse.Stroke
-	case "StrokeWidth":
-		res = fmt.Sprintf("%f", ellipse.StrokeWidth)
-	case "StrokeDashArray":
-		res = ellipse.StrokeDashArray
-	case "Transform":
-		res = ellipse.Transform
-	case "Animates":
-		for idx, __instance__ := range ellipse.Animates {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	}
-	return
-}
-
 func (stage *StageStruct) getLineOrderedStructWithNameField() []*Line {
 	// have alphabetical order generation
 	lineOrdered := []*Line{}
@@ -730,48 +625,6 @@ func DeleteORMLine(line *Line) {
 // for satisfaction of GongStruct interface
 func (line *Line) GetName() (res string) {
 	return line.Name
-}
-
-func (line *Line) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
-	return
-}
-
-func (line *Line) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = line.Name
-	case "X1":
-		res = fmt.Sprintf("%f", line.X1)
-	case "Y1":
-		res = fmt.Sprintf("%f", line.Y1)
-	case "X2":
-		res = fmt.Sprintf("%f", line.X2)
-	case "Y2":
-		res = fmt.Sprintf("%f", line.Y2)
-	case "Color":
-		res = line.Color
-	case "FillOpacity":
-		res = fmt.Sprintf("%f", line.FillOpacity)
-	case "Stroke":
-		res = line.Stroke
-	case "StrokeWidth":
-		res = fmt.Sprintf("%f", line.StrokeWidth)
-	case "StrokeDashArray":
-		res = line.StrokeDashArray
-	case "Transform":
-		res = line.Transform
-	case "Animates":
-		for idx, __instance__ := range line.Animates {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	}
-	return
 }
 
 func (stage *StageStruct) getPathOrderedStructWithNameField() []*Path {
@@ -881,42 +734,6 @@ func (path *Path) GetName() (res string) {
 	return path.Name
 }
 
-func (path *Path) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
-	return
-}
-
-func (path *Path) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = path.Name
-	case "Definition":
-		res = path.Definition
-	case "Color":
-		res = path.Color
-	case "FillOpacity":
-		res = fmt.Sprintf("%f", path.FillOpacity)
-	case "Stroke":
-		res = path.Stroke
-	case "StrokeWidth":
-		res = fmt.Sprintf("%f", path.StrokeWidth)
-	case "StrokeDashArray":
-		res = path.StrokeDashArray
-	case "Transform":
-		res = path.Transform
-	case "Animates":
-		for idx, __instance__ := range path.Animates {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	}
-	return
-}
-
 func (stage *StageStruct) getPolygoneOrderedStructWithNameField() []*Polygone {
 	// have alphabetical order generation
 	polygoneOrdered := []*Polygone{}
@@ -1022,42 +839,6 @@ func DeleteORMPolygone(polygone *Polygone) {
 // for satisfaction of GongStruct interface
 func (polygone *Polygone) GetName() (res string) {
 	return polygone.Name
-}
-
-func (polygone *Polygone) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
-	return
-}
-
-func (polygone *Polygone) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = polygone.Name
-	case "Points":
-		res = polygone.Points
-	case "Color":
-		res = polygone.Color
-	case "FillOpacity":
-		res = fmt.Sprintf("%f", polygone.FillOpacity)
-	case "Stroke":
-		res = polygone.Stroke
-	case "StrokeWidth":
-		res = fmt.Sprintf("%f", polygone.StrokeWidth)
-	case "StrokeDashArray":
-		res = polygone.StrokeDashArray
-	case "Transform":
-		res = polygone.Transform
-	case "Animates":
-		for idx, __instance__ := range polygone.Animates {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	}
-	return
 }
 
 func (stage *StageStruct) getPolylineOrderedStructWithNameField() []*Polyline {
@@ -1167,42 +948,6 @@ func (polyline *Polyline) GetName() (res string) {
 	return polyline.Name
 }
 
-func (polyline *Polyline) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
-	return
-}
-
-func (polyline *Polyline) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = polyline.Name
-	case "Points":
-		res = polyline.Points
-	case "Color":
-		res = polyline.Color
-	case "FillOpacity":
-		res = fmt.Sprintf("%f", polyline.FillOpacity)
-	case "Stroke":
-		res = polyline.Stroke
-	case "StrokeWidth":
-		res = fmt.Sprintf("%f", polyline.StrokeWidth)
-	case "StrokeDashArray":
-		res = polyline.StrokeDashArray
-	case "Transform":
-		res = polyline.Transform
-	case "Animates":
-		for idx, __instance__ := range polyline.Animates {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	}
-	return
-}
-
 func (stage *StageStruct) getRectOrderedStructWithNameField() []*Rect {
 	// have alphabetical order generation
 	rectOrdered := []*Rect{}
@@ -1308,50 +1053,6 @@ func DeleteORMRect(rect *Rect) {
 // for satisfaction of GongStruct interface
 func (rect *Rect) GetName() (res string) {
 	return rect.Name
-}
-
-func (rect *Rect) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations"}
-	return
-}
-
-func (rect *Rect) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = rect.Name
-	case "X":
-		res = fmt.Sprintf("%f", rect.X)
-	case "Y":
-		res = fmt.Sprintf("%f", rect.Y)
-	case "Width":
-		res = fmt.Sprintf("%f", rect.Width)
-	case "Height":
-		res = fmt.Sprintf("%f", rect.Height)
-	case "RX":
-		res = fmt.Sprintf("%f", rect.RX)
-	case "Color":
-		res = rect.Color
-	case "FillOpacity":
-		res = fmt.Sprintf("%f", rect.FillOpacity)
-	case "Stroke":
-		res = rect.Stroke
-	case "StrokeWidth":
-		res = fmt.Sprintf("%f", rect.StrokeWidth)
-	case "StrokeDashArray":
-		res = rect.StrokeDashArray
-	case "Transform":
-		res = rect.Transform
-	case "Animations":
-		for idx, __instance__ := range rect.Animations {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	}
-	return
 }
 
 func (stage *StageStruct) getSVGOrderedStructWithNameField() []*SVG {
@@ -1461,79 +1162,6 @@ func (svg *SVG) GetName() (res string) {
 	return svg.Name
 }
 
-func (svg *SVG) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths"}
-	return
-}
-
-func (svg *SVG) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Display":
-		res = fmt.Sprintf("%t", svg.Display)
-	case "Name":
-		res = svg.Name
-	case "Rects":
-		for idx, __instance__ := range svg.Rects {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "Texts":
-		for idx, __instance__ := range svg.Texts {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "Circles":
-		for idx, __instance__ := range svg.Circles {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "Lines":
-		for idx, __instance__ := range svg.Lines {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "Ellipses":
-		for idx, __instance__ := range svg.Ellipses {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "Polylines":
-		for idx, __instance__ := range svg.Polylines {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "Polygones":
-		for idx, __instance__ := range svg.Polygones {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "Paths":
-		for idx, __instance__ := range svg.Paths {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	}
-	return
-}
-
 func (stage *StageStruct) getTextOrderedStructWithNameField() []*Text {
 	// have alphabetical order generation
 	textOrdered := []*Text{}
@@ -1639,46 +1267,6 @@ func DeleteORMText(text *Text) {
 // for satisfaction of GongStruct interface
 func (text *Text) GetName() (res string) {
 	return text.Name
-}
-
-func (text *Text) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
-	return
-}
-
-func (text *Text) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = text.Name
-	case "X":
-		res = fmt.Sprintf("%f", text.X)
-	case "Y":
-		res = fmt.Sprintf("%f", text.Y)
-	case "Content":
-		res = text.Content
-	case "Color":
-		res = text.Color
-	case "FillOpacity":
-		res = fmt.Sprintf("%f", text.FillOpacity)
-	case "Stroke":
-		res = text.Stroke
-	case "StrokeWidth":
-		res = fmt.Sprintf("%f", text.StrokeWidth)
-	case "StrokeDashArray":
-		res = text.StrokeDashArray
-	case "Transform":
-		res = text.Transform
-	case "Animates":
-		for idx, __instance__ := range text.Animates {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	}
-	return
 }
 
 // swagger:ignore
@@ -1858,7 +1446,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(animateOrdered[:], func(i, j int) bool {
 		return animateOrdered[i].Name < animateOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Animate")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Animate"
 	for idx, animate := range animateOrdered {
 
 		id = generatesIdentifier("Animate", idx, animate.Name)
@@ -1914,7 +1502,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(circleOrdered[:], func(i, j int) bool {
 		return circleOrdered[i].Name < circleOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Circle")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Circle"
 	for idx, circle := range circleOrdered {
 
 		id = generatesIdentifier("Circle", idx, circle.Name)
@@ -2000,7 +1588,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(ellipseOrdered[:], func(i, j int) bool {
 		return ellipseOrdered[i].Name < ellipseOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Ellipse")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Ellipse"
 	for idx, ellipse := range ellipseOrdered {
 
 		id = generatesIdentifier("Ellipse", idx, ellipse.Name)
@@ -2092,7 +1680,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(lineOrdered[:], func(i, j int) bool {
 		return lineOrdered[i].Name < lineOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Line")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Line"
 	for idx, line := range lineOrdered {
 
 		id = generatesIdentifier("Line", idx, line.Name)
@@ -2184,7 +1772,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(pathOrdered[:], func(i, j int) bool {
 		return pathOrdered[i].Name < pathOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Path")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Path"
 	for idx, path := range pathOrdered {
 
 		id = generatesIdentifier("Path", idx, path.Name)
@@ -2258,7 +1846,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(polygoneOrdered[:], func(i, j int) bool {
 		return polygoneOrdered[i].Name < polygoneOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Polygone")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Polygone"
 	for idx, polygone := range polygoneOrdered {
 
 		id = generatesIdentifier("Polygone", idx, polygone.Name)
@@ -2332,7 +1920,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(polylineOrdered[:], func(i, j int) bool {
 		return polylineOrdered[i].Name < polylineOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Polyline")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Polyline"
 	for idx, polyline := range polylineOrdered {
 
 		id = generatesIdentifier("Polyline", idx, polyline.Name)
@@ -2406,7 +1994,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(rectOrdered[:], func(i, j int) bool {
 		return rectOrdered[i].Name < rectOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Rect")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Rect"
 	for idx, rect := range rectOrdered {
 
 		id = generatesIdentifier("Rect", idx, rect.Name)
@@ -2504,7 +2092,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(svgOrdered[:], func(i, j int) bool {
 		return svgOrdered[i].Name < svgOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of SVG")
+	identifiersDecl += "\n\n	// Declarations of staged instances of SVG"
 	for idx, svg := range svgOrdered {
 
 		id = generatesIdentifier("SVG", idx, svg.Name)
@@ -2542,7 +2130,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(textOrdered[:], func(i, j int) bool {
 		return textOrdered[i].Name < textOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Text")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Text"
 	for idx, text := range textOrdered {
 
 		id = generatesIdentifier("Text", idx, text.Name)
@@ -3084,7 +2672,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Text_Animates() (res map[*Anima
 }
 
 
-// Gongstruct is the type paramter for generated generic function that allows 
+// Gongstruct is the type paramter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
@@ -3598,6 +3186,399 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 	return nil
 }
 
+// GetGongstructName returns the name of the Gongstruct
+// this can be usefull if one want program robust to refactoring
+func GetGongstructName[Type Gongstruct]() (res string) {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
+	case Animate:
+		res = "Animate"
+	case Circle:
+		res = "Circle"
+	case Ellipse:
+		res = "Ellipse"
+	case Line:
+		res = "Line"
+	case Path:
+		res = "Path"
+	case Polygone:
+		res = "Polygone"
+	case Polyline:
+		res = "Polyline"
+	case Rect:
+		res = "Rect"
+	case SVG:
+		res = "SVG"
+	case Text:
+		res = "Text"
+	}
+	return res
+}
+
+// GetFields return the array of the fields
+func GetFields[Type Gongstruct]() (res []string) {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
+	case Animate:
+		res = []string{"Name", "AttributeName", "Values", "Dur", "RepeatCount"}
+	case Circle:
+		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations"}
+	case Ellipse:
+		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+	case Line:
+		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+	case Path:
+		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+	case Polygone:
+		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+	case Polyline:
+		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+	case Rect:
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations"}
+	case SVG:
+		res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths"}
+	case Text:
+		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+	}
+	return
+}
+
+func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res string) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct field value
+	case Animate:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Animate).Name
+		case "AttributeName":
+			res = any(instance).(Animate).AttributeName
+		case "Values":
+			res = any(instance).(Animate).Values
+		case "Dur":
+			res = any(instance).(Animate).Dur
+		case "RepeatCount":
+			res = any(instance).(Animate).RepeatCount
+		}
+	case Circle:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Circle).Name
+		case "CX":
+			res = fmt.Sprintf("%f", any(instance).(Circle).CX)
+		case "CY":
+			res = fmt.Sprintf("%f", any(instance).(Circle).CY)
+		case "Radius":
+			res = fmt.Sprintf("%f", any(instance).(Circle).Radius)
+		case "Color":
+			res = any(instance).(Circle).Color
+		case "FillOpacity":
+			res = fmt.Sprintf("%f", any(instance).(Circle).FillOpacity)
+		case "Stroke":
+			res = any(instance).(Circle).Stroke
+		case "StrokeWidth":
+			res = fmt.Sprintf("%f", any(instance).(Circle).StrokeWidth)
+		case "StrokeDashArray":
+			res = any(instance).(Circle).StrokeDashArray
+		case "Transform":
+			res = any(instance).(Circle).Transform
+		case "Animations":
+			for idx, __instance__ := range any(instance).(Circle).Animations {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		}
+	case Ellipse:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Ellipse).Name
+		case "CX":
+			res = fmt.Sprintf("%f", any(instance).(Ellipse).CX)
+		case "CY":
+			res = fmt.Sprintf("%f", any(instance).(Ellipse).CY)
+		case "RX":
+			res = fmt.Sprintf("%f", any(instance).(Ellipse).RX)
+		case "RY":
+			res = fmt.Sprintf("%f", any(instance).(Ellipse).RY)
+		case "Color":
+			res = any(instance).(Ellipse).Color
+		case "FillOpacity":
+			res = fmt.Sprintf("%f", any(instance).(Ellipse).FillOpacity)
+		case "Stroke":
+			res = any(instance).(Ellipse).Stroke
+		case "StrokeWidth":
+			res = fmt.Sprintf("%f", any(instance).(Ellipse).StrokeWidth)
+		case "StrokeDashArray":
+			res = any(instance).(Ellipse).StrokeDashArray
+		case "Transform":
+			res = any(instance).(Ellipse).Transform
+		case "Animates":
+			for idx, __instance__ := range any(instance).(Ellipse).Animates {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		}
+	case Line:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Line).Name
+		case "X1":
+			res = fmt.Sprintf("%f", any(instance).(Line).X1)
+		case "Y1":
+			res = fmt.Sprintf("%f", any(instance).(Line).Y1)
+		case "X2":
+			res = fmt.Sprintf("%f", any(instance).(Line).X2)
+		case "Y2":
+			res = fmt.Sprintf("%f", any(instance).(Line).Y2)
+		case "Color":
+			res = any(instance).(Line).Color
+		case "FillOpacity":
+			res = fmt.Sprintf("%f", any(instance).(Line).FillOpacity)
+		case "Stroke":
+			res = any(instance).(Line).Stroke
+		case "StrokeWidth":
+			res = fmt.Sprintf("%f", any(instance).(Line).StrokeWidth)
+		case "StrokeDashArray":
+			res = any(instance).(Line).StrokeDashArray
+		case "Transform":
+			res = any(instance).(Line).Transform
+		case "Animates":
+			for idx, __instance__ := range any(instance).(Line).Animates {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		}
+	case Path:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Path).Name
+		case "Definition":
+			res = any(instance).(Path).Definition
+		case "Color":
+			res = any(instance).(Path).Color
+		case "FillOpacity":
+			res = fmt.Sprintf("%f", any(instance).(Path).FillOpacity)
+		case "Stroke":
+			res = any(instance).(Path).Stroke
+		case "StrokeWidth":
+			res = fmt.Sprintf("%f", any(instance).(Path).StrokeWidth)
+		case "StrokeDashArray":
+			res = any(instance).(Path).StrokeDashArray
+		case "Transform":
+			res = any(instance).(Path).Transform
+		case "Animates":
+			for idx, __instance__ := range any(instance).(Path).Animates {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		}
+	case Polygone:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Polygone).Name
+		case "Points":
+			res = any(instance).(Polygone).Points
+		case "Color":
+			res = any(instance).(Polygone).Color
+		case "FillOpacity":
+			res = fmt.Sprintf("%f", any(instance).(Polygone).FillOpacity)
+		case "Stroke":
+			res = any(instance).(Polygone).Stroke
+		case "StrokeWidth":
+			res = fmt.Sprintf("%f", any(instance).(Polygone).StrokeWidth)
+		case "StrokeDashArray":
+			res = any(instance).(Polygone).StrokeDashArray
+		case "Transform":
+			res = any(instance).(Polygone).Transform
+		case "Animates":
+			for idx, __instance__ := range any(instance).(Polygone).Animates {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		}
+	case Polyline:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Polyline).Name
+		case "Points":
+			res = any(instance).(Polyline).Points
+		case "Color":
+			res = any(instance).(Polyline).Color
+		case "FillOpacity":
+			res = fmt.Sprintf("%f", any(instance).(Polyline).FillOpacity)
+		case "Stroke":
+			res = any(instance).(Polyline).Stroke
+		case "StrokeWidth":
+			res = fmt.Sprintf("%f", any(instance).(Polyline).StrokeWidth)
+		case "StrokeDashArray":
+			res = any(instance).(Polyline).StrokeDashArray
+		case "Transform":
+			res = any(instance).(Polyline).Transform
+		case "Animates":
+			for idx, __instance__ := range any(instance).(Polyline).Animates {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		}
+	case Rect:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Rect).Name
+		case "X":
+			res = fmt.Sprintf("%f", any(instance).(Rect).X)
+		case "Y":
+			res = fmt.Sprintf("%f", any(instance).(Rect).Y)
+		case "Width":
+			res = fmt.Sprintf("%f", any(instance).(Rect).Width)
+		case "Height":
+			res = fmt.Sprintf("%f", any(instance).(Rect).Height)
+		case "RX":
+			res = fmt.Sprintf("%f", any(instance).(Rect).RX)
+		case "Color":
+			res = any(instance).(Rect).Color
+		case "FillOpacity":
+			res = fmt.Sprintf("%f", any(instance).(Rect).FillOpacity)
+		case "Stroke":
+			res = any(instance).(Rect).Stroke
+		case "StrokeWidth":
+			res = fmt.Sprintf("%f", any(instance).(Rect).StrokeWidth)
+		case "StrokeDashArray":
+			res = any(instance).(Rect).StrokeDashArray
+		case "Transform":
+			res = any(instance).(Rect).Transform
+		case "Animations":
+			for idx, __instance__ := range any(instance).(Rect).Animations {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		}
+	case SVG:
+		switch fieldName {
+		// string value of fields
+		case "Display":
+			res = fmt.Sprintf("%t", any(instance).(SVG).Display)
+		case "Name":
+			res = any(instance).(SVG).Name
+		case "Rects":
+			for idx, __instance__ := range any(instance).(SVG).Rects {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Texts":
+			for idx, __instance__ := range any(instance).(SVG).Texts {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Circles":
+			for idx, __instance__ := range any(instance).(SVG).Circles {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Lines":
+			for idx, __instance__ := range any(instance).(SVG).Lines {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Ellipses":
+			for idx, __instance__ := range any(instance).(SVG).Ellipses {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Polylines":
+			for idx, __instance__ := range any(instance).(SVG).Polylines {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Polygones":
+			for idx, __instance__ := range any(instance).(SVG).Polygones {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Paths":
+			for idx, __instance__ := range any(instance).(SVG).Paths {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		}
+	case Text:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Text).Name
+		case "X":
+			res = fmt.Sprintf("%f", any(instance).(Text).X)
+		case "Y":
+			res = fmt.Sprintf("%f", any(instance).(Text).Y)
+		case "Content":
+			res = any(instance).(Text).Content
+		case "Color":
+			res = any(instance).(Text).Color
+		case "FillOpacity":
+			res = fmt.Sprintf("%f", any(instance).(Text).FillOpacity)
+		case "Stroke":
+			res = any(instance).(Text).Stroke
+		case "StrokeWidth":
+			res = fmt.Sprintf("%f", any(instance).(Text).StrokeWidth)
+		case "StrokeDashArray":
+			res = any(instance).(Text).StrokeDashArray
+		case "Transform":
+			res = any(instance).(Text).Transform
+		case "Animates":
+			for idx, __instance__ := range any(instance).(Text).Animates {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		}
+	}
+	return
+}
 
 // insertion point of enum utility functions
 // Utility function for ColorType

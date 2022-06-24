@@ -106,19 +106,19 @@ type AnimateDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field animateDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field animateDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field animateDB.AttributeName {{BasicKind}} (to be completed)
+	// Declation for basic field animateDB.AttributeName
 	AttributeName_Data sql.NullString
 
-	// Declation for basic field animateDB.Values {{BasicKind}} (to be completed)
+	// Declation for basic field animateDB.Values
 	Values_Data sql.NullString
 
-	// Declation for basic field animateDB.Dur {{BasicKind}} (to be completed)
+	// Declation for basic field animateDB.Dur
 	Dur_Data sql.NullString
 
-	// Declation for basic field animateDB.RepeatCount {{BasicKind}} (to be completed)
+	// Declation for basic field animateDB.RepeatCount
 	RepeatCount_Data sql.NullString
 	// encoding of pointers
 	AnimatePointersEnconding

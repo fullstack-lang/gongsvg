@@ -64,40 +64,40 @@ type RectDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field rectDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field rectDB.X {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.X
 	X_Data sql.NullFloat64
 
-	// Declation for basic field rectDB.Y {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.Y
 	Y_Data sql.NullFloat64
 
-	// Declation for basic field rectDB.Width {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.Width
 	Width_Data sql.NullFloat64
 
-	// Declation for basic field rectDB.Height {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.Height
 	Height_Data sql.NullFloat64
 
-	// Declation for basic field rectDB.RX {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.RX
 	RX_Data sql.NullFloat64
 
-	// Declation for basic field rectDB.Color {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.Color
 	Color_Data sql.NullString
 
-	// Declation for basic field rectDB.FillOpacity {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.FillOpacity
 	FillOpacity_Data sql.NullFloat64
 
-	// Declation for basic field rectDB.Stroke {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.Stroke
 	Stroke_Data sql.NullString
 
-	// Declation for basic field rectDB.StrokeWidth {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
-	// Declation for basic field rectDB.StrokeDashArray {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.StrokeDashArray
 	StrokeDashArray_Data sql.NullString
 
-	// Declation for basic field rectDB.Transform {{BasicKind}} (to be completed)
+	// Declation for basic field rectDB.Transform
 	Transform_Data sql.NullString
 	// encoding of pointers
 	RectPointersEnconding

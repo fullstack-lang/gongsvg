@@ -58,11 +58,11 @@ type SVGDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field svgDB.Display bool (to be completed)
+	// Declation for basic field svgDB.Display
 	// provide the sql storage for the boolan
 	Display_Data sql.NullBool
 
-	// Declation for basic field svgDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field svgDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
 	SVGPointersEnconding

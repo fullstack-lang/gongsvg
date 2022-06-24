@@ -64,34 +64,34 @@ type CircleDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field circleDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field circleDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field circleDB.CX {{BasicKind}} (to be completed)
+	// Declation for basic field circleDB.CX
 	CX_Data sql.NullFloat64
 
-	// Declation for basic field circleDB.CY {{BasicKind}} (to be completed)
+	// Declation for basic field circleDB.CY
 	CY_Data sql.NullFloat64
 
-	// Declation for basic field circleDB.Radius {{BasicKind}} (to be completed)
+	// Declation for basic field circleDB.Radius
 	Radius_Data sql.NullFloat64
 
-	// Declation for basic field circleDB.Color {{BasicKind}} (to be completed)
+	// Declation for basic field circleDB.Color
 	Color_Data sql.NullString
 
-	// Declation for basic field circleDB.FillOpacity {{BasicKind}} (to be completed)
+	// Declation for basic field circleDB.FillOpacity
 	FillOpacity_Data sql.NullFloat64
 
-	// Declation for basic field circleDB.Stroke {{BasicKind}} (to be completed)
+	// Declation for basic field circleDB.Stroke
 	Stroke_Data sql.NullString
 
-	// Declation for basic field circleDB.StrokeWidth {{BasicKind}} (to be completed)
+	// Declation for basic field circleDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
-	// Declation for basic field circleDB.StrokeDashArray {{BasicKind}} (to be completed)
+	// Declation for basic field circleDB.StrokeDashArray
 	StrokeDashArray_Data sql.NullString
 
-	// Declation for basic field circleDB.Transform {{BasicKind}} (to be completed)
+	// Declation for basic field circleDB.Transform
 	Transform_Data sql.NullString
 	// encoding of pointers
 	CirclePointersEnconding

@@ -212,18 +212,6 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-func (stage *StageStruct) getAnimateOrderedStructWithNameField() []*Animate {
-	// have alphabetical order generation
-	animateOrdered := []*Animate{}
-	for animate := range stage.Animates {
-		animateOrdered = append(animateOrdered, animate)
-	}
-	sort.Slice(animateOrdered[:], func(i, j int) bool {
-		return animateOrdered[i].Name < animateOrdered[j].Name
-	})
-	return animateOrdered
-}
-
 // Stage puts animate to the model stage
 func (animate *Animate) Stage() *Animate {
 	Stage.Animates[animate] = __member
@@ -317,18 +305,6 @@ func DeleteORMAnimate(animate *Animate) {
 // for satisfaction of GongStruct interface
 func (animate *Animate) GetName() (res string) {
 	return animate.Name
-}
-
-func (stage *StageStruct) getCircleOrderedStructWithNameField() []*Circle {
-	// have alphabetical order generation
-	circleOrdered := []*Circle{}
-	for circle := range stage.Circles {
-		circleOrdered = append(circleOrdered, circle)
-	}
-	sort.Slice(circleOrdered[:], func(i, j int) bool {
-		return circleOrdered[i].Name < circleOrdered[j].Name
-	})
-	return circleOrdered
 }
 
 // Stage puts circle to the model stage
@@ -426,18 +402,6 @@ func (circle *Circle) GetName() (res string) {
 	return circle.Name
 }
 
-func (stage *StageStruct) getEllipseOrderedStructWithNameField() []*Ellipse {
-	// have alphabetical order generation
-	ellipseOrdered := []*Ellipse{}
-	for ellipse := range stage.Ellipses {
-		ellipseOrdered = append(ellipseOrdered, ellipse)
-	}
-	sort.Slice(ellipseOrdered[:], func(i, j int) bool {
-		return ellipseOrdered[i].Name < ellipseOrdered[j].Name
-	})
-	return ellipseOrdered
-}
-
 // Stage puts ellipse to the model stage
 func (ellipse *Ellipse) Stage() *Ellipse {
 	Stage.Ellipses[ellipse] = __member
@@ -531,18 +495,6 @@ func DeleteORMEllipse(ellipse *Ellipse) {
 // for satisfaction of GongStruct interface
 func (ellipse *Ellipse) GetName() (res string) {
 	return ellipse.Name
-}
-
-func (stage *StageStruct) getLineOrderedStructWithNameField() []*Line {
-	// have alphabetical order generation
-	lineOrdered := []*Line{}
-	for line := range stage.Lines {
-		lineOrdered = append(lineOrdered, line)
-	}
-	sort.Slice(lineOrdered[:], func(i, j int) bool {
-		return lineOrdered[i].Name < lineOrdered[j].Name
-	})
-	return lineOrdered
 }
 
 // Stage puts line to the model stage
@@ -640,18 +592,6 @@ func (line *Line) GetName() (res string) {
 	return line.Name
 }
 
-func (stage *StageStruct) getPathOrderedStructWithNameField() []*Path {
-	// have alphabetical order generation
-	pathOrdered := []*Path{}
-	for path := range stage.Paths {
-		pathOrdered = append(pathOrdered, path)
-	}
-	sort.Slice(pathOrdered[:], func(i, j int) bool {
-		return pathOrdered[i].Name < pathOrdered[j].Name
-	})
-	return pathOrdered
-}
-
 // Stage puts path to the model stage
 func (path *Path) Stage() *Path {
 	Stage.Paths[path] = __member
@@ -745,18 +685,6 @@ func DeleteORMPath(path *Path) {
 // for satisfaction of GongStruct interface
 func (path *Path) GetName() (res string) {
 	return path.Name
-}
-
-func (stage *StageStruct) getPolygoneOrderedStructWithNameField() []*Polygone {
-	// have alphabetical order generation
-	polygoneOrdered := []*Polygone{}
-	for polygone := range stage.Polygones {
-		polygoneOrdered = append(polygoneOrdered, polygone)
-	}
-	sort.Slice(polygoneOrdered[:], func(i, j int) bool {
-		return polygoneOrdered[i].Name < polygoneOrdered[j].Name
-	})
-	return polygoneOrdered
 }
 
 // Stage puts polygone to the model stage
@@ -854,18 +782,6 @@ func (polygone *Polygone) GetName() (res string) {
 	return polygone.Name
 }
 
-func (stage *StageStruct) getPolylineOrderedStructWithNameField() []*Polyline {
-	// have alphabetical order generation
-	polylineOrdered := []*Polyline{}
-	for polyline := range stage.Polylines {
-		polylineOrdered = append(polylineOrdered, polyline)
-	}
-	sort.Slice(polylineOrdered[:], func(i, j int) bool {
-		return polylineOrdered[i].Name < polylineOrdered[j].Name
-	})
-	return polylineOrdered
-}
-
 // Stage puts polyline to the model stage
 func (polyline *Polyline) Stage() *Polyline {
 	Stage.Polylines[polyline] = __member
@@ -959,18 +875,6 @@ func DeleteORMPolyline(polyline *Polyline) {
 // for satisfaction of GongStruct interface
 func (polyline *Polyline) GetName() (res string) {
 	return polyline.Name
-}
-
-func (stage *StageStruct) getRectOrderedStructWithNameField() []*Rect {
-	// have alphabetical order generation
-	rectOrdered := []*Rect{}
-	for rect := range stage.Rects {
-		rectOrdered = append(rectOrdered, rect)
-	}
-	sort.Slice(rectOrdered[:], func(i, j int) bool {
-		return rectOrdered[i].Name < rectOrdered[j].Name
-	})
-	return rectOrdered
 }
 
 // Stage puts rect to the model stage
@@ -1068,18 +972,6 @@ func (rect *Rect) GetName() (res string) {
 	return rect.Name
 }
 
-func (stage *StageStruct) getSVGOrderedStructWithNameField() []*SVG {
-	// have alphabetical order generation
-	svgOrdered := []*SVG{}
-	for svg := range stage.SVGs {
-		svgOrdered = append(svgOrdered, svg)
-	}
-	sort.Slice(svgOrdered[:], func(i, j int) bool {
-		return svgOrdered[i].Name < svgOrdered[j].Name
-	})
-	return svgOrdered
-}
-
 // Stage puts svg to the model stage
 func (svg *SVG) Stage() *SVG {
 	Stage.SVGs[svg] = __member
@@ -1173,18 +1065,6 @@ func DeleteORMSVG(svg *SVG) {
 // for satisfaction of GongStruct interface
 func (svg *SVG) GetName() (res string) {
 	return svg.Name
-}
-
-func (stage *StageStruct) getTextOrderedStructWithNameField() []*Text {
-	// have alphabetical order generation
-	textOrdered := []*Text{}
-	for text := range stage.Texts {
-		textOrdered = append(textOrdered, text)
-	}
-	sort.Slice(textOrdered[:], func(i, j int) bool {
-		return textOrdered[i].Name < textOrdered[j].Name
-	})
-	return textOrdered
 }
 
 // Stage puts text to the model stage
@@ -2685,13 +2565,23 @@ func (stageStruct *StageStruct) CreateReverseMap_Text_Animates() (res map[*Anima
 }
 
 
-// Gongstruct is the type paramter for generated generic function that allows
+// Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
 	Animate | Circle | Ellipse | Line | Path | Polygone | Polyline | Rect | SVG | Text
+}
+
+// Gongstruct is the type parameter for generated generic function that allows
+// - access to staged instances
+// - navigation between staged instances by going backward association links between gongstruct
+// - full refactoring of Gongstruct identifiers / fields
+type PointerToGongstruct interface {
+	// insertion point for generic types
+	*Animate | *Circle | *Ellipse | *Line | *Path | *Polygone | *Polyline | *Rect | *SVG | *Text
+	GetName() string
 }
 
 type GongstructSet interface {
@@ -4503,3 +4393,4 @@ func (colortype *ColorType) ToCodeString() (res string) {
 	return
 }
 
+// Last line of the template

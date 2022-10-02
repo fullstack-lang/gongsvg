@@ -3,8 +3,13 @@ module github.com/fullstack-lang/gongsvg
 go 1.18
 
 require (
+<<<<<<< HEAD
 	github.com/fullstack-lang/gong v0.0.0-20220930061311-809a80ec55b0
 	github.com/fullstack-lang/gongdoc v0.0.0-20220930060712-60b496a816cf
+=======
+	github.com/fullstack-lang/gong v0.0.0-20220909154848-8e79c10d34be
+	github.com/fullstack-lang/gongdoc v0.0.0-20220909091506-479f6b7780b4
+>>>>>>> 91cfb37683a83c32934e3265bbed9129ee6bf106
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.8.1

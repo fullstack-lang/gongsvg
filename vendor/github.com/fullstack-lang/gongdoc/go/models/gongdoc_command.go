@@ -414,6 +414,7 @@ func init() {
 
 						classDiagram.Notes = append(classDiagram.Notes, note)
 						Stage.Commit()
+<<<<<<< HEAD
 					}
 				case DIAGRAM_GONGSTRUCT_SELECT:
 					log.Println("UML Shape selected ", GongdocCommandSingloton.StructName)
@@ -423,6 +424,17 @@ func init() {
 							GongdocCommandSingloton.GongdocCommandCallback.HasSelected(gongStruct.Name)
 						}
 					}
+=======
+					}
+				case DIAGRAM_GONGSTRUCT_SELECT:
+					log.Println("UML Shape selected ", GongdocCommandSingloton.StructName)
+					gongStruct, ok := Stage.GongStructs_mapString[GongdocCommandSingloton.StructName]
+					if ok {
+						if GongdocCommandSingloton.GongdocCommandCallback != nil {
+							GongdocCommandSingloton.GongdocCommandCallback.HasSelected(gongStruct.Name)
+						}
+					}
+>>>>>>> 91cfb37683a83c32934e3265bbed9129ee6bf106
 
 				}
 			} // end of polling function

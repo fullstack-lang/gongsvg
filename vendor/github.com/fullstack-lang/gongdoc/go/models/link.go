@@ -105,13 +105,19 @@ func (link *Link) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset
 					for _, _field := range _struct.PointerToGongStructFields {
 						if _field.Name == link.Fieldname {
 							typename = _field.GongStruct.Name
+<<<<<<< HEAD
 							fieldType = _field.GongStruct
+=======
+>>>>>>> 91cfb37683a83c32934e3265bbed9129ee6bf106
 						}
 					}
 					for _, _field := range _struct.SliceOfPointerToGongStructFields {
 						if _field.Name == link.Fieldname {
 							typename = _field.GongStruct.Name
+<<<<<<< HEAD
 							fieldType = _field.GongStruct
+=======
+>>>>>>> 91cfb37683a83c32934e3265bbed9129ee6bf106
 						}
 					}
 				}

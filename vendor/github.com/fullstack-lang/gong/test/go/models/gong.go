@@ -2,6 +2,7 @@
 package models
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -10,6 +11,9 @@ import (
 	"sort"
 	"strings"
 )
+
+// errUnkownEnum is returns when a value cannot match enum values
+var errUnkownEnum = errors.New("unkown enum")
 
 // swagger:ignore
 type __void any
@@ -31,17 +35,47 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	Astructs           map[*Astruct]any
 	Astructs_mapString map[string]*Astruct
 
+	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
+	OnAfterAstructUpdateCallback OnAfterUpdateInterface[Astruct]
+	OnAfterAstructDeleteCallback OnAfterDeleteInterface[Astruct]
+	OnAfterAstructReadCallback   OnAfterReadInterface[Astruct]
+
+
 	AstructBstruct2Uses           map[*AstructBstruct2Use]any
 	AstructBstruct2Uses_mapString map[string]*AstructBstruct2Use
+
+	OnAfterAstructBstruct2UseCreateCallback OnAfterCreateInterface[AstructBstruct2Use]
+	OnAfterAstructBstruct2UseUpdateCallback OnAfterUpdateInterface[AstructBstruct2Use]
+	OnAfterAstructBstruct2UseDeleteCallback OnAfterDeleteInterface[AstructBstruct2Use]
+	OnAfterAstructBstruct2UseReadCallback   OnAfterReadInterface[AstructBstruct2Use]
+
 
 	AstructBstructUses           map[*AstructBstructUse]any
 	AstructBstructUses_mapString map[string]*AstructBstructUse
 
+	OnAfterAstructBstructUseCreateCallback OnAfterCreateInterface[AstructBstructUse]
+	OnAfterAstructBstructUseUpdateCallback OnAfterUpdateInterface[AstructBstructUse]
+	OnAfterAstructBstructUseDeleteCallback OnAfterDeleteInterface[AstructBstructUse]
+	OnAfterAstructBstructUseReadCallback   OnAfterReadInterface[AstructBstructUse]
+
+
 	Bstructs           map[*Bstruct]any
 	Bstructs_mapString map[string]*Bstruct
 
+	OnAfterBstructCreateCallback OnAfterCreateInterface[Bstruct]
+	OnAfterBstructUpdateCallback OnAfterUpdateInterface[Bstruct]
+	OnAfterBstructDeleteCallback OnAfterDeleteInterface[Bstruct]
+	OnAfterBstructReadCallback   OnAfterReadInterface[Bstruct]
+
+
 	Dstructs           map[*Dstruct]any
 	Dstructs_mapString map[string]*Dstruct
+
+	OnAfterDstructCreateCallback OnAfterCreateInterface[Dstruct]
+	OnAfterDstructUpdateCallback OnAfterUpdateInterface[Dstruct]
+	OnAfterDstructDeleteCallback OnAfterDeleteInterface[Dstruct]
+	OnAfterDstructReadCallback   OnAfterReadInterface[Dstruct]
+
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -60,6 +94,29 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 
 type OnInitCommitInterface interface {
 	BeforeCommit(stage *StageStruct)
+}
+
+// OnAfterCreateInterface callback when an instance is updated from the front
+type OnAfterCreateInterface[Type Gongstruct] interface {
+	OnAfterCreate(stage *StageStruct,
+		instance *Type)
+}
+
+// OnAfterReadInterface callback when an instance is updated from the front
+type OnAfterReadInterface[Type Gongstruct] interface {
+	OnAfterRead(stage *StageStruct,
+		instance *Type)
+}
+
+// OnAfterUpdateInterface callback when an instance is updated from the front
+type OnAfterUpdateInterface[Type Gongstruct] interface {
+	OnAfterUpdate(stage *StageStruct, old, new *Type)
+}
+
+// OnAfterDeleteInterface callback when an instance is updated from the front
+type OnAfterDeleteInterface[Type Gongstruct] interface {
+	OnAfterDelete(stage *StageStruct,
+		staged, front *Type)
 }
 
 type BackRepoInterface interface {
@@ -1976,7 +2033,7 @@ func (aenumtype AEnumType) ToString() (res string) {
 	return
 }
 
-func (aenumtype *AEnumType) FromString(input string) {
+func (aenumtype *AEnumType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
@@ -1984,7 +2041,10 @@ func (aenumtype *AEnumType) FromString(input string) {
 		*aenumtype = ENUM_VAL1
 	case "ENUM_VAL2":
 		*aenumtype = ENUM_VAL2
+	default:
+		return errUnkownEnum
 	}
+	return
 }
 
 func (aenumtype *AEnumType) ToCodeString() (res string) {
@@ -2015,7 +2075,7 @@ func (benumtype BEnumType) ToString() (res string) {
 	return
 }
 
-func (benumtype *BEnumType) FromString(input string) {
+func (benumtype *BEnumType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
@@ -2023,7 +2083,10 @@ func (benumtype *BEnumType) FromString(input string) {
 		*benumtype = BENUM_VAL1
 	case "BENUM_VAL2":
 		*benumtype = BENUM_VAL2
+	default:
+		return errUnkownEnum
 	}
+	return
 }
 
 func (benumtype *BEnumType) ToCodeString() (res string) {
@@ -2054,7 +2117,7 @@ func (cenumtypeint CEnumTypeInt) ToInt() (res int) {
 	return
 }
 
-func (cenumtypeint *CEnumTypeInt) FromInt(input int) {
+func (cenumtypeint *CEnumTypeInt) FromInt(input int) (err error) {
 
 	switch input {
 	// insertion code per enum code
@@ -2062,7 +2125,10 @@ func (cenumtypeint *CEnumTypeInt) FromInt(input int) {
 		*cenumtypeint = CENUM_VAL1
 	case 1:
 		*cenumtypeint = CENUM_VAL2
+	default:
+		return errUnkownEnum
 	}
+	return
 }
 
 func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {

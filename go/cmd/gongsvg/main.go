@@ -13,17 +13,13 @@ import (
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
-	"github.com/fullstack-lang/gongsvg/go/controllers"
-	"github.com/fullstack-lang/gongsvg/go/models"
-	"github.com/fullstack-lang/gongsvg/go/orm"
+	"github.com/fullstack-lang/gongsvg/go/fullstack"
 
 	"github.com/fullstack-lang/gongsvg"
 )
 
 var (
-	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
-	apiFlag    = flag.Bool("api", false, "it true, use api controllers instead of default controllers")
 
 	backupFlag  = flag.Bool("backup", false, "read database file, generate backup and exits")
 	restoreFlag = flag.Bool("restore", false, "generate restore and exits")
@@ -37,28 +33,6 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	if *backupFlag {
-
-		// setup GORM
-		db := orm.SetupModels(*logDBFlag, "./test.db")
-		// mandatory, otherwise, bizarre errors occurs
-		orm.AutoMigrate(db)
-		models.Stage.Checkout()
-		models.Stage.Backup("bckp")
-
-		return
-	}
-	if *restoreFlag {
-
-		// setup GORM
-		db := orm.SetupModels(*logDBFlag, "./test.db")
-		// mandatory, otherwise, bizarre errors occurs
-		orm.AutoMigrate(db)
-		models.Stage.Restore("bckp")
-
-		return
-	}
-
 	// setup controlers
 	if !*logGINFlag {
 		myfile, _ := os.Create("/tmp/server.log")
@@ -67,10 +41,7 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
-	// setup GORM
-	orm.SetupModels(*logDBFlag, "./test.db")
-
-	controllers.RegisterControllers(r)
+	fullstack.Init(r, "./test.db")
 
 	// provide the static route for the angular pages
 	r.Use(static.Serve("/", EmbedFolder(gongsvg.NgDistNg, "ng/dist/ng")))

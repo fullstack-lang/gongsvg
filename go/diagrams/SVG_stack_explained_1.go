@@ -10,7 +10,7 @@ import (
 var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 	Classshapes: []*uml.Classshape{
 		{
-			Struct: &(models.Circle{}),
+			ReferencedGong: &(models.Circle{}),
 			Position: &uml.Position{
 				X: 500.000000,
 				Y: 50.000000,
@@ -30,7 +30,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 			},
 		},
 		{
-			Struct: &(models.Ellipse{}),
+			ReferencedGong: &(models.Ellipse{}),
 			Position: &uml.Position{
 				X: 500.000000,
 				Y: 160.000000,
@@ -53,7 +53,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 			},
 		},
 		{
-			Struct: &(models.Line{}),
+			ReferencedGong: &(models.Line{}),
 			Position: &uml.Position{
 				X: 500.000000,
 				Y: 290.000000,
@@ -76,7 +76,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 			},
 		},
 		{
-			Struct: &(models.Path{}),
+			ReferencedGong: &(models.Path{}),
 			Position: &uml.Position{
 				X: 500.000000,
 				Y: 420.000000,
@@ -90,7 +90,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 			},
 		},
 		{
-			Struct: &(models.Polygone{}),
+			ReferencedGong: &(models.Polygone{}),
 			Position: &uml.Position{
 				X: 500.000000,
 				Y: 520.000000,
@@ -104,7 +104,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 			},
 		},
 		{
-			Struct: &(models.Polyline{}),
+			ReferencedGong: &(models.Polyline{}),
 			Position: &uml.Position{
 				X: 500.000000,
 				Y: 630.000000,
@@ -118,7 +118,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 			},
 		},
 		{
-			Struct: &(models.Presentation{}),
+			ReferencedGong: &(models.Presentation{}),
 			Position: &uml.Position{
 				X: 50.000000,
 				Y: 840.000000,
@@ -147,7 +147,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 			},
 		},
 		{
-			Struct: &(models.Rect{}),
+			ReferencedGong: &(models.Rect{}),
 			Position: &uml.Position{
 				X: 500.000000,
 				Y: 730.000000,
@@ -170,7 +170,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 			},
 		},
 		{
-			Struct: &(models.SVG{}),
+			ReferencedGong: &(models.SVG{}),
 			Position: &uml.Position{
 				X: 40.000000,
 				Y: 50.000000,
@@ -250,7 +250,7 @@ var SVG_stack_explained_1 uml.Classdiagram = uml.Classdiagram{
 			},
 		},
 		{
-			Struct: &(models.Text{}),
+			ReferencedGong: &(models.Text{}),
 			Position: &uml.Position{
 				X: 500.000000,
 				Y: 870.000000,

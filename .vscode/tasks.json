@@ -11,7 +11,7 @@
 			"group": "build"
 		},
 		{
-			"label": "02 - go run --unmarshall=stage --marshallOnCommit=stage",
+			"label": "02 - go run  --unmarshallFromCode=stage.go --marshallOnCommit=stage",
 			"type": "shell",
 			"options": {
 				"cwd": "./go/cmd/gongsvg"
@@ -19,12 +19,14 @@
 			"command": "go",
 			"args": [
 				"run",
-				"",
-				"--unmarshall=stage",
-				"--marshallOnCommit=stage"
+				"main.go",
+				"-marshallOnCommit=stage",
+				"-unmarshallFromCode=stage.go",
 			],
 			"group": "build"
 		},
+
+		
 		{
 			"label": "01 - gongc",
 			"type": "shell",

@@ -24,7 +24,7 @@ import (
 
 var (
 	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
-	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
+	logGINFlag = flag.Bool("logGIN", true, "log mode for gin")
 
 	marshallOnStartup  = flag.String("marshallOnStartup", "", "at startup, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 	unmarshallFromCode = flag.String("unmarshallFromCode", "", "unmarshall data from go file and '.go' (must be lowercased without spaces), If unmarshallFromCode arg is '', no unmarshalling")
@@ -135,6 +135,7 @@ func main() {
 
 	gongdoc_load.Load(
 		"gongsvg",
+		"github.com/fullstack-lang/gongsvg/go/models",
 		gongsvg.GoDir,
 		r,
 		*embeddedDiagrams,

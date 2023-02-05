@@ -62,7 +62,7 @@
             ]
         },
         {
-            "name": "go server with diagrams --unmarshall=stage --marshallOnCommit=stage",
+            "name": "go server with diagrams --unmarshallFromCode=stage.go --marshallOnCommit=stage",
             "type": "go",
             "request": "launch",
             "mode": "debug",

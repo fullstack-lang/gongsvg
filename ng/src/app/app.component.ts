@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   obsTimer: Observable<number> = timer(1000, 1000)
   lastSelectionDate: string = ''
 
-  constructor(private gongdocClassshapeService: gongdoc.ClassshapeService,
+  constructor(private gongdocGongStructShapeService: gongdoc.GongStructShapeService,
     private gongstructSelectionService: gongsvg.GongstructSelectionService
   ) {
 
@@ -34,19 +34,19 @@ export class AppComponent implements OnInit {
     // pool the gongdoc command and check wether a gongstruct has been selected
     this.obsTimer.subscribe(
       currTime => {
-        // pool all classshapes and find which one is selected
-        this.gongdocClassshapeService.getClassshapes().subscribe(
-          classshapes => {
-            for (let classshape of classshapes) {
-              if (classshape.IsSelected) {
-                classshape.IsSelected = false
-                // console.log("classshape " + classshape.ReferenceName + " is selected")
-                this.gongdocClassshapeService.updateClassshape(classshape).subscribe(
-                  classshape2 => {
-                    // console.log("classshape has been unselected")
+        // pool all gongstructshapes and find which one is selected
+        this.gongdocGongStructShapeService.getGongStructShapes().subscribe(
+          gongstructshapes => {
+            for (let gongstructshape of gongstructshapes) {
+              if (gongstructshape.IsSelected) {
+                gongstructshape.IsSelected = false
+                // console.log("gongstructshape " + gongstructshape.ReferenceName + " is selected")
+                this.gongdocGongStructShapeService.updateGongStructShape(gongstructshape).subscribe(
+                  gongstructshape2 => {
+                    // console.log("gongstructshape has been unselected")
                   }
                 )
-                this.gongstructSelectionService.gongstructSelected( classshape.ReferenceName)
+                this.gongstructSelectionService.gongstructSelected(gongstructshape.Identifier)
               }
             }
           }

@@ -52,6 +52,19 @@ func GetSVGs(c *gin.Context) {
 
 	// source slice
 	var svgDBs []orm.SVGDB
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GONG__StackPath", stackParam)
+		}
+	}
+
 	query := db.Find(&svgDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -96,7 +109,6 @@ func GetSVGs(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostSVG(c *gin.Context) {
-	db := orm.BackRepo.BackRepoSVG.GetDB()
 
 	// Validate input
 	var input orm.SVGAPI
@@ -116,6 +128,7 @@ func PostSVG(c *gin.Context) {
 	svgDB.SVGPointersEnconding = input.SVGPointersEnconding
 	svgDB.CopyBasicFieldsFromSVG(&input.SVG)
 
+	db := orm.BackRepo.BackRepoSVG.GetDB()
 	query := db.Create(&svgDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -152,6 +165,19 @@ func PostSVG(c *gin.Context) {
 //
 //	200: svgDBResponse
 func GetSVG(c *gin.Context) {
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET params", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoSVG.GetDB()
 
 	// Get svgDB in DB
@@ -184,6 +210,15 @@ func GetSVG(c *gin.Context) {
 //
 //	200: svgDBResponse
 func UpdateSVG(c *gin.Context) {
+
+	// Validate input
+	var input orm.SVGAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	db := orm.BackRepo.BackRepoSVG.GetDB()
 
 	// Get model if exist
@@ -198,14 +233,6 @@ func UpdateSVG(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.SVGAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

@@ -52,6 +52,19 @@ func GetEllipses(c *gin.Context) {
 
 	// source slice
 	var ellipseDBs []orm.EllipseDB
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GONG__StackPath", stackParam)
+		}
+	}
+
 	query := db.Find(&ellipseDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -96,7 +109,6 @@ func GetEllipses(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostEllipse(c *gin.Context) {
-	db := orm.BackRepo.BackRepoEllipse.GetDB()
 
 	// Validate input
 	var input orm.EllipseAPI
@@ -116,6 +128,7 @@ func PostEllipse(c *gin.Context) {
 	ellipseDB.EllipsePointersEnconding = input.EllipsePointersEnconding
 	ellipseDB.CopyBasicFieldsFromEllipse(&input.Ellipse)
 
+	db := orm.BackRepo.BackRepoEllipse.GetDB()
 	query := db.Create(&ellipseDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -152,6 +165,19 @@ func PostEllipse(c *gin.Context) {
 //
 //	200: ellipseDBResponse
 func GetEllipse(c *gin.Context) {
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET params", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoEllipse.GetDB()
 
 	// Get ellipseDB in DB
@@ -184,6 +210,15 @@ func GetEllipse(c *gin.Context) {
 //
 //	200: ellipseDBResponse
 func UpdateEllipse(c *gin.Context) {
+
+	// Validate input
+	var input orm.EllipseAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	db := orm.BackRepo.BackRepoEllipse.GetDB()
 
 	// Get model if exist
@@ -198,14 +233,6 @@ func UpdateEllipse(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.EllipseAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

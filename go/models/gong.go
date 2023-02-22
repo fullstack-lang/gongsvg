@@ -1447,31 +1447,38 @@ type GongstructMapString interface {
 
 // GongGetSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetSet[Type GongstructSet]() *Type {
+func GongGetSet[Type GongstructSet](stages ...*StageStruct) *Type {
 	var ret Type
+
+	var stage *StageStruct
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[*Animate]any:
-		return any(&Stage.Animates).(*Type)
+		return any(&stage.Animates).(*Type)
 	case map[*Circle]any:
-		return any(&Stage.Circles).(*Type)
+		return any(&stage.Circles).(*Type)
 	case map[*Ellipse]any:
-		return any(&Stage.Ellipses).(*Type)
+		return any(&stage.Ellipses).(*Type)
 	case map[*Line]any:
-		return any(&Stage.Lines).(*Type)
+		return any(&stage.Lines).(*Type)
 	case map[*Path]any:
-		return any(&Stage.Paths).(*Type)
+		return any(&stage.Paths).(*Type)
 	case map[*Polygone]any:
-		return any(&Stage.Polygones).(*Type)
+		return any(&stage.Polygones).(*Type)
 	case map[*Polyline]any:
-		return any(&Stage.Polylines).(*Type)
+		return any(&stage.Polylines).(*Type)
 	case map[*Rect]any:
-		return any(&Stage.Rects).(*Type)
+		return any(&stage.Rects).(*Type)
 	case map[*SVG]any:
-		return any(&Stage.SVGs).(*Type)
+		return any(&stage.SVGs).(*Type)
 	case map[*Text]any:
-		return any(&Stage.Texts).(*Type)
+		return any(&stage.Texts).(*Type)
 	default:
 		return nil
 	}
@@ -1479,31 +1486,38 @@ func GongGetSet[Type GongstructSet]() *Type {
 
 // GongGetMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructMapString]() *Type {
+func GongGetMap[Type GongstructMapString](stages ...*StageStruct) *Type {
 	var ret Type
+
+	var stage *StageStruct
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[string]*Animate:
-		return any(&Stage.Animates_mapString).(*Type)
+		return any(&stage.Animates_mapString).(*Type)
 	case map[string]*Circle:
-		return any(&Stage.Circles_mapString).(*Type)
+		return any(&stage.Circles_mapString).(*Type)
 	case map[string]*Ellipse:
-		return any(&Stage.Ellipses_mapString).(*Type)
+		return any(&stage.Ellipses_mapString).(*Type)
 	case map[string]*Line:
-		return any(&Stage.Lines_mapString).(*Type)
+		return any(&stage.Lines_mapString).(*Type)
 	case map[string]*Path:
-		return any(&Stage.Paths_mapString).(*Type)
+		return any(&stage.Paths_mapString).(*Type)
 	case map[string]*Polygone:
-		return any(&Stage.Polygones_mapString).(*Type)
+		return any(&stage.Polygones_mapString).(*Type)
 	case map[string]*Polyline:
-		return any(&Stage.Polylines_mapString).(*Type)
+		return any(&stage.Polylines_mapString).(*Type)
 	case map[string]*Rect:
-		return any(&Stage.Rects_mapString).(*Type)
+		return any(&stage.Rects_mapString).(*Type)
 	case map[string]*SVG:
-		return any(&Stage.SVGs_mapString).(*Type)
+		return any(&stage.SVGs_mapString).(*Type)
 	case map[string]*Text:
-		return any(&Stage.Texts_mapString).(*Type)
+		return any(&stage.Texts_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -1511,31 +1525,38 @@ func GongGetMap[Type GongstructMapString]() *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stages ...*StageStruct) *map[*Type]any {
 	var ret Type
+
+	var stage *StageStruct
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Animate:
-		return any(&Stage.Animates).(*map[*Type]any)
+		return any(&stage.Animates).(*map[*Type]any)
 	case Circle:
-		return any(&Stage.Circles).(*map[*Type]any)
+		return any(&stage.Circles).(*map[*Type]any)
 	case Ellipse:
-		return any(&Stage.Ellipses).(*map[*Type]any)
+		return any(&stage.Ellipses).(*map[*Type]any)
 	case Line:
-		return any(&Stage.Lines).(*map[*Type]any)
+		return any(&stage.Lines).(*map[*Type]any)
 	case Path:
-		return any(&Stage.Paths).(*map[*Type]any)
+		return any(&stage.Paths).(*map[*Type]any)
 	case Polygone:
-		return any(&Stage.Polygones).(*map[*Type]any)
+		return any(&stage.Polygones).(*map[*Type]any)
 	case Polyline:
-		return any(&Stage.Polylines).(*map[*Type]any)
+		return any(&stage.Polylines).(*map[*Type]any)
 	case Rect:
-		return any(&Stage.Rects).(*map[*Type]any)
+		return any(&stage.Rects).(*map[*Type]any)
 	case SVG:
-		return any(&Stage.SVGs).(*map[*Type]any)
+		return any(&stage.SVGs).(*map[*Type]any)
 	case Text:
-		return any(&Stage.Texts).(*map[*Type]any)
+		return any(&stage.Texts).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -1543,31 +1564,38 @@ func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
+func GetGongstructInstancesMap[Type Gongstruct](stages ...*StageStruct) *map[string]*Type {
 	var ret Type
+
+	var stage *StageStruct
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Animate:
-		return any(&Stage.Animates_mapString).(*map[string]*Type)
+		return any(&stage.Animates_mapString).(*map[string]*Type)
 	case Circle:
-		return any(&Stage.Circles_mapString).(*map[string]*Type)
+		return any(&stage.Circles_mapString).(*map[string]*Type)
 	case Ellipse:
-		return any(&Stage.Ellipses_mapString).(*map[string]*Type)
+		return any(&stage.Ellipses_mapString).(*map[string]*Type)
 	case Line:
-		return any(&Stage.Lines_mapString).(*map[string]*Type)
+		return any(&stage.Lines_mapString).(*map[string]*Type)
 	case Path:
-		return any(&Stage.Paths_mapString).(*map[string]*Type)
+		return any(&stage.Paths_mapString).(*map[string]*Type)
 	case Polygone:
-		return any(&Stage.Polygones_mapString).(*map[string]*Type)
+		return any(&stage.Polygones_mapString).(*map[string]*Type)
 	case Polyline:
-		return any(&Stage.Polylines_mapString).(*map[string]*Type)
+		return any(&stage.Polylines_mapString).(*map[string]*Type)
 	case Rect:
-		return any(&Stage.Rects_mapString).(*map[string]*Type)
+		return any(&stage.Rects_mapString).(*map[string]*Type)
 	case SVG:
-		return any(&Stage.SVGs_mapString).(*map[string]*Type)
+		return any(&stage.SVGs_mapString).(*map[string]*Type)
 	case Text:
-		return any(&Stage.Texts_mapString).(*map[string]*Type)
+		return any(&stage.Texts_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}

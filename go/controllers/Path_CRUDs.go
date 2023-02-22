@@ -52,6 +52,19 @@ func GetPaths(c *gin.Context) {
 
 	// source slice
 	var pathDBs []orm.PathDB
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GONG__StackPath", stackParam)
+		}
+	}
+
 	query := db.Find(&pathDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -96,7 +109,6 @@ func GetPaths(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostPath(c *gin.Context) {
-	db := orm.BackRepo.BackRepoPath.GetDB()
 
 	// Validate input
 	var input orm.PathAPI
@@ -116,6 +128,7 @@ func PostPath(c *gin.Context) {
 	pathDB.PathPointersEnconding = input.PathPointersEnconding
 	pathDB.CopyBasicFieldsFromPath(&input.Path)
 
+	db := orm.BackRepo.BackRepoPath.GetDB()
 	query := db.Create(&pathDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -152,6 +165,19 @@ func PostPath(c *gin.Context) {
 //
 //	200: pathDBResponse
 func GetPath(c *gin.Context) {
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET params", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoPath.GetDB()
 
 	// Get pathDB in DB
@@ -184,6 +210,15 @@ func GetPath(c *gin.Context) {
 //
 //	200: pathDBResponse
 func UpdatePath(c *gin.Context) {
+
+	// Validate input
+	var input orm.PathAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	db := orm.BackRepo.BackRepoPath.GetDB()
 
 	// Get model if exist
@@ -198,14 +233,6 @@ func UpdatePath(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.PathAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

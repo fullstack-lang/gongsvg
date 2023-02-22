@@ -52,6 +52,19 @@ func GetAnimates(c *gin.Context) {
 
 	// source slice
 	var animateDBs []orm.AnimateDB
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GONG__StackPath", stackParam)
+		}
+	}
+
 	query := db.Find(&animateDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -96,7 +109,6 @@ func GetAnimates(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostAnimate(c *gin.Context) {
-	db := orm.BackRepo.BackRepoAnimate.GetDB()
 
 	// Validate input
 	var input orm.AnimateAPI
@@ -116,6 +128,7 @@ func PostAnimate(c *gin.Context) {
 	animateDB.AnimatePointersEnconding = input.AnimatePointersEnconding
 	animateDB.CopyBasicFieldsFromAnimate(&input.Animate)
 
+	db := orm.BackRepo.BackRepoAnimate.GetDB()
 	query := db.Create(&animateDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -152,6 +165,19 @@ func PostAnimate(c *gin.Context) {
 //
 //	200: animateDBResponse
 func GetAnimate(c *gin.Context) {
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET params", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoAnimate.GetDB()
 
 	// Get animateDB in DB
@@ -184,6 +210,15 @@ func GetAnimate(c *gin.Context) {
 //
 //	200: animateDBResponse
 func UpdateAnimate(c *gin.Context) {
+
+	// Validate input
+	var input orm.AnimateAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	db := orm.BackRepo.BackRepoAnimate.GetDB()
 
 	// Get model if exist
@@ -198,14 +233,6 @@ func UpdateAnimate(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.AnimateAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

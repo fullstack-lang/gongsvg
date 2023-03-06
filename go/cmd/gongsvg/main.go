@@ -38,7 +38,7 @@ var (
 // InjectionGateway is the singloton that stores all functions
 // that can set the objects the stage
 // InjectionGateway stores function as a map of names
-var InjectionGateway = make(map[string](func()))
+var InjectionGateway = make(map[string](func(*models.StageStruct)))
 
 // hook marhalling to stage
 type BeforeCommitImplementation struct {
@@ -72,7 +72,7 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup stack
-	fullstack.Init(r)
+	stage, _ := fullstack.NewStackInstance(r, "")
 
 	// generate injection code from the stage
 	if *marshallOnStartup != "" {
@@ -101,7 +101,7 @@ func main() {
 		models.Stage.Reset()
 		models.Stage.Commit()
 		if InjectionGateway[*unmarshall] != nil {
-			InjectionGateway[*unmarshall]()
+			InjectionGateway[*unmarshall](stage)
 		}
 		models.Stage.Commit()
 	} else {
@@ -113,7 +113,7 @@ func main() {
 		models.Stage.Checkout()
 		models.Stage.Reset()
 		models.Stage.Commit()
-		err := models.ParseAstFile(*unmarshallFromCode)
+		err := models.ParseAstFile(stage, *unmarshallFromCode)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.

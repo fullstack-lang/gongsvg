@@ -21,10 +21,6 @@ import { SVGDB } from './svg-db'
 })
 export class LineService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   LineServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class LineService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,17 +63,21 @@ export class LineService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new line to the server */
-  postLine(linedb: LineDB): Observable<LineDB> {
+  postLine(linedb: LineDB, GONG__StackPath: string): Observable<LineDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     linedb.Animates = []
     let _SVG_Lines_reverse = linedb.SVG_Lines_reverse
     linedb.SVG_Lines_reverse = new SVGDB
 
-    return this.http.post<LineDB>(this.linesUrl, linedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<LineDB>(this.linesUrl, linedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         linedb.SVG_Lines_reverse = _SVG_Lines_reverse
@@ -89,18 +88,24 @@ export class LineService {
   }
 
   /** DELETE: delete the linedb from the server */
-  deleteLine(linedb: LineDB | number): Observable<LineDB> {
+  deleteLine(linedb: LineDB | number, GONG__StackPath: string): Observable<LineDB> {
     const id = typeof linedb === 'number' ? linedb : linedb.ID;
     const url = `${this.linesUrl}/${id}`;
 
-    return this.http.delete<LineDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<LineDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted linedb id=${id}`)),
       catchError(this.handleError<LineDB>('deleteLine'))
     );
   }
 
   /** PUT: update the linedb on the server */
-  updateLine(linedb: LineDB): Observable<LineDB> {
+  updateLine(linedb: LineDB, GONG__StackPath: string): Observable<LineDB> {
     const id = typeof linedb === 'number' ? linedb : linedb.ID;
     const url = `${this.linesUrl}/${id}`;
 
@@ -109,7 +114,13 @@ export class LineService {
     let _SVG_Lines_reverse = linedb.SVG_Lines_reverse
     linedb.SVG_Lines_reverse = new SVGDB
 
-    return this.http.put<LineDB>(url, linedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<LineDB>(url, linedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         linedb.SVG_Lines_reverse = _SVG_Lines_reverse

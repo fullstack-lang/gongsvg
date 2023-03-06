@@ -100,7 +100,7 @@ export class PolygoneSortingComponent implements OnInit {
 
     this.associatedPolygones.forEach(
       polygone => {
-        this.polygoneService.updatePolygone(polygone)
+        this.polygoneService.updatePolygone(polygone, this.dialogData.GONG__StackPath)
           .subscribe(polygone => {
             this.polygoneService.PolygoneServiceChanged.next("update")
           });

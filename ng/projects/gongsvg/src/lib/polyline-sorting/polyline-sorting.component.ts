@@ -100,7 +100,7 @@ export class PolylineSortingComponent implements OnInit {
 
     this.associatedPolylines.forEach(
       polyline => {
-        this.polylineService.updatePolyline(polyline)
+        this.polylineService.updatePolyline(polyline, this.dialogData.GONG__StackPath)
           .subscribe(polyline => {
             this.polylineService.PolylineServiceChanged.next("update")
           });

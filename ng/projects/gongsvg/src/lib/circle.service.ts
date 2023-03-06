@@ -21,10 +21,6 @@ import { SVGDB } from './svg-db'
 })
 export class CircleService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   CircleServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class CircleService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,17 +63,21 @@ export class CircleService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new circle to the server */
-  postCircle(circledb: CircleDB): Observable<CircleDB> {
+  postCircle(circledb: CircleDB, GONG__StackPath: string): Observable<CircleDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     circledb.Animations = []
     let _SVG_Circles_reverse = circledb.SVG_Circles_reverse
     circledb.SVG_Circles_reverse = new SVGDB
 
-    return this.http.post<CircleDB>(this.circlesUrl, circledb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<CircleDB>(this.circlesUrl, circledb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         circledb.SVG_Circles_reverse = _SVG_Circles_reverse
@@ -89,18 +88,24 @@ export class CircleService {
   }
 
   /** DELETE: delete the circledb from the server */
-  deleteCircle(circledb: CircleDB | number): Observable<CircleDB> {
+  deleteCircle(circledb: CircleDB | number, GONG__StackPath: string): Observable<CircleDB> {
     const id = typeof circledb === 'number' ? circledb : circledb.ID;
     const url = `${this.circlesUrl}/${id}`;
 
-    return this.http.delete<CircleDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<CircleDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted circledb id=${id}`)),
       catchError(this.handleError<CircleDB>('deleteCircle'))
     );
   }
 
   /** PUT: update the circledb on the server */
-  updateCircle(circledb: CircleDB): Observable<CircleDB> {
+  updateCircle(circledb: CircleDB, GONG__StackPath: string): Observable<CircleDB> {
     const id = typeof circledb === 'number' ? circledb : circledb.ID;
     const url = `${this.circlesUrl}/${id}`;
 
@@ -109,7 +114,13 @@ export class CircleService {
     let _SVG_Circles_reverse = circledb.SVG_Circles_reverse
     circledb.SVG_Circles_reverse = new SVGDB
 
-    return this.http.put<CircleDB>(url, circledb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<CircleDB>(url, circledb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         circledb.SVG_Circles_reverse = _SVG_Circles_reverse

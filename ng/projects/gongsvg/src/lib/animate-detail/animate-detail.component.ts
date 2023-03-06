@@ -328,13 +328,13 @@ export class AnimateDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case AnimateDetailComponentState.UPDATE_INSTANCE:
-				this.animateService.updateAnimate(this.animate)
+				this.animateService.updateAnimate(this.animate, this.GONG__StackPath)
 					.subscribe(animate => {
 						this.animateService.AnimateServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.animateService.postAnimate(this.animate).subscribe(animate => {
+				this.animateService.postAnimate(this.animate, this.GONG__StackPath).subscribe(animate => {
 					this.animateService.AnimateServiceChanged.next("post")
 					this.animate = new (AnimateDB) // reset fields
 				});

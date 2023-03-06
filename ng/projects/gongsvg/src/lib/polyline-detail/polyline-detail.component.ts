@@ -174,13 +174,13 @@ export class PolylineDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case PolylineDetailComponentState.UPDATE_INSTANCE:
-				this.polylineService.updatePolyline(this.polyline)
+				this.polylineService.updatePolyline(this.polyline, this.GONG__StackPath)
 					.subscribe(polyline => {
 						this.polylineService.PolylineServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.polylineService.postPolyline(this.polyline).subscribe(polyline => {
+				this.polylineService.postPolyline(this.polyline, this.GONG__StackPath).subscribe(polyline => {
 					this.polylineService.PolylineServiceChanged.next("post")
 					this.polyline = new (PolylineDB) // reset fields
 				});

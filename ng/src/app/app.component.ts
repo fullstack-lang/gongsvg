@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
               if (gongstructshape.IsSelected) {
                 gongstructshape.IsSelected = false
                 // console.log("gongstructshape " + gongstructshape.ReferenceName + " is selected")
-                this.gongdocGongStructShapeService.updateGongStructShape(gongstructshape).subscribe(
+                this.gongdocGongStructShapeService.updateGongStructShape(gongstructshape, "").subscribe(
                   gongstructshape2 => {
                     // console.log("gongstructshape has been unselected")
                   }

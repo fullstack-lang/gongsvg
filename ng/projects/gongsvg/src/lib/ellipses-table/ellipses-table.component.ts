@@ -226,7 +226,7 @@ export class EllipsesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -262,10 +262,14 @@ export class EllipsesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, EllipseDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as EllipseDB[]
-          for (let associationInstance of sourceField) {
-            let ellipse = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as EllipseDB
-            this.initialSelection.push(ellipse)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to EllipseDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as EllipseDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let ellipse = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as EllipseDB
+              this.initialSelection.push(ellipse)
+            }
           }
 
           this.selection = new SelectionModel<EllipseDB>(allowMultiSelect, this.initialSelection);
@@ -286,7 +290,7 @@ export class EllipsesTableComponent implements OnInit {
     // list of ellipses is truncated of ellipse before the delete
     this.ellipses = this.ellipses.filter(h => h !== ellipse);
 
-    this.ellipseService.deleteEllipse(ellipseID).subscribe(
+    this.ellipseService.deleteEllipse(ellipseID, this.GONG__StackPath).subscribe(
       ellipse => {
         this.ellipseService.EllipseServiceChanged.next("delete")
       }
@@ -352,7 +356,7 @@ export class EllipsesTableComponent implements OnInit {
 
       // update all ellipse (only update selection & initial selection)
       for (let ellipse of toUpdate) {
-        this.ellipseService.updateEllipse(ellipse)
+        this.ellipseService.updateEllipse(ellipse, this.GONG__StackPath)
           .subscribe(ellipse => {
             this.ellipseService.EllipseServiceChanged.next("update")
           });

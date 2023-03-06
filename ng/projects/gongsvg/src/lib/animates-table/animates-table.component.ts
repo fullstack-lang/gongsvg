@@ -281,7 +281,7 @@ export class AnimatesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -317,10 +317,14 @@ export class AnimatesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AnimateDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as AnimateDB[]
-          for (let associationInstance of sourceField) {
-            let animate = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AnimateDB
-            this.initialSelection.push(animate)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to AnimateDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as AnimateDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let animate = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AnimateDB
+              this.initialSelection.push(animate)
+            }
           }
 
           this.selection = new SelectionModel<AnimateDB>(allowMultiSelect, this.initialSelection);
@@ -341,7 +345,7 @@ export class AnimatesTableComponent implements OnInit {
     // list of animates is truncated of animate before the delete
     this.animates = this.animates.filter(h => h !== animate);
 
-    this.animateService.deleteAnimate(animateID).subscribe(
+    this.animateService.deleteAnimate(animateID, this.GONG__StackPath).subscribe(
       animate => {
         this.animateService.AnimateServiceChanged.next("delete")
       }
@@ -407,7 +411,7 @@ export class AnimatesTableComponent implements OnInit {
 
       // update all animate (only update selection & initial selection)
       for (let animate of toUpdate) {
-        this.animateService.updateAnimate(animate)
+        this.animateService.updateAnimate(animate, this.GONG__StackPath)
           .subscribe(animate => {
             this.animateService.AnimateServiceChanged.next("update")
           });

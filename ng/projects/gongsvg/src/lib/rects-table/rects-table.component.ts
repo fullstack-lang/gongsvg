@@ -232,7 +232,7 @@ export class RectsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -268,10 +268,14 @@ export class RectsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, RectDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as RectDB[]
-          for (let associationInstance of sourceField) {
-            let rect = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as RectDB
-            this.initialSelection.push(rect)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to RectDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as RectDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let rect = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as RectDB
+              this.initialSelection.push(rect)
+            }
           }
 
           this.selection = new SelectionModel<RectDB>(allowMultiSelect, this.initialSelection);
@@ -292,7 +296,7 @@ export class RectsTableComponent implements OnInit {
     // list of rects is truncated of rect before the delete
     this.rects = this.rects.filter(h => h !== rect);
 
-    this.rectService.deleteRect(rectID).subscribe(
+    this.rectService.deleteRect(rectID, this.GONG__StackPath).subscribe(
       rect => {
         this.rectService.RectServiceChanged.next("delete")
       }
@@ -358,7 +362,7 @@ export class RectsTableComponent implements OnInit {
 
       // update all rect (only update selection & initial selection)
       for (let rect of toUpdate) {
-        this.rectService.updateRect(rect)
+        this.rectService.updateRect(rect, this.GONG__StackPath)
           .subscribe(rect => {
             this.rectService.RectServiceChanged.next("update")
           });

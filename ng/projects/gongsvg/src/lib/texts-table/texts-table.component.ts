@@ -220,7 +220,7 @@ export class TextsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -256,10 +256,14 @@ export class TextsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, TextDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as TextDB[]
-          for (let associationInstance of sourceField) {
-            let text = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as TextDB
-            this.initialSelection.push(text)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to TextDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as TextDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let text = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as TextDB
+              this.initialSelection.push(text)
+            }
           }
 
           this.selection = new SelectionModel<TextDB>(allowMultiSelect, this.initialSelection);
@@ -280,7 +284,7 @@ export class TextsTableComponent implements OnInit {
     // list of texts is truncated of text before the delete
     this.texts = this.texts.filter(h => h !== text);
 
-    this.textService.deleteText(textID).subscribe(
+    this.textService.deleteText(textID, this.GONG__StackPath).subscribe(
       text => {
         this.textService.TextServiceChanged.next("delete")
       }
@@ -346,7 +350,7 @@ export class TextsTableComponent implements OnInit {
 
       // update all text (only update selection & initial selection)
       for (let text of toUpdate) {
-        this.textService.updateText(text)
+        this.textService.updateText(text, this.GONG__StackPath)
           .subscribe(text => {
             this.textService.TextServiceChanged.next("update")
           });

@@ -174,13 +174,13 @@ export class EllipseDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case EllipseDetailComponentState.UPDATE_INSTANCE:
-				this.ellipseService.updateEllipse(this.ellipse)
+				this.ellipseService.updateEllipse(this.ellipse, this.GONG__StackPath)
 					.subscribe(ellipse => {
 						this.ellipseService.EllipseServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.ellipseService.postEllipse(this.ellipse).subscribe(ellipse => {
+				this.ellipseService.postEllipse(this.ellipse, this.GONG__StackPath).subscribe(ellipse => {
 					this.ellipseService.EllipseServiceChanged.next("post")
 					this.ellipse = new (EllipseDB) // reset fields
 				});

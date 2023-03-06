@@ -100,7 +100,7 @@ export class TextSortingComponent implements OnInit {
 
     this.associatedTexts.forEach(
       text => {
-        this.textService.updateText(text)
+        this.textService.updateText(text, this.dialogData.GONG__StackPath)
           .subscribe(text => {
             this.textService.TextServiceChanged.next("update")
           });

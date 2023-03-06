@@ -21,10 +21,6 @@ import { SVGDB } from './svg-db'
 })
 export class PolylineService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   PolylineServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class PolylineService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,17 +63,21 @@ export class PolylineService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new polyline to the server */
-  postPolyline(polylinedb: PolylineDB): Observable<PolylineDB> {
+  postPolyline(polylinedb: PolylineDB, GONG__StackPath: string): Observable<PolylineDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     polylinedb.Animates = []
     let _SVG_Polylines_reverse = polylinedb.SVG_Polylines_reverse
     polylinedb.SVG_Polylines_reverse = new SVGDB
 
-    return this.http.post<PolylineDB>(this.polylinesUrl, polylinedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<PolylineDB>(this.polylinesUrl, polylinedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         polylinedb.SVG_Polylines_reverse = _SVG_Polylines_reverse
@@ -89,18 +88,24 @@ export class PolylineService {
   }
 
   /** DELETE: delete the polylinedb from the server */
-  deletePolyline(polylinedb: PolylineDB | number): Observable<PolylineDB> {
+  deletePolyline(polylinedb: PolylineDB | number, GONG__StackPath: string): Observable<PolylineDB> {
     const id = typeof polylinedb === 'number' ? polylinedb : polylinedb.ID;
     const url = `${this.polylinesUrl}/${id}`;
 
-    return this.http.delete<PolylineDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<PolylineDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted polylinedb id=${id}`)),
       catchError(this.handleError<PolylineDB>('deletePolyline'))
     );
   }
 
   /** PUT: update the polylinedb on the server */
-  updatePolyline(polylinedb: PolylineDB): Observable<PolylineDB> {
+  updatePolyline(polylinedb: PolylineDB, GONG__StackPath: string): Observable<PolylineDB> {
     const id = typeof polylinedb === 'number' ? polylinedb : polylinedb.ID;
     const url = `${this.polylinesUrl}/${id}`;
 
@@ -109,7 +114,13 @@ export class PolylineService {
     let _SVG_Polylines_reverse = polylinedb.SVG_Polylines_reverse
     polylinedb.SVG_Polylines_reverse = new SVGDB
 
-    return this.http.put<PolylineDB>(url, polylinedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<PolylineDB>(url, polylinedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         polylinedb.SVG_Polylines_reverse = _SVG_Polylines_reverse

@@ -17,6 +17,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *GongEnumShape:
 		ok = stage.IsStagedGongEnumShape(target)
 
+	case *GongEnumValueEntry:
+		ok = stage.IsStagedGongEnumValueEntry(target)
+
 	case *GongStructShape:
 		ok = stage.IsStagedGongStructShape(target)
 
@@ -47,6 +50,8 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *Vertice:
 		ok = stage.IsStagedVertice(target)
 
+	default:
+		_ = target
 	}
 	return
 }
@@ -76,6 +81,13 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	func (stage *StageStruct) IsStagedGongEnumShape(gongenumshape *GongEnumShape) (ok bool) {
 
 		_, ok = stage.GongEnumShapes[gongenumshape]
+	
+		return
+	}
+
+	func (stage *StageStruct) IsStagedGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) (ok bool) {
+
+		_, ok = stage.GongEnumValueEntrys[gongenumvalueentry]
 	
 		return
 	}
@@ -171,6 +183,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *GongEnumShape:
 		stage.StageBranchGongEnumShape(target)
 
+	case *GongEnumValueEntry:
+		stage.StageBranchGongEnumValueEntry(target)
+
 	case *GongStructShape:
 		stage.StageBranchGongStructShape(target)
 
@@ -201,6 +216,8 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Vertice:
 		stage.StageBranchVertice(target)
 
+	default:
+		_ = target
 	}
 }
 
@@ -212,7 +229,7 @@ func (stage *StageStruct) StageBranchClassdiagram(classdiagram *Classdiagram) {
 		return
 	}
 
-	classdiagram.Stage()
+	classdiagram.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -236,7 +253,7 @@ func (stage *StageStruct) StageBranchDiagramPackage(diagrampackage *DiagramPacka
 		return
 	}
 
-	diagrampackage.Stage()
+	diagrampackage.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if diagrampackage.SelectedClassdiagram != nil {
@@ -260,7 +277,7 @@ func (stage *StageStruct) StageBranchField(field *Field) {
 		return
 	}
 
-	field.Stage()
+	field.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -275,7 +292,7 @@ func (stage *StageStruct) StageBranchGongEnumShape(gongenumshape *GongEnumShape)
 		return
 	}
 
-	gongenumshape.Stage()
+	gongenumshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if gongenumshape.Position != nil {
@@ -283,9 +300,24 @@ func (stage *StageStruct) StageBranchGongEnumShape(gongenumshape *GongEnumShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _field := range gongenumshape.Fields {
-		StageBranch(stage, _field)
+	for _, _gongenumvalueentry := range gongenumshape.GongEnumValueEntrys {
+		StageBranch(stage, _gongenumvalueentry)
 	}
+
+}
+
+func (stage *StageStruct) StageBranchGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) {
+
+	// check if instance is already staged
+	if IsStaged(stage, gongenumvalueentry) {
+		return
+	}
+
+	gongenumvalueentry.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -296,7 +328,7 @@ func (stage *StageStruct) StageBranchGongStructShape(gongstructshape *GongStruct
 		return
 	}
 
-	gongstructshape.Stage()
+	gongstructshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if gongstructshape.Position != nil {
@@ -320,7 +352,7 @@ func (stage *StageStruct) StageBranchLink(link *Link) {
 		return
 	}
 
-	link.Stage()
+	link.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if link.Middlevertice != nil {
@@ -338,7 +370,7 @@ func (stage *StageStruct) StageBranchNode(node *Node) {
 		return
 	}
 
-	node.Stage()
+	node.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -356,7 +388,7 @@ func (stage *StageStruct) StageBranchNoteShape(noteshape *NoteShape) {
 		return
 	}
 
-	noteshape.Stage()
+	noteshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -374,18 +406,9 @@ func (stage *StageStruct) StageBranchNoteShapeLink(noteshapelink *NoteShapeLink)
 		return
 	}
 
-	noteshapelink.Stage()
+	noteshapelink.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if noteshapelink.Classshape != nil {
-		StageBranch(stage, noteshapelink.Classshape)
-	}
-	if noteshapelink.Link != nil {
-		StageBranch(stage, noteshapelink.Link)
-	}
-	if noteshapelink.Middlevertice != nil {
-		StageBranch(stage, noteshapelink.Middlevertice)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -398,7 +421,7 @@ func (stage *StageStruct) StageBranchPosition(position *Position) {
 		return
 	}
 
-	position.Stage()
+	position.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -413,7 +436,7 @@ func (stage *StageStruct) StageBranchTree(tree *Tree) {
 		return
 	}
 
-	tree.Stage()
+	tree.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -431,7 +454,7 @@ func (stage *StageStruct) StageBranchUmlState(umlstate *UmlState) {
 		return
 	}
 
-	umlstate.Stage()
+	umlstate.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -446,7 +469,7 @@ func (stage *StageStruct) StageBranchUmlsc(umlsc *Umlsc) {
 		return
 	}
 
-	umlsc.Stage()
+	umlsc.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -464,7 +487,7 @@ func (stage *StageStruct) StageBranchVertice(vertice *Vertice) {
 		return
 	}
 
-	vertice.Stage()
+	vertice.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -492,6 +515,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *GongEnumShape:
 		stage.UnstageBranchGongEnumShape(target)
+
+	case *GongEnumValueEntry:
+		stage.UnstageBranchGongEnumValueEntry(target)
 
 	case *GongStructShape:
 		stage.UnstageBranchGongStructShape(target)
@@ -523,6 +549,8 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Vertice:
 		stage.UnstageBranchVertice(target)
 
+	default:
+		_ = target
 	}
 }
 
@@ -534,7 +562,7 @@ func (stage *StageStruct) UnstageBranchClassdiagram(classdiagram *Classdiagram) 
 		return
 	}
 
-	classdiagram.Unstage()
+	classdiagram.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -558,7 +586,7 @@ func (stage *StageStruct) UnstageBranchDiagramPackage(diagrampackage *DiagramPac
 		return
 	}
 
-	diagrampackage.Unstage()
+	diagrampackage.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if diagrampackage.SelectedClassdiagram != nil {
@@ -582,7 +610,7 @@ func (stage *StageStruct) UnstageBranchField(field *Field) {
 		return
 	}
 
-	field.Unstage()
+	field.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -597,7 +625,7 @@ func (stage *StageStruct) UnstageBranchGongEnumShape(gongenumshape *GongEnumShap
 		return
 	}
 
-	gongenumshape.Unstage()
+	gongenumshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if gongenumshape.Position != nil {
@@ -605,9 +633,24 @@ func (stage *StageStruct) UnstageBranchGongEnumShape(gongenumshape *GongEnumShap
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _field := range gongenumshape.Fields {
-		UnstageBranch(stage, _field)
+	for _, _gongenumvalueentry := range gongenumshape.GongEnumValueEntrys {
+		UnstageBranch(stage, _gongenumvalueentry)
 	}
+
+}
+
+func (stage *StageStruct) UnstageBranchGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, gongenumvalueentry) {
+		return
+	}
+
+	gongenumvalueentry.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -618,7 +661,7 @@ func (stage *StageStruct) UnstageBranchGongStructShape(gongstructshape *GongStru
 		return
 	}
 
-	gongstructshape.Unstage()
+	gongstructshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if gongstructshape.Position != nil {
@@ -642,7 +685,7 @@ func (stage *StageStruct) UnstageBranchLink(link *Link) {
 		return
 	}
 
-	link.Unstage()
+	link.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if link.Middlevertice != nil {
@@ -660,7 +703,7 @@ func (stage *StageStruct) UnstageBranchNode(node *Node) {
 		return
 	}
 
-	node.Unstage()
+	node.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -678,7 +721,7 @@ func (stage *StageStruct) UnstageBranchNoteShape(noteshape *NoteShape) {
 		return
 	}
 
-	noteshape.Unstage()
+	noteshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -696,18 +739,9 @@ func (stage *StageStruct) UnstageBranchNoteShapeLink(noteshapelink *NoteShapeLin
 		return
 	}
 
-	noteshapelink.Unstage()
+	noteshapelink.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if noteshapelink.Classshape != nil {
-		UnstageBranch(stage, noteshapelink.Classshape)
-	}
-	if noteshapelink.Link != nil {
-		UnstageBranch(stage, noteshapelink.Link)
-	}
-	if noteshapelink.Middlevertice != nil {
-		UnstageBranch(stage, noteshapelink.Middlevertice)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -720,7 +754,7 @@ func (stage *StageStruct) UnstageBranchPosition(position *Position) {
 		return
 	}
 
-	position.Unstage()
+	position.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -735,7 +769,7 @@ func (stage *StageStruct) UnstageBranchTree(tree *Tree) {
 		return
 	}
 
-	tree.Unstage()
+	tree.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -753,7 +787,7 @@ func (stage *StageStruct) UnstageBranchUmlState(umlstate *UmlState) {
 		return
 	}
 
-	umlstate.Unstage()
+	umlstate.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -768,7 +802,7 @@ func (stage *StageStruct) UnstageBranchUmlsc(umlsc *Umlsc) {
 		return
 	}
 
-	umlsc.Unstage()
+	umlsc.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -786,7 +820,7 @@ func (stage *StageStruct) UnstageBranchVertice(vertice *Vertice) {
 		return
 	}
 
-	vertice.Unstage()
+	vertice.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

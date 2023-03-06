@@ -174,13 +174,13 @@ export class TextDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case TextDetailComponentState.UPDATE_INSTANCE:
-				this.textService.updateText(this.text)
+				this.textService.updateText(this.text, this.GONG__StackPath)
 					.subscribe(text => {
 						this.textService.TextServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.textService.postText(this.text).subscribe(text => {
+				this.textService.postText(this.text, this.GONG__StackPath).subscribe(text => {
 					this.textService.TextServiceChanged.next("post")
 					this.text = new (TextDB) // reset fields
 				});

@@ -155,13 +155,13 @@ export class SVGDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case SVGDetailComponentState.UPDATE_INSTANCE:
-				this.svgService.updateSVG(this.svg)
+				this.svgService.updateSVG(this.svg, this.GONG__StackPath)
 					.subscribe(svg => {
 						this.svgService.SVGServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.svgService.postSVG(this.svg).subscribe(svg => {
+				this.svgService.postSVG(this.svg, this.GONG__StackPath).subscribe(svg => {
 					this.svgService.SVGServiceChanged.next("post")
 					this.svg = new (SVGDB) // reset fields
 				});

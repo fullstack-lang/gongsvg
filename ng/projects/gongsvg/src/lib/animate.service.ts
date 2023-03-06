@@ -28,10 +28,6 @@ import { TextDB } from './text-db'
 })
 export class AnimateService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   AnimateServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -40,7 +36,6 @@ export class AnimateService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -75,10 +70,8 @@ export class AnimateService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new animate to the server */
-  postAnimate(animatedb: AnimateDB): Observable<AnimateDB> {
+  postAnimate(animatedb: AnimateDB, GONG__StackPath: string): Observable<AnimateDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _Circle_Animations_reverse = animatedb.Circle_Animations_reverse
@@ -98,7 +91,13 @@ export class AnimateService {
     let _Text_Animates_reverse = animatedb.Text_Animates_reverse
     animatedb.Text_Animates_reverse = new TextDB
 
-    return this.http.post<AnimateDB>(this.animatesUrl, animatedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<AnimateDB>(this.animatesUrl, animatedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         animatedb.Circle_Animations_reverse = _Circle_Animations_reverse
@@ -116,18 +115,24 @@ export class AnimateService {
   }
 
   /** DELETE: delete the animatedb from the server */
-  deleteAnimate(animatedb: AnimateDB | number): Observable<AnimateDB> {
+  deleteAnimate(animatedb: AnimateDB | number, GONG__StackPath: string): Observable<AnimateDB> {
     const id = typeof animatedb === 'number' ? animatedb : animatedb.ID;
     const url = `${this.animatesUrl}/${id}`;
 
-    return this.http.delete<AnimateDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<AnimateDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted animatedb id=${id}`)),
       catchError(this.handleError<AnimateDB>('deleteAnimate'))
     );
   }
 
   /** PUT: update the animatedb on the server */
-  updateAnimate(animatedb: AnimateDB): Observable<AnimateDB> {
+  updateAnimate(animatedb: AnimateDB, GONG__StackPath: string): Observable<AnimateDB> {
     const id = typeof animatedb === 'number' ? animatedb : animatedb.ID;
     const url = `${this.animatesUrl}/${id}`;
 
@@ -149,7 +154,13 @@ export class AnimateService {
     let _Text_Animates_reverse = animatedb.Text_Animates_reverse
     animatedb.Text_Animates_reverse = new TextDB
 
-    return this.http.put<AnimateDB>(url, animatedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<AnimateDB>(url, animatedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         animatedb.Circle_Animations_reverse = _Circle_Animations_reverse

@@ -208,7 +208,7 @@ export class PolylinesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -244,10 +244,14 @@ export class PolylinesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, PolylineDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as PolylineDB[]
-          for (let associationInstance of sourceField) {
-            let polyline = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as PolylineDB
-            this.initialSelection.push(polyline)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to PolylineDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as PolylineDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let polyline = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as PolylineDB
+              this.initialSelection.push(polyline)
+            }
           }
 
           this.selection = new SelectionModel<PolylineDB>(allowMultiSelect, this.initialSelection);
@@ -268,7 +272,7 @@ export class PolylinesTableComponent implements OnInit {
     // list of polylines is truncated of polyline before the delete
     this.polylines = this.polylines.filter(h => h !== polyline);
 
-    this.polylineService.deletePolyline(polylineID).subscribe(
+    this.polylineService.deletePolyline(polylineID, this.GONG__StackPath).subscribe(
       polyline => {
         this.polylineService.PolylineServiceChanged.next("delete")
       }
@@ -334,7 +338,7 @@ export class PolylinesTableComponent implements OnInit {
 
       // update all polyline (only update selection & initial selection)
       for (let polyline of toUpdate) {
-        this.polylineService.updatePolyline(polyline)
+        this.polylineService.updatePolyline(polyline, this.GONG__StackPath)
           .subscribe(polyline => {
             this.polylineService.PolylineServiceChanged.next("update")
           });

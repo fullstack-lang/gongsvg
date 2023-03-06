@@ -21,10 +21,6 @@ import { SVGDB } from './svg-db'
 })
 export class EllipseService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   EllipseServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class EllipseService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,17 +63,21 @@ export class EllipseService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new ellipse to the server */
-  postEllipse(ellipsedb: EllipseDB): Observable<EllipseDB> {
+  postEllipse(ellipsedb: EllipseDB, GONG__StackPath: string): Observable<EllipseDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     ellipsedb.Animates = []
     let _SVG_Ellipses_reverse = ellipsedb.SVG_Ellipses_reverse
     ellipsedb.SVG_Ellipses_reverse = new SVGDB
 
-    return this.http.post<EllipseDB>(this.ellipsesUrl, ellipsedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<EllipseDB>(this.ellipsesUrl, ellipsedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         ellipsedb.SVG_Ellipses_reverse = _SVG_Ellipses_reverse
@@ -89,18 +88,24 @@ export class EllipseService {
   }
 
   /** DELETE: delete the ellipsedb from the server */
-  deleteEllipse(ellipsedb: EllipseDB | number): Observable<EllipseDB> {
+  deleteEllipse(ellipsedb: EllipseDB | number, GONG__StackPath: string): Observable<EllipseDB> {
     const id = typeof ellipsedb === 'number' ? ellipsedb : ellipsedb.ID;
     const url = `${this.ellipsesUrl}/${id}`;
 
-    return this.http.delete<EllipseDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<EllipseDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted ellipsedb id=${id}`)),
       catchError(this.handleError<EllipseDB>('deleteEllipse'))
     );
   }
 
   /** PUT: update the ellipsedb on the server */
-  updateEllipse(ellipsedb: EllipseDB): Observable<EllipseDB> {
+  updateEllipse(ellipsedb: EllipseDB, GONG__StackPath: string): Observable<EllipseDB> {
     const id = typeof ellipsedb === 'number' ? ellipsedb : ellipsedb.ID;
     const url = `${this.ellipsesUrl}/${id}`;
 
@@ -109,7 +114,13 @@ export class EllipseService {
     let _SVG_Ellipses_reverse = ellipsedb.SVG_Ellipses_reverse
     ellipsedb.SVG_Ellipses_reverse = new SVGDB
 
-    return this.http.put<EllipseDB>(url, ellipsedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<EllipseDB>(url, ellipsedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         ellipsedb.SVG_Ellipses_reverse = _SVG_Ellipses_reverse

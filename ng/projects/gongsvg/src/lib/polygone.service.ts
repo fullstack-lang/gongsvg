@@ -21,10 +21,6 @@ import { SVGDB } from './svg-db'
 })
 export class PolygoneService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   PolygoneServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class PolygoneService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,17 +63,21 @@ export class PolygoneService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new polygone to the server */
-  postPolygone(polygonedb: PolygoneDB): Observable<PolygoneDB> {
+  postPolygone(polygonedb: PolygoneDB, GONG__StackPath: string): Observable<PolygoneDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     polygonedb.Animates = []
     let _SVG_Polygones_reverse = polygonedb.SVG_Polygones_reverse
     polygonedb.SVG_Polygones_reverse = new SVGDB
 
-    return this.http.post<PolygoneDB>(this.polygonesUrl, polygonedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<PolygoneDB>(this.polygonesUrl, polygonedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         polygonedb.SVG_Polygones_reverse = _SVG_Polygones_reverse
@@ -89,18 +88,24 @@ export class PolygoneService {
   }
 
   /** DELETE: delete the polygonedb from the server */
-  deletePolygone(polygonedb: PolygoneDB | number): Observable<PolygoneDB> {
+  deletePolygone(polygonedb: PolygoneDB | number, GONG__StackPath: string): Observable<PolygoneDB> {
     const id = typeof polygonedb === 'number' ? polygonedb : polygonedb.ID;
     const url = `${this.polygonesUrl}/${id}`;
 
-    return this.http.delete<PolygoneDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<PolygoneDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted polygonedb id=${id}`)),
       catchError(this.handleError<PolygoneDB>('deletePolygone'))
     );
   }
 
   /** PUT: update the polygonedb on the server */
-  updatePolygone(polygonedb: PolygoneDB): Observable<PolygoneDB> {
+  updatePolygone(polygonedb: PolygoneDB, GONG__StackPath: string): Observable<PolygoneDB> {
     const id = typeof polygonedb === 'number' ? polygonedb : polygonedb.ID;
     const url = `${this.polygonesUrl}/${id}`;
 
@@ -109,7 +114,13 @@ export class PolygoneService {
     let _SVG_Polygones_reverse = polygonedb.SVG_Polygones_reverse
     polygonedb.SVG_Polygones_reverse = new SVGDB
 
-    return this.http.put<PolygoneDB>(url, polygonedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<PolygoneDB>(url, polygonedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         polygonedb.SVG_Polygones_reverse = _SVG_Polygones_reverse

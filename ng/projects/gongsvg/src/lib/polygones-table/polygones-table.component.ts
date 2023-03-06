@@ -208,7 +208,7 @@ export class PolygonesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -244,10 +244,14 @@ export class PolygonesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, PolygoneDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as PolygoneDB[]
-          for (let associationInstance of sourceField) {
-            let polygone = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as PolygoneDB
-            this.initialSelection.push(polygone)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to PolygoneDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as PolygoneDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let polygone = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as PolygoneDB
+              this.initialSelection.push(polygone)
+            }
           }
 
           this.selection = new SelectionModel<PolygoneDB>(allowMultiSelect, this.initialSelection);
@@ -268,7 +272,7 @@ export class PolygonesTableComponent implements OnInit {
     // list of polygones is truncated of polygone before the delete
     this.polygones = this.polygones.filter(h => h !== polygone);
 
-    this.polygoneService.deletePolygone(polygoneID).subscribe(
+    this.polygoneService.deletePolygone(polygoneID, this.GONG__StackPath).subscribe(
       polygone => {
         this.polygoneService.PolygoneServiceChanged.next("delete")
       }
@@ -334,7 +338,7 @@ export class PolygonesTableComponent implements OnInit {
 
       // update all polygone (only update selection & initial selection)
       for (let polygone of toUpdate) {
-        this.polygoneService.updatePolygone(polygone)
+        this.polygoneService.updatePolygone(polygone, this.GONG__StackPath)
           .subscribe(polygone => {
             this.polygoneService.PolygoneServiceChanged.next("update")
           });

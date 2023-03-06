@@ -208,7 +208,7 @@ export class PathsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -244,10 +244,14 @@ export class PathsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, PathDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as PathDB[]
-          for (let associationInstance of sourceField) {
-            let path = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as PathDB
-            this.initialSelection.push(path)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to PathDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as PathDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let path = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as PathDB
+              this.initialSelection.push(path)
+            }
           }
 
           this.selection = new SelectionModel<PathDB>(allowMultiSelect, this.initialSelection);
@@ -268,7 +272,7 @@ export class PathsTableComponent implements OnInit {
     // list of paths is truncated of path before the delete
     this.paths = this.paths.filter(h => h !== path);
 
-    this.pathService.deletePath(pathID).subscribe(
+    this.pathService.deletePath(pathID, this.GONG__StackPath).subscribe(
       path => {
         this.pathService.PathServiceChanged.next("delete")
       }
@@ -334,7 +338,7 @@ export class PathsTableComponent implements OnInit {
 
       // update all path (only update selection & initial selection)
       for (let path of toUpdate) {
-        this.pathService.updatePath(path)
+        this.pathService.updatePath(path, this.GONG__StackPath)
           .subscribe(path => {
             this.pathService.PathServiceChanged.next("update")
           });

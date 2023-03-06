@@ -17,47 +17,47 @@ func init() {
 }
 
 // stageInjection will stage objects of database "stage"
-func stageInjection() {
+func stageInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Animate
-	__Animate__000000_A1 := (&models.Animate{Name: `A1`}).Stage()
-	__Animate__000001_Animate_oppacity := (&models.Animate{Name: `Animate oppacity`}).Stage()
-	__Animate__000002_C1a_animation := (&models.Animate{Name: `C1a animation`}).Stage()
-	__Animate__000003_Move_text := (&models.Animate{Name: `Move text`}).Stage()
+	__Animate__000000_A1 := (&models.Animate{Name: `A1`}).Stage(stage)
+	__Animate__000001_Animate_oppacity := (&models.Animate{Name: `Animate oppacity`}).Stage(stage)
+	__Animate__000002_C1a_animation := (&models.Animate{Name: `C1a animation`}).Stage(stage)
+	__Animate__000003_Move_text := (&models.Animate{Name: `Move text`}).Stage(stage)
 
 	// Declarations of staged instances of Circle
-	__Circle__000000_C1a := (&models.Circle{Name: `C1a`}).Stage()
+	__Circle__000000_C1a := (&models.Circle{Name: `C1a`}).Stage(stage)
 
 	// Declarations of staged instances of Ellipse
-	__Ellipse__000000_Ellipse_Example_SVG := (&models.Ellipse{Name: `Ellipse Example SVG`}).Stage()
+	__Ellipse__000000_Ellipse_Example_SVG := (&models.Ellipse{Name: `Ellipse Example SVG`}).Stage(stage)
 
 	// Declarations of staged instances of Line
-	__Line__000000_Line := (&models.Line{Name: `Line`}).Stage()
+	__Line__000000_Line := (&models.Line{Name: `Line`}).Stage(stage)
 
 	// Declarations of staged instances of Path
-	__Path__000000_Path_example := (&models.Path{Name: `Path example`}).Stage()
+	__Path__000000_Path_example := (&models.Path{Name: `Path example`}).Stage(stage)
 
 	// Declarations of staged instances of Polygone
-	__Polygone__000000_Polygone_example_SVG := (&models.Polygone{Name: `Polygone example SVG`}).Stage()
+	__Polygone__000000_Polygone_example_SVG := (&models.Polygone{Name: `Polygone example SVG`}).Stage(stage)
 
 	// Declarations of staged instances of Polyline
-	__Polyline__000000_Polyline_example_SVG := (&models.Polyline{Name: `Polyline example SVG`}).Stage()
+	__Polyline__000000_Polyline_example_SVG := (&models.Polyline{Name: `Polyline example SVG`}).Stage(stage)
 
 	// Declarations of staged instances of Rect
-	__Rect__000000_R1 := (&models.Rect{Name: `R1`}).Stage()
-	__Rect__000001_R2 := (&models.Rect{Name: `R2`}).Stage()
-	__Rect__000002_R3 := (&models.Rect{Name: `R3`}).Stage()
-	__Rect__000003_R4_rounded := (&models.Rect{Name: `R4 rounded`}).Stage()
-	__Rect__000004_Test_Rect := (&models.Rect{Name: `Test Rect`}).Stage()
+	__Rect__000000_R1 := (&models.Rect{Name: `R1`}).Stage(stage)
+	__Rect__000001_R2 := (&models.Rect{Name: `R2`}).Stage(stage)
+	__Rect__000002_R3 := (&models.Rect{Name: `R3`}).Stage(stage)
+	__Rect__000003_R4_rounded := (&models.Rect{Name: `R4 rounded`}).Stage(stage)
+	__Rect__000004_Test_Rect := (&models.Rect{Name: `Test Rect`}).Stage(stage)
 
 	// Declarations of staged instances of SVG
-	__SVG__000000_SVG2 := (&models.SVG{Name: `SVG2`}).Stage()
+	__SVG__000000_SVG2 := (&models.SVG{Name: `SVG2`}).Stage(stage)
 
 	// Declarations of staged instances of Text
-	__Text__000000_Bonjorno := (&models.Text{Name: `Bonjorno`}).Stage()
-	__Text__000001_Hello := (&models.Text{Name: `Hello`}).Stage()
+	__Text__000000_Bonjorno := (&models.Text{Name: `Bonjorno`}).Stage(stage)
+	__Text__000001_Hello := (&models.Text{Name: `Hello`}).Stage(stage)
 
 	// Setup of values
 
@@ -274,5 +274,3 @@ func stageInjection() {
 	__SVG__000000_SVG2.Paths = append(__SVG__000000_SVG2.Paths, __Path__000000_Path_example)
 	__Text__000001_Hello.Animates = append(__Text__000001_Hello.Animates, __Animate__000003_Move_text)
 }
-
-

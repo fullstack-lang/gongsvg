@@ -174,13 +174,13 @@ export class RectDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case RectDetailComponentState.UPDATE_INSTANCE:
-				this.rectService.updateRect(this.rect)
+				this.rectService.updateRect(this.rect, this.GONG__StackPath)
 					.subscribe(rect => {
 						this.rectService.RectServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.rectService.postRect(this.rect).subscribe(rect => {
+				this.rectService.postRect(this.rect, this.GONG__StackPath).subscribe(rect => {
 					this.rectService.RectServiceChanged.next("post")
 					this.rect = new (RectDB) // reset fields
 				});

@@ -10,9 +10,10 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
+import { NoteShapeLinkTypeSelect, NoteShapeLinkTypeList } from '../NoteShapeLinkType'
 import { NoteShapeDB } from '../noteshape-db'
 
-import { Router, RouterState, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 
@@ -35,6 +36,7 @@ enum NoteShapeLinkDetailComponentState {
 export class NoteShapeLinkDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	NoteShapeLinkTypeList: NoteShapeLinkTypeSelect[] = []
 
 	// the NoteShapeLinkDB of interest
 	noteshapelink: NoteShapeLinkDB = new NoteShapeLinkDB
@@ -58,23 +60,34 @@ export class NoteShapeLinkDetailComponent implements OnInit {
 	originStruct: string = ""
 	originStructFieldName: string = ""
 
+	GONG__StackPath: string = ""
+
 	constructor(
 		private noteshapelinkService: NoteShapeLinkService,
 		private frontRepoService: FrontRepoService,
 		public dialog: MatDialog,
-		private route: ActivatedRoute,
+		private activatedRoute: ActivatedRoute,
 		private router: Router,
 	) {
 	}
 
 	ngOnInit(): void {
+		this.GONG__StackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')!;
+
+		this.activatedRoute.params.subscribe(params => {
+			this.onChangedActivatedRoute()
+		});
+	}
+	onChangedActivatedRoute(): void {
 
 		// compute state
-		this.id = +this.route.snapshot.paramMap.get('id')!;
-		this.originStruct = this.route.snapshot.paramMap.get('originStruct')!;
-		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName')!;
+		this.id = +this.activatedRoute.snapshot.paramMap.get('id')!;
+		this.originStruct = this.activatedRoute.snapshot.paramMap.get('originStruct')!;
+		this.originStructFieldName = this.activatedRoute.snapshot.paramMap.get('originStructFieldName')!;
 
-		const association = this.route.snapshot.paramMap.get('association');
+		this.GONG__StackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')!;
+
+		const association = this.activatedRoute.snapshot.paramMap.get('association');
 		if (this.id == 0) {
 			this.state = NoteShapeLinkDetailComponentState.CREATE_INSTANCE
 		} else {
@@ -105,11 +118,12 @@ export class NoteShapeLinkDetailComponent implements OnInit {
 		)
 
 		// insertion point for initialisation of enums list
+		this.NoteShapeLinkTypeList = NoteShapeLinkTypeList
 	}
 
 	getNoteShapeLink(): void {
 
-		this.frontRepoService.pull().subscribe(
+		this.frontRepoService.pull(this.GONG__StackPath).subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
@@ -144,36 +158,6 @@ export class NoteShapeLinkDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
-		if (this.noteshapelink.ClassshapeID == undefined) {
-			this.noteshapelink.ClassshapeID = new NullInt64
-		}
-		if (this.noteshapelink.Classshape != undefined) {
-			this.noteshapelink.ClassshapeID.Int64 = this.noteshapelink.Classshape.ID
-			this.noteshapelink.ClassshapeID.Valid = true
-		} else {
-			this.noteshapelink.ClassshapeID.Int64 = 0
-			this.noteshapelink.ClassshapeID.Valid = true
-		}
-		if (this.noteshapelink.LinkID == undefined) {
-			this.noteshapelink.LinkID = new NullInt64
-		}
-		if (this.noteshapelink.Link != undefined) {
-			this.noteshapelink.LinkID.Int64 = this.noteshapelink.Link.ID
-			this.noteshapelink.LinkID.Valid = true
-		} else {
-			this.noteshapelink.LinkID.Int64 = 0
-			this.noteshapelink.LinkID.Valid = true
-		}
-		if (this.noteshapelink.MiddleverticeID == undefined) {
-			this.noteshapelink.MiddleverticeID = new NullInt64
-		}
-		if (this.noteshapelink.Middlevertice != undefined) {
-			this.noteshapelink.MiddleverticeID.Int64 = this.noteshapelink.Middlevertice.ID
-			this.noteshapelink.MiddleverticeID.Valid = true
-		} else {
-			this.noteshapelink.MiddleverticeID.Int64 = 0
-			this.noteshapelink.MiddleverticeID.Valid = true
-		}
 
 		// save from the front pointer space to the non pointer space for serialization
 
@@ -193,13 +177,13 @@ export class NoteShapeLinkDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case NoteShapeLinkDetailComponentState.UPDATE_INSTANCE:
-				this.noteshapelinkService.updateNoteShapeLink(this.noteshapelink)
+				this.noteshapelinkService.updateNoteShapeLink(this.noteshapelink, this.GONG__StackPath)
 					.subscribe(noteshapelink => {
 						this.noteshapelinkService.NoteShapeLinkServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.noteshapelinkService.postNoteShapeLink(this.noteshapelink).subscribe(noteshapelink => {
+				this.noteshapelinkService.postNoteShapeLink(this.noteshapelink, this.GONG__StackPath).subscribe(noteshapelink => {
 					this.noteshapelinkService.NoteShapeLinkServiceChanged.next("post")
 					this.noteshapelink = new (NoteShapeLinkDB) // reset fields
 				});
@@ -228,6 +212,7 @@ export class NoteShapeLinkDetailComponent implements OnInit {
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
+			dialogData.GONG__StackPath = this.GONG__StackPath
 
 			dialogConfig.data = dialogData
 			const dialogRef: MatDialogRef<string, any> = this.dialog.open(
@@ -244,6 +229,7 @@ export class NoteShapeLinkDetailComponent implements OnInit {
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
+			dialogData.GONG__StackPath = this.GONG__StackPath
 
 			// set up the source
 			dialogData.SourceStruct = "NoteShapeLink"
@@ -279,6 +265,7 @@ export class NoteShapeLinkDetailComponent implements OnInit {
 			ID: this.noteshapelink.ID,
 			ReversePointer: reverseField,
 			OrderingMode: true,
+			GONG__StackPath: this.GONG__StackPath,
 		};
 		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
 			MapOfSortingComponents.get(AssociatedStruct).get(

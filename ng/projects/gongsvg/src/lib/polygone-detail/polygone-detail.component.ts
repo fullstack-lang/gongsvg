@@ -174,13 +174,13 @@ export class PolygoneDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case PolygoneDetailComponentState.UPDATE_INSTANCE:
-				this.polygoneService.updatePolygone(this.polygone)
+				this.polygoneService.updatePolygone(this.polygone, this.GONG__StackPath)
 					.subscribe(polygone => {
 						this.polygoneService.PolygoneServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.polygoneService.postPolygone(this.polygone).subscribe(polygone => {
+				this.polygoneService.postPolygone(this.polygone, this.GONG__StackPath).subscribe(polygone => {
 					this.polygoneService.PolygoneServiceChanged.next("post")
 					this.polygone = new (PolygoneDB) // reset fields
 				});

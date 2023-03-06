@@ -130,6 +130,13 @@ type BackRepoGongEnumShapeStruct struct {
 	Map_GongEnumShapeDBID_GongEnumShapePtr *map[uint]*models.GongEnumShape
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoGongEnumShape.stage
+	return
 }
 
 func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) GetDB() *gorm.DB {
@@ -144,7 +151,7 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) GetGongEnumShapeDBFrom
 }
 
 // BackRepoGongEnumShape.Init set up the BackRepo of the GongEnumShape
-func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr != nil {
 		err := errors.New("In Init, backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr should be nil")
@@ -171,6 +178,7 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) Init(db *gorm.DB) (Err
 	backRepoGongEnumShape.Map_GongEnumShapePtr_GongEnumShapeDBID = &tmpID
 
 	backRepoGongEnumShape.db = db
+	backRepoGongEnumShape.stage = stage
 	return
 }
 
@@ -269,21 +277,21 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CommitPhaseTwoInstance
 			}
 		}
 
-		// This loop encodes the slice of pointers gongenumshape.Fields into the back repo.
+		// This loop encodes the slice of pointers gongenumshape.GongEnumValueEntrys into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, fieldAssocEnd := range gongenumshape.Fields {
+		for idx, gongenumvalueentryAssocEnd := range gongenumshape.GongEnumValueEntrys {
 
 			// get the back repo instance at the association end
-			fieldAssocEnd_DB :=
-				backRepo.BackRepoField.GetFieldDBFromFieldPtr(fieldAssocEnd)
+			gongenumvalueentryAssocEnd_DB :=
+				backRepo.BackRepoGongEnumValueEntry.GetGongEnumValueEntryDBFromGongEnumValueEntryPtr(gongenumvalueentryAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
-			fieldAssocEnd_DB.GongEnumShape_FieldsDBID.Int64 = int64(gongenumshapeDB.ID)
-			fieldAssocEnd_DB.GongEnumShape_FieldsDBID.Valid = true
-			fieldAssocEnd_DB.GongEnumShape_FieldsDBID_Index.Int64 = int64(idx)
-			fieldAssocEnd_DB.GongEnumShape_FieldsDBID_Index.Valid = true
-			if q := backRepoGongEnumShape.db.Save(fieldAssocEnd_DB); q.Error != nil {
+			gongenumvalueentryAssocEnd_DB.GongEnumShape_GongEnumValueEntrysDBID.Int64 = int64(gongenumshapeDB.ID)
+			gongenumvalueentryAssocEnd_DB.GongEnumShape_GongEnumValueEntrysDBID.Valid = true
+			gongenumvalueentryAssocEnd_DB.GongEnumShape_GongEnumValueEntrysDBID_Index.Int64 = int64(idx)
+			gongenumvalueentryAssocEnd_DB.GongEnumShape_GongEnumValueEntrysDBID_Index.Valid = true
+			if q := backRepoGongEnumShape.db.Save(gongenumvalueentryAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
 		}
@@ -317,7 +325,7 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseOne() (Er
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	gongenumshapeInstancesToBeRemovedFromTheStage := make(map[*models.GongEnumShape]any)
-	for key, value := range models.Stage.GongEnumShapes {
+	for key, value := range backRepoGongEnumShape.stage.GongEnumShapes {
 		gongenumshapeInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -335,7 +343,7 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseOne() (Er
 
 	// remove from stage and back repo's 3 maps all gongenumshapes that are not in the checkout
 	for gongenumshape := range gongenumshapeInstancesToBeRemovedFromTheStage {
-		gongenumshape.Unstage()
+		gongenumshape.Unstage(backRepoGongEnumShape.GetStage())
 
 		// remove instance from the back repo 3 maps
 		gongenumshapeID := (*backRepoGongEnumShape.Map_GongEnumShapePtr_GongEnumShapeDBID)[gongenumshape]
@@ -360,12 +368,12 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseOneInstan
 
 		// append model store with the new element
 		gongenumshape.Name = gongenumshapeDB.Name_Data.String
-		gongenumshape.Stage()
+		gongenumshape.Stage(backRepoGongEnumShape.GetStage())
 	}
 	gongenumshapeDB.CopyBasicFieldsToGongEnumShape(gongenumshape)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	gongenumshape.Stage()
+	gongenumshape.Stage(backRepoGongEnumShape.GetStage())
 
 	// preserve pointer to gongenumshapeDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongEnumShapeDBID_GongEnumShapeDB)[gongenumshapeDB hold variable pointers
@@ -399,31 +407,31 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseTwoInstan
 	if gongenumshapeDB.PositionID.Int64 != 0 {
 		gongenumshape.Position = (*backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[uint(gongenumshapeDB.PositionID.Int64)]
 	}
-	// This loop redeem gongenumshape.Fields in the stage from the encode in the back repo
-	// It parses all FieldDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// This loop redeem gongenumshape.GongEnumValueEntrys in the stage from the encode in the back repo
+	// It parses all GongEnumValueEntryDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
-	gongenumshape.Fields = gongenumshape.Fields[:0]
+	gongenumshape.GongEnumValueEntrys = gongenumshape.GongEnumValueEntrys[:0]
 	// 2. loop all instances in the type in the association end
-	for _, fieldDB_AssocEnd := range *backRepo.BackRepoField.Map_FieldDBID_FieldDB {
+	for _, gongenumvalueentryDB_AssocEnd := range *backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryDB {
 		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if fieldDB_AssocEnd.GongEnumShape_FieldsDBID.Int64 == int64(gongenumshapeDB.ID) {
+		if gongenumvalueentryDB_AssocEnd.GongEnumShape_GongEnumValueEntrysDBID.Int64 == int64(gongenumshapeDB.ID) {
 			// 4. fetch the associated instance in the stage
-			field_AssocEnd := (*backRepo.BackRepoField.Map_FieldDBID_FieldPtr)[fieldDB_AssocEnd.ID]
+			gongenumvalueentry_AssocEnd := (*backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr)[gongenumvalueentryDB_AssocEnd.ID]
 			// 5. append it the association slice
-			gongenumshape.Fields = append(gongenumshape.Fields, field_AssocEnd)
+			gongenumshape.GongEnumValueEntrys = append(gongenumshape.GongEnumValueEntrys, gongenumvalueentry_AssocEnd)
 		}
 	}
 
 	// sort the array according to the order
-	sort.Slice(gongenumshape.Fields, func(i, j int) bool {
-		fieldDB_i_ID := (*backRepo.BackRepoField.Map_FieldPtr_FieldDBID)[gongenumshape.Fields[i]]
-		fieldDB_j_ID := (*backRepo.BackRepoField.Map_FieldPtr_FieldDBID)[gongenumshape.Fields[j]]
+	sort.Slice(gongenumshape.GongEnumValueEntrys, func(i, j int) bool {
+		gongenumvalueentryDB_i_ID := (*backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryPtr_GongEnumValueEntryDBID)[gongenumshape.GongEnumValueEntrys[i]]
+		gongenumvalueentryDB_j_ID := (*backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryPtr_GongEnumValueEntryDBID)[gongenumshape.GongEnumValueEntrys[j]]
 
-		fieldDB_i := (*backRepo.BackRepoField.Map_FieldDBID_FieldDB)[fieldDB_i_ID]
-		fieldDB_j := (*backRepo.BackRepoField.Map_FieldDBID_FieldDB)[fieldDB_j_ID]
+		gongenumvalueentryDB_i := (*backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryDB)[gongenumvalueentryDB_i_ID]
+		gongenumvalueentryDB_j := (*backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryDB)[gongenumvalueentryDB_j_ID]
 
-		return fieldDB_i.GongEnumShape_FieldsDBID_Index.Int64 < fieldDB_j.GongEnumShape_FieldsDBID_Index.Int64
+		return gongenumvalueentryDB_i.GongEnumShape_GongEnumValueEntrysDBID_Index.Int64 < gongenumvalueentryDB_j.GongEnumShape_GongEnumValueEntrysDBID_Index.Int64
 	})
 
 	return

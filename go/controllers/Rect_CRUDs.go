@@ -47,23 +47,22 @@ type RectInput struct {
 // default: genericError
 //
 //	200: rectDBResponse
-func GetRects(c *gin.Context) {
-	db := orm.BackRepo.BackRepoRect.GetDB()
+func (controller *Controller) GetRects(c *gin.Context) {
 
 	// source slice
 	var rectDBs []orm.RectDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetRects", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoRect.GetDB()
 
 	query := db.Find(&rectDBs)
 	if query.Error != nil {
@@ -108,7 +107,19 @@ func GetRects(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostRect(c *gin.Context) {
+func (controller *Controller) PostRect(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostRects", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoRect.GetDB()
 
 	// Validate input
 	var input orm.RectAPI
@@ -128,7 +139,6 @@ func PostRect(c *gin.Context) {
 	rectDB.RectPointersEnconding = input.RectPointersEnconding
 	rectDB.CopyBasicFieldsFromRect(&input.Rect)
 
-	db := orm.BackRepo.BackRepoRect.GetDB()
 	query := db.Create(&rectDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -140,16 +150,16 @@ func PostRect(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoRect.CheckoutPhaseOneInstance(&rectDB)
-	rect := (*orm.BackRepo.BackRepoRect.Map_RectDBID_RectPtr)[rectDB.ID]
+	backRepo.BackRepoRect.CheckoutPhaseOneInstance(&rectDB)
+	rect := (*backRepo.BackRepoRect.Map_RectDBID_RectPtr)[rectDB.ID]
 
 	if rect != nil {
-		models.AfterCreateFromFront(&models.Stage, rect)
+		models.AfterCreateFromFront(backRepo.GetStage(), rect)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, rectDB)
 }
@@ -164,21 +174,19 @@ func PostRect(c *gin.Context) {
 // default: genericError
 //
 //	200: rectDBResponse
-func GetRect(c *gin.Context) {
+func (controller *Controller) GetRect(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			stackPath = value[0]
+			log.Println("GetRect", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoRect.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoRect.GetDB()
 
 	// Get rectDB in DB
 	var rectDB orm.RectDB
@@ -209,7 +217,19 @@ func GetRect(c *gin.Context) {
 // default: genericError
 //
 //	200: rectDBResponse
-func UpdateRect(c *gin.Context) {
+func (controller *Controller) UpdateRect(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateRect", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoRect.GetDB()
 
 	// Validate input
 	var input orm.RectAPI
@@ -218,8 +238,6 @@ func UpdateRect(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoRect.GetDB()
 
 	// Get model if exist
 	var rectDB orm.RectDB
@@ -255,16 +273,16 @@ func UpdateRect(c *gin.Context) {
 	rectDB.CopyBasicFieldsToRect(rectNew)
 
 	// get stage instance from DB instance, and call callback function
-	rectOld := (*orm.BackRepo.BackRepoRect.Map_RectDBID_RectPtr)[rectDB.ID]
+	rectOld := (*backRepo.BackRepoRect.Map_RectDBID_RectPtr)[rectDB.ID]
 	if rectOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, rectOld, rectNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), rectOld, rectNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the rectDB
 	c.JSON(http.StatusOK, rectDB)
@@ -279,8 +297,19 @@ func UpdateRect(c *gin.Context) {
 // default: genericError
 //
 //	200: rectDBResponse
-func DeleteRect(c *gin.Context) {
-	db := orm.BackRepo.BackRepoRect.GetDB()
+func (controller *Controller) DeleteRect(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteRect", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoRect.GetDB()
 
 	// Get model if exist
 	var rectDB orm.RectDB
@@ -301,14 +330,14 @@ func DeleteRect(c *gin.Context) {
 	rectDB.CopyBasicFieldsToRect(rectDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	rectStaged := (*orm.BackRepo.BackRepoRect.Map_RectDBID_RectPtr)[rectDB.ID]
+	rectStaged := (*backRepo.BackRepoRect.Map_RectDBID_RectPtr)[rectDB.ID]
 	if rectStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, rectStaged, rectDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), rectStaged, rectDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

@@ -100,7 +100,7 @@ export class EllipseSortingComponent implements OnInit {
 
     this.associatedEllipses.forEach(
       ellipse => {
-        this.ellipseService.updateEllipse(ellipse)
+        this.ellipseService.updateEllipse(ellipse, this.dialogData.GONG__StackPath)
           .subscribe(ellipse => {
             this.ellipseService.EllipseServiceChanged.next("update")
           });

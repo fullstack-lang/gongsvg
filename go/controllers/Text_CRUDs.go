@@ -47,23 +47,22 @@ type TextInput struct {
 // default: genericError
 //
 //	200: textDBResponse
-func GetTexts(c *gin.Context) {
-	db := orm.BackRepo.BackRepoText.GetDB()
+func (controller *Controller) GetTexts(c *gin.Context) {
 
 	// source slice
 	var textDBs []orm.TextDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetTexts", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoText.GetDB()
 
 	query := db.Find(&textDBs)
 	if query.Error != nil {
@@ -108,7 +107,19 @@ func GetTexts(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostText(c *gin.Context) {
+func (controller *Controller) PostText(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostTexts", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoText.GetDB()
 
 	// Validate input
 	var input orm.TextAPI
@@ -128,7 +139,6 @@ func PostText(c *gin.Context) {
 	textDB.TextPointersEnconding = input.TextPointersEnconding
 	textDB.CopyBasicFieldsFromText(&input.Text)
 
-	db := orm.BackRepo.BackRepoText.GetDB()
 	query := db.Create(&textDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -140,16 +150,16 @@ func PostText(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoText.CheckoutPhaseOneInstance(&textDB)
-	text := (*orm.BackRepo.BackRepoText.Map_TextDBID_TextPtr)[textDB.ID]
+	backRepo.BackRepoText.CheckoutPhaseOneInstance(&textDB)
+	text := (*backRepo.BackRepoText.Map_TextDBID_TextPtr)[textDB.ID]
 
 	if text != nil {
-		models.AfterCreateFromFront(&models.Stage, text)
+		models.AfterCreateFromFront(backRepo.GetStage(), text)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, textDB)
 }
@@ -164,21 +174,19 @@ func PostText(c *gin.Context) {
 // default: genericError
 //
 //	200: textDBResponse
-func GetText(c *gin.Context) {
+func (controller *Controller) GetText(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			stackPath = value[0]
+			log.Println("GetText", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoText.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoText.GetDB()
 
 	// Get textDB in DB
 	var textDB orm.TextDB
@@ -209,7 +217,19 @@ func GetText(c *gin.Context) {
 // default: genericError
 //
 //	200: textDBResponse
-func UpdateText(c *gin.Context) {
+func (controller *Controller) UpdateText(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateText", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoText.GetDB()
 
 	// Validate input
 	var input orm.TextAPI
@@ -218,8 +238,6 @@ func UpdateText(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoText.GetDB()
 
 	// Get model if exist
 	var textDB orm.TextDB
@@ -255,16 +273,16 @@ func UpdateText(c *gin.Context) {
 	textDB.CopyBasicFieldsToText(textNew)
 
 	// get stage instance from DB instance, and call callback function
-	textOld := (*orm.BackRepo.BackRepoText.Map_TextDBID_TextPtr)[textDB.ID]
+	textOld := (*backRepo.BackRepoText.Map_TextDBID_TextPtr)[textDB.ID]
 	if textOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, textOld, textNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), textOld, textNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the textDB
 	c.JSON(http.StatusOK, textDB)
@@ -279,8 +297,19 @@ func UpdateText(c *gin.Context) {
 // default: genericError
 //
 //	200: textDBResponse
-func DeleteText(c *gin.Context) {
-	db := orm.BackRepo.BackRepoText.GetDB()
+func (controller *Controller) DeleteText(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteText", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoText.GetDB()
 
 	// Get model if exist
 	var textDB orm.TextDB
@@ -301,14 +330,14 @@ func DeleteText(c *gin.Context) {
 	textDB.CopyBasicFieldsToText(textDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	textStaged := (*orm.BackRepo.BackRepoText.Map_TextDBID_TextPtr)[textDB.ID]
+	textStaged := (*backRepo.BackRepoText.Map_TextDBID_TextPtr)[textDB.ID]
 	if textStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, textStaged, textDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), textStaged, textDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

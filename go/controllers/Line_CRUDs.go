@@ -47,23 +47,22 @@ type LineInput struct {
 // default: genericError
 //
 //	200: lineDBResponse
-func GetLines(c *gin.Context) {
-	db := orm.BackRepo.BackRepoLine.GetDB()
+func (controller *Controller) GetLines(c *gin.Context) {
 
 	// source slice
 	var lineDBs []orm.LineDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetLines", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoLine.GetDB()
 
 	query := db.Find(&lineDBs)
 	if query.Error != nil {
@@ -108,7 +107,19 @@ func GetLines(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostLine(c *gin.Context) {
+func (controller *Controller) PostLine(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostLines", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoLine.GetDB()
 
 	// Validate input
 	var input orm.LineAPI
@@ -128,7 +139,6 @@ func PostLine(c *gin.Context) {
 	lineDB.LinePointersEnconding = input.LinePointersEnconding
 	lineDB.CopyBasicFieldsFromLine(&input.Line)
 
-	db := orm.BackRepo.BackRepoLine.GetDB()
 	query := db.Create(&lineDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -140,16 +150,16 @@ func PostLine(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoLine.CheckoutPhaseOneInstance(&lineDB)
-	line := (*orm.BackRepo.BackRepoLine.Map_LineDBID_LinePtr)[lineDB.ID]
+	backRepo.BackRepoLine.CheckoutPhaseOneInstance(&lineDB)
+	line := (*backRepo.BackRepoLine.Map_LineDBID_LinePtr)[lineDB.ID]
 
 	if line != nil {
-		models.AfterCreateFromFront(&models.Stage, line)
+		models.AfterCreateFromFront(backRepo.GetStage(), line)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, lineDB)
 }
@@ -164,21 +174,19 @@ func PostLine(c *gin.Context) {
 // default: genericError
 //
 //	200: lineDBResponse
-func GetLine(c *gin.Context) {
+func (controller *Controller) GetLine(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			stackPath = value[0]
+			log.Println("GetLine", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoLine.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoLine.GetDB()
 
 	// Get lineDB in DB
 	var lineDB orm.LineDB
@@ -209,7 +217,19 @@ func GetLine(c *gin.Context) {
 // default: genericError
 //
 //	200: lineDBResponse
-func UpdateLine(c *gin.Context) {
+func (controller *Controller) UpdateLine(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateLine", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoLine.GetDB()
 
 	// Validate input
 	var input orm.LineAPI
@@ -218,8 +238,6 @@ func UpdateLine(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoLine.GetDB()
 
 	// Get model if exist
 	var lineDB orm.LineDB
@@ -255,16 +273,16 @@ func UpdateLine(c *gin.Context) {
 	lineDB.CopyBasicFieldsToLine(lineNew)
 
 	// get stage instance from DB instance, and call callback function
-	lineOld := (*orm.BackRepo.BackRepoLine.Map_LineDBID_LinePtr)[lineDB.ID]
+	lineOld := (*backRepo.BackRepoLine.Map_LineDBID_LinePtr)[lineDB.ID]
 	if lineOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, lineOld, lineNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), lineOld, lineNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the lineDB
 	c.JSON(http.StatusOK, lineDB)
@@ -279,8 +297,19 @@ func UpdateLine(c *gin.Context) {
 // default: genericError
 //
 //	200: lineDBResponse
-func DeleteLine(c *gin.Context) {
-	db := orm.BackRepo.BackRepoLine.GetDB()
+func (controller *Controller) DeleteLine(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteLine", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoLine.GetDB()
 
 	// Get model if exist
 	var lineDB orm.LineDB
@@ -301,14 +330,14 @@ func DeleteLine(c *gin.Context) {
 	lineDB.CopyBasicFieldsToLine(lineDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	lineStaged := (*orm.BackRepo.BackRepoLine.Map_LineDBID_LinePtr)[lineDB.ID]
+	lineStaged := (*backRepo.BackRepoLine.Map_LineDBID_LinePtr)[lineDB.ID]
 	if lineStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, lineStaged, lineDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), lineStaged, lineDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

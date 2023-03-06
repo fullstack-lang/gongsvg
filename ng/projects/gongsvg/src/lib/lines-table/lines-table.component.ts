@@ -226,7 +226,7 @@ export class LinesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -262,10 +262,14 @@ export class LinesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, LineDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as LineDB[]
-          for (let associationInstance of sourceField) {
-            let line = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as LineDB
-            this.initialSelection.push(line)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to LineDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as LineDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let line = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as LineDB
+              this.initialSelection.push(line)
+            }
           }
 
           this.selection = new SelectionModel<LineDB>(allowMultiSelect, this.initialSelection);
@@ -286,7 +290,7 @@ export class LinesTableComponent implements OnInit {
     // list of lines is truncated of line before the delete
     this.lines = this.lines.filter(h => h !== line);
 
-    this.lineService.deleteLine(lineID).subscribe(
+    this.lineService.deleteLine(lineID, this.GONG__StackPath).subscribe(
       line => {
         this.lineService.LineServiceChanged.next("delete")
       }
@@ -352,7 +356,7 @@ export class LinesTableComponent implements OnInit {
 
       // update all line (only update selection & initial selection)
       for (let line of toUpdate) {
-        this.lineService.updateLine(line)
+        this.lineService.updateLine(line, this.GONG__StackPath)
           .subscribe(line => {
             this.lineService.LineServiceChanged.next("update")
           });

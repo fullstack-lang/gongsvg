@@ -6,6 +6,7 @@ import (
 	"go/token"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -17,6 +18,9 @@ const LegacyDiagramUmarshalling = false
 // swagger:model DiagramPackage
 type DiagramPackage struct {
 	Name string
+
+	// Stage_ where the DiagamPackage lives
+	Stage_ *StageStruct
 
 	// Path to the "diagrams" directory
 	Path string
@@ -53,6 +57,9 @@ type DiagramPackage struct {
 	// pointer to the model package
 	ModelPkg                     *gong_models.ModelPkg
 	AbsolutePathToDiagramPackage string
+
+	// swagger:ignore
+	Map_Identifier_NbInstances map[string]int
 }
 
 const preludeRef string = `package diagrams
@@ -65,22 +72,16 @@ import (
 
 `
 
-func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(diagramName string, inFile *ast.File, fset *token.FileSet) (classdiagram *Classdiagram) {
-
-	// for debug purposes
-	gongdocStage := Stage
-	_ = gongdocStage
+func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(stage *StageStruct, diagramName string, inFile *ast.File, fset *token.FileSet) (classdiagram *Classdiagram) {
 
 	var err error
 	startParser := time.Now()
-	err = ParseAstFileFromAst(inFile, fset)
+	err = ParseAstFileFromAst(stage, inFile, fset)
 	log.Printf("Parsing of %s took %s", diagramName, time.Since(startParser))
 
 	if err != nil {
 		log.Fatalln("Unable to parse", diagramName, err.Error())
 	} else {
-		log.Println("Parsed", diagramName)
-
 		// there should be one diagram on the stage and it has to be
 		// appended to the diagram package
 		var ok bool
@@ -100,11 +101,11 @@ func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(diagramName string, i
 
 		for gongStructShape := range *GetGongstructInstancesSet[GongStructShape]() {
 
-			_, ok := (*gong_models.GetGongstructInstancesMap[gong_models.GongStruct]())[IdentifierToGongStructName(gongStructShape.Identifier)]
+			_, ok := (*gong_models.GetGongstructInstancesMap[gong_models.GongStruct]())[IdentifierToGongObjectName(gongStructShape.Identifier)]
 
 			if !ok {
 				log.Println("UnmarshallOneDiagram: In diagram", classdiagram.Name, "unknown note related to note shape", gongStructShape.Identifier)
-				gongStructShape.Unstage()
+				gongStructShape.Unstage(diagramPackage.Stage_)
 
 				if contains(classdiagram.GongStructShapes, gongStructShape) {
 					classdiagram.GongStructShapes = remove(classdiagram.GongStructShapes, gongStructShape)
@@ -119,11 +120,11 @@ func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(diagramName string, i
 		// if a can be traced, this is probably for a lack of diagram maintenance
 		for noteShape := range *GetGongstructInstancesSet[NoteShape]() {
 
-			note, ok := (*gong_models.GetGongstructInstancesMap[gong_models.GongNote]())[IdentifierToGongStructName(noteShape.Identifier)]
+			note, ok := (*gong_models.GetGongstructInstancesMap[gong_models.GongNote]())[IdentifierToGongObjectName(noteShape.Identifier)]
 
 			if !ok {
 				log.Println("UnmarshallOneDiagram: In diagram", classdiagram.Name, "unknown note related to note shape", noteShape.Identifier)
-				noteShape.Unstage()
+				noteShape.Unstage(diagramPackage.Stage_)
 
 				if contains(classdiagram.NoteShapes, noteShape) {
 					classdiagram.NoteShapes = remove(classdiagram.NoteShapes, noteShape)
@@ -132,7 +133,18 @@ func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(diagramName string, i
 			}
 
 			noteShape.Body = note.Body
+			noteShape.BodyHTML = note.BodyHTML
 		}
+
+		// legacy diagram file may have Fieldtypename without the ident `Point`
+		// the following will turn it into `ref_models.Point`
+		for link := range *GetGongstructInstancesSet[Link]() {
+
+			if !strings.ContainsAny(link.Fieldtypename, ".") {
+				link.Fieldtypename = GongStructNameToIdentifier(link.Fieldtypename)
+			}
+		}
+
 	}
 	return
 }

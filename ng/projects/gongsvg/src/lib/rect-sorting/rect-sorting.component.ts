@@ -100,7 +100,7 @@ export class RectSortingComponent implements OnInit {
 
     this.associatedRects.forEach(
       rect => {
-        this.rectService.updateRect(rect)
+        this.rectService.updateRect(rect, this.dialogData.GONG__StackPath)
           .subscribe(rect => {
             this.rectService.RectServiceChanged.next("update")
           });

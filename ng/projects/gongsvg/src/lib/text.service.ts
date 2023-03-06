@@ -21,10 +21,6 @@ import { SVGDB } from './svg-db'
 })
 export class TextService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   TextServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class TextService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,17 +63,21 @@ export class TextService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new text to the server */
-  postText(textdb: TextDB): Observable<TextDB> {
+  postText(textdb: TextDB, GONG__StackPath: string): Observable<TextDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     textdb.Animates = []
     let _SVG_Texts_reverse = textdb.SVG_Texts_reverse
     textdb.SVG_Texts_reverse = new SVGDB
 
-    return this.http.post<TextDB>(this.textsUrl, textdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<TextDB>(this.textsUrl, textdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         textdb.SVG_Texts_reverse = _SVG_Texts_reverse
@@ -89,18 +88,24 @@ export class TextService {
   }
 
   /** DELETE: delete the textdb from the server */
-  deleteText(textdb: TextDB | number): Observable<TextDB> {
+  deleteText(textdb: TextDB | number, GONG__StackPath: string): Observable<TextDB> {
     const id = typeof textdb === 'number' ? textdb : textdb.ID;
     const url = `${this.textsUrl}/${id}`;
 
-    return this.http.delete<TextDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<TextDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted textdb id=${id}`)),
       catchError(this.handleError<TextDB>('deleteText'))
     );
   }
 
   /** PUT: update the textdb on the server */
-  updateText(textdb: TextDB): Observable<TextDB> {
+  updateText(textdb: TextDB, GONG__StackPath: string): Observable<TextDB> {
     const id = typeof textdb === 'number' ? textdb : textdb.ID;
     const url = `${this.textsUrl}/${id}`;
 
@@ -109,7 +114,13 @@ export class TextService {
     let _SVG_Texts_reverse = textdb.SVG_Texts_reverse
     textdb.SVG_Texts_reverse = new SVGDB
 
-    return this.http.put<TextDB>(url, textdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<TextDB>(url, textdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         textdb.SVG_Texts_reverse = _SVG_Texts_reverse

@@ -158,7 +158,7 @@ export class SVGsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -194,10 +194,14 @@ export class SVGsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, SVGDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as SVGDB[]
-          for (let associationInstance of sourceField) {
-            let svg = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as SVGDB
-            this.initialSelection.push(svg)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to SVGDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as SVGDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let svg = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as SVGDB
+              this.initialSelection.push(svg)
+            }
           }
 
           this.selection = new SelectionModel<SVGDB>(allowMultiSelect, this.initialSelection);
@@ -218,7 +222,7 @@ export class SVGsTableComponent implements OnInit {
     // list of svgs is truncated of svg before the delete
     this.svgs = this.svgs.filter(h => h !== svg);
 
-    this.svgService.deleteSVG(svgID).subscribe(
+    this.svgService.deleteSVG(svgID, this.GONG__StackPath).subscribe(
       svg => {
         this.svgService.SVGServiceChanged.next("delete")
       }
@@ -284,7 +288,7 @@ export class SVGsTableComponent implements OnInit {
 
       // update all svg (only update selection & initial selection)
       for (let svg of toUpdate) {
-        this.svgService.updateSVG(svg)
+        this.svgService.updateSVG(svg, this.GONG__StackPath)
           .subscribe(svg => {
             this.svgService.SVGServiceChanged.next("update")
           });

@@ -100,7 +100,7 @@ export class SVGSortingComponent implements OnInit {
 
     this.associatedSVGs.forEach(
       svg => {
-        this.svgService.updateSVG(svg)
+        this.svgService.updateSVG(svg, this.dialogData.GONG__StackPath)
           .subscribe(svg => {
             this.svgService.SVGServiceChanged.next("update")
           });

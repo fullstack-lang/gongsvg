@@ -100,7 +100,7 @@ export class PathSortingComponent implements OnInit {
 
     this.associatedPaths.forEach(
       path => {
-        this.pathService.updatePath(path)
+        this.pathService.updatePath(path, this.dialogData.GONG__StackPath)
           .subscribe(path => {
             this.pathService.PathServiceChanged.next("update")
           });

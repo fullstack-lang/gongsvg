@@ -174,13 +174,13 @@ export class PathDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case PathDetailComponentState.UPDATE_INSTANCE:
-				this.pathService.updatePath(this.path)
+				this.pathService.updatePath(this.path, this.GONG__StackPath)
 					.subscribe(path => {
 						this.pathService.PathServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.pathService.postPath(this.path).subscribe(path => {
+				this.pathService.postPath(this.path, this.GONG__StackPath).subscribe(path => {
 					this.pathService.PathServiceChanged.next("post")
 					this.path = new (PathDB) // reset fields
 				});

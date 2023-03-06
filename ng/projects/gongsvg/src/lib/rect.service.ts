@@ -21,10 +21,6 @@ import { SVGDB } from './svg-db'
 })
 export class RectService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   RectServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class RectService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,17 +63,21 @@ export class RectService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new rect to the server */
-  postRect(rectdb: RectDB): Observable<RectDB> {
+  postRect(rectdb: RectDB, GONG__StackPath: string): Observable<RectDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     rectdb.Animations = []
     let _SVG_Rects_reverse = rectdb.SVG_Rects_reverse
     rectdb.SVG_Rects_reverse = new SVGDB
 
-    return this.http.post<RectDB>(this.rectsUrl, rectdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<RectDB>(this.rectsUrl, rectdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         rectdb.SVG_Rects_reverse = _SVG_Rects_reverse
@@ -89,18 +88,24 @@ export class RectService {
   }
 
   /** DELETE: delete the rectdb from the server */
-  deleteRect(rectdb: RectDB | number): Observable<RectDB> {
+  deleteRect(rectdb: RectDB | number, GONG__StackPath: string): Observable<RectDB> {
     const id = typeof rectdb === 'number' ? rectdb : rectdb.ID;
     const url = `${this.rectsUrl}/${id}`;
 
-    return this.http.delete<RectDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<RectDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted rectdb id=${id}`)),
       catchError(this.handleError<RectDB>('deleteRect'))
     );
   }
 
   /** PUT: update the rectdb on the server */
-  updateRect(rectdb: RectDB): Observable<RectDB> {
+  updateRect(rectdb: RectDB, GONG__StackPath: string): Observable<RectDB> {
     const id = typeof rectdb === 'number' ? rectdb : rectdb.ID;
     const url = `${this.rectsUrl}/${id}`;
 
@@ -109,7 +114,13 @@ export class RectService {
     let _SVG_Rects_reverse = rectdb.SVG_Rects_reverse
     rectdb.SVG_Rects_reverse = new SVGDB
 
-    return this.http.put<RectDB>(url, rectdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<RectDB>(url, rectdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         rectdb.SVG_Rects_reverse = _SVG_Rects_reverse

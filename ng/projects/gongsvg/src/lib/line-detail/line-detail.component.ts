@@ -174,13 +174,13 @@ export class LineDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case LineDetailComponentState.UPDATE_INSTANCE:
-				this.lineService.updateLine(this.line)
+				this.lineService.updateLine(this.line, this.GONG__StackPath)
 					.subscribe(line => {
 						this.lineService.LineServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.lineService.postLine(this.line).subscribe(line => {
+				this.lineService.postLine(this.line, this.GONG__StackPath).subscribe(line => {
 					this.lineService.LineServiceChanged.next("post")
 					this.line = new (LineDB) // reset fields
 				});

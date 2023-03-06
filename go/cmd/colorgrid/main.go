@@ -14,8 +14,8 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/gongsvg/go/controllers"
+	"github.com/fullstack-lang/gongsvg/go/fullstack"
 	"github.com/fullstack-lang/gongsvg/go/models"
-	"github.com/fullstack-lang/gongsvg/go/orm"
 
 	"github.com/fullstack-lang/gongsvg"
 )
@@ -46,14 +46,9 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup GORM
-	db_inMemory := orm.SetupModels(*logDBFlag, ":memory:")
-	dbDB_inMemory, err := db_inMemory.DB()
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	dbDB_inMemory.SetMaxOpenConns(1)
+	stage, _ := fullstack.NewStackInstance(r, "")
 
-	svg := (&models.SVG{Name: "SVG2"}).Stage()
+	svg := (&models.SVG{Name: "SVG2"}).Stage(stage)
 	svg.Display = true
 
 	// create an array of rectangle
@@ -63,12 +58,12 @@ func main() {
 			float64(idx) /
 				float64(numberOfRectanglePerLine)))
 
-		appendRect(svg, color,
+		appendRect(stage, svg, color,
 			RectangleWidth*column,
 			RectangleHeigth*line)
 	}
 
-	models.Stage.Commit()
+	stage.Commit()
 
 	controllers.RegisterControllers(r)
 
@@ -103,8 +98,8 @@ func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
 	}
 }
 
-func appendRect(svg *models.SVG, color models.ColorType, x, y float64) {
-	rect := (&models.Rect{Name: color.ToString()}).Stage()
+func appendRect(stage *models.StageStruct, svg *models.SVG, color models.ColorType, x, y float64) {
+	rect := (&models.Rect{Name: color.ToString()}).Stage(stage)
 	rect.Color = color.ToString()
 	rect.Height = RectangleHeigth
 	rect.Width = RectangleWidth
@@ -112,7 +107,7 @@ func appendRect(svg *models.SVG, color models.ColorType, x, y float64) {
 	rect.Y = y
 	rect.FillOpacity = 50.0
 
-	text := (&models.Text{Name: color.ToString()}).Stage()
+	text := (&models.Text{Name: color.ToString()}).Stage(stage)
 	text.X = x + 2
 	text.Y = y + RectangleHeigth/2
 	text.Content = color.ToString()

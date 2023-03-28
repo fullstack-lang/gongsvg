@@ -22,7 +22,6 @@ var (
 
 	marshallOnStartup  = flag.String("marshallOnStartup", "", "at startup, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 	unmarshallFromCode = flag.String("unmarshallFromCode", "", "unmarshall data from go file and '.go' (must be lowercased without spaces), If unmarshallFromCode arg is '', no unmarshalling")
-	unmarshall         = flag.String("unmarshall", "", "unmarshall data from marshall name and '.go' (must be lowercased without spaces), If unmarshall arg is '', no unmarshalling")
 	marshallOnCommit   = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 
 	diagrams         = flag.Bool("diagrams", true, "parse/analysis go/models and go/diagrams")
@@ -64,10 +63,10 @@ func main() {
 	var stage *models.StageStruct
 	if *marshallOnCommit != "" {
 		// persistence in a SQLite file on disk in memory
-		stage = fullstack.NewStackInstance(r, "")
+		stage = fullstack.NewStackInstance(r, "github.com/fullstack-lang/gongsvg/go/models")
 	} else {
 		// persistence in a SQLite file on disk
-		stage = fullstack.NewStackInstance(r, "", "./test.db")
+		stage = fullstack.NewStackInstance(r, "github.com/fullstack-lang/gongsvg/go/models", "./test.db")
 	}
 
 	// generate injection code from the stage
@@ -89,20 +88,6 @@ func main() {
 		stage.Checkout()
 		stage.Marshall(file, "github.com/fullstack-lang/gongsvg/go/models", "main")
 		os.Exit(0)
-	}
-
-	// setup the stage by injecting the code from code database
-	if *unmarshall != "" {
-		stage.Checkout()
-		stage.Reset()
-		stage.Commit()
-		if InjectionGateway[*unmarshall] != nil {
-			InjectionGateway[*unmarshall]()
-		}
-		stage.Commit()
-	} else {
-		// in case the database is used, checkout the content to the stage
-		stage.Checkout()
 	}
 
 	if *unmarshallFromCode != "" {

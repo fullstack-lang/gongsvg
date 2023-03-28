@@ -12,7 +12,7 @@ export class SvgComponent implements OnInit {
 
   SVG: string = ""
 
-  @Input() GONG_StackPath: string = ""
+  @Input() GONG__StackPath: string = ""
 
   rect: number = 0
 
@@ -48,8 +48,10 @@ export class SvgComponent implements OnInit {
 
   ngOnInit(): void {
 
+    console.log("Svg component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath )
+
     // see above for the explanation
-    this.gongsvgNbFromBackService.getCommitNbFromBack(500, "").subscribe(
+    this.gongsvgNbFromBackService.getCommitNbFromBack(500, this.GONG__StackPath).subscribe(
       commiNbFromBagetCommitNbFromBack => {
         if (this.lastCommiNbFromBagetCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
 
@@ -63,7 +65,7 @@ export class SvgComponent implements OnInit {
 
   refresh(): void {
 
-    this.gongsvgFrontRepoService.pull().subscribe(
+    this.gongsvgFrontRepoService.pull(this.GONG__StackPath).subscribe(
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
 

@@ -1,29 +1,15 @@
 package main
 
 import (
-	"embed"
 	"flag"
-	"fmt"
-	"io/fs"
 	"log"
-	"net/http"
-	"os"
 
-	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/static"
-	"github.com/gin-gonic/gin"
-
-	"github.com/fullstack-lang/gongsvg/go/controllers"
 	"github.com/fullstack-lang/gongsvg/go/fullstack"
 	"github.com/fullstack-lang/gongsvg/go/models"
-
-	"github.com/fullstack-lang/gongsvg"
+	"github.com/fullstack-lang/gongsvg/go/static"
 )
 
-var (
-	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
-	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
-)
+var ()
 
 const RectangleWidth = 160
 const RectangleHeigth = 50
@@ -37,16 +23,9 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	// setup controlers
-	if !*logGINFlag {
-		myfile, _ := os.Create("/tmp/server.log")
-		gin.DefaultWriter = myfile
-	}
-	r := gin.Default()
-	r.Use(cors.Default())
-
 	// setup GORM
-	stage, _ := fullstack.NewStackInstance(r, "")
+	r := static.ServeStaticFiles(false)
+	stage := fullstack.NewStackInstance(r, "")
 
 	svg := (&models.SVG{Name: "SVG2"}).Stage(stage)
 	svg.Display = true
@@ -65,37 +44,8 @@ func main() {
 
 	stage.Commit()
 
-	controllers.RegisterControllers(r)
-
-	// provide the static route for the angular pages
-	r.Use(static.Serve("/", EmbedFolder(gongsvg.NgDistNg, "ng/dist/ng")))
-	r.NoRoute(func(c *gin.Context) {
-		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
-		c.Redirect(http.StatusMovedPermanently, "/")
-		c.Abort()
-	})
-
 	log.Printf("Server ready serve on localhost:8082")
 	r.Run(":8082")
-}
-
-type embedFileSystem struct {
-	http.FileSystem
-}
-
-func (e embedFileSystem) Exists(prefix string, path string) bool {
-	_, err := e.Open(path)
-	return err == nil
-}
-
-func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
-	fsys, err := fs.Sub(fsEmbed, targetPath)
-	if err != nil {
-		panic(err)
-	}
-	return embedFileSystem{
-		FileSystem: http.FS(fsys),
-	}
 }
 
 func appendRect(stage *models.StageStruct, svg *models.SVG, color models.ColorType, x, y float64) {

@@ -11,13 +11,15 @@ import * as gongsvg from 'gongsvg'
 })
 export class AppComponent implements OnInit {
 
-  view = 'Default view'
-  default = 'Default view'
-  data = 'Data view'
-  diagrams = 'Diagrams view'
-  meta = 'Meta view'
 
-  views: string[] = [this.default, this.data, this.diagrams, this.meta];
+  GONG__StackPath=""
+
+  view = 'View'
+  default = 'View'
+  data = 'Data'
+  model = 'Model'
+
+  views: string[] = [this.default, this.data, this.model];
 
   // variable that enables pooling of selected gongstruct
   obsTimer: Observable<number> = timer(1000, 1000)

@@ -1,20 +1,12 @@
 package main
 
 import (
-	"time"
-
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var ___dummy__Stage models.StageStruct
-
-func init() {
-	var __Dummy_time_variable time.Time
-	_ = __Dummy_time_variable
-	InjectionGateway["stage"] = stageInjection
-}
 
 // stageInjection will stage objects of database "stage"
 func stageInjection(stage *models.StageStruct) {

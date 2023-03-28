@@ -1,30 +1,24 @@
 package main
 
 import (
-	"embed"
 	"flag"
 	"fmt"
-	"io/fs"
 	"log"
-	"net/http"
 	"os"
 	"strings"
 
-	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/static"
-	"github.com/gin-gonic/gin"
-
 	"github.com/fullstack-lang/gongsvg/go/fullstack"
 	"github.com/fullstack-lang/gongsvg/go/models"
+	"github.com/fullstack-lang/gongsvg/go/static"
 
 	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
 
-	gongsvg "github.com/fullstack-lang/gongsvg"
+	"github.com/fullstack-lang/gongsvg"
 )
 
 var (
 	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
-	logGINFlag = flag.Bool("logGIN", true, "log mode for gin")
+	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
 
 	marshallOnStartup  = flag.String("marshallOnStartup", "", "at startup, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 	unmarshallFromCode = flag.String("unmarshallFromCode", "", "unmarshall data from go file and '.go' (must be lowercased without spaces), If unmarshallFromCode arg is '', no unmarshalling")
@@ -38,7 +32,7 @@ var (
 // InjectionGateway is the singloton that stores all functions
 // that can set the objects the stage
 // InjectionGateway stores function as a map of names
-var InjectionGateway = make(map[string](func(*models.StageStruct)))
+var InjectionGateway = make(map[string](func()))
 
 // hook marhalling to stage
 type BeforeCommitImplementation struct {
@@ -51,8 +45,8 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 	}
 	defer file.Close()
 
-	models.Stage.Checkout()
-	models.Stage.Marshall(file, "github.com/fullstack-lang/gongsvg/go/models", "main")
+	stage.Checkout()
+	stage.Marshall(file, "github.com/fullstack-lang/gongsvg/go/models", "main")
 }
 
 func main() {
@@ -63,16 +57,18 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	// setup controlers
-	if !*logGINFlag {
-		myfile, _ := os.Create("/tmp/server.log")
-		gin.DefaultWriter = myfile
-	}
-	r := gin.Default()
-	r.Use(cors.Default())
+	// setup the static file server and get the controller
+	r := static.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
-	stage, _ := fullstack.NewStackInstance(r, "")
+	var stage *models.StageStruct
+	if *marshallOnCommit != "" {
+		// persistence in a SQLite file on disk in memory
+		stage = fullstack.NewStackInstance(r, "")
+	} else {
+		// persistence in a SQLite file on disk
+		stage = fullstack.NewStackInstance(r, "", "./test.db")
+	}
 
 	// generate injection code from the stage
 	if *marshallOnStartup != "" {
@@ -90,29 +86,29 @@ func main() {
 		}
 		defer file.Close()
 
-		models.Stage.Checkout()
-		models.Stage.Marshall(file, "github.com/fullstack-lang/gongsvg/go/models", "main")
+		stage.Checkout()
+		stage.Marshall(file, "github.com/fullstack-lang/gongsvg/go/models", "main")
 		os.Exit(0)
 	}
 
 	// setup the stage by injecting the code from code database
 	if *unmarshall != "" {
-		models.Stage.Checkout()
-		models.Stage.Reset()
-		models.Stage.Commit()
+		stage.Checkout()
+		stage.Reset()
+		stage.Commit()
 		if InjectionGateway[*unmarshall] != nil {
-			InjectionGateway[*unmarshall](stage)
+			InjectionGateway[*unmarshall]()
 		}
-		models.Stage.Commit()
+		stage.Commit()
 	} else {
 		// in case the database is used, checkout the content to the stage
-		models.Stage.Checkout()
+		stage.Checkout()
 	}
 
 	if *unmarshallFromCode != "" {
-		models.Stage.Checkout()
-		models.Stage.Reset()
-		models.Stage.Commit()
+		stage.Checkout()
+		stage.Reset()
+		stage.Commit()
 		err := models.ParseAstFile(stage, *unmarshallFromCode)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
@@ -121,16 +117,16 @@ func main() {
 			log.Println("no file to read " + err.Error())
 		}
 
-		models.Stage.Commit()
+		stage.Commit()
 	} else {
 		// in case the database is used, checkout the content to the stage
-		models.Stage.Checkout()
+		stage.Checkout()
 	}
 
 	// hook automatic marshall to go code at every commit
 	if *marshallOnCommit != "" {
 		hook := new(BeforeCommitImplementation)
-		models.Stage.OnInitCommitFromFrontCallback = hook
+		stage.OnInitCommitFromFrontCallback = hook
 	}
 
 	gongdoc_load.Load(
@@ -139,36 +135,8 @@ func main() {
 		gongsvg.GoDir,
 		r,
 		*embeddedDiagrams,
-		&models.Stage.Map_GongStructName_InstancesNb)
-
-	// insertion point for serving the static file
-	// provide the static route for the angular pages
-	r.Use(static.Serve("/", EmbedFolder(gongsvg.NgDistNg, "ng/dist/ng")))
-	r.NoRoute(func(c *gin.Context) {
-		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
-		c.Redirect(http.StatusMovedPermanently, "/")
-		c.Abort()
-	})
+		&stage.Map_GongStructName_InstancesNb)
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()
-}
-
-type embedFileSystem struct {
-	http.FileSystem
-}
-
-func (e embedFileSystem) Exists(prefix string, path string) bool {
-	_, err := e.Open(path)
-	return err == nil
-}
-
-func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
-	fsys, err := fs.Sub(fsEmbed, targetPath)
-	if err != nil {
-		panic(err)
-	}
-	return embedFileSystem{
-		FileSystem: http.FS(fsys),
-	}
 }

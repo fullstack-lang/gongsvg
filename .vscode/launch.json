@@ -23,14 +23,6 @@
             "webRoot": "${workspaceFolder}/ng"
         },
         {
-            "name": "go server gongsvg",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/go/cmd/gongsvg",
-            "args": []
-        },
-        {
             "name": "go server colorgrid",
             "type": "go",
             "request": "launch",

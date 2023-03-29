@@ -25,7 +25,7 @@ func main() {
 
 	// setup GORM
 	r := static.ServeStaticFiles(false)
-	stage := fullstack.NewStackInstance(r, "")
+	stage := fullstack.NewStackInstance(r, "github.com/fullstack-lang/gongsvg/go/models")
 
 	svg := (&models.SVG{Name: "SVG2"}).Stage(stage)
 	svg.Display = true

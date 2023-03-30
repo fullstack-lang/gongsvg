@@ -15,7 +15,7 @@ require (
 
 require (
 	github.com/frankban/quicktest v1.13.1 // indirect
-	github.com/fullstack-lang/gong v0.0.0-20230327102741-8286de82e2e5 // indirect
+	github.com/fullstack-lang/gong v0.0.0-20230329115124-af53cc0c9a78 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/glebarez/go-sqlite v1.18.2 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect

@@ -2,12 +2,12 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "03 - ng serve",
+			"label": "03 - ng serve --host=127.0.0.1",
 			"type": "shell",
 			"options": {
 				"cwd": "ng"
 			},
-			"command": "ng serve",
+			"command": "ng serve --host=127.0.0.1",
 			"group": "build"
 		},
 		{
@@ -22,6 +22,21 @@
 				"main.go",
 				"-marshallOnCommit=stage",
 				"-unmarshallFromCode=stage.go",
+			],
+			"group": "build"
+		},
+		{
+			"label": "02 - go run  --unmarshallFromCode=rectangle.go --marshallOnCommit=rectangle",
+			"type": "shell",
+			"options": {
+				"cwd": "./go/cmd/gongsvg"
+			},
+			"command": "go",
+			"args": [
+				"run",
+				"main.go",
+				"-marshallOnCommit=rectangle",
+				"-unmarshallFromCode=rectangle.go",
 			],
 			"group": "build"
 		},

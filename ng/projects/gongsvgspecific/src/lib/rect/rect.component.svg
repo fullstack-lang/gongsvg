@@ -10,5 +10,20 @@
             [attr.dur]="animate.Dur" 
             [attr.repeatCount]="animate.RepeatCount" />
         </rect>
+
+        <!-- Left anchor -->
+        <circle *ngIf="Rect?.Selected"
+        [attr.cx]="(Rect?.X) ?? 0"
+         [attr.cy]="(Rect?.Y ?? 0) + (Rect?.Height ?? 0) / 2" 
+         [attr.r]="anchorRadius" [attr.fill]="anchorFillColor" />
+
+        <!-- Right anchor -->
+        <circle *ngIf="Rect?.Selected"
+        [attr.cx]="(Rect?.X ?? 0) + (Rect?.Width ?? 0)"
+         [attr.cy]="(Rect?.Y ?? 0) + (Rect?.Height ?? 0) / 2" 
+         [attr.r]="anchorRadius" [attr.fill]="anchorFillColor" />
+
+        <!-- Right anchor -->
+
     </g>
 </svg>

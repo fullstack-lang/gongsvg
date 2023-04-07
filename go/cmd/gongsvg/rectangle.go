@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -74,6 +75,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Sample.StrokeWidth = 2.000000
 	__Rect__000000_Sample.StrokeDashArray = ``
 	__Rect__000000_Sample.Transform = ``
+	__Rect__000000_Sample.Selected = false
 
 	// SVG values setup
 	__SVG__000000_Interactive_rectangle.Display = true
@@ -82,3 +84,5 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Setup of pointers
 	__SVG__000000_Interactive_rectangle.Rects = append(__SVG__000000_Interactive_rectangle.Rects, __Rect__000000_Sample)
 }
+
+

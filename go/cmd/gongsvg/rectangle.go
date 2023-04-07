@@ -60,6 +60,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__SVG__000000_Interactive_rectangle := (&models.SVG{Name: `Interactive rectangle`}).Stage(stage)
 
 	// Declarations of staged instances of Text
+	__Text__000000_Essai := (&models.Text{Name: `Essai`}).Stage(stage)
 
 	// Setup of values
 
@@ -78,8 +79,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Rect values setup
 	__Rect__000000_Sample.Name = `Sample`
 	__Rect__000000_Sample.X = 118.000000
-	__Rect__000000_Sample.Y = 200.000000
-	__Rect__000000_Sample.Width = 492.000000
+	__Rect__000000_Sample.Y = 207.000000
+	__Rect__000000_Sample.Width = 600.000000
 	__Rect__000000_Sample.Height = 100.000000
 	__Rect__000000_Sample.RX = 3.000000
 	__Rect__000000_Sample.Color = `lightcyan`
@@ -88,11 +89,23 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Sample.StrokeWidth = 2.000000
 	__Rect__000000_Sample.StrokeDashArray = ``
 	__Rect__000000_Sample.Transform = ``
-	__Rect__000000_Sample.Selected = true
+	__Rect__000000_Sample.Selected = false
 
 	// SVG values setup
 	__SVG__000000_Interactive_rectangle.Display = true
 	__SVG__000000_Interactive_rectangle.Name = `Interactive rectangle`
+
+	// Text values setup
+	__Text__000000_Essai.Name = `Essai`
+	__Text__000000_Essai.X = 50.000000
+	__Text__000000_Essai.Y = 300.000000
+	__Text__000000_Essai.Content = `Hello`
+	__Text__000000_Essai.Color = ``
+	__Text__000000_Essai.FillOpacity = 0.000000
+	__Text__000000_Essai.Stroke = `black`
+	__Text__000000_Essai.StrokeWidth = 2.000000
+	__Text__000000_Essai.StrokeDashArray = ``
+	__Text__000000_Essai.Transform = ``
 
 	// Setup of pointers
 	__SVG__000000_Interactive_rectangle.Rects = append(__SVG__000000_Interactive_rectangle.Rects, __Rect__000000_Sample)

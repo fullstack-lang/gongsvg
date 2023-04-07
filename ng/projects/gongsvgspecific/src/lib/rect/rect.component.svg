@@ -1,6 +1,7 @@
-<svg class="child">
+<svg class="child" (click)="onSvgClick($event)">
     <g>
-        <rect [attr.x]="Rect?.X" [attr.y]="Rect?.Y" [attr.width]="Rect?.Width" [attr.height]="Rect?.Height" [attr.rx]="Rect?.RX" [attr.fill]="Rect?.Color"
+        <rect (click)="onClick($event)" 
+            [attr.x]="Rect?.X" [attr.y]="Rect?.Y" [attr.width]="Rect?.Width" [attr.height]="Rect?.Height" [attr.rx]="Rect?.RX" [attr.fill]="Rect?.Color"
             [attr.fill-opacity]="Rect?.FillOpacity" [attr.stroke]="Rect?.Stroke" [attr.stroke-width]="Rect?.StrokeWidth"
             [attr.stroke-dasharray]="Rect?.StrokeDashArray" [attr.transform]="Rect?.Transform">
 
@@ -9,6 +10,7 @@
             [attr.values]="animate.Values" 
             [attr.dur]="animate.Dur" 
             [attr.repeatCount]="animate.RepeatCount" />
+            
         </rect>
 
         <!-- Left anchor -->

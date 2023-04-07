@@ -75,7 +75,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Sample.StrokeWidth = 2.000000
 	__Rect__000000_Sample.StrokeDashArray = ``
 	__Rect__000000_Sample.Transform = ``
-	__Rect__000000_Sample.Selected = false
+	__Rect__000000_Sample.Selected = true
 
 	// SVG values setup
 	__SVG__000000_Interactive_rectangle.Display = true

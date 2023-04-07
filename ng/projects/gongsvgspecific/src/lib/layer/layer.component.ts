@@ -34,7 +34,9 @@ export class LayerComponent implements OnInit {
   lastPushFromFrontNb = -1
   currTime: number = 0
 
-  layer?: gongsvg.LayerDB
+  layer_?: gongsvg.LayerDB
+  layerArray = new Array<gongsvg.LayerDB>()
+  svg = new gongsvg.SVGDB
 
   constructor(
     private gongsvgFrontRepoService: gongsvg.FrontRepoService,
@@ -65,8 +67,35 @@ export class LayerComponent implements OnInit {
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
 
-        this.layer = this.gongsvgFrontRepo.Layers_array[0]
-        console.log("svgSingloton " + this.layer?.Name)
+        if (this.gongsvgFrontRepo.SVGs_array.length == 1) {
+          this.svg = this.gongsvgFrontRepo.SVGs_array[0]
+        } else {
+          return
+        }
+
+        if (this.svg.Layers == undefined) {
+          return
+        }
+
+        this.svg.Layers.sort((t1, t2) => {
+          let t1_revPointerID_Index = t1.SVG_LayersDBID_Index
+          let t2_revPointerID_Index = t2.SVG_LayersDBID_Index
+
+          if (t1_revPointerID_Index && t2_revPointerID_Index) {
+            if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
+              return 1;
+            }
+            if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
+              return -1;
+            }
+          }
+          return 0;
+        });
+
+        this.layerArray = this.svg.Layers
+
+        this.layer_ = this.gongsvgFrontRepo.Layers_array[0]
+        console.log("svgSingloton " + this.layer_?.Name)
 
       }
 

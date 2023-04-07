@@ -1,4 +1,4 @@
-<div class="parent">
+<div *ngFor="let layer of layerArray" class="parent">
     <div *ngFor="let elt of layer?.Rects" class="parent">
         <lib-rect [GONG__StackPath]="GONG__StackPath" [Rect]="elt">
         </lib-rect>

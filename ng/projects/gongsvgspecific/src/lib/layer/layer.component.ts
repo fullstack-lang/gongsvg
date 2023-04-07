@@ -4,17 +4,13 @@ import { Observable, Subscription, timer } from 'rxjs';
 import * as gongsvg from 'gongsvg'
 
 @Component({
-  selector: 'lib-svg',
-  templateUrl: './svg.component.html',
-  styleUrls: ['./svg.component.css']
+  selector: 'lib-layer',
+  templateUrl: './layer.component.html',
+  styleUrls: ['./layer.component.css']
 })
-export class SvgComponent implements OnInit {
-
-  SVG: string = ""
+export class LayerComponent implements OnInit {
 
   @Input() GONG__StackPath: string = ""
-
-  rect: number = 0
 
   public gongsvgFrontRepo?: gongsvg.FrontRepo
 
@@ -38,7 +34,7 @@ export class SvgComponent implements OnInit {
   lastPushFromFrontNb = -1
   currTime: number = 0
 
-  svgSingloton?: gongsvg.LayerDB
+  layer?: gongsvg.LayerDB
 
   constructor(
     private gongsvgFrontRepoService: gongsvg.FrontRepoService,
@@ -69,8 +65,8 @@ export class SvgComponent implements OnInit {
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
 
-        this.svgSingloton = this.gongsvgFrontRepo.Layers_array[0]
-        console.log("svgSingloton " + this.svgSingloton?.Name)
+        this.layer = this.gongsvgFrontRepo.Layers_array[0]
+        console.log("svgSingloton " + this.layer?.Name)
 
       }
 

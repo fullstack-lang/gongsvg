@@ -11,6 +11,18 @@
 			"group": "build"
 		},
 		{
+			"label": "03 - lsof -i tcp:8080 ",
+			"type": "shell",
+			"command": "lsof -i tcp:8080 ",
+			"group": "build"
+		},
+		{
+			"label": "03 - lsof -i tcp:4200 | xargs kill",
+			"type": "shell",
+			"command": "lsof -i tcp:4200 | xargs kill",
+			"group": "build"
+		},
+		{
 			"label": "02 - go run  --unmarshallFromCode=stage.go --marshallOnCommit=stage",
 			"type": "shell",
 			"options": {

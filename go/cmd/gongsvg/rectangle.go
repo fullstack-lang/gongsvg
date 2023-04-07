@@ -46,7 +46,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Ellipse
 
 	// Declarations of staged instances of Layer
-	__Layer__000000_Rectangle_layer := (&models.Layer{Name: `Rectangle layer`}).Stage(stage)
+	__Layer__000000_Circle_Layer := (&models.Layer{Name: `Circle Layer`}).Stage(stage)
+	__Layer__000001_Rectangle_layer := (&models.Layer{Name: `Rectangle layer`}).Stage(stage)
 
 	// Declarations of staged instances of Line
 
@@ -58,6 +59,9 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of Rect
 	__Rect__000000_Sample := (&models.Rect{Name: `Sample`}).Stage(stage)
+
+	// Declarations of staged instances of SVG
+	__SVG__000000_SVG := (&models.SVG{Name: `SVG`}).Stage(stage)
 
 	// Declarations of staged instances of Text
 	__Text__000000_Essai := (&models.Text{Name: `Essai`}).Stage(stage)
@@ -77,14 +81,18 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Circle__000000_Test.Transform = ``
 
 	// Layer values setup
-	__Layer__000000_Rectangle_layer.Display = true
-	__Layer__000000_Rectangle_layer.Name = `Rectangle layer`
+	__Layer__000000_Circle_Layer.Display = false
+	__Layer__000000_Circle_Layer.Name = `Circle Layer`
+
+	// Layer values setup
+	__Layer__000001_Rectangle_layer.Display = false
+	__Layer__000001_Rectangle_layer.Name = `Rectangle layer`
 
 	// Rect values setup
 	__Rect__000000_Sample.Name = `Sample`
-	__Rect__000000_Sample.X = 118.000000
+	__Rect__000000_Sample.X = 104.000000
 	__Rect__000000_Sample.Y = 207.000000
-	__Rect__000000_Sample.Width = 600.000000
+	__Rect__000000_Sample.Width = 614.000000
 	__Rect__000000_Sample.Height = 100.000000
 	__Rect__000000_Sample.RX = 3.000000
 	__Rect__000000_Sample.Color = `lightcyan`
@@ -93,7 +101,10 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Sample.StrokeWidth = 2.000000
 	__Rect__000000_Sample.StrokeDashArray = ``
 	__Rect__000000_Sample.Transform = ``
-	__Rect__000000_Sample.Selected = false
+	__Rect__000000_Sample.Selected = true
+
+	// SVG values setup
+	__SVG__000000_SVG.Name = `SVG`
 
 	// Text values setup
 	__Text__000000_Essai.Name = `Essai`
@@ -108,8 +119,10 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Text__000000_Essai.Transform = ``
 
 	// Setup of pointers
-	__Layer__000000_Rectangle_layer.Rects = append(__Layer__000000_Rectangle_layer.Rects, __Rect__000000_Sample)
-	__Layer__000000_Rectangle_layer.Circles = append(__Layer__000000_Rectangle_layer.Circles, __Circle__000000_Test)
+	__Layer__000000_Circle_Layer.Circles = append(__Layer__000000_Circle_Layer.Circles, __Circle__000000_Test)
+	__Layer__000001_Rectangle_layer.Rects = append(__Layer__000001_Rectangle_layer.Rects, __Rect__000000_Sample)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Circle_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Rectangle_layer)
 }
 
 

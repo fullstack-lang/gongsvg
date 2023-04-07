@@ -2,15 +2,14 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 
-import { LayerDB } from '../layer-db'
-import { LayerService } from '../layer.service'
+import { SVGDB } from '../svg-db'
+import { SVGService } from '../svg.service'
 
 import { FrontRepoService, FrontRepo, SelectionMode, DialogData } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
-import { SVGDB } from '../svg-db'
 
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -18,27 +17,25 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../null-int64'
 
-// LayerDetailComponent is initilizaed from different routes
-// LayerDetailComponentState detail different cases 
-enum LayerDetailComponentState {
+// SVGDetailComponent is initilizaed from different routes
+// SVGDetailComponentState detail different cases 
+enum SVGDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
-	CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Layers_SET,
 }
 
 @Component({
-	selector: 'app-layer-detail',
-	templateUrl: './layer-detail.component.html',
-	styleUrls: ['./layer-detail.component.css'],
+	selector: 'app-svg-detail',
+	templateUrl: './svg-detail.component.html',
+	styleUrls: ['./svg-detail.component.css'],
 })
-export class LayerDetailComponent implements OnInit {
+export class SVGDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	DisplayFormControl: UntypedFormControl = new UntypedFormControl(false);
 
-	// the LayerDB of interest
-	layer: LayerDB = new LayerDB
+	// the SVGDB of interest
+	svg: SVGDB = new SVGDB
 
 	// front repo
 	frontRepo: FrontRepo = new FrontRepo
@@ -49,7 +46,7 @@ export class LayerDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: LayerDetailComponentState = LayerDetailComponentState.CREATE_INSTANCE
+	state: SVGDetailComponentState = SVGDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
@@ -62,7 +59,7 @@ export class LayerDetailComponent implements OnInit {
 	GONG__StackPath: string = ""
 
 	constructor(
-		private layerService: LayerService,
+		private svgService: SVGService,
 		private frontRepoService: FrontRepoService,
 		public dialog: MatDialog,
 		private activatedRoute: ActivatedRoute,
@@ -88,30 +85,26 @@ export class LayerDetailComponent implements OnInit {
 
 		const association = this.activatedRoute.snapshot.paramMap.get('association');
 		if (this.id == 0) {
-			this.state = LayerDetailComponentState.CREATE_INSTANCE
+			this.state = SVGDetailComponentState.CREATE_INSTANCE
 		} else {
 			if (this.originStruct == undefined) {
-				this.state = LayerDetailComponentState.UPDATE_INSTANCE
+				this.state = SVGDetailComponentState.UPDATE_INSTANCE
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
-					case "Layers":
-						// console.log("Layer" + " is instanciated with back pointer to instance " + this.id + " SVG association Layers")
-						this.state = LayerDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Layers_SET
-						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
 				}
 			}
 		}
 
-		this.getLayer()
+		this.getSVG()
 
 		// observable for changes in structs
-		this.layerService.LayerServiceChanged.subscribe(
+		this.svgService.SVGServiceChanged.subscribe(
 			message => {
 				if (message == "post" || message == "update" || message == "delete") {
-					this.getLayer()
+					this.getSVG()
 				}
 			}
 		)
@@ -119,32 +112,27 @@ export class LayerDetailComponent implements OnInit {
 		// insertion point for initialisation of enums list
 	}
 
-	getLayer(): void {
+	getSVG(): void {
 
 		this.frontRepoService.pull(this.GONG__StackPath).subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
 				switch (this.state) {
-					case LayerDetailComponentState.CREATE_INSTANCE:
-						this.layer = new (LayerDB)
+					case SVGDetailComponentState.CREATE_INSTANCE:
+						this.svg = new (SVGDB)
 						break;
-					case LayerDetailComponentState.UPDATE_INSTANCE:
-						let layer = frontRepo.Layers.get(this.id)
-						console.assert(layer != undefined, "missing layer with id:" + this.id)
-						this.layer = layer!
+					case SVGDetailComponentState.UPDATE_INSTANCE:
+						let svg = frontRepo.SVGs.get(this.id)
+						console.assert(svg != undefined, "missing svg with id:" + this.id)
+						this.svg = svg!
 						break;
 					// insertion point for init of association field
-					case LayerDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_SVG_Layers_SET:
-						this.layer = new (LayerDB)
-						this.layer.SVG_Layers_reverse = frontRepo.SVGs.get(this.id)!
-						break;
 					default:
 						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
-				this.DisplayFormControl.setValue(this.layer.Display)
 			}
 		)
 
@@ -157,35 +145,22 @@ export class LayerDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
-		this.layer.Display = this.DisplayFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
-		if (this.layer.SVG_Layers_reverse != undefined) {
-			if (this.layer.SVG_LayersDBID == undefined) {
-				this.layer.SVG_LayersDBID = new NullInt64
-			}
-			this.layer.SVG_LayersDBID.Int64 = this.layer.SVG_Layers_reverse.ID
-			this.layer.SVG_LayersDBID.Valid = true
-			if (this.layer.SVG_LayersDBID_Index == undefined) {
-				this.layer.SVG_LayersDBID_Index = new NullInt64
-			}
-			this.layer.SVG_LayersDBID_Index.Valid = true
-			this.layer.SVG_Layers_reverse = new SVGDB // very important, otherwise, circular JSON
-		}
 
 		switch (this.state) {
-			case LayerDetailComponentState.UPDATE_INSTANCE:
-				this.layerService.updateLayer(this.layer, this.GONG__StackPath)
-					.subscribe(layer => {
-						this.layerService.LayerServiceChanged.next("update")
+			case SVGDetailComponentState.UPDATE_INSTANCE:
+				this.svgService.updateSVG(this.svg, this.GONG__StackPath)
+					.subscribe(svg => {
+						this.svgService.SVGServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.layerService.postLayer(this.layer, this.GONG__StackPath).subscribe(layer => {
-					this.layerService.LayerServiceChanged.next("post")
-					this.layer = new (LayerDB) // reset fields
+				this.svgService.postSVG(this.svg, this.GONG__StackPath).subscribe(svg => {
+					this.svgService.SVGServiceChanged.next("post")
+					this.svg = new (SVGDB) // reset fields
 				});
 		}
 	}
@@ -208,7 +183,7 @@ export class LayerDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.layer.ID!
+			dialogData.ID = this.svg.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -225,14 +200,14 @@ export class LayerDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.layer.ID!
+			dialogData.ID = this.svg.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
 			dialogData.GONG__StackPath = this.GONG__StackPath
 
 			// set up the source
-			dialogData.SourceStruct = "Layer"
+			dialogData.SourceStruct = "SVG"
 			dialogData.SourceField = sourceField
 
 			// set up the intermediate struct
@@ -262,7 +237,7 @@ export class LayerDetailComponent implements OnInit {
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		dialogConfig.data = {
-			ID: this.layer.ID,
+			ID: this.svg.ID,
 			ReversePointer: reverseField,
 			OrderingMode: true,
 			GONG__StackPath: this.GONG__StackPath,
@@ -279,8 +254,8 @@ export class LayerDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.layer.Name == "") {
-			this.layer.Name = event.value.Name
+		if (this.svg.Name == "") {
+			this.svg.Name = event.value.Name
 		}
 	}
 

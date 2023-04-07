@@ -800,6 +800,38 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_SVG_Identifiers := make(map[*SVG]string)
+	_ = map_SVG_Identifiers
+
+	svgOrdered := []*SVG{}
+	for svg := range stage.SVGs {
+		svgOrdered = append(svgOrdered, svg)
+	}
+	sort.Slice(svgOrdered[:], func(i, j int) bool {
+		return svgOrdered[i].Name < svgOrdered[j].Name
+	})
+	identifiersDecl += "\n\n	// Declarations of staged instances of SVG"
+	for idx, svg := range svgOrdered {
+
+		id = generatesIdentifier("SVG", idx, svg.Name)
+		map_SVG_Identifiers[svg] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SVG")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", svg.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n\n	// SVG values setup"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svg.Name))
+		initializerStatements += setValueField
+
+	}
+
 	map_Text_Identifiers := make(map[*Text]string)
 	_ = map_Text_Identifiers
 
@@ -1092,6 +1124,24 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Animations")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Animate_Identifiers[_animate])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	for idx, svg := range svgOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("SVG", idx, svg.Name)
+		map_SVG_Identifiers[svg] = id
+
+		// Initialisation of values
+		for _, _layer := range svg.Layers {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Layers")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Layer_Identifiers[_layer])
 			pointersInitializesStatements += setPointerField
 		}
 

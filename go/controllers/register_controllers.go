@@ -62,6 +62,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/ellipses/:id", GetController().UpdateEllipse)
 		v1.DELETE("/v1/ellipses/:id", GetController().DeleteEllipse)
 
+		v1.GET("/v1/layers", GetController().GetLayers)
+		v1.GET("/v1/layers/:id", GetController().GetLayer)
+		v1.POST("/v1/layers", GetController().PostLayer)
+		v1.PATCH("/v1/layers/:id", GetController().UpdateLayer)
+		v1.PUT("/v1/layers/:id", GetController().UpdateLayer)
+		v1.DELETE("/v1/layers/:id", GetController().DeleteLayer)
+
 		v1.GET("/v1/lines", GetController().GetLines)
 		v1.GET("/v1/lines/:id", GetController().GetLine)
 		v1.POST("/v1/lines", GetController().PostLine)

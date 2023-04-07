@@ -45,7 +45,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000004_Test_Rect := (&models.Rect{Name: `Test Rect`}).Stage(stage)
 
 	// Declarations of staged instances of SVG
-	__SVG__000000_SVG2 := (&models.SVG{Name: `SVG2`}).Stage(stage)
+	__SVG__000000_SVG2 := (&models.Layer{Name: `SVG2`}).Stage(stage)
 
 	// Declarations of staged instances of Text
 	__Text__000000_Bonjorno := (&models.Text{Name: `Bonjorno`}).Stage(stage)

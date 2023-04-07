@@ -27,7 +27,7 @@ func main() {
 	r := static.ServeStaticFiles(false)
 	stage := fullstack.NewStackInstance(r, "github.com/fullstack-lang/gongsvg/go/models")
 
-	svg := (&models.SVG{Name: "SVG2"}).Stage(stage)
+	svg := (&models.Layer{Name: "SVG2"}).Stage(stage)
 	svg.Display = true
 
 	// create an array of rectangle
@@ -48,7 +48,7 @@ func main() {
 	r.Run(":8082")
 }
 
-func appendRect(stage *models.StageStruct, svg *models.SVG, color models.ColorType, x, y float64) {
+func appendRect(stage *models.StageStruct, svg *models.Layer, color models.ColorType, x, y float64) {
 	rect := (&models.Rect{Name: color.ToString()}).Stage(stage)
 	rect.Color = color.ToString()
 	rect.Height = RectangleHeigth

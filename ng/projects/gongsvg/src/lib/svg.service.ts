@@ -70,14 +70,7 @@ export class SVGService {
   postSVG(svgdb: SVGDB, GONG__StackPath: string): Observable<SVGDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    svgdb.Rects = []
-    svgdb.Texts = []
-    svgdb.Circles = []
-    svgdb.Lines = []
-    svgdb.Ellipses = []
-    svgdb.Polylines = []
-    svgdb.Polygones = []
-    svgdb.Paths = []
+    svgdb.Layers = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -117,14 +110,7 @@ export class SVGService {
     const url = `${this.svgsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    svgdb.Rects = []
-    svgdb.Texts = []
-    svgdb.Circles = []
-    svgdb.Lines = []
-    svgdb.Ellipses = []
-    svgdb.Polylines = []
-    svgdb.Polygones = []
-    svgdb.Paths = []
+    svgdb.Layers = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

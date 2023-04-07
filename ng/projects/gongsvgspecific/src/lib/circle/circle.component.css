@@ -4,3 +4,7 @@
     height: 8000px;
     z-index: 100;
 }
+
+.overlay {
+    pointer-events: none;
+}

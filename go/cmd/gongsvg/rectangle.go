@@ -41,6 +41,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Animate
 
 	// Declarations of staged instances of Circle
+	__Circle__000000_Test := (&models.Circle{Name: `Test`}).Stage(stage)
 
 	// Declarations of staged instances of Ellipse
 
@@ -62,11 +63,23 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Setup of values
 
+	// Circle values setup
+	__Circle__000000_Test.Name = `Test`
+	__Circle__000000_Test.CX = 400.000000
+	__Circle__000000_Test.CY = 300.000000
+	__Circle__000000_Test.Radius = 100.000000
+	__Circle__000000_Test.Color = `lavender`
+	__Circle__000000_Test.FillOpacity = 50.000000
+	__Circle__000000_Test.Stroke = ``
+	__Circle__000000_Test.StrokeWidth = 0.000000
+	__Circle__000000_Test.StrokeDashArray = ``
+	__Circle__000000_Test.Transform = ``
+
 	// Rect values setup
 	__Rect__000000_Sample.Name = `Sample`
-	__Rect__000000_Sample.X = 195.000000
+	__Rect__000000_Sample.X = 118.000000
 	__Rect__000000_Sample.Y = 200.000000
-	__Rect__000000_Sample.Width = 457.000000
+	__Rect__000000_Sample.Width = 492.000000
 	__Rect__000000_Sample.Height = 100.000000
 	__Rect__000000_Sample.RX = 3.000000
 	__Rect__000000_Sample.Color = `lightcyan`
@@ -75,7 +88,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Sample.StrokeWidth = 2.000000
 	__Rect__000000_Sample.StrokeDashArray = ``
 	__Rect__000000_Sample.Transform = ``
-	__Rect__000000_Sample.Selected = false
+	__Rect__000000_Sample.Selected = true
 
 	// SVG values setup
 	__SVG__000000_Interactive_rectangle.Display = true
@@ -83,6 +96,7 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Setup of pointers
 	__SVG__000000_Interactive_rectangle.Rects = append(__SVG__000000_Interactive_rectangle.Rects, __Rect__000000_Sample)
+	__SVG__000000_Interactive_rectangle.Circles = append(__SVG__000000_Interactive_rectangle.Circles, __Circle__000000_Test)
 }
 
 

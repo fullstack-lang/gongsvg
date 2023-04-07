@@ -64,9 +64,9 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Sample.Name = `Sample`
-	__Rect__000000_Sample.X = 200.000000
+	__Rect__000000_Sample.X = 195.000000
 	__Rect__000000_Sample.Y = 200.000000
-	__Rect__000000_Sample.Width = 500.000000
+	__Rect__000000_Sample.Width = 457.000000
 	__Rect__000000_Sample.Height = 100.000000
 	__Rect__000000_Sample.RX = 3.000000
 	__Rect__000000_Sample.Color = `lightcyan`

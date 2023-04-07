@@ -2,12 +2,12 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "03 - ng serve",
+			"label": "03 - ng serve --host=127.0.0.1",
 			"type": "shell",
 			"options": {
 				"cwd": "ng"
 			},
-			"command": "ng serve",
+			"command": "ng serve --host=127.0.0.1",
 			"group": "build"
 		},
 		{
@@ -25,8 +25,34 @@
 			],
 			"group": "build"
 		},
-
-		
+		{
+			"label": "02 - go run  --unmarshallFromCode=rectangle.go --marshallOnCommit=rectangle",
+			"type": "shell",
+			"options": {
+				"cwd": "./go/cmd/gongsvg"
+			},
+			"command": "go",
+			"args": [
+				"run",
+				"main.go",
+				"-marshallOnCommit=rectangle",
+				"-unmarshallFromCode=rectangle.go",
+			],
+			"group": "build"
+		},
+		{
+			"label": "02 - colorgrid",
+			"type": "shell",
+			"options": {
+				"cwd": "./go/cmd/colorgrid"
+			},
+			"command": "go",
+			"args": [
+				"run",
+				"main.go",
+			],
+			"group": "build"
+		},
 		{
 			"label": "01 - gongc",
 			"type": "shell",
@@ -46,6 +72,20 @@
 			"command": "gongc",
 			"args": [
 				"-skipGoModCommands"
+			],
+			"group": "build"
+		},
+		{
+			"label": "01 - gongc -skipGoModCommands -skipNpmInstall -compileForDebug",
+			"type": "shell",
+			"options": {
+				"cwd": "go/models"
+			},
+			"command": "gongc",
+			"args": [
+				"-skipGoModCommands",
+				"-compileForDebug",
+				"-skipNpmInstall"
 			],
 			"group": "build"
 		},

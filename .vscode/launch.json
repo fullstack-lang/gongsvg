@@ -5,9 +5,9 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-chrome",
+            "name": "Launch Chrome currently tweaking",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
+            "type": "chrome",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}/ng"
         },
@@ -62,6 +62,17 @@
             "args": [
                 "-unmarshallFromCode=stage.go",
                 "-marshallOnCommit=stage"
+            ]
+        },
+        {
+            "name": "go server -unmarshallFromCode=rectangle.go --marshallOnCommit=rectangle",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/go/cmd/gongsvg",
+            "args": [
+                "-unmarshallFromCode=rectangle.go",
+                "-marshallOnCommit=rectangle"
             ]
         },
     ]

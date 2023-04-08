@@ -46,8 +46,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Ellipse
 
 	// Declarations of staged instances of Layer
-	__Layer__000000_Circle_Layer := (&models.Layer{Name: `Circle Layer`}).Stage(stage)
-	__Layer__000001_Rectangle_layer := (&models.Layer{Name: `Rectangle layer`}).Stage(stage)
+	__Layer__000000_Bottom_Rectangle_Layer := (&models.Layer{Name: `Bottom Rectangle Layer`}).Stage(stage)
+	__Layer__000001_Circle_Layer := (&models.Layer{Name: `Circle Layer`}).Stage(stage)
+	__Layer__000002_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
 
 	// Declarations of staged instances of Line
 
@@ -58,7 +59,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Polyline
 
 	// Declarations of staged instances of Rect
-	__Rect__000000_Sample := (&models.Rect{Name: `Sample`}).Stage(stage)
+	__Rect__000000_Bottom := (&models.Rect{Name: `Bottom`}).Stage(stage)
+	__Rect__000001_Top := (&models.Rect{Name: `Top`}).Stage(stage)
 
 	// Declarations of staged instances of SVG
 	__SVG__000000_SVG := (&models.SVG{Name: `SVG`}).Stage(stage)
@@ -81,27 +83,46 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Circle__000000_Test.Transform = ``
 
 	// Layer values setup
-	__Layer__000000_Circle_Layer.Display = false
-	__Layer__000000_Circle_Layer.Name = `Circle Layer`
+	__Layer__000000_Bottom_Rectangle_Layer.Display = false
+	__Layer__000000_Bottom_Rectangle_Layer.Name = `Bottom Rectangle Layer`
 
 	// Layer values setup
-	__Layer__000001_Rectangle_layer.Display = false
-	__Layer__000001_Rectangle_layer.Name = `Rectangle layer`
+	__Layer__000001_Circle_Layer.Display = false
+	__Layer__000001_Circle_Layer.Name = `Circle Layer`
+
+	// Layer values setup
+	__Layer__000002_Top_Rectangle_layer.Display = false
+	__Layer__000002_Top_Rectangle_layer.Name = `Top Rectangle layer`
 
 	// Rect values setup
-	__Rect__000000_Sample.Name = `Sample`
-	__Rect__000000_Sample.X = 104.000000
-	__Rect__000000_Sample.Y = 207.000000
-	__Rect__000000_Sample.Width = 614.000000
-	__Rect__000000_Sample.Height = 100.000000
-	__Rect__000000_Sample.RX = 3.000000
-	__Rect__000000_Sample.Color = `lightcyan`
-	__Rect__000000_Sample.FillOpacity = 100.000000
-	__Rect__000000_Sample.Stroke = `darkcyan`
-	__Rect__000000_Sample.StrokeWidth = 2.000000
-	__Rect__000000_Sample.StrokeDashArray = ``
-	__Rect__000000_Sample.Transform = ``
-	__Rect__000000_Sample.Selected = false
+	__Rect__000000_Bottom.Name = `Bottom`
+	__Rect__000000_Bottom.X = 150.000000
+	__Rect__000000_Bottom.Y = 250.000000
+	__Rect__000000_Bottom.Width = 200.000000
+	__Rect__000000_Bottom.Height = 300.000000
+	__Rect__000000_Bottom.RX = 5.000000
+	__Rect__000000_Bottom.Color = `bisque`
+	__Rect__000000_Bottom.FillOpacity = 50.000000
+	__Rect__000000_Bottom.Stroke = `lightcoral`
+	__Rect__000000_Bottom.StrokeWidth = 3.000000
+	__Rect__000000_Bottom.StrokeDashArray = ``
+	__Rect__000000_Bottom.Transform = ``
+	__Rect__000000_Bottom.Selected = true
+
+	// Rect values setup
+	__Rect__000001_Top.Name = `Top`
+	__Rect__000001_Top.X = 104.000000
+	__Rect__000001_Top.Y = 207.000000
+	__Rect__000001_Top.Width = 614.000000
+	__Rect__000001_Top.Height = 100.000000
+	__Rect__000001_Top.RX = 3.000000
+	__Rect__000001_Top.Color = `lightcyan`
+	__Rect__000001_Top.FillOpacity = 100.000000
+	__Rect__000001_Top.Stroke = `darkcyan`
+	__Rect__000001_Top.StrokeWidth = 2.000000
+	__Rect__000001_Top.StrokeDashArray = ``
+	__Rect__000001_Top.Transform = ``
+	__Rect__000001_Top.Selected = true
 
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
@@ -119,10 +140,12 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Text__000000_Essai.Transform = ``
 
 	// Setup of pointers
-	__Layer__000000_Circle_Layer.Circles = append(__Layer__000000_Circle_Layer.Circles, __Circle__000000_Test)
-	__Layer__000001_Rectangle_layer.Rects = append(__Layer__000001_Rectangle_layer.Rects, __Rect__000000_Sample)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Circle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Rectangle_layer)
+	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom)
+	__Layer__000001_Circle_Layer.Circles = append(__Layer__000001_Circle_Layer.Circles, __Circle__000000_Test)
+	__Layer__000002_Top_Rectangle_layer.Rects = append(__Layer__000002_Top_Rectangle_layer.Rects, __Rect__000001_Top)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Top_Rectangle_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Circle_Layer)
 }
 
 

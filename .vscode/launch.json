@@ -31,6 +31,16 @@
             "args": []
         },
         {
+            "name": "go server colorgrid on port 8080",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/go/cmd/colorgrid",
+            "args": [
+                "-port=8080"
+            ]
+        },
+        {
             "name": "Launch firefox appv localhost:4200",
             "type": "firefox",
             "request": "launch",

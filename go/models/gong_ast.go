@@ -1359,13 +1359,20 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "Rect":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "Selected":
+				case "IsSelectable":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Rect[identifier].Selected = fielValue
+					__gong__map_Rect[identifier].IsSelectable = fielValue
+				case "IsSelected":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].IsSelected = fielValue
 				}
 			case "SVG":
 				switch fieldName {

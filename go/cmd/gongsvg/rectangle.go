@@ -107,7 +107,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Bottom.StrokeWidth = 3.000000
 	__Rect__000000_Bottom.StrokeDashArray = ``
 	__Rect__000000_Bottom.Transform = ``
-	__Rect__000000_Bottom.Selected = false
+	__Rect__000000_Bottom.IsSelectable = true
+	__Rect__000000_Bottom.IsSelected = false
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
@@ -122,7 +123,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.StrokeWidth = 2.000000
 	__Rect__000001_Top.StrokeDashArray = ``
 	__Rect__000001_Top.Transform = ``
-	__Rect__000001_Top.Selected = true
+	__Rect__000001_Top.IsSelectable = true
+	__Rect__000001_Top.IsSelected = true
 
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`

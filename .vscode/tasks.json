@@ -17,9 +17,15 @@
 			"group": "build"
 		},
 		{
-			"label": "03 - lsof -i tcp:4200 | xargs kill",
+			"label": "03 - lsof -ti :4200 | xargs kill",
 			"type": "shell",
-			"command": "lsof -i tcp:4200 | xargs kill",
+			"command": "lsof -ti :4200 | xargs kill",
+			"group": "build"
+		},
+		{
+			"label": "03 - lsof -ti :8080 | xargs kill",
+			"type": "shell",
+			"command": "lsof -ti :8080 | xargs kill",
 			"group": "build"
 		},
 		{

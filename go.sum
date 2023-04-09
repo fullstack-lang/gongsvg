@@ -8,8 +8,6 @@ github.com/frankban/quicktest v1.13.1 h1:xVm/f9seEhZFL9+n5kv5XLrGwy6elc4V9v/XFY2
 github.com/frankban/quicktest v1.13.1/go.mod h1:NeW+ay9A/U67EYXNFA1nPE8e/tnQv/09mUdL/ijj8og=
 github.com/fullstack-lang/gong v0.0.0-20230407085658-d87255821fcc h1:usvzcP+3SajXTB9iI2qR5xc6f9hKCqDLsOz0d0nE+Ac=
 github.com/fullstack-lang/gong v0.0.0-20230407085658-d87255821fcc/go.mod h1:pKl99OG0v30n959JlWVBtgj8g+hugANdogZkETZT3fo=
-github.com/fullstack-lang/gongdoc v0.0.0-20230331094839-7d3ab2a504ec h1:9ivshlQHEg+CUByTRSDrN1Jvd0JGGsZeJV5Vr5pUx/w=
-github.com/fullstack-lang/gongdoc v0.0.0-20230331094839-7d3ab2a504ec/go.mod h1:v2DYVQH6O3jG0Jd8Yy+hgKZFbpcXBsRFhQ6zzWBD1go=
 github.com/fullstack-lang/gongdoc v0.0.0-20230408211623-ee63075db0fc h1:Ls/+/1yuUV6AsE/PaSe1JsLjLdPjY9OxmGz2ca1yGMs=
 github.com/fullstack-lang/gongdoc v0.0.0-20230408211623-ee63075db0fc/go.mod h1:v2DYVQH6O3jG0Jd8Yy+hgKZFbpcXBsRFhQ6zzWBD1go=
 github.com/gin-contrib/cors v1.4.0 h1:oJ6gwtUl3lqV0WEIwM/LxPF1QZ5qe2lGWdY2+bz7y0g=

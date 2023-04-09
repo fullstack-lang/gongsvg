@@ -1541,7 +1541,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Polyline:
 		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
 	case Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations", "Selected"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations", "IsSelectable", "IsSelected"}
 	case SVG:
 		res = []string{"Name", "Layers"}
 	case Text:
@@ -1845,8 +1845,10 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 				}
 				res += __instance__.Name
 			}
-		case "Selected":
-			res = fmt.Sprintf("%t", any(instance).(Rect).Selected)
+		case "IsSelectable":
+			res = fmt.Sprintf("%t", any(instance).(Rect).IsSelectable)
+		case "IsSelected":
+			res = fmt.Sprintf("%t", any(instance).(Rect).IsSelected)
 		}
 	case SVG:
 		switch fieldName {

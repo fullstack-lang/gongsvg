@@ -13,6 +13,8 @@ import (
 	gongsvg_static "github.com/fullstack-lang/gongsvg/go/static"
 
 	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
+
+	gongsvg_behavior "github.com/fullstack-lang/gongsvg/go/behavior"
 )
 
 var (
@@ -136,6 +138,12 @@ func main() {
 		r,
 		*embeddedDiagrams,
 		&stage.Map_GongStructName_InstancesNb)
+
+	// connects the rects to their behaviors
+	gongsvg_behavior.Connect(stage)
+	orchestrator := new(gongsvg_behavior.Orchestrator)
+
+	stage.OnAfterRectUpdateCallback = orchestrator
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()

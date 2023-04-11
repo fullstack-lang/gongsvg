@@ -1,10 +1,9 @@
 package models
 
+import "log"
+
 type Rect struct {
 	Name string
-
-	// Impl is the pointer to the implementation in the models of interest
-	Impl RectImplInterface
 
 	X, Y, Width, Height, RX float64
 	Presentation
@@ -13,4 +12,9 @@ type Rect struct {
 
 	IsSelectable bool
 	IsSelected   bool
+}
+
+func (rect *Rect) OnAfterUpdate(stage *StageStruct, stagedRect, frontRect *Rect) {
+
+	log.Println("Rect, OnAfterUpdate", stagedRect.Name)
 }

@@ -1,10 +1,10 @@
 package models
 
-// Orchestrator
-type Orchestrator struct {
+// RectOrchestrator
+type RectOrchestrator struct {
 }
 
-func (orchestrator *Orchestrator) OnAfterUpdate(
+func (orchestrator *RectOrchestrator) OnAfterUpdate(
 	gongsvgStage *StageStruct,
 	stagedRect, backRepoRect *Rect) {
 

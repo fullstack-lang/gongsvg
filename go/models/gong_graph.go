@@ -360,6 +360,12 @@ func (stage *StageStruct) StageBranchSVG(svg *SVG) {
 	svg.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if svg.StartRect != nil {
+		StageBranch(stage, svg.StartRect)
+	}
+	if svg.EndRect != nil {
+		StageBranch(stage, svg.EndRect)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _layer := range svg.Layers {
@@ -624,6 +630,12 @@ func (stage *StageStruct) UnstageBranchSVG(svg *SVG) {
 	svg.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if svg.StartRect != nil {
+		UnstageBranch(stage, svg.StartRect)
+	}
+	if svg.EndRect != nil {
+		UnstageBranch(stage, svg.EndRect)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _layer := range svg.Layers {

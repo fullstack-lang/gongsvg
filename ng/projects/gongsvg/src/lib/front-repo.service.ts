@@ -912,6 +912,20 @@ export class FrontRepoService {
             svgs.forEach(
               svg => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field StartRect redeeming
+                {
+                  let _rect = this.frontRepo.Rects.get(svg.StartRectID.Int64)
+                  if (_rect) {
+                    svg.StartRect = _rect
+                  }
+                }
+                // insertion point for pointer field EndRect redeeming
+                {
+                  let _rect = this.frontRepo.Rects.get(svg.EndRectID.Int64)
+                  if (_rect) {
+                    svg.EndRect = _rect
+                  }
+                }
 
                 // insertion point for redeeming ONE-MANY associations
               }
@@ -1639,6 +1653,20 @@ export class FrontRepoService {
                 this.frontRepo.SVGs_batch.set(svg.ID, svg)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
+                // insertion point for pointer field StartRect redeeming
+                {
+                  let _rect = this.frontRepo.Rects.get(svg.StartRectID.Int64)
+                  if (_rect) {
+                    svg.StartRect = _rect
+                  }
+                }
+                // insertion point for pointer field EndRect redeeming
+                {
+                  let _rect = this.frontRepo.Rects.get(svg.EndRectID.Int64)
+                  if (_rect) {
+                    svg.EndRect = _rect
+                  }
+                }
 
                 // insertion point for redeeming ONE-MANY associations
               }

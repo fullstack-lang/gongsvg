@@ -137,6 +137,12 @@ func main() {
 		*embeddedDiagrams,
 		&stage.Map_GongStructName_InstancesNb)
 
+	// connects the rects to their behaviors
+	gongsvg_models.Connect(stage)
+	orchestrator := new(gongsvg_models.Orchestrator)
+
+	stage.OnAfterRectUpdateCallback = orchestrator
+
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()
 }

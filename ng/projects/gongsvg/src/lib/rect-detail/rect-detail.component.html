@@ -162,6 +162,18 @@
     <!-- -->
     <mat-checkbox [formControl]="IsSelectedFormControl">IsSelected</mat-checkbox>
 
+    <!-- -->
+    <mat-checkbox [formControl]="CanHaveHorizontalHandlesFormControl">CanHaveHorizontalHandles</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasHorizontalHandlesFormControl">HasHorizontalHandles</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="CanMoveHorizontalyFormControl">CanMoveHorizontaly</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="CanMoveVerticalyFormControl">CanMoveVerticaly</mat-checkbox>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(Layer) Rects</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="rect.Layer_Rects_reverse" [ngModelOptions]="{standalone: true}">

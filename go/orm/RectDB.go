@@ -107,6 +107,22 @@ type RectDB struct {
 	// Declation for basic field rectDB.IsSelected
 	// provide the sql storage for the boolan
 	IsSelected_Data sql.NullBool
+
+	// Declation for basic field rectDB.CanHaveHorizontalHandles
+	// provide the sql storage for the boolan
+	CanHaveHorizontalHandles_Data sql.NullBool
+
+	// Declation for basic field rectDB.HasHorizontalHandles
+	// provide the sql storage for the boolan
+	HasHorizontalHandles_Data sql.NullBool
+
+	// Declation for basic field rectDB.CanMoveHorizontaly
+	// provide the sql storage for the boolan
+	CanMoveHorizontaly_Data sql.NullBool
+
+	// Declation for basic field rectDB.CanMoveVerticaly
+	// provide the sql storage for the boolan
+	CanMoveVerticaly_Data sql.NullBool
 	// encoding of pointers
 	RectPointersEnconding
 }
@@ -155,6 +171,14 @@ type RectWOP struct {
 	IsSelectable bool `xlsx:"13"`
 
 	IsSelected bool `xlsx:"14"`
+
+	CanHaveHorizontalHandles bool `xlsx:"15"`
+
+	HasHorizontalHandles bool `xlsx:"16"`
+
+	CanMoveHorizontaly bool `xlsx:"17"`
+
+	CanMoveVerticaly bool `xlsx:"18"`
 	// insertion for WOP pointer fields
 }
 
@@ -175,6 +199,10 @@ var Rect_Fields = []string{
 	"Transform",
 	"IsSelectable",
 	"IsSelected",
+	"CanHaveHorizontalHandles",
+	"HasHorizontalHandles",
+	"CanMoveHorizontaly",
+	"CanMoveVerticaly",
 }
 
 type BackRepoRectStruct struct {
@@ -522,6 +550,18 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 
 	rectDB.IsSelected_Data.Bool = rect.IsSelected
 	rectDB.IsSelected_Data.Valid = true
+
+	rectDB.CanHaveHorizontalHandles_Data.Bool = rect.CanHaveHorizontalHandles
+	rectDB.CanHaveHorizontalHandles_Data.Valid = true
+
+	rectDB.HasHorizontalHandles_Data.Bool = rect.HasHorizontalHandles
+	rectDB.HasHorizontalHandles_Data.Valid = true
+
+	rectDB.CanMoveHorizontaly_Data.Bool = rect.CanMoveHorizontaly
+	rectDB.CanMoveHorizontaly_Data.Valid = true
+
+	rectDB.CanMoveVerticaly_Data.Bool = rect.CanMoveVerticaly
+	rectDB.CanMoveVerticaly_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRectWOP
@@ -569,6 +609,18 @@ func (rectDB *RectDB) CopyBasicFieldsFromRectWOP(rect *RectWOP) {
 
 	rectDB.IsSelected_Data.Bool = rect.IsSelected
 	rectDB.IsSelected_Data.Valid = true
+
+	rectDB.CanHaveHorizontalHandles_Data.Bool = rect.CanHaveHorizontalHandles
+	rectDB.CanHaveHorizontalHandles_Data.Valid = true
+
+	rectDB.HasHorizontalHandles_Data.Bool = rect.HasHorizontalHandles
+	rectDB.HasHorizontalHandles_Data.Valid = true
+
+	rectDB.CanMoveHorizontaly_Data.Bool = rect.CanMoveHorizontaly
+	rectDB.CanMoveHorizontaly_Data.Valid = true
+
+	rectDB.CanMoveVerticaly_Data.Bool = rect.CanMoveVerticaly
+	rectDB.CanMoveVerticaly_Data.Valid = true
 }
 
 // CopyBasicFieldsToRect
@@ -588,6 +640,10 @@ func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
 	rect.Transform = rectDB.Transform_Data.String
 	rect.IsSelectable = rectDB.IsSelectable_Data.Bool
 	rect.IsSelected = rectDB.IsSelected_Data.Bool
+	rect.CanHaveHorizontalHandles = rectDB.CanHaveHorizontalHandles_Data.Bool
+	rect.HasHorizontalHandles = rectDB.HasHorizontalHandles_Data.Bool
+	rect.CanMoveHorizontaly = rectDB.CanMoveHorizontaly_Data.Bool
+	rect.CanMoveVerticaly = rectDB.CanMoveVerticaly_Data.Bool
 }
 
 // CopyBasicFieldsToRectWOP
@@ -608,6 +664,10 @@ func (rectDB *RectDB) CopyBasicFieldsToRectWOP(rect *RectWOP) {
 	rect.Transform = rectDB.Transform_Data.String
 	rect.IsSelectable = rectDB.IsSelectable_Data.Bool
 	rect.IsSelected = rectDB.IsSelected_Data.Bool
+	rect.CanHaveHorizontalHandles = rectDB.CanHaveHorizontalHandles_Data.Bool
+	rect.HasHorizontalHandles = rectDB.HasHorizontalHandles_Data.Bool
+	rect.CanMoveHorizontaly = rectDB.CanMoveHorizontaly_Data.Bool
+	rect.CanMoveVerticaly = rectDB.CanMoveVerticaly_Data.Bool
 }
 
 // Backup generates a json file from a slice of all RectDB instances in the backrepo

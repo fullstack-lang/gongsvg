@@ -1192,6 +1192,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Layer with the name of the field
 			Layers: []*Layer{{Name: "Layers"}},
+			// field is initialized with an instance of Rect with the name of the field
+			StartRect: &Rect{Name: "StartRect"},
+			// field is initialized with an instance of Rect with the name of the field
+			EndRect: &Rect{Name: "EndRect"},
 		}).(*Type)
 	case Text:
 		return any(&Text{
@@ -1266,6 +1270,40 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 	case SVG:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "StartRect":
+			res := make(map[*Rect][]*SVG)
+			for svg := range stage.SVGs {
+				if svg.StartRect != nil {
+					rect_ := svg.StartRect
+					var svgs []*SVG
+					_, ok := res[rect_]
+					if ok {
+						svgs = res[rect_]
+					} else {
+						svgs = make([]*SVG, 0)
+					}
+					svgs = append(svgs, svg)
+					res[rect_] = svgs
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EndRect":
+			res := make(map[*Rect][]*SVG)
+			for svg := range stage.SVGs {
+				if svg.EndRect != nil {
+					rect_ := svg.EndRect
+					var svgs []*SVG
+					_, ok := res[rect_]
+					if ok {
+						svgs = res[rect_]
+					} else {
+						svgs = make([]*SVG, 0)
+					}
+					svgs = append(svgs, svg)
+					res[rect_] = svgs
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Text
 	case Text:
@@ -1543,7 +1581,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Rect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveHorizontalHandles", "HasHorizontalHandles", "CanMoveHorizontaly", "CanMoveVerticaly"}
 	case SVG:
-		res = []string{"Name", "Layers"}
+		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect"}
 	case Text:
 		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
 	}
@@ -1869,6 +1907,17 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 					res += "\n"
 				}
 				res += __instance__.Name
+			}
+		case "DrawingState":
+			enum := any(instance).(SVG).DrawingState
+			res = enum.ToCodeString()
+		case "StartRect":
+			if any(instance).(SVG).StartRect != nil {
+				res = any(instance).(SVG).StartRect.Name
+			}
+		case "EndRect":
+			if any(instance).(SVG).EndRect != nil {
+				res = any(instance).(SVG).EndRect.Name
 			}
 		}
 	case Text:

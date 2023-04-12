@@ -1405,6 +1405,12 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "SVG":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "StartRect":
+					targetIdentifier := ident.Name
+					__gong__map_SVG[identifier].StartRect = __gong__map_Rect[targetIdentifier]
+				case "EndRect":
+					targetIdentifier := ident.Name
+					__gong__map_SVG[identifier].EndRect = __gong__map_Rect[targetIdentifier]
 				}
 			case "Text":
 				switch fieldName {
@@ -1477,6 +1483,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				case "SVG":
 					switch fieldName {
 					// insertion point for enum assign code
+					case "DrawingState":
+						var val DrawingState
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_SVG[identifier].DrawingState = DrawingState(val)
 					}
 				case "Text":
 					switch fieldName {

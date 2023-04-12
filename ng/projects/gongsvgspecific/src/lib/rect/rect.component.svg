@@ -5,7 +5,7 @@
             [attr.fill-opacity]="Rect?.FillOpacity" [attr.stroke]="Rect?.Stroke" [attr.stroke-width]="Rect?.StrokeWidth"
             [attr.stroke-dasharray]="Rect?.StrokeDashArray" [attr.transform]="Rect?.Transform"
             
-            (mousedown)="startRectDrag($event)" (mousemove)="dragRect($event)" (mouseup)="endRectDrag()" (mouseleave)="endDrag()"
+            (mousedown)="startRectDrag($event)" (mousemove)="dragRect($event)" (mouseup)="endRectDrag($event)" (mouseleave)="endDrag()"
             >
 
             <animate *ngFor="let animate of Rect?.Animations" 

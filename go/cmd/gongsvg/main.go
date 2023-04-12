@@ -139,7 +139,7 @@ func main() {
 
 	// connects the rects to their behaviors
 	gongsvg_models.Connect(stage)
-	orchestrator := new(gongsvg_models.Orchestrator)
+	orchestrator := new(gongsvg_models.RectOrchestrator)
 
 	stage.OnAfterRectUpdateCallback = orchestrator
 

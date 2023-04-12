@@ -1285,6 +1285,76 @@ export class SidebarComponent implements OnInit {
             LayersGongNodeAssociation.children.push(layerNode)
           })
 
+          /**
+          * let append a node for the association StartRect
+          */
+          let StartRectGongNodeAssociation: GongNode = {
+            name: "(Rect) StartRect",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: svgDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "SVG",
+            associationField: "StartRect",
+            associatedStructName: "Rect",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          svgGongNodeInstance.children!.push(StartRectGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation StartRect
+            */
+          if (svgDB.StartRect != undefined) {
+            let svgGongNodeInstance_StartRect: GongNode = {
+              name: svgDB.StartRect.Name,
+              type: GongNodeType.INSTANCE,
+              id: svgDB.StartRect.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getSVGUniqueID(svgDB.ID)
+                + 5 * getRectUniqueID(svgDB.StartRect.ID),
+              structName: "Rect",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            StartRectGongNodeAssociation.children.push(svgGongNodeInstance_StartRect)
+          }
+
+          /**
+          * let append a node for the association EndRect
+          */
+          let EndRectGongNodeAssociation: GongNode = {
+            name: "(Rect) EndRect",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: svgDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "SVG",
+            associationField: "EndRect",
+            associatedStructName: "Rect",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          svgGongNodeInstance.children!.push(EndRectGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation EndRect
+            */
+          if (svgDB.EndRect != undefined) {
+            let svgGongNodeInstance_EndRect: GongNode = {
+              name: svgDB.EndRect.Name,
+              type: GongNodeType.INSTANCE,
+              id: svgDB.EndRect.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getSVGUniqueID(svgDB.ID)
+                + 5 * getRectUniqueID(svgDB.EndRect.ID),
+              structName: "Rect",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            EndRectGongNodeAssociation.children.push(svgGongNodeInstance_EndRect)
+          }
+
         }
       )
 

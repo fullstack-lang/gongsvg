@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
+import { RectangleEventService } from '../rectangle-event.service';
 
 import * as gongsvg from 'gongsvg'
 
@@ -8,7 +9,7 @@ import * as gongsvg from 'gongsvg'
   templateUrl: './layer.component.html',
   styleUrls: ['./layer.component.css']
 })
-export class LayerComponent implements OnInit {
+export class LayerComponent implements OnInit, OnDestroy {
 
   @Input() GONG__StackPath: string = ""
 
@@ -38,11 +39,28 @@ export class LayerComponent implements OnInit {
   layerArray = new Array<gongsvg.LayerDB>()
   svg = new gongsvg.SVGDB
 
+  private subscriptions: Subscription[] = [];
+
   constructor(
     private gongsvgFrontRepoService: gongsvg.FrontRepoService,
     private gongsvgNbFromBackService: gongsvg.CommitNbFromBackService,
     private gongsvgPushFromFrontNbService: gongsvg.PushFromFrontNbService,
-  ) { }
+    private rectangleEventService: RectangleEventService
+  ) { 
+
+    this.subscriptions.push(
+      rectangleEventService.mouseDownEvent$.subscribe((rectangleID : number) => {
+          console.log('Mouse down event occurred on rectangle ', rectangleID);
+      })
+    );
+
+    this.subscriptions.push(
+      rectangleEventService.mouseUpEvent$.subscribe((rectangleID : number) => {
+          console.log('Mouse up event occurred on rectangle ', rectangleID);
+      })
+    );
+
+  }
 
   ngOnInit(): void {
 
@@ -111,6 +129,10 @@ export class LayerComponent implements OnInit {
     const g = Math.floor(Math.random() * 256);
     const b = Math.floor(Math.random() * 256);
     this.fillColor = `rgb(${r}, ${g}, ${b})`;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
 }

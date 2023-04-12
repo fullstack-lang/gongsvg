@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { RectangleEventService } from '../rectangle-event.service';
 
 import * as gongsvg from 'gongsvg'
 
@@ -19,7 +20,8 @@ export class RectComponent implements OnInit {
 
   constructor(
     private rectService: gongsvg.RectService,
-    private svgService: gongsvg.SVGService) { }
+    private svgService: gongsvg.SVGService,
+    private rectangleEventService: RectangleEventService) { }
 
   ngOnInit(): void {
   }
@@ -27,10 +29,12 @@ export class RectComponent implements OnInit {
   onClick(event: MouseEvent) {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
-    // console.log("rect, onClick() : ", this.Rect?.Name)
-    if (this.Rect?.IsSelectable) {
-      this.Rect!.IsSelected = !this.Rect!.IsSelected
-      this.rectService.updateRect(this.Rect!, this.GONG__StackPath).subscribe()
+    if (!event.shiftKey) {
+      if (this.Rect?.IsSelectable) {
+        console.log("rect, onClick() toggle selected: ", this.Rect?.Name)
+        this.Rect!.IsSelected = !this.Rect!.IsSelected
+        this.rectService.updateRect(this.Rect!, this.GONG__StackPath).subscribe()
+      }
     }
   }
 
@@ -91,29 +95,9 @@ export class RectComponent implements OnInit {
       this.offsetX = event.clientX - this.Rect!.X
       this.offsetY = event.clientY - this.Rect!.Y
     } else {
-      console.log("startRectDrag rect : ", this.Rect?.Name)
+      console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 
-      // get the SVG and inform it that there it swithed in line drawing mode
-      this.svgService.getSVGs(this.GONG__StackPath).subscribe(
-        (svgArray: gongsvg.SVGDB[]) => {
-          if (svgArray.length != 1) {
-            console.log("problem with svg, length ", svgArray.length, " is not 1")
-            return
-          }
-          this.svg = svgArray[0]
-
-          if (this.svg.DrawingState != gongsvg.DrawingState.NOT_DRAWING_LINE) {
-            console.log("problem with svg, length ", this.svg.DrawingState, " is not ", gongsvg.DrawingState.NOT_DRAWING_LINE)
-          }
-
-          this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINE
-
-          this.svg.StartRectID.Valid = true
-          this.svg.StartRectID.Int64 = this.Rect!.ID
-
-          this.svgService.updateSVG(this.svg, this.GONG__StackPath).subscribe()
-        }
-      )
+      this.rectangleEventService.emitMouseDownEvent(this.Rect!.ID);
     }
   }
 
@@ -137,29 +121,9 @@ export class RectComponent implements OnInit {
       this.rectDragging = false;
       this.rectService.updateRect(this.Rect!, this.GONG__StackPath).subscribe()
     } else {
-      console.log("endRectDrag rect : ", this.Rect?.Name)
+      console.log("endRectDrag + shiftKey rect : ", this.Rect?.Name)
 
-      // get the SVG and inform it that there it swithed in line drawing mode
-      this.svgService.getSVGs(this.GONG__StackPath).subscribe(
-        (svgArray: gongsvg.SVGDB[]) => {
-          if (svgArray.length != 1) {
-            console.log("problem with svg, length ", svgArray.length, " is not 1")
-            return
-          }
-          this.svg = svgArray[0]
-
-          if (this.svg.DrawingState != gongsvg.DrawingState.DRAWING_LINE) {
-            console.log("problem with svg, length ", this.svg.DrawingState, " is not ", gongsvg.DrawingState.DRAWING_LINE)
-          }
-
-          this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINE
-
-          this.svg.EndRectID.Valid = true
-          this.svg.EndRectID.Int64 = this.Rect!.ID
-
-          this.svgService.updateSVG(this.svg, this.GONG__StackPath).subscribe()
-        }
-      )
+      this.rectangleEventService.emitMouseUpEvent(this.Rect!.ID);
     }
   }
 }

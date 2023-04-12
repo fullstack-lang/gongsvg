@@ -53,8 +53,10 @@
 			"args": [
 				"run",
 				"main.go",
-				"-marshallOnCommit=rectangle",
-				"-unmarshallFromCode=rectangle.go",
+                "-unmarshallFromCode",
+                "rectangle.go",
+                "-marshallOnCommit",
+                "rectangle"
 			],
 			"group": "build"
 		},

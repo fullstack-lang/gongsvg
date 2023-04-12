@@ -38,6 +38,7 @@ export class LayerComponent implements OnInit, OnDestroy {
   layer_?: gongsvg.LayerDB
   layerArray = new Array<gongsvg.LayerDB>()
   svg = new gongsvg.SVGDB
+  linkStartRectangleID: number = 0
 
   private subscriptions: Subscription[] = [];
 
@@ -45,20 +46,64 @@ export class LayerComponent implements OnInit, OnDestroy {
     private gongsvgFrontRepoService: gongsvg.FrontRepoService,
     private gongsvgNbFromBackService: gongsvg.CommitNbFromBackService,
     private gongsvgPushFromFrontNbService: gongsvg.PushFromFrontNbService,
+    private svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService
-  ) { 
+  ) {
 
     this.subscriptions.push(
-      rectangleEventService.mouseDownEvent$.subscribe((rectangleID : number) => {
-          console.log('Mouse down event occurred on rectangle ', rectangleID);
+      rectangleEventService.mouseDownEvent$.subscribe((rectangleID: number) => {
+        console.log('Mouse down event occurred on rectangle ', rectangleID);
+        this.linkStartRectangleID = rectangleID
       })
     );
 
     this.subscriptions.push(
-      rectangleEventService.mouseUpEvent$.subscribe((rectangleID : number) => {
-          console.log('Mouse up event occurred on rectangle ', rectangleID);
+      rectangleEventService.mouseUpEvent$.subscribe((rectangleID: number) => {
+        console.log('Mouse up event occurred on rectangle ', rectangleID);
+
+        this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)
       })
     );
+
+  }
+
+  onEndOfLinkDrawing(startRectangleID: number, endRectangleID: number) {
+
+    this.svgService.getSVGs(this.GONG__StackPath).subscribe(
+      (svgArray: gongsvg.SVGDB[]) => {
+        // update the svg
+        if (svgArray.length == 1) {
+          this.svg = svgArray[0]
+        } else {
+          return
+        }
+
+        if (this.svg.Layers == undefined) {
+          return
+        }
+
+        if (this.svg.DrawingState != gongsvg.DrawingState.NOT_DRAWING_LINE) {
+          console.log("problem with svg, length ", this.svg.DrawingState, " is not ", gongsvg.DrawingState.NOT_DRAWING_LINE)
+        }
+
+        this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINE
+
+        this.svg.StartRectID.Valid = true
+        this.svg.StartRectID.Int64 = startRectangleID
+
+        this.svg.EndRectID.Valid = true
+        this.svg.EndRectID.Int64 = endRectangleID
+
+        this.svgService.updateSVG(this.svg, this.GONG__StackPath).subscribe(
+          () => {
+            // back to normal state
+            this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINE
+          }
+        )
+      }
+    )
+
+
 
   }
 

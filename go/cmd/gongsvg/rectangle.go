@@ -96,10 +96,10 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 156.000000
-	__Rect__000000_Bottom.Y = 222.000000
-	__Rect__000000_Bottom.Width = 234.000000
-	__Rect__000000_Bottom.Height = 300.000000
+	__Rect__000000_Bottom.X = 224.000000
+	__Rect__000000_Bottom.Y = 155.000000
+	__Rect__000000_Bottom.Width = 364.000000
+	__Rect__000000_Bottom.Height = 100.000000
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`
 	__Rect__000000_Bottom.FillOpacity = 50.000000
@@ -116,10 +116,10 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 124.000000
-	__Rect__000001_Top.Y = 83.000000
-	__Rect__000001_Top.Width = 528.000000
-	__Rect__000001_Top.Height = 100.000000
+	__Rect__000001_Top.X = 156.000000
+	__Rect__000001_Top.Y = 326.000000
+	__Rect__000001_Top.Width = 234.000000
+	__Rect__000001_Top.Height = 300.000000
 	__Rect__000001_Top.RX = 3.000000
 	__Rect__000001_Top.Color = `lightcyan`
 	__Rect__000001_Top.FillOpacity = 100.000000
@@ -128,14 +128,15 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.StrokeDashArray = ``
 	__Rect__000001_Top.Transform = ``
 	__Rect__000001_Top.IsSelectable = true
-	__Rect__000001_Top.IsSelected = true
+	__Rect__000001_Top.IsSelected = false
 	__Rect__000001_Top.CanHaveHorizontalHandles = true
-	__Rect__000001_Top.HasHorizontalHandles = false
+	__Rect__000001_Top.HasHorizontalHandles = true
 	__Rect__000001_Top.CanMoveHorizontaly = true
 	__Rect__000001_Top.CanMoveVerticaly = false
 
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
+	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINE
 
 	// Text values setup
 	__Text__000000_Essai.Name = `Essai`
@@ -156,6 +157,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Top_Rectangle_layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Circle_Layer)
+	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
+	__SVG__000000_SVG.EndRect = __Rect__000000_Bottom
 }
 
 

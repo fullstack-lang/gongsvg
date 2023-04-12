@@ -53,7 +53,7 @@ export class LayerComponent implements OnInit {
       commiNbFromBagetCommitNbFromBack => {
         if (this.lastCommiNbFromBagetCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
 
-          console.log("last commit nb " + this.lastCommiNbFromBagetCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
+          // console.log("last commit nb " + this.lastCommiNbFromBagetCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
           this.refresh()
           this.lastCommiNbFromBagetCommitNbFromBack = commiNbFromBagetCommitNbFromBack
         }
@@ -95,7 +95,7 @@ export class LayerComponent implements OnInit {
         this.layerArray = this.svg.Layers
 
         this.layer_ = this.gongsvgFrontRepo.Layers_array[0]
-        console.log("svgSingloton " + this.layer_?.Name)
+        // console.log("svgSingloton " + this.layer_?.Name)
 
       }
 

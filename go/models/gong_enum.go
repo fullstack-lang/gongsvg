@@ -1218,4 +1218,60 @@ func (colortype *ColorType) ToCodeString() (res string) {
 	return
 }
 
+// Utility function for DrawingState
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (drawingstate DrawingState) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch drawingstate {
+	// insertion code per enum code
+	case NOT_DRAWING_LINE:
+		res = "NOT_DRAWING_LINE"
+	case DRAWING_LINE:
+		res = "DRAWING_LINE"
+	}
+	return
+}
+
+func (drawingstate *DrawingState) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "NOT_DRAWING_LINE":
+		*drawingstate = NOT_DRAWING_LINE
+	case "DRAWING_LINE":
+		*drawingstate = DRAWING_LINE
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (drawingstate *DrawingState) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "NOT_DRAWING_LINE":
+		*drawingstate = NOT_DRAWING_LINE
+	case "DRAWING_LINE":
+		*drawingstate = DRAWING_LINE
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (drawingstate *DrawingState) ToCodeString() (res string) {
+
+	switch *drawingstate {
+	// insertion code per enum code
+	case NOT_DRAWING_LINE:
+		res = "NOT_DRAWING_LINE"
+	case DRAWING_LINE:
+		res = "DRAWING_LINE"
+	}
+	return
+}
+
 // Last line of the template

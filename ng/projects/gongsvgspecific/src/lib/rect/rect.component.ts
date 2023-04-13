@@ -72,11 +72,12 @@ export class RectComponent implements OnInit {
     }
   }
 
-  endDrag(): void {
-    this.anchorDragging = false;
-    this.activeAnchor = null;
-    this.rectService.updateRect(this.Rect!, this.GONG__StackPath).subscribe()
-
+  endDrag(event: MouseEvent): void {
+    if (!event.shiftKey) {
+      this.anchorDragging = false;
+      this.activeAnchor = null;
+      this.rectService.updateRect(this.Rect!, this.GONG__StackPath).subscribe()
+    }
   }
 
 

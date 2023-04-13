@@ -5,7 +5,7 @@
             [attr.fill-opacity]="Rect?.FillOpacity" [attr.stroke]="Rect?.Stroke" [attr.stroke-width]="Rect?.StrokeWidth"
             [attr.stroke-dasharray]="Rect?.StrokeDashArray" [attr.transform]="Rect?.Transform"
             
-            (mousedown)="startRectDrag($event)" (mousemove)="dragRect($event)" (mouseup)="endRectDrag($event)" (mouseleave)="endDrag()"
+            (mousedown)="startRectDrag($event)" (mousemove)="dragRect($event)" (mouseup)="endRectDrag($event)" (mouseleave)="endDrag($event)"
             >
 
             <animate *ngFor="let animate of Rect?.Animations" 
@@ -24,7 +24,7 @@
          [attr.r]="anchorRadius" 
          [attr.fill]="(anchorDragging && activeAnchor === 'left') ? draggingAnchorFillColor : anchorFillColor"
 
-         (mousedown)="startDrag($event, 'left')" (mousemove)="drag($event, 'left')" (mouseup)="endDrag()" (mouseleave)="endDrag()"
+         (mousedown)="startDrag($event, 'left')" (mousemove)="drag($event, 'left')" (mouseup)="endDrag($event)" (mouseleave)="endDrag($event)"
          />
 
         <!-- Right anchor -->
@@ -34,7 +34,7 @@
          [attr.r]="anchorRadius"
          [attr.fill]="(anchorDragging && activeAnchor === 'right') ? draggingAnchorFillColor : anchorFillColor"
 
-         (mousedown)="startDrag($event, 'right')" (mousemove)="drag($event, 'right')" (mouseup)="endDrag()" (mouseleave)="endDrag()"
+         (mousedown)="startDrag($event, 'right')" (mousemove)="drag($event, 'right')" (mouseup)="endDrag($event)" (mouseleave)="endDrag($event)"
          />
 
         <!-- Right anchor -->

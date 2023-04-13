@@ -96,6 +96,20 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="MouseClickX">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> MouseClickX </th>
+            <td mat-cell *matCellDef="let Line">
+                {{Line.MouseClickX.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="MouseClickY">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> MouseClickY </th>
+            <td mat-cell *matCellDef="let Line">
+                {{Line.MouseClickY.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Layer_Lines">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Layer) Lines </th>
             <td mat-cell *matCellDef="let line">

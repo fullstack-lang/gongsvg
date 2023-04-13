@@ -96,6 +96,12 @@ type LineDB struct {
 
 	// Declation for basic field lineDB.Transform
 	Transform_Data sql.NullString
+
+	// Declation for basic field lineDB.MouseClickX
+	MouseClickX_Data sql.NullFloat64
+
+	// Declation for basic field lineDB.MouseClickY
+	MouseClickY_Data sql.NullFloat64
 	// encoding of pointers
 	LinePointersEnconding
 }
@@ -138,6 +144,10 @@ type LineWOP struct {
 	StrokeDashArray string `xlsx:"10"`
 
 	Transform string `xlsx:"11"`
+
+	MouseClickX float64 `xlsx:"12"`
+
+	MouseClickY float64 `xlsx:"13"`
 	// insertion for WOP pointer fields
 }
 
@@ -155,6 +165,8 @@ var Line_Fields = []string{
 	"StrokeWidth",
 	"StrokeDashArray",
 	"Transform",
+	"MouseClickX",
+	"MouseClickY",
 }
 
 type BackRepoLineStruct struct {
@@ -493,6 +505,12 @@ func (lineDB *LineDB) CopyBasicFieldsFromLine(line *models.Line) {
 
 	lineDB.Transform_Data.String = line.Transform
 	lineDB.Transform_Data.Valid = true
+
+	lineDB.MouseClickX_Data.Float64 = line.MouseClickX
+	lineDB.MouseClickX_Data.Valid = true
+
+	lineDB.MouseClickY_Data.Float64 = line.MouseClickY
+	lineDB.MouseClickY_Data.Valid = true
 }
 
 // CopyBasicFieldsFromLineWOP
@@ -531,6 +549,12 @@ func (lineDB *LineDB) CopyBasicFieldsFromLineWOP(line *LineWOP) {
 
 	lineDB.Transform_Data.String = line.Transform
 	lineDB.Transform_Data.Valid = true
+
+	lineDB.MouseClickX_Data.Float64 = line.MouseClickX
+	lineDB.MouseClickX_Data.Valid = true
+
+	lineDB.MouseClickY_Data.Float64 = line.MouseClickY
+	lineDB.MouseClickY_Data.Valid = true
 }
 
 // CopyBasicFieldsToLine
@@ -547,6 +571,8 @@ func (lineDB *LineDB) CopyBasicFieldsToLine(line *models.Line) {
 	line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
 	line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
 	line.Transform = lineDB.Transform_Data.String
+	line.MouseClickX = lineDB.MouseClickX_Data.Float64
+	line.MouseClickY = lineDB.MouseClickY_Data.Float64
 }
 
 // CopyBasicFieldsToLineWOP
@@ -564,6 +590,8 @@ func (lineDB *LineDB) CopyBasicFieldsToLineWOP(line *LineWOP) {
 	line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
 	line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
 	line.Transform = lineDB.Transform_Data.String
+	line.MouseClickX = lineDB.MouseClickX_Data.Float64
+	line.MouseClickY = lineDB.MouseClickY_Data.Float64
 }
 
 // Backup generates a json file from a slice of all LineDB instances in the backrepo

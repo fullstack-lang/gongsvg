@@ -105,6 +105,12 @@ export class LinesTableComponent implements OnInit {
         case 'Transform':
           return lineDB.Transform;
 
+        case 'MouseClickX':
+          return lineDB.MouseClickX;
+
+        case 'MouseClickY':
+          return lineDB.MouseClickY;
+
         case 'Layer_Lines':
           if (this.frontRepo.Layers.get(lineDB.Layer_LinesDBID.Int64) != undefined) {
             return this.frontRepo.Layers.get(lineDB.Layer_LinesDBID.Int64)!.Name
@@ -137,6 +143,8 @@ export class LinesTableComponent implements OnInit {
       mergedContent += lineDB.StrokeWidth.toString()
       mergedContent += lineDB.StrokeDashArray.toLowerCase()
       mergedContent += lineDB.Transform.toLowerCase()
+      mergedContent += lineDB.MouseClickX.toString()
+      mergedContent += lineDB.MouseClickY.toString()
       if (lineDB.Layer_LinesDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Layers.get(lineDB.Layer_LinesDBID.Int64)!.Name.toLowerCase()
       }
@@ -206,6 +214,8 @@ export class LinesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
+        "MouseClickX",
+        "MouseClickY",
         "Layer_Lines",
       ]
     } else {
@@ -221,6 +231,8 @@ export class LinesTableComponent implements OnInit {
         "StrokeWidth",
         "StrokeDashArray",
         "Transform",
+        "MouseClickX",
+        "MouseClickY",
         "Layer_Lines",
       ]
       this.selection = new SelectionModel<LineDB>(allowMultiSelect, this.initialSelection);

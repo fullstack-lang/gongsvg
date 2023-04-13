@@ -1571,7 +1571,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Layer:
 		res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths"}
 	case Line:
-		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
 	case Polygone:
@@ -1767,6 +1767,10 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 				}
 				res += __instance__.Name
 			}
+		case "MouseClickX":
+			res = fmt.Sprintf("%f", any(instance).(Line).MouseClickX)
+		case "MouseClickY":
+			res = fmt.Sprintf("%f", any(instance).(Line).MouseClickY)
 		}
 	case Path:
 		switch fieldName {

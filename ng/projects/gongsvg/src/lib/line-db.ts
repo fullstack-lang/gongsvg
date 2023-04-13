@@ -22,6 +22,8 @@ export class LineDB {
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	Transform: string = ""
+	MouseClickX: number = 0
+	MouseClickY: number = 0
 
 	// insertion point for other declarations
 	Animates?: Array<AnimateDB>

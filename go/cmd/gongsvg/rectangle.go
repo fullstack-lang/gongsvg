@@ -112,13 +112,15 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeWidth = 1.000000
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeDashArray = ``
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.Transform = ``
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickX = 204.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickY = 727.000000
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 224.000000
-	__Rect__000000_Bottom.Y = 647.000000
-	__Rect__000000_Bottom.Width = 650.000000
-	__Rect__000000_Bottom.Height = 100.000000
+	__Rect__000000_Bottom.X = 492.000000
+	__Rect__000000_Bottom.Y = 128.000000
+	__Rect__000000_Bottom.Width = 234.000000
+	__Rect__000000_Bottom.Height = 300.000000
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`
 	__Rect__000000_Bottom.FillOpacity = 50.000000
@@ -127,15 +129,15 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Bottom.StrokeDashArray = ``
 	__Rect__000000_Bottom.Transform = ``
 	__Rect__000000_Bottom.IsSelectable = true
-	__Rect__000000_Bottom.IsSelected = false
+	__Rect__000000_Bottom.IsSelected = true
 	__Rect__000000_Bottom.CanHaveHorizontalHandles = true
-	__Rect__000000_Bottom.HasHorizontalHandles = false
+	__Rect__000000_Bottom.HasHorizontalHandles = true
 	__Rect__000000_Bottom.CanMoveHorizontaly = false
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 41.000000
+	__Rect__000001_Top.X = 435.000000
 	__Rect__000001_Top.Y = 326.000000
 	__Rect__000001_Top.Width = 234.000000
 	__Rect__000001_Top.Height = 300.000000
@@ -147,9 +149,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.StrokeDashArray = ``
 	__Rect__000001_Top.Transform = ``
 	__Rect__000001_Top.IsSelectable = true
-	__Rect__000001_Top.IsSelected = true
+	__Rect__000001_Top.IsSelected = false
 	__Rect__000001_Top.CanHaveHorizontalHandles = true
-	__Rect__000001_Top.HasHorizontalHandles = true
+	__Rect__000001_Top.HasHorizontalHandles = false
 	__Rect__000001_Top.CanMoveHorizontaly = true
 	__Rect__000001_Top.CanMoveVerticaly = false
 

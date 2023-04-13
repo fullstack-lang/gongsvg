@@ -150,6 +150,18 @@
             </button>
         </mat-grid-tile>
     </mat-grid-list>
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>MouseClickX</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="line.MouseClickX" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>MouseClickY</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="line.MouseClickY" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(Layer) Lines</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="line.Layer_Lines_reverse" [ngModelOptions]="{standalone: true}">

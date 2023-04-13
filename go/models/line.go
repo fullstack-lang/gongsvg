@@ -7,3 +7,6 @@ type Line struct {
 
 	Animates []*Animate
 }
+
+func (line *Line) OnAfterUpdate(stage *StageStruct, _, frontLine *Line) {
+}

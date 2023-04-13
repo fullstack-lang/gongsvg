@@ -16,4 +16,10 @@ export class LineComponent implements OnInit {
 
   }
 
+  onClick(event: MouseEvent) {
+    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+    console.log("Line on click", this.Line!.Name)
+  }
+
 }

@@ -141,6 +141,7 @@ func main() {
 	gongsvg_models.DoNotKnowWhatThisFunctionIsFor(stage)
 
 	stage.OnAfterRectUpdateCallback = new(gongsvg_models.RectOrchestrator)
+	stage.OnAfterLineUpdateCallback = new(gongsvg_models.LineOrchestrator)
 	stage.OnAfterSVGUpdateCallback = new(gongsvg_models.SVGOrchestrator)
 
 	log.Printf("Server ready serve on localhost:8080")

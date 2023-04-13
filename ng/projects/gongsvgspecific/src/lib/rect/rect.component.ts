@@ -45,10 +45,6 @@ export class RectComponent implements OnInit {
   offsetX = 0;
   offsetY = 0;
 
-  // if true, the end user is shiftKey + mouse down from one rectangle
-  // to another
-  linkDrawing: boolean = false
-
   startAnchorDrag(event: MouseEvent, anchor: 'left' | 'right'): void {
     event.preventDefault();
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
@@ -108,6 +104,10 @@ export class RectComponent implements OnInit {
 
   dragRect(event: MouseEvent): void {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+    if (event.shiftKey) {
+      this.rectangleEventService.emitMouseDragEvent([event.clientX, event.clientY])
+    }
 
     if (!this.rectDragging) {
       return;

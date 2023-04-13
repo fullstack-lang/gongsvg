@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
-import { RectangleEventService } from '../rectangle-event.service';
+import { Coordinate, RectangleEventService } from '../rectangle-event.service';
 
 import * as gongsvg from 'gongsvg'
 
@@ -40,7 +40,18 @@ export class LayerComponent implements OnInit, OnDestroy {
   svg = new gongsvg.SVGDB
   linkStartRectangleID: number = 0
 
+  //
+  // for link drawing
+  //
   private subscriptions: Subscription[] = [];
+  // if true, the end user is shiftKey + mouse down from one rectangle
+  // to another
+  linkDrawing: boolean = false
+  startX = 0;
+  startY = 0;
+  endX = 0;
+  endY = 0;
+
 
   constructor(
     private gongsvgFrontRepoService: gongsvg.FrontRepoService,
@@ -54,57 +65,77 @@ export class LayerComponent implements OnInit, OnDestroy {
       rectangleEventService.mouseDownEvent$.subscribe((rectangleID: number) => {
         console.log('Mouse down event occurred on rectangle ', rectangleID);
         this.linkStartRectangleID = rectangleID
+
+        let rect = this.gongsvgFrontRepo?.Rects.get(rectangleID)
+
+        if (rect == undefined) {
+          return
+        }
+
+        this.linkDrawing = true
+        this.startX = rect.X + rect.Width / 2;
+        this.startY = rect.Y + rect.Height / 2;
       })
     );
 
     this.subscriptions.push(
       rectangleEventService.mouseUpEvent$.subscribe((rectangleID: number) => {
         console.log('Mouse up event occurred on rectangle ', rectangleID);
+        this.linkDrawing = false
 
         this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)
       })
-    );
+    )
 
+    this.subscriptions.push(
+      rectangleEventService.mouseDragEvent$.subscribe((coordinate: Coordinate) => {
+
+        this.endX = coordinate[0]
+        this.endY = coordinate[1]
+      })
+    )
+
+    // Add a global mouse up event listener
+    document.addEventListener('mouseup', this.handleGlobalMouseUp)
+  }
+
+  handleGlobalMouseUp = (event: MouseEvent) => {
+    console.log("Layer Component, global mouse up")
+    this.linkDrawing = false
   }
 
   onEndOfLinkDrawing(startRectangleID: number, endRectangleID: number) {
 
-    this.svgService.getSVGs(this.GONG__StackPath).subscribe(
-      (svgArray: gongsvg.SVGDB[]) => {
-        // update the svg
-        if (svgArray.length == 1) {
-          this.svg = svgArray[0]
-        } else {
-          return
-        }
+    let svgArray = this.gongsvgFrontRepo?.SVGs_array
+    // update the svg
+    if (svgArray?.length == 1) {
+      this.svg = svgArray[0]
+    } else {
+      return
+    }
 
-        if (this.svg.Layers == undefined) {
-          return
-        }
+    if (this.svg.Layers == undefined) {
+      return
+    }
 
-        if (this.svg.DrawingState != gongsvg.DrawingState.NOT_DRAWING_LINE) {
-          console.log("problem with svg, length ", this.svg.DrawingState, " is not ", gongsvg.DrawingState.NOT_DRAWING_LINE)
-        }
+    if (this.svg.DrawingState != gongsvg.DrawingState.NOT_DRAWING_LINE) {
+      console.log("problem with svg, length ", this.svg.DrawingState, " is not ", gongsvg.DrawingState.NOT_DRAWING_LINE)
+    }
 
-        this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINE
+    this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINE
 
-        this.svg.StartRectID.Valid = true
-        this.svg.StartRectID.Int64 = startRectangleID
+    this.svg.StartRectID.Valid = true
+    this.svg.StartRectID.Int64 = startRectangleID
 
-        this.svg.EndRectID.Valid = true
-        this.svg.EndRectID.Int64 = endRectangleID
+    this.svg.EndRectID.Valid = true
+    this.svg.EndRectID.Int64 = endRectangleID
 
-        this.svgService.updateSVG(this.svg, this.GONG__StackPath).subscribe(
-          () => {
-            // back to normal state
-            this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINE
-          }
-        )
+    this.svgService.updateSVG(this.svg, this.GONG__StackPath).subscribe(
+      () => {
+        // back to normal state
+        this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINE
       }
     )
-
-
-
   }
 
   ngOnInit(): void {

@@ -1,4 +1,12 @@
-<div [class.drawing-mode]="svg.DrawingState === 'DRAWING_LINE'" *ngFor="let layer of layerArray" class="parent">
+<div *ngFor="let layer of layerArray" class="parent">
+
+    <svg *ngIf="linkDrawing" class="child">
+        <g>
+            <line [attr.x1]="startX" [attr.y1]="startY" [attr.x2]="endX" [attr.y2]="endY" stroke="black" stroke-dasharray="5,5" [attr.stroke-width]="2">
+            </line>
+        </g>
+    </svg>
+
     <div *ngFor="let elt of layer?.Rects" class="parent">
         <lib-rect [GONG__StackPath]="GONG__StackPath" [Rect]="elt">
         </lib-rect>

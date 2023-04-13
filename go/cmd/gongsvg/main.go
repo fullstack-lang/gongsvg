@@ -138,10 +138,10 @@ func main() {
 		&stage.Map_GongStructName_InstancesNb)
 
 	// connects the rects to their behaviors
-	gongsvg_models.Connect(stage)
-	orchestrator := new(gongsvg_models.RectOrchestrator)
+	gongsvg_models.DoNotKnowWhatThisFunctionIsFor(stage)
 
-	stage.OnAfterRectUpdateCallback = orchestrator
+	stage.OnAfterRectUpdateCallback = new(gongsvg_models.RectOrchestrator)
+	stage.OnAfterSVGUpdateCallback = new(gongsvg_models.SVGOrchestrator)
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()

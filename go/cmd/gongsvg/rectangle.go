@@ -46,11 +46,17 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Ellipse
 
 	// Declarations of staged instances of Layer
-	__Layer__000000_Bottom_Rectangle_Layer := (&models.Layer{Name: `Bottom Rectangle Layer`}).Stage(stage)
-	__Layer__000001_Circle_Layer := (&models.Layer{Name: `Circle Layer`}).Stage(stage)
-	__Layer__000002_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
+	__Layer__000000_ := (&models.Layer{Name: ``}).Stage(stage)
+	__Layer__000001_Bottom_Rectangle_Layer := (&models.Layer{Name: `Bottom Rectangle Layer`}).Stage(stage)
+	__Layer__000002_Circle_Layer := (&models.Layer{Name: `Circle Layer`}).Stage(stage)
+	__Layer__000003_Line_layer := (&models.Layer{Name: `Line layer`}).Stage(stage)
+	__Layer__000004_Line_layer := (&models.Layer{Name: `Line layer`}).Stage(stage)
+	__Layer__000005_Line_layer := (&models.Layer{Name: `Line layer`}).Stage(stage)
+	__Layer__000006_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
 
 	// Declarations of staged instances of Line
+	__Line__000000_Line_connecting_rect_Bottom_to_Top := (&models.Line{Name: `Line connecting rect Bottom to Top`}).Stage(stage)
+	__Line__000001_Line_connecting_rect_Bottom_to_Top := (&models.Line{Name: `Line connecting rect Bottom to Top`}).Stage(stage)
 
 	// Declarations of staged instances of Path
 
@@ -83,22 +89,64 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Circle__000000_Test.Transform = ``
 
 	// Layer values setup
-	__Layer__000000_Bottom_Rectangle_Layer.Display = false
-	__Layer__000000_Bottom_Rectangle_Layer.Name = `Bottom Rectangle Layer`
+	__Layer__000000_.Display = false
+	__Layer__000000_.Name = ``
 
 	// Layer values setup
-	__Layer__000001_Circle_Layer.Display = false
-	__Layer__000001_Circle_Layer.Name = `Circle Layer`
+	__Layer__000001_Bottom_Rectangle_Layer.Display = false
+	__Layer__000001_Bottom_Rectangle_Layer.Name = `Bottom Rectangle Layer`
 
 	// Layer values setup
-	__Layer__000002_Top_Rectangle_layer.Display = false
-	__Layer__000002_Top_Rectangle_layer.Name = `Top Rectangle layer`
+	__Layer__000002_Circle_Layer.Display = false
+	__Layer__000002_Circle_Layer.Name = `Circle Layer`
+
+	// Layer values setup
+	__Layer__000003_Line_layer.Display = false
+	__Layer__000003_Line_layer.Name = `Line layer`
+
+	// Layer values setup
+	__Layer__000004_Line_layer.Display = false
+	__Layer__000004_Line_layer.Name = `Line layer`
+
+	// Layer values setup
+	__Layer__000005_Line_layer.Display = false
+	__Layer__000005_Line_layer.Name = `Line layer`
+
+	// Layer values setup
+	__Layer__000006_Top_Rectangle_layer.Display = false
+	__Layer__000006_Top_Rectangle_layer.Name = `Top Rectangle layer`
+
+	// Line values setup
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Name = `Line connecting rect Bottom to Top`
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.X1 = 224.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Y1 = 282.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.X2 = 329.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Y2 = 326.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Color = `olivedrab`
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.FillOpacity = 0.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Stroke = `olivedrab`
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeWidth = 1.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeDashArray = ``
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Transform = ``
+
+	// Line values setup
+	__Line__000001_Line_connecting_rect_Bottom_to_Top.Name = `Line connecting rect Bottom to Top`
+	__Line__000001_Line_connecting_rect_Bottom_to_Top.X1 = 224.000000
+	__Line__000001_Line_connecting_rect_Bottom_to_Top.Y1 = 697.000000
+	__Line__000001_Line_connecting_rect_Bottom_to_Top.X2 = 158.000000
+	__Line__000001_Line_connecting_rect_Bottom_to_Top.Y2 = 626.000000
+	__Line__000001_Line_connecting_rect_Bottom_to_Top.Color = `olivedrab`
+	__Line__000001_Line_connecting_rect_Bottom_to_Top.FillOpacity = 0.000000
+	__Line__000001_Line_connecting_rect_Bottom_to_Top.Stroke = `olivedrab`
+	__Line__000001_Line_connecting_rect_Bottom_to_Top.StrokeWidth = 1.000000
+	__Line__000001_Line_connecting_rect_Bottom_to_Top.StrokeDashArray = ``
+	__Line__000001_Line_connecting_rect_Bottom_to_Top.Transform = ``
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
 	__Rect__000000_Bottom.X = 224.000000
-	__Rect__000000_Bottom.Y = 155.000000
-	__Rect__000000_Bottom.Width = 364.000000
+	__Rect__000000_Bottom.Y = 647.000000
+	__Rect__000000_Bottom.Width = 650.000000
 	__Rect__000000_Bottom.Height = 100.000000
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`
@@ -116,7 +164,7 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 156.000000
+	__Rect__000001_Top.X = 41.000000
 	__Rect__000001_Top.Y = 326.000000
 	__Rect__000001_Top.Width = 234.000000
 	__Rect__000001_Top.Height = 300.000000
@@ -128,7 +176,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.StrokeDashArray = ``
 	__Rect__000001_Top.Transform = ``
 	__Rect__000001_Top.IsSelectable = true
-	__Rect__000001_Top.IsSelected = false
+	__Rect__000001_Top.IsSelected = true
 	__Rect__000001_Top.CanHaveHorizontalHandles = true
 	__Rect__000001_Top.HasHorizontalHandles = true
 	__Rect__000001_Top.CanMoveHorizontaly = true
@@ -151,14 +199,20 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Text__000000_Essai.Transform = ``
 
 	// Setup of pointers
-	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom)
-	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000001_Top)
-	__Layer__000001_Circle_Layer.Circles = append(__Layer__000001_Circle_Layer.Circles, __Circle__000000_Test)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Top_Rectangle_layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Circle_Layer)
+	__Layer__000001_Bottom_Rectangle_Layer.Rects = append(__Layer__000001_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom)
+	__Layer__000001_Bottom_Rectangle_Layer.Rects = append(__Layer__000001_Bottom_Rectangle_Layer.Rects, __Rect__000001_Top)
+	__Layer__000002_Circle_Layer.Circles = append(__Layer__000002_Circle_Layer.Circles, __Circle__000000_Test)
+	__Layer__000003_Line_layer.Lines = append(__Layer__000003_Line_layer.Lines, __Line__000001_Line_connecting_rect_Bottom_to_Top)
+	__Layer__000005_Line_layer.Lines = append(__Layer__000005_Line_layer.Lines, __Line__000000_Line_connecting_rect_Bottom_to_Top)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Bottom_Rectangle_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Top_Rectangle_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Circle_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Line_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Line_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Line_layer)
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
-	__SVG__000000_SVG.EndRect = __Rect__000000_Bottom
+	__SVG__000000_SVG.EndRect = __Rect__000001_Top
 }
 
 

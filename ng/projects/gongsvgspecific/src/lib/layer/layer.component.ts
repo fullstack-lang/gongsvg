@@ -134,6 +134,7 @@ export class LayerComponent implements OnInit, OnDestroy {
       () => {
         // back to normal state
         this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINE
+        this.svgService.updateSVG(this.svg, this.GONG__StackPath).subscribe()
       }
     )
   }

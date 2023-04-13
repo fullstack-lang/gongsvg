@@ -1,4 +1,4 @@
-<div [class.drawing-mode]="svg.DrawingState === 'DRAWING_LINE'" *ngFor="let layer of layerArray" class="parent">
+<div *ngFor="let layer of layerArray" class="parent">
 
     <svg *ngIf="linkDrawing" class="child">
         <g>

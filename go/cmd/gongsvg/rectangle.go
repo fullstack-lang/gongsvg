@@ -98,7 +98,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Bottom.Name = `Bottom`
 	__Rect__000000_Bottom.X = 224.000000
 	__Rect__000000_Bottom.Y = 243.000000
-	__Rect__000000_Bottom.Width = 364.000000
+	__Rect__000000_Bottom.Width = 650.000000
 	__Rect__000000_Bottom.Height = 100.000000
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`

@@ -33,7 +33,7 @@ func (svg *SVG) OnAfterUpdate(stage *StageStruct, _, frontSVG *SVG) {
 		line.Name = "Line connecting rect " + svg.StartRect.Name + " to " + svg.EndRect.Name
 		line.Color = "olivedrab"
 		line.Stroke = "olivedrab"
-		line.StrokeWidth = 1.0
+		line.StrokeWidth = 4
 		layer.Lines = append(layer.Lines, line)
 
 		stage.Commit()

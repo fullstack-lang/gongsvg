@@ -109,16 +109,16 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.Color = `olivedrab`
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.FillOpacity = 0.000000
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.Stroke = `olivedrab`
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeWidth = 1.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeWidth = 3.000000
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeDashArray = ``
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.Transform = ``
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickX = 204.000000
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickY = 727.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickX = 195.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickY = 718.000000
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
 	__Rect__000000_Bottom.X = 492.000000
-	__Rect__000000_Bottom.Y = 128.000000
+	__Rect__000000_Bottom.Y = 92.000000
 	__Rect__000000_Bottom.Width = 234.000000
 	__Rect__000000_Bottom.Height = 300.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -137,7 +137,7 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 435.000000
+	__Rect__000001_Top.X = 102.000000
 	__Rect__000001_Top.Y = 326.000000
 	__Rect__000001_Top.Width = 234.000000
 	__Rect__000001_Top.Height = 300.000000

@@ -59,6 +59,10 @@ import { LinesTableComponent } from './lines-table/lines-table.component'
 import { LineSortingComponent } from './line-sorting/line-sorting.component'
 import { LineDetailComponent } from './line-detail/line-detail.component'
 
+import { LinksTableComponent } from './links-table/links-table.component'
+import { LinkSortingComponent } from './link-sorting/link-sorting.component'
+import { LinkDetailComponent } from './link-detail/link-detail.component'
+
 import { PathsTableComponent } from './paths-table/paths-table.component'
 import { PathSortingComponent } from './path-sorting/path-sorting.component'
 import { PathDetailComponent } from './path-detail/path-detail.component'
@@ -106,6 +110,10 @@ import { TextDetailComponent } from './text-detail/text-detail.component'
 		LinesTableComponent,
 		LineSortingComponent,
 		LineDetailComponent,
+
+		LinksTableComponent,
+		LinkSortingComponent,
+		LinkDetailComponent,
 
 		PathsTableComponent,
 		PathSortingComponent,
@@ -189,6 +197,10 @@ import { TextDetailComponent } from './text-detail/text-detail.component'
 		LinesTableComponent,
 		LineSortingComponent,
 		LineDetailComponent,
+
+		LinksTableComponent,
+		LinkSortingComponent,
+		LinkDetailComponent,
 
 		PathsTableComponent,
 		PathSortingComponent,

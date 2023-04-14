@@ -9,6 +9,8 @@
   import { LayerSortingComponent } from './layer-sorting/layer-sorting.component'
   import { LinesTableComponent } from './lines-table/lines-table.component'
   import { LineSortingComponent } from './line-sorting/line-sorting.component'
+  import { LinksTableComponent } from './links-table/links-table.component'
+  import { LinkSortingComponent } from './link-sorting/link-sorting.component'
   import { PathsTableComponent } from './paths-table/paths-table.component'
   import { PathSortingComponent } from './path-sorting/path-sorting.component'
   import { PolygonesTableComponent } from './polygones-table/polygones-table.component'
@@ -33,6 +35,8 @@
   export const MapOfLayerSortingComponents: Map<string, any> = new Map([["LayerSortingComponent", LayerSortingComponent],])
   export const MapOfLinesComponents: Map<string, any> = new Map([["LinesTableComponent", LinesTableComponent],])
   export const MapOfLineSortingComponents: Map<string, any> = new Map([["LineSortingComponent", LineSortingComponent],])
+  export const MapOfLinksComponents: Map<string, any> = new Map([["LinksTableComponent", LinksTableComponent],])
+  export const MapOfLinkSortingComponents: Map<string, any> = new Map([["LinkSortingComponent", LinkSortingComponent],])
   export const MapOfPathsComponents: Map<string, any> = new Map([["PathsTableComponent", PathsTableComponent],])
   export const MapOfPathSortingComponents: Map<string, any> = new Map([["PathSortingComponent", PathSortingComponent],])
   export const MapOfPolygonesComponents: Map<string, any> = new Map([["PolygonesTableComponent", PolygonesTableComponent],])
@@ -56,6 +60,7 @@ export const MapOfComponents: Map<string, any> =
       ["Ellipse", MapOfEllipsesComponents],
       ["Layer", MapOfLayersComponents],
       ["Line", MapOfLinesComponents],
+      ["Link", MapOfLinksComponents],
       ["Path", MapOfPathsComponents],
       ["Polygone", MapOfPolygonesComponents],
       ["Polyline", MapOfPolylinesComponents],
@@ -75,6 +80,7 @@ export const MapOfSortingComponents: Map<string, any> =
       ["Ellipse", MapOfEllipseSortingComponents],
       ["Layer", MapOfLayerSortingComponents],
       ["Line", MapOfLineSortingComponents],
+      ["Link", MapOfLinkSortingComponents],
       ["Path", MapOfPathSortingComponents],
       ["Polygone", MapOfPolygoneSortingComponents],
       ["Polyline", MapOfPolylineSortingComponents],

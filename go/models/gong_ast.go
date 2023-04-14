@@ -308,6 +308,7 @@ var __gong__map_Circle = make(map[string]*Circle)
 var __gong__map_Ellipse = make(map[string]*Ellipse)
 var __gong__map_Layer = make(map[string]*Layer)
 var __gong__map_Line = make(map[string]*Line)
+var __gong__map_Link = make(map[string]*Link)
 var __gong__map_Path = make(map[string]*Path)
 var __gong__map_Polygone = make(map[string]*Polygone)
 var __gong__map_Polyline = make(map[string]*Polyline)
@@ -506,6 +507,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 										instanceLine := (&Line{Name: instanceName}).Stage(stage)
 										instance = any(instanceLine)
 										__gong__map_Line[identifier] = instanceLine
+									case "Link":
+										instanceLink := (&Link{Name: instanceName}).Stage(stage)
+										instance = any(instanceLink)
+										__gong__map_Link[identifier] = instanceLink
 									case "Path":
 										instancePath := (&Path{Name: instanceName}).Stage(stage)
 										instance = any(instancePath)
@@ -583,6 +588,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							// insertion point for date assign code
 							}
 						case "Line":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "Link":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -720,6 +729,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							target := __gong__map_Animate[targetIdentifier]
 							__gong__map_Line[identifier].Animates =
 								append(__gong__map_Line[identifier].Animates, target)
+						}
+					case "Link":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
 						}
 					case "Path":
 						switch fieldName {
@@ -1054,6 +1067,14 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					}
 					__gong__map_Line[identifier].MouseClickY = fielValue
 				}
+			case "Link":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Link[identifier].Name = fielValue
+				}
 			case "Path":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1358,6 +1379,16 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				switch fieldName {
 				// insertion point for field dependant code
 				}
+			case "Link":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Start":
+					targetIdentifier := ident.Name
+					__gong__map_Link[identifier].Start = __gong__map_Rect[targetIdentifier]
+				case "End":
+					targetIdentifier := ident.Name
+					__gong__map_Link[identifier].End = __gong__map_Rect[targetIdentifier]
+				}
 			case "Path":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1477,6 +1508,24 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				case "Line":
 					switch fieldName {
 					// insertion point for enum assign code
+					}
+				case "Link":
+					switch fieldName {
+					// insertion point for enum assign code
+					case "StartAnchorType":
+						var val AnchorType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Link[identifier].StartAnchorType = AnchorType(val)
+					case "EndAnchorType":
+						var val AnchorType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Link[identifier].EndAnchorType = AnchorType(val)
 					}
 				case "Path":
 					switch fieldName {

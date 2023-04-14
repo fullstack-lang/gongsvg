@@ -486,6 +486,54 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_Link_Identifiers := make(map[*Link]string)
+	_ = map_Link_Identifiers
+
+	linkOrdered := []*Link{}
+	for link := range stage.Links {
+		linkOrdered = append(linkOrdered, link)
+	}
+	sort.Slice(linkOrdered[:], func(i, j int) bool {
+		return linkOrdered[i].Name < linkOrdered[j].Name
+	})
+	identifiersDecl += "\n\n	// Declarations of staged instances of Link"
+	for idx, link := range linkOrdered {
+
+		id = generatesIdentifier("Link", idx, link.Name)
+		map_Link_Identifiers[link] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Link")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", link.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n\n	// Link values setup"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Name))
+		initializerStatements += setValueField
+
+		if link.StartAnchorType != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartAnchorType")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+link.StartAnchorType.ToCodeString())
+			initializerStatements += setValueField
+		}
+
+		if link.EndAnchorType != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndAnchorType")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+link.EndAnchorType.ToCodeString())
+			initializerStatements += setValueField
+		}
+
+	}
+
 	map_Path_Identifiers := make(map[*Path]string)
 	_ = map_Path_Identifiers
 
@@ -1102,6 +1150,32 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Animates")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Animate_Identifiers[_animate])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	for idx, link := range linkOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Link", idx, link.Name)
+		map_Link_Identifiers[link] = id
+
+		// Initialisation of values
+		if link.Start != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Start")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Rect_Identifiers[link.Start])
+			pointersInitializesStatements += setPointerField
+		}
+
+		if link.End != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "End")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Rect_Identifiers[link.End])
 			pointersInitializesStatements += setPointerField
 		}
 

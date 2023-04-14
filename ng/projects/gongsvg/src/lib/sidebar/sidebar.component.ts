@@ -21,6 +21,8 @@ import { LayerService } from '../layer.service'
 import { getLayerUniqueID } from '../front-repo.service'
 import { LineService } from '../line.service'
 import { getLineUniqueID } from '../front-repo.service'
+import { LinkService } from '../link.service'
+import { getLinkUniqueID } from '../front-repo.service'
 import { PathService } from '../path.service'
 import { getPathUniqueID } from '../front-repo.service'
 import { PolygoneService } from '../polygone.service'
@@ -183,6 +185,7 @@ export class SidebarComponent implements OnInit {
     private ellipseService: EllipseService,
     private layerService: LayerService,
     private lineService: LineService,
+    private linkService: LinkService,
     private pathService: PathService,
     private polygoneService: PolygoneService,
     private polylineService: PolylineService,
@@ -258,6 +261,14 @@ export class SidebarComponent implements OnInit {
     )
     // observable for changes in structs
     this.lineService.LineServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.linkService.LinkServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -904,6 +915,120 @@ export class SidebarComponent implements OnInit {
             }
             AnimatesGongNodeAssociation.children.push(animateNode)
           })
+
+        }
+      )
+
+      /**
+      * fill up the Link part of the mat tree
+      */
+      let linkGongNodeStruct: GongNode = {
+        name: "Link",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Link",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(linkGongNodeStruct)
+
+      this.frontRepo.Links_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Links_array.forEach(
+        linkDB => {
+          let linkGongNodeInstance: GongNode = {
+            name: linkDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: linkDB.ID,
+            uniqueIdPerStack: getLinkUniqueID(linkDB.ID),
+            structName: "Link",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          linkGongNodeStruct.children!.push(linkGongNodeInstance)
+
+          // insertion point for per field code
+          /**
+          * let append a node for the association Start
+          */
+          let StartGongNodeAssociation: GongNode = {
+            name: "(Rect) Start",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: linkDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "Link",
+            associationField: "Start",
+            associatedStructName: "Rect",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          linkGongNodeInstance.children!.push(StartGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Start
+            */
+          if (linkDB.Start != undefined) {
+            let linkGongNodeInstance_Start: GongNode = {
+              name: linkDB.Start.Name,
+              type: GongNodeType.INSTANCE,
+              id: linkDB.Start.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getLinkUniqueID(linkDB.ID)
+                + 5 * getRectUniqueID(linkDB.Start.ID),
+              structName: "Rect",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            StartGongNodeAssociation.children.push(linkGongNodeInstance_Start)
+          }
+
+          /**
+          * let append a node for the association End
+          */
+          let EndGongNodeAssociation: GongNode = {
+            name: "(Rect) End",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: linkDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "Link",
+            associationField: "End",
+            associatedStructName: "Rect",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          linkGongNodeInstance.children!.push(EndGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation End
+            */
+          if (linkDB.End != undefined) {
+            let linkGongNodeInstance_End: GongNode = {
+              name: linkDB.End.Name,
+              type: GongNodeType.INSTANCE,
+              id: linkDB.End.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getLinkUniqueID(linkDB.ID)
+                + 5 * getRectUniqueID(linkDB.End.ID),
+              structName: "Rect",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            EndGongNodeAssociation.children.push(linkGongNodeInstance_End)
+          }
 
         }
       )

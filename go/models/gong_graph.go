@@ -20,6 +20,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *Line:
 		ok = stage.IsStagedLine(target)
 
+	case *Link:
+		ok = stage.IsStagedLink(target)
+
 	case *Path:
 		ok = stage.IsStagedPath(target)
 
@@ -76,6 +79,13 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	func (stage *StageStruct) IsStagedLine(line *Line) (ok bool) {
 
 		_, ok = stage.Lines[line]
+	
+		return
+	}
+
+	func (stage *StageStruct) IsStagedLink(link *Link) (ok bool) {
+
+		_, ok = stage.Links[link]
 	
 		return
 	}
@@ -145,6 +155,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *Line:
 		stage.StageBranchLine(target)
+
+	case *Link:
+		stage.StageBranchLink(target)
 
 	case *Path:
 		stage.StageBranchPath(target)
@@ -275,6 +288,27 @@ func (stage *StageStruct) StageBranchLine(line *Line) {
 	for _, _animate := range line.Animates {
 		StageBranch(stage, _animate)
 	}
+
+}
+
+func (stage *StageStruct) StageBranchLink(link *Link) {
+
+	// check if instance is already staged
+	if IsStaged(stage, link) {
+		return
+	}
+
+	link.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if link.Start != nil {
+		StageBranch(stage, link.Start)
+	}
+	if link.End != nil {
+		StageBranch(stage, link.End)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -416,6 +450,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Line:
 		stage.UnstageBranchLine(target)
 
+	case *Link:
+		stage.UnstageBranchLink(target)
+
 	case *Path:
 		stage.UnstageBranchPath(target)
 
@@ -545,6 +582,27 @@ func (stage *StageStruct) UnstageBranchLine(line *Line) {
 	for _, _animate := range line.Animates {
 		UnstageBranch(stage, _animate)
 	}
+
+}
+
+func (stage *StageStruct) UnstageBranchLink(link *Link) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, link) {
+		return
+	}
+
+	link.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if link.Start != nil {
+		UnstageBranch(stage, link.Start)
+	}
+	if link.End != nil {
+		UnstageBranch(stage, link.End)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 

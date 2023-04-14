@@ -25,6 +25,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterLineCreateCallback != nil {
 			stage.OnAfterLineCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Link:
+		if stage.OnAfterLinkCreateCallback != nil {
+			stage.OnAfterLinkCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Path:
 		if stage.OnAfterPathCreateCallback != nil {
 			stage.OnAfterPathCreateCallback.OnAfterCreate(stage, target)
@@ -83,6 +87,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		newTarget := any(new).(*Line)
 		if stage.OnAfterLineUpdateCallback != nil {
 			stage.OnAfterLineUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Link:
+		newTarget := any(new).(*Link)
+		if stage.OnAfterLinkUpdateCallback != nil {
+			stage.OnAfterLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Path:
 		newTarget := any(new).(*Path)
@@ -149,6 +158,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 			staged := any(staged).(*Line)
 			stage.OnAfterLineDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Link:
+		if stage.OnAfterLinkDeleteCallback != nil {
+			staged := any(staged).(*Link)
+			stage.OnAfterLinkDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Path:
 		if stage.OnAfterPathDeleteCallback != nil {
 			staged := any(staged).(*Path)
@@ -209,6 +223,10 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterLineReadCallback != nil {
 			stage.OnAfterLineReadCallback.OnAfterRead(stage, target)
 		}
+	case *Link:
+		if stage.OnAfterLinkReadCallback != nil {
+			stage.OnAfterLinkReadCallback.OnAfterRead(stage, target)
+		}
 	case *Path:
 		if stage.OnAfterPathReadCallback != nil {
 			stage.OnAfterPathReadCallback.OnAfterRead(stage, target)
@@ -259,6 +277,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *Line:
 		stage.OnAfterLineUpdateCallback = any(callback).(OnAfterUpdateInterface[Line])
 	
+	case *Link:
+		stage.OnAfterLinkUpdateCallback = any(callback).(OnAfterUpdateInterface[Link])
+	
 	case *Path:
 		stage.OnAfterPathUpdateCallback = any(callback).(OnAfterUpdateInterface[Path])
 	
@@ -298,6 +319,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *Line:
 		stage.OnAfterLineCreateCallback = any(callback).(OnAfterCreateInterface[Line])
+	
+	case *Link:
+		stage.OnAfterLinkCreateCallback = any(callback).(OnAfterCreateInterface[Link])
 	
 	case *Path:
 		stage.OnAfterPathCreateCallback = any(callback).(OnAfterCreateInterface[Path])
@@ -339,6 +363,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *Line:
 		stage.OnAfterLineDeleteCallback = any(callback).(OnAfterDeleteInterface[Line])
 	
+	case *Link:
+		stage.OnAfterLinkDeleteCallback = any(callback).(OnAfterDeleteInterface[Link])
+	
 	case *Path:
 		stage.OnAfterPathDeleteCallback = any(callback).(OnAfterDeleteInterface[Path])
 	
@@ -378,6 +405,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	
 	case *Line:
 		stage.OnAfterLineReadCallback = any(callback).(OnAfterReadInterface[Line])
+	
+	case *Link:
+		stage.OnAfterLinkReadCallback = any(callback).(OnAfterReadInterface[Link])
 	
 	case *Path:
 		stage.OnAfterPathReadCallback = any(callback).(OnAfterReadInterface[Path])

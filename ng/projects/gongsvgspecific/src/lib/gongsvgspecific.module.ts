@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
 import { AngularSplitModule } from 'angular-split';
 
 import { GongsvgModule } from 'gongsvg';
+import { SvgComponent } from './svg/svg.component';
 
 
 
@@ -36,7 +37,8 @@ import { GongsvgModule } from 'gongsvg';
     PolylineComponent,
     PathComponent,
     PolygoneComponent,
-    DataModelPanelComponent
+    DataModelPanelComponent,
+    SvgComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,7 @@ import { GongsvgModule } from 'gongsvg';
   ],
   exports: [
     GongsvgspecificComponent,
-    LayerComponent,
+    SvgComponent,
     DataModelPanelComponent
   ]
 })

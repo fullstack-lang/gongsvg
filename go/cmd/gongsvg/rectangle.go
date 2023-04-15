@@ -105,7 +105,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
 	__Rect__000000_Bottom.X = 476.000000
-	__Rect__000000_Bottom.Y = 175.000000
+	__Rect__000000_Bottom.Y = 111.000000
 	__Rect__000000_Bottom.Width = 250.000000
 	__Rect__000000_Bottom.Height = 300.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -116,15 +116,15 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Bottom.StrokeDashArray = ``
 	__Rect__000000_Bottom.Transform = ``
 	__Rect__000000_Bottom.IsSelectable = true
-	__Rect__000000_Bottom.IsSelected = false
+	__Rect__000000_Bottom.IsSelected = true
 	__Rect__000000_Bottom.CanHaveHorizontalHandles = true
-	__Rect__000000_Bottom.HasHorizontalHandles = false
+	__Rect__000000_Bottom.HasHorizontalHandles = true
 	__Rect__000000_Bottom.CanMoveHorizontaly = false
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 256.000000
+	__Rect__000001_Top.X = 132.000000
 	__Rect__000001_Top.Y = 326.000000
 	__Rect__000001_Top.Width = 234.000000
 	__Rect__000001_Top.Height = 300.000000
@@ -136,9 +136,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.StrokeDashArray = ``
 	__Rect__000001_Top.Transform = ``
 	__Rect__000001_Top.IsSelectable = true
-	__Rect__000001_Top.IsSelected = false
+	__Rect__000001_Top.IsSelected = true
 	__Rect__000001_Top.CanHaveHorizontalHandles = true
-	__Rect__000001_Top.HasHorizontalHandles = false
+	__Rect__000001_Top.HasHorizontalHandles = true
 	__Rect__000001_Top.CanMoveHorizontaly = true
 	__Rect__000001_Top.CanMoveVerticaly = false
 

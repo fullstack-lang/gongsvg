@@ -12,11 +12,10 @@
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
     <as-split-area [size]="$any('*')">
-        <lib-layer *ngIf="!loading" [GONG__StackPath]="GONG__StackPath">
-        </lib-layer>
+        <lib-svg *ngIf="!loading" [GONG__StackPath]="GONG__StackPath">
+        </lib-svg>
     </as-split-area>
 </as-split>
-
 
 <as-split unit="pixel" *ngIf="view==default" direction="vertical">
     <as-split-area [size]=40>

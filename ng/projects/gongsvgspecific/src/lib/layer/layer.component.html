@@ -1,50 +1,43 @@
-<div *ngFor="let layer of layerArray" class="parent">
+<div class="parent">
 
-    <svg *ngIf="linkDrawing" class="child">
-        <g>
-            <line [attr.x1]="startX" [attr.y1]="startY" [attr.x2]="endX" [attr.y2]="endY" stroke="black" stroke-dasharray="5,5" [attr.stroke-width]="2">
-            </line>
-        </g>
-    </svg>
-
-    <div *ngFor="let elt of layer?.Rects" class="parent">
+    <div *ngFor="let elt of Layer.Rects" class="parent">
         <lib-rect [GONG__StackPath]="GONG__StackPath" [Rect]="elt">
         </lib-rect>
     </div>
 
-    <div *ngFor="let elt of layer?.Circles" class="parent">
+    <div *ngFor="let elt of Layer.Circles" class="parent">
         <lib-circle [Circle]="elt">
         </lib-circle>
     </div>
 
-    <div *ngFor="let ellipse of layer?.Ellipses" class="parent">
+    <div *ngFor="let ellipse of Layer.Ellipses" class="parent">
         <lib-ellipse [Ellipse]="ellipse">
         </lib-ellipse>
     </div>
 
 
-    <div *ngFor="let line of layer?.Lines" class="parent">
+    <div *ngFor="let line of Layer.Lines" class="parent">
         <lib-line [GONG__StackPath]="GONG__StackPath" [Line]="line">
         </lib-line>
     </div>
 
-    <div *ngFor="let path of layer?.Paths" class="parent">
+    <div *ngFor="let path of Layer.Paths" class="parent">
         <lib-path [Path]="path">
         </lib-path>
     </div>
 
-    <div *ngFor="let polygone of layer?.Polygones" class="parent">
+    <div *ngFor="let polygone of Layer.Polygones" class="parent">
         <lib-polygone [Polygone]="polygone">
         </lib-polygone>
     </div>
 
 
-    <div *ngFor="let polyline of layer?.Polylines" class="parent">
+    <div *ngFor="let polyline of Layer.Polylines" class="parent">
         <lib-polyline [Polyline]="polyline">
         </lib-polyline>
     </div>
 
-    <div *ngFor="let elt of layer?.Texts" class="parent">
+    <div *ngFor="let elt of Layer.Texts" class="parent">
         <lib-text [Text]="elt">
         </lib-text>
     </div>

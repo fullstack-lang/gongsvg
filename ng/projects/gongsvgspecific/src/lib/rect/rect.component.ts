@@ -98,7 +98,7 @@ export class RectComponent implements OnInit {
     } else {
       console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 
-      this.rectangleEventService.emitMouseDownEvent(this.Rect!.ID);
+      this.rectangleEventService.emitRectShiftKeyMouseDownEvent(this.Rect!.ID);
     }
   }
 
@@ -106,7 +106,7 @@ export class RectComponent implements OnInit {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
     if (event.shiftKey) {
-      this.rectangleEventService.emitMouseDragEvent([event.clientX, event.clientY])
+      this.rectangleEventService.emitRectShiftKeyMouseDragEvent([event.clientX, event.clientY])
     }
 
     if (!this.rectDragging) {
@@ -128,7 +128,7 @@ export class RectComponent implements OnInit {
     } else {
       console.log("endRectDrag + shiftKey rect : ", this.Rect?.Name)
 
-      this.rectangleEventService.emitMouseUpEvent(this.Rect!.ID);
+      this.rectangleEventService.emitMouseRectShiftKeyMouseUpEvent(this.Rect!.ID);
     }
   }
 }

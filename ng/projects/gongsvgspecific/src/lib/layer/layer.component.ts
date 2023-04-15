@@ -62,7 +62,7 @@ export class LayerComponent implements OnInit, OnDestroy {
   ) {
 
     this.subscriptions.push(
-      rectangleEventService.mouseDownEvent$.subscribe((rectangleID: number) => {
+      rectangleEventService.mouseRectShiftKeyDownEvent$.subscribe((rectangleID: number) => {
         console.log('Mouse down event occurred on rectangle ', rectangleID);
         this.linkStartRectangleID = rectangleID
 
@@ -79,7 +79,7 @@ export class LayerComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.push(
-      rectangleEventService.mouseUpEvent$.subscribe((rectangleID: number) => {
+      rectangleEventService.mouseRectShiftKeyMouseUpEvent$.subscribe((rectangleID: number) => {
         console.log('Mouse up event occurred on rectangle ', rectangleID);
         this.linkDrawing = false
 
@@ -88,7 +88,7 @@ export class LayerComponent implements OnInit, OnDestroy {
     )
 
     this.subscriptions.push(
-      rectangleEventService.mouseDragEvent$.subscribe((coordinate: Coordinate) => {
+      rectangleEventService.mouseRectShiftKeyDragEvent$.subscribe((coordinate: Coordinate) => {
 
         this.endX = coordinate[0]
         this.endY = coordinate[1]

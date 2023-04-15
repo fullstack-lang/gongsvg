@@ -7,27 +7,27 @@ export type Coordinate = [number, number]
   providedIn: 'root'
 })
 export class RectangleEventService {
-  private mouseDownEventSource = new Subject<number>();
+  private mouseRectShiftKeyDownEventSource = new Subject<number>();
 
-  mouseDownEvent$ = this.mouseDownEventSource.asObservable();
+  mouseRectShiftKeyDownEvent$ = this.mouseRectShiftKeyDownEventSource.asObservable();
 
-  emitMouseDownEvent(rectangleID: number) {
-    this.mouseDownEventSource.next(rectangleID);
+  emitRectShiftKeyMouseDownEvent(rectangleID: number) {
+    this.mouseRectShiftKeyDownEventSource.next(rectangleID);
   }
 
-  private mouseUpEventSource = new Subject<number>();
+  private mouseRectShiftKeyMouseUpEventSource = new Subject<number>();
 
-  mouseUpEvent$ = this.mouseUpEventSource.asObservable();
+  mouseRectShiftKeyMouseUpEvent$ = this.mouseRectShiftKeyMouseUpEventSource.asObservable();
 
-  emitMouseUpEvent(rectangleID: number) {
-    this.mouseUpEventSource.next(rectangleID);
+  emitMouseRectShiftKeyMouseUpEvent(rectangleID: number) {
+    this.mouseRectShiftKeyMouseUpEventSource.next(rectangleID);
   }
 
-  private mouseDragEventSource = new Subject<Coordinate>()
+  private mouseRectShiftKeyDragEventSource = new Subject<Coordinate>()
 
-  mouseDragEvent$ = this.mouseDragEventSource.asObservable()
+  mouseRectShiftKeyDragEvent$ = this.mouseRectShiftKeyDragEventSource.asObservable()
 
-  emitMouseDragEvent(coordinate: Coordinate) {
-    this.mouseDragEventSource.next(coordinate)
+  emitRectShiftKeyMouseDragEvent(coordinate: Coordinate) {
+    this.mouseRectShiftKeyDragEventSource.next(coordinate)
   }
 }

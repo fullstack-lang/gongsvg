@@ -124,7 +124,7 @@ export class LinkService {
     return this.http.put<LinkDB>(url, linkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated linkdb id=${linkdb.ID}`)
+        // this.log(`updated linkdb id=${linkdb.ID}`)
       }),
       catchError(this.handleError<LinkDB>('updateLink'))
     );

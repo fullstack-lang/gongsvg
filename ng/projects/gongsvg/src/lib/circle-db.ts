@@ -20,6 +20,7 @@ export class CircleDB {
 	Stroke: string = ""
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
+	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
 	// insertion point for other declarations

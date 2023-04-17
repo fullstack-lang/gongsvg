@@ -94,6 +94,9 @@ type LineDB struct {
 	// Declation for basic field lineDB.StrokeDashArray
 	StrokeDashArray_Data sql.NullString
 
+	// Declation for basic field lineDB.StrokeDashArrayWhenSelected
+	StrokeDashArrayWhenSelected_Data sql.NullString
+
 	// Declation for basic field lineDB.Transform
 	Transform_Data sql.NullString
 
@@ -143,11 +146,13 @@ type LineWOP struct {
 
 	StrokeDashArray string `xlsx:"10"`
 
-	Transform string `xlsx:"11"`
+	StrokeDashArrayWhenSelected string `xlsx:"11"`
 
-	MouseClickX float64 `xlsx:"12"`
+	Transform string `xlsx:"12"`
 
-	MouseClickY float64 `xlsx:"13"`
+	MouseClickX float64 `xlsx:"13"`
+
+	MouseClickY float64 `xlsx:"14"`
 	// insertion for WOP pointer fields
 }
 
@@ -164,6 +169,7 @@ var Line_Fields = []string{
 	"Stroke",
 	"StrokeWidth",
 	"StrokeDashArray",
+	"StrokeDashArrayWhenSelected",
 	"Transform",
 	"MouseClickX",
 	"MouseClickY",
@@ -503,6 +509,9 @@ func (lineDB *LineDB) CopyBasicFieldsFromLine(line *models.Line) {
 	lineDB.StrokeDashArray_Data.String = line.StrokeDashArray
 	lineDB.StrokeDashArray_Data.Valid = true
 
+	lineDB.StrokeDashArrayWhenSelected_Data.String = line.StrokeDashArrayWhenSelected
+	lineDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
 	lineDB.Transform_Data.String = line.Transform
 	lineDB.Transform_Data.Valid = true
 
@@ -547,6 +556,9 @@ func (lineDB *LineDB) CopyBasicFieldsFromLineWOP(line *LineWOP) {
 	lineDB.StrokeDashArray_Data.String = line.StrokeDashArray
 	lineDB.StrokeDashArray_Data.Valid = true
 
+	lineDB.StrokeDashArrayWhenSelected_Data.String = line.StrokeDashArrayWhenSelected
+	lineDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
 	lineDB.Transform_Data.String = line.Transform
 	lineDB.Transform_Data.Valid = true
 
@@ -570,6 +582,7 @@ func (lineDB *LineDB) CopyBasicFieldsToLine(line *models.Line) {
 	line.Stroke = lineDB.Stroke_Data.String
 	line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
 	line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
+	line.StrokeDashArrayWhenSelected = lineDB.StrokeDashArrayWhenSelected_Data.String
 	line.Transform = lineDB.Transform_Data.String
 	line.MouseClickX = lineDB.MouseClickX_Data.Float64
 	line.MouseClickY = lineDB.MouseClickY_Data.Float64
@@ -589,6 +602,7 @@ func (lineDB *LineDB) CopyBasicFieldsToLineWOP(line *LineWOP) {
 	line.Stroke = lineDB.Stroke_Data.String
 	line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
 	line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
+	line.StrokeDashArrayWhenSelected = lineDB.StrokeDashArrayWhenSelected_Data.String
 	line.Transform = lineDB.Transform_Data.String
 	line.MouseClickX = lineDB.MouseClickX_Data.Float64
 	line.MouseClickY = lineDB.MouseClickY_Data.Float64

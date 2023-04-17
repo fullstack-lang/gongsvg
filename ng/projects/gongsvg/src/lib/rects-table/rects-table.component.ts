@@ -105,6 +105,9 @@ export class RectsTableComponent implements OnInit {
         case 'StrokeDashArray':
           return rectDB.StrokeDashArray;
 
+        case 'StrokeDashArrayWhenSelected':
+          return rectDB.StrokeDashArrayWhenSelected;
+
         case 'Transform':
           return rectDB.Transform;
 
@@ -158,6 +161,7 @@ export class RectsTableComponent implements OnInit {
       mergedContent += rectDB.Stroke.toLowerCase()
       mergedContent += rectDB.StrokeWidth.toString()
       mergedContent += rectDB.StrokeDashArray.toLowerCase()
+      mergedContent += rectDB.StrokeDashArrayWhenSelected.toLowerCase()
       mergedContent += rectDB.Transform.toLowerCase()
       if (rectDB.Layer_RectsDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Layers.get(rectDB.Layer_RectsDBID.Int64)!.Name.toLowerCase()
@@ -228,6 +232,7 @@ export class RectsTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "StrokeDashArrayWhenSelected",
         "Transform",
         "IsSelectable",
         "IsSelected",
@@ -250,6 +255,7 @@ export class RectsTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "StrokeDashArrayWhenSelected",
         "Transform",
         "IsSelectable",
         "IsSelected",

@@ -22,6 +22,7 @@ export class RectDB {
 	Stroke: string = ""
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
+	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 	IsSelectable: boolean = false
 	IsSelected: boolean = false

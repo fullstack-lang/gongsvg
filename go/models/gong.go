@@ -1696,27 +1696,27 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Animate:
 		res = []string{"Name", "AttributeName", "Values", "Dur", "RepeatCount"}
 	case Circle:
-		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations"}
+		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations"}
 	case Ellipse:
-		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Layer:
 		res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths"}
 	case Line:
-		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates", "MouseClickX", "MouseClickY"}
+		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
 		res = []string{"Name", "Start", "StartAnchorType", "End", "EndAnchorType"}
 	case Path:
-		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Polygone:
-		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Polyline:
-		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveHorizontalHandles", "HasHorizontalHandles", "CanMoveHorizontaly", "CanMoveVerticaly"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveHorizontalHandles", "HasHorizontalHandles", "CanMoveHorizontaly", "CanMoveVerticaly"}
 	case SVG:
 		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect"}
 	case Text:
-		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "Transform", "Animates"}
+		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	}
 	return
 }
@@ -1761,6 +1761,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(Circle).StrokeWidth)
 		case "StrokeDashArray":
 			res = any(instance).(Circle).StrokeDashArray
+		case "StrokeDashArrayWhenSelected":
+			res = any(instance).(Circle).StrokeDashArrayWhenSelected
 		case "Transform":
 			res = any(instance).(Circle).Transform
 		case "Animations":
@@ -1794,6 +1796,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(Ellipse).StrokeWidth)
 		case "StrokeDashArray":
 			res = any(instance).(Ellipse).StrokeDashArray
+		case "StrokeDashArrayWhenSelected":
+			res = any(instance).(Ellipse).StrokeDashArrayWhenSelected
 		case "Transform":
 			res = any(instance).(Ellipse).Transform
 		case "Animates":
@@ -1891,6 +1895,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(Line).StrokeWidth)
 		case "StrokeDashArray":
 			res = any(instance).(Line).StrokeDashArray
+		case "StrokeDashArrayWhenSelected":
+			res = any(instance).(Line).StrokeDashArrayWhenSelected
 		case "Transform":
 			res = any(instance).(Line).Transform
 		case "Animates":
@@ -1942,6 +1948,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(Path).StrokeWidth)
 		case "StrokeDashArray":
 			res = any(instance).(Path).StrokeDashArray
+		case "StrokeDashArrayWhenSelected":
+			res = any(instance).(Path).StrokeDashArrayWhenSelected
 		case "Transform":
 			res = any(instance).(Path).Transform
 		case "Animates":
@@ -1969,6 +1977,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(Polygone).StrokeWidth)
 		case "StrokeDashArray":
 			res = any(instance).(Polygone).StrokeDashArray
+		case "StrokeDashArrayWhenSelected":
+			res = any(instance).(Polygone).StrokeDashArrayWhenSelected
 		case "Transform":
 			res = any(instance).(Polygone).Transform
 		case "Animates":
@@ -1996,6 +2006,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(Polyline).StrokeWidth)
 		case "StrokeDashArray":
 			res = any(instance).(Polyline).StrokeDashArray
+		case "StrokeDashArrayWhenSelected":
+			res = any(instance).(Polyline).StrokeDashArrayWhenSelected
 		case "Transform":
 			res = any(instance).(Polyline).Transform
 		case "Animates":
@@ -2031,6 +2043,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(Rect).StrokeWidth)
 		case "StrokeDashArray":
 			res = any(instance).(Rect).StrokeDashArray
+		case "StrokeDashArrayWhenSelected":
+			res = any(instance).(Rect).StrokeDashArrayWhenSelected
 		case "Transform":
 			res = any(instance).(Rect).Transform
 		case "Animations":
@@ -2098,6 +2112,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(Text).StrokeWidth)
 		case "StrokeDashArray":
 			res = any(instance).(Text).StrokeDashArray
+		case "StrokeDashArrayWhenSelected":
+			res = any(instance).(Text).StrokeDashArrayWhenSelected
 		case "Transform":
 			res = any(instance).(Text).Transform
 		case "Animates":

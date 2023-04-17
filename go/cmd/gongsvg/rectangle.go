@@ -82,6 +82,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Circle__000000_Test.Stroke = ``
 	__Circle__000000_Test.StrokeWidth = 0.000000
 	__Circle__000000_Test.StrokeDashArray = ``
+	__Circle__000000_Test.StrokeDashArrayWhenSelected = ``
 	__Circle__000000_Test.Transform = ``
 
 	// Layer values setup
@@ -108,11 +109,12 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Bottom.Stroke = `lightcoral`
 	__Rect__000000_Bottom.StrokeWidth = 3.000000
 	__Rect__000000_Bottom.StrokeDashArray = ``
+	__Rect__000000_Bottom.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000000_Bottom.Transform = ``
 	__Rect__000000_Bottom.IsSelectable = true
-	__Rect__000000_Bottom.IsSelected = false
+	__Rect__000000_Bottom.IsSelected = true
 	__Rect__000000_Bottom.CanHaveHorizontalHandles = true
-	__Rect__000000_Bottom.HasHorizontalHandles = false
+	__Rect__000000_Bottom.HasHorizontalHandles = true
 	__Rect__000000_Bottom.CanMoveHorizontaly = false
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
@@ -128,6 +130,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.Stroke = `darkcyan`
 	__Rect__000001_Top.StrokeWidth = 2.000000
 	__Rect__000001_Top.StrokeDashArray = ``
+	__Rect__000001_Top.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000001_Top.Transform = ``
 	__Rect__000001_Top.IsSelectable = true
 	__Rect__000001_Top.IsSelected = false
@@ -150,6 +153,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Text__000000_Essai.Stroke = `black`
 	__Text__000000_Essai.StrokeWidth = 2.000000
 	__Text__000000_Essai.StrokeDashArray = ``
+	__Text__000000_Essai.StrokeDashArrayWhenSelected = ``
 	__Text__000000_Essai.Transform = ``
 
 	// Setup of pointers
@@ -162,5 +166,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000001_Top
 }
+
+
 
 

@@ -97,6 +97,9 @@ type RectDB struct {
 	// Declation for basic field rectDB.StrokeDashArray
 	StrokeDashArray_Data sql.NullString
 
+	// Declation for basic field rectDB.StrokeDashArrayWhenSelected
+	StrokeDashArrayWhenSelected_Data sql.NullString
+
 	// Declation for basic field rectDB.Transform
 	Transform_Data sql.NullString
 
@@ -166,19 +169,21 @@ type RectWOP struct {
 
 	StrokeDashArray string `xlsx:"11"`
 
-	Transform string `xlsx:"12"`
+	StrokeDashArrayWhenSelected string `xlsx:"12"`
 
-	IsSelectable bool `xlsx:"13"`
+	Transform string `xlsx:"13"`
 
-	IsSelected bool `xlsx:"14"`
+	IsSelectable bool `xlsx:"14"`
 
-	CanHaveHorizontalHandles bool `xlsx:"15"`
+	IsSelected bool `xlsx:"15"`
 
-	HasHorizontalHandles bool `xlsx:"16"`
+	CanHaveHorizontalHandles bool `xlsx:"16"`
 
-	CanMoveHorizontaly bool `xlsx:"17"`
+	HasHorizontalHandles bool `xlsx:"17"`
 
-	CanMoveVerticaly bool `xlsx:"18"`
+	CanMoveHorizontaly bool `xlsx:"18"`
+
+	CanMoveVerticaly bool `xlsx:"19"`
 	// insertion for WOP pointer fields
 }
 
@@ -196,6 +201,7 @@ var Rect_Fields = []string{
 	"Stroke",
 	"StrokeWidth",
 	"StrokeDashArray",
+	"StrokeDashArrayWhenSelected",
 	"Transform",
 	"IsSelectable",
 	"IsSelected",
@@ -542,6 +548,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 	rectDB.StrokeDashArray_Data.String = rect.StrokeDashArray
 	rectDB.StrokeDashArray_Data.Valid = true
 
+	rectDB.StrokeDashArrayWhenSelected_Data.String = rect.StrokeDashArrayWhenSelected
+	rectDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
 	rectDB.Transform_Data.String = rect.Transform
 	rectDB.Transform_Data.Valid = true
 
@@ -601,6 +610,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRectWOP(rect *RectWOP) {
 	rectDB.StrokeDashArray_Data.String = rect.StrokeDashArray
 	rectDB.StrokeDashArray_Data.Valid = true
 
+	rectDB.StrokeDashArrayWhenSelected_Data.String = rect.StrokeDashArrayWhenSelected
+	rectDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
 	rectDB.Transform_Data.String = rect.Transform
 	rectDB.Transform_Data.Valid = true
 
@@ -637,6 +649,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
 	rect.Stroke = rectDB.Stroke_Data.String
 	rect.StrokeWidth = rectDB.StrokeWidth_Data.Float64
 	rect.StrokeDashArray = rectDB.StrokeDashArray_Data.String
+	rect.StrokeDashArrayWhenSelected = rectDB.StrokeDashArrayWhenSelected_Data.String
 	rect.Transform = rectDB.Transform_Data.String
 	rect.IsSelectable = rectDB.IsSelectable_Data.Bool
 	rect.IsSelected = rectDB.IsSelected_Data.Bool
@@ -661,6 +674,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRectWOP(rect *RectWOP) {
 	rect.Stroke = rectDB.Stroke_Data.String
 	rect.StrokeWidth = rectDB.StrokeWidth_Data.Float64
 	rect.StrokeDashArray = rectDB.StrokeDashArray_Data.String
+	rect.StrokeDashArrayWhenSelected = rectDB.StrokeDashArrayWhenSelected_Data.String
 	rect.Transform = rectDB.Transform_Data.String
 	rect.IsSelectable = rectDB.IsSelectable_Data.Bool
 	rect.IsSelected = rectDB.IsSelected_Data.Bool

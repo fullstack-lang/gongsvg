@@ -53,7 +53,6 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Line
 
 	// Declarations of staged instances of Link
-	__Link__000000_Between_top_and_bottom := (&models.Link{Name: `Between top and bottom`}).Stage(stage)
 
 	// Declarations of staged instances of Path
 
@@ -97,11 +96,6 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000002_Top_Rectangle_layer.Display = false
 	__Layer__000002_Top_Rectangle_layer.Name = `Top Rectangle layer`
 
-	// Link values setup
-	__Link__000000_Between_top_and_bottom.Name = `Between top and bottom`
-	__Link__000000_Between_top_and_bottom.StartAnchorType = models.ANCHOR_LEFT
-	__Link__000000_Between_top_and_bottom.EndAnchorType = models.ANCHOR_LEFT
-
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
 	__Rect__000000_Bottom.X = 476.000000
@@ -124,7 +118,7 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 149.000000
+	__Rect__000001_Top.X = 151.000000
 	__Rect__000001_Top.Y = 326.000000
 	__Rect__000001_Top.Width = 234.000000
 	__Rect__000001_Top.Height = 300.000000
@@ -162,8 +156,6 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom)
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000001_Top)
 	__Layer__000001_Circle_Layer.Circles = append(__Layer__000001_Circle_Layer.Circles, __Circle__000000_Test)
-	__Link__000000_Between_top_and_bottom.Start = __Rect__000001_Top
-	__Link__000000_Between_top_and_bottom.End = __Rect__000000_Bottom
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Top_Rectangle_layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Circle_Layer)

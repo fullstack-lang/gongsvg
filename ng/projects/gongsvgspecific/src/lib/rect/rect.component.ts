@@ -10,7 +10,7 @@ import * as gongsvg from 'gongsvg'
 })
 export class RectComponent implements OnInit {
 
-  @Input() Rect?: gongsvg.RectDB
+  @Input() Rect: gongsvg.RectDB = new gongsvg.RectDB
   @Input() GONG__StackPath: string = ""
 
   // In your component

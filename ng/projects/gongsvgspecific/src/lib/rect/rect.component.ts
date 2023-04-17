@@ -29,7 +29,7 @@ export class RectComponent implements OnInit {
   onClick(event: MouseEvent) {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
-    if (!event.shiftKey) {
+    if (!event.altKey) {
       if (this.Rect?.IsSelectable) {
         console.log("rect, onClick() toggle selected: ", this.Rect?.Name)
         this.Rect!.IsSelected = !this.Rect!.IsSelected
@@ -73,7 +73,7 @@ export class RectComponent implements OnInit {
   }
 
   endAnchorDrag(event: MouseEvent): void {
-    if (!event.shiftKey) {
+    if (!event.altKey) {
       this.anchorDragging = false;
       this.activeAnchor = null;
       this.rectService.updateRect(this.Rect!, this.GONG__StackPath).subscribe()
@@ -87,7 +87,7 @@ export class RectComponent implements OnInit {
 
   startRectDrag(event: MouseEvent): void {
 
-    if (!event.shiftKey) {
+    if (!event.altKey) {
       event.preventDefault();
       event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
@@ -98,15 +98,15 @@ export class RectComponent implements OnInit {
     } else {
       console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 
-      this.rectangleEventService.emitRectShiftKeyMouseDownEvent(this.Rect!.ID);
+      this.rectangleEventService.emitRectAltKeyMouseDownEvent(this.Rect!.ID);
     }
   }
 
   dragRect(event: MouseEvent): void {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
-    if (event.shiftKey) {
-      this.rectangleEventService.emitRectShiftKeyMouseDragEvent([event.clientX, event.clientY])
+    if (event.altKey) {
+      this.rectangleEventService.emitRectAltKeyMouseDragEvent([event.clientX, event.clientY])
     }
 
     if (!this.rectDragging) {
@@ -122,13 +122,13 @@ export class RectComponent implements OnInit {
   }
 
   endRectDrag(event: MouseEvent): void {
-    if (!event.shiftKey) {
+    if (!event.altKey) {
       this.rectDragging = false;
       this.rectService.updateRect(this.Rect!, this.GONG__StackPath).subscribe()
     } else {
       console.log("endRectDrag + shiftKey rect : ", this.Rect?.Name)
 
-      this.rectangleEventService.emitMouseRectShiftKeyMouseUpEvent(this.Rect!.ID);
+      this.rectangleEventService.emitMouseRectAltKeyMouseUpEvent(this.Rect!.ID);
     }
   }
 }

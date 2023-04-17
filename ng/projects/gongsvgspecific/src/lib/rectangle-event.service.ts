@@ -7,27 +7,22 @@ export type Coordinate = [number, number]
   providedIn: 'root'
 })
 export class RectangleEventService {
-  private mouseRectShiftKeyDownEventSource = new Subject<number>();
 
-  mouseRectShiftKeyDownEvent$ = this.mouseRectShiftKeyDownEventSource.asObservable();
-
-  emitRectShiftKeyMouseDownEvent(rectangleID: number) {
-    this.mouseRectShiftKeyDownEventSource.next(rectangleID);
+  private mouseRectAltKeyDownEventSource = new Subject<number>();
+  mouseRectAltKeyDownEvent$ = this.mouseRectAltKeyDownEventSource.asObservable();
+  emitRectAltKeyMouseDownEvent(rectangleID: number) {
+    this.mouseRectAltKeyDownEventSource.next(rectangleID);
   }
 
-  private mouseRectShiftKeyMouseUpEventSource = new Subject<number>();
-
-  mouseRectShiftKeyMouseUpEvent$ = this.mouseRectShiftKeyMouseUpEventSource.asObservable();
-
-  emitMouseRectShiftKeyMouseUpEvent(rectangleID: number) {
-    this.mouseRectShiftKeyMouseUpEventSource.next(rectangleID);
+  private mouseRectAltKeyMouseUpEventSource = new Subject<number>();
+  mouseRectAltKeyMouseUpEvent$ = this.mouseRectAltKeyMouseUpEventSource.asObservable();
+  emitMouseRectAltKeyMouseUpEvent(rectangleID: number) {
+    this.mouseRectAltKeyMouseUpEventSource.next(rectangleID);
   }
 
-  private mouseRectShiftKeyDragEventSource = new Subject<Coordinate>()
-
-  mouseRectShiftKeyDragEvent$ = this.mouseRectShiftKeyDragEventSource.asObservable()
-
-  emitRectShiftKeyMouseDragEvent(coordinate: Coordinate) {
-    this.mouseRectShiftKeyDragEventSource.next(coordinate)
+  private mouseRectAltKeyDragEventSource = new Subject<Coordinate>()
+  mouseRectAltKeyDragEvent$ = this.mouseRectAltKeyDragEventSource.asObservable()
+  emitRectAltKeyMouseDragEvent(coordinate: Coordinate) {
+    this.mouseRectAltKeyDragEventSource.next(coordinate)
   }
 }

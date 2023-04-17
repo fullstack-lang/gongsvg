@@ -49,7 +49,7 @@ export class SvgComponent implements OnInit, OnDestroy {
   ) {
 
     this.subscriptions.push(
-      rectangleEventService.mouseRectShiftKeyDownEvent$.subscribe((rectangleID: number) => {
+      rectangleEventService.mouseRectAltKeyDownEvent$.subscribe((rectangleID: number) => {
         console.log('Mouse down event occurred on rectangle ', rectangleID);
         this.linkStartRectangleID = rectangleID
 
@@ -66,7 +66,7 @@ export class SvgComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.push(
-      rectangleEventService.mouseRectShiftKeyMouseUpEvent$.subscribe((rectangleID: number) => {
+      rectangleEventService.mouseRectAltKeyMouseUpEvent$.subscribe((rectangleID: number) => {
         console.log('Mouse up event occurred on rectangle ', rectangleID);
         this.linkDrawing = false
 
@@ -75,7 +75,7 @@ export class SvgComponent implements OnInit, OnDestroy {
     )
 
     this.subscriptions.push(
-      rectangleEventService.mouseRectShiftKeyDragEvent$.subscribe((coordinate: Coordinate) => {
+      rectangleEventService.mouseRectAltKeyDragEvent$.subscribe((coordinate: Coordinate) => {
 
         this.endX = coordinate[0]
         this.endY = coordinate[1]

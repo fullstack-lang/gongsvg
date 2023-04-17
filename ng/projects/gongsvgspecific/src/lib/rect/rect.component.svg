@@ -28,7 +28,7 @@
         </rect>
 
         <!-- Left anchor -->
-        <circle class="overlay" *ngIf="Rect.HasHorizontalHandles"
+        <circle class="overlay" *ngIf="Rect.HasLeftHandle"
         [attr.cx]="Rect.X"
          [attr.cy]="Rect.Y + Rect.Height / 2" 
          [attr.r]="anchorRadius" 
@@ -38,7 +38,7 @@
          />
 
         <!-- Right anchor -->
-        <circle class="overlay" *ngIf="Rect.HasHorizontalHandles"
+        <circle class="overlay" *ngIf="Rect.HasRightHandle"
         [attr.cx]="Rect.X+ Rect.Width"
          [attr.cy]="Rect.Y+ Rect.Height/2" 
          [attr.r]="anchorRadius"

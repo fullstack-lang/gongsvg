@@ -451,7 +451,7 @@ var map_DocLink_Identifier_NewDiagram map[string]any = map[string]any{
 
 	"ref_models.Rect.Animations": (ref_models.Rect{}).Animations,
 
-	"ref_models.Rect.CanHaveHorizontalHandles": (ref_models.Rect{}).CanHaveHorizontalHandles,
+	"ref_models.Rect.CanHaveHorizontalHandles": (ref_models.Rect{}).CanHaveLeftHandle,
 
 	"ref_models.Rect.CanMoveHorizontaly": (ref_models.Rect{}).CanMoveHorizontaly,
 
@@ -461,7 +461,7 @@ var map_DocLink_Identifier_NewDiagram map[string]any = map[string]any{
 
 	"ref_models.Rect.FillOpacity": (ref_models.Rect{}).FillOpacity,
 
-	"ref_models.Rect.HasHorizontalHandles": (ref_models.Rect{}).HasHorizontalHandles,
+	"ref_models.Rect.HasHorizontalHandles": (ref_models.Rect{}).HasLeftHandle,
 
 	"ref_models.Rect.Height": (ref_models.Rect{}).Height,
 
@@ -1295,5 +1295,3 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__Link__000008_Rects.Middlevertice = __Vertice__000007_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_SVG_and_NewDiagram_Rect
 	__Link__000009_Texts.Middlevertice = __Vertice__000009_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_SVG_and_NewDiagram_Text
 }
-
-

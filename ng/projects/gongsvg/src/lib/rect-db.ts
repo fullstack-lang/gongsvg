@@ -26,8 +26,10 @@ export class RectDB {
 	Transform: string = ""
 	IsSelectable: boolean = false
 	IsSelected: boolean = false
-	CanHaveHorizontalHandles: boolean = false
-	HasHorizontalHandles: boolean = false
+	CanHaveLeftHandle: boolean = false
+	HasLeftHandle: boolean = false
+	CanHaveRightHandle: boolean = false
+	HasRightHandle: boolean = false
 	CanMoveHorizontaly: boolean = false
 	CanMoveVerticaly: boolean = false
 

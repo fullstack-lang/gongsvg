@@ -47,7 +47,27 @@
          (mousedown)="startAnchorDrag($event, 'right')" (mousemove)="anchorDrag($event, 'right')" (mouseup)="endAnchorDrag($event)" (mouseleave)="endAnchorDrag($event)"
          />
 
-        <!-- Right anchor -->
+        <!-- Top anchor -->
+        <circle class="overlay" *ngIf="Rect.HasTopHandle"
+        [attr.cx]="Rect.X + Rect.Width / 2"
+         [attr.cy]="Rect.Y " 
+         [attr.r]="anchorRadius" 
+         [attr.fill]="(anchorDragging && activeAnchor === 'top') ? draggingAnchorFillColor : anchorFillColor"
+
+         (mousedown)="startAnchorDrag($event, 'top')" (mousemove)="anchorDrag($event, 'top')" (mouseup)="endAnchorDrag($event)" (mouseleave)="endAnchorDrag($event)"
+         />
+
+        <!-- Bottom anchor -->
+        <circle class="overlay" *ngIf="Rect.HasBottomHandle"
+        [attr.cx]="Rect.X+ Rect.Width / 2"
+         [attr.cy]="Rect.Y+ Rect.Height" 
+         [attr.r]="anchorRadius"
+         [attr.fill]="(anchorDragging && activeAnchor === 'bottom') ? draggingAnchorFillColor : anchorFillColor"
+
+         (mousedown)="startAnchorDrag($event, 'bottom')" (mousemove)="anchorDrag($event, 'bottom')" (mouseup)="endAnchorDrag($event)" (mouseleave)="endAnchorDrag($event)"
+         />
+
+
 
     </g>
 </svg>

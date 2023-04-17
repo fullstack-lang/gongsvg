@@ -1712,7 +1712,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Polyline:
 		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanMoveHorizontaly", "CanMoveVerticaly"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly"}
 	case SVG:
 		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect"}
 	case Text:
@@ -2066,6 +2066,14 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%t", any(instance).(Rect).CanHaveRightHandle)
 		case "HasRightHandle":
 			res = fmt.Sprintf("%t", any(instance).(Rect).HasRightHandle)
+		case "CanHaveTopHandle":
+			res = fmt.Sprintf("%t", any(instance).(Rect).CanHaveTopHandle)
+		case "HasTopHandle":
+			res = fmt.Sprintf("%t", any(instance).(Rect).HasTopHandle)
+		case "CanHaveBottomHandle":
+			res = fmt.Sprintf("%t", any(instance).(Rect).CanHaveBottomHandle)
+		case "HasBottomHandle":
+			res = fmt.Sprintf("%t", any(instance).(Rect).HasBottomHandle)
 		case "CanMoveHorizontaly":
 			res = fmt.Sprintf("%t", any(instance).(Rect).CanMoveHorizontaly)
 		case "CanMoveVerticaly":

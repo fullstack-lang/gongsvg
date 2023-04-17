@@ -41,6 +41,10 @@ export class RectDetailComponent implements OnInit {
 	HasLeftHandleFormControl: UntypedFormControl = new UntypedFormControl(false);
 	CanHaveRightHandleFormControl: UntypedFormControl = new UntypedFormControl(false);
 	HasRightHandleFormControl: UntypedFormControl = new UntypedFormControl(false);
+	CanHaveTopHandleFormControl: UntypedFormControl = new UntypedFormControl(false);
+	HasTopHandleFormControl: UntypedFormControl = new UntypedFormControl(false);
+	CanHaveBottomHandleFormControl: UntypedFormControl = new UntypedFormControl(false);
+	HasBottomHandleFormControl: UntypedFormControl = new UntypedFormControl(false);
 	CanMoveHorizontalyFormControl: UntypedFormControl = new UntypedFormControl(false);
 	CanMoveVerticalyFormControl: UntypedFormControl = new UntypedFormControl(false);
 
@@ -157,6 +161,10 @@ export class RectDetailComponent implements OnInit {
 				this.HasLeftHandleFormControl.setValue(this.rect.HasLeftHandle)
 				this.CanHaveRightHandleFormControl.setValue(this.rect.CanHaveRightHandle)
 				this.HasRightHandleFormControl.setValue(this.rect.HasRightHandle)
+				this.CanHaveTopHandleFormControl.setValue(this.rect.CanHaveTopHandle)
+				this.HasTopHandleFormControl.setValue(this.rect.HasTopHandle)
+				this.CanHaveBottomHandleFormControl.setValue(this.rect.CanHaveBottomHandle)
+				this.HasBottomHandleFormControl.setValue(this.rect.HasBottomHandle)
 				this.CanMoveHorizontalyFormControl.setValue(this.rect.CanMoveHorizontaly)
 				this.CanMoveVerticalyFormControl.setValue(this.rect.CanMoveVerticaly)
 			}
@@ -177,6 +185,10 @@ export class RectDetailComponent implements OnInit {
 		this.rect.HasLeftHandle = this.HasLeftHandleFormControl.value
 		this.rect.CanHaveRightHandle = this.CanHaveRightHandleFormControl.value
 		this.rect.HasRightHandle = this.HasRightHandleFormControl.value
+		this.rect.CanHaveTopHandle = this.CanHaveTopHandleFormControl.value
+		this.rect.HasTopHandle = this.HasTopHandleFormControl.value
+		this.rect.CanHaveBottomHandle = this.CanHaveBottomHandleFormControl.value
+		this.rect.HasBottomHandle = this.HasBottomHandleFormControl.value
 		this.rect.CanMoveHorizontaly = this.CanMoveHorizontalyFormControl.value
 		this.rect.CanMoveVerticaly = this.CanMoveVerticalyFormControl.value
 

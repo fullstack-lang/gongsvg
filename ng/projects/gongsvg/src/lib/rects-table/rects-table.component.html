@@ -152,6 +152,34 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="CanHaveTopHandle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CanHaveTopHandle </th>
+            <td mat-cell *matCellDef="let Rect">
+                <mat-checkbox [checked]="Rect.CanHaveTopHandle" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="HasTopHandle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> HasTopHandle </th>
+            <td mat-cell *matCellDef="let Rect">
+                <mat-checkbox [checked]="Rect.HasTopHandle" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="CanHaveBottomHandle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CanHaveBottomHandle </th>
+            <td mat-cell *matCellDef="let Rect">
+                <mat-checkbox [checked]="Rect.CanHaveBottomHandle" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="HasBottomHandle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> HasBottomHandle </th>
+            <td mat-cell *matCellDef="let Rect">
+                <mat-checkbox [checked]="Rect.HasBottomHandle" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="CanMoveHorizontaly">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> CanMoveHorizontaly </th>
             <td mat-cell *matCellDef="let Rect">

@@ -39,13 +39,13 @@ export class RectComponent implements OnInit {
   }
 
   anchorDragging: boolean = false;
-  activeAnchor: 'left' | 'right' | null = null;
+  activeAnchor: 'left' | 'right' | 'top' | 'bottom' | null = null;
 
   rectDragging: boolean = false;
   offsetX = 0;
   offsetY = 0;
 
-  startAnchorDrag(event: MouseEvent, anchor: 'left' | 'right'): void {
+  startAnchorDrag(event: MouseEvent, anchor: 'left' | 'right'| 'top' | 'bottom' ): void {
     event.preventDefault();
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
@@ -53,22 +53,28 @@ export class RectComponent implements OnInit {
     this.activeAnchor = anchor;
   }
 
-  anchorDrag(event: MouseEvent, anchor: 'left' | 'right'): void {
+  anchorDrag(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom'): void {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
-
+  
     if (!this.anchorDragging) {
       return;
     }
-
+  
     const newX = event.clientX;
-
-
+    const newY = event.clientY;
+  
     if (anchor === 'left') {
       const originalRightEdge = this.Rect!.X + this.Rect!.Width;
       this.Rect!.X = newX;
       this.Rect!.Width = originalRightEdge - newX;
     } else if (anchor === 'right') {
       this.Rect!.Width = newX - this.Rect!.X;
+    } else if (anchor === 'top') {
+      const originalBottomEdge = this.Rect!.Y + this.Rect!.Height;
+      this.Rect!.Y = newY;
+      this.Rect!.Height = originalBottomEdge - newY;
+    } else if (anchor === 'bottom') {
+      this.Rect!.Height = newY - this.Rect!.Y;
     }
   }
 

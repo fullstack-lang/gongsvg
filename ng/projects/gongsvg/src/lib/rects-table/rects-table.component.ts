@@ -129,6 +129,18 @@ export class RectsTableComponent implements OnInit {
         case 'HasRightHandle':
           return rectDB.HasRightHandle ? "true" : "false";
 
+        case 'CanHaveTopHandle':
+          return rectDB.CanHaveTopHandle ? "true" : "false";
+
+        case 'HasTopHandle':
+          return rectDB.HasTopHandle ? "true" : "false";
+
+        case 'CanHaveBottomHandle':
+          return rectDB.CanHaveBottomHandle ? "true" : "false";
+
+        case 'HasBottomHandle':
+          return rectDB.HasBottomHandle ? "true" : "false";
+
         case 'CanMoveHorizontaly':
           return rectDB.CanMoveHorizontaly ? "true" : "false";
 
@@ -246,6 +258,10 @@ export class RectsTableComponent implements OnInit {
         "HasLeftHandle",
         "CanHaveRightHandle",
         "HasRightHandle",
+        "CanHaveTopHandle",
+        "HasTopHandle",
+        "CanHaveBottomHandle",
+        "HasBottomHandle",
         "CanMoveHorizontaly",
         "CanMoveVerticaly",
         "Layer_Rects",
@@ -271,6 +287,10 @@ export class RectsTableComponent implements OnInit {
         "HasLeftHandle",
         "CanHaveRightHandle",
         "HasRightHandle",
+        "CanHaveTopHandle",
+        "HasTopHandle",
+        "CanHaveBottomHandle",
+        "HasBottomHandle",
         "CanMoveHorizontaly",
         "CanMoveVerticaly",
         "Layer_Rects",

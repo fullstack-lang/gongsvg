@@ -1478,6 +1478,34 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_Rect[identifier].HasRightHandle = fielValue
+				case "CanHaveTopHandle":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].CanHaveTopHandle = fielValue
+				case "HasTopHandle":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].HasTopHandle = fielValue
+				case "CanHaveBottomHandle":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].CanHaveBottomHandle = fielValue
+				case "HasBottomHandle":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].HasBottomHandle = fielValue
 				case "CanMoveHorizontaly":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)

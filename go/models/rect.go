@@ -16,8 +16,14 @@ type Rect struct {
 	CanHaveLeftHandle bool
 	HasLeftHandle     bool
 
-	CanHaveRightHandle bool // allows HasHorizontalHandles
-	HasRightHandle     bool // is true when selected
+	CanHaveRightHandle bool
+	HasRightHandle     bool
+
+	CanHaveTopHandle bool
+	HasTopHandle     bool
+
+	CanHaveBottomHandle bool
+	HasBottomHandle     bool
 
 	CanMoveHorizontaly bool
 	CanMoveVerticaly   bool
@@ -42,6 +48,16 @@ func (rect *Rect) OnAfterUpdate(stage *StageStruct, _, frontRect *Rect) {
 			rect.HasRightHandle = true
 		} else {
 			rect.HasRightHandle = false
+		}
+		if frontRect.IsSelected && frontRect.CanHaveTopHandle {
+			rect.HasTopHandle = true
+		} else {
+			rect.HasTopHandle = false
+		}
+		if frontRect.IsSelected && frontRect.CanHaveBottomHandle {
+			rect.HasBottomHandle = true
+		} else {
+			rect.HasBottomHandle = false
 		}
 		rect.Commit(stage)
 	}

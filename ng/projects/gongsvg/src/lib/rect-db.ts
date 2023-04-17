@@ -30,6 +30,10 @@ export class RectDB {
 	HasLeftHandle: boolean = false
 	CanHaveRightHandle: boolean = false
 	HasRightHandle: boolean = false
+	CanHaveTopHandle: boolean = false
+	HasTopHandle: boolean = false
+	CanHaveBottomHandle: boolean = false
+	HasBottomHandle: boolean = false
 	CanMoveHorizontaly: boolean = false
 	CanMoveVerticaly: boolean = false
 

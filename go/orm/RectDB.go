@@ -127,6 +127,22 @@ type RectDB struct {
 	// provide the sql storage for the boolan
 	HasRightHandle_Data sql.NullBool
 
+	// Declation for basic field rectDB.CanHaveTopHandle
+	// provide the sql storage for the boolan
+	CanHaveTopHandle_Data sql.NullBool
+
+	// Declation for basic field rectDB.HasTopHandle
+	// provide the sql storage for the boolan
+	HasTopHandle_Data sql.NullBool
+
+	// Declation for basic field rectDB.CanHaveBottomHandle
+	// provide the sql storage for the boolan
+	CanHaveBottomHandle_Data sql.NullBool
+
+	// Declation for basic field rectDB.HasBottomHandle
+	// provide the sql storage for the boolan
+	HasBottomHandle_Data sql.NullBool
+
 	// Declation for basic field rectDB.CanMoveHorizontaly
 	// provide the sql storage for the boolan
 	CanMoveHorizontaly_Data sql.NullBool
@@ -193,9 +209,17 @@ type RectWOP struct {
 
 	HasRightHandle bool `xlsx:"19"`
 
-	CanMoveHorizontaly bool `xlsx:"20"`
+	CanHaveTopHandle bool `xlsx:"20"`
 
-	CanMoveVerticaly bool `xlsx:"21"`
+	HasTopHandle bool `xlsx:"21"`
+
+	CanHaveBottomHandle bool `xlsx:"22"`
+
+	HasBottomHandle bool `xlsx:"23"`
+
+	CanMoveHorizontaly bool `xlsx:"24"`
+
+	CanMoveVerticaly bool `xlsx:"25"`
 	// insertion for WOP pointer fields
 }
 
@@ -221,6 +245,10 @@ var Rect_Fields = []string{
 	"HasLeftHandle",
 	"CanHaveRightHandle",
 	"HasRightHandle",
+	"CanHaveTopHandle",
+	"HasTopHandle",
+	"CanHaveBottomHandle",
+	"HasBottomHandle",
 	"CanMoveHorizontaly",
 	"CanMoveVerticaly",
 }
@@ -586,6 +614,18 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 	rectDB.HasRightHandle_Data.Bool = rect.HasRightHandle
 	rectDB.HasRightHandle_Data.Valid = true
 
+	rectDB.CanHaveTopHandle_Data.Bool = rect.CanHaveTopHandle
+	rectDB.CanHaveTopHandle_Data.Valid = true
+
+	rectDB.HasTopHandle_Data.Bool = rect.HasTopHandle
+	rectDB.HasTopHandle_Data.Valid = true
+
+	rectDB.CanHaveBottomHandle_Data.Bool = rect.CanHaveBottomHandle
+	rectDB.CanHaveBottomHandle_Data.Valid = true
+
+	rectDB.HasBottomHandle_Data.Bool = rect.HasBottomHandle
+	rectDB.HasBottomHandle_Data.Valid = true
+
 	rectDB.CanMoveHorizontaly_Data.Bool = rect.CanMoveHorizontaly
 	rectDB.CanMoveHorizontaly_Data.Valid = true
 
@@ -654,6 +694,18 @@ func (rectDB *RectDB) CopyBasicFieldsFromRectWOP(rect *RectWOP) {
 	rectDB.HasRightHandle_Data.Bool = rect.HasRightHandle
 	rectDB.HasRightHandle_Data.Valid = true
 
+	rectDB.CanHaveTopHandle_Data.Bool = rect.CanHaveTopHandle
+	rectDB.CanHaveTopHandle_Data.Valid = true
+
+	rectDB.HasTopHandle_Data.Bool = rect.HasTopHandle
+	rectDB.HasTopHandle_Data.Valid = true
+
+	rectDB.CanHaveBottomHandle_Data.Bool = rect.CanHaveBottomHandle
+	rectDB.CanHaveBottomHandle_Data.Valid = true
+
+	rectDB.HasBottomHandle_Data.Bool = rect.HasBottomHandle
+	rectDB.HasBottomHandle_Data.Valid = true
+
 	rectDB.CanMoveHorizontaly_Data.Bool = rect.CanMoveHorizontaly
 	rectDB.CanMoveHorizontaly_Data.Valid = true
 
@@ -683,6 +735,10 @@ func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
 	rect.HasLeftHandle = rectDB.HasLeftHandle_Data.Bool
 	rect.CanHaveRightHandle = rectDB.CanHaveRightHandle_Data.Bool
 	rect.HasRightHandle = rectDB.HasRightHandle_Data.Bool
+	rect.CanHaveTopHandle = rectDB.CanHaveTopHandle_Data.Bool
+	rect.HasTopHandle = rectDB.HasTopHandle_Data.Bool
+	rect.CanHaveBottomHandle = rectDB.CanHaveBottomHandle_Data.Bool
+	rect.HasBottomHandle = rectDB.HasBottomHandle_Data.Bool
 	rect.CanMoveHorizontaly = rectDB.CanMoveHorizontaly_Data.Bool
 	rect.CanMoveVerticaly = rectDB.CanMoveVerticaly_Data.Bool
 }
@@ -710,6 +766,10 @@ func (rectDB *RectDB) CopyBasicFieldsToRectWOP(rect *RectWOP) {
 	rect.HasLeftHandle = rectDB.HasLeftHandle_Data.Bool
 	rect.CanHaveRightHandle = rectDB.CanHaveRightHandle_Data.Bool
 	rect.HasRightHandle = rectDB.HasRightHandle_Data.Bool
+	rect.CanHaveTopHandle = rectDB.CanHaveTopHandle_Data.Bool
+	rect.HasTopHandle = rectDB.HasTopHandle_Data.Bool
+	rect.CanHaveBottomHandle = rectDB.CanHaveBottomHandle_Data.Bool
+	rect.HasBottomHandle = rectDB.HasBottomHandle_Data.Bool
 	rect.CanMoveHorizontaly = rectDB.CanMoveHorizontaly_Data.Bool
 	rect.CanMoveVerticaly = rectDB.CanMoveVerticaly_Data.Bool
 }

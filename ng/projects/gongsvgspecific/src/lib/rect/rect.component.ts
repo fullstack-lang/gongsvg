@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { RectangleEventService } from '../rectangle-event.service';
+import { ElementRef, Renderer2, AfterViewInit } from '@angular/core';
+
 
 import * as gongsvg from 'gongsvg'
 import { Subscription } from 'rxjs';
@@ -9,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './rect.component.svg',
   styleUrls: ['./rect.component.css']
 })
-export class RectComponent implements OnInit, OnDestroy {
+export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Input() Rect: gongsvg.RectDB = new gongsvg.RectDB()
   @Input() GONG__StackPath: string = ""
@@ -27,7 +29,9 @@ export class RectComponent implements OnInit, OnDestroy {
   constructor(
     private rectService: gongsvg.RectService,
     private svgService: gongsvg.SVGService,
-    private rectangleEventService: RectangleEventService) {
+    private rectangleEventService: RectangleEventService,
+    private elementRef: ElementRef, 
+    private renderer: Renderer2) {
 
     this.subscriptions.push(
       rectangleEventService.mouseRectMouseDownEvent$.subscribe(
@@ -88,20 +92,20 @@ export class RectComponent implements OnInit, OnDestroy {
     }
   
     const newX = event.clientX;
-    const newY = event.clientY;
+    const newY = event.clientY - this.pageY;
   
     if (anchor === 'left') {
       const originalRightEdge = this.Rect.X + this.Rect.Width;
       this.Rect.X = newX;
       this.Rect.Width = originalRightEdge - newX;
     } else if (anchor === 'right') {
-      this.Rect!.Width = newX - this.Rect!.X;
+      this.Rect.Width = newX - this.Rect.X;
     } else if (anchor === 'top') {
-      const originalBottomEdge = this.Rect!.Y + this.Rect!.Height;
-      this.Rect!.Y = newY;
-      this.Rect!.Height = originalBottomEdge - newY;
+      const originalBottomEdge = this.Rect.Y + this.Rect.Height;
+      this.Rect.Y = newY;
+      this.Rect.Height = originalBottomEdge - newY;
     } else if (anchor === 'bottom') {
-      this.Rect!.Height = newY - this.Rect!.Y;
+      this.Rect.Height = newY - this.Rect.Y;
     }
   }
 
@@ -162,5 +166,21 @@ export class RectComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  // 
+  pageX: number = 0
+  pageY: number = 0
+  getSvgTopLeftCoordinates() {
+    const svgElement = this.elementRef.nativeElement.querySelector('svg');
+    const svgRect = svgElement.getBoundingClientRect();
+    this.pageX = svgRect.left + window.pageXOffset;
+    this.pageY = svgRect.top + window.pageYOffset;
+  
+    console.log('SVG Top-Left Corner:', this.pageX, this.pageY);
+  }
+
+  ngAfterViewInit() {
+    this.getSvgTopLeftCoordinates();
   }
 }

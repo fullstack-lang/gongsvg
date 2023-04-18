@@ -81,6 +81,7 @@ export class SvgComponent implements OnInit, OnDestroy {
 
         this.endX = coordinate[0]
         this.endY = coordinate[1]
+        console.log('Mouse drag event occurred on rectangle ', this.endX, this.endY);
       })
     )
 

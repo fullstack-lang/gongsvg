@@ -1,13 +1,13 @@
 <div class="parent" (click)="onClick($event)">
 
-    <!-- <div class="parent">
+    <div class="parent">
         <svg *ngIf="linkDrawing" class="child">
             <g>
                 <line [attr.x1]="startX" [attr.y1]="startY" [attr.x2]="endX" [attr.y2]="endY" stroke="black" stroke-dasharray="5,5" [attr.stroke-width]="2">
                 </line>
             </g>
         </svg>
-    </div> -->
+    </div>
 
     <div *ngFor="let elt of svg.Layers" class="child">
         <lib-layer [GONG__StackPath]="GONG__StackPath" [Layer]="elt">

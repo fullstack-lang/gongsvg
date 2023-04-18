@@ -1,4 +1,4 @@
-<div class="child">
+<div class="child" (click)="onDivClick($event)">
 
     <div *ngFor="let elt of Layer?.Rects" class="parent">
         <lib-rect [GONG__StackPath]="GONG__StackPath" [Rect]="elt">

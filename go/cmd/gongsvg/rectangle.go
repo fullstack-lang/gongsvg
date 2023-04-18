@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -111,21 +112,21 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Bottom.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000000_Bottom.Transform = ``
 	__Rect__000000_Bottom.IsSelectable = true
-	__Rect__000000_Bottom.IsSelected = true
+	__Rect__000000_Bottom.IsSelected = false
 	__Rect__000000_Bottom.CanHaveLeftHandle = true
-	__Rect__000000_Bottom.HasLeftHandle = true
+	__Rect__000000_Bottom.HasLeftHandle = false
 	__Rect__000000_Bottom.CanHaveRightHandle = true
-	__Rect__000000_Bottom.HasRightHandle = true
+	__Rect__000000_Bottom.HasRightHandle = false
 	__Rect__000000_Bottom.CanHaveTopHandle = true
-	__Rect__000000_Bottom.HasTopHandle = true
+	__Rect__000000_Bottom.HasTopHandle = false
 	__Rect__000000_Bottom.CanHaveBottomHandle = true
-	__Rect__000000_Bottom.HasBottomHandle = true
+	__Rect__000000_Bottom.HasBottomHandle = false
 	__Rect__000000_Bottom.CanMoveHorizontaly = false
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 341.000000
+	__Rect__000001_Top.X = 417.000000
 	__Rect__000001_Top.Y = 326.000000
 	__Rect__000001_Top.Width = 234.000000
 	__Rect__000001_Top.Height = 300.000000
@@ -176,3 +177,5 @@ func rectangleInjection(stage *models.StageStruct) {
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000001_Top
 }
+
+

@@ -19,4 +19,7 @@ export class LayerComponent implements OnInit {
     // console.log("Layer component->ngOnInit : Layer, ", this.Layer?.Name, ", GONG__StackPath, " + this.GONG__StackPath)
   }
 
+  onDivClick(event: MouseEvent) {
+    console.log("Layer: on div click")
+  }
 }

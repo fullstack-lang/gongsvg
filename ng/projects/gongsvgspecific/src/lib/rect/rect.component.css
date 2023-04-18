@@ -8,4 +8,6 @@ svg {
 
 .overlay {
     pointer-events: auto;
+        z-index: 200;
+
 }

@@ -1,6 +1,7 @@
 .parent {
     position: relative;
     width: 3000;
+    pointer-events: none;
 }
 
 .child {
@@ -8,5 +9,5 @@
     width: 3000px;
     height: 8000px;
     z-index: 100;
-    pointer-events: none;
+    /* pointer-events: none; */
 }

@@ -1,44 +1,43 @@
-<!-- <div class="child" (click)="onDivClick($event)"> -->
-<div class="child">
+<div class="parent">
 
-    <div *ngFor="let elt of Layer?.Rects" class="parent">
+    <div *ngFor="let elt of Layer?.Rects" class="child">
         <lib-rect [GONG__StackPath]="GONG__StackPath" [Rect]="elt">
         </lib-rect>
     </div>
 
-    <div *ngFor="let elt of Layer?.Circles" class="parent">
+    <div *ngFor="let elt of Layer?.Circles" class="child">
         <lib-circle [Circle]="elt">
         </lib-circle>
     </div>
 
-    <div *ngFor="let ellipse of Layer?.Ellipses" class="parent">
+    <div *ngFor="let ellipse of Layer?.Ellipses" class="child">
         <lib-ellipse [Ellipse]="ellipse">
         </lib-ellipse>
     </div>
 
 
-    <div *ngFor="let line of Layer?.Lines" class="parent">
+    <div *ngFor="let line of Layer?.Lines" class="child">
         <lib-line [GONG__StackPath]="GONG__StackPath" [Line]="line">
         </lib-line>
     </div>
 
-    <div *ngFor="let path of Layer?.Paths" class="parent">
+    <div *ngFor="let path of Layer?.Paths" class="child">
         <lib-path [Path]="path">
         </lib-path>
     </div>
 
-    <div *ngFor="let polygone of Layer?.Polygones" class="parent">
+    <div *ngFor="let polygone of Layer?.Polygones" class="child">
         <lib-polygone [Polygone]="polygone">
         </lib-polygone>
     </div>
 
 
-    <div *ngFor="let polyline of Layer?.Polylines" class="parent">
+    <div *ngFor="let polyline of Layer?.Polylines" class="child">
         <lib-polyline [Polyline]="polyline">
         </lib-polyline>
     </div>
 
-    <div *ngFor="let elt of Layer?.Texts" class="parent">
+    <div *ngFor="let elt of Layer?.Texts" class="child">
         <lib-text [Text]="elt">
         </lib-text>
     </div>

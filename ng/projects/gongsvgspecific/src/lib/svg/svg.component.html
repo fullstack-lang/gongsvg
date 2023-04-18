@@ -1,4 +1,4 @@
-<div (click)="onClick($event)">
+<div class="parent" (click)="onClick($event)">
 
     <!-- <div class="parent">
         <svg *ngIf="linkDrawing" class="child">
@@ -9,7 +9,7 @@
         </svg>
     </div> -->
 
-    <div *ngFor="let elt of svg.Layers" class="parent">
+    <div *ngFor="let elt of svg.Layers" class="child">
         <lib-layer [GONG__StackPath]="GONG__StackPath" [Layer]="elt">
         </lib-layer>
     </div>

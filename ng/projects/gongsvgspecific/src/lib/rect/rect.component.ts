@@ -113,11 +113,6 @@ export class RectComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  // management for line drawing
-  private selectedRect: any
-  private svg: gongsvg.SVGDB = new gongsvg.SVGDB()
-
   startRectDrag(event: MouseEvent): void {
 
     if (!event.altKey) {

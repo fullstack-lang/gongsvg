@@ -198,6 +198,7 @@ export class SvgComponent implements OnInit, OnDestroy {
   }
 
   onClick(event: MouseEvent) {
-    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+    console.log("SVG : on click()")
+    // event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
   }
 }

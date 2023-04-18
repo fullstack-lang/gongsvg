@@ -47,12 +47,16 @@ export class RectComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
-  onClick(event: MouseEvent) {
+  onSVGClick(event: MouseEvent) {
+    console.log("rect, onSVGClick(): ", this.Rect?.Name)
+  }
+
+  onRectClick(event: MouseEvent) {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
     if (!event.altKey) {
       if (this.Rect?.IsSelectable) {
-        // console.log("rect, onClick() toggle selected: ", this.Rect?.Name)
+        console.log("rect, onRectClick() toggle selected: ", this.Rect?.Name)
         this.Rect.IsSelected = !this.Rect.IsSelected
         this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
 

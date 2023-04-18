@@ -200,5 +200,8 @@ export class SvgComponent implements OnInit, OnDestroy {
   onClick(event: MouseEvent) {
     console.log("SVG : on click()")
     // event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+    // an event is emitted for all rects to go on a unselect mode
+    this.rectangleEventService.emitRectMouseDownEvent(0)
   }
 }

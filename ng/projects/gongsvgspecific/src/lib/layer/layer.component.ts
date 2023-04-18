@@ -9,9 +9,14 @@ import * as gongsvg from 'gongsvg'
   templateUrl: './layer.component.html',
   styleUrls: ['./layer.component.css']
 })
-export class LayerComponent {
+export class LayerComponent implements OnInit {
 
   @Input() GONG__StackPath: string = ""
-  @Input() Layer: gongsvg.LayerDB = new gongsvg.LayerDB()
+  @Input() Layer?: gongsvg.LayerDB
+
+  ngOnInit(): void {
+
+    // console.log("Layer component->ngOnInit : Layer, ", this.Layer?.Name, ", GONG__StackPath, " + this.GONG__StackPath)
+  }
 
 }

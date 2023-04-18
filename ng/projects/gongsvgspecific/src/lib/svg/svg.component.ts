@@ -28,9 +28,11 @@ export class SvgComponent implements OnInit, OnDestroy {
   linkStartRectangleID: number = 0
 
   //
-  // for link drawing
+  // for events management
   //
   private subscriptions: Subscription[] = [];
+
+
   // if true, the end user is shiftKey + mouse down from one rectangle
   // to another
   linkDrawing: boolean = false
@@ -49,7 +51,7 @@ export class SvgComponent implements OnInit, OnDestroy {
   ) {
 
     this.subscriptions.push(
-      rectangleEventService.mouseRectAltKeyDownEvent$.subscribe((rectangleID: number) => {
+      rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe((rectangleID: number) => {
         console.log('Mouse down event occurred on rectangle ', rectangleID);
         this.linkStartRectangleID = rectangleID
 
@@ -75,7 +77,7 @@ export class SvgComponent implements OnInit, OnDestroy {
     )
 
     this.subscriptions.push(
-      rectangleEventService.mouseRectAltKeyDragEvent$.subscribe((coordinate: Coordinate) => {
+      rectangleEventService.mouseRectAltKeyMouseDragEvent$.subscribe((coordinate: Coordinate) => {
 
         this.endX = coordinate[0]
         this.endY = coordinate[1]
@@ -90,7 +92,7 @@ export class SvgComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    console.log("Svg component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
+    // console.log("Svg component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
 
     // see above for the explanation
     this.gongsvgNbFromBackService.getCommitNbFromBack(500, this.GONG__StackPath).subscribe(
@@ -156,7 +158,7 @@ export class SvgComponent implements OnInit, OnDestroy {
   }
 
   handleGlobalMouseUp = (event: MouseEvent) => {
-    console.log("Layer Component, global mouse up")
+    // console.log("Layer Component, global mouse up")
     this.linkDrawing = false
   }
 

@@ -1,14 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { RectangleEventService } from '../rectangle-event.service';
 
 import * as gongsvg from 'gongsvg'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'lib-rect',
   templateUrl: './rect.component.svg',
   styleUrls: ['./rect.component.css']
 })
-export class RectComponent implements OnInit {
+export class RectComponent implements OnInit, OnDestroy {
 
   @Input() Rect: gongsvg.RectDB = new gongsvg.RectDB
   @Input() GONG__StackPath: string = ""
@@ -18,10 +19,30 @@ export class RectComponent implements OnInit {
   anchorFillColor = 'blue'; // Choose your desired anchor fill color
   draggingAnchorFillColor = 'red'; // Change this to the desired color when dragging
 
+  //
+  // for events management
+  //
+  private subscriptions: Subscription[] = [];
+
   constructor(
     private rectService: gongsvg.RectService,
     private svgService: gongsvg.SVGService,
-    private rectangleEventService: RectangleEventService) { }
+    private rectangleEventService: RectangleEventService) {
+
+    this.subscriptions.push(
+      rectangleEventService.mouseRectMouseDownEvent$.subscribe(
+        (rectangleID: number) => {
+
+          if (rectangleID != this.Rect.ID) {
+            if (this.Rect.IsSelected) {
+              this.Rect.IsSelected = false
+              this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+            }
+          }
+          // console.log('Rect ', this.Rect.Name, 'Mouse down event occurred on rectangle ', rectangleID);
+        })
+    );
+  }
 
   ngOnInit(): void {
   }
@@ -31,9 +52,11 @@ export class RectComponent implements OnInit {
 
     if (!event.altKey) {
       if (this.Rect?.IsSelectable) {
-        console.log("rect, onClick() toggle selected: ", this.Rect?.Name)
-        this.Rect!.IsSelected = !this.Rect!.IsSelected
-        this.rectService.updateRect(this.Rect!, this.GONG__StackPath).subscribe()
+        // console.log("rect, onClick() toggle selected: ", this.Rect?.Name)
+        this.Rect.IsSelected = !this.Rect.IsSelected
+        this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+
+        this.rectangleEventService.emitRectMouseDownEvent(this.Rect.ID)
       }
     }
   }
@@ -64,11 +87,11 @@ export class RectComponent implements OnInit {
 
 
     if (anchor === 'left') {
-      const originalRightEdge = this.Rect!.X + this.Rect!.Width;
-      this.Rect!.X = newX;
-      this.Rect!.Width = originalRightEdge - newX;
+      const originalRightEdge = this.Rect.X + this.Rect.Width;
+      this.Rect.X = newX;
+      this.Rect.Width = originalRightEdge - newX;
     } else if (anchor === 'right') {
-      this.Rect!.Width = newX - this.Rect!.X;
+      this.Rect.Width = newX - this.Rect.X;
     }
   }
 
@@ -76,7 +99,7 @@ export class RectComponent implements OnInit {
     if (!event.altKey) {
       this.anchorDragging = false;
       this.activeAnchor = null;
-      this.rectService.updateRect(this.Rect!, this.GONG__StackPath).subscribe()
+      this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
     }
   }
 
@@ -93,12 +116,12 @@ export class RectComponent implements OnInit {
 
       this.rectDragging = true;
 
-      this.offsetX = event.clientX - this.Rect!.X
-      this.offsetY = event.clientY - this.Rect!.Y
+      this.offsetX = event.clientX - this.Rect.X
+      this.offsetY = event.clientY - this.Rect.Y
     } else {
       console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 
-      this.rectangleEventService.emitRectAltKeyMouseDownEvent(this.Rect!.ID);
+      this.rectangleEventService.emitRectAltKeyMouseDownEvent(this.Rect.ID);
     }
   }
 
@@ -114,21 +137,25 @@ export class RectComponent implements OnInit {
     }
 
     if (this.Rect?.CanMoveHorizontaly) {
-      this.Rect!.X = event.clientX - this.offsetX;
+      this.Rect.X = event.clientX - this.offsetX;
     }
     if (this.Rect?.CanMoveVerticaly) {
-      this.Rect!.Y = event.clientY - this.offsetY;
+      this.Rect.Y = event.clientY - this.offsetY;
     }
   }
 
   endRectDrag(event: MouseEvent): void {
     if (!event.altKey) {
       this.rectDragging = false;
-      this.rectService.updateRect(this.Rect!, this.GONG__StackPath).subscribe()
+      this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
     } else {
       console.log("endRectDrag + shiftKey rect : ", this.Rect?.Name)
 
-      this.rectangleEventService.emitMouseRectAltKeyMouseUpEvent(this.Rect!.ID);
+      this.rectangleEventService.emitMouseRectAltKeyMouseUpEvent(this.Rect.ID);
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }

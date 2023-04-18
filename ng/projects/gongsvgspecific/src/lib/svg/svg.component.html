@@ -6,9 +6,8 @@
         </g>
     </svg>
 </div>
-<div *ngFor="let layer of svg.Layers" class="parent">
-    <div *ngFor="let elt of svg.Layers" class="parent">
-        <lib-layer [GONG__StackPath]="GONG__StackPath" [Layer]="elt">
-        </lib-layer>
-    </div>
+
+<div *ngFor="let elt of svg.Layers" class="parent">
+    <lib-layer [GONG__StackPath]="GONG__StackPath" [Layer]="elt">
+    </lib-layer>
 </div>

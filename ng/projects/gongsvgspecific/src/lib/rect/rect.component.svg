@@ -1,4 +1,5 @@
-<svg class="child" (click)="onSVGClick($event)" >
+<!-- <svg class="child" (click)="onSVGClick($event)" > -->
+<svg class="child">
     <g>
         <rect 
             class="overlay" 

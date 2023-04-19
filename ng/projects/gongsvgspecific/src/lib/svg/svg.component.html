@@ -1,4 +1,17 @@
-<div class="parent" (click)="onClick($event)">
+<div #drawingArea
+    class="parent" 
+    (click)="onClick($event)">
+
+    <div class="background" (mousemove)="dragLine($event)">
+
+    </div>
+
+
+    <div *ngFor="let elt of svg.Layers" class="child">
+        <lib-layer [GONG__StackPath]="GONG__StackPath" [Layer]="elt">
+        </lib-layer>
+    </div>
+
     <div >
         <svg *ngIf="linkDrawing" class="link_trace">
             <g>
@@ -10,10 +23,7 @@
                 </line>
             </g>
         </svg>
-    </div>
 
-    <div *ngFor="let elt of svg.Layers" class="child">
-        <lib-layer [GONG__StackPath]="GONG__StackPath" [Layer]="elt">
-        </lib-layer>
+
     </div>
 </div>

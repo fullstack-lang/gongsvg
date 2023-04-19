@@ -5,7 +5,7 @@
     width: 3000px;
     /* height: 8000px; */
     /* z-index: 100; */
-    pointer-events: auto;
+    pointer-events: none;
 }
 
 .child {
@@ -18,6 +18,12 @@
     position: absolute;
     width: 3000px;
     height: 8000px;
-    z-index: 200;
     pointer-events: none;
+}
+
+.background {
+    position: absolute;
+    width: 3000px;
+    height: 8000px;
+    pointer-events: auto;
 }

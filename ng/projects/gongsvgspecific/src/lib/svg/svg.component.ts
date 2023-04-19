@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 import { Coordinate, RectangleEventService } from '../rectangle-event.service';
 
@@ -9,7 +9,7 @@ import * as gongsvg from 'gongsvg'
   templateUrl: './svg.component.html',
   styleUrls: ['./svg.component.css']
 })
-export class SvgComponent implements OnInit, OnDestroy {
+export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Input() GONG__StackPath: string = ""
 
@@ -47,7 +47,8 @@ export class SvgComponent implements OnInit, OnDestroy {
     private gongsvgNbFromBackService: gongsvg.CommitNbFromBackService,
     private gongsvgPushFromFrontNbService: gongsvg.PushFromFrontNbService,
     private svgService: gongsvg.SVGService,
-    private rectangleEventService: RectangleEventService
+    private rectangleEventService: RectangleEventService,
+    private elementRef: ElementRef, 
   ) {
 
     this.subscriptions.push(
@@ -205,5 +206,42 @@ export class SvgComponent implements OnInit, OnDestroy {
 
     // an event is emitted for all rects to go on a unselect mode
     this.rectangleEventService.emitRectMouseDownEvent(0)
+  }
+
+  dragLine(event: MouseEvent): void {
+
+
+    const actualX = event.clientX - this.pageX
+    const actualY = event.clientY - this.pageY
+    
+    // we want this event to bubble to the SVG element
+    if (event.altKey) {
+      this.rectangleEventService.emitRectAltKeyMouseDragEvent([actualX, actualY])
+      return
+    }
+  }
+
+  endDragLine(event: MouseEvent): void {
+
+    if (event.altKey) {
+      console.log("SvgComponent, End drag line")
+    }
+  }
+
+  pageX: number = 0
+  pageY: number = 0
+  @ViewChild('drawingArea') drawingArea: ElementRef<HTMLDivElement> | undefined
+
+  ngAfterViewInit() {
+    const offset = this.getDivOffset(this.drawingArea!.nativeElement);
+    this.pageX = offset.offsetX
+    this.pageY = offset.offsetY
+  }
+
+  getDivOffset(div: HTMLDivElement): { offsetX: number; offsetY: number } {
+    const rect = div.getBoundingClientRect();
+    const offsetX = rect.left + window.pageXOffset;
+    const offsetY = rect.top + window.pageYOffset;
+    return { offsetX, offsetY };
   }
 }

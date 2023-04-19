@@ -140,14 +140,16 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   dragRect(event: MouseEvent): void {
-    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
-
-    const actualX = event.clientX - this.pageX
-    const actualY = event.clientY - this.pageY
     
+    // we want this event to bubble to the SVG element
     if (event.altKey) {
-      this.rectangleEventService.emitRectAltKeyMouseDragEvent([actualX, actualY])
+      console.log('RectComponent, Alt Mouse drag event occurred on rectangle ', this.Rect.Name, event.clientX, event.clientY);
+
+      // this.rectangleEventService.emitRectAltKeyMouseDragEvent([actualX, actualY])
+      return
     }
+
+    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
     if (!this.rectDragging) {
       return;

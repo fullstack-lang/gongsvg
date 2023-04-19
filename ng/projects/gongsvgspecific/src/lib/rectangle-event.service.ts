@@ -3,6 +3,12 @@ import { Subject } from 'rxjs';
 
 export type Coordinate = [number, number]
 
+// Define the interface for the event object
+interface RectAltKeyMouseDownEvent {
+  rectangleID: number;
+  Coordinate: [number, number];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,10 +21,10 @@ export class RectangleEventService {
     this.mouseRectMouseDownEventSource.next(rectangleID);
   }
 
-  private mouseRectAltKeyMouseDownEventSource = new Subject<number>();
+  private mouseRectAltKeyMouseDownEventSource = new Subject<RectAltKeyMouseDownEvent>();
   mouseRectAltKeyMouseDownEvent$ = this.mouseRectAltKeyMouseDownEventSource.asObservable();
-  emitRectAltKeyMouseDownEvent(rectangleID: number) {
-    this.mouseRectAltKeyMouseDownEventSource.next(rectangleID);
+  emitRectAltKeyMouseDownEvent(rectangleID: number, coordinate: [number, number]) {
+    this.mouseRectAltKeyMouseDownEventSource.next({ rectangleID, Coordinate: coordinate });
   }
 
   private mouseRectAltKeyMouseUpEventSource = new Subject<number>();

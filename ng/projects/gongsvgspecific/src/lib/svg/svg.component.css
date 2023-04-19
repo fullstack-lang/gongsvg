@@ -3,7 +3,7 @@
 .parent {
     position: absolute;
     width: 3000px;
-    height: 8000px;
+    /* height: 8000px; */
     /* z-index: 100; */
     pointer-events: auto;
 }
@@ -11,5 +11,13 @@
 .child {
     position: absolute;
     width: 3000;
-    pointer-events: auto;
+    pointer-events: none;
+}
+
+.link_trace {
+    position: absolute;
+    width: 3000px;
+    height: 8000px;
+    z-index: 200;
+    pointer-events: none;
 }

@@ -1,9 +1,12 @@
 <div class="parent" (click)="onClick($event)">
-
-    <div class="parent">
-        <svg *ngIf="linkDrawing" class="child">
+    <div >
+        <svg *ngIf="linkDrawing" class="link_trace">
             <g>
-                <line [attr.x1]="startX" [attr.y1]="startY" [attr.x2]="endX" [attr.y2]="endY" stroke="black" stroke-dasharray="5,5" [attr.stroke-width]="2">
+                <line 
+                [attr.x1]="startX" [attr.y1]="startY" 
+                [attr.x2]="endX" [attr.y2]="endY" 
+                stroke="black" stroke-dasharray="5,5" 
+                [attr.stroke-width]="2">
                 </line>
             </g>
         </svg>

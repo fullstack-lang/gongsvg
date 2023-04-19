@@ -91,8 +91,8 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
   
-    const newX = event.clientX;
-    const newY = event.clientY - this.pageY;
+    const newX = event.clientX - this.pageX
+    const newY = event.clientY - this.pageY
   
     if (anchor === 'left') {
       const originalRightEdge = this.Rect.X + this.Rect.Width;
@@ -130,15 +130,23 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 
-      this.rectangleEventService.emitRectAltKeyMouseDownEvent(this.Rect.ID);
+      const actualX = event.clientX - this.pageX
+      const actualY = event.clientY - this.pageY
+
+      this.rectangleEventService.emitRectAltKeyMouseDownEvent( 
+         this.Rect.ID,
+        [actualX, actualY] );
     }
   }
 
   dragRect(event: MouseEvent): void {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
+    const actualX = event.clientX - this.pageX
+    const actualY = event.clientY - this.pageY
+    
     if (event.altKey) {
-      this.rectangleEventService.emitRectAltKeyMouseDragEvent([event.clientX, event.clientY])
+      this.rectangleEventService.emitRectAltKeyMouseDragEvent([actualX, actualY])
     }
 
     if (!this.rectDragging) {

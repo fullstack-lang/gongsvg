@@ -99,10 +99,10 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 438.000000
-	__Rect__000000_Bottom.Y = 135.000000
-	__Rect__000000_Bottom.Width = 288.000000
-	__Rect__000000_Bottom.Height = 282.000000
+	__Rect__000000_Bottom.X = 366.000000
+	__Rect__000000_Bottom.Y = 342.005684
+	__Rect__000000_Bottom.Width = 222.000000
+	__Rect__000000_Bottom.Height = 214.000000
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`
 	__Rect__000000_Bottom.FillOpacity = 50.000000
@@ -121,13 +121,13 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Bottom.HasTopHandle = false
 	__Rect__000000_Bottom.CanHaveBottomHandle = true
 	__Rect__000000_Bottom.HasBottomHandle = false
-	__Rect__000000_Bottom.CanMoveHorizontaly = false
+	__Rect__000000_Bottom.CanMoveHorizontaly = true
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 209.000000
-	__Rect__000001_Top.Y = 326.000000
+	__Rect__000001_Top.X = 84.000000
+	__Rect__000001_Top.Y = 55.000000
 	__Rect__000001_Top.Width = 267.000000
 	__Rect__000001_Top.Height = 300.000000
 	__Rect__000001_Top.RX = 3.000000
@@ -149,7 +149,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.CanHaveBottomHandle = false
 	__Rect__000001_Top.HasBottomHandle = false
 	__Rect__000001_Top.CanMoveHorizontaly = true
-	__Rect__000001_Top.CanMoveVerticaly = false
+	__Rect__000001_Top.CanMoveVerticaly = true
 
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
@@ -174,8 +174,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000002_Top_Rectangle_layer.Rects = append(__Layer__000002_Top_Rectangle_layer.Rects, __Rect__000001_Top)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Top_Rectangle_layer)
-	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
-	__SVG__000000_SVG.EndRect = __Rect__000001_Top
+	__SVG__000000_SVG.StartRect = __Rect__000001_Top
+	__SVG__000000_SVG.EndRect = __Rect__000000_Bottom
 }
 
 

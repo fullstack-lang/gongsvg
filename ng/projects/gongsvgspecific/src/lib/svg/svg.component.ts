@@ -51,8 +51,9 @@ export class SvgComponent implements OnInit, OnDestroy {
   ) {
 
     this.subscriptions.push(
-      rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe((rectangleID: number) => {
-        console.log('Mouse down event occurred on rectangle ', rectangleID);
+      rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe(
+        ({ rectangleID: rectangleID, Coordinate : coordinate} ) => {
+        console.log('SvgComponent, Mouse down event occurred on rectangle ', rectangleID, " at ", coordinate)
         this.linkStartRectangleID = rectangleID
 
         let rect = this.gongsvgFrontRepo?.Rects.get(rectangleID)
@@ -62,26 +63,26 @@ export class SvgComponent implements OnInit, OnDestroy {
         }
 
         this.linkDrawing = true
-        this.startX = rect.X + rect.Width / 2;
-        this.startY = rect.Y + rect.Height / 2;
+        this.startX = coordinate[0]
+        this.startY = coordinate[1]
       })
     );
-
-    this.subscriptions.push(
-      rectangleEventService.mouseRectAltKeyMouseUpEvent$.subscribe((rectangleID: number) => {
-        console.log('Mouse up event occurred on rectangle ', rectangleID);
-        this.linkDrawing = false
-
-        this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)
-      })
-    )
 
     this.subscriptions.push(
       rectangleEventService.mouseRectAltKeyMouseDragEvent$.subscribe((coordinate: Coordinate) => {
 
         this.endX = coordinate[0]
         this.endY = coordinate[1]
-        console.log('Mouse drag event occurred on rectangle ', this.endX, this.endY);
+        console.log('SvgComponent, Mouse drag event occurred on rectangle ', this.linkDrawing, this.startX, this.startY, this.endX, this.endY);
+      })
+    )
+
+    this.subscriptions.push(
+      rectangleEventService.mouseRectAltKeyMouseUpEvent$.subscribe((rectangleID: number) => {
+        console.log('SvgComponent, Mouse up event occurred on rectangle ', rectangleID);
+        this.linkDrawing = false
+
+        this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)
       })
     )
 

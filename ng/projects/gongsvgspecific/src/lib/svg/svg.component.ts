@@ -74,7 +74,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.endX = coordinate[0]
         this.endY = coordinate[1]
-        console.log('SvgComponent, Mouse drag event occurred on rectangle ', this.linkDrawing, this.startX, this.startY, this.endX, this.endY);
+        console.log('SvgComponent, Received Mouse drag event occurred', this.linkDrawing, this.startX, this.startY, this.endX, this.endY);
       })
     )
 
@@ -216,6 +216,8 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     
     // we want this event to bubble to the SVG element
     if (event.altKey) {
+      console.log('SvgComponent, Mouse drag event occurred', this.linkDrawing, this.startX, this.startY, this.endX, this.endY);
+
       this.rectangleEventService.emitRectAltKeyMouseDragEvent([actualX, actualY])
       return
     }

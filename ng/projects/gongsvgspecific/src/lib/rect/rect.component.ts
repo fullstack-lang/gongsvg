@@ -145,7 +145,10 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.altKey) {
       console.log('RectComponent, Alt Mouse drag event occurred on rectangle ', this.Rect.Name, event.clientX, event.clientY);
 
-      // this.rectangleEventService.emitRectAltKeyMouseDragEvent([actualX, actualY])
+      let x= event.clientX - this.pageX
+      let y = event.clientY - this.pageY
+
+      this.rectangleEventService.emitRectAltKeyMouseDragEvent([x, y])
       return
     }
 

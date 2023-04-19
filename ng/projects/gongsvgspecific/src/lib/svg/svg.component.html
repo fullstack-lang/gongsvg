@@ -2,7 +2,13 @@
     class="parent" 
     (click)="onClick($event)">
 
-    <div class="background" (mousemove)="dragLine($event)">
+    <!-- the background is the part of the screen where 
+    no shapes appears. It is useful for certain events -->
+    <div class="background" 
+    (mousedown)="startSelectionDrag($event)" 
+    (mousemove)="mousemove($event)"
+    (mouseup)="endSelectionDrag($event)"
+    >
 
     </div>
 
@@ -23,7 +29,14 @@
                 </line>
             </g>
         </svg>
-
-
+        <svg *ngIf="selectionRectDrawing" class="link_trace">
+            <g>
+                <rect 
+                [attr.x]="rectX" [attr.y]="rectY" 
+                [attr.width]="width" 
+                [attr.height]="height" 
+                stroke-dasharray="5,5" stroke="black" stroke-width="2" fill="none" />
+            </g>
+        </svg>
     </div>
 </div>

@@ -41,6 +41,11 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
   endX = 0;
   endY = 0;
 
+  selectionRectDrawing: boolean = false
+  rectX = 100;
+  rectY = 100;
+  width = 300;
+  height = 40;
 
   constructor(
     private gongsvgFrontRepoService: gongsvg.FrontRepoService,
@@ -48,25 +53,25 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     private gongsvgPushFromFrontNbService: gongsvg.PushFromFrontNbService,
     private svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
-    private elementRef: ElementRef, 
+    private elementRef: ElementRef,
   ) {
 
     this.subscriptions.push(
       rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe(
-        ({ rectangleID: rectangleID, Coordinate : coordinate} ) => {
-        console.log('SvgComponent, Mouse down event occurred on rectangle ', rectangleID, " at ", coordinate)
-        this.linkStartRectangleID = rectangleID
+        ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
+          console.log('SvgComponent, Mouse down event occurred on rectangle ', rectangleID, " at ", coordinate)
+          this.linkStartRectangleID = rectangleID
 
-        let rect = this.gongsvgFrontRepo?.Rects.get(rectangleID)
+          let rect = this.gongsvgFrontRepo?.Rects.get(rectangleID)
 
-        if (rect == undefined) {
-          return
-        }
+          if (rect == undefined) {
+            return
+          }
 
-        this.linkDrawing = true
-        this.startX = coordinate[0]
-        this.startY = coordinate[1]
-      })
+          this.linkDrawing = true
+          this.startX = coordinate[0]
+          this.startY = coordinate[1]
+        })
     );
 
     this.subscriptions.push(
@@ -86,9 +91,6 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
         this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)
       })
     )
-
-    // Add a global mouse up event listener
-    document.addEventListener('mouseup', this.handleGlobalMouseUp)
   }
 
 
@@ -145,24 +147,8 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     )
   }
 
-  fillColor = 'rgb(255, 0, 0)';
-  Text = "Toto"
-  width = 150
-  height = 200
-  changeColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    this.fillColor = `rgb(${r}, ${g}, ${b})`;
-  }
-
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-  }
-
-  handleGlobalMouseUp = (event: MouseEvent) => {
-    // console.log("Layer Component, global mouse up")
-    this.linkDrawing = false
   }
 
   onEndOfLinkDrawing(startRectangleID: number, endRectangleID: number) {
@@ -208,26 +194,28 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     this.rectangleEventService.emitRectMouseDownEvent(0)
   }
 
-  dragLine(event: MouseEvent): void {
-
-
+  mousemove(event: MouseEvent): void {
     const actualX = event.clientX - this.pageX
     const actualY = event.clientY - this.pageY
-    
+
     // we want this event to bubble to the SVG element
     if (event.altKey) {
-      console.log('SvgComponent, Mouse drag event occurred', this.linkDrawing, this.startX, this.startY, this.endX, this.endY);
+      console.log('SvgComponent, ALT Mouse drag event occurred', this.linkDrawing, this.startX, this.startY, this.endX, this.endY);
 
       this.rectangleEventService.emitRectAltKeyMouseDragEvent([actualX, actualY])
       return
     }
-  }
+    if (event.shiftKey) {
 
-  endDragLine(event: MouseEvent): void {
+      this.rectX = Math.min(this.startX, actualX);
+      this.rectY = Math.min(this.startY, actualY);
+      this.width = Math.abs(actualX - this.startX);
+      this.height = Math.abs(actualY - this.startY);
 
-    if (event.altKey) {
-      console.log("SvgComponent, End drag line")
+      console.log('SvgComponent, SHIFT Mouse drag event occurred', this.selectionRectDrawing, this.rectX, this.rectY, this.width, this.height);
+
     }
+
   }
 
   pageX: number = 0
@@ -246,4 +234,24 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     const offsetY = rect.top + window.pageYOffset;
     return { offsetX, offsetY };
   }
+
+
+  //
+  // code for the multiple shapes selection
+  //
+  // shiftKey + Drag
+  startSelectionDrag(event: MouseEvent): void {
+    if (event.shiftKey) {
+      this.selectionRectDrawing = true
+      this.startX = event.clientX - this.pageX
+      this.startY = event.clientY - this.pageY
+    }
+  }
+
+  endSelectionDrag(event: MouseEvent): void {
+    this.selectionRectDrawing = false
+    this.endX = event.clientX - this.pageX
+    this.endY = event.clientY - this.pageY
+  }
+
 }

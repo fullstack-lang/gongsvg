@@ -4,15 +4,22 @@ import { Subject } from 'rxjs';
 export type Coordinate = [number, number]
 
 // Define the interface for the event object
-interface RectAltKeyMouseDownEvent {
+interface RectMouseEvent {
   rectangleID: number;
-  Coordinate: [number, number];
+  Coordinate: [number, number]
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class RectangleEventService {
+
+  private mouseRectMouseDragEventSource = new Subject<RectMouseEvent>();
+  mouseRectMouseDragEvent$ = this.mouseRectMouseDragEventSource.asObservable();
+  emitRectMouseDragEvent(rectMouseEvent: RectMouseEvent) {
+    // console.log('RectangleEventService, rect mouse drag event, rectangle', rectangleID)
+    this.mouseRectMouseDragEventSource.next(rectMouseEvent);
+  }
 
   private mouseRectMouseDownEventSource = new Subject<number>();
   mouseRectMouseDownEvent$ = this.mouseRectMouseDownEventSource.asObservable();
@@ -21,7 +28,7 @@ export class RectangleEventService {
     this.mouseRectMouseDownEventSource.next(rectangleID);
   }
 
-  private mouseRectAltKeyMouseDownEventSource = new Subject<RectAltKeyMouseDownEvent>();
+  private mouseRectAltKeyMouseDownEventSource = new Subject<RectMouseEvent>();
   mouseRectAltKeyMouseDownEvent$ = this.mouseRectAltKeyMouseDownEventSource.asObservable();
   emitRectAltKeyMouseDownEvent(rectangleID: number, coordinate: [number, number]) {
     this.mouseRectAltKeyMouseDownEventSource.next({ rectangleID, Coordinate: coordinate });

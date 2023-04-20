@@ -89,6 +89,21 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
         })
     );
 
+    this.subscriptions.push(
+      rectangleEventService.mouseRectMouseDragEvent$.subscribe(
+        ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
+
+          if (this.Rect.ID == rectangleID) {
+            if (this.Rect?.CanMoveHorizontaly) {
+              this.Rect.X = coordinate[0] - this.offsetX;
+            }
+            if (this.Rect?.CanMoveVerticaly) {
+              this.Rect.Y = coordinate[1] - this.offsetY;
+            }
+          }
+        })
+    );
+
   }
 
   ngOnInit(): void {
@@ -184,21 +199,17 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   dragRect(event: MouseEvent): void {
 
+    let x = event.clientX - this.pageX
+    let y = event.clientY - this.pageY
+
     // we want this event to bubble to the SVG element
     if (event.altKey) {
       console.log('RectComponent, Alt Mouse drag event occurred on rectangle ', this.Rect.Name, event.clientX, event.clientY);
-
-      let x = event.clientX - this.pageX
-      let y = event.clientY - this.pageY
-
       this.rectangleEventService.emitRectAltKeyMouseDragEvent([x, y])
       return
     }
 
     if (event.shiftKey) {
-      let x = event.clientX - this.pageX
-      let y = event.clientY - this.pageY
-
       this.svgEventService.emitMultiShapeSelectDrag([x, y])
       return
     }
@@ -209,12 +220,12 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    if (this.Rect?.CanMoveHorizontaly) {
-      this.Rect.X = event.clientX - this.offsetX;
+    let mouseEvent = {
+      rectangleID: this.Rect.ID,
+      Coordinate: [x, y] as [number, number]
     }
-    if (this.Rect?.CanMoveVerticaly) {
-      this.Rect.Y = event.clientY - this.offsetY;
-    }
+
+    this.rectangleEventService.emitRectMouseDragEvent(mouseEvent)
   }
 
   endRectDrag(event: MouseEvent): void {

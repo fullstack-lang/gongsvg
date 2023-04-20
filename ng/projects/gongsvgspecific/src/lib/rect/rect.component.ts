@@ -30,7 +30,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     private rectService: gongsvg.RectService,
     private svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
-    private elementRef: ElementRef, 
+    private elementRef: ElementRef,
     private renderer: Renderer2) {
 
     this.subscriptions.push(
@@ -76,7 +76,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   offsetX = 0;
   offsetY = 0;
 
-  startAnchorDrag(event: MouseEvent, anchor: 'left' | 'right'| 'top' | 'bottom' ): void {
+  startAnchorDrag(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom'): void {
     event.preventDefault();
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
@@ -86,14 +86,14 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   anchorDrag(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom'): void {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
-  
+
     if (!this.anchorDragging) {
       return;
     }
-  
+
     const newX = event.clientX - this.pageX
     const newY = event.clientY - this.pageY
-  
+
     if (anchor === 'left') {
       const originalRightEdge = this.Rect.X + this.Rect.Width;
       this.Rect.X = newX;
@@ -133,19 +133,19 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       const actualX = event.clientX - this.pageX
       const actualY = event.clientY - this.pageY
 
-      this.rectangleEventService.emitRectAltKeyMouseDownEvent( 
-         this.Rect.ID,
-        [actualX, actualY] );
+      this.rectangleEventService.emitRectAltKeyMouseDownEvent(
+        this.Rect.ID,
+        [actualX, actualY]);
     }
   }
 
   dragRect(event: MouseEvent): void {
-    
+
     // we want this event to bubble to the SVG element
     if (event.altKey) {
       console.log('RectComponent, Alt Mouse drag event occurred on rectangle ', this.Rect.Name, event.clientX, event.clientY);
 
-      let x= event.clientX - this.pageX
+      let x = event.clientX - this.pageX
       let y = event.clientY - this.pageY
 
       this.rectangleEventService.emitRectAltKeyMouseDragEvent([x, y])
@@ -189,8 +189,8 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     const svgRect = svgElement.getBoundingClientRect();
     this.pageX = svgRect.left + window.pageXOffset;
     this.pageY = svgRect.top + window.pageYOffset;
-  
-    console.log('SVG Top-Left Corner:', this.pageX, this.pageY);
+
+    // console.log('SVG Top-Left Corner:', this.pageX, this.pageY);
   }
 
   ngAfterViewInit() {

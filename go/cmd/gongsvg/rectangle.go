@@ -126,8 +126,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 165.000000
-	__Rect__000001_Top.Y = 582.000000
+	__Rect__000001_Top.X = 227.000000
+	__Rect__000001_Top.Y = 265.000000
 	__Rect__000001_Top.Width = 267.000000
 	__Rect__000001_Top.Height = 300.000000
 	__Rect__000001_Top.RX = 3.000000
@@ -141,9 +141,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.IsSelectable = true
 	__Rect__000001_Top.IsSelected = false
 	__Rect__000001_Top.CanHaveLeftHandle = true
-	__Rect__000001_Top.HasLeftHandle = true
+	__Rect__000001_Top.HasLeftHandle = false
 	__Rect__000001_Top.CanHaveRightHandle = true
-	__Rect__000001_Top.HasRightHandle = true
+	__Rect__000001_Top.HasRightHandle = false
 	__Rect__000001_Top.CanHaveTopHandle = false
 	__Rect__000001_Top.HasTopHandle = false
 	__Rect__000001_Top.CanHaveBottomHandle = false
@@ -175,7 +175,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Top_Rectangle_layer)
 	__SVG__000000_SVG.StartRect = __Rect__000001_Top
-	__SVG__000000_SVG.EndRect = __Rect__000001_Top
+	__SVG__000000_SVG.EndRect = __Rect__000000_Bottom
 }
 
 

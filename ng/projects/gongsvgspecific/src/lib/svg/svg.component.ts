@@ -94,6 +94,20 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
         this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)
       })
     )
+
+    this.subscriptions.push(
+      svgEventService.multiShapeSelectDragEvent$.subscribe(
+        (coordinate: Coordinate) => {
+
+          let actualX = coordinate[0]
+          let actualY = coordinate[1]
+
+          this.rectX = Math.min(this.startX, actualX);
+          this.rectY = Math.min(this.startY, actualY);
+          this.width = Math.abs(actualX - this.startX);
+          this.height = Math.abs(actualY - this.startY);
+        })
+    );
   }
 
 
@@ -210,11 +224,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.shiftKey) {
 
-      this.rectX = Math.min(this.startX, actualX);
-      this.rectY = Math.min(this.startY, actualY);
-      this.width = Math.abs(actualX - this.startX);
-      this.height = Math.abs(actualY - this.startY);
-
+      this.svgEventService.emitMultiShapeSelectDrag([actualX, actualY])
       // console.log('SvgComponent, SHIFT Mouse drag event occurred', this.selectionRectDrawing, this.rectX, this.rectY, this.width, this.height);
 
     }

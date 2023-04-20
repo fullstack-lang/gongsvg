@@ -186,6 +186,14 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       return
     }
 
+    if (event.shiftKey) {
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
+
+      this.svgEventService.emitMultiShapeSelectDrag([x, y])
+      return
+    }
+
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
     if (!this.rectDragging) {

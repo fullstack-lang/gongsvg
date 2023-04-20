@@ -23,4 +23,10 @@ export class SvgEventService {
   emitMultiShapeSelectEnd(selectAreaConfig: SelectAreaConfig) {
     this.multiShapeSelectEndSource.next(selectAreaConfig);
   }
+
+  private multiShapeSelectDragSource = new Subject<Coordinate>();
+  multiShapeSelectDragEvent$ = this.multiShapeSelectDragSource.asObservable();
+  emitMultiShapeSelectDrag(Coordinate: Coordinate) {
+    this.multiShapeSelectDragSource.next(Coordinate);
+  }
 }

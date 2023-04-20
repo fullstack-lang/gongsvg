@@ -18,6 +18,12 @@ export class SelectAreaConfig {
 })
 export class SvgEventService {
 
+  private mouseShiftKeyMouseUpEventSource = new Subject<Coordinate>();
+  mouseShiftKeyMouseUpEvent$ = this.mouseShiftKeyMouseUpEventSource.asObservable();
+  emitMouseShiftKeyMouseUpEvent(Coordinate: Coordinate) {
+    this.mouseShiftKeyMouseUpEventSource.next(Coordinate);
+  }
+
   private multiShapeSelectEndSource = new Subject<SelectAreaConfig>();
   multiShapeSelectEndEvent$ = this.multiShapeSelectEndSource.asObservable();
   emitMultiShapeSelectEnd(selectAreaConfig: SelectAreaConfig) {

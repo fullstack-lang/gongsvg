@@ -108,6 +108,34 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
           this.height = Math.abs(actualY - this.startY);
         })
     );
+
+    this.subscriptions.push(
+      svgEventService.mouseShiftKeyMouseUpEvent$.subscribe(
+        (coordinate: Coordinate) => {
+
+          let actualX = coordinate[0]
+          let actualY = coordinate[1]
+
+          this.selectionRectDrawing = false
+          this.endX = actualX - this.pageX
+          this.endY = actualY - this.pageY
+
+          let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
+
+          if (this.endX > this.startX) {
+            selectAreaConfig.SweepDirection = SweepDirection.LEFT_TO_RIGHT
+            selectAreaConfig.TopLeft = [this.startX, this.startY]
+            selectAreaConfig.BottomRigth = [this.endX, this.endY]
+          } else {
+            selectAreaConfig.SweepDirection = SweepDirection.RIGHT_TO_LEFT
+            selectAreaConfig.TopLeft = [this.endX, this.endY]
+            selectAreaConfig.BottomRigth = [this.startX, this.startY]
+          }
+
+          this.svgEventService.emitMultiShapeSelectEnd(selectAreaConfig)
+        }
+      )
+    )
   }
 
 
@@ -262,23 +290,10 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   endSelectionDrag(event: MouseEvent): void {
-    this.selectionRectDrawing = false
-    this.endX = event.clientX - this.pageX
-    this.endY = event.clientY - this.pageY
 
-    let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
-
-    if (this.endX > this.startX) {
-      selectAreaConfig.SweepDirection = SweepDirection.LEFT_TO_RIGHT
-      selectAreaConfig.TopLeft = [this.startX, this.startY]
-      selectAreaConfig.BottomRigth = [this.endX, this.endY]
-    } else {
-      selectAreaConfig.SweepDirection = SweepDirection.RIGHT_TO_LEFT
-      selectAreaConfig.TopLeft = [this.endX, this.endY]
-      selectAreaConfig.BottomRigth = [this.startX, this.startY]
+    if (event.shiftKey) {
+      this.svgEventService.emitMouseShiftKeyMouseUpEvent([event.clientX, event.clientY])
     }
-
-    this.svgEventService.emitMultiShapeSelectEnd(selectAreaConfig)
   }
 
 }

@@ -228,6 +228,10 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.rectangleEventService.emitMouseRectAltKeyMouseUpEvent(this.Rect.ID);
     }
+
+    if (event.shiftKey) {
+      this.svgEventService.emitMouseShiftKeyMouseUpEvent([event.clientX, event.clientY])
+    }
   }
 
   ngOnDestroy() {

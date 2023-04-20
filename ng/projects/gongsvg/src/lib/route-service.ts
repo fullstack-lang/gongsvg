@@ -17,6 +17,9 @@ import { LayerDetailComponent } from './layer-detail/layer-detail.component'
 import { LinesTableComponent } from './lines-table/lines-table.component'
 import { LineDetailComponent } from './line-detail/line-detail.component'
 
+import { LinksTableComponent } from './links-table/links-table.component'
+import { LinkDetailComponent } from './link-detail/link-detail.component'
+
 import { PathsTableComponent } from './paths-table/paths-table.component'
 import { PathDetailComponent } from './path-detail/path-detail.component'
 
@@ -228,6 +231,39 @@ export class RouteService {
     getLineDetailRoute(stackPath: string): Route {
         let route: Route =
             { path: this.getLineDetailPath(), component: LineDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+
+    getLinkTablePath(): string {
+        return this.getPathRoot() + '-links/:GONG__StackPath'
+    }
+    getLinkTableRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getLinkTablePath(), component: LinksTableComponent, outlet: this.getTableOutlet(stackPath) }
+        return route
+    }
+    getLinkAdderPath(): string {
+        return this.getPathRoot() + '-link-adder/:GONG__StackPath'
+    }
+    getLinkAdderRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getLinkAdderPath(), component: LinkDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+    getLinkAdderForUsePath(): string {
+        return this.getPathRoot() + '-link-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    }
+    getLinkAdderForUseRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getLinkAdderForUsePath(), component: LinkDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+    getLinkDetailPath(): string {
+        return this.getPathRoot() + '-link-detail/:id/:GONG__StackPath'
+    }
+    getLinkDetailRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getLinkDetailPath(), component: LinkDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
 
@@ -459,6 +495,11 @@ export class RouteService {
             this.getLineAdderRoute(stackPath),
             this.getLineAdderForUseRoute(stackPath),
             this.getLineDetailRoute(stackPath),
+
+            this.getLinkTableRoute(stackPath),
+            this.getLinkAdderRoute(stackPath),
+            this.getLinkAdderForUseRoute(stackPath),
+            this.getLinkDetailRoute(stackPath),
 
             this.getPathTableRoute(stackPath),
             this.getPathAdderRoute(stackPath),

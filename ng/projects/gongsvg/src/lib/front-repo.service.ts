@@ -19,6 +19,9 @@ import { LayerService } from './layer.service'
 import { LineDB } from './line-db'
 import { LineService } from './line.service'
 
+import { LinkDB } from './link-db'
+import { LinkService } from './link.service'
+
 import { PathDB } from './path-db'
 import { PathService } from './path.service'
 
@@ -55,6 +58,9 @@ export class FrontRepo { // insertion point sub template
   Lines_array = new Array<LineDB>(); // array of repo instances
   Lines = new Map<number, LineDB>(); // map of repo instances
   Lines_batch = new Map<number, LineDB>(); // same but only in last GET (for finding repo instances to delete)
+  Links_array = new Array<LinkDB>(); // array of repo instances
+  Links = new Map<number, LinkDB>(); // map of repo instances
+  Links_batch = new Map<number, LinkDB>(); // same but only in last GET (for finding repo instances to delete)
   Paths_array = new Array<PathDB>(); // array of repo instances
   Paths = new Map<number, PathDB>(); // map of repo instances
   Paths_batch = new Map<number, PathDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -140,6 +146,7 @@ export class FrontRepoService {
     private ellipseService: EllipseService,
     private layerService: LayerService,
     private lineService: LineService,
+    private linkService: LinkService,
     private pathService: PathService,
     private polygoneService: PolygoneService,
     private polylineService: PolylineService,
@@ -181,6 +188,7 @@ export class FrontRepoService {
     Observable<EllipseDB[]>,
     Observable<LayerDB[]>,
     Observable<LineDB[]>,
+    Observable<LinkDB[]>,
     Observable<PathDB[]>,
     Observable<PolygoneDB[]>,
     Observable<PolylineDB[]>,
@@ -193,6 +201,7 @@ export class FrontRepoService {
       this.ellipseService.getEllipses(this.GONG__StackPath),
       this.layerService.getLayers(this.GONG__StackPath),
       this.lineService.getLines(this.GONG__StackPath),
+      this.linkService.getLinks(this.GONG__StackPath),
       this.pathService.getPaths(this.GONG__StackPath),
       this.polygoneService.getPolygones(this.GONG__StackPath),
       this.polylineService.getPolylines(this.GONG__StackPath),
@@ -217,6 +226,7 @@ export class FrontRepoService {
       this.ellipseService.getEllipses(this.GONG__StackPath),
       this.layerService.getLayers(this.GONG__StackPath),
       this.lineService.getLines(this.GONG__StackPath),
+      this.linkService.getLinks(this.GONG__StackPath),
       this.pathService.getPaths(this.GONG__StackPath),
       this.polygoneService.getPolygones(this.GONG__StackPath),
       this.polylineService.getPolylines(this.GONG__StackPath),
@@ -236,6 +246,7 @@ export class FrontRepoService {
             ellipses_,
             layers_,
             lines_,
+            links_,
             paths_,
             polygones_,
             polylines_,
@@ -255,6 +266,8 @@ export class FrontRepoService {
             layers = layers_ as LayerDB[]
             var lines: LineDB[]
             lines = lines_ as LineDB[]
+            var links: LinkDB[]
+            links = links_ as LinkDB[]
             var paths: PathDB[]
             paths = paths_ as PathDB[]
             var polygones: PolygoneDB[]
@@ -427,6 +440,39 @@ export class FrontRepoService {
 
             // sort Lines_array array
             this.frontRepo.Lines_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
+            this.frontRepo.Links_array = links
+
+            // clear the map that counts Link in the GET
+            this.frontRepo.Links_batch.clear()
+
+            links.forEach(
+              link => {
+                this.frontRepo.Links.set(link.ID, link)
+                this.frontRepo.Links_batch.set(link.ID, link)
+              }
+            )
+
+            // clear links that are absent from the batch
+            this.frontRepo.Links.forEach(
+              link => {
+                if (this.frontRepo.Links_batch.get(link.ID) == undefined) {
+                  this.frontRepo.Links.delete(link.ID)
+                }
+              }
+            )
+
+            // sort Links_array array
+            this.frontRepo.Links_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -827,6 +873,27 @@ export class FrontRepoService {
                     }
                   }
                 }
+              }
+            )
+            links.forEach(
+              link => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field Start redeeming
+                {
+                  let _rect = this.frontRepo.Rects.get(link.StartID.Int64)
+                  if (_rect) {
+                    link.Start = _rect
+                  }
+                }
+                // insertion point for pointer field End redeeming
+                {
+                  let _rect = this.frontRepo.Rects.get(link.EndID.Int64)
+                  if (_rect) {
+                    link.End = _rect
+                  }
+                }
+
+                // insertion point for redeeming ONE-MANY associations
               }
             )
             paths.forEach(
@@ -1372,6 +1439,71 @@ export class FrontRepoService {
     )
   }
 
+  // LinkPull performs a GET on Link of the stack and redeem association pointers 
+  LinkPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.linkService.getLinks(this.GONG__StackPath)
+        ]).subscribe(
+          ([ // insertion point sub template 
+            links,
+          ]) => {
+            // init the array
+            this.frontRepo.Links_array = links
+
+            // clear the map that counts Link in the GET
+            this.frontRepo.Links_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            links.forEach(
+              link => {
+                this.frontRepo.Links.set(link.ID, link)
+                this.frontRepo.Links_batch.set(link.ID, link)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+                // insertion point for pointer field Start redeeming
+                {
+                  let _rect = this.frontRepo.Rects.get(link.StartID.Int64)
+                  if (_rect) {
+                    link.Start = _rect
+                  }
+                }
+                // insertion point for pointer field End redeeming
+                {
+                  let _rect = this.frontRepo.Rects.get(link.EndID.Int64)
+                  if (_rect) {
+                    link.End = _rect
+                  }
+                }
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+
+            // clear links that are absent from the GET
+            this.frontRepo.Links.forEach(
+              link => {
+                if (this.frontRepo.Links_batch.get(link.ID) == undefined) {
+                  this.frontRepo.Links.delete(link.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(this.frontRepo)
+          }
+        )
+      }
+    )
+  }
+
   // PathPull performs a GET on Path of the stack and redeem association pointers 
   PathPull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
@@ -1774,21 +1906,24 @@ export function getLayerUniqueID(id: number): number {
 export function getLineUniqueID(id: number): number {
   return 47 * id
 }
-export function getPathUniqueID(id: number): number {
+export function getLinkUniqueID(id: number): number {
   return 53 * id
 }
-export function getPolygoneUniqueID(id: number): number {
+export function getPathUniqueID(id: number): number {
   return 59 * id
 }
-export function getPolylineUniqueID(id: number): number {
+export function getPolygoneUniqueID(id: number): number {
   return 61 * id
 }
-export function getRectUniqueID(id: number): number {
+export function getPolylineUniqueID(id: number): number {
   return 67 * id
 }
-export function getSVGUniqueID(id: number): number {
+export function getRectUniqueID(id: number): number {
   return 71 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getSVGUniqueID(id: number): number {
   return 73 * id
+}
+export function getTextUniqueID(id: number): number {
+  return 79 * id
 }

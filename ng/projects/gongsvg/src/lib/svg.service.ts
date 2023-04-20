@@ -126,7 +126,7 @@ export class SVGService {
     return this.http.put<SVGDB>(url, svgdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated svgdb id=${svgdb.ID}`)
+        // this.log(`updated svgdb id=${svgdb.ID}`)
       }),
       catchError(this.handleError<SVGDB>('updateSVG'))
     );

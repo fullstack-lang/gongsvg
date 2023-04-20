@@ -18,6 +18,7 @@ export class PolylineDB {
 	Stroke: string = ""
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
+	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
 	// insertion point for other declarations

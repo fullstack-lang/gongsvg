@@ -46,6 +46,12 @@ export * from './lib/lines-table/lines-table.component'
 export * from './lib/line-db'
 export * from './lib/line.service'
 
+export * from './lib/link-detail/link-detail.component'
+export * from './lib/link-sorting/link-sorting.component'
+export * from './lib/links-table/links-table.component'
+export * from './lib/link-db'
+export * from './lib/link.service'
+
 export * from './lib/path-detail/path-detail.component'
 export * from './lib/path-sorting/path-sorting.component'
 export * from './lib/paths-table/paths-table.component'
@@ -83,5 +89,6 @@ export * from './lib/text-db'
 export * from './lib/text.service'
 
 
+export * from './lib/AnchorType'
 export * from './lib/ColorType'
 export * from './lib/DrawingState'

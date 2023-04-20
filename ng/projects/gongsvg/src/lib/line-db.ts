@@ -21,6 +21,7 @@ export class LineDB {
 	Stroke: string = ""
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
+	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 	MouseClickX: number = 0
 	MouseClickY: number = 0

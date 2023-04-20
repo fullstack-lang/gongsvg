@@ -2,6 +2,86 @@
 package models
 
 // insertion point of enum utility functions
+// Utility function for AnchorType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (anchortype AnchorType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch anchortype {
+	// insertion code per enum code
+	case ANCHOR_TOP:
+		res = "ANCHOR_TOP"
+	case ANCHOR_BOTTOM:
+		res = "ANCHOR_BOTTOM"
+	case ANCHOR_LEFT:
+		res = "ANCHOR_LEFT"
+	case ANCHOR_RIGHT:
+		res = "ANCHOR_RIGHT"
+	case ANCHOR_CENTER:
+		res = "ANCHOR_CENTER"
+	}
+	return
+}
+
+func (anchortype *AnchorType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ANCHOR_TOP":
+		*anchortype = ANCHOR_TOP
+	case "ANCHOR_BOTTOM":
+		*anchortype = ANCHOR_BOTTOM
+	case "ANCHOR_LEFT":
+		*anchortype = ANCHOR_LEFT
+	case "ANCHOR_RIGHT":
+		*anchortype = ANCHOR_RIGHT
+	case "ANCHOR_CENTER":
+		*anchortype = ANCHOR_CENTER
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (anchortype *AnchorType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ANCHOR_TOP":
+		*anchortype = ANCHOR_TOP
+	case "ANCHOR_BOTTOM":
+		*anchortype = ANCHOR_BOTTOM
+	case "ANCHOR_LEFT":
+		*anchortype = ANCHOR_LEFT
+	case "ANCHOR_RIGHT":
+		*anchortype = ANCHOR_RIGHT
+	case "ANCHOR_CENTER":
+		*anchortype = ANCHOR_CENTER
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (anchortype *AnchorType) ToCodeString() (res string) {
+
+	switch *anchortype {
+	// insertion code per enum code
+	case ANCHOR_TOP:
+		res = "ANCHOR_TOP"
+	case ANCHOR_BOTTOM:
+		res = "ANCHOR_BOTTOM"
+	case ANCHOR_LEFT:
+		res = "ANCHOR_LEFT"
+	case ANCHOR_RIGHT:
+		res = "ANCHOR_RIGHT"
+	case ANCHOR_CENTER:
+		res = "ANCHOR_CENTER"
+	}
+	return
+}
+
 // Utility function for ColorType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

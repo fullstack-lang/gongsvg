@@ -3,31 +3,39 @@ import { Subject } from 'rxjs';
 
 export type Coordinate = [number, number]
 
+// Define the interface for the event object
+interface RectAltKeyMouseDownEvent {
+  rectangleID: number;
+  Coordinate: [number, number];
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class RectangleEventService {
-  private mouseDownEventSource = new Subject<number>();
 
-  mouseDownEvent$ = this.mouseDownEventSource.asObservable();
-
-  emitMouseDownEvent(rectangleID: number) {
-    this.mouseDownEventSource.next(rectangleID);
+  private mouseRectMouseDownEventSource = new Subject<number>();
+  mouseRectMouseDownEvent$ = this.mouseRectMouseDownEventSource.asObservable();
+  emitRectMouseDownEvent(rectangleID: number) {
+    // console.log('RectangleEventService, rect mouse down event, rectangle', rectangleID)
+    this.mouseRectMouseDownEventSource.next(rectangleID);
   }
 
-  private mouseUpEventSource = new Subject<number>();
-
-  mouseUpEvent$ = this.mouseUpEventSource.asObservable();
-
-  emitMouseUpEvent(rectangleID: number) {
-    this.mouseUpEventSource.next(rectangleID);
+  private mouseRectAltKeyMouseDownEventSource = new Subject<RectAltKeyMouseDownEvent>();
+  mouseRectAltKeyMouseDownEvent$ = this.mouseRectAltKeyMouseDownEventSource.asObservable();
+  emitRectAltKeyMouseDownEvent(rectangleID: number, coordinate: [number, number]) {
+    this.mouseRectAltKeyMouseDownEventSource.next({ rectangleID, Coordinate: coordinate });
   }
 
-  private mouseDragEventSource = new Subject<Coordinate>()
+  private mouseRectAltKeyMouseUpEventSource = new Subject<number>();
+  mouseRectAltKeyMouseUpEvent$ = this.mouseRectAltKeyMouseUpEventSource.asObservable();
+  emitMouseRectAltKeyMouseUpEvent(rectangleID: number) {
+    this.mouseRectAltKeyMouseUpEventSource.next(rectangleID);
+  }
 
-  mouseDragEvent$ = this.mouseDragEventSource.asObservable()
-
-  emitMouseDragEvent(coordinate: Coordinate) {
-    this.mouseDragEventSource.next(coordinate)
+  private mouseRectAltKeyMouseDragEventSource = new Subject<Coordinate>()
+  mouseRectAltKeyMouseDragEvent$ = this.mouseRectAltKeyMouseDragEventSource.asObservable()
+  emitRectAltKeyMouseDragEvent(coordinate: Coordinate) {
+    this.mouseRectAltKeyMouseDragEventSource.next(coordinate)
   }
 }

@@ -175,7 +175,7 @@ export class AnimateService {
         animatedb.Polyline_Animates_reverse = _Polyline_Animates_reverse
         animatedb.Rect_Animations_reverse = _Rect_Animations_reverse
         animatedb.Text_Animates_reverse = _Text_Animates_reverse
-        this.log(`updated animatedb id=${animatedb.ID}`)
+        // this.log(`updated animatedb id=${animatedb.ID}`)
       }),
       catchError(this.handleError<AnimateDB>('updateAnimate'))
     );

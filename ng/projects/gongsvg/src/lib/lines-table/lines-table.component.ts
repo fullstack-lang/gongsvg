@@ -102,6 +102,9 @@ export class LinesTableComponent implements OnInit {
         case 'StrokeDashArray':
           return lineDB.StrokeDashArray;
 
+        case 'StrokeDashArrayWhenSelected':
+          return lineDB.StrokeDashArrayWhenSelected;
+
         case 'Transform':
           return lineDB.Transform;
 
@@ -142,6 +145,7 @@ export class LinesTableComponent implements OnInit {
       mergedContent += lineDB.Stroke.toLowerCase()
       mergedContent += lineDB.StrokeWidth.toString()
       mergedContent += lineDB.StrokeDashArray.toLowerCase()
+      mergedContent += lineDB.StrokeDashArrayWhenSelected.toLowerCase()
       mergedContent += lineDB.Transform.toLowerCase()
       mergedContent += lineDB.MouseClickX.toString()
       mergedContent += lineDB.MouseClickY.toString()
@@ -213,6 +217,7 @@ export class LinesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "StrokeDashArrayWhenSelected",
         "Transform",
         "MouseClickX",
         "MouseClickY",
@@ -230,6 +235,7 @@ export class LinesTableComponent implements OnInit {
         "Stroke",
         "StrokeWidth",
         "StrokeDashArray",
+        "StrokeDashArrayWhenSelected",
         "Transform",
         "MouseClickX",
         "MouseClickY",

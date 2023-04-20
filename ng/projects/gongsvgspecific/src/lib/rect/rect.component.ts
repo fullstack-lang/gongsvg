@@ -71,10 +71,19 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.Rect.IsSelected = true
                 this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
               }
-
-
               break
             case SweepDirection.RIGHT_TO_LEFT:
+
+              // rectangle has to be partialy boxed in the rect
+              if (
+                this.Rect.X < selectAreaConfig.BottomRigth[0] &&
+                this.Rect.X + this.Rect.Width > selectAreaConfig.TopLeft[0] &&
+                this.Rect.Y < selectAreaConfig.BottomRigth[1] &&
+                this.Rect.Y + this.Rect.Height > selectAreaConfig.TopLeft[1]
+              ) {
+                this.Rect.IsSelected = true
+                this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+              }
               break
           }
         })
@@ -212,7 +221,9 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!event.altKey && !event.shiftKey) {
       this.rectDragging = false;
       this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
-    } else {
+    }
+
+    if (event.altKey) {
       console.log("endRectDrag + shiftKey rect : ", this.Rect?.Name)
 
       this.rectangleEventService.emitMouseRectAltKeyMouseUpEvent(this.Rect.ID);

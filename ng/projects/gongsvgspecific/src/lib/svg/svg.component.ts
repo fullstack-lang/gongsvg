@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
+
 import { Coordinate, RectangleEventService } from '../rectangle-event.service';
+import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.service';
 
 import * as gongsvg from 'gongsvg'
 
@@ -53,6 +55,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     private gongsvgPushFromFrontNbService: gongsvg.PushFromFrontNbService,
     private svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
+    private svgEventService: SvgEventService,
     private elementRef: ElementRef,
   ) {
 
@@ -252,6 +255,20 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectionRectDrawing = false
     this.endX = event.clientX - this.pageX
     this.endY = event.clientY - this.pageY
+
+    let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
+
+    if (this.endX > this.startX) {
+      selectAreaConfig.SweepDirection = SweepDirection.LEFT_TO_RIGHT
+      selectAreaConfig.TopLeft = [this.startX, this.startY]
+      selectAreaConfig.BottomRigth = [this.endX, this.endY]
+    } else {
+      selectAreaConfig.SweepDirection = SweepDirection.RIGHT_TO_LEFT
+      selectAreaConfig.TopLeft = [this.endX, this.endY]
+      selectAreaConfig.BottomRigth = [this.startX, this.startY]
+    }
+
+    this.svgEventService.emitMultiShapeSelectEnd(selectAreaConfig)
   }
 
 }

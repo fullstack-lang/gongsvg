@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { RectangleEventService } from '../rectangle-event.service';
 import { ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 
+
+import { RectangleEventService } from '../rectangle-event.service';
+import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.service';
 
 import * as gongsvg from 'gongsvg'
 import { Subscription } from 'rxjs';
@@ -30,6 +32,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     private rectService: gongsvg.RectService,
     private svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
+    private svgEventService: SvgEventService,
     private elementRef: ElementRef,
     private renderer: Renderer2) {
 
@@ -46,6 +49,37 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
           // console.log('Rect ', this.Rect.Name, 'Mouse down event occurred on rectangle ', rectangleID);
         })
     );
+
+    this.subscriptions.push(
+      svgEventService.multiShapeSelectEndEvent$.subscribe(
+        (selectAreaConfig: SelectAreaConfig) => {
+
+          if (this.Rect.IsSelected) {
+            return
+          }
+
+          switch (selectAreaConfig.SweepDirection) {
+            case SweepDirection.LEFT_TO_RIGHT:
+
+              // rectangle has to be in boxed in the rect
+              if (
+                this.Rect.X > selectAreaConfig.TopLeft[0] &&
+                this.Rect.X + this.Rect.Width < selectAreaConfig.BottomRigth[0] &&
+                this.Rect.Y > selectAreaConfig.TopLeft[1] &&
+                this.Rect.Y + this.Rect.Height < selectAreaConfig.BottomRigth[1]
+              ) {
+                this.Rect.IsSelected = true
+                this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+              }
+
+
+              break
+            case SweepDirection.RIGHT_TO_LEFT:
+              break
+          }
+        })
+    );
+
   }
 
   ngOnInit(): void {
@@ -58,7 +92,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   onRectClick(event: MouseEvent) {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
-    if (!event.altKey) {
+    if (!event.altKey && !event.shiftKey) {
       if (this.Rect?.IsSelectable) {
         console.log("rect, onRectClick() toggle selected: ", this.Rect?.Name)
         this.Rect.IsSelected = !this.Rect.IsSelected
@@ -110,7 +144,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   endAnchorDrag(event: MouseEvent): void {
-    if (!event.altKey) {
+    if (!event.altKey && !event.shiftKey) {
       this.anchorDragging = false;
       this.activeAnchor = null;
       this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
@@ -167,7 +201,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   endRectDrag(event: MouseEvent): void {
-    if (!event.altKey) {
+    if (!event.altKey && !event.shiftKey) {
       this.rectDragging = false;
       this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
     } else {

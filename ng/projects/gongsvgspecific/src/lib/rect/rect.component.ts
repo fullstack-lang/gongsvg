@@ -189,8 +189,11 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.rectDragging = true;
 
-      this.offsetX = event.clientX - this.Rect.X
-      this.offsetY = event.clientY - this.Rect.Y
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
+
+      this.offsetX = x - this.Rect.X
+      this.offsetY = y - this.Rect.Y
     } else {
       console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 

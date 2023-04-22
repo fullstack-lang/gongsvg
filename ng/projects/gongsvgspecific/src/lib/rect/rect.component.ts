@@ -93,7 +93,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       rectangleEventService.mouseRectMouseDragEvent$.subscribe(
         ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
 
-          if (this.Rect.ID == rectangleID) {
+          if (this.rectDragging) {
             if (this.Rect?.CanMoveHorizontaly) {
               this.Rect.X = coordinate[0] - this.offsetX;
             }
@@ -224,10 +224,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
-
-    if (!this.rectDragging) {
-      return;
-    }
 
     let mouseEvent = {
       rectangleID: this.Rect.ID,

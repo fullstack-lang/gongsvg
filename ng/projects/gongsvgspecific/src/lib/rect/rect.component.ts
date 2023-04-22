@@ -116,7 +116,13 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   onRectClick(event: MouseEvent) {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
+    if (this.rectDragging) {
+      this.rectDragging = false;
+      return
+    }
+
     if (!event.altKey && !event.shiftKey) {
+
       if (this.Rect?.IsSelectable) {
         console.log("rect, onRectClick() toggle selected: ", this.Rect?.Name)
         this.Rect.IsSelected = !this.Rect.IsSelected
@@ -230,7 +236,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   endRectDrag(event: MouseEvent): void {
     if (!event.altKey && !event.shiftKey) {
-      this.rectDragging = false;
       this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
     }
 

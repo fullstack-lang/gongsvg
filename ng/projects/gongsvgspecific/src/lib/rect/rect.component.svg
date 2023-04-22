@@ -3,7 +3,7 @@
     <g>
         <rect 
             class="overlay" 
-            (click)="onRectClick($event)" 
+
             [attr.x]="Rect.X" [attr.y]="Rect.Y" 
             [attr.width]="Rect.Width" 
             [attr.height]="Rect.Height" 
@@ -15,6 +15,7 @@
             [attr.stroke-dasharray]="Rect.IsSelected ? Rect.StrokeDashArrayWhenSelected : Rect.StrokeDashArray" 
             [attr.transform]="Rect.Transform"
             
+            (click)="onRectClick($event)" 
             (mousedown)="startRectDrag($event)" 
             (mousemove)="dragRect($event)" 
             (mouseup)="endRectDrag($event)"

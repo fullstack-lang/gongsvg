@@ -53,10 +53,10 @@
 			"args": [
 				"run",
 				"main.go",
-                "-unmarshallFromCode",
-                "rectangle.go",
-                "-marshallOnCommit",
-                "rectangle"
+				"-unmarshallFromCode",
+				"rectangle.go",
+				"-marshallOnCommit",
+				"rectangle"
 			],
 			"group": "build"
 		},
@@ -134,6 +134,36 @@
 			"type": "shell",
 			"group": "build",
 			"command": "go get -d github.com/fullstack-lang/gong@HEAD"
+		},
+		{
+			"label": "00 - go work edit -use gongsvg",
+			"type": "shell",
+			"options": {
+				"cwd": "./"
+			},
+			"command": "go",
+			"args": [
+				"work",
+				"edit",
+				"-use",
+				"gongsvg"
+			],
+			"group": "build"
+		},
+		{
+			"label": "00 - go work edit -dropuse gongsvg",
+			"type": "shell",
+			"options": {
+				"cwd": "./"
+			},
+			"command": "go",
+			"args": [
+				"work",
+				"edit",
+				"-dropuse",
+				"gongsvg"
+			],
+			"group": "build"
 		},
 	]
 }

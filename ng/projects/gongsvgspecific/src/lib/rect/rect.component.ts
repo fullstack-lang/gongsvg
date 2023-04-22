@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { RectangleEventService } from '../rectangle-event.service';
 import { ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 
+
+import { RectangleEventService } from '../rectangle-event.service';
+import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.service';
 
 import * as gongsvg from 'gongsvg'
 import { Subscription } from 'rxjs';
@@ -30,6 +32,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     private rectService: gongsvg.RectService,
     private svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
+    private svgEventService: SvgEventService,
     private elementRef: ElementRef,
     private renderer: Renderer2) {
 
@@ -46,6 +49,61 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
           // console.log('Rect ', this.Rect.Name, 'Mouse down event occurred on rectangle ', rectangleID);
         })
     );
+
+    this.subscriptions.push(
+      svgEventService.multiShapeSelectEndEvent$.subscribe(
+        (selectAreaConfig: SelectAreaConfig) => {
+
+          if (this.Rect.IsSelected) {
+            return
+          }
+
+          switch (selectAreaConfig.SweepDirection) {
+            case SweepDirection.LEFT_TO_RIGHT:
+
+              // rectangle has to be in boxed in the rect
+              if (
+                this.Rect.X > selectAreaConfig.TopLeft[0] &&
+                this.Rect.X + this.Rect.Width < selectAreaConfig.BottomRigth[0] &&
+                this.Rect.Y > selectAreaConfig.TopLeft[1] &&
+                this.Rect.Y + this.Rect.Height < selectAreaConfig.BottomRigth[1]
+              ) {
+                this.Rect.IsSelected = true
+                this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+              }
+              break
+            case SweepDirection.RIGHT_TO_LEFT:
+
+              // rectangle has to be partialy boxed in the rect
+              if (
+                this.Rect.X < selectAreaConfig.BottomRigth[0] &&
+                this.Rect.X + this.Rect.Width > selectAreaConfig.TopLeft[0] &&
+                this.Rect.Y < selectAreaConfig.BottomRigth[1] &&
+                this.Rect.Y + this.Rect.Height > selectAreaConfig.TopLeft[1]
+              ) {
+                this.Rect.IsSelected = true
+                this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+              }
+              break
+          }
+        })
+    );
+
+    this.subscriptions.push(
+      rectangleEventService.mouseRectMouseDragEvent$.subscribe(
+        ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
+
+          if (this.rectDragging) {
+            if (this.Rect?.CanMoveHorizontaly) {
+              this.Rect.X = coordinate[0] - this.offsetX;
+            }
+            if (this.Rect?.CanMoveVerticaly) {
+              this.Rect.Y = coordinate[1] - this.offsetY;
+            }
+          }
+        })
+    );
+
   }
 
   ngOnInit(): void {
@@ -58,7 +116,13 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   onRectClick(event: MouseEvent) {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
-    if (!event.altKey) {
+    if (this.rectDragging) {
+      this.rectDragging = false;
+      return
+    }
+
+    if (!event.altKey && !event.shiftKey) {
+
       if (this.Rect?.IsSelectable) {
         console.log("rect, onRectClick() toggle selected: ", this.Rect?.Name)
         this.Rect.IsSelected = !this.Rect.IsSelected
@@ -110,7 +174,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   endAnchorDrag(event: MouseEvent): void {
-    if (!event.altKey) {
+    if (!event.altKey && !event.shiftKey) {
       this.anchorDragging = false;
       this.activeAnchor = null;
       this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
@@ -125,8 +189,11 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.rectDragging = true;
 
-      this.offsetX = event.clientX - this.Rect.X
-      this.offsetY = event.clientY - this.Rect.Y
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
+
+      this.offsetX = x - this.Rect.X
+      this.offsetY = y - this.Rect.Y
     } else {
       console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 
@@ -141,39 +208,44 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   dragRect(event: MouseEvent): void {
 
+    let x = event.clientX - this.pageX
+    let y = event.clientY - this.pageY
+
     // we want this event to bubble to the SVG element
     if (event.altKey) {
       console.log('RectComponent, Alt Mouse drag event occurred on rectangle ', this.Rect.Name, event.clientX, event.clientY);
-
-      let x = event.clientX - this.pageX
-      let y = event.clientY - this.pageY
-
       this.rectangleEventService.emitRectAltKeyMouseDragEvent([x, y])
+      return
+    }
+
+    if (event.shiftKey) {
+      this.svgEventService.emitMultiShapeSelectDrag([x, y])
       return
     }
 
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
-    if (!this.rectDragging) {
-      return;
+    let mouseEvent = {
+      rectangleID: this.Rect.ID,
+      Coordinate: [x, y] as [number, number]
     }
 
-    if (this.Rect?.CanMoveHorizontaly) {
-      this.Rect.X = event.clientX - this.offsetX;
-    }
-    if (this.Rect?.CanMoveVerticaly) {
-      this.Rect.Y = event.clientY - this.offsetY;
-    }
+    this.rectangleEventService.emitRectMouseDragEvent(mouseEvent)
   }
 
   endRectDrag(event: MouseEvent): void {
-    if (!event.altKey) {
-      this.rectDragging = false;
+    if (!event.altKey && !event.shiftKey) {
       this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
-    } else {
+    }
+
+    if (event.altKey) {
       console.log("endRectDrag + shiftKey rect : ", this.Rect?.Name)
 
       this.rectangleEventService.emitMouseRectAltKeyMouseUpEvent(this.Rect.ID);
+    }
+
+    if (event.shiftKey) {
+      this.svgEventService.emitMouseShiftKeyMouseUpEvent([event.clientX, event.clientY])
     }
   }
 

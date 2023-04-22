@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
+
 import { Coordinate, RectangleEventService } from '../rectangle-event.service';
+import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.service';
 
 import * as gongsvg from 'gongsvg'
 
@@ -53,6 +55,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     private gongsvgPushFromFrontNbService: gongsvg.PushFromFrontNbService,
     private svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
+    private svgEventService: SvgEventService,
     private elementRef: ElementRef,
   ) {
 
@@ -90,6 +93,48 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)
       })
+    )
+
+    this.subscriptions.push(
+      svgEventService.multiShapeSelectDragEvent$.subscribe(
+        (coordinate: Coordinate) => {
+
+          let actualX = coordinate[0]
+          let actualY = coordinate[1]
+
+          this.rectX = Math.min(this.startX, actualX);
+          this.rectY = Math.min(this.startY, actualY);
+          this.width = Math.abs(actualX - this.startX);
+          this.height = Math.abs(actualY - this.startY);
+        })
+    );
+
+    this.subscriptions.push(
+      svgEventService.mouseShiftKeyMouseUpEvent$.subscribe(
+        (coordinate: Coordinate) => {
+
+          let actualX = coordinate[0]
+          let actualY = coordinate[1]
+
+          this.selectionRectDrawing = false
+          this.endX = actualX - this.pageX
+          this.endY = actualY - this.pageY
+
+          let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
+
+          if (this.endX > this.startX) {
+            selectAreaConfig.SweepDirection = SweepDirection.LEFT_TO_RIGHT
+            selectAreaConfig.TopLeft = [this.startX, this.startY]
+            selectAreaConfig.BottomRigth = [this.endX, this.endY]
+          } else {
+            selectAreaConfig.SweepDirection = SweepDirection.RIGHT_TO_LEFT
+            selectAreaConfig.TopLeft = [this.endX, this.endY]
+            selectAreaConfig.BottomRigth = [this.startX, this.startY]
+          }
+
+          this.svgEventService.emitMultiShapeSelectEnd(selectAreaConfig)
+        }
+      )
     )
   }
 
@@ -187,11 +232,11 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onClick(event: MouseEvent) {
-    console.log("SVG : on click()")
-    // event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
-
     // an event is emitted for all rects to go on a unselect mode
-    this.rectangleEventService.emitRectMouseDownEvent(0)
+    if (!event.altKey && !event.shiftKey) {
+      console.log("SVG : on click()")
+      this.rectangleEventService.emitRectMouseDownEvent(0)
+    }
   }
 
   mousemove(event: MouseEvent): void {
@@ -207,11 +252,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.shiftKey) {
 
-      this.rectX = Math.min(this.startX, actualX);
-      this.rectY = Math.min(this.startY, actualY);
-      this.width = Math.abs(actualX - this.startX);
-      this.height = Math.abs(actualY - this.startY);
-
+      this.svgEventService.emitMultiShapeSelectDrag([actualX, actualY])
       // console.log('SvgComponent, SHIFT Mouse drag event occurred', this.selectionRectDrawing, this.rectX, this.rectY, this.width, this.height);
 
     }
@@ -249,9 +290,10 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   endSelectionDrag(event: MouseEvent): void {
-    this.selectionRectDrawing = false
-    this.endX = event.clientX - this.pageX
-    this.endY = event.clientY - this.pageY
+
+    if (event.shiftKey) {
+      this.svgEventService.emitMouseShiftKeyMouseUpEvent([event.clientX, event.clientY])
+    }
   }
 
 }

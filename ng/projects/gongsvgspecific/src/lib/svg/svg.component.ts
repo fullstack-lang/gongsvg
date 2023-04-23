@@ -235,7 +235,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     // an event is emitted for all rects to go on a unselect mode
     if (!event.altKey && !event.shiftKey) {
       console.log("SVG : on click()")
-      this.rectangleEventService.emitRectMouseDownEvent(0)
+      this.rectangleEventService.emitRectMouseUpEvent(0)
     }
   }
 

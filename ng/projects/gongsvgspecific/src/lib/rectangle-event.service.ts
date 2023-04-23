@@ -14,6 +14,12 @@ interface RectMouseEvent {
 })
 export class RectangleEventService {
 
+  //
+  // mouse events
+  //
+
+
+
   private mouseRectMouseDragEventSource = new Subject<RectMouseEvent>();
   mouseRectMouseDragEvent$ = this.mouseRectMouseDragEventSource.asObservable();
   emitRectMouseDragEvent(rectMouseEvent: RectMouseEvent) {
@@ -23,10 +29,14 @@ export class RectangleEventService {
 
   private mouseRectMouseUpEventSource = new Subject<number>();
   mouseRectMouseUpEvent$ = this.mouseRectMouseUpEventSource.asObservable();
-  emitRectMouseDownEvent(rectangleID: number) {
+  emitRectMouseUpEvent(rectangleID: number) {
     // console.log('RectangleEventService, rect mouse down event, rectangle', rectangleID)
     this.mouseRectMouseUpEventSource.next(rectangleID);
   }
+
+  //
+  // mouse ALT events
+  //
 
   private mouseRectAltKeyMouseDownEventSource = new Subject<RectMouseEvent>();
   mouseRectAltKeyMouseDownEvent$ = this.mouseRectAltKeyMouseDownEventSource.asObservable();

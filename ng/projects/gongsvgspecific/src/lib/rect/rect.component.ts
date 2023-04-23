@@ -93,7 +93,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       rectangleEventService.mouseRectMouseDragEvent$.subscribe(
         ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
 
-          if (this.rectDragging || this.Rect.IsSelected) {
+          if (this.rectDragging) {
             if (this.Rect?.CanMoveHorizontaly) {
               this.Rect.X = coordinate[0] - this.offsetX;
             }
@@ -260,7 +260,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
           this.Rect.IsSelected = !this.Rect.IsSelected
           this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
 
-          this.rectangleEventService.emitRectMouseDownEvent(this.Rect.ID)
+          this.rectangleEventService.emitRectMouseUpEvent(this.Rect.ID)
         }
       }
     }

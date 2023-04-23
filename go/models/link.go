@@ -11,6 +11,8 @@ type Link struct {
 	End           *Rect
 	EndAnchorType AnchorType
 
+	ControlPoints []*Point
+
 	Presentation
 }
 

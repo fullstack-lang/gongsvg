@@ -26,6 +26,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *Path:
 		ok = stage.IsStagedPath(target)
 
+	case *Point:
+		ok = stage.IsStagedPoint(target)
+
 	case *Polygone:
 		ok = stage.IsStagedPolygone(target)
 
@@ -97,6 +100,13 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 		return
 	}
 
+	func (stage *StageStruct) IsStagedPoint(point *Point) (ok bool) {
+
+		_, ok = stage.Points[point]
+	
+		return
+	}
+
 	func (stage *StageStruct) IsStagedPolygone(polygone *Polygone) (ok bool) {
 
 		_, ok = stage.Polygones[polygone]
@@ -161,6 +171,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *Path:
 		stage.StageBranchPath(target)
+
+	case *Point:
+		stage.StageBranchPoint(target)
 
 	case *Polygone:
 		stage.StageBranchPolygone(target)
@@ -312,6 +325,9 @@ func (stage *StageStruct) StageBranchLink(link *Link) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _point := range link.ControlPoints {
+		StageBranch(stage, _point)
+	}
 
 }
 
@@ -330,6 +346,21 @@ func (stage *StageStruct) StageBranchPath(path *Path) {
 	for _, _animate := range path.Animates {
 		StageBranch(stage, _animate)
 	}
+
+}
+
+func (stage *StageStruct) StageBranchPoint(point *Point) {
+
+	// check if instance is already staged
+	if IsStaged(stage, point) {
+		return
+	}
+
+	point.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -458,6 +489,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *Path:
 		stage.UnstageBranchPath(target)
+
+	case *Point:
+		stage.UnstageBranchPoint(target)
 
 	case *Polygone:
 		stage.UnstageBranchPolygone(target)
@@ -609,6 +643,9 @@ func (stage *StageStruct) UnstageBranchLink(link *Link) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _point := range link.ControlPoints {
+		UnstageBranch(stage, _point)
+	}
 
 }
 
@@ -627,6 +664,21 @@ func (stage *StageStruct) UnstageBranchPath(path *Path) {
 	for _, _animate := range path.Animates {
 		UnstageBranch(stage, _animate)
 	}
+
+}
+
+func (stage *StageStruct) UnstageBranchPoint(point *Point) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, point) {
+		return
+	}
+
+	point.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 

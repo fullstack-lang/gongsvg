@@ -310,6 +310,7 @@ var __gong__map_Layer = make(map[string]*Layer)
 var __gong__map_Line = make(map[string]*Line)
 var __gong__map_Link = make(map[string]*Link)
 var __gong__map_Path = make(map[string]*Path)
+var __gong__map_Point = make(map[string]*Point)
 var __gong__map_Polygone = make(map[string]*Polygone)
 var __gong__map_Polyline = make(map[string]*Polyline)
 var __gong__map_Rect = make(map[string]*Rect)
@@ -515,6 +516,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 										instancePath := (&Path{Name: instanceName}).Stage(stage)
 										instance = any(instancePath)
 										__gong__map_Path[identifier] = instancePath
+									case "Point":
+										instancePoint := (&Point{Name: instanceName}).Stage(stage)
+										instance = any(instancePoint)
+										__gong__map_Point[identifier] = instancePoint
 									case "Polygone":
 										instancePolygone := (&Polygone{Name: instanceName}).Stage(stage)
 										instance = any(instancePolygone)
@@ -596,6 +601,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							// insertion point for date assign code
 							}
 						case "Path":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "Point":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -739,6 +748,12 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					case "Link":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "ControlPoints":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Point[targetIdentifier]
+							__gong__map_Link[identifier].ControlPoints =
+								append(__gong__map_Link[identifier].ControlPoints, target)
 						}
 					case "Path":
 						switch fieldName {
@@ -749,6 +764,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							target := __gong__map_Animate[targetIdentifier]
 							__gong__map_Path[identifier].Animates =
 								append(__gong__map_Path[identifier].Animates, target)
+						}
+					case "Point":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
 						}
 					case "Polygone":
 						switch fieldName {
@@ -1173,6 +1192,28 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Path[identifier].Transform = fielValue
 				}
+			case "Point":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Point[identifier].Name = fielValue
+				case "X":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Point[identifier].X = fielValue
+				case "Y":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Point[identifier].Y = fielValue
+				}
 			case "Polygone":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1465,6 +1506,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				switch fieldName {
 				// insertion point for field dependant code
 				}
+			case "Point":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			case "Polygone":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1642,6 +1687,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						__gong__map_Link[identifier].EndAnchorType = AnchorType(val)
 					}
 				case "Path":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				case "Point":
 					switch fieldName {
 					// insertion point for enum assign code
 					}

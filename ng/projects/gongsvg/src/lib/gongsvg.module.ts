@@ -67,6 +67,10 @@ import { PathsTableComponent } from './paths-table/paths-table.component'
 import { PathSortingComponent } from './path-sorting/path-sorting.component'
 import { PathDetailComponent } from './path-detail/path-detail.component'
 
+import { PointsTableComponent } from './points-table/points-table.component'
+import { PointSortingComponent } from './point-sorting/point-sorting.component'
+import { PointDetailComponent } from './point-detail/point-detail.component'
+
 import { PolygonesTableComponent } from './polygones-table/polygones-table.component'
 import { PolygoneSortingComponent } from './polygone-sorting/polygone-sorting.component'
 import { PolygoneDetailComponent } from './polygone-detail/polygone-detail.component'
@@ -118,6 +122,10 @@ import { TextDetailComponent } from './text-detail/text-detail.component'
 		PathsTableComponent,
 		PathSortingComponent,
 		PathDetailComponent,
+
+		PointsTableComponent,
+		PointSortingComponent,
+		PointDetailComponent,
 
 		PolygonesTableComponent,
 		PolygoneSortingComponent,
@@ -205,6 +213,10 @@ import { TextDetailComponent } from './text-detail/text-detail.component'
 		PathsTableComponent,
 		PathSortingComponent,
 		PathDetailComponent,
+
+		PointsTableComponent,
+		PointSortingComponent,
+		PointDetailComponent,
 
 		PolygonesTableComponent,
 		PolygoneSortingComponent,

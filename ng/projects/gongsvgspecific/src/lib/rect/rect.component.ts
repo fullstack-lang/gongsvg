@@ -37,7 +37,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     private renderer: Renderer2) {
 
     this.subscriptions.push(
-      rectangleEventService.mouseRectMouseDownEvent$.subscribe(
+      rectangleEventService.mouseRectMouseUpEvent$.subscribe(
         (rectangleID: number) => {
 
           if (rectangleID != this.Rect.ID) {
@@ -93,7 +93,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       rectangleEventService.mouseRectMouseDragEvent$.subscribe(
         ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
 
-          if (this.rectDragging) {
+          if (this.rectDragging || this.Rect.IsSelected) {
             if (this.Rect?.CanMoveHorizontaly) {
               this.Rect.X = coordinate[0] - this.offsetX;
             }
@@ -123,13 +123,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (!event.altKey && !event.shiftKey) {
 
-      if (this.Rect?.IsSelectable) {
-        console.log("rect, onRectClick() toggle selected: ", this.Rect?.Name)
-        this.Rect.IsSelected = !this.Rect.IsSelected
-        this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
 
-        this.rectangleEventService.emitRectMouseDownEvent(this.Rect.ID)
-      }
     }
   }
 
@@ -137,8 +131,16 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   activeAnchor: 'left' | 'right' | 'top' | 'bottom' | null = null;
 
   rectDragging: boolean = false;
+
+  // offset between the cursor at the start and the top left corner
   offsetX = 0;
   offsetY = 0;
+
+  // to compute wether it was a select / dragging event
+  distanceMoved = 0
+
+  private startPosition: { x: number; y: number } = { x: 0, y: 0 }
+  private dragThreshold = 5;
 
   startAnchorDrag(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom'): void {
     event.preventDefault();
@@ -194,6 +196,8 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.offsetX = x - this.Rect.X
       this.offsetY = y - this.Rect.Y
+
+      this.startPosition = { x: x, y: y }
     } else {
       console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 
@@ -208,8 +212,18 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   dragRect(event: MouseEvent): void {
 
+    if (!this.rectDragging) {
+      return
+    }
+
     let x = event.clientX - this.pageX
     let y = event.clientY - this.pageY
+
+    const deltaX = x - this.startPosition.x;
+    const deltaY = y - this.startPosition.y;
+    this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    // console.log("RectComponent DragRect : ", deltaX, deltaY, distanceMoved)
 
     // we want this event to bubble to the SVG element
     if (event.altKey) {
@@ -235,7 +249,20 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   endRectDrag(event: MouseEvent): void {
     if (!event.altKey && !event.shiftKey) {
-      this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+
+      this.rectDragging = false
+
+      if (this.distanceMoved > this.dragThreshold) {
+        this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+      } else {
+        if (this.Rect?.IsSelectable) {
+          console.log("rect, onRectClick() toggle selected: ", this.Rect?.Name)
+          this.Rect.IsSelected = !this.Rect.IsSelected
+          this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+
+          this.rectangleEventService.emitRectMouseDownEvent(this.Rect.ID)
+        }
+      }
     }
 
     if (event.altKey) {

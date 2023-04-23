@@ -21,11 +21,11 @@ export class RectangleEventService {
     this.mouseRectMouseDragEventSource.next(rectMouseEvent);
   }
 
-  private mouseRectMouseDownEventSource = new Subject<number>();
-  mouseRectMouseDownEvent$ = this.mouseRectMouseDownEventSource.asObservable();
+  private mouseRectMouseUpEventSource = new Subject<number>();
+  mouseRectMouseUpEvent$ = this.mouseRectMouseUpEventSource.asObservable();
   emitRectMouseDownEvent(rectangleID: number) {
     // console.log('RectangleEventService, rect mouse down event, rectangle', rectangleID)
-    this.mouseRectMouseDownEventSource.next(rectangleID);
+    this.mouseRectMouseUpEventSource.next(rectangleID);
   }
 
   private mouseRectAltKeyMouseDownEventSource = new Subject<RectMouseEvent>();

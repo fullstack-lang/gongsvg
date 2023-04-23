@@ -38,6 +38,7 @@ export class LinkComponent implements OnInit {
         coordinate = [rect.X + rect.Width, rect.Y + rect.Height / 2]
         break;
       case gongsvg.AnchorType.ANCHOR_CENTER:
+        coordinate = [rect.X + rect.Width / 2, rect.Y + rect.Height / 2]
         break;
     }
 

@@ -1,6 +1,5 @@
-<svg class="svg">
+<svg *ngIf="nbControlPoints == 0" class="svg">
     <g>
-
         <line class="overlay" 
             [attr.x1]="getPosition(Link?.Start, Link?.StartAnchorType)[0]" 
             [attr.y1]="getPosition(Link?.Start, Link?.StartAnchorType)[1]" 
@@ -15,7 +14,48 @@
     </g>
 </svg>
 
-            <!-- [attr.x1]="Link?.Start?.X" 
-            [attr.y1]="Link?.Start?.Y" 
-            [attr.x2]="Link?.End?.X" 
-            [attr.y2]="Link?.End?.Y"  -->
+<svg *ngIf="nbControlPoints > 0 && this.Link && this.Link.ControlPoints" class="svg">
+    <g>
+        <line class="overlay" 
+            [attr.x1]="getPosition(Link.Start, Link.StartAnchorType)[0]" 
+            [attr.y1]="getPosition(Link.Start, Link.StartAnchorType)[1]" 
+            [attr.x2]="Link.ControlPoints[0].X" 
+            [attr.y2]="Link.ControlPoints[0].Y"
+            [attr.fill]="Link.Color"
+            [attr.fill-opacity]="Link.FillOpacity" 
+            [attr.stroke]="Link.Stroke" 
+            [attr.stroke-width]="Link.StrokeWidth"
+            [attr.stroke-dasharray]="Link.StrokeDashArray" 
+            [attr.transform]="Link.Transform" />
+
+        <line class="overlay" 
+            [attr.x1]="Link.ControlPoints[nbControlPoints-1].X" 
+            [attr.y1]="Link.ControlPoints[nbControlPoints-1].Y"
+            [attr.x2]="getPosition(Link.End, Link.EndAnchorType)[0]" 
+            [attr.y2]="getPosition(Link.End, Link.EndAnchorType)[1]" 
+            [attr.fill]="Link.Color"
+            [attr.fill-opacity]="Link.FillOpacity" 
+            [attr.stroke]="Link.Stroke" 
+            [attr.stroke-width]="Link.StrokeWidth"
+            [attr.stroke-dasharray]="Link.StrokeDashArray" 
+            [attr.transform]="Link.Transform" />
+    </g>
+</svg>
+
+<svg *ngIf="nbControlPoints > 0 && this.Link && this.Link.ControlPoints" class="svg">
+    <svg *ngFor="let item of [].constructor(nbControlPoints-1); let i = index">
+    <g>
+        <line class="overlay" 
+            [attr.x1]="Link.ControlPoints[i].X" 
+            [attr.y1]="Link.ControlPoints[i].Y"
+            [attr.x2]="Link.ControlPoints[i+1].X" 
+            [attr.y2]="Link.ControlPoints[i+1].Y"
+            [attr.fill]="Link.Color"
+            [attr.fill-opacity]="Link.FillOpacity" 
+            [attr.stroke]="Link.Stroke" 
+            [attr.stroke-width]="Link.StrokeWidth"
+            [attr.stroke-dasharray]="Link.StrokeDashArray" 
+            [attr.transform]="Link.Transform" />
+    </g>
+    </svg>
+</svg>

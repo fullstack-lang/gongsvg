@@ -12,8 +12,18 @@ export class LinkComponent implements OnInit {
   @Input() Link?: gongsvg.LinkDB
   @Input() GONG__StackPath: string = ""
 
+  nbControlPoints = 0
+
   ngOnInit(): void {
     console.log("LinkComponent init: ", this.Link?.Name)
+
+    if (this.Link) {
+      if (this.Link.ControlPoints) {
+        this.nbControlPoints = this.Link.ControlPoints.length
+
+
+      }
+    }
   }
 
   public getPosition(rect: gongsvg.RectDB | undefined, position: string | undefined): Coordinate {

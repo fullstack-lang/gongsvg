@@ -17,7 +17,12 @@ export class RectangleEventService {
   //
   // mouse events
   //
-
+  private mouseRectMouseDownEventSource = new Subject<RectMouseEvent>();
+  mouseRectMouseDownEvent$ = this.mouseRectMouseDownEventSource.asObservable();
+  emitRectMouseDownEvent(rectMouseEvent: RectMouseEvent) {
+    // console.log('RectangleEventService, rect mouse down event, rectangle', rectangleID)
+    this.mouseRectMouseDownEventSource.next(rectMouseEvent);
+  }
 
 
   private mouseRectMouseDragEventSource = new Subject<RectMouseEvent>();

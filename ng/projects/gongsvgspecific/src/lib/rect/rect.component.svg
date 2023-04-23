@@ -16,9 +16,9 @@
             [attr.transform]="Rect.Transform"
             
             (click)="onRectClick($event)" 
-            (mousedown)="startRectDrag($event)" 
-            (mousemove)="dragRect($event)" 
-            (mouseup)="endRectDrag($event)"
+            (mousedown)="rectMouseDown($event)" 
+            (mousemove)="rectMouseMove($event)" 
+            (mouseup)="rectMouseUp($event)"
             >
 
             <animate *ngFor="let animate of Rect.Animations" 
@@ -36,7 +36,7 @@
          [attr.r]="anchorRadius" 
          [attr.fill]="(anchorDragging && activeAnchor === 'left') ? draggingAnchorFillColor : anchorFillColor"
 
-         (mousedown)="startAnchorDrag($event, 'left')" (mousemove)="anchorDrag($event, 'left')" (mouseup)="endAnchorDrag($event)" (mouseleave)="endAnchorDrag($event)"
+         (mousedown)="anchorMouseDown($event, 'left')" (mousemove)="anchorMouseMove($event, 'left')" (mouseup)="anchorMouseUp($event)" (mouseleave)="anchorMouseUp($event)"
          />
 
         <!-- Right anchor -->
@@ -46,7 +46,7 @@
          [attr.r]="anchorRadius"
          [attr.fill]="(anchorDragging && activeAnchor === 'right') ? draggingAnchorFillColor : anchorFillColor"
 
-         (mousedown)="startAnchorDrag($event, 'right')" (mousemove)="anchorDrag($event, 'right')" (mouseup)="endAnchorDrag($event)" (mouseleave)="endAnchorDrag($event)"
+         (mousedown)="anchorMouseDown($event, 'right')" (mousemove)="anchorMouseMove($event, 'right')" (mouseup)="anchorMouseUp($event)" (mouseleave)="anchorMouseUp($event)"
          />
 
         <!-- Top anchor -->
@@ -56,7 +56,7 @@
          [attr.r]="anchorRadius" 
          [attr.fill]="(anchorDragging && activeAnchor === 'top') ? draggingAnchorFillColor : anchorFillColor"
 
-         (mousedown)="startAnchorDrag($event, 'top')" (mousemove)="anchorDrag($event, 'top')" (mouseup)="endAnchorDrag($event)" (mouseleave)="endAnchorDrag($event)"
+         (mousedown)="anchorMouseDown($event, 'top')" (mousemove)="anchorMouseMove($event, 'top')" (mouseup)="anchorMouseUp($event)" (mouseleave)="anchorMouseUp($event)"
          />
 
         <!-- Bottom anchor -->
@@ -66,7 +66,7 @@
          [attr.r]="anchorRadius"
          [attr.fill]="(anchorDragging && activeAnchor === 'bottom') ? draggingAnchorFillColor : anchorFillColor"
 
-         (mousedown)="startAnchorDrag($event, 'bottom')" (mousemove)="anchorDrag($event, 'bottom')" (mouseup)="endAnchorDrag($event)" (mouseleave)="endAnchorDrag($event)"
+         (mousedown)="anchorMouseDown($event, 'bottom')" (mousemove)="anchorMouseMove($event, 'bottom')" (mouseup)="anchorMouseUp($event)" (mouseleave)="anchorMouseUp($event)"
          />
 
 

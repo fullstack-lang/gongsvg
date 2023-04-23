@@ -87,6 +87,34 @@ export class LinksTableComponent implements OnInit {
         case 'EndAnchorType':
           return linkDB.EndAnchorType;
 
+        case 'Color':
+          return linkDB.Color;
+
+        case 'FillOpacity':
+          return linkDB.FillOpacity;
+
+        case 'Stroke':
+          return linkDB.Stroke;
+
+        case 'StrokeWidth':
+          return linkDB.StrokeWidth;
+
+        case 'StrokeDashArray':
+          return linkDB.StrokeDashArray;
+
+        case 'StrokeDashArrayWhenSelected':
+          return linkDB.StrokeDashArrayWhenSelected;
+
+        case 'Transform':
+          return linkDB.Transform;
+
+        case 'Layer_Links':
+          if (this.frontRepo.Layers.get(linkDB.Layer_LinksDBID.Int64) != undefined) {
+            return this.frontRepo.Layers.get(linkDB.Layer_LinksDBID.Int64)!.Name
+          } else {
+            return ""
+          }
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -110,6 +138,17 @@ export class LinksTableComponent implements OnInit {
         mergedContent += linkDB.End.Name.toLowerCase()
       }
       mergedContent += linkDB.EndAnchorType.toLowerCase()
+      mergedContent += linkDB.Color.toLowerCase()
+      mergedContent += linkDB.FillOpacity.toString()
+      mergedContent += linkDB.Stroke.toLowerCase()
+      mergedContent += linkDB.StrokeWidth.toString()
+      mergedContent += linkDB.StrokeDashArray.toLowerCase()
+      mergedContent += linkDB.StrokeDashArrayWhenSelected.toLowerCase()
+      mergedContent += linkDB.Transform.toLowerCase()
+      if (linkDB.Layer_LinksDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Layers.get(linkDB.Layer_LinksDBID.Int64)!.Name.toLowerCase()
+      }
+
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -169,6 +208,14 @@ export class LinksTableComponent implements OnInit {
         "StartAnchorType",
         "End",
         "EndAnchorType",
+        "Color",
+        "FillOpacity",
+        "Stroke",
+        "StrokeWidth",
+        "StrokeDashArray",
+        "StrokeDashArrayWhenSelected",
+        "Transform",
+        "Layer_Links",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -177,6 +224,14 @@ export class LinksTableComponent implements OnInit {
         "StartAnchorType",
         "End",
         "EndAnchorType",
+        "Color",
+        "FillOpacity",
+        "Stroke",
+        "StrokeWidth",
+        "StrokeDashArray",
+        "StrokeDashArrayWhenSelected",
+        "Transform",
+        "Layer_Links",
       ]
       this.selection = new SelectionModel<LinkDB>(allowMultiSelect, this.initialSelection);
     }

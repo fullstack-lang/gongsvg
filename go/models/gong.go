@@ -1233,6 +1233,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Polygones: []*Polygone{{Name: "Polygones"}},
 			// field is initialized with an instance of Path with the name of the field
 			Paths: []*Path{{Name: "Paths"}},
+			// field is initialized with an instance of Link with the name of the field
+			Links: []*Link{{Name: "Links"}},
 		}).(*Type)
 	case Line:
 		return any(&Line{
@@ -1549,6 +1551,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End]*Start)
+		case "Links":
+			res := make(map[*Link]*Layer)
+			for layer := range stage.Layers {
+				for _, link_ := range layer.Links {
+					res[link_] = layer
+				}
+			}
+			return any(res).(map[*End]*Start)
 		}
 	// reverse maps of direct associations of Line
 	case Line:
@@ -1700,11 +1710,11 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Ellipse:
 		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Layer:
-		res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths"}
+		res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links"}
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Start", "StartAnchorType", "End", "EndAnchorType"}
+		res = []string{"Name", "Start", "StartAnchorType", "End", "EndAnchorType", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Polygone:
@@ -1871,6 +1881,13 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 				}
 				res += __instance__.Name
 			}
+		case "Links":
+			for idx, __instance__ := range any(instance).(Layer).Links {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
 		}
 	case Line:
 		switch fieldName {
@@ -1930,6 +1947,20 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "EndAnchorType":
 			enum := any(instance).(Link).EndAnchorType
 			res = enum.ToCodeString()
+		case "Color":
+			res = any(instance).(Link).Color
+		case "FillOpacity":
+			res = fmt.Sprintf("%f", any(instance).(Link).FillOpacity)
+		case "Stroke":
+			res = any(instance).(Link).Stroke
+		case "StrokeWidth":
+			res = fmt.Sprintf("%f", any(instance).(Link).StrokeWidth)
+		case "StrokeDashArray":
+			res = any(instance).(Link).StrokeDashArray
+		case "StrokeDashArrayWhenSelected":
+			res = any(instance).(Link).StrokeDashArrayWhenSelected
+		case "Transform":
+			res = any(instance).(Link).Transform
 		}
 	case Path:
 		switch fieldName {

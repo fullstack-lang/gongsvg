@@ -894,6 +894,19 @@ export class FrontRepoService {
                 }
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Layer.Links redeeming
+                {
+                  let _layer = this.frontRepo.Layers.get(link.Layer_LinksDBID.Int64)
+                  if (_layer) {
+                    if (_layer.Links == undefined) {
+                      _layer.Links = new Array<LinkDB>()
+                    }
+                    _layer.Links.push(link)
+                    if (link.Layer_Links_reverse == undefined) {
+                      link.Layer_Links_reverse = _layer
+                    }
+                  }
+                }
               }
             )
             paths.forEach(
@@ -1480,6 +1493,19 @@ export class FrontRepoService {
                 }
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Layer.Links redeeming
+                {
+                  let _layer = this.frontRepo.Layers.get(link.Layer_LinksDBID.Int64)
+                  if (_layer) {
+                    if (_layer.Links == undefined) {
+                      _layer.Links = new Array<LinkDB>()
+                    }
+                    _layer.Links.push(link)
+                    if (link.Layer_Links_reverse == undefined) {
+                      link.Layer_Links_reverse = _layer
+                    }
+                  }
+                }
               }
             )
 

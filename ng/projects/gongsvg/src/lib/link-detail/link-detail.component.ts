@@ -11,6 +11,7 @@ import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
 import { AnchorTypeSelect, AnchorTypeList } from '../AnchorType'
+import { LayerDB } from '../layer-db'
 
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -24,6 +25,7 @@ enum LinkDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_Layer_Links_SET,
 }
 
 @Component({
@@ -94,6 +96,10 @@ export class LinkDetailComponent implements OnInit {
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
+					case "Links":
+						// console.log("Link" + " is instanciated with back pointer to instance " + this.id + " Layer association Links")
+						this.state = LinkDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Layer_Links_SET
+						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
 				}
@@ -131,6 +137,10 @@ export class LinkDetailComponent implements OnInit {
 						this.link = link!
 						break;
 					// insertion point for init of association field
+					case LinkDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Layer_Links_SET:
+						this.link = new (LinkDB)
+						this.link.Layer_Links_reverse = frontRepo.Layers.get(this.id)!
+						break;
 					default:
 						console.log(this.state + " is unkown state")
 				}
@@ -172,6 +182,18 @@ export class LinkDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
+		if (this.link.Layer_Links_reverse != undefined) {
+			if (this.link.Layer_LinksDBID == undefined) {
+				this.link.Layer_LinksDBID = new NullInt64
+			}
+			this.link.Layer_LinksDBID.Int64 = this.link.Layer_Links_reverse.ID
+			this.link.Layer_LinksDBID.Valid = true
+			if (this.link.Layer_LinksDBID_Index == undefined) {
+				this.link.Layer_LinksDBID_Index = new NullInt64
+			}
+			this.link.Layer_LinksDBID_Index.Valid = true
+			this.link.Layer_Links_reverse = new LayerDB // very important, otherwise, circular JSON
+		}
 
 		switch (this.state) {
 			case LinkDetailComponentState.UPDATE_INSTANCE:

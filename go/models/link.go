@@ -10,6 +10,8 @@ type Link struct {
 
 	End           *Rect
 	EndAnchorType AnchorType
+
+	Presentation
 }
 
 func (link *Link) OnAfterUpdate(stage *StageStruct, _, frontLink *Link) {

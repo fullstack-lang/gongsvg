@@ -53,6 +53,12 @@ type LinkPointersEnconding struct {
 	// field End is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	EndID sql.NullInt64
+
+	// Implementation of a reverse ID for field Layer{}.Links []*Link
+	Layer_LinksDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Layer_LinksDBID_Index sql.NullInt64
 }
 
 // LinkDB describes a link in the database
@@ -74,6 +80,27 @@ type LinkDB struct {
 
 	// Declation for basic field linkDB.EndAnchorType
 	EndAnchorType_Data sql.NullString
+
+	// Declation for basic field linkDB.Color
+	Color_Data sql.NullString
+
+	// Declation for basic field linkDB.FillOpacity
+	FillOpacity_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.Stroke
+	Stroke_Data sql.NullString
+
+	// Declation for basic field linkDB.StrokeWidth
+	StrokeWidth_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.StrokeDashArray
+	StrokeDashArray_Data sql.NullString
+
+	// Declation for basic field linkDB.StrokeDashArrayWhenSelected
+	StrokeDashArrayWhenSelected_Data sql.NullString
+
+	// Declation for basic field linkDB.Transform
+	Transform_Data sql.NullString
 	// encoding of pointers
 	LinkPointersEnconding
 }
@@ -100,6 +127,20 @@ type LinkWOP struct {
 	StartAnchorType models.AnchorType `xlsx:"2"`
 
 	EndAnchorType models.AnchorType `xlsx:"3"`
+
+	Color string `xlsx:"4"`
+
+	FillOpacity float64 `xlsx:"5"`
+
+	Stroke string `xlsx:"6"`
+
+	StrokeWidth float64 `xlsx:"7"`
+
+	StrokeDashArray string `xlsx:"8"`
+
+	StrokeDashArrayWhenSelected string `xlsx:"9"`
+
+	Transform string `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -109,6 +150,13 @@ var Link_Fields = []string{
 	"Name",
 	"StartAnchorType",
 	"EndAnchorType",
+	"Color",
+	"FillOpacity",
+	"Stroke",
+	"StrokeWidth",
+	"StrokeDashArray",
+	"StrokeDashArrayWhenSelected",
+	"Transform",
 }
 
 type BackRepoLinkStruct struct {
@@ -403,6 +451,27 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 
 	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
 	linkDB.EndAnchorType_Data.Valid = true
+
+	linkDB.Color_Data.String = link.Color
+	linkDB.Color_Data.Valid = true
+
+	linkDB.FillOpacity_Data.Float64 = link.FillOpacity
+	linkDB.FillOpacity_Data.Valid = true
+
+	linkDB.Stroke_Data.String = link.Stroke
+	linkDB.Stroke_Data.Valid = true
+
+	linkDB.StrokeWidth_Data.Float64 = link.StrokeWidth
+	linkDB.StrokeWidth_Data.Valid = true
+
+	linkDB.StrokeDashArray_Data.String = link.StrokeDashArray
+	linkDB.StrokeDashArray_Data.Valid = true
+
+	linkDB.StrokeDashArrayWhenSelected_Data.String = link.StrokeDashArrayWhenSelected
+	linkDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	linkDB.Transform_Data.String = link.Transform
+	linkDB.Transform_Data.Valid = true
 }
 
 // CopyBasicFieldsFromLinkWOP
@@ -417,6 +486,27 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 
 	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
 	linkDB.EndAnchorType_Data.Valid = true
+
+	linkDB.Color_Data.String = link.Color
+	linkDB.Color_Data.Valid = true
+
+	linkDB.FillOpacity_Data.Float64 = link.FillOpacity
+	linkDB.FillOpacity_Data.Valid = true
+
+	linkDB.Stroke_Data.String = link.Stroke
+	linkDB.Stroke_Data.Valid = true
+
+	linkDB.StrokeWidth_Data.Float64 = link.StrokeWidth
+	linkDB.StrokeWidth_Data.Valid = true
+
+	linkDB.StrokeDashArray_Data.String = link.StrokeDashArray
+	linkDB.StrokeDashArray_Data.Valid = true
+
+	linkDB.StrokeDashArrayWhenSelected_Data.String = link.StrokeDashArrayWhenSelected
+	linkDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	linkDB.Transform_Data.String = link.Transform
+	linkDB.Transform_Data.Valid = true
 }
 
 // CopyBasicFieldsToLink
@@ -425,6 +515,13 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	link.Name = linkDB.Name_Data.String
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
+	link.Color = linkDB.Color_Data.String
+	link.FillOpacity = linkDB.FillOpacity_Data.Float64
+	link.Stroke = linkDB.Stroke_Data.String
+	link.StrokeWidth = linkDB.StrokeWidth_Data.Float64
+	link.StrokeDashArray = linkDB.StrokeDashArray_Data.String
+	link.StrokeDashArrayWhenSelected = linkDB.StrokeDashArrayWhenSelected_Data.String
+	link.Transform = linkDB.Transform_Data.String
 }
 
 // CopyBasicFieldsToLinkWOP
@@ -434,6 +531,13 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.Name = linkDB.Name_Data.String
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
+	link.Color = linkDB.Color_Data.String
+	link.FillOpacity = linkDB.FillOpacity_Data.Float64
+	link.Stroke = linkDB.Stroke_Data.String
+	link.StrokeWidth = linkDB.StrokeWidth_Data.Float64
+	link.StrokeDashArray = linkDB.StrokeDashArray_Data.String
+	link.StrokeDashArrayWhenSelected = linkDB.StrokeDashArrayWhenSelected_Data.String
+	link.Transform = linkDB.Transform_Data.String
 }
 
 // Backup generates a json file from a slice of all LinkDB instances in the backrepo
@@ -601,6 +705,12 @@ func (backRepoLink *BackRepoLinkStruct) RestorePhaseTwo() {
 		if linkDB.EndID.Int64 != 0 {
 			linkDB.EndID.Int64 = int64(BackRepoRectid_atBckpTime_newID[uint(linkDB.EndID.Int64)])
 			linkDB.EndID.Valid = true
+		}
+
+		// This reindex link.Links
+		if linkDB.Layer_LinksDBID.Int64 != 0 {
+			linkDB.Layer_LinksDBID.Int64 =
+				int64(BackRepoLayerid_atBckpTime_newID[uint(linkDB.Layer_LinksDBID.Int64)])
 		}
 
 		// update databse with new index encoding

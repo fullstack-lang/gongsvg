@@ -1,5 +1,6 @@
 // insertion point for imports
 import { RectDB } from './rect-db'
+import { LayerDB } from './layer-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -13,6 +14,13 @@ export class LinkDB {
 	Name: string = ""
 	StartAnchorType: string = ""
 	EndAnchorType: string = ""
+	Color: string = ""
+	FillOpacity: number = 0
+	Stroke: string = ""
+	StrokeWidth: number = 0
+	StrokeDashArray: string = ""
+	StrokeDashArrayWhenSelected: string = ""
+	Transform: string = ""
 
 	// insertion point for other declarations
 	Start?: RectDB
@@ -20,5 +28,9 @@ export class LinkDB {
 
 	End?: RectDB
 	EndID: NullInt64 = new NullInt64 // if pointer is null, End.ID = 0
+
+	Layer_LinksDBID: NullInt64 = new NullInt64
+	Layer_LinksDBID_Index: NullInt64  = new NullInt64 // store the index of the link instance in Layer.Links
+	Layer_Links_reverse?: LayerDB 
 
 }

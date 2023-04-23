@@ -7,6 +7,7 @@ import { EllipseDB } from './ellipse-db'
 import { PolylineDB } from './polyline-db'
 import { PolygoneDB } from './polygone-db'
 import { PathDB } from './path-db'
+import { LinkDB } from './link-db'
 import { SVGDB } from './svg-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -30,6 +31,7 @@ export class LayerDB {
 	Polylines?: Array<PolylineDB>
 	Polygones?: Array<PolygoneDB>
 	Paths?: Array<PathDB>
+	Links?: Array<LinkDB>
 	SVG_LayersDBID: NullInt64 = new NullInt64
 	SVG_LayersDBID_Index: NullInt64  = new NullInt64 // store the index of the layer instance in SVG.Layers
 	SVG_Layers_reverse?: SVGDB 

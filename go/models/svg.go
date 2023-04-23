@@ -9,10 +9,17 @@ type SVG struct {
 	Name   string
 	Layers []*Layer
 
-	// For drawing a line between two rect
+	// When the user draws a link between two rects, he ALT+RMB clicks on the source
+	// rect than drag the cursor to the target rect.
+	// A dotted line appear between the cursor start point and the cursor current point
+
+	// Drawing indicates wether it draws the line
 	DrawingState DrawingState
-	StartRect    *Rect
-	EndRect      *Rect
+
+	// When the mouse is up on the end rect, the SVG backend will create the link
+	// between both rects
+	StartRect *Rect
+	EndRect   *Rect
 }
 
 // OnAfterUpdate, notice that rect == stagedRect

@@ -105,9 +105,9 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Link values setup
 	__Link__000000_Bottom.Name = `Bottom`
-	__Link__000000_Bottom.Color = ``
-	__Link__000000_Bottom.FillOpacity = 0.000000
-	__Link__000000_Bottom.Stroke = `color`
+	__Link__000000_Bottom.Color = `red`
+	__Link__000000_Bottom.FillOpacity = 100.000000
+	__Link__000000_Bottom.Stroke = `black`
 	__Link__000000_Bottom.StrokeWidth = 3.000000
 	__Link__000000_Bottom.StrokeDashArray = `5 2`
 	__Link__000000_Bottom.StrokeDashArrayWhenSelected = ``
@@ -117,8 +117,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 582.000000
-	__Rect__000000_Bottom.Y = 112.005684
+	__Rect__000000_Bottom.X = 510.000000
+	__Rect__000000_Bottom.Y = 153.005684
 	__Rect__000000_Bottom.Width = 438.000000
 	__Rect__000000_Bottom.Height = 214.000000
 	__Rect__000000_Bottom.RX = 5.000000

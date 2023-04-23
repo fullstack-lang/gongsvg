@@ -1,8 +1,21 @@
-<svg class="child">
+<svg class="svg">
     <g>
+
         <line class="overlay" 
-            [attr.x1]="Link?.Start?.X" [attr.y1]="Link?.Start?.Y" [attr.x2]="Link?.End?.X" [attr.y2]="Link?.End?.Y" [attr.fill]="Link?.Color"
-            [attr.fill-opacity]="Link?.FillOpacity" [attr.stroke]="Link?.Stroke" [attr.stroke-width]="Link?.StrokeWidth"
-            [attr.stroke-dasharray]="Link?.StrokeDashArray" [attr.transform]="Link?.Transform" />
+            [attr.x1]="Link?.Start?.X" 
+            [attr.y1]="Link?.Start?.Y" 
+            [attr.x2]="Link?.End?.X" 
+            [attr.y2]="Link?.End?.Y"
+            [attr.fill]="Link?.Color"
+            [attr.fill-opacity]="Link?.FillOpacity" 
+            [attr.stroke]="Link?.Stroke" 
+            [attr.stroke-width]="Link?.StrokeWidth"
+            [attr.stroke-dasharray]="Link?.StrokeDashArray" 
+            [attr.transform]="Link?.Transform" />
     </g>
 </svg>
+
+            <!-- [attr.x1]="Link?.Start?.X" 
+            [attr.y1]="Link?.Start?.Y" 
+            [attr.x2]="Link?.End?.X" 
+            [attr.y2]="Link?.End?.Y"  -->

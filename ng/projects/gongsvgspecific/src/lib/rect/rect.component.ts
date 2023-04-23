@@ -37,6 +37,19 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     private renderer: Renderer2) {
 
     this.subscriptions.push(
+      rectangleEventService.mouseRectMouseDownEvent$.subscribe(
+        ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
+
+          let x = coordinate[0]
+          let y = coordinate[1]
+          this.offsetX = x - this.Rect.X
+          this.offsetY = y - this.Rect.Y
+
+          this.startPosition = { x: x, y: y }
+        })
+    );
+
+    this.subscriptions.push(
       rectangleEventService.mouseRectMouseUpEvent$.subscribe(
         (rectangleID: number) => {
 
@@ -93,7 +106,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       rectangleEventService.mouseRectMouseDragEvent$.subscribe(
         ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
 
-          if (this.rectDragging) {
+          if (this.rectDragging || this.Rect.IsSelected) {
             if (this.Rect?.CanMoveHorizontaly) {
               this.Rect.X = coordinate[0] - this.offsetX;
             }
@@ -153,10 +166,11 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       let x = event.clientX - this.pageX
       let y = event.clientY - this.pageY
 
-      this.offsetX = x - this.Rect.X
-      this.offsetY = y - this.Rect.Y
-
-      this.startPosition = { x: x, y: y }
+      let mouseEvent = {
+        rectangleID: this.Rect.ID,
+        Coordinate: [x, y] as [number, number]
+      }
+      this.rectangleEventService.emitRectMouseDownEvent(mouseEvent)
     } else {
       console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 

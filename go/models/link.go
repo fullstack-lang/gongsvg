@@ -4,6 +4,7 @@ import "log"
 
 type Link struct {
 	Name string
+	Presentation
 
 	Start           *Rect
 	StartAnchorType AnchorType

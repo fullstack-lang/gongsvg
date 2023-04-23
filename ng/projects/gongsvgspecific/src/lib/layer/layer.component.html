@@ -21,6 +21,11 @@
         </lib-line>
     </div>
 
+    <div *ngFor="let elt of Layer?.Links" class="child">
+        <lib-link [GONG__StackPath]="GONG__StackPath" [Link]="elt">
+        </lib-link>
+    </div>
+
     <div *ngFor="let path of Layer?.Paths" class="child">
         <lib-path [Path]="path">
         </lib-path>

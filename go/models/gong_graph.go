@@ -270,6 +270,9 @@ func (stage *StageStruct) StageBranchLayer(layer *Layer) {
 	for _, _path := range layer.Paths {
 		StageBranch(stage, _path)
 	}
+	for _, _link := range layer.Links {
+		StageBranch(stage, _link)
+	}
 
 }
 
@@ -563,6 +566,9 @@ func (stage *StageStruct) UnstageBranchLayer(layer *Layer) {
 	}
 	for _, _path := range layer.Paths {
 		UnstageBranch(stage, _path)
+	}
+	for _, _link := range layer.Links {
+		UnstageBranch(stage, _link)
 	}
 
 }

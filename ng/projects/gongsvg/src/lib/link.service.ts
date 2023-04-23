@@ -15,6 +15,7 @@ import { LinkDB } from './link-db';
 
 // insertion point for imports
 import { RectDB } from './rect-db'
+import { LayerDB } from './layer-db'
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,8 @@ export class LinkService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     linkdb.Start = new RectDB
     linkdb.End = new RectDB
+    let _Layer_Links_reverse = linkdb.Layer_Links_reverse
+    linkdb.Layer_Links_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -83,6 +86,7 @@ export class LinkService {
     return this.http.post<LinkDB>(this.linksUrl, linkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        linkdb.Layer_Links_reverse = _Layer_Links_reverse
         // this.log(`posted linkdb id=${linkdb.ID}`)
       }),
       catchError(this.handleError<LinkDB>('postLink'))
@@ -114,6 +118,8 @@ export class LinkService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     linkdb.Start = new RectDB
     linkdb.End = new RectDB
+    let _Layer_Links_reverse = linkdb.Layer_Links_reverse
+    linkdb.Layer_Links_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -124,6 +130,7 @@ export class LinkService {
     return this.http.put<LinkDB>(url, linkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        linkdb.Layer_Links_reverse = _Layer_Links_reverse
         // this.log(`updated linkdb id=${linkdb.ID}`)
       }),
       catchError(this.handleError<LinkDB>('updateLink'))

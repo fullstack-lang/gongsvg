@@ -48,11 +48,13 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Layer
 	__Layer__000000_Bottom_Rectangle_Layer := (&models.Layer{Name: `Bottom Rectangle Layer`}).Stage(stage)
 	__Layer__000001_Circle_Layer := (&models.Layer{Name: `Circle Layer`}).Stage(stage)
-	__Layer__000002_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
+	__Layer__000002_Link_Layer := (&models.Layer{Name: `Link Layer`}).Stage(stage)
+	__Layer__000003_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
 
 	// Declarations of staged instances of Line
 
 	// Declarations of staged instances of Link
+	__Link__000000_Bottom := (&models.Link{Name: `Bottom`}).Stage(stage)
 
 	// Declarations of staged instances of Path
 
@@ -94,13 +96,29 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000001_Circle_Layer.Name = `Circle Layer`
 
 	// Layer values setup
-	__Layer__000002_Top_Rectangle_layer.Display = false
-	__Layer__000002_Top_Rectangle_layer.Name = `Top Rectangle layer`
+	__Layer__000002_Link_Layer.Display = false
+	__Layer__000002_Link_Layer.Name = `Link Layer`
+
+	// Layer values setup
+	__Layer__000003_Top_Rectangle_layer.Display = false
+	__Layer__000003_Top_Rectangle_layer.Name = `Top Rectangle layer`
+
+	// Link values setup
+	__Link__000000_Bottom.Name = `Bottom`
+	__Link__000000_Bottom.Color = ``
+	__Link__000000_Bottom.FillOpacity = 0.000000
+	__Link__000000_Bottom.Stroke = `color`
+	__Link__000000_Bottom.StrokeWidth = 3.000000
+	__Link__000000_Bottom.StrokeDashArray = `5 2`
+	__Link__000000_Bottom.StrokeDashArrayWhenSelected = ``
+	__Link__000000_Bottom.Transform = ``
+	__Link__000000_Bottom.StartAnchorType = models.ANCHOR_TOP
+	__Link__000000_Bottom.EndAnchorType = models.ANCHOR_LEFT
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 454.000000
-	__Rect__000000_Bottom.Y = 198.005684
+	__Rect__000000_Bottom.X = 582.000000
+	__Rect__000000_Bottom.Y = 112.005684
 	__Rect__000000_Bottom.Width = 438.000000
 	__Rect__000000_Bottom.Height = 214.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -126,8 +144,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 304.000000
-	__Rect__000001_Top.Y = 213.000000
+	__Rect__000001_Top.X = 89.000000
+	__Rect__000001_Top.Y = 241.000000
 	__Rect__000001_Top.Width = 267.000000
 	__Rect__000001_Top.Height = 300.000000
 	__Rect__000001_Top.RX = 3.000000
@@ -171,9 +189,13 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Setup of pointers
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom)
 	__Layer__000001_Circle_Layer.Circles = append(__Layer__000001_Circle_Layer.Circles, __Circle__000000_Test)
-	__Layer__000002_Top_Rectangle_layer.Rects = append(__Layer__000002_Top_Rectangle_layer.Rects, __Rect__000001_Top)
+	__Layer__000002_Link_Layer.Links = append(__Layer__000002_Link_Layer.Links, __Link__000000_Bottom)
+	__Layer__000003_Top_Rectangle_layer.Rects = append(__Layer__000003_Top_Rectangle_layer.Rects, __Rect__000001_Top)
+	__Link__000000_Bottom.Start = __Rect__000000_Bottom
+	__Link__000000_Bottom.End = __Rect__000001_Top
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Top_Rectangle_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Link_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Top_Rectangle_layer)
 	__SVG__000000_SVG.StartRect = __Rect__000001_Top
 	__SVG__000000_SVG.EndRect = __Rect__000000_Bottom
 }

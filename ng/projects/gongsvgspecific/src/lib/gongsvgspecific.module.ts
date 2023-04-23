@@ -22,6 +22,7 @@ import { AngularSplitModule } from 'angular-split';
 
 import { GongsvgModule } from 'gongsvg';
 import { SvgComponent } from './svg/svg.component';
+import { LinkComponent } from './link/link.component';
 
 
 
@@ -38,7 +39,8 @@ import { SvgComponent } from './svg/svg.component';
     PathComponent,
     PolygoneComponent,
     DataModelPanelComponent,
-    SvgComponent
+    SvgComponent,
+    LinkComponent
   ],
   imports: [
     BrowserModule,

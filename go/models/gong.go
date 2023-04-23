@@ -1714,7 +1714,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Start", "StartAnchorType", "End", "EndAnchorType"}
+		res = []string{"Name", "Start", "StartAnchorType", "End", "EndAnchorType", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Polygone:
@@ -1933,20 +1933,6 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = any(instance).(Link).Name
-		case "Color":
-			res = any(instance).(Link).Color
-		case "FillOpacity":
-			res = fmt.Sprintf("%f", any(instance).(Link).FillOpacity)
-		case "Stroke":
-			res = any(instance).(Link).Stroke
-		case "StrokeWidth":
-			res = fmt.Sprintf("%f", any(instance).(Link).StrokeWidth)
-		case "StrokeDashArray":
-			res = any(instance).(Link).StrokeDashArray
-		case "StrokeDashArrayWhenSelected":
-			res = any(instance).(Link).StrokeDashArrayWhenSelected
-		case "Transform":
-			res = any(instance).(Link).Transform
 		case "Start":
 			if any(instance).(Link).Start != nil {
 				res = any(instance).(Link).Start.Name
@@ -1961,6 +1947,20 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "EndAnchorType":
 			enum := any(instance).(Link).EndAnchorType
 			res = enum.ToCodeString()
+		case "Color":
+			res = any(instance).(Link).Color
+		case "FillOpacity":
+			res = fmt.Sprintf("%f", any(instance).(Link).FillOpacity)
+		case "Stroke":
+			res = any(instance).(Link).Stroke
+		case "StrokeWidth":
+			res = fmt.Sprintf("%f", any(instance).(Link).StrokeWidth)
+		case "StrokeDashArray":
+			res = any(instance).(Link).StrokeDashArray
+		case "StrokeDashArrayWhenSelected":
+			res = any(instance).(Link).StrokeDashArrayWhenSelected
+		case "Transform":
+			res = any(instance).(Link).Transform
 		}
 	case Path:
 		switch fieldName {

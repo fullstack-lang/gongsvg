@@ -12,6 +12,8 @@ export class LinkDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	StartAnchorType: string = ""
+	EndAnchorType: string = ""
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
@@ -19,8 +21,6 @@ export class LinkDB {
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
-	StartAnchorType: string = ""
-	EndAnchorType: string = ""
 
 	// insertion point for other declarations
 	Start?: RectDB

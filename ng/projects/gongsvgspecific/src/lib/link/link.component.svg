@@ -2,10 +2,10 @@
     <g>
 
         <line class="overlay" 
-            [attr.x1]="Link?.Start?.X" 
-            [attr.y1]="Link?.Start?.Y" 
-            [attr.x2]="Link?.End?.X" 
-            [attr.y2]="Link?.End?.Y"
+            [attr.x1]="getPosition(Link?.Start, Link?.StartAnchorType)[0]" 
+            [attr.y1]="getPosition(Link?.Start, Link?.StartAnchorType)[1]" 
+            [attr.x2]="getPosition(Link?.End, Link?.EndAnchorType)[0]" 
+            [attr.y2]="getPosition(Link?.End, Link?.EndAnchorType)[1]"
             [attr.fill]="Link?.Color"
             [attr.fill-opacity]="Link?.FillOpacity" 
             [attr.stroke]="Link?.Stroke" 

@@ -75,6 +75,12 @@ type LinkDB struct {
 	// Declation for basic field linkDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field linkDB.StartAnchorType
+	StartAnchorType_Data sql.NullString
+
+	// Declation for basic field linkDB.EndAnchorType
+	EndAnchorType_Data sql.NullString
+
 	// Declation for basic field linkDB.Color
 	Color_Data sql.NullString
 
@@ -95,12 +101,6 @@ type LinkDB struct {
 
 	// Declation for basic field linkDB.Transform
 	Transform_Data sql.NullString
-
-	// Declation for basic field linkDB.StartAnchorType
-	StartAnchorType_Data sql.NullString
-
-	// Declation for basic field linkDB.EndAnchorType
-	EndAnchorType_Data sql.NullString
 	// encoding of pointers
 	LinkPointersEnconding
 }
@@ -124,23 +124,23 @@ type LinkWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Color string `xlsx:"2"`
+	StartAnchorType models.AnchorType `xlsx:"2"`
 
-	FillOpacity float64 `xlsx:"3"`
+	EndAnchorType models.AnchorType `xlsx:"3"`
 
-	Stroke string `xlsx:"4"`
+	Color string `xlsx:"4"`
 
-	StrokeWidth float64 `xlsx:"5"`
+	FillOpacity float64 `xlsx:"5"`
 
-	StrokeDashArray string `xlsx:"6"`
+	Stroke string `xlsx:"6"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"7"`
+	StrokeWidth float64 `xlsx:"7"`
 
-	Transform string `xlsx:"8"`
+	StrokeDashArray string `xlsx:"8"`
 
-	StartAnchorType models.AnchorType `xlsx:"9"`
+	StrokeDashArrayWhenSelected string `xlsx:"9"`
 
-	EndAnchorType models.AnchorType `xlsx:"10"`
+	Transform string `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -148,6 +148,8 @@ var Link_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"StartAnchorType",
+	"EndAnchorType",
 	"Color",
 	"FillOpacity",
 	"Stroke",
@@ -155,8 +157,6 @@ var Link_Fields = []string{
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
 	"Transform",
-	"StartAnchorType",
-	"EndAnchorType",
 }
 
 type BackRepoLinkStruct struct {
@@ -446,6 +446,12 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 	linkDB.Name_Data.String = link.Name
 	linkDB.Name_Data.Valid = true
 
+	linkDB.StartAnchorType_Data.String = link.StartAnchorType.ToString()
+	linkDB.StartAnchorType_Data.Valid = true
+
+	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
+	linkDB.EndAnchorType_Data.Valid = true
+
 	linkDB.Color_Data.String = link.Color
 	linkDB.Color_Data.Valid = true
 
@@ -466,12 +472,6 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 
 	linkDB.Transform_Data.String = link.Transform
 	linkDB.Transform_Data.Valid = true
-
-	linkDB.StartAnchorType_Data.String = link.StartAnchorType.ToString()
-	linkDB.StartAnchorType_Data.Valid = true
-
-	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
-	linkDB.EndAnchorType_Data.Valid = true
 }
 
 // CopyBasicFieldsFromLinkWOP
@@ -481,6 +481,12 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 	linkDB.Name_Data.String = link.Name
 	linkDB.Name_Data.Valid = true
 
+	linkDB.StartAnchorType_Data.String = link.StartAnchorType.ToString()
+	linkDB.StartAnchorType_Data.Valid = true
+
+	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
+	linkDB.EndAnchorType_Data.Valid = true
+
 	linkDB.Color_Data.String = link.Color
 	linkDB.Color_Data.Valid = true
 
@@ -501,18 +507,14 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 
 	linkDB.Transform_Data.String = link.Transform
 	linkDB.Transform_Data.Valid = true
-
-	linkDB.StartAnchorType_Data.String = link.StartAnchorType.ToString()
-	linkDB.StartAnchorType_Data.Valid = true
-
-	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
-	linkDB.EndAnchorType_Data.Valid = true
 }
 
 // CopyBasicFieldsToLink
 func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	link.Name = linkDB.Name_Data.String
+	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
+	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String
@@ -520,8 +522,6 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	link.StrokeDashArray = linkDB.StrokeDashArray_Data.String
 	link.StrokeDashArrayWhenSelected = linkDB.StrokeDashArrayWhenSelected_Data.String
 	link.Transform = linkDB.Transform_Data.String
-	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
-	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
 }
 
 // CopyBasicFieldsToLinkWOP
@@ -529,6 +529,8 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.ID = int(linkDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	link.Name = linkDB.Name_Data.String
+	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
+	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String
@@ -536,8 +538,6 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.StrokeDashArray = linkDB.StrokeDashArray_Data.String
 	link.StrokeDashArrayWhenSelected = linkDB.StrokeDashArrayWhenSelected_Data.String
 	link.Transform = linkDB.Transform_Data.String
-	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
-	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
 }
 
 // Backup generates a json file from a slice of all LinkDB instances in the backrepo

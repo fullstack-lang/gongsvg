@@ -112,13 +112,13 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Bottom.StrokeDashArray = `5 2`
 	__Link__000000_Bottom.StrokeDashArrayWhenSelected = ``
 	__Link__000000_Bottom.Transform = ``
-	__Link__000000_Bottom.StartAnchorType = models.ANCHOR_TOP
+	__Link__000000_Bottom.StartAnchorType = models.ANCHOR_BOTTOM
 	__Link__000000_Bottom.EndAnchorType = models.ANCHOR_LEFT
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 510.000000
-	__Rect__000000_Bottom.Y = 153.005684
+	__Rect__000000_Bottom.X = 517.000000
+	__Rect__000000_Bottom.Y = 280.005684
 	__Rect__000000_Bottom.Width = 438.000000
 	__Rect__000000_Bottom.Height = 214.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -144,8 +144,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 89.000000
-	__Rect__000001_Top.Y = 241.000000
+	__Rect__000001_Top.X = 164.000000
+	__Rect__000001_Top.Y = 225.000000
 	__Rect__000001_Top.Width = 267.000000
 	__Rect__000001_Top.Height = 300.000000
 	__Rect__000001_Top.RX = 3.000000
@@ -194,8 +194,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Bottom.Start = __Rect__000000_Bottom
 	__Link__000000_Bottom.End = __Rect__000001_Top
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Link_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Top_Rectangle_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Link_Layer)
 	__SVG__000000_SVG.StartRect = __Rect__000001_Top
 	__SVG__000000_SVG.EndRect = __Rect__000000_Bottom
 }

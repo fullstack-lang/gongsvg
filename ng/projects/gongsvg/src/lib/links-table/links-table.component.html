@@ -26,6 +26,34 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Start">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Start </th>
+            <td mat-cell *matCellDef="let Link">
+                {{ Link.Start ? Link.Start.Name : ''}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="StartAnchorType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StartAnchorType </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.StartAnchorType}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="End">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> End </th>
+            <td mat-cell *matCellDef="let Link">
+                {{ Link.End ? Link.End.Name : ''}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="EndAnchorType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> EndAnchorType </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.EndAnchorType}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Color">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
             <td mat-cell *matCellDef="let Link">
@@ -72,34 +100,6 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Transform </th>
             <td mat-cell *matCellDef="let Link">
                 {{Link.Transform}}
-            </td>
-        </ng-container>
-        <!-- -->
-        <ng-container matColumnDef="Start">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Start </th>
-            <td mat-cell *matCellDef="let Link">
-                {{ Link.Start ? Link.Start.Name : ''}}
-            </td>
-        </ng-container>
-        <!-- -->
-        <ng-container matColumnDef="StartAnchorType">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> StartAnchorType </th>
-            <td mat-cell *matCellDef="let Link">
-                {{Link.StartAnchorType}}
-            </td>
-        </ng-container>
-        <!-- -->
-        <ng-container matColumnDef="End">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> End </th>
-            <td mat-cell *matCellDef="let Link">
-                {{ Link.End ? Link.End.Name : ''}}
-            </td>
-        </ng-container>
-        <!-- -->
-        <ng-container matColumnDef="EndAnchorType">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> EndAnchorType </th>
-            <td mat-cell *matCellDef="let Link">
-                {{Link.EndAnchorType}}
             </td>
         </ng-container>
         <!-- -->

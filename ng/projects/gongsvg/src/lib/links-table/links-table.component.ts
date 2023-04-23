@@ -75,6 +75,18 @@ export class LinksTableComponent implements OnInit {
         case 'Name':
           return linkDB.Name;
 
+        case 'Start':
+          return (linkDB.Start ? linkDB.Start.Name : '');
+
+        case 'StartAnchorType':
+          return linkDB.StartAnchorType;
+
+        case 'End':
+          return (linkDB.End ? linkDB.End.Name : '');
+
+        case 'EndAnchorType':
+          return linkDB.EndAnchorType;
+
         case 'Color':
           return linkDB.Color;
 
@@ -95,18 +107,6 @@ export class LinksTableComponent implements OnInit {
 
         case 'Transform':
           return linkDB.Transform;
-
-        case 'Start':
-          return (linkDB.Start ? linkDB.Start.Name : '');
-
-        case 'StartAnchorType':
-          return linkDB.StartAnchorType;
-
-        case 'End':
-          return (linkDB.End ? linkDB.End.Name : '');
-
-        case 'EndAnchorType':
-          return linkDB.EndAnchorType;
 
         case 'Layer_Links':
           if (this.frontRepo.Layers.get(linkDB.Layer_LinksDBID.Int64) != undefined) {
@@ -130,13 +130,6 @@ export class LinksTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += linkDB.Name.toLowerCase()
-      mergedContent += linkDB.Color.toLowerCase()
-      mergedContent += linkDB.FillOpacity.toString()
-      mergedContent += linkDB.Stroke.toLowerCase()
-      mergedContent += linkDB.StrokeWidth.toString()
-      mergedContent += linkDB.StrokeDashArray.toLowerCase()
-      mergedContent += linkDB.StrokeDashArrayWhenSelected.toLowerCase()
-      mergedContent += linkDB.Transform.toLowerCase()
       if (linkDB.Start) {
         mergedContent += linkDB.Start.Name.toLowerCase()
       }
@@ -145,6 +138,13 @@ export class LinksTableComponent implements OnInit {
         mergedContent += linkDB.End.Name.toLowerCase()
       }
       mergedContent += linkDB.EndAnchorType.toLowerCase()
+      mergedContent += linkDB.Color.toLowerCase()
+      mergedContent += linkDB.FillOpacity.toString()
+      mergedContent += linkDB.Stroke.toLowerCase()
+      mergedContent += linkDB.StrokeWidth.toString()
+      mergedContent += linkDB.StrokeDashArray.toLowerCase()
+      mergedContent += linkDB.StrokeDashArrayWhenSelected.toLowerCase()
+      mergedContent += linkDB.Transform.toLowerCase()
       if (linkDB.Layer_LinksDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Layers.get(linkDB.Layer_LinksDBID.Int64)!.Name.toLowerCase()
       }
@@ -204,6 +204,10 @@ export class LinksTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
+        "Start",
+        "StartAnchorType",
+        "End",
+        "EndAnchorType",
         "Color",
         "FillOpacity",
         "Stroke",
@@ -211,15 +215,15 @@ export class LinksTableComponent implements OnInit {
         "StrokeDashArray",
         "StrokeDashArrayWhenSelected",
         "Transform",
-        "Start",
-        "StartAnchorType",
-        "End",
-        "EndAnchorType",
         "Layer_Links",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
+        "Start",
+        "StartAnchorType",
+        "End",
+        "EndAnchorType",
         "Color",
         "FillOpacity",
         "Stroke",
@@ -227,10 +231,6 @@ export class LinksTableComponent implements OnInit {
         "StrokeDashArray",
         "StrokeDashArrayWhenSelected",
         "Transform",
-        "Start",
-        "StartAnchorType",
-        "End",
-        "EndAnchorType",
         "Layer_Links",
       ]
       this.selection = new SelectionModel<LinkDB>(allowMultiSelect, this.initialSelection);

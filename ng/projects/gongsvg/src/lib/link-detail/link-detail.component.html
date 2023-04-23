@@ -21,6 +21,46 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Name"></textarea>
     </mat-form-field>
 
+    <mat-form-field class="detail-full-width">
+        <mat-label>Start</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="link.Start" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
+                {{rect.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>StartAnchorType</mat-label>
+        <mat-select [(ngModel)]="link.StartAnchorType" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of AnchorTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>End</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="link.End" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
+                {{rect.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>EndAnchorType</mat-label>
+        <mat-select [(ngModel)]="link.EndAnchorType" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of AnchorTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <mat-grid-list *ngIf='!isATextArea("Color")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
@@ -131,46 +171,6 @@
     <mat-form-field *ngIf='isATextArea("Transform")' mat-form-field class="detail-full-width">
         <mat-label>Transform</mat-label>
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Transform"></textarea>
-    </mat-form-field>
-
-    <mat-form-field class="detail-full-width">
-        <mat-label>Start</mat-label>
-        <mat-select [compareWith]="compareObjects" [(value)]="link.Start" (selectionChange)="fillUpNameIfEmpty($event)">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
-                {{rect.Name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <!-- -->
-    <mat-form-field appearance="fill" class="detail-full-width">
-        <mat-label>StartAnchorType</mat-label>
-        <mat-select [(ngModel)]="link.StartAnchorType" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let enum of AnchorTypeList" [value]="enum.value">
-                {{enum.viewValue}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="detail-full-width">
-        <mat-label>End</mat-label>
-        <mat-select [compareWith]="compareObjects" [(value)]="link.End" (selectionChange)="fillUpNameIfEmpty($event)">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
-                {{rect.Name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <!-- -->
-    <mat-form-field appearance="fill" class="detail-full-width">
-        <mat-label>EndAnchorType</mat-label>
-        <mat-select [(ngModel)]="link.EndAnchorType" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let enum of AnchorTypeList" [value]="enum.value">
-                {{enum.viewValue}}
-            </mat-option>
-        </mat-select>
     </mat-form-field>
 
     <mat-form-field class="detail-full-width">

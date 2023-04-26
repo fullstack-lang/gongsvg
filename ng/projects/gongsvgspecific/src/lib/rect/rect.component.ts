@@ -151,7 +151,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // to compute wether it was a select / dragging event
   distanceMoved = 0
-
   private startPosition: { x: number; y: number } = { x: 0, y: 0 }
   private dragThreshold = 5;
 

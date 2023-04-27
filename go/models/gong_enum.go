@@ -1354,4 +1354,60 @@ func (drawingstate *DrawingState) ToCodeString() (res string) {
 	return
 }
 
+// Utility function for LinkType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (linktype LinkType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch linktype {
+	// insertion code per enum code
+	case LINK_TYPE_LINE_WITH_CONTROL_POINTS:
+		res = "LINK_TYPE_LINE_WITH_CONTROL_POINTS"
+	case LINK_TYPE_FLOATING_ORTHOGONAL:
+		res = "LINK_TYPE_FLOATING_ORTHOGONAL"
+	}
+	return
+}
+
+func (linktype *LinkType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "LINK_TYPE_LINE_WITH_CONTROL_POINTS":
+		*linktype = LINK_TYPE_LINE_WITH_CONTROL_POINTS
+	case "LINK_TYPE_FLOATING_ORTHOGONAL":
+		*linktype = LINK_TYPE_FLOATING_ORTHOGONAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (linktype *LinkType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "LINK_TYPE_LINE_WITH_CONTROL_POINTS":
+		*linktype = LINK_TYPE_LINE_WITH_CONTROL_POINTS
+	case "LINK_TYPE_FLOATING_ORTHOGONAL":
+		*linktype = LINK_TYPE_FLOATING_ORTHOGONAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (linktype *LinkType) ToCodeString() (res string) {
+
+	switch *linktype {
+	// insertion code per enum code
+	case LINK_TYPE_LINE_WITH_CONTROL_POINTS:
+		res = "LINK_TYPE_LINE_WITH_CONTROL_POINTS"
+	case LINK_TYPE_FLOATING_ORTHOGONAL:
+		res = "LINK_TYPE_FLOATING_ORTHOGONAL"
+	}
+	return
+}
+
 // Last line of the template

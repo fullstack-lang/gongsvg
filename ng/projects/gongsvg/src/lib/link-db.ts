@@ -13,8 +13,11 @@ export class LinkDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	Type: string = ""
 	StartAnchorType: string = ""
 	EndAnchorType: string = ""
+	StartRatio: number = 0
+	EndRatio: number = 0
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""

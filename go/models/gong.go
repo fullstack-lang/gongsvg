@@ -1817,7 +1817,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Start", "StartAnchorType", "End", "EndAnchorType", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "Start", "StartAnchorType", "End", "EndAnchorType", "StartRatio", "EndRatio", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Point:
@@ -2038,6 +2038,9 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = any(instance).(Link).Name
+		case "Type":
+			enum := any(instance).(Link).Type
+			res = enum.ToCodeString()
 		case "Start":
 			if any(instance).(Link).Start != nil {
 				res = any(instance).(Link).Start.Name
@@ -2052,6 +2055,10 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "EndAnchorType":
 			enum := any(instance).(Link).EndAnchorType
 			res = enum.ToCodeString()
+		case "StartRatio":
+			res = fmt.Sprintf("%f", any(instance).(Link).StartRatio)
+		case "EndRatio":
+			res = fmt.Sprintf("%f", any(instance).(Link).EndRatio)
 		case "ControlPoints":
 			for idx, __instance__ := range any(instance).(Link).ControlPoints {
 				if idx > 0 {

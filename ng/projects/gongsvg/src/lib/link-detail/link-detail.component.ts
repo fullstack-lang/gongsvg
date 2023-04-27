@@ -10,6 +10,7 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
+import { LinkTypeSelect, LinkTypeList } from '../LinkType'
 import { AnchorTypeSelect, AnchorTypeList } from '../AnchorType'
 import { LayerDB } from '../layer-db'
 
@@ -36,6 +37,7 @@ enum LinkDetailComponentState {
 export class LinkDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	LinkTypeList: LinkTypeSelect[] = []
 	AnchorTypeList: AnchorTypeSelect[] = []
 
 	// the LinkDB of interest
@@ -118,6 +120,7 @@ export class LinkDetailComponent implements OnInit {
 		)
 
 		// insertion point for initialisation of enums list
+		this.LinkTypeList = LinkTypeList
 		this.AnchorTypeList = AnchorTypeList
 	}
 

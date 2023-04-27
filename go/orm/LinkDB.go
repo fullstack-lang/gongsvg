@@ -75,11 +75,20 @@ type LinkDB struct {
 	// Declation for basic field linkDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field linkDB.Type
+	Type_Data sql.NullString
+
 	// Declation for basic field linkDB.StartAnchorType
 	StartAnchorType_Data sql.NullString
 
 	// Declation for basic field linkDB.EndAnchorType
 	EndAnchorType_Data sql.NullString
+
+	// Declation for basic field linkDB.StartRatio
+	StartRatio_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.EndRatio
+	EndRatio_Data sql.NullFloat64
 
 	// Declation for basic field linkDB.Color
 	Color_Data sql.NullString
@@ -124,23 +133,29 @@ type LinkWOP struct {
 
 	Name string `xlsx:"1"`
 
-	StartAnchorType models.AnchorType `xlsx:"2"`
+	Type models.LinkType `xlsx:"2"`
 
-	EndAnchorType models.AnchorType `xlsx:"3"`
+	StartAnchorType models.AnchorType `xlsx:"3"`
 
-	Color string `xlsx:"4"`
+	EndAnchorType models.AnchorType `xlsx:"4"`
 
-	FillOpacity float64 `xlsx:"5"`
+	StartRatio float64 `xlsx:"5"`
 
-	Stroke string `xlsx:"6"`
+	EndRatio float64 `xlsx:"6"`
 
-	StrokeWidth float64 `xlsx:"7"`
+	Color string `xlsx:"7"`
 
-	StrokeDashArray string `xlsx:"8"`
+	FillOpacity float64 `xlsx:"8"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"9"`
+	Stroke string `xlsx:"9"`
 
-	Transform string `xlsx:"10"`
+	StrokeWidth float64 `xlsx:"10"`
+
+	StrokeDashArray string `xlsx:"11"`
+
+	StrokeDashArrayWhenSelected string `xlsx:"12"`
+
+	Transform string `xlsx:"13"`
 	// insertion for WOP pointer fields
 }
 
@@ -148,8 +163,11 @@ var Link_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Type",
 	"StartAnchorType",
 	"EndAnchorType",
+	"StartRatio",
+	"EndRatio",
 	"Color",
 	"FillOpacity",
 	"Stroke",
@@ -492,11 +510,20 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 	linkDB.Name_Data.String = link.Name
 	linkDB.Name_Data.Valid = true
 
+	linkDB.Type_Data.String = link.Type.ToString()
+	linkDB.Type_Data.Valid = true
+
 	linkDB.StartAnchorType_Data.String = link.StartAnchorType.ToString()
 	linkDB.StartAnchorType_Data.Valid = true
 
 	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
 	linkDB.EndAnchorType_Data.Valid = true
+
+	linkDB.StartRatio_Data.Float64 = link.StartRatio
+	linkDB.StartRatio_Data.Valid = true
+
+	linkDB.EndRatio_Data.Float64 = link.EndRatio
+	linkDB.EndRatio_Data.Valid = true
 
 	linkDB.Color_Data.String = link.Color
 	linkDB.Color_Data.Valid = true
@@ -527,11 +554,20 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 	linkDB.Name_Data.String = link.Name
 	linkDB.Name_Data.Valid = true
 
+	linkDB.Type_Data.String = link.Type.ToString()
+	linkDB.Type_Data.Valid = true
+
 	linkDB.StartAnchorType_Data.String = link.StartAnchorType.ToString()
 	linkDB.StartAnchorType_Data.Valid = true
 
 	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
 	linkDB.EndAnchorType_Data.Valid = true
+
+	linkDB.StartRatio_Data.Float64 = link.StartRatio
+	linkDB.StartRatio_Data.Valid = true
+
+	linkDB.EndRatio_Data.Float64 = link.EndRatio
+	linkDB.EndRatio_Data.Valid = true
 
 	linkDB.Color_Data.String = link.Color
 	linkDB.Color_Data.Valid = true
@@ -559,8 +595,11 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	link.Name = linkDB.Name_Data.String
+	link.Type.FromString(linkDB.Type_Data.String)
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
+	link.StartRatio = linkDB.StartRatio_Data.Float64
+	link.EndRatio = linkDB.EndRatio_Data.Float64
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String
@@ -575,8 +614,11 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.ID = int(linkDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	link.Name = linkDB.Name_Data.String
+	link.Type.FromString(linkDB.Type_Data.String)
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
+	link.StartRatio = linkDB.StartRatio_Data.Float64
+	link.EndRatio = linkDB.EndRatio_Data.Float64
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String

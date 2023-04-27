@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
+import { shortestFloatingOrthogonalConnector } from './compute.floating.connectors';
 
 @Component({
   selector: 'lib-link',
@@ -13,6 +14,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
   @Input() GONG__StackPath: string = ""
 
   nbControlPoints = 0
+  isFloatingOrthogonal = false
 
   // to compute wether it was a select / dragging event
   distanceMoved = 0
@@ -27,11 +29,11 @@ export class LinkComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     console.log("LinkComponent init: ", this.Link?.Name)
 
+    this.isFloatingOrthogonal = this.Link!.Type == gongsvg.LinkType.LINK_TYPE_FLOATING_ORTHOGONAL
+
     if (this.Link) {
       if (this.Link.ControlPoints) {
         this.nbControlPoints = this.Link.ControlPoints.length
-
-
       }
     }
   }
@@ -97,6 +99,44 @@ export class LinkComponent implements OnInit, AfterViewInit {
         console.log("Link, link selected selected: ", this.Link?.Name)
 
       }
+    }
+  }
+
+  getLinkStartX() {
+    if (this.Link?.Start && this.Link?.End) {
+      let shortestConnection = shortestFloatingOrthogonalConnector(this.Link.Start, this.Link.StartRatio, this.Link.End, this.Link.EndRatio)
+      return shortestConnection[0].X
+    } else {
+      return 0
+    }
+
+
+  }
+  getLinkStartY() {
+    if (this.Link?.Start && this.Link?.End) {
+      let shortestConnection = shortestFloatingOrthogonalConnector(this.Link.Start, this.Link.StartRatio, this.Link.End, this.Link.EndRatio)
+
+      return shortestConnection[0].Y
+    } else {
+      return 0
+    }
+  }
+  getLinkEndX() {
+    if (this.Link?.Start && this.Link?.End) {
+
+      let shortestConnection = shortestFloatingOrthogonalConnector(this.Link.Start, this.Link.StartRatio, this.Link.End, this.Link.EndRatio)
+      return shortestConnection[1].X
+    } else {
+      return 0
+    }
+  }
+  getLinkEndY() {
+    if (this.Link?.Start && this.Link?.End) {
+
+      let shortestConnection = shortestFloatingOrthogonalConnector(this.Link.Start, this.Link.StartRatio, this.Link.End, this.Link.EndRatio)
+      return shortestConnection[1].Y
+    } else {
+      return 0
     }
   }
 

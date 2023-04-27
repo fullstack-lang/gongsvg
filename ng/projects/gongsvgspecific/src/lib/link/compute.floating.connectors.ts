@@ -2,22 +2,22 @@
 import * as gongsvg from 'gongsvg'
 
 interface Point {
-    x: number;
-    y: number;
+    X: number;
+    Y: number;
   }
 
 
 export function calculateAnchorPoints(rect: gongsvg.RectDB, ratio: number): Point[] {
   return [
-    { x: rect.X + rect.Width * ratio, y: rect.Y }, // Top
-    { x: rect.X + rect.Width, y: rect.Y + rect.Height * ratio }, // Right
-    { x: rect.X + rect.Width * ratio, y: rect.Y + rect.Height }, // Bottom
-    { x: rect.X, y: rect.Y + rect.Height * ratio }, // Left
+    { X: rect.X + rect.Width * ratio, Y: rect.Y }, // Top
+    { X: rect.X + rect.Width, Y: rect.Y + rect.Height * ratio }, // Right
+    { X: rect.X + rect.Width * ratio, Y: rect.Y + rect.Height }, // Bottom
+    { X: rect.X, Y: rect.Y + rect.Height * ratio }, // Left
   ];
 }
 
 function distance(p1: Point, p2: Point): number {
-  return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
+  return Math.abs(p1.X - p2.X) + Math.abs(p1.Y - p2.Y);
 }
 
 export function shortestFloatingOrthogonalConnector(rectA: gongsvg.RectDB, ratioA: number, rectB: gongsvg.RectDB, ratioB: number): [Point, Point] {

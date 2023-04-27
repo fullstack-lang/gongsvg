@@ -1410,4 +1410,76 @@ func (linktype *LinkType) ToCodeString() (res string) {
 	return
 }
 
+// Utility function for SideType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (sidetype SideType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch sidetype {
+	// insertion code per enum code
+	case SIDE_TOP:
+		res = "SIDE_TOP"
+	case SIDE_BOTTOM:
+		res = "SIDE_BOTTOM"
+	case SIDE_LEFT:
+		res = "SIDE_LEFT"
+	case SIDE_RIGHT:
+		res = "SIDE_RIGHT"
+	}
+	return
+}
+
+func (sidetype *SideType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "SIDE_TOP":
+		*sidetype = SIDE_TOP
+	case "SIDE_BOTTOM":
+		*sidetype = SIDE_BOTTOM
+	case "SIDE_LEFT":
+		*sidetype = SIDE_LEFT
+	case "SIDE_RIGHT":
+		*sidetype = SIDE_RIGHT
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (sidetype *SideType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "SIDE_TOP":
+		*sidetype = SIDE_TOP
+	case "SIDE_BOTTOM":
+		*sidetype = SIDE_BOTTOM
+	case "SIDE_LEFT":
+		*sidetype = SIDE_LEFT
+	case "SIDE_RIGHT":
+		*sidetype = SIDE_RIGHT
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (sidetype *SideType) ToCodeString() (res string) {
+
+	switch *sidetype {
+	// insertion code per enum code
+	case SIDE_TOP:
+		res = "SIDE_TOP"
+	case SIDE_BOTTOM:
+		res = "SIDE_BOTTOM"
+	case SIDE_LEFT:
+		res = "SIDE_LEFT"
+	case SIDE_RIGHT:
+		res = "SIDE_RIGHT"
+	}
+	return
+}
+
 // Last line of the template

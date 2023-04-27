@@ -125,7 +125,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
     if (this.Link?.Start && this.Link?.End) {
 
       let shortestConnection = shortestFloatingOrthogonalConnector(this.Link.Start, this.Link.StartRatio, this.Link.End, this.Link.EndRatio)
-      return shortestConnection[1].X
+      return shortestConnection[2].X
     } else {
       return 0
     }
@@ -134,7 +134,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
     if (this.Link?.Start && this.Link?.End) {
 
       let shortestConnection = shortestFloatingOrthogonalConnector(this.Link.Start, this.Link.StartRatio, this.Link.End, this.Link.EndRatio)
-      return shortestConnection[1].Y
+      return shortestConnection[2].Y
     } else {
       return 0
     }

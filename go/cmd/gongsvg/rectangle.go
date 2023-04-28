@@ -48,13 +48,15 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Layer
 	__Layer__000000_Bottom_Rectangle_Layer := (&models.Layer{Name: `Bottom Rectangle Layer`}).Stage(stage)
 	__Layer__000001_Circle_Layer := (&models.Layer{Name: `Circle Layer`}).Stage(stage)
-	__Layer__000002_Link_layer := (&models.Layer{Name: `Link layer`}).Stage(stage)
-	__Layer__000003_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
+	__Layer__000002_Link_layer_horizontal_to_vertical := (&models.Layer{Name: `Link layer horizontal to vertical`}).Stage(stage)
+	__Layer__000003_Link_layer_vertical_to_horizontal := (&models.Layer{Name: `Link layer vertical to horizontal`}).Stage(stage)
+	__Layer__000004_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
 
 	// Declarations of staged instances of Line
 
 	// Declarations of staged instances of Link
-	__Link__000000_Top_to_Bottom := (&models.Link{Name: `Top to Bottom`}).Stage(stage)
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical := (&models.Link{Name: `Top to Bottom horizontal to vertical`}).Stage(stage)
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal := (&models.Link{Name: `Top to Bottom vertical to horizontal`}).Stage(stage)
 
 	// Declarations of staged instances of Path
 
@@ -98,34 +100,55 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000001_Circle_Layer.Name = `Circle Layer`
 
 	// Layer values setup
-	__Layer__000002_Link_layer.Display = false
-	__Layer__000002_Link_layer.Name = `Link layer`
+	__Layer__000002_Link_layer_horizontal_to_vertical.Display = false
+	__Layer__000002_Link_layer_horizontal_to_vertical.Name = `Link layer horizontal to vertical`
 
 	// Layer values setup
-	__Layer__000003_Top_Rectangle_layer.Display = false
-	__Layer__000003_Top_Rectangle_layer.Name = `Top Rectangle layer`
+	__Layer__000003_Link_layer_vertical_to_horizontal.Display = false
+	__Layer__000003_Link_layer_vertical_to_horizontal.Name = `Link layer vertical to horizontal`
+
+	// Layer values setup
+	__Layer__000004_Top_Rectangle_layer.Display = false
+	__Layer__000004_Top_Rectangle_layer.Name = `Top Rectangle layer`
 
 	// Link values setup
-	__Link__000000_Top_to_Bottom.Name = `Top to Bottom`
-	__Link__000000_Top_to_Bottom.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
-	__Link__000000_Top_to_Bottom.StartAnchorType = models.ANCHOR_CENTER
-	__Link__000000_Top_to_Bottom.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000000_Top_to_Bottom.StartDirection = models.DIRECTION_HORIZONTAL
-	__Link__000000_Top_to_Bottom.StartRatio = 0.300000
-	__Link__000000_Top_to_Bottom.EndDirection = models.DIRECTION_VERTICAL
-	__Link__000000_Top_to_Bottom.EndRatio = 0.500000
-	__Link__000000_Top_to_Bottom.Color = `black`
-	__Link__000000_Top_to_Bottom.FillOpacity = 0.000000
-	__Link__000000_Top_to_Bottom.Stroke = `black`
-	__Link__000000_Top_to_Bottom.StrokeWidth = 3.000000
-	__Link__000000_Top_to_Bottom.StrokeDashArray = ``
-	__Link__000000_Top_to_Bottom.StrokeDashArrayWhenSelected = ``
-	__Link__000000_Top_to_Bottom.Transform = ``
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.Name = `Top to Bottom horizontal to vertical`
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.StartAnchorType = models.ANCHOR_CENTER
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.EndAnchorType = models.ANCHOR_CENTER
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.StartDirection = models.DIRECTION_HORIZONTAL
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.300000
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.EndDirection = models.DIRECTION_VERTICAL
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.500000
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.Color = `black`
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.FillOpacity = 0.000000
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.Stroke = `black`
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.StrokeWidth = 3.000000
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.StrokeDashArray = ``
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.StrokeDashArrayWhenSelected = ``
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.Transform = ``
+
+	// Link values setup
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.Name = `Top to Bottom vertical to horizontal`
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.StartDirection = models.DIRECTION_VERTICAL
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.900000
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.EndDirection = models.DIRECTION_HORIZONTAL
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.700000
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.Color = ``
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.FillOpacity = 0.000000
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.Stroke = `green`
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.StrokeWidth = 2.000000
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.StrokeDashArray = ``
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.StrokeDashArrayWhenSelected = ``
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.Transform = ``
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 497.000000
-	__Rect__000000_Bottom.Y = 412.005684
+	__Rect__000000_Bottom.X = 524.000000
+	__Rect__000000_Bottom.Y = 360.005684
 	__Rect__000000_Bottom.Width = 267.000000
 	__Rect__000000_Bottom.Height = 137.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -151,8 +174,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 161.000000
-	__Rect__000001_Top.Y = 94.000000
+	__Rect__000001_Top.X = 193.000000
+	__Rect__000001_Top.Y = 336.000000
 	__Rect__000001_Top.Width = 183.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000
@@ -196,13 +219,17 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Setup of pointers
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom)
 	__Layer__000001_Circle_Layer.Circles = append(__Layer__000001_Circle_Layer.Circles, __Circle__000000_Test)
-	__Layer__000002_Link_layer.Links = append(__Layer__000002_Link_layer.Links, __Link__000000_Top_to_Bottom)
-	__Layer__000003_Top_Rectangle_layer.Rects = append(__Layer__000003_Top_Rectangle_layer.Rects, __Rect__000001_Top)
-	__Link__000000_Top_to_Bottom.Start = __Rect__000001_Top
-	__Link__000000_Top_to_Bottom.End = __Rect__000000_Bottom
+	__Layer__000002_Link_layer_horizontal_to_vertical.Links = append(__Layer__000002_Link_layer_horizontal_to_vertical.Links, __Link__000000_Top_to_Bottom_horizontal_to_vertical)
+	__Layer__000003_Link_layer_vertical_to_horizontal.Links = append(__Layer__000003_Link_layer_vertical_to_horizontal.Links, __Link__000001_Top_to_Bottom_vertical_to_horizontal)
+	__Layer__000004_Top_Rectangle_layer.Rects = append(__Layer__000004_Top_Rectangle_layer.Rects, __Rect__000001_Top)
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000001_Top
+	__Link__000000_Top_to_Bottom_horizontal_to_vertical.End = __Rect__000000_Bottom
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000001_Top
+	__Link__000001_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Top_Rectangle_layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Link_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Top_Rectangle_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_vertical_to_horizontal)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Link_layer_horizontal_to_vertical)
 	__SVG__000000_SVG.StartRect = __Rect__000001_Top
 	__SVG__000000_SVG.EndRect = __Rect__000000_Bottom
 }

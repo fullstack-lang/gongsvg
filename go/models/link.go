@@ -20,6 +20,9 @@ type Link struct {
 	EndDirection   DirectionType
 	EndRatio       float64
 
+	// in case StartDirection is the same as EndDirection,
+	// there is a perpendicular line
+
 	ControlPoints []*Point
 
 	Presentation

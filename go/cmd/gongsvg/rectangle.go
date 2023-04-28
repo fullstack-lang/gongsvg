@@ -110,7 +110,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Top_to_Bottom.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000000_Top_to_Bottom.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Top_to_Bottom.EndAnchorType = models.ANCHOR_CENTER
+	__Link__000000_Top_to_Bottom.StartDirection = models.DIRECTION_HORIZONTAL
 	__Link__000000_Top_to_Bottom.StartRatio = 0.300000
+	__Link__000000_Top_to_Bottom.EndDirection = models.DIRECTION_VERTICAL
 	__Link__000000_Top_to_Bottom.EndRatio = 0.500000
 	__Link__000000_Top_to_Bottom.Color = `black`
 	__Link__000000_Top_to_Bottom.FillOpacity = 0.000000
@@ -122,8 +124,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 577.000000
-	__Rect__000000_Bottom.Y = 236.005684
+	__Rect__000000_Bottom.X = 497.000000
+	__Rect__000000_Bottom.Y = 412.005684
 	__Rect__000000_Bottom.Width = 267.000000
 	__Rect__000000_Bottom.Height = 137.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -149,8 +151,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 188.000000
-	__Rect__000001_Top.Y = 231.000000
+	__Rect__000001_Top.X = 161.000000
+	__Rect__000001_Top.Y = 94.000000
 	__Rect__000001_Top.Width = 183.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000

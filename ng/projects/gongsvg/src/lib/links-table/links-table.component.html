@@ -61,10 +61,24 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="StartDirection">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StartDirection </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.StartDirection}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="StartRatio">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> StartRatio </th>
             <td mat-cell *matCellDef="let Link">
                 {{Link.StartRatio.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="EndDirection">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> EndDirection </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.EndDirection}}
             </td>
         </ng-container>
         <!-- -->

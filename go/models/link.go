@@ -15,8 +15,10 @@ type Link struct {
 
 	// if link type is floating orthogonal ratio, from 0 to 1,
 	// where the anchor starts on the edge (horizontal / vertical)
-	StartRatio float64
-	EndRatio   float64
+	StartDirection DirectionType
+	StartRatio     float64
+	EndDirection   DirectionType
+	EndRatio       float64
 
 	ControlPoints []*Point
 

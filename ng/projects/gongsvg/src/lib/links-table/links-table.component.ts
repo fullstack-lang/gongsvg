@@ -90,8 +90,14 @@ export class LinksTableComponent implements OnInit {
         case 'EndAnchorType':
           return linkDB.EndAnchorType;
 
+        case 'StartDirection':
+          return linkDB.StartDirection;
+
         case 'StartRatio':
           return linkDB.StartRatio;
+
+        case 'EndDirection':
+          return linkDB.EndDirection;
 
         case 'EndRatio':
           return linkDB.EndRatio;
@@ -148,7 +154,9 @@ export class LinksTableComponent implements OnInit {
         mergedContent += linkDB.End.Name.toLowerCase()
       }
       mergedContent += linkDB.EndAnchorType.toLowerCase()
+      mergedContent += linkDB.StartDirection.toLowerCase()
       mergedContent += linkDB.StartRatio.toString()
+      mergedContent += linkDB.EndDirection.toLowerCase()
       mergedContent += linkDB.EndRatio.toString()
       mergedContent += linkDB.Color.toLowerCase()
       mergedContent += linkDB.FillOpacity.toString()
@@ -221,7 +229,9 @@ export class LinksTableComponent implements OnInit {
         "StartAnchorType",
         "End",
         "EndAnchorType",
+        "StartDirection",
         "StartRatio",
+        "EndDirection",
         "EndRatio",
         "Color",
         "FillOpacity",
@@ -240,7 +250,9 @@ export class LinksTableComponent implements OnInit {
         "StartAnchorType",
         "End",
         "EndAnchorType",
+        "StartDirection",
         "StartRatio",
+        "EndDirection",
         "EndRatio",
         "Color",
         "FillOpacity",

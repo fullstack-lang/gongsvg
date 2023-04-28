@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
-import { shortestFloatingOrthogonalConnector } from './compute.floating.connectors';
 import { ConnectorParams, drawConnector } from './compute.floating.connectors.2';
 
 @Component({
@@ -111,8 +110,8 @@ export class LinkComponent implements OnInit, AfterViewInit {
     this.connectorParams = {
       startRect: link.Start!,
       endRect: link.End!,
-      startDirection: gongsvg.DirectionType.DIRECTION_HORIZONTAL,
-      endDirection: gongsvg.DirectionType.DIRECTION_VERTICAL,
+      startDirection: link.StartDirection! as gongsvg.DirectionType,
+      endDirection: link.EndDirection! as gongsvg.DirectionType,
       startRatio: link.StartRatio,
       endRatio: link.EndRatio,
     }

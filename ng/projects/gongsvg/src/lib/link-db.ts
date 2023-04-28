@@ -16,7 +16,9 @@ export class LinkDB {
 	Type: string = ""
 	StartAnchorType: string = ""
 	EndAnchorType: string = ""
+	StartDirection: string = ""
 	StartRatio: number = 0
+	EndDirection: string = ""
 	EndRatio: number = 0
 	Color: string = ""
 	FillOpacity: number = 0

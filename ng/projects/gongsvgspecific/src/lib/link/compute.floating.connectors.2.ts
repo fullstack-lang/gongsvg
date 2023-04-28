@@ -21,13 +21,13 @@ export function drawConnector(params: ConnectorParams): gongsvg.PointDB[][] {
     const {
         startRect,
         endRect,
-        startDirection: startingDirection,
+        startDirection: startDirection,
         endDirection: endDirection,
         startRatio: startRatio,
         endRatio: endRatio } = params;
     const segments: gongsvg.PointDB[][] = []
 
-    if (startingDirection === gongsvg.DirectionType.DIRECTION_HORIZONTAL &&
+    if (startDirection === gongsvg.DirectionType.DIRECTION_HORIZONTAL &&
         endDirection === gongsvg.DirectionType.DIRECTION_VERTICAL) {
 
         const startX = startRect.X
@@ -36,9 +36,11 @@ export function drawConnector(params: ConnectorParams): gongsvg.PointDB[][] {
         const c1_Y = startY
         const c1 = createPoint(c1_X, c1_Y)
 
-        const firstSegment = drawLine(c1, startRect, startingDirection)
+        const firstSegment = drawLine(c1, startRect, startDirection)
+        const secondSegment = drawLine(c1, endRect, endDirection)
 
-        segments.push(firstSegment)
+
+        segments.push(firstSegment, secondSegment)
     }
 
     return segments;
@@ -48,18 +50,30 @@ function drawLine(point: gongsvg.PointDB, rect: gongsvg.RectDB, direction: gongs
     const line: gongsvg.PointDB[] = []
 
     if (direction === gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
-        if (point.X <= rect.X) {
+        if (point.X <= rect.X + rect.Width / 2) {
             const endPoint = createPoint(rect.X, point.Y)
             line.push(point, endPoint)
-            return line
         }
-        if (point.X >= rect.X + rect.Width) {
+        else {
             const endPoint = createPoint(rect.X + rect.Width, point.Y)
+            line.push(point, endPoint)
+        }
+        line.push(point, point)
+
+    }
+    if (direction === gongsvg.DirectionType.DIRECTION_VERTICAL) {
+        if (point.Y <= rect.Y + rect.Height / 2) {
+            const endPoint = createPoint(point.X, rect.Y)
             line.push(point, endPoint)
             return line
         }
-        line.push(point, point)
+        else {
+            const endPoint = createPoint(point.X, rect.Y + rect.Height)
+            line.push(point, endPoint)
+            return line
+        }
     }
+
 
     return line
 }

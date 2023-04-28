@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/co
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
 import { shortestFloatingOrthogonalConnector } from './compute.floating.connectors';
+import { ConnectorParams, drawConnector } from './compute.floating.connectors.2';
 
 @Component({
   selector: 'lib-link',
@@ -86,8 +87,6 @@ export class LinkComponent implements OnInit, AfterViewInit {
     const deltaX = x - this.startPosition.x;
     const deltaY = y - this.startPosition.y;
     this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-
   }
 
 
@@ -102,42 +101,25 @@ export class LinkComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getLinkStartX() {
-    if (this.Link?.Start && this.Link?.End) {
-      let shortestConnection = shortestFloatingOrthogonalConnector(this.Link.Start, this.Link.StartRatio, this.Link.End, this.Link.EndRatio)
-      return shortestConnection[0].X
-    } else {
-      return 0
+  connectorParams: ConnectorParams | undefined
+  points: gongsvg.PointDB[][] | undefined
+
+  drawConnector(): boolean {
+
+    let link = this.Link!
+
+    this.connectorParams = {
+      startRect: link.Start!,
+      endRect: link.End!,
+      startDirection: gongsvg.DirectionType.DIRECTION_HORIZONTAL,
+      endDirection: gongsvg.DirectionType.DIRECTION_VERTICAL,
+      startRatio: link.StartRatio,
+      endRatio: link.EndRatio,
     }
 
+    this.points = drawConnector(this.connectorParams)
 
-  }
-  getLinkStartY() {
-    if (this.Link?.Start && this.Link?.End) {
-      let shortestConnection = shortestFloatingOrthogonalConnector(this.Link.Start, this.Link.StartRatio, this.Link.End, this.Link.EndRatio)
-
-      return shortestConnection[0].Y
-    } else {
-      return 0
-    }
-  }
-  getLinkEndX() {
-    if (this.Link?.Start && this.Link?.End) {
-
-      let shortestConnection = shortestFloatingOrthogonalConnector(this.Link.Start, this.Link.StartRatio, this.Link.End, this.Link.EndRatio)
-      return shortestConnection[2].X
-    } else {
-      return 0
-    }
-  }
-  getLinkEndY() {
-    if (this.Link?.Start && this.Link?.End) {
-
-      let shortestConnection = shortestFloatingOrthogonalConnector(this.Link.Start, this.Link.StartRatio, this.Link.End, this.Link.EndRatio)
-      return shortestConnection[2].Y
-    } else {
-      return 0
-    }
+    return true
   }
 
   pageX: number = 0

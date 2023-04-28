@@ -1298,6 +1298,62 @@ func (colortype *ColorType) ToCodeString() (res string) {
 	return
 }
 
+// Utility function for DirectionType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (directiontype DirectionType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch directiontype {
+	// insertion code per enum code
+	case DIRECTION_HORIZONTAL:
+		res = "DIRECTION_HORIZONTAL"
+	case DIRECTION_VERTICAL:
+		res = "DIRECTION_VERTICAL"
+	}
+	return
+}
+
+func (directiontype *DirectionType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "DIRECTION_HORIZONTAL":
+		*directiontype = DIRECTION_HORIZONTAL
+	case "DIRECTION_VERTICAL":
+		*directiontype = DIRECTION_VERTICAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (directiontype *DirectionType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "DIRECTION_HORIZONTAL":
+		*directiontype = DIRECTION_HORIZONTAL
+	case "DIRECTION_VERTICAL":
+		*directiontype = DIRECTION_VERTICAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (directiontype *DirectionType) ToCodeString() (res string) {
+
+	switch *directiontype {
+	// insertion code per enum code
+	case DIRECTION_HORIZONTAL:
+		res = "DIRECTION_HORIZONTAL"
+	case DIRECTION_VERTICAL:
+		res = "DIRECTION_VERTICAL"
+	}
+	return
+}
+
 // Utility function for DrawingState
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

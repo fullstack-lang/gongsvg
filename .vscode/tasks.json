@@ -110,7 +110,7 @@
 			"group": "build"
 		},
 		{
-			"label": "01 - gongc -skipGoModCommands -skipNpmInstall -compileForDebug",
+			"label": "01 - gongc -skipGoModCommands -skipNpmInstall -compileForDebug go/models",
 			"type": "shell",
 			"options": {
 				"cwd": "go/models"

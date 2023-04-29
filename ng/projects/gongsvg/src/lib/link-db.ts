@@ -20,6 +20,7 @@ export class LinkDB {
 	StartRatio: number = 0
 	EndDirection: string = ""
 	EndRatio: number = 0
+	CornerOffsetRatio: number = 0
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""

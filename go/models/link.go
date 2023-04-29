@@ -21,7 +21,9 @@ type Link struct {
 	EndRatio       float64
 
 	// in case StartDirection is the same as EndDirection,
-	// there is a perpendicular line
+	// there is a perpendicular line that reach the corner at
+	// CornerOffsetRatio
+	CornerOffsetRatio float64
 
 	ControlPoints []*Point
 

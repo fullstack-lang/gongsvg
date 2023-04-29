@@ -96,6 +96,9 @@ type LinkDB struct {
 	// Declation for basic field linkDB.EndRatio
 	EndRatio_Data sql.NullFloat64
 
+	// Declation for basic field linkDB.CornerOffsetRatio
+	CornerOffsetRatio_Data sql.NullFloat64
+
 	// Declation for basic field linkDB.Color
 	Color_Data sql.NullString
 
@@ -153,19 +156,21 @@ type LinkWOP struct {
 
 	EndRatio float64 `xlsx:"8"`
 
-	Color string `xlsx:"9"`
+	CornerOffsetRatio float64 `xlsx:"9"`
 
-	FillOpacity float64 `xlsx:"10"`
+	Color string `xlsx:"10"`
 
-	Stroke string `xlsx:"11"`
+	FillOpacity float64 `xlsx:"11"`
 
-	StrokeWidth float64 `xlsx:"12"`
+	Stroke string `xlsx:"12"`
 
-	StrokeDashArray string `xlsx:"13"`
+	StrokeWidth float64 `xlsx:"13"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"14"`
+	StrokeDashArray string `xlsx:"14"`
 
-	Transform string `xlsx:"15"`
+	StrokeDashArrayWhenSelected string `xlsx:"15"`
+
+	Transform string `xlsx:"16"`
 	// insertion for WOP pointer fields
 }
 
@@ -180,6 +185,7 @@ var Link_Fields = []string{
 	"StartRatio",
 	"EndDirection",
 	"EndRatio",
+	"CornerOffsetRatio",
 	"Color",
 	"FillOpacity",
 	"Stroke",
@@ -543,6 +549,9 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 	linkDB.EndRatio_Data.Float64 = link.EndRatio
 	linkDB.EndRatio_Data.Valid = true
 
+	linkDB.CornerOffsetRatio_Data.Float64 = link.CornerOffsetRatio
+	linkDB.CornerOffsetRatio_Data.Valid = true
+
 	linkDB.Color_Data.String = link.Color
 	linkDB.Color_Data.Valid = true
 
@@ -593,6 +602,9 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 	linkDB.EndRatio_Data.Float64 = link.EndRatio
 	linkDB.EndRatio_Data.Valid = true
 
+	linkDB.CornerOffsetRatio_Data.Float64 = link.CornerOffsetRatio
+	linkDB.CornerOffsetRatio_Data.Valid = true
+
 	linkDB.Color_Data.String = link.Color
 	linkDB.Color_Data.Valid = true
 
@@ -626,6 +638,7 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	link.StartRatio = linkDB.StartRatio_Data.Float64
 	link.EndDirection.FromString(linkDB.EndDirection_Data.String)
 	link.EndRatio = linkDB.EndRatio_Data.Float64
+	link.CornerOffsetRatio = linkDB.CornerOffsetRatio_Data.Float64
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String
@@ -647,6 +660,7 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.StartRatio = linkDB.StartRatio_Data.Float64
 	link.EndDirection.FromString(linkDB.EndDirection_Data.String)
 	link.EndRatio = linkDB.EndRatio_Data.Float64
+	link.CornerOffsetRatio = linkDB.CornerOffsetRatio_Data.Float64
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String

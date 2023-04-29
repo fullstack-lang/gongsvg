@@ -102,6 +102,9 @@ export class LinksTableComponent implements OnInit {
         case 'EndRatio':
           return linkDB.EndRatio;
 
+        case 'CornerOffsetRatio':
+          return linkDB.CornerOffsetRatio;
+
         case 'Color':
           return linkDB.Color;
 
@@ -158,6 +161,7 @@ export class LinksTableComponent implements OnInit {
       mergedContent += linkDB.StartRatio.toString()
       mergedContent += linkDB.EndDirection.toLowerCase()
       mergedContent += linkDB.EndRatio.toString()
+      mergedContent += linkDB.CornerOffsetRatio.toString()
       mergedContent += linkDB.Color.toLowerCase()
       mergedContent += linkDB.FillOpacity.toString()
       mergedContent += linkDB.Stroke.toLowerCase()
@@ -233,6 +237,7 @@ export class LinksTableComponent implements OnInit {
         "StartRatio",
         "EndDirection",
         "EndRatio",
+        "CornerOffsetRatio",
         "Color",
         "FillOpacity",
         "Stroke",
@@ -254,6 +259,7 @@ export class LinksTableComponent implements OnInit {
         "StartRatio",
         "EndDirection",
         "EndRatio",
+        "CornerOffsetRatio",
         "Color",
         "FillOpacity",
         "Stroke",

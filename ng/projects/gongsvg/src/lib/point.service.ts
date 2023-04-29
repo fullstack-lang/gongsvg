@@ -11,22 +11,21 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { LinkDB } from './link-db';
+import { PointDB } from './point-db';
 
 // insertion point for imports
-import { RectDB } from './rect-db'
-import { LayerDB } from './layer-db'
+import { LinkDB } from './link-db'
 
 @Injectable({
   providedIn: 'root'
 })
-export class LinkService {
+export class PointService {
 
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
-  LinkServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
+  PointServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
 
-  private linksUrl: string
+  private pointsUrl: string
 
   constructor(
     private http: HttpClient,
@@ -40,43 +39,40 @@ export class LinkService {
     origin = origin.replace("4200", "8080")
 
     // compute path to the service
-    this.linksUrl = origin + '/api/github.com/fullstack-lang/gongsvg/go/v1/links';
+    this.pointsUrl = origin + '/api/github.com/fullstack-lang/gongsvg/go/v1/points';
   }
 
-  /** GET links from the server */
-  getLinks(GONG__StackPath: string): Observable<LinkDB[]> {
+  /** GET points from the server */
+  getPoints(GONG__StackPath: string): Observable<PointDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<LinkDB[]>(this.linksUrl, { params: params })
+    return this.http.get<PointDB[]>(this.pointsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched links')),
-        catchError(this.handleError<LinkDB[]>('getLinks', []))
+		// tap(_ => this.log('fetched points')),
+        catchError(this.handleError<PointDB[]>('getPoints', []))
       );
   }
 
-  /** GET link by id. Will 404 if id not found */
-  getLink(id: number, GONG__StackPath: string): Observable<LinkDB> {
+  /** GET point by id. Will 404 if id not found */
+  getPoint(id: number, GONG__StackPath: string): Observable<PointDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    const url = `${this.linksUrl}/${id}`;
-    return this.http.get<LinkDB>(url, { params: params }).pipe(
-      // tap(_ => this.log(`fetched link id=${id}`)),
-      catchError(this.handleError<LinkDB>(`getLink id=${id}`))
+    const url = `${this.pointsUrl}/${id}`;
+    return this.http.get<PointDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched point id=${id}`)),
+      catchError(this.handleError<PointDB>(`getPoint id=${id}`))
     );
   }
 
-  /** POST: add a new link to the server */
-  postLink(linkdb: LinkDB, GONG__StackPath: string): Observable<LinkDB> {
+  /** POST: add a new point to the server */
+  postPoint(pointdb: PointDB, GONG__StackPath: string): Observable<PointDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    linkdb.Start = new RectDB
-    linkdb.End = new RectDB
-    linkdb.ControlPoints = []
-    let _Layer_Links_reverse = linkdb.Layer_Links_reverse
-    linkdb.Layer_Links_reverse = new LayerDB
+    let _Link_ControlPoints_reverse = pointdb.Link_ControlPoints_reverse
+    pointdb.Link_ControlPoints_reverse = new LinkDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -84,20 +80,20 @@ export class LinkService {
       params: params
     }
 
-    return this.http.post<LinkDB>(this.linksUrl, linkdb, httpOptions).pipe(
+    return this.http.post<PointDB>(this.pointsUrl, pointdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        linkdb.Layer_Links_reverse = _Layer_Links_reverse
-        // this.log(`posted linkdb id=${linkdb.ID}`)
+        pointdb.Link_ControlPoints_reverse = _Link_ControlPoints_reverse
+        // this.log(`posted pointdb id=${pointdb.ID}`)
       }),
-      catchError(this.handleError<LinkDB>('postLink'))
+      catchError(this.handleError<PointDB>('postPoint'))
     );
   }
 
-  /** DELETE: delete the linkdb from the server */
-  deleteLink(linkdb: LinkDB | number, GONG__StackPath: string): Observable<LinkDB> {
-    const id = typeof linkdb === 'number' ? linkdb : linkdb.ID;
-    const url = `${this.linksUrl}/${id}`;
+  /** DELETE: delete the pointdb from the server */
+  deletePoint(pointdb: PointDB | number, GONG__StackPath: string): Observable<PointDB> {
+    const id = typeof pointdb === 'number' ? pointdb : pointdb.ID;
+    const url = `${this.pointsUrl}/${id}`;
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -105,23 +101,20 @@ export class LinkService {
       params: params
     };
 
-    return this.http.delete<LinkDB>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted linkdb id=${id}`)),
-      catchError(this.handleError<LinkDB>('deleteLink'))
+    return this.http.delete<PointDB>(url, httpOptions).pipe(
+      tap(_ => this.log(`deleted pointdb id=${id}`)),
+      catchError(this.handleError<PointDB>('deletePoint'))
     );
   }
 
-  /** PUT: update the linkdb on the server */
-  updateLink(linkdb: LinkDB, GONG__StackPath: string): Observable<LinkDB> {
-    const id = typeof linkdb === 'number' ? linkdb : linkdb.ID;
-    const url = `${this.linksUrl}/${id}`;
+  /** PUT: update the pointdb on the server */
+  updatePoint(pointdb: PointDB, GONG__StackPath: string): Observable<PointDB> {
+    const id = typeof pointdb === 'number' ? pointdb : pointdb.ID;
+    const url = `${this.pointsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    linkdb.Start = new RectDB
-    linkdb.End = new RectDB
-    linkdb.ControlPoints = []
-    let _Layer_Links_reverse = linkdb.Layer_Links_reverse
-    linkdb.Layer_Links_reverse = new LayerDB
+    let _Link_ControlPoints_reverse = pointdb.Link_ControlPoints_reverse
+    pointdb.Link_ControlPoints_reverse = new LinkDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -129,13 +122,13 @@ export class LinkService {
       params: params
     };
 
-    return this.http.put<LinkDB>(url, linkdb, httpOptions).pipe(
+    return this.http.put<PointDB>(url, pointdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        linkdb.Layer_Links_reverse = _Layer_Links_reverse
-        // this.log(`updated linkdb id=${linkdb.ID}`)
+        pointdb.Link_ControlPoints_reverse = _Link_ControlPoints_reverse
+        // this.log(`updated pointdb id=${pointdb.ID}`)
       }),
-      catchError(this.handleError<LinkDB>('updateLink'))
+      catchError(this.handleError<PointDB>('updatePoint'))
     );
   }
 
@@ -145,11 +138,11 @@ export class LinkService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation in LinkService', result?: T) {
+  private handleError<T>(operation = 'operation in PointService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error("LinkService" + error); // log to console instead
+      console.error("PointService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);

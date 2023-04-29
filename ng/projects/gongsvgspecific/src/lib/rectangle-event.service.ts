@@ -14,6 +14,17 @@ interface RectMouseEvent {
 })
 export class RectangleEventService {
 
+  //
+  // mouse events
+  //
+  private mouseRectMouseDownEventSource = new Subject<RectMouseEvent>();
+  mouseRectMouseDownEvent$ = this.mouseRectMouseDownEventSource.asObservable();
+  emitRectMouseDownEvent(rectMouseEvent: RectMouseEvent) {
+    // console.log('RectangleEventService, rect mouse down event, rectangle', rectangleID)
+    this.mouseRectMouseDownEventSource.next(rectMouseEvent);
+  }
+
+
   private mouseRectMouseDragEventSource = new Subject<RectMouseEvent>();
   mouseRectMouseDragEvent$ = this.mouseRectMouseDragEventSource.asObservable();
   emitRectMouseDragEvent(rectMouseEvent: RectMouseEvent) {
@@ -21,12 +32,16 @@ export class RectangleEventService {
     this.mouseRectMouseDragEventSource.next(rectMouseEvent);
   }
 
-  private mouseRectMouseDownEventSource = new Subject<number>();
-  mouseRectMouseDownEvent$ = this.mouseRectMouseDownEventSource.asObservable();
-  emitRectMouseDownEvent(rectangleID: number) {
+  private mouseRectMouseUpEventSource = new Subject<number>();
+  mouseRectMouseUpEvent$ = this.mouseRectMouseUpEventSource.asObservable();
+  emitRectMouseUpEvent(rectangleID: number) {
     // console.log('RectangleEventService, rect mouse down event, rectangle', rectangleID)
-    this.mouseRectMouseDownEventSource.next(rectangleID);
+    this.mouseRectMouseUpEventSource.next(rectangleID);
   }
+
+  //
+  // mouse ALT events
+  //
 
   private mouseRectAltKeyMouseDownEventSource = new Subject<RectMouseEvent>();
   mouseRectAltKeyMouseDownEvent$ = this.mouseRectAltKeyMouseDownEventSource.asObservable();

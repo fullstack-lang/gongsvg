@@ -86,6 +86,14 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterPathDeleteCallback OnAfterDeleteInterface[Path]
 	OnAfterPathReadCallback   OnAfterReadInterface[Path]
 
+	Points           map[*Point]any
+	Points_mapString map[string]*Point
+
+	OnAfterPointCreateCallback OnAfterCreateInterface[Point]
+	OnAfterPointUpdateCallback OnAfterUpdateInterface[Point]
+	OnAfterPointDeleteCallback OnAfterDeleteInterface[Point]
+	OnAfterPointReadCallback   OnAfterReadInterface[Point]
+
 	Polygones           map[*Polygone]any
 	Polygones_mapString map[string]*Polygone
 
@@ -204,6 +212,8 @@ type BackRepoInterface interface {
 	CheckoutLink(link *Link)
 	CommitPath(path *Path)
 	CheckoutPath(path *Path)
+	CommitPoint(point *Point)
+	CheckoutPoint(point *Point)
 	CommitPolygone(polygone *Polygone)
 	CheckoutPolygone(polygone *Polygone)
 	CommitPolyline(polyline *Polyline)
@@ -253,6 +263,9 @@ func NewStage() (stage *StageStruct) {
 		Paths:           make(map[*Path]any),
 		Paths_mapString: make(map[string]*Path),
 
+		Points:           make(map[*Point]any),
+		Points_mapString: make(map[string]*Point),
+
 		Polygones:           make(map[*Polygone]any),
 		Polygones_mapString: make(map[string]*Polygone),
 
@@ -292,6 +305,7 @@ func (stage *StageStruct) Commit() {
 	stage.Map_GongStructName_InstancesNb["Line"] = len(stage.Lines)
 	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
 	stage.Map_GongStructName_InstancesNb["Path"] = len(stage.Paths)
+	stage.Map_GongStructName_InstancesNb["Point"] = len(stage.Points)
 	stage.Map_GongStructName_InstancesNb["Polygone"] = len(stage.Polygones)
 	stage.Map_GongStructName_InstancesNb["Polyline"] = len(stage.Polylines)
 	stage.Map_GongStructName_InstancesNb["Rect"] = len(stage.Rects)
@@ -313,6 +327,7 @@ func (stage *StageStruct) Checkout() {
 	stage.Map_GongStructName_InstancesNb["Line"] = len(stage.Lines)
 	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
 	stage.Map_GongStructName_InstancesNb["Path"] = len(stage.Paths)
+	stage.Map_GongStructName_InstancesNb["Point"] = len(stage.Points)
 	stage.Map_GongStructName_InstancesNb["Polygone"] = len(stage.Polygones)
 	stage.Map_GongStructName_InstancesNb["Polyline"] = len(stage.Polylines)
 	stage.Map_GongStructName_InstancesNb["Rect"] = len(stage.Rects)
@@ -630,6 +645,46 @@ func (path *Path) GetName() (res string) {
 	return path.Name
 }
 
+// Stage puts point to the model stage
+func (point *Point) Stage(stage *StageStruct) *Point {
+	stage.Points[point] = __member
+	stage.Points_mapString[point.Name] = point
+
+	return point
+}
+
+// Unstage removes point off the model stage
+func (point *Point) Unstage(stage *StageStruct) *Point {
+	delete(stage.Points, point)
+	delete(stage.Points_mapString, point.Name)
+	return point
+}
+
+// commit point to the back repo (if it is already staged)
+func (point *Point) Commit(stage *StageStruct) *Point {
+	if _, ok := stage.Points[point]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPoint(point)
+		}
+	}
+	return point
+}
+
+// Checkout point to the back repo (if it is already staged)
+func (point *Point) Checkout(stage *StageStruct) *Point {
+	if _, ok := stage.Points[point]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPoint(point)
+		}
+	}
+	return point
+}
+
+// for satisfaction of GongStruct interface
+func (point *Point) GetName() (res string) {
+	return point.Name
+}
+
 // Stage puts polygone to the model stage
 func (polygone *Polygone) Stage(stage *StageStruct) *Polygone {
 	stage.Polygones[polygone] = __member
@@ -839,6 +894,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMLine(Line *Line)
 	CreateORMLink(Link *Link)
 	CreateORMPath(Path *Path)
+	CreateORMPoint(Point *Point)
 	CreateORMPolygone(Polygone *Polygone)
 	CreateORMPolyline(Polyline *Polyline)
 	CreateORMRect(Rect *Rect)
@@ -854,6 +910,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMLine(Line *Line)
 	DeleteORMLink(Link *Link)
 	DeleteORMPath(Path *Path)
+	DeleteORMPoint(Point *Point)
 	DeleteORMPolygone(Polygone *Polygone)
 	DeleteORMPolyline(Polyline *Polyline)
 	DeleteORMRect(Rect *Rect)
@@ -882,6 +939,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 	stage.Paths = make(map[*Path]any)
 	stage.Paths_mapString = make(map[string]*Path)
+
+	stage.Points = make(map[*Point]any)
+	stage.Points_mapString = make(map[string]*Point)
 
 	stage.Polygones = make(map[*Polygone]any)
 	stage.Polygones_mapString = make(map[string]*Polygone)
@@ -921,6 +981,9 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 	stage.Paths = nil
 	stage.Paths_mapString = nil
+
+	stage.Points = nil
+	stage.Points_mapString = nil
 
 	stage.Polygones = nil
 	stage.Polygones_mapString = nil
@@ -968,6 +1031,10 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 		path.Unstage(stage)
 	}
 
+	for point := range stage.Points {
+		point.Unstage(stage)
+	}
+
 	for polygone := range stage.Polygones {
 		polygone.Unstage(stage)
 	}
@@ -996,7 +1063,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
-	Animate | Circle | Ellipse | Layer | Line | Link | Path | Polygone | Polyline | Rect | SVG | Text
+	Animate | Circle | Ellipse | Layer | Line | Link | Path | Point | Polygone | Polyline | Rect | SVG | Text
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
@@ -1005,7 +1072,7 @@ type Gongstruct interface {
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
 	// insertion point for generic types
-	*Animate | *Circle | *Ellipse | *Layer | *Line | *Link | *Path | *Polygone | *Polyline | *Rect | *SVG | *Text
+	*Animate | *Circle | *Ellipse | *Layer | *Line | *Link | *Path | *Point | *Polygone | *Polyline | *Rect | *SVG | *Text
 	GetName() string
 }
 
@@ -1019,6 +1086,7 @@ type GongstructSet interface {
 		map[*Line]any |
 		map[*Link]any |
 		map[*Path]any |
+		map[*Point]any |
 		map[*Polygone]any |
 		map[*Polyline]any |
 		map[*Rect]any |
@@ -1037,6 +1105,7 @@ type GongstructMapString interface {
 		map[string]*Line |
 		map[string]*Link |
 		map[string]*Path |
+		map[string]*Point |
 		map[string]*Polygone |
 		map[string]*Polyline |
 		map[string]*Rect |
@@ -1066,6 +1135,8 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 		return any(&stage.Links).(*Type)
 	case map[*Path]any:
 		return any(&stage.Paths).(*Type)
+	case map[*Point]any:
+		return any(&stage.Points).(*Type)
 	case map[*Polygone]any:
 		return any(&stage.Polygones).(*Type)
 	case map[*Polyline]any:
@@ -1102,6 +1173,8 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 		return any(&stage.Links_mapString).(*Type)
 	case map[string]*Path:
 		return any(&stage.Paths_mapString).(*Type)
+	case map[string]*Point:
+		return any(&stage.Points_mapString).(*Type)
 	case map[string]*Polygone:
 		return any(&stage.Polygones_mapString).(*Type)
 	case map[string]*Polyline:
@@ -1138,6 +1211,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 		return any(&stage.Links).(*map[*Type]any)
 	case Path:
 		return any(&stage.Paths).(*map[*Type]any)
+	case Point:
+		return any(&stage.Points).(*map[*Type]any)
 	case Polygone:
 		return any(&stage.Polygones).(*map[*Type]any)
 	case Polyline:
@@ -1174,6 +1249,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]
 		return any(&stage.Links_mapString).(*map[string]*Type)
 	case Path:
 		return any(&stage.Paths_mapString).(*map[string]*Type)
+	case Point:
+		return any(&stage.Points_mapString).(*map[string]*Type)
 	case Polygone:
 		return any(&stage.Polygones_mapString).(*map[string]*Type)
 	case Polyline:
@@ -1249,12 +1326,18 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Start: &Rect{Name: "Start"},
 			// field is initialized with an instance of Rect with the name of the field
 			End: &Rect{Name: "End"},
+			// field is initialized with an instance of Point with the name of the field
+			ControlPoints: []*Point{{Name: "ControlPoints"}},
 		}).(*Type)
 	case Path:
 		return any(&Path{
 			// Initialisation of associations
 			// field is initialized with an instance of Animate with the name of the field
 			Animates: []*Animate{{Name: "Animates"}},
+		}).(*Type)
+	case Point:
+		return any(&Point{
+			// Initialisation of associations
 		}).(*Type)
 	case Polygone:
 		return any(&Polygone{
@@ -1374,6 +1457,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 		}
 	// reverse maps of direct associations of Path
 	case Path:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Point
+	case Point:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1577,6 +1665,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Link:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPoints":
+			res := make(map[*Point]*Link)
+			for link := range stage.Links {
+				for _, point_ := range link.ControlPoints {
+					res[point_] = link
+				}
+			}
+			return any(res).(map[*End]*Start)
 		}
 	// reverse maps of direct associations of Path
 	case Path:
@@ -1590,6 +1686,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End]*Start)
+		}
+	// reverse maps of direct associations of Point
+	case Point:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Polygone
 	case Polygone:
@@ -1682,6 +1783,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Link"
 	case Path:
 		res = "Path"
+	case Point:
+		res = "Point"
 	case Polygone:
 		res = "Polygone"
 	case Polyline:
@@ -1714,9 +1817,11 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Start", "StartAnchorType", "End", "EndAnchorType", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "Start", "StartAnchorType", "End", "EndAnchorType", "StartDirection", "StartRatio", "EndDirection", "EndRatio", "CornerOffsetRatio", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+	case Point:
+		res = []string{"Name", "X", "Y"}
 	case Polygone:
 		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Polyline:
@@ -1933,6 +2038,9 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = any(instance).(Link).Name
+		case "Type":
+			enum := any(instance).(Link).Type
+			res = enum.ToCodeString()
 		case "Start":
 			if any(instance).(Link).Start != nil {
 				res = any(instance).(Link).Start.Name
@@ -1947,6 +2055,25 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "EndAnchorType":
 			enum := any(instance).(Link).EndAnchorType
 			res = enum.ToCodeString()
+		case "StartDirection":
+			enum := any(instance).(Link).StartDirection
+			res = enum.ToCodeString()
+		case "StartRatio":
+			res = fmt.Sprintf("%f", any(instance).(Link).StartRatio)
+		case "EndDirection":
+			enum := any(instance).(Link).EndDirection
+			res = enum.ToCodeString()
+		case "EndRatio":
+			res = fmt.Sprintf("%f", any(instance).(Link).EndRatio)
+		case "CornerOffsetRatio":
+			res = fmt.Sprintf("%f", any(instance).(Link).CornerOffsetRatio)
+		case "ControlPoints":
+			for idx, __instance__ := range any(instance).(Link).ControlPoints {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
 		case "Color":
 			res = any(instance).(Link).Color
 		case "FillOpacity":
@@ -1990,6 +2117,16 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 				}
 				res += __instance__.Name
 			}
+		}
+	case Point:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Point).Name
+		case "X":
+			res = fmt.Sprintf("%f", any(instance).(Point).X)
+		case "Y":
+			res = fmt.Sprintf("%f", any(instance).(Point).Y)
 		}
 	case Polygone:
 		switch fieldName {

@@ -75,11 +75,29 @@ type LinkDB struct {
 	// Declation for basic field linkDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field linkDB.Type
+	Type_Data sql.NullString
+
 	// Declation for basic field linkDB.StartAnchorType
 	StartAnchorType_Data sql.NullString
 
 	// Declation for basic field linkDB.EndAnchorType
 	EndAnchorType_Data sql.NullString
+
+	// Declation for basic field linkDB.StartDirection
+	StartDirection_Data sql.NullString
+
+	// Declation for basic field linkDB.StartRatio
+	StartRatio_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.EndDirection
+	EndDirection_Data sql.NullString
+
+	// Declation for basic field linkDB.EndRatio
+	EndRatio_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.CornerOffsetRatio
+	CornerOffsetRatio_Data sql.NullFloat64
 
 	// Declation for basic field linkDB.Color
 	Color_Data sql.NullString
@@ -124,23 +142,35 @@ type LinkWOP struct {
 
 	Name string `xlsx:"1"`
 
-	StartAnchorType models.AnchorType `xlsx:"2"`
+	Type models.LinkType `xlsx:"2"`
 
-	EndAnchorType models.AnchorType `xlsx:"3"`
+	StartAnchorType models.AnchorType `xlsx:"3"`
 
-	Color string `xlsx:"4"`
+	EndAnchorType models.AnchorType `xlsx:"4"`
 
-	FillOpacity float64 `xlsx:"5"`
+	StartDirection models.DirectionType `xlsx:"5"`
 
-	Stroke string `xlsx:"6"`
+	StartRatio float64 `xlsx:"6"`
 
-	StrokeWidth float64 `xlsx:"7"`
+	EndDirection models.DirectionType `xlsx:"7"`
 
-	StrokeDashArray string `xlsx:"8"`
+	EndRatio float64 `xlsx:"8"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"9"`
+	CornerOffsetRatio float64 `xlsx:"9"`
 
-	Transform string `xlsx:"10"`
+	Color string `xlsx:"10"`
+
+	FillOpacity float64 `xlsx:"11"`
+
+	Stroke string `xlsx:"12"`
+
+	StrokeWidth float64 `xlsx:"13"`
+
+	StrokeDashArray string `xlsx:"14"`
+
+	StrokeDashArrayWhenSelected string `xlsx:"15"`
+
+	Transform string `xlsx:"16"`
 	// insertion for WOP pointer fields
 }
 
@@ -148,8 +178,14 @@ var Link_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Type",
 	"StartAnchorType",
 	"EndAnchorType",
+	"StartDirection",
+	"StartRatio",
+	"EndDirection",
+	"EndRatio",
+	"CornerOffsetRatio",
 	"Color",
 	"FillOpacity",
 	"Stroke",
@@ -294,6 +330,25 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 			}
 		}
 
+		// This loop encodes the slice of pointers link.ControlPoints into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, pointAssocEnd := range link.ControlPoints {
+
+			// get the back repo instance at the association end
+			pointAssocEnd_DB :=
+				backRepo.BackRepoPoint.GetPointDBFromPointPtr(pointAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			pointAssocEnd_DB.Link_ControlPointsDBID.Int64 = int64(linkDB.ID)
+			pointAssocEnd_DB.Link_ControlPointsDBID.Valid = true
+			pointAssocEnd_DB.Link_ControlPointsDBID_Index.Int64 = int64(idx)
+			pointAssocEnd_DB.Link_ControlPointsDBID_Index.Valid = true
+			if q := backRepoLink.db.Save(pointAssocEnd_DB); q.Error != nil {
+				return q.Error
+			}
+		}
+
 		query := backRepoLink.db.Save(&linkDB)
 		if query.Error != nil {
 			return query.Error
@@ -409,6 +464,33 @@ func (backRepoLink *BackRepoLinkStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	if linkDB.EndID.Int64 != 0 {
 		link.End = backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(linkDB.EndID.Int64)]
 	}
+	// This loop redeem link.ControlPoints in the stage from the encode in the back repo
+	// It parses all PointDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	link.ControlPoints = link.ControlPoints[:0]
+	// 2. loop all instances in the type in the association end
+	for _, pointDB_AssocEnd := range backRepo.BackRepoPoint.Map_PointDBID_PointDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if pointDB_AssocEnd.Link_ControlPointsDBID.Int64 == int64(linkDB.ID) {
+			// 4. fetch the associated instance in the stage
+			point_AssocEnd := backRepo.BackRepoPoint.Map_PointDBID_PointPtr[pointDB_AssocEnd.ID]
+			// 5. append it the association slice
+			link.ControlPoints = append(link.ControlPoints, point_AssocEnd)
+		}
+	}
+
+	// sort the array according to the order
+	sort.Slice(link.ControlPoints, func(i, j int) bool {
+		pointDB_i_ID := backRepo.BackRepoPoint.Map_PointPtr_PointDBID[link.ControlPoints[i]]
+		pointDB_j_ID := backRepo.BackRepoPoint.Map_PointPtr_PointDBID[link.ControlPoints[j]]
+
+		pointDB_i := backRepo.BackRepoPoint.Map_PointDBID_PointDB[pointDB_i_ID]
+		pointDB_j := backRepo.BackRepoPoint.Map_PointDBID_PointDB[pointDB_j_ID]
+
+		return pointDB_i.Link_ControlPointsDBID_Index.Int64 < pointDB_j.Link_ControlPointsDBID_Index.Int64
+	})
+
 	return
 }
 
@@ -446,11 +528,29 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 	linkDB.Name_Data.String = link.Name
 	linkDB.Name_Data.Valid = true
 
+	linkDB.Type_Data.String = link.Type.ToString()
+	linkDB.Type_Data.Valid = true
+
 	linkDB.StartAnchorType_Data.String = link.StartAnchorType.ToString()
 	linkDB.StartAnchorType_Data.Valid = true
 
 	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
 	linkDB.EndAnchorType_Data.Valid = true
+
+	linkDB.StartDirection_Data.String = link.StartDirection.ToString()
+	linkDB.StartDirection_Data.Valid = true
+
+	linkDB.StartRatio_Data.Float64 = link.StartRatio
+	linkDB.StartRatio_Data.Valid = true
+
+	linkDB.EndDirection_Data.String = link.EndDirection.ToString()
+	linkDB.EndDirection_Data.Valid = true
+
+	linkDB.EndRatio_Data.Float64 = link.EndRatio
+	linkDB.EndRatio_Data.Valid = true
+
+	linkDB.CornerOffsetRatio_Data.Float64 = link.CornerOffsetRatio
+	linkDB.CornerOffsetRatio_Data.Valid = true
 
 	linkDB.Color_Data.String = link.Color
 	linkDB.Color_Data.Valid = true
@@ -481,11 +581,29 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 	linkDB.Name_Data.String = link.Name
 	linkDB.Name_Data.Valid = true
 
+	linkDB.Type_Data.String = link.Type.ToString()
+	linkDB.Type_Data.Valid = true
+
 	linkDB.StartAnchorType_Data.String = link.StartAnchorType.ToString()
 	linkDB.StartAnchorType_Data.Valid = true
 
 	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
 	linkDB.EndAnchorType_Data.Valid = true
+
+	linkDB.StartDirection_Data.String = link.StartDirection.ToString()
+	linkDB.StartDirection_Data.Valid = true
+
+	linkDB.StartRatio_Data.Float64 = link.StartRatio
+	linkDB.StartRatio_Data.Valid = true
+
+	linkDB.EndDirection_Data.String = link.EndDirection.ToString()
+	linkDB.EndDirection_Data.Valid = true
+
+	linkDB.EndRatio_Data.Float64 = link.EndRatio
+	linkDB.EndRatio_Data.Valid = true
+
+	linkDB.CornerOffsetRatio_Data.Float64 = link.CornerOffsetRatio
+	linkDB.CornerOffsetRatio_Data.Valid = true
 
 	linkDB.Color_Data.String = link.Color
 	linkDB.Color_Data.Valid = true
@@ -513,8 +631,14 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	link.Name = linkDB.Name_Data.String
+	link.Type.FromString(linkDB.Type_Data.String)
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
+	link.StartDirection.FromString(linkDB.StartDirection_Data.String)
+	link.StartRatio = linkDB.StartRatio_Data.Float64
+	link.EndDirection.FromString(linkDB.EndDirection_Data.String)
+	link.EndRatio = linkDB.EndRatio_Data.Float64
+	link.CornerOffsetRatio = linkDB.CornerOffsetRatio_Data.Float64
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String
@@ -529,8 +653,14 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.ID = int(linkDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	link.Name = linkDB.Name_Data.String
+	link.Type.FromString(linkDB.Type_Data.String)
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
+	link.StartDirection.FromString(linkDB.StartDirection_Data.String)
+	link.StartRatio = linkDB.StartRatio_Data.Float64
+	link.EndDirection.FromString(linkDB.EndDirection_Data.String)
+	link.EndRatio = linkDB.EndRatio_Data.Float64
+	link.CornerOffsetRatio = linkDB.CornerOffsetRatio_Data.Float64
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String

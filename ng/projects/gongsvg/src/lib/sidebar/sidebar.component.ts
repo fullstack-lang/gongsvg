@@ -25,6 +25,8 @@ import { LinkService } from '../link.service'
 import { getLinkUniqueID } from '../front-repo.service'
 import { PathService } from '../path.service'
 import { getPathUniqueID } from '../front-repo.service'
+import { PointService } from '../point.service'
+import { getPointUniqueID } from '../front-repo.service'
 import { PolygoneService } from '../polygone.service'
 import { getPolygoneUniqueID } from '../front-repo.service'
 import { PolylineService } from '../polyline.service'
@@ -187,6 +189,7 @@ export class SidebarComponent implements OnInit {
     private lineService: LineService,
     private linkService: LinkService,
     private pathService: PathService,
+    private pointService: PointService,
     private polygoneService: PolygoneService,
     private polylineService: PolylineService,
     private rectService: RectService,
@@ -277,6 +280,14 @@ export class SidebarComponent implements OnInit {
     )
     // observable for changes in structs
     this.pathService.PathServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.pointService.PointServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -1062,6 +1073,38 @@ export class SidebarComponent implements OnInit {
             EndGongNodeAssociation.children.push(linkGongNodeInstance_End)
           }
 
+          /**
+          * let append a node for the slide of pointer ControlPoints
+          */
+          let ControlPointsGongNodeAssociation: GongNode = {
+            name: "(Point) ControlPoints",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: linkDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Link",
+            associationField: "ControlPoints",
+            associatedStructName: "Point",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          linkGongNodeInstance.children.push(ControlPointsGongNodeAssociation)
+
+          linkDB.ControlPoints?.forEach(pointDB => {
+            let pointNode: GongNode = {
+              name: pointDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: pointDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getLinkUniqueID(linkDB.ID)
+                + 11 * getPointUniqueID(pointDB.ID),
+              structName: "Point",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            ControlPointsGongNodeAssociation.children.push(pointNode)
+          })
+
         }
       )
 
@@ -1138,6 +1181,50 @@ export class SidebarComponent implements OnInit {
             AnimatesGongNodeAssociation.children.push(animateNode)
           })
 
+        }
+      )
+
+      /**
+      * fill up the Point part of the mat tree
+      */
+      let pointGongNodeStruct: GongNode = {
+        name: "Point",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Point",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(pointGongNodeStruct)
+
+      this.frontRepo.Points_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Points_array.forEach(
+        pointDB => {
+          let pointGongNodeInstance: GongNode = {
+            name: pointDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: pointDB.ID,
+            uniqueIdPerStack: getPointUniqueID(pointDB.ID),
+            structName: "Point",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          pointGongNodeStruct.children!.push(pointGongNodeInstance)
+
+          // insertion point for per field code
         }
       )
 

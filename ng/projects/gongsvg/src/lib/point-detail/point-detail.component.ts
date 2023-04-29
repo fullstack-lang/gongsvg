@@ -2,18 +2,15 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 
-import { LinkDB } from '../link-db'
-import { LinkService } from '../link.service'
+import { PointDB } from '../point-db'
+import { PointService } from '../point.service'
 
 import { FrontRepoService, FrontRepo, SelectionMode, DialogData } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
-import { LinkTypeSelect, LinkTypeList } from '../LinkType'
-import { AnchorTypeSelect, AnchorTypeList } from '../AnchorType'
-import { DirectionTypeSelect, DirectionTypeList } from '../DirectionType'
-import { LayerDB } from '../layer-db'
+import { LinkDB } from '../link-db'
 
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -21,29 +18,26 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../null-int64'
 
-// LinkDetailComponent is initilizaed from different routes
-// LinkDetailComponentState detail different cases 
-enum LinkDetailComponentState {
+// PointDetailComponent is initilizaed from different routes
+// PointDetailComponentState detail different cases 
+enum PointDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
-	CREATE_INSTANCE_WITH_ASSOCIATION_Layer_Links_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Link_ControlPoints_SET,
 }
 
 @Component({
-	selector: 'app-link-detail',
-	templateUrl: './link-detail.component.html',
-	styleUrls: ['./link-detail.component.css'],
+	selector: 'app-point-detail',
+	templateUrl: './point-detail.component.html',
+	styleUrls: ['./point-detail.component.css'],
 })
-export class LinkDetailComponent implements OnInit {
+export class PointDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	LinkTypeList: LinkTypeSelect[] = []
-	AnchorTypeList: AnchorTypeSelect[] = []
-	DirectionTypeList: DirectionTypeSelect[] = []
 
-	// the LinkDB of interest
-	link: LinkDB = new LinkDB
+	// the PointDB of interest
+	point: PointDB = new PointDB
 
 	// front repo
 	frontRepo: FrontRepo = new FrontRepo
@@ -54,7 +48,7 @@ export class LinkDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: LinkDetailComponentState = LinkDetailComponentState.CREATE_INSTANCE
+	state: PointDetailComponentState = PointDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
@@ -67,7 +61,7 @@ export class LinkDetailComponent implements OnInit {
 	GONG__StackPath: string = ""
 
 	constructor(
-		private linkService: LinkService,
+		private pointService: PointService,
 		private frontRepoService: FrontRepoService,
 		public dialog: MatDialog,
 		private activatedRoute: ActivatedRoute,
@@ -93,16 +87,16 @@ export class LinkDetailComponent implements OnInit {
 
 		const association = this.activatedRoute.snapshot.paramMap.get('association');
 		if (this.id == 0) {
-			this.state = LinkDetailComponentState.CREATE_INSTANCE
+			this.state = PointDetailComponentState.CREATE_INSTANCE
 		} else {
 			if (this.originStruct == undefined) {
-				this.state = LinkDetailComponentState.UPDATE_INSTANCE
+				this.state = PointDetailComponentState.UPDATE_INSTANCE
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
-					case "Links":
-						// console.log("Link" + " is instanciated with back pointer to instance " + this.id + " Layer association Links")
-						this.state = LinkDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Layer_Links_SET
+					case "ControlPoints":
+						// console.log("Point" + " is instanciated with back pointer to instance " + this.id + " Link association ControlPoints")
+						this.state = PointDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Link_ControlPoints_SET
 						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
@@ -110,42 +104,39 @@ export class LinkDetailComponent implements OnInit {
 			}
 		}
 
-		this.getLink()
+		this.getPoint()
 
 		// observable for changes in structs
-		this.linkService.LinkServiceChanged.subscribe(
+		this.pointService.PointServiceChanged.subscribe(
 			message => {
 				if (message == "post" || message == "update" || message == "delete") {
-					this.getLink()
+					this.getPoint()
 				}
 			}
 		)
 
 		// insertion point for initialisation of enums list
-		this.LinkTypeList = LinkTypeList
-		this.AnchorTypeList = AnchorTypeList
-		this.DirectionTypeList = DirectionTypeList
 	}
 
-	getLink(): void {
+	getPoint(): void {
 
 		this.frontRepoService.pull(this.GONG__StackPath).subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
 				switch (this.state) {
-					case LinkDetailComponentState.CREATE_INSTANCE:
-						this.link = new (LinkDB)
+					case PointDetailComponentState.CREATE_INSTANCE:
+						this.point = new (PointDB)
 						break;
-					case LinkDetailComponentState.UPDATE_INSTANCE:
-						let link = frontRepo.Links.get(this.id)
-						console.assert(link != undefined, "missing link with id:" + this.id)
-						this.link = link!
+					case PointDetailComponentState.UPDATE_INSTANCE:
+						let point = frontRepo.Points.get(this.id)
+						console.assert(point != undefined, "missing point with id:" + this.id)
+						this.point = point!
 						break;
 					// insertion point for init of association field
-					case LinkDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Layer_Links_SET:
-						this.link = new (LinkDB)
-						this.link.Layer_Links_reverse = frontRepo.Layers.get(this.id)!
+					case PointDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Link_ControlPoints_SET:
+						this.point = new (PointDB)
+						this.point.Link_ControlPoints_reverse = frontRepo.Links.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -164,54 +155,34 @@ export class LinkDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
-		if (this.link.StartID == undefined) {
-			this.link.StartID = new NullInt64
-		}
-		if (this.link.Start != undefined) {
-			this.link.StartID.Int64 = this.link.Start.ID
-			this.link.StartID.Valid = true
-		} else {
-			this.link.StartID.Int64 = 0
-			this.link.StartID.Valid = true
-		}
-		if (this.link.EndID == undefined) {
-			this.link.EndID = new NullInt64
-		}
-		if (this.link.End != undefined) {
-			this.link.EndID.Int64 = this.link.End.ID
-			this.link.EndID.Valid = true
-		} else {
-			this.link.EndID.Int64 = 0
-			this.link.EndID.Valid = true
-		}
 
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
-		if (this.link.Layer_Links_reverse != undefined) {
-			if (this.link.Layer_LinksDBID == undefined) {
-				this.link.Layer_LinksDBID = new NullInt64
+		if (this.point.Link_ControlPoints_reverse != undefined) {
+			if (this.point.Link_ControlPointsDBID == undefined) {
+				this.point.Link_ControlPointsDBID = new NullInt64
 			}
-			this.link.Layer_LinksDBID.Int64 = this.link.Layer_Links_reverse.ID
-			this.link.Layer_LinksDBID.Valid = true
-			if (this.link.Layer_LinksDBID_Index == undefined) {
-				this.link.Layer_LinksDBID_Index = new NullInt64
+			this.point.Link_ControlPointsDBID.Int64 = this.point.Link_ControlPoints_reverse.ID
+			this.point.Link_ControlPointsDBID.Valid = true
+			if (this.point.Link_ControlPointsDBID_Index == undefined) {
+				this.point.Link_ControlPointsDBID_Index = new NullInt64
 			}
-			this.link.Layer_LinksDBID_Index.Valid = true
-			this.link.Layer_Links_reverse = new LayerDB // very important, otherwise, circular JSON
+			this.point.Link_ControlPointsDBID_Index.Valid = true
+			this.point.Link_ControlPoints_reverse = new LinkDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {
-			case LinkDetailComponentState.UPDATE_INSTANCE:
-				this.linkService.updateLink(this.link, this.GONG__StackPath)
-					.subscribe(link => {
-						this.linkService.LinkServiceChanged.next("update")
+			case PointDetailComponentState.UPDATE_INSTANCE:
+				this.pointService.updatePoint(this.point, this.GONG__StackPath)
+					.subscribe(point => {
+						this.pointService.PointServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.linkService.postLink(this.link, this.GONG__StackPath).subscribe(link => {
-					this.linkService.LinkServiceChanged.next("post")
-					this.link = new (LinkDB) // reset fields
+				this.pointService.postPoint(this.point, this.GONG__StackPath).subscribe(point => {
+					this.pointService.PointServiceChanged.next("post")
+					this.point = new (PointDB) // reset fields
 				});
 		}
 	}
@@ -234,7 +205,7 @@ export class LinkDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.link.ID!
+			dialogData.ID = this.point.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -251,14 +222,14 @@ export class LinkDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.link.ID!
+			dialogData.ID = this.point.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
 			dialogData.GONG__StackPath = this.GONG__StackPath
 
 			// set up the source
-			dialogData.SourceStruct = "Link"
+			dialogData.SourceStruct = "Point"
 			dialogData.SourceField = sourceField
 
 			// set up the intermediate struct
@@ -288,7 +259,7 @@ export class LinkDetailComponent implements OnInit {
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		dialogConfig.data = {
-			ID: this.link.ID,
+			ID: this.point.ID,
 			ReversePointer: reverseField,
 			OrderingMode: true,
 			GONG__StackPath: this.GONG__StackPath,
@@ -305,8 +276,8 @@ export class LinkDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.link.Name == "") {
-			this.link.Name = event.value.Name
+		if (this.point.Name == "") {
+			this.point.Name = event.value.Name
 		}
 	}
 

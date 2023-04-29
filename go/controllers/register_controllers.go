@@ -90,6 +90,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/paths/:id", GetController().UpdatePath)
 		v1.DELETE("/v1/paths/:id", GetController().DeletePath)
 
+		v1.GET("/v1/points", GetController().GetPoints)
+		v1.GET("/v1/points/:id", GetController().GetPoint)
+		v1.POST("/v1/points", GetController().PostPoint)
+		v1.PATCH("/v1/points/:id", GetController().UpdatePoint)
+		v1.PUT("/v1/points/:id", GetController().UpdatePoint)
+		v1.DELETE("/v1/points/:id", GetController().DeletePoint)
+
 		v1.GET("/v1/polygones", GetController().GetPolygones)
 		v1.GET("/v1/polygones/:id", GetController().GetPolygone)
 		v1.POST("/v1/polygones", GetController().PostPolygone)

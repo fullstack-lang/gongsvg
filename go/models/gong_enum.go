@@ -1298,6 +1298,62 @@ func (colortype *ColorType) ToCodeString() (res string) {
 	return
 }
 
+// Utility function for DirectionType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (directiontype DirectionType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch directiontype {
+	// insertion code per enum code
+	case DIRECTION_HORIZONTAL:
+		res = "DIRECTION_HORIZONTAL"
+	case DIRECTION_VERTICAL:
+		res = "DIRECTION_VERTICAL"
+	}
+	return
+}
+
+func (directiontype *DirectionType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "DIRECTION_HORIZONTAL":
+		*directiontype = DIRECTION_HORIZONTAL
+	case "DIRECTION_VERTICAL":
+		*directiontype = DIRECTION_VERTICAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (directiontype *DirectionType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "DIRECTION_HORIZONTAL":
+		*directiontype = DIRECTION_HORIZONTAL
+	case "DIRECTION_VERTICAL":
+		*directiontype = DIRECTION_VERTICAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (directiontype *DirectionType) ToCodeString() (res string) {
+
+	switch *directiontype {
+	// insertion code per enum code
+	case DIRECTION_HORIZONTAL:
+		res = "DIRECTION_HORIZONTAL"
+	case DIRECTION_VERTICAL:
+		res = "DIRECTION_VERTICAL"
+	}
+	return
+}
+
 // Utility function for DrawingState
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -1350,6 +1406,134 @@ func (drawingstate *DrawingState) ToCodeString() (res string) {
 		res = "NOT_DRAWING_LINE"
 	case DRAWING_LINE:
 		res = "DRAWING_LINE"
+	}
+	return
+}
+
+// Utility function for LinkType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (linktype LinkType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch linktype {
+	// insertion code per enum code
+	case LINK_TYPE_LINE_WITH_CONTROL_POINTS:
+		res = "LINK_TYPE_LINE_WITH_CONTROL_POINTS"
+	case LINK_TYPE_FLOATING_ORTHOGONAL:
+		res = "LINK_TYPE_FLOATING_ORTHOGONAL"
+	}
+	return
+}
+
+func (linktype *LinkType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "LINK_TYPE_LINE_WITH_CONTROL_POINTS":
+		*linktype = LINK_TYPE_LINE_WITH_CONTROL_POINTS
+	case "LINK_TYPE_FLOATING_ORTHOGONAL":
+		*linktype = LINK_TYPE_FLOATING_ORTHOGONAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (linktype *LinkType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "LINK_TYPE_LINE_WITH_CONTROL_POINTS":
+		*linktype = LINK_TYPE_LINE_WITH_CONTROL_POINTS
+	case "LINK_TYPE_FLOATING_ORTHOGONAL":
+		*linktype = LINK_TYPE_FLOATING_ORTHOGONAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (linktype *LinkType) ToCodeString() (res string) {
+
+	switch *linktype {
+	// insertion code per enum code
+	case LINK_TYPE_LINE_WITH_CONTROL_POINTS:
+		res = "LINK_TYPE_LINE_WITH_CONTROL_POINTS"
+	case LINK_TYPE_FLOATING_ORTHOGONAL:
+		res = "LINK_TYPE_FLOATING_ORTHOGONAL"
+	}
+	return
+}
+
+// Utility function for SideType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (sidetype SideType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch sidetype {
+	// insertion code per enum code
+	case SIDE_TOP:
+		res = "SIDE_TOP"
+	case SIDE_BOTTOM:
+		res = "SIDE_BOTTOM"
+	case SIDE_LEFT:
+		res = "SIDE_LEFT"
+	case SIDE_RIGHT:
+		res = "SIDE_RIGHT"
+	}
+	return
+}
+
+func (sidetype *SideType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "SIDE_TOP":
+		*sidetype = SIDE_TOP
+	case "SIDE_BOTTOM":
+		*sidetype = SIDE_BOTTOM
+	case "SIDE_LEFT":
+		*sidetype = SIDE_LEFT
+	case "SIDE_RIGHT":
+		*sidetype = SIDE_RIGHT
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (sidetype *SideType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "SIDE_TOP":
+		*sidetype = SIDE_TOP
+	case "SIDE_BOTTOM":
+		*sidetype = SIDE_BOTTOM
+	case "SIDE_LEFT":
+		*sidetype = SIDE_LEFT
+	case "SIDE_RIGHT":
+		*sidetype = SIDE_RIGHT
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (sidetype *SideType) ToCodeString() (res string) {
+
+	switch *sidetype {
+	// insertion code per enum code
+	case SIDE_TOP:
+		res = "SIDE_TOP"
+	case SIDE_BOTTOM:
+		res = "SIDE_BOTTOM"
+	case SIDE_LEFT:
+		res = "SIDE_LEFT"
+	case SIDE_RIGHT:
+		res = "SIDE_RIGHT"
 	}
 	return
 }

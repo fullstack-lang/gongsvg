@@ -25,6 +25,9 @@ import { LinkService } from './link.service'
 import { PathDB } from './path-db'
 import { PathService } from './path.service'
 
+import { PointDB } from './point-db'
+import { PointService } from './point.service'
+
 import { PolygoneDB } from './polygone-db'
 import { PolygoneService } from './polygone.service'
 
@@ -64,6 +67,9 @@ export class FrontRepo { // insertion point sub template
   Paths_array = new Array<PathDB>(); // array of repo instances
   Paths = new Map<number, PathDB>(); // map of repo instances
   Paths_batch = new Map<number, PathDB>(); // same but only in last GET (for finding repo instances to delete)
+  Points_array = new Array<PointDB>(); // array of repo instances
+  Points = new Map<number, PointDB>(); // map of repo instances
+  Points_batch = new Map<number, PointDB>(); // same but only in last GET (for finding repo instances to delete)
   Polygones_array = new Array<PolygoneDB>(); // array of repo instances
   Polygones = new Map<number, PolygoneDB>(); // map of repo instances
   Polygones_batch = new Map<number, PolygoneDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -148,6 +154,7 @@ export class FrontRepoService {
     private lineService: LineService,
     private linkService: LinkService,
     private pathService: PathService,
+    private pointService: PointService,
     private polygoneService: PolygoneService,
     private polylineService: PolylineService,
     private rectService: RectService,
@@ -190,6 +197,7 @@ export class FrontRepoService {
     Observable<LineDB[]>,
     Observable<LinkDB[]>,
     Observable<PathDB[]>,
+    Observable<PointDB[]>,
     Observable<PolygoneDB[]>,
     Observable<PolylineDB[]>,
     Observable<RectDB[]>,
@@ -203,6 +211,7 @@ export class FrontRepoService {
       this.lineService.getLines(this.GONG__StackPath),
       this.linkService.getLinks(this.GONG__StackPath),
       this.pathService.getPaths(this.GONG__StackPath),
+      this.pointService.getPoints(this.GONG__StackPath),
       this.polygoneService.getPolygones(this.GONG__StackPath),
       this.polylineService.getPolylines(this.GONG__StackPath),
       this.rectService.getRects(this.GONG__StackPath),
@@ -228,6 +237,7 @@ export class FrontRepoService {
       this.lineService.getLines(this.GONG__StackPath),
       this.linkService.getLinks(this.GONG__StackPath),
       this.pathService.getPaths(this.GONG__StackPath),
+      this.pointService.getPoints(this.GONG__StackPath),
       this.polygoneService.getPolygones(this.GONG__StackPath),
       this.polylineService.getPolylines(this.GONG__StackPath),
       this.rectService.getRects(this.GONG__StackPath),
@@ -248,6 +258,7 @@ export class FrontRepoService {
             lines_,
             links_,
             paths_,
+            points_,
             polygones_,
             polylines_,
             rects_,
@@ -270,6 +281,8 @@ export class FrontRepoService {
             links = links_ as LinkDB[]
             var paths: PathDB[]
             paths = paths_ as PathDB[]
+            var points: PointDB[]
+            points = points_ as PointDB[]
             var polygones: PolygoneDB[]
             polygones = polygones_ as PolygoneDB[]
             var polylines: PolylineDB[]
@@ -506,6 +519,39 @@ export class FrontRepoService {
 
             // sort Paths_array array
             this.frontRepo.Paths_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
+            this.frontRepo.Points_array = points
+
+            // clear the map that counts Point in the GET
+            this.frontRepo.Points_batch.clear()
+
+            points.forEach(
+              point => {
+                this.frontRepo.Points.set(point.ID, point)
+                this.frontRepo.Points_batch.set(point.ID, point)
+              }
+            )
+
+            // clear points that are absent from the batch
+            this.frontRepo.Points.forEach(
+              point => {
+                if (this.frontRepo.Points_batch.get(point.ID) == undefined) {
+                  this.frontRepo.Points.delete(point.ID)
+                }
+              }
+            )
+
+            // sort Points_array array
+            this.frontRepo.Points_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -924,6 +970,26 @@ export class FrontRepoService {
                     _layer.Paths.push(path)
                     if (path.Layer_Paths_reverse == undefined) {
                       path.Layer_Paths_reverse = _layer
+                    }
+                  }
+                }
+              }
+            )
+            points.forEach(
+              point => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Link.ControlPoints redeeming
+                {
+                  let _link = this.frontRepo.Links.get(point.Link_ControlPointsDBID.Int64)
+                  if (_link) {
+                    if (_link.ControlPoints == undefined) {
+                      _link.ControlPoints = new Array<PointDB>()
+                    }
+                    _link.ControlPoints.push(point)
+                    if (point.Link_ControlPoints_reverse == undefined) {
+                      point.Link_ControlPoints_reverse = _link
                     }
                   }
                 }
@@ -1594,6 +1660,70 @@ export class FrontRepoService {
     )
   }
 
+  // PointPull performs a GET on Point of the stack and redeem association pointers 
+  PointPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.pointService.getPoints(this.GONG__StackPath)
+        ]).subscribe(
+          ([ // insertion point sub template 
+            points,
+          ]) => {
+            // init the array
+            this.frontRepo.Points_array = points
+
+            // clear the map that counts Point in the GET
+            this.frontRepo.Points_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            points.forEach(
+              point => {
+                this.frontRepo.Points.set(point.ID, point)
+                this.frontRepo.Points_batch.set(point.ID, point)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Link.ControlPoints redeeming
+                {
+                  let _link = this.frontRepo.Links.get(point.Link_ControlPointsDBID.Int64)
+                  if (_link) {
+                    if (_link.ControlPoints == undefined) {
+                      _link.ControlPoints = new Array<PointDB>()
+                    }
+                    _link.ControlPoints.push(point)
+                    if (point.Link_ControlPoints_reverse == undefined) {
+                      point.Link_ControlPoints_reverse = _link
+                    }
+                  }
+                }
+              }
+            )
+
+            // clear points that are absent from the GET
+            this.frontRepo.Points.forEach(
+              point => {
+                if (this.frontRepo.Points_batch.get(point.ID) == undefined) {
+                  this.frontRepo.Points.delete(point.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(this.frontRepo)
+          }
+        )
+      }
+    )
+  }
+
   // PolygonePull performs a GET on Polygone of the stack and redeem association pointers 
   PolygonePull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
@@ -1938,18 +2068,21 @@ export function getLinkUniqueID(id: number): number {
 export function getPathUniqueID(id: number): number {
   return 59 * id
 }
-export function getPolygoneUniqueID(id: number): number {
+export function getPointUniqueID(id: number): number {
   return 61 * id
 }
-export function getPolylineUniqueID(id: number): number {
+export function getPolygoneUniqueID(id: number): number {
   return 67 * id
 }
-export function getRectUniqueID(id: number): number {
+export function getPolylineUniqueID(id: number): number {
   return 71 * id
 }
-export function getSVGUniqueID(id: number): number {
+export function getRectUniqueID(id: number): number {
   return 73 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getSVGUniqueID(id: number): number {
   return 79 * id
+}
+export function getTextUniqueID(id: number): number {
+  return 83 * id
 }

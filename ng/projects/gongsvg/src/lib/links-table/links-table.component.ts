@@ -75,6 +75,9 @@ export class LinksTableComponent implements OnInit {
         case 'Name':
           return linkDB.Name;
 
+        case 'Type':
+          return linkDB.Type;
+
         case 'Start':
           return (linkDB.Start ? linkDB.Start.Name : '');
 
@@ -86,6 +89,21 @@ export class LinksTableComponent implements OnInit {
 
         case 'EndAnchorType':
           return linkDB.EndAnchorType;
+
+        case 'StartDirection':
+          return linkDB.StartDirection;
+
+        case 'StartRatio':
+          return linkDB.StartRatio;
+
+        case 'EndDirection':
+          return linkDB.EndDirection;
+
+        case 'EndRatio':
+          return linkDB.EndRatio;
+
+        case 'CornerOffsetRatio':
+          return linkDB.CornerOffsetRatio;
 
         case 'Color':
           return linkDB.Color;
@@ -130,6 +148,7 @@ export class LinksTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += linkDB.Name.toLowerCase()
+      mergedContent += linkDB.Type.toLowerCase()
       if (linkDB.Start) {
         mergedContent += linkDB.Start.Name.toLowerCase()
       }
@@ -138,6 +157,11 @@ export class LinksTableComponent implements OnInit {
         mergedContent += linkDB.End.Name.toLowerCase()
       }
       mergedContent += linkDB.EndAnchorType.toLowerCase()
+      mergedContent += linkDB.StartDirection.toLowerCase()
+      mergedContent += linkDB.StartRatio.toString()
+      mergedContent += linkDB.EndDirection.toLowerCase()
+      mergedContent += linkDB.EndRatio.toString()
+      mergedContent += linkDB.CornerOffsetRatio.toString()
       mergedContent += linkDB.Color.toLowerCase()
       mergedContent += linkDB.FillOpacity.toString()
       mergedContent += linkDB.Stroke.toLowerCase()
@@ -204,10 +228,16 @@ export class LinksTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
+        "Type",
         "Start",
         "StartAnchorType",
         "End",
         "EndAnchorType",
+        "StartDirection",
+        "StartRatio",
+        "EndDirection",
+        "EndRatio",
+        "CornerOffsetRatio",
         "Color",
         "FillOpacity",
         "Stroke",
@@ -220,10 +250,16 @@ export class LinksTableComponent implements OnInit {
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
+        "Type",
         "Start",
         "StartAnchorType",
         "End",
         "EndAnchorType",
+        "StartDirection",
+        "StartRatio",
+        "EndDirection",
+        "EndRatio",
+        "CornerOffsetRatio",
         "Color",
         "FillOpacity",
         "Stroke",

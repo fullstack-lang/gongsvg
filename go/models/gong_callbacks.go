@@ -33,6 +33,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterPathCreateCallback != nil {
 			stage.OnAfterPathCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Point:
+		if stage.OnAfterPointCreateCallback != nil {
+			stage.OnAfterPointCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Polygone:
 		if stage.OnAfterPolygoneCreateCallback != nil {
 			stage.OnAfterPolygoneCreateCallback.OnAfterCreate(stage, target)
@@ -97,6 +101,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		newTarget := any(new).(*Path)
 		if stage.OnAfterPathUpdateCallback != nil {
 			stage.OnAfterPathUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Point:
+		newTarget := any(new).(*Point)
+		if stage.OnAfterPointUpdateCallback != nil {
+			stage.OnAfterPointUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Polygone:
 		newTarget := any(new).(*Polygone)
@@ -168,6 +177,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 			staged := any(staged).(*Path)
 			stage.OnAfterPathDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Point:
+		if stage.OnAfterPointDeleteCallback != nil {
+			staged := any(staged).(*Point)
+			stage.OnAfterPointDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Polygone:
 		if stage.OnAfterPolygoneDeleteCallback != nil {
 			staged := any(staged).(*Polygone)
@@ -231,6 +245,10 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterPathReadCallback != nil {
 			stage.OnAfterPathReadCallback.OnAfterRead(stage, target)
 		}
+	case *Point:
+		if stage.OnAfterPointReadCallback != nil {
+			stage.OnAfterPointReadCallback.OnAfterRead(stage, target)
+		}
 	case *Polygone:
 		if stage.OnAfterPolygoneReadCallback != nil {
 			stage.OnAfterPolygoneReadCallback.OnAfterRead(stage, target)
@@ -283,6 +301,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *Path:
 		stage.OnAfterPathUpdateCallback = any(callback).(OnAfterUpdateInterface[Path])
 	
+	case *Point:
+		stage.OnAfterPointUpdateCallback = any(callback).(OnAfterUpdateInterface[Point])
+	
 	case *Polygone:
 		stage.OnAfterPolygoneUpdateCallback = any(callback).(OnAfterUpdateInterface[Polygone])
 	
@@ -325,6 +346,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *Path:
 		stage.OnAfterPathCreateCallback = any(callback).(OnAfterCreateInterface[Path])
+	
+	case *Point:
+		stage.OnAfterPointCreateCallback = any(callback).(OnAfterCreateInterface[Point])
 	
 	case *Polygone:
 		stage.OnAfterPolygoneCreateCallback = any(callback).(OnAfterCreateInterface[Polygone])
@@ -369,6 +393,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *Path:
 		stage.OnAfterPathDeleteCallback = any(callback).(OnAfterDeleteInterface[Path])
 	
+	case *Point:
+		stage.OnAfterPointDeleteCallback = any(callback).(OnAfterDeleteInterface[Point])
+	
 	case *Polygone:
 		stage.OnAfterPolygoneDeleteCallback = any(callback).(OnAfterDeleteInterface[Polygone])
 	
@@ -411,6 +438,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	
 	case *Path:
 		stage.OnAfterPathReadCallback = any(callback).(OnAfterReadInterface[Path])
+	
+	case *Point:
+		stage.OnAfterPointReadCallback = any(callback).(OnAfterReadInterface[Point])
 	
 	case *Polygone:
 		stage.OnAfterPolygoneReadCallback = any(callback).(OnAfterReadInterface[Polygone])

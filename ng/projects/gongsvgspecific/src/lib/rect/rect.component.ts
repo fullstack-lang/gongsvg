@@ -38,6 +38,19 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscriptions.push(
       rectangleEventService.mouseRectMouseDownEvent$.subscribe(
+        ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
+
+          let x = coordinate[0]
+          let y = coordinate[1]
+          this.offsetX = x - this.Rect.X
+          this.offsetY = y - this.Rect.Y
+
+          this.startPosition = { x: x, y: y }
+        })
+    );
+
+    this.subscriptions.push(
+      rectangleEventService.mouseRectMouseUpEvent$.subscribe(
         (rectangleID: number) => {
 
           if (rectangleID != this.Rect.ID) {
@@ -93,7 +106,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       rectangleEventService.mouseRectMouseDragEvent$.subscribe(
         ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
 
-          if (this.rectDragging) {
+          if (this.rectDragging || this.Rect.IsSelected) {
             if (this.Rect?.CanMoveHorizontaly) {
               this.Rect.X = coordinate[0] - this.offsetX;
             }
@@ -123,13 +136,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (!event.altKey && !event.shiftKey) {
 
-      if (this.Rect?.IsSelectable) {
-        console.log("rect, onRectClick() toggle selected: ", this.Rect?.Name)
-        this.Rect.IsSelected = !this.Rect.IsSelected
-        this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
 
-        this.rectangleEventService.emitRectMouseDownEvent(this.Rect.ID)
-      }
     }
   }
 
@@ -137,51 +144,17 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   activeAnchor: 'left' | 'right' | 'top' | 'bottom' | null = null;
 
   rectDragging: boolean = false;
+
+  // offset between the cursor at the start and the top left corner
   offsetX = 0;
   offsetY = 0;
 
-  startAnchorDrag(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom'): void {
-    event.preventDefault();
-    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+  // to compute wether it was a select / dragging event
+  distanceMoved = 0
+  private startPosition: { x: number; y: number } = { x: 0, y: 0 }
+  private dragThreshold = 5;
 
-    this.anchorDragging = true;
-    this.activeAnchor = anchor;
-  }
-
-  anchorDrag(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom'): void {
-    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
-
-    if (!this.anchorDragging) {
-      return;
-    }
-
-    const newX = event.clientX - this.pageX
-    const newY = event.clientY - this.pageY
-
-    if (anchor === 'left') {
-      const originalRightEdge = this.Rect.X + this.Rect.Width;
-      this.Rect.X = newX;
-      this.Rect.Width = originalRightEdge - newX;
-    } else if (anchor === 'right') {
-      this.Rect.Width = newX - this.Rect.X;
-    } else if (anchor === 'top') {
-      const originalBottomEdge = this.Rect.Y + this.Rect.Height;
-      this.Rect.Y = newY;
-      this.Rect.Height = originalBottomEdge - newY;
-    } else if (anchor === 'bottom') {
-      this.Rect.Height = newY - this.Rect.Y;
-    }
-  }
-
-  endAnchorDrag(event: MouseEvent): void {
-    if (!event.altKey && !event.shiftKey) {
-      this.anchorDragging = false;
-      this.activeAnchor = null;
-      this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
-    }
-  }
-
-  startRectDrag(event: MouseEvent): void {
+  rectMouseDown(event: MouseEvent): void {
 
     if (!event.altKey) {
       event.preventDefault();
@@ -192,8 +165,11 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       let x = event.clientX - this.pageX
       let y = event.clientY - this.pageY
 
-      this.offsetX = x - this.Rect.X
-      this.offsetY = y - this.Rect.Y
+      let mouseEvent = {
+        rectangleID: this.Rect.ID,
+        Coordinate: [x, y] as [number, number]
+      }
+      this.rectangleEventService.emitRectMouseDownEvent(mouseEvent)
     } else {
       console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 
@@ -206,10 +182,20 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  dragRect(event: MouseEvent): void {
+  rectMouseMove(event: MouseEvent): void {
+
+    if (!this.rectDragging) {
+      return
+    }
 
     let x = event.clientX - this.pageX
     let y = event.clientY - this.pageY
+
+    const deltaX = x - this.startPosition.x;
+    const deltaY = y - this.startPosition.y;
+    this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    // console.log("RectComponent DragRect : ", deltaX, deltaY, distanceMoved)
 
     // we want this event to bubble to the SVG element
     if (event.altKey) {
@@ -233,9 +219,22 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     this.rectangleEventService.emitRectMouseDragEvent(mouseEvent)
   }
 
-  endRectDrag(event: MouseEvent): void {
+  rectMouseUp(event: MouseEvent): void {
     if (!event.altKey && !event.shiftKey) {
-      this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+
+      this.rectDragging = false
+
+      if (this.distanceMoved > this.dragThreshold) {
+        this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+      } else {
+        if (this.Rect?.IsSelectable) {
+          console.log("rect, onRectClick() toggle selected: ", this.Rect?.Name)
+          this.Rect.IsSelected = !this.Rect.IsSelected
+          this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+
+          this.rectangleEventService.emitRectMouseUpEvent(this.Rect.ID)
+        }
+      }
     }
 
     if (event.altKey) {
@@ -267,5 +266,47 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.getSvgTopLeftCoordinates();
+  }
+
+
+  anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom'): void {
+    event.preventDefault();
+    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+    this.anchorDragging = true;
+    this.activeAnchor = anchor;
+  }
+
+  anchorMouseMove(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom'): void {
+    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+    if (!this.anchorDragging) {
+      return;
+    }
+
+    const newX = event.clientX - this.pageX
+    const newY = event.clientY - this.pageY
+
+    if (anchor === 'left') {
+      const originalRightEdge = this.Rect.X + this.Rect.Width;
+      this.Rect.X = newX;
+      this.Rect.Width = originalRightEdge - newX;
+    } else if (anchor === 'right') {
+      this.Rect.Width = newX - this.Rect.X;
+    } else if (anchor === 'top') {
+      const originalBottomEdge = this.Rect.Y + this.Rect.Height;
+      this.Rect.Y = newY;
+      this.Rect.Height = originalBottomEdge - newY;
+    } else if (anchor === 'bottom') {
+      this.Rect.Height = newY - this.Rect.Y;
+    }
+  }
+
+  anchorMouseUp(event: MouseEvent): void {
+    if (!event.altKey && !event.shiftKey) {
+      this.anchorDragging = false;
+      this.activeAnchor = null;
+      this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+    }
   }
 }

@@ -20,6 +20,7 @@ func SerializeStage(stage *StageStruct, filename string) {
 		SerializeExcelize[Line](stage, f)
 		SerializeExcelize[Link](stage, f)
 		SerializeExcelize[Path](stage, f)
+		SerializeExcelize[Point](stage, f)
 		SerializeExcelize[Polygone](stage, f)
 		SerializeExcelize[Polyline](stage, f)
 		SerializeExcelize[Rect](stage, f)

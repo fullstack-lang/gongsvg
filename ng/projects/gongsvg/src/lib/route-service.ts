@@ -23,6 +23,9 @@ import { LinkDetailComponent } from './link-detail/link-detail.component'
 import { PathsTableComponent } from './paths-table/paths-table.component'
 import { PathDetailComponent } from './path-detail/path-detail.component'
 
+import { PointsTableComponent } from './points-table/points-table.component'
+import { PointDetailComponent } from './point-detail/point-detail.component'
+
 import { PolygonesTableComponent } from './polygones-table/polygones-table.component'
 import { PolygoneDetailComponent } from './polygone-detail/polygone-detail.component'
 
@@ -300,6 +303,39 @@ export class RouteService {
         return route
     }
 
+    getPointTablePath(): string {
+        return this.getPathRoot() + '-points/:GONG__StackPath'
+    }
+    getPointTableRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getPointTablePath(), component: PointsTableComponent, outlet: this.getTableOutlet(stackPath) }
+        return route
+    }
+    getPointAdderPath(): string {
+        return this.getPathRoot() + '-point-adder/:GONG__StackPath'
+    }
+    getPointAdderRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getPointAdderPath(), component: PointDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+    getPointAdderForUsePath(): string {
+        return this.getPathRoot() + '-point-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    }
+    getPointAdderForUseRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getPointAdderForUsePath(), component: PointDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+    getPointDetailPath(): string {
+        return this.getPathRoot() + '-point-detail/:id/:GONG__StackPath'
+    }
+    getPointDetailRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getPointDetailPath(), component: PointDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+
     getPolygoneTablePath(): string {
         return this.getPathRoot() + '-polygones/:GONG__StackPath'
     }
@@ -505,6 +541,11 @@ export class RouteService {
             this.getPathAdderRoute(stackPath),
             this.getPathAdderForUseRoute(stackPath),
             this.getPathDetailRoute(stackPath),
+
+            this.getPointTableRoute(stackPath),
+            this.getPointAdderRoute(stackPath),
+            this.getPointAdderForUseRoute(stackPath),
+            this.getPointDetailRoute(stackPath),
 
             this.getPolygoneTableRoute(stackPath),
             this.getPolygoneAdderRoute(stackPath),

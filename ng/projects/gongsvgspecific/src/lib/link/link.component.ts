@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
-import { ConnectorParams, drawConnector } from './compute.floating.connectors.2';
+import { ConnectorParams, drawConnector } from './draw.connector';
 
 @Component({
   selector: 'lib-link',

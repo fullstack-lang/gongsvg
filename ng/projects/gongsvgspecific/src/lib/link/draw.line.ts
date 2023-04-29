@@ -1,6 +1,6 @@
 
 import * as gongsvg from 'gongsvg'; // Replace 'gongsvg' with the correct module name
-import { createPoint } from './compute.floating.connectors.2';
+import { createPoint } from './draw.connector';
 
 export function drawLine(point: gongsvg.PointDB, rect: gongsvg.RectDB, direction: gongsvg.DirectionType): gongsvg.PointDB[] {
     const line: gongsvg.PointDB[] = []

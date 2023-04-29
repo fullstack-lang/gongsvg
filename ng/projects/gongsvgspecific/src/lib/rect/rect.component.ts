@@ -29,7 +29,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   rectDragging: boolean = false;
 
   // offset between the cursor at the start and the top left corner
-  private mousePosRelativeToShapeAtMouseDown: { x: number; y: number } = { x: 0, y: 0 }
+  private RectAtMouseDown: gongsvg.RectDB | undefined
 
   // to compute wether it was a select / dragging event
   distanceMoved = 0
@@ -43,11 +43,9 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private rectService: gongsvg.RectService,
-    private svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
     private svgEventService: SvgEventService,
-    private elementRef: ElementRef,
-    private renderer: Renderer2) {
+    private elementRef: ElementRef) {
 
     this.subscriptions.push(
       rectangleEventService.mouseRectMouseDownEvent$.subscribe(
@@ -56,7 +54,8 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
           let x = coordinate[0]
           let y = coordinate[1]
 
-          this.mousePosRelativeToShapeAtMouseDown = { x: x - this.Rect.X, y: y - this.Rect.Y }
+          this.RectAtMouseDown = structuredClone(this.Rect)
+
           this.mousePosRelativeToSvgAtMouseDown = { x: x, y: y }
         })
     );
@@ -120,17 +119,18 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
           if (this.rectDragging || this.Rect.IsSelected) {
             if (this.Rect?.CanMoveHorizontaly) {
-              this.Rect.X = mousePosRelativeSVG[0] - this.mousePosRelativeToShapeAtMouseDown.x
               console.log("Rect : mouseRectMouseDragEvent",
                 "this.Rect.X", this.Rect.X,
                 "mousePosRelativeSVG[0]", mousePosRelativeSVG[0],
-                "this.mousePosRelativeToShapeAtMouseDown.x", this.mousePosRelativeToShapeAtMouseDown.x,
                 "this.mousePosRelativeToSvgAtMouseDown.x", this.mousePosRelativeToSvgAtMouseDown.x
-
               )
+
+              this.Rect.X = this.RectAtMouseDown!.X +
+                (mousePosRelativeSVG[0] - this.mousePosRelativeToSvgAtMouseDown.x)
             }
             if (this.Rect?.CanMoveVerticaly) {
-              this.Rect.Y = mousePosRelativeSVG[1] - this.mousePosRelativeToShapeAtMouseDown.y
+              this.Rect.Y = this.RectAtMouseDown!.Y +
+                (mousePosRelativeSVG[1] - this.mousePosRelativeToSvgAtMouseDown.y)
             }
           }
         })

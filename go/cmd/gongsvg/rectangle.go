@@ -194,8 +194,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 396.000000
-	__Rect__000000_Bottom.Y = 405.005684
+	__Rect__000000_Bottom.X = 347.000000
+	__Rect__000000_Bottom.Y = 396.005684
 	__Rect__000000_Bottom.Width = 267.000000
 	__Rect__000000_Bottom.Height = 137.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -207,22 +207,22 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Bottom.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000000_Bottom.Transform = ``
 	__Rect__000000_Bottom.IsSelectable = true
-	__Rect__000000_Bottom.IsSelected = false
+	__Rect__000000_Bottom.IsSelected = true
 	__Rect__000000_Bottom.CanHaveLeftHandle = true
-	__Rect__000000_Bottom.HasLeftHandle = false
+	__Rect__000000_Bottom.HasLeftHandle = true
 	__Rect__000000_Bottom.CanHaveRightHandle = true
-	__Rect__000000_Bottom.HasRightHandle = false
+	__Rect__000000_Bottom.HasRightHandle = true
 	__Rect__000000_Bottom.CanHaveTopHandle = true
-	__Rect__000000_Bottom.HasTopHandle = false
+	__Rect__000000_Bottom.HasTopHandle = true
 	__Rect__000000_Bottom.CanHaveBottomHandle = true
-	__Rect__000000_Bottom.HasBottomHandle = false
+	__Rect__000000_Bottom.HasBottomHandle = true
 	__Rect__000000_Bottom.CanMoveHorizontaly = true
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 26.000000
-	__Rect__000001_Top.Y = 0.000000
+	__Rect__000001_Top.X = 131.000000
+	__Rect__000001_Top.Y = 158.000000
 	__Rect__000001_Top.Width = 183.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000
@@ -234,11 +234,11 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000001_Top.Transform = ``
 	__Rect__000001_Top.IsSelectable = true
-	__Rect__000001_Top.IsSelected = false
+	__Rect__000001_Top.IsSelected = true
 	__Rect__000001_Top.CanHaveLeftHandle = true
-	__Rect__000001_Top.HasLeftHandle = false
+	__Rect__000001_Top.HasLeftHandle = true
 	__Rect__000001_Top.CanHaveRightHandle = true
-	__Rect__000001_Top.HasRightHandle = false
+	__Rect__000001_Top.HasRightHandle = true
 	__Rect__000001_Top.CanHaveTopHandle = false
 	__Rect__000001_Top.HasTopHandle = false
 	__Rect__000001_Top.CanHaveBottomHandle = false

@@ -87,13 +87,19 @@
             [attr.stroke]="Link.Stroke" 
             [attr.stroke-width]="Link.StrokeWidth"
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
+            [attr.segment-orientation]="getOrientation(segment)"
             
             (mousedown)="linkMouseDown($event)" 
             (mousemove)="linkMouseMove($event)" 
             (mouseup)="linkMouseUp($event)"
             
+            
             />
         <!-- <circle class="overlay" 
+
+                    (mouseenter)="onMouseEnter($event)"
+            (mouseleave)="onMouseLeave($event)"
+
             [attr.r]="25" 
             [attr.cx]="segments[1][0].X" 
             [attr.cy]="segments[1][0].Y"

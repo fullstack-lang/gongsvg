@@ -88,6 +88,20 @@ export class LinkComponent implements OnInit, AfterViewInit {
     this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
   }
 
+  onMouseEnter(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const orientation = target.getAttribute('segment-orientation')
+    if (orientation === 'horizontal') {
+      target.classList.add('cursor-grab-ns');
+    } else if (orientation === 'vertical') {
+      target.classList.add('cursor-grab-ew');
+    }
+  }
+
+  onMouseLeave(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    target.classList.remove('cursor-grab-ns', 'cursor-grab-ew');
+  }
 
   linkMouseUp(event: MouseEvent): void {
     if (!event.altKey && !event.shiftKey) {
@@ -120,6 +134,16 @@ export class LinkComponent implements OnInit, AfterViewInit {
     this.segments = drawConnector(this.connectorParams)
 
     return true
+  }
+
+  getOrientation(segment: gongsvg.PointDB[]): 'horizontal' | 'vertical' | null {
+    if (segment[0].Y === segment[1].Y) {
+      return 'horizontal';
+    } else if (segment[0].X === segment[1].X) {
+      return 'vertical';
+    } else {
+      return null; // You can return null or another value if the line is not strictly horizontal or vertical
+    }
   }
 
   pageX: number = 0

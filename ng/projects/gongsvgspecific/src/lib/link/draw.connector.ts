@@ -81,5 +81,26 @@ export function drawConnector(params: ConnectorParams): gongsvg.PointDB[][] {
         segments.push(firstSegment, secondSegment, thirdSegment)
     }
 
+    if (StartDirection === gongsvg.DirectionType.DIRECTION_VERTICAL &&
+        EndDirection === gongsvg.DirectionType.DIRECTION_VERTICAL) {
+
+        const c1_X = StartRect.X + StartRatio * StartRect.Width
+        const c1_Y = StartRect.Y + CornerOffsetRatio * StartRect.Height
+
+        const c1 = createPoint(c1_X, c1_Y)
+
+        const c2_X = EndRect.X + EndRatio * EndRect.Width
+        const c2_Y = c1_Y
+
+        const c2 = createPoint(c2_X, c2_Y)
+
+        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection)
+        const secondSegment = drawLinePointPoint(c1, c2)
+        const thirdSegment = drawLinePointRect(c2, EndRect, EndDirection)
+
+
+        segments.push(firstSegment, secondSegment, thirdSegment)
+    }
+
     return segments;
 }

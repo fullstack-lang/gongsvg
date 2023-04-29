@@ -88,6 +88,20 @@
 			"group": "build"
 		},
 		{
+			"label": "02 - colorgrid -port:8082",
+			"type": "shell",
+			"options": {
+				"cwd": "./go/cmd/colorgrid"
+			},
+			"command": "go",
+			"args": [
+				"run",
+				"main.go",
+				"-port=8082"
+			],
+			"group": "build"
+		},
+		{
 			"label": "01 - gongc",
 			"type": "shell",
 			"options": {

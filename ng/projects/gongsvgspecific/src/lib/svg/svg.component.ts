@@ -61,7 +61,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscriptions.push(
       rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe(
-        ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
+        ({ rectangleID: rectangleID, MousePosRelativeSVG: coordinate }) => {
           // console.log('SvgComponent, Mouse down event occurred on rectangle ', rectangleID, " at ", coordinate)
           this.linkStartRectangleID = rectangleID
 

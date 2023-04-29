@@ -1,7 +1,10 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
-import { ConnectorParams, drawConnector } from './draw.connector';
+import { ConnectorParams, createPoint, drawConnector } from './draw.connector';
+import { LinkEventService, ShapeMouseEvent } from '../link-event.service';
+import { Point } from 'leaflet';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'lib-link',
@@ -17,17 +20,55 @@ export class LinkComponent implements OnInit, AfterViewInit {
   isFloatingOrthogonal = false
 
   // to compute wether it was a select / dragging event
+  dragging = false
+
+  // offset between the cursor at the start and the top left corner
+  offsetX = 0;
+  offsetY = 0;
   distanceMoved = 0
   private startPosition: { x: number; y: number } = { x: 0, y: 0 }
   private dragThreshold = 5;
   isSelected = false
 
+  //
+  // for events management
+  //
+  private subscriptions: Subscription[] = [];
+
   constructor(
-    private elementRef: ElementRef) { }
+    private linkEventService: LinkEventService,
+    private elementRef: ElementRef) {
+
+    this.subscriptions.push(
+      linkEventService.mouseMouseDownEvent$.subscribe(
+        (shapeMouseEvent: ShapeMouseEvent) => {
+
+          this.offsetX = shapeMouseEvent.Point.X - this.Link!.Start!.X
+          this.offsetY = shapeMouseEvent.Point.X - this.Link!.Start!.X
+
+          this.startPosition = { x: this.offsetX, y: this.offsetY }
+        })
+    );
+
+    this.subscriptions.push(
+      linkEventService.mouseMouseMoveEvent$.subscribe(
+        (shapeMouseEvent: ShapeMouseEvent) => {
+
+          if (shapeMouseEvent.shapeID === this.Link?.ID && this.dragging) {
+
+            console.log("LinkComponent processing mouse move service event: ",
+              this.Link?.Name,
+              shapeMouseEvent.Point.X,
+              shapeMouseEvent.Point.Y)
+          }
+
+        })
+    );
+  }
 
 
   ngOnInit(): void {
-    console.log("LinkComponent init: ", this.Link?.Name)
+    // console.log("LinkComponent init: ", this.Link?.Name)
 
     this.isFloatingOrthogonal = this.Link!.Type == gongsvg.LinkType.LINK_TYPE_FLOATING_ORTHOGONAL
 
@@ -75,41 +116,66 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
       let x = event.clientX - this.pageX
       let y = event.clientY - this.pageY
+
+      // this link shit to dragging state
+      this.dragging = true
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        shapeID: this.Link!.ID,
+        Point: createPoint(x, y)
+      }
+      this.linkEventService.emitMouseDownEvent(shapeMouseEvent)
     }
   }
 
   linkMouseMove(event: MouseEvent): void {
 
-    let x = event.clientX - this.pageX
-    let y = event.clientY - this.pageY
+    if (!event.altKey && !event.shiftKey) {
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
 
-    const deltaX = x - this.startPosition.x;
-    const deltaY = y - this.startPosition.y;
-    this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-  }
+      const deltaX = x - this.startPosition.x
+      const deltaY = y - this.startPosition.y
+      this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
-  onMouseEnter(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    const orientation = target.getAttribute('segment-orientation')
-    if (orientation === 'horizontal') {
-      target.classList.add('cursor-grab-ns');
-    } else if (orientation === 'vertical') {
-      target.classList.add('cursor-grab-ew');
+      let shapeMouseEvent: ShapeMouseEvent = {
+        shapeID: this.Link!.ID,
+        Point: createPoint(deltaX, deltaY)
+      }
+      this.linkEventService.emitMouseMoveEvent(shapeMouseEvent)
     }
   }
 
-  onMouseLeave(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    target.classList.remove('cursor-grab-ns', 'cursor-grab-ew');
+  linkMouseLeave(event: MouseEvent): void {
+
+    this.dragging = false
+
+    if (!event.altKey && !event.shiftKey) {
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
+
+      const deltaX = x - this.startPosition.x
+      const deltaY = y - this.startPosition.y
+      this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        shapeID: this.Link!.ID,
+        Point: createPoint(x, y)
+      }
+      this.linkEventService.emitMouseLeaveEvent(shapeMouseEvent)
+    }
   }
 
   linkMouseUp(event: MouseEvent): void {
+
+    this.dragging = false
+
+    console.log("Link : ", this.Link?.Name)
+
     if (!event.altKey && !event.shiftKey) {
 
       if (this.distanceMoved < this.dragThreshold) {
-
         console.log("Link, link selected selected: ", this.Link?.Name)
-
       }
     }
   }

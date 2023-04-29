@@ -92,6 +92,7 @@
             (mousedown)="linkMouseDown($event)" 
             (mousemove)="linkMouseMove($event)" 
             (mouseup)="linkMouseUp($event)"
+            (mouseleave)="linkMouseLeave($event)"
             
             
             />

@@ -23,6 +23,19 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   anchorFillColor = 'blue'; // Choose your desired anchor fill color
   draggingAnchorFillColor = 'red'; // Change this to the desired color when dragging
 
+  anchorDragging: boolean = false;
+  activeAnchor: 'left' | 'right' | 'top' | 'bottom' | null = null;
+
+  rectDragging: boolean = false;
+
+  // offset between the cursor at the start and the top left corner
+  private mousePosRelativeToShapeAtMouseDown: { x: number; y: number } = { x: 0, y: 0 }
+
+  // to compute wether it was a select / dragging event
+  distanceMoved = 0
+  private mousePosRelativeToSvgAtMouseDown: { x: number; y: number } = { x: 0, y: 0 }
+  private dragThreshold = 5;
+
   //
   // for events management
   //
@@ -38,14 +51,13 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscriptions.push(
       rectangleEventService.mouseRectMouseDownEvent$.subscribe(
-        ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
+        ({ rectangleID: rectangleID, MousePosRelativeSVG: coordinate }) => {
 
           let x = coordinate[0]
           let y = coordinate[1]
-          this.offsetX = x - this.Rect.X
-          this.offsetY = y - this.Rect.Y
 
-          this.startPosition = { x: x, y: y }
+          this.mousePosRelativeToShapeAtMouseDown = { x: x - this.Rect.X, y: y - this.Rect.Y }
+          this.mousePosRelativeToSvgAtMouseDown = { x: x, y: y }
         })
     );
 
@@ -104,14 +116,14 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscriptions.push(
       rectangleEventService.mouseRectMouseDragEvent$.subscribe(
-        ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
+        ({ rectangleID: rectangleID, MousePosRelativeSVG: coordinate }) => {
 
           if (this.rectDragging || this.Rect.IsSelected) {
             if (this.Rect?.CanMoveHorizontaly) {
-              this.Rect.X = coordinate[0] - this.offsetX;
+              this.Rect.X = coordinate[0] - this.mousePosRelativeToShapeAtMouseDown.x
             }
             if (this.Rect?.CanMoveVerticaly) {
-              this.Rect.Y = coordinate[1] - this.offsetY;
+              this.Rect.Y = coordinate[1] - this.mousePosRelativeToShapeAtMouseDown.y
             }
           }
         })
@@ -140,20 +152,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  anchorDragging: boolean = false;
-  activeAnchor: 'left' | 'right' | 'top' | 'bottom' | null = null;
-
-  rectDragging: boolean = false;
-
-  // offset between the cursor at the start and the top left corner
-  offsetX = 0;
-  offsetY = 0;
-
-  // to compute wether it was a select / dragging event
-  distanceMoved = 0
-  private startPosition: { x: number; y: number } = { x: 0, y: 0 }
-  private dragThreshold = 5;
-
   rectMouseDown(event: MouseEvent): void {
 
     if (!event.altKey) {
@@ -162,12 +160,15 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.rectDragging = true;
 
-      let x = event.clientX - this.pageX
-      let y = event.clientY - this.pageY
+      let mousePosRelativeSvg: { x: number; y: number } =
+      {
+        x: event.clientX - this.pageX,
+        y: event.clientY - this.pageY
+      }
 
       let mouseEvent = {
         rectangleID: this.Rect.ID,
-        Coordinate: [x, y] as [number, number]
+        MousePosRelativeSVG: [mousePosRelativeSvg.x, mousePosRelativeSvg.y] as [number, number]
       }
       this.rectangleEventService.emitRectMouseDownEvent(mouseEvent)
     } else {
@@ -188,11 +189,14 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       return
     }
 
-    let x = event.clientX - this.pageX
-    let y = event.clientY - this.pageY
+    let mousePosRelativeSvg: { x: number; y: number } =
+    {
+      x: event.clientX - this.pageX,
+      y: event.clientY - this.pageY
+    }
 
-    const deltaX = x - this.startPosition.x;
-    const deltaY = y - this.startPosition.y;
+    const deltaX = mousePosRelativeSvg.x - this.mousePosRelativeToSvgAtMouseDown.x;
+    const deltaY = mousePosRelativeSvg.y - this.mousePosRelativeToSvgAtMouseDown.y;
     this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
     // console.log("RectComponent DragRect : ", deltaX, deltaY, distanceMoved)
@@ -200,12 +204,13 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     // we want this event to bubble to the SVG element
     if (event.altKey) {
       console.log('RectComponent, Alt Mouse drag event occurred on rectangle ', this.Rect.Name, event.clientX, event.clientY);
-      this.rectangleEventService.emitRectAltKeyMouseDragEvent([x, y])
+      this.rectangleEventService.emitRectAltKeyMouseDragEvent(
+        [mousePosRelativeSvg.x, mousePosRelativeSvg.y])
       return
     }
 
     if (event.shiftKey) {
-      this.svgEventService.emitMultiShapeSelectDrag([x, y])
+      this.svgEventService.emitMultiShapeSelectDrag([mousePosRelativeSvg.x, mousePosRelativeSvg.y])
       return
     }
 
@@ -213,7 +218,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     let mouseEvent = {
       rectangleID: this.Rect.ID,
-      Coordinate: [x, y] as [number, number]
+      MousePosRelativeSVG: [mousePosRelativeSvg.x, mousePosRelativeSvg.y] as [number, number]
     }
 
     this.rectangleEventService.emitRectMouseDragEvent(mouseEvent)

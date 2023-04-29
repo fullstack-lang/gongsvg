@@ -6,7 +6,7 @@ export type Coordinate = [number, number]
 // Define the interface for the event object
 interface RectMouseEvent {
   rectangleID: number;
-  Coordinate: [number, number]
+  MousePosRelativeSVG: [number, number]
 }
 
 @Injectable({
@@ -46,7 +46,7 @@ export class RectangleEventService {
   private mouseRectAltKeyMouseDownEventSource = new Subject<RectMouseEvent>();
   mouseRectAltKeyMouseDownEvent$ = this.mouseRectAltKeyMouseDownEventSource.asObservable();
   emitRectAltKeyMouseDownEvent(rectangleID: number, coordinate: [number, number]) {
-    this.mouseRectAltKeyMouseDownEventSource.next({ rectangleID, Coordinate: coordinate });
+    this.mouseRectAltKeyMouseDownEventSource.next({ rectangleID, MousePosRelativeSVG: coordinate });
   }
 
   private mouseRectAltKeyMouseUpEventSource = new Subject<number>();

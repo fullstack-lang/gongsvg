@@ -114,6 +114,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
       EndDirection: link.EndDirection! as gongsvg.DirectionType,
       StartRatio: link.StartRatio,
       EndRatio: link.EndRatio,
+      CornerOffsetRatio: link.CornerOffsetRatio,
     }
 
     this.points = drawConnector(this.connectorParams)

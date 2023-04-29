@@ -157,7 +157,7 @@
             (mouseup)="linkMouseUp($event)"
             
             /> -->
-        <line class="overlay" 
+        <line *ngIf="points[1]" class="overlay" 
             [attr.x1]="points[1][0].X" 
             [attr.y1]="points[1][0].Y" 
             [attr.x2]="points[1][1].X" 
@@ -171,7 +171,22 @@
             (mousedown)="linkMouseDown($event)" 
             (mousemove)="linkMouseMove($event)" 
             (mouseup)="linkMouseUp($event)"
+            />
+
+        <line *ngIf="points[2]" class="overlay" 
+            [attr.x1]="points[2][0].X" 
+            [attr.y1]="points[2][0].Y" 
+            [attr.x2]="points[2][1].X" 
+            [attr.y2]="points[2][1].Y"
+            [attr.fill]="Link.Color"
+            [attr.fill-opacity]="Link.FillOpacity" 
+            [attr.stroke]="Link.Stroke" 
+            [attr.stroke-width]="Link.StrokeWidth"
+            [attr.stroke-dasharray]="Link.StrokeDashArray" 
             
+            (mousedown)="linkMouseDown($event)" 
+            (mousemove)="linkMouseMove($event)" 
+            (mouseup)="linkMouseUp($event)"
             />
     </g>
 </svg>

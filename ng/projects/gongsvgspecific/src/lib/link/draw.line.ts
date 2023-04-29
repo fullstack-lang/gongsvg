@@ -2,7 +2,7 @@
 import * as gongsvg from 'gongsvg'; // Replace 'gongsvg' with the correct module name
 import { createPoint } from './draw.connector';
 
-export function drawLine(point: gongsvg.PointDB, rect: gongsvg.RectDB, direction: gongsvg.DirectionType): gongsvg.PointDB[] {
+export function drawLinePointRect(point: gongsvg.PointDB, rect: gongsvg.RectDB, direction: gongsvg.DirectionType): gongsvg.PointDB[] {
     const line: gongsvg.PointDB[] = []
 
     if (direction === gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
@@ -30,6 +30,14 @@ export function drawLine(point: gongsvg.PointDB, rect: gongsvg.RectDB, direction
         }
     }
 
+
+    return line
+}
+
+export function drawLinePointPoint(startPoint: gongsvg.PointDB, endPoint: gongsvg.PointDB): gongsvg.PointDB[] {
+    const line: gongsvg.PointDB[] = []
+
+    line.push(startPoint, endPoint)
 
     return line
 }

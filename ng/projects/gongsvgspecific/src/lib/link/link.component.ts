@@ -101,7 +101,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
   }
 
   connectorParams: ConnectorParams | undefined
-  points: gongsvg.PointDB[][] | undefined
+  segments: gongsvg.PointDB[][] | undefined
 
   drawConnector(): boolean {
 
@@ -117,7 +117,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
       CornerOffsetRatio: link.CornerOffsetRatio,
     }
 
-    this.points = drawConnector(this.connectorParams)
+    this.segments = drawConnector(this.connectorParams)
 
     return true
   }

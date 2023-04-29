@@ -9,7 +9,12 @@ export type ConnectorParams = {
     StartRatio: number
     EndRatio: number
     CornerOffsetRatio: number
-};
+}
+
+export type Segment = {
+    X: number,
+    Y: number
+}
 
 export function createPoint(x: number, y: number): gongsvg.PointDB {
 
@@ -19,7 +24,7 @@ export function createPoint(x: number, y: number): gongsvg.PointDB {
     return point
 }
 
-export function drawConnector(params: ConnectorParams): gongsvg.PointDB[][] {
+export function drawSegments(params: ConnectorParams): gongsvg.PointDB[][] {
     const {
         StartRect: StartRect,
         EndRect: EndRect,

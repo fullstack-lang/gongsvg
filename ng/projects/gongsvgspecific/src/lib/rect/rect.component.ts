@@ -28,7 +28,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   rectDragging: boolean = false;
 
-  // offset between the cursor at the start and the top left corner
+  // RectAtMouseDown is the clone of the Rect when mouse down
   private RectAtMouseDown: gongsvg.RectDB | undefined
 
   // to compute wether it was a select / dragging event

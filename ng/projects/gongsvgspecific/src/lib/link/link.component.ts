@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
-import { ConnectorParams, createPoint, drawConnector } from './draw.connector';
+import { ConnectorParams, createPoint, drawSegments } from './draw.segments';
 import { LinkEventService, ShapeMouseEvent } from '../link-event.service';
 import { Point } from 'leaflet';
 import { Subscription } from 'rxjs';
@@ -26,9 +26,16 @@ export class LinkComponent implements OnInit, AfterViewInit {
   offsetX = 0;
   offsetY = 0;
   distanceMoved = 0
-  private startPosition: { x: number; y: number } = { x: 0, y: 0 }
+
+  private mousePosRelativeToSvgAtMouseDown: { x: number; y: number } = { x: 0, y: 0 }
+  private mousePosRelativeToShapeAtMouseDown: { x: number; y: number } = { x: 0, y: 0 }
+
   private dragThreshold = 5;
   isSelected = false
+  // LinkAtMouseDown is the clone of the Link when mouse down
+  private PointAtMouseDown: gongsvg.PointDB | undefined
+  private LinkAtMouseDown: gongsvg.LinkDB | undefined
+
 
   //
   // for events management
@@ -43,10 +50,15 @@ export class LinkComponent implements OnInit, AfterViewInit {
       linkEventService.mouseMouseDownEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
-          this.offsetX = shapeMouseEvent.Point.X - this.Link!.Start!.X
-          this.offsetY = shapeMouseEvent.Point.X - this.Link!.Start!.X
+          // this.offsetX = shapeMouseEvent.Point.X - this.Link!.Start!.X
+          // this.offsetY = shapeMouseEvent.Point.Y - this.Link!.Start!.X
 
-          this.startPosition = { x: this.offsetX, y: this.offsetY }
+          // this.mousePosRelativeToShapeAtMouseDown = { x: this.offsetX, y: this.offsetY }
+          // this.mousePosRelativeToSvgAtMouseDown = { x: shapeMouseEvent.Point.X, y: shapeMouseEvent.Point.Y }
+
+
+          this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
+          this.LinkAtMouseDown = structuredClone(this.Link!)
         })
     );
 
@@ -58,8 +70,8 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
             console.log("LinkComponent processing mouse move service event: ",
               this.Link?.Name,
-              shapeMouseEvent.Point.X,
-              shapeMouseEvent.Point.Y)
+              shapeMouseEvent.Point.X - this.PointAtMouseDown!.X,
+              shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)
           }
 
         })
@@ -134,8 +146,8 @@ export class LinkComponent implements OnInit, AfterViewInit {
       let x = event.clientX - this.pageX
       let y = event.clientY - this.pageY
 
-      const deltaX = x - this.startPosition.x
-      const deltaY = y - this.startPosition.y
+      const deltaX = x - this.mousePosRelativeToShapeAtMouseDown.x
+      const deltaY = y - this.mousePosRelativeToShapeAtMouseDown.y
       this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
       let shapeMouseEvent: ShapeMouseEvent = {
@@ -154,8 +166,8 @@ export class LinkComponent implements OnInit, AfterViewInit {
       let x = event.clientX - this.pageX
       let y = event.clientY - this.pageY
 
-      const deltaX = x - this.startPosition.x
-      const deltaY = y - this.startPosition.y
+      const deltaX = x - this.mousePosRelativeToShapeAtMouseDown.x
+      const deltaY = y - this.mousePosRelativeToShapeAtMouseDown.y
       this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
       let shapeMouseEvent: ShapeMouseEvent = {
@@ -197,7 +209,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
       CornerOffsetRatio: link.CornerOffsetRatio,
     }
 
-    this.segments = drawConnector(this.connectorParams)
+    this.segments = drawSegments(this.connectorParams)
 
     return true
   }

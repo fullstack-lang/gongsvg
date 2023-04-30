@@ -5,6 +5,9 @@ import { LinkDB } from './link-db'
 import { NullInt64 } from './null-int64'
 
 export class PointDB {
+
+	static GONGSTRUCT_NAME = "Point"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

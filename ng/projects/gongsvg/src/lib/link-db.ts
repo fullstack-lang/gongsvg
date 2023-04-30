@@ -7,6 +7,9 @@ import { LayerDB } from './layer-db'
 import { NullInt64 } from './null-int64'
 
 export class LinkDB {
+
+	static GONGSTRUCT_NAME = "Link"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0
@@ -38,7 +41,7 @@ export class LinkDB {
 
 	ControlPoints?: Array<PointDB>
 	Layer_LinksDBID: NullInt64 = new NullInt64
-	Layer_LinksDBID_Index: NullInt64  = new NullInt64 // store the index of the link instance in Layer.Links
-	Layer_Links_reverse?: LayerDB 
+	Layer_LinksDBID_Index: NullInt64 = new NullInt64 // store the index of the link instance in Layer.Links
+	Layer_Links_reverse?: LayerDB
 
 }

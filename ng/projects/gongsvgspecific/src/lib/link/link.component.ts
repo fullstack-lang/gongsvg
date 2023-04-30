@@ -73,7 +73,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
       linkEventService.mouseMouseMoveEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
-          if (shapeMouseEvent.shapeID === this.Link?.ID && this.dragging) {
+          if (shapeMouseEvent.ShapeID === this.Link?.ID && this.dragging) {
 
 
             let segment = this.segments![shapeMouseEvent.SegmentNumber]
@@ -105,7 +105,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
       linkEventService.mouseMouseUpEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
-          if (shapeMouseEvent.shapeID === this.Link?.ID && this.dragging) {
+          if (shapeMouseEvent.ShapeID === this.Link?.ID && this.dragging) {
             let segment = this.segments![shapeMouseEvent.SegmentNumber]
 
             if (segment.Orientation == gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
@@ -187,7 +187,8 @@ export class LinkComponent implements OnInit, AfterViewInit {
       this.dragging = true
 
       let shapeMouseEvent: ShapeMouseEvent = {
-        shapeID: this.Link!.ID,
+        ShapeID: this.Link!.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
         SegmentNumber: segmentNumber
       }
@@ -202,7 +203,8 @@ export class LinkComponent implements OnInit, AfterViewInit {
       let y = event.clientY - this.pageY
 
       let shapeMouseEvent: ShapeMouseEvent = {
-        shapeID: this.Link!.ID,
+        ShapeID: this.Link!.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
         SegmentNumber: segmentNumber
       }
@@ -218,7 +220,8 @@ export class LinkComponent implements OnInit, AfterViewInit {
       let y = event.clientY - this.pageY
 
       let shapeMouseEvent: ShapeMouseEvent = {
-        shapeID: this.Link!.ID,
+        ShapeID: this.Link!.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
         SegmentNumber: segmentNumber
       }

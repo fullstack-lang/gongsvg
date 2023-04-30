@@ -3,8 +3,9 @@ import { PointDB } from 'gongsvg';
 import { Subject } from 'rxjs';
 
 export interface ShapeMouseEvent {
-  shapeID: number;
-  Point: PointDB,
+  ShapeID: number
+  ShapeType: string
+  Point: PointDB
   SegmentNumber: number
 }
 

@@ -6,6 +6,21 @@ import { LinkEventService, ShapeMouseEvent } from '../link-event.service';
 import { Point } from 'leaflet';
 import { Subscription } from 'rxjs';
 
+// 'Uncaught (in promise): Error: NG04002: Cannot match any routes. URL Segment: 
+// 'github_com_fullstack_lang_gongsvg_go_table_github.com/fullstack-lang/gongsvg/go/models:
+// github_com_fullstack_lang_gongsvg_go-links/github.com%2Ffullstack-lang%2Fgongsvg%2Fgo%2Fmodels'
+
+// \nError: NG04002: Cannot match any routes. URL Segment: 
+// 'github_com_fullstack_lang_gongsvg_go_table_github.com/fullstack-lang/gongsvg/go/models:github_com_fullstack_lang_gongsvg_go-links/github.com%2Ffullstack-lang%2Fgongsvg%2Fgo%2Fmodels'\n…ror
+// (http://localhost:4200/vendor.js:34844:9)\n  
+//  at OperatorSubscriber.error (http://localhost:4200/vendor.js:33842:12)\n  
+//  at OperatorSubscriber._error (http://localhost:4200/vendor.js:33865:24)\n  
+//  at OperatorSubscriber.error (http://localhost:4200/vendor.js:33842:12)\n  
+//  at OperatorSubscriber._error (http://localhost:4200/vendor.js:33865:24)\n  
+//  at OperatorSubscriber.error (http://localhost:4200/vendor.js:33842:12)\n   
+// at OperatorSubscriber._error (http://localhost:4200/vendor.js:33865:24)'
+
+
 @Component({
   selector: 'lib-link',
   templateUrl: './link.component.svg',
@@ -27,7 +42,6 @@ export class LinkComponent implements OnInit, AfterViewInit {
   offsetY = 0;
   distanceMoved = 0
 
-  private mousePosRelativeToSvgAtMouseDown: { x: number; y: number } = { x: 0, y: 0 }
   private mousePosRelativeToShapeAtMouseDown: { x: number; y: number } = { x: 0, y: 0 }
 
   private dragThreshold = 5;
@@ -43,24 +57,17 @@ export class LinkComponent implements OnInit, AfterViewInit {
   private subscriptions: Subscription[] = [];
 
   constructor(
+    private linkService: gongsvg.LinkService,
     private linkEventService: LinkEventService,
     private elementRef: ElementRef) {
 
     this.subscriptions.push(
       linkEventService.mouseMouseDownEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
-
-          // this.offsetX = shapeMouseEvent.Point.X - this.Link!.Start!.X
-          // this.offsetY = shapeMouseEvent.Point.Y - this.Link!.Start!.X
-
-          // this.mousePosRelativeToShapeAtMouseDown = { x: this.offsetX, y: this.offsetY }
-          // this.mousePosRelativeToSvgAtMouseDown = { x: shapeMouseEvent.Point.X, y: shapeMouseEvent.Point.Y }
-
-
           this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
           this.LinkAtMouseDown = structuredClone(this.Link!)
         })
-    );
+    )
 
     this.subscriptions.push(
       linkEventService.mouseMouseMoveEvent$.subscribe(
@@ -92,7 +99,37 @@ export class LinkComponent implements OnInit, AfterViewInit {
           }
 
         })
-    );
+    )
+
+    this.subscriptions.push(
+      linkEventService.mouseMouseUpEvent$.subscribe(
+        (shapeMouseEvent: ShapeMouseEvent) => {
+
+          if (shapeMouseEvent.shapeID === this.Link?.ID && this.dragging) {
+            let segment = this.segments![shapeMouseEvent.SegmentNumber]
+
+            if (segment.Orientation == gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
+              if (segment.Number == 0) {
+
+                let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
+                let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
+                this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+
+                if (this.distanceMoved < this.dragThreshold) {
+                  console.log("Link, link selected selected: ", this.Link?.Name)
+                } else {
+                  this.linkService.updateLink(this.Link!, this.GONG__StackPath).subscribe(
+                    link => {
+                      // console.log("Updated", link.ID)
+                    }
+                  )
+                }
+              }
+              this.dragging = false
+            }
+          }
+        })
+    )
   }
 
 
@@ -164,51 +201,28 @@ export class LinkComponent implements OnInit, AfterViewInit {
       let x = event.clientX - this.pageX
       let y = event.clientY - this.pageY
 
-      const deltaX = x - this.mousePosRelativeToShapeAtMouseDown.x
-      const deltaY = y - this.mousePosRelativeToShapeAtMouseDown.y
-      this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
-
       let shapeMouseEvent: ShapeMouseEvent = {
         shapeID: this.Link!.ID,
-        Point: createPoint(deltaX, deltaY),
+        Point: createPoint(x, y),
         SegmentNumber: segmentNumber
       }
       this.linkEventService.emitMouseMoveEvent(shapeMouseEvent)
     }
   }
 
-  linkMouseLeave(event: MouseEvent, segmentNumber: number = 0): void {
+  linkMouseUp(event: MouseEvent, segmentNumber: number = 0): void {
 
-    this.dragging = false
-
+    // console.log("Link : linkMouseUp", this.Link?.Name)
     if (!event.altKey && !event.shiftKey) {
       let x = event.clientX - this.pageX
       let y = event.clientY - this.pageY
 
-      const deltaX = x - this.mousePosRelativeToShapeAtMouseDown.x
-      const deltaY = y - this.mousePosRelativeToShapeAtMouseDown.y
-      this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
-
       let shapeMouseEvent: ShapeMouseEvent = {
         shapeID: this.Link!.ID,
         Point: createPoint(x, y),
-        SegmentNumber: 0
+        SegmentNumber: segmentNumber
       }
-      this.linkEventService.emitMouseLeaveEvent(shapeMouseEvent)
-    }
-  }
-
-  linkMouseUp(event: MouseEvent, segmentNumber: number = 0): void {
-
-    this.dragging = false
-
-    console.log("Link : ", this.Link?.Name)
-
-    if (!event.altKey && !event.shiftKey) {
-
-      if (this.distanceMoved < this.dragThreshold) {
-        console.log("Link, link selected selected: ", this.Link?.Name)
-      }
+      this.linkEventService.emitMouseUpEvent(shapeMouseEvent)
     }
   }
 

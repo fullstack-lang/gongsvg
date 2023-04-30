@@ -38,10 +38,10 @@ export class LinkEventService {
     this.mouseMouseLeaveEventSource.next(ShapeMouseEvent);
   }
 
-  private mouseMouseUpEventSource = new Subject<number>();
+  private mouseMouseUpEventSource = new Subject<ShapeMouseEvent>();
   mouseMouseUpEvent$ = this.mouseMouseUpEventSource.asObservable();
-  emitMouseUpEvent(angleID: number) {
-    // console.log('angleEventService, mouse down event, angle', angleID)
-    this.mouseMouseUpEventSource.next(angleID);
+  emitMouseUpEvent(ShapeMouseEvent: ShapeMouseEvent) {
+    // console.log('angleEventService, mouse down event, angle', ShapeMouseEvent)
+    this.mouseMouseUpEventSource.next(ShapeMouseEvent);
   }
 }

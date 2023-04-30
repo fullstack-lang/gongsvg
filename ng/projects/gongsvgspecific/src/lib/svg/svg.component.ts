@@ -22,7 +22,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
   // the checkCommiNbFromBagetCommitNbFromBackTimer polls the commit number of the back repo
   // if the commit number has increased, it pulls the front repo and redraw the diagram
   checkCommiNbFromBagetCommitNbFromBackTimer: Observable<number> = timer(500, 500);
-  lastCommiNbFromBagetCommitNbFromBack = -1
+  lastCommitNbFromBack = -1
   lastPushFromFrontNb = -1
   currTime: number = 0
 
@@ -56,7 +56,6 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     private svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
     private svgEventService: SvgEventService,
-    private elementRef: ElementRef,
   ) {
 
     this.subscriptions.push(
@@ -147,11 +146,22 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     // see above for the explanation
     this.gongsvgNbFromBackService.getCommitNbFromBack(500, this.GONG__StackPath).subscribe(
       commiNbFromBagetCommitNbFromBack => {
-        if (this.lastCommiNbFromBagetCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
+        if (this.lastCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
 
           // console.log("last commit nb " + this.lastCommiNbFromBagetCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
           this.refresh()
-          this.lastCommiNbFromBagetCommitNbFromBack = commiNbFromBagetCommitNbFromBack
+          this.lastCommitNbFromBack = commiNbFromBagetCommitNbFromBack
+        }
+      }
+    )
+
+    this.gongsvgPushFromFrontNbService.getPushNbFromFront(500, this.GONG__StackPath).subscribe(
+      commiNbFromBagetCommitNbFromBack => {
+        if (this.lastCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
+
+          // console.log("last commit nb " + this.lastCommiNbFromBagetCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
+          this.refresh()
+          this.lastCommitNbFromBack = commiNbFromBagetCommitNbFromBack
         }
       }
     )

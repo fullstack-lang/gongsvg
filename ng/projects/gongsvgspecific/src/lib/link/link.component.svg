@@ -93,8 +93,6 @@
             (mousedown)="linkMouseDown($event, segment.Number)" 
             (mousemove)="linkMouseMove($event, segment.Number)" 
             (mouseup)="linkMouseUp($event)"
-            (mouseleave)="linkMouseLeave($event)"
-            
             
             />
         <!-- <circle class="overlay" 

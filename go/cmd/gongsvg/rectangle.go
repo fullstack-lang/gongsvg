@@ -127,8 +127,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Link_horizontal_to_horizontal.Name = `Link horizontal to horizontal`
 	__Link__000000_Link_horizontal_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000000_Link_horizontal_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
+	__Link__000000_Link_horizontal_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Link_horizontal_to_horizontal.StartDirection = models.DIRECTION_HORIZONTAL
-	__Link__000000_Link_horizontal_to_horizontal.StartRatio = 0.500000
+	__Link__000000_Link_horizontal_to_horizontal.StartRatio = 0.401896
 	__Link__000000_Link_horizontal_to_horizontal.EndDirection = models.DIRECTION_HORIZONTAL
 	__Link__000000_Link_horizontal_to_horizontal.EndRatio = 0.500000
 	__Link__000000_Link_horizontal_to_horizontal.CornerOffsetRatio = 3.000000
@@ -162,7 +163,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartDirection = models.DIRECTION_HORIZONTAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.300000
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.373858
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndDirection = models.DIRECTION_VERTICAL
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.500000
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerOffsetRatio = 0.000000
@@ -281,10 +282,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Top_Rectangle_layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Link_layer_vertical_to_horizontal)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_horizontal_to_vertical)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Link_layer_horizontal_to_horizontal)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Link_layer_vertical_to_vertical)
 	__SVG__000000_SVG.StartRect = __Rect__000001_Top
 	__SVG__000000_SVG.EndRect = __Rect__000000_Bottom
 }

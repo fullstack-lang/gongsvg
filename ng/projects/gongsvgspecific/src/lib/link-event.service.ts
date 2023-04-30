@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PointDB } from 'gongsvg';
 import { Subject } from 'rxjs';
-
-export interface ShapeMouseEvent {
-  ShapeID: number
-  ShapeType: string
-  Point: PointDB
-  SegmentNumber: number
-}
+import { ShapeMouseEvent } from './shape.mouse.event';
 
 @Injectable({
   providedIn: 'root'

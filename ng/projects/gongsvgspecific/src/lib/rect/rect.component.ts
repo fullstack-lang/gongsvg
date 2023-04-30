@@ -7,6 +7,8 @@ import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.
 
 import * as gongsvg from 'gongsvg'
 import { Subscription } from 'rxjs';
+import { ShapeMouseEvent } from '../shape.mouse.event';
+import { createPoint } from '../link/draw.segments';
 
 @Component({
   selector: 'lib-rect',
@@ -34,6 +36,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   // to compute wether it was a select / dragging event
   distanceMoved = 0
   private mousePosRelativeToSvgAtMouseDown: { x: number; y: number } = { x: 0, y: 0 }
+  private PointAtMouseDown: gongsvg.PointDB | undefined
   private dragThreshold = 5;
 
   //
@@ -48,23 +51,42 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     private elementRef: ElementRef) {
 
     this.subscriptions.push(
-      rectangleEventService.mouseRectMouseDownEvent$.subscribe(
-        ({ rectangleID: rectangleID, MousePosRelativeSVG: coordinate }) => {
-
-          let x = coordinate[0]
-          let y = coordinate[1]
+      rectangleEventService.mouseMouseDownEvent$.subscribe(
+        (shapeMouseEvent: ShapeMouseEvent) => {
 
           this.RectAtMouseDown = structuredClone(this.Rect)
+          this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
 
-          this.mousePosRelativeToSvgAtMouseDown = { x: x, y: y }
+          this.mousePosRelativeToSvgAtMouseDown = {
+            x: shapeMouseEvent.Point.X,
+            y: shapeMouseEvent.Point.Y
+          }
         })
-    );
+    )
 
     this.subscriptions.push(
-      rectangleEventService.mouseRectMouseUpEvent$.subscribe(
-        (rectangleID: number) => {
+      rectangleEventService.mouseMouseMoveEvent$.subscribe(
+        (shapeMouseEvent: ShapeMouseEvent) => {
 
-          if (rectangleID != this.Rect.ID) {
+          if (this.rectDragging || this.Rect.IsSelected) {
+            if (this.Rect?.CanMoveHorizontaly) {
+
+              this.Rect.X = this.RectAtMouseDown!.X +
+                (shapeMouseEvent.Point.X - this.mousePosRelativeToSvgAtMouseDown.x)
+            }
+            if (this.Rect?.CanMoveVerticaly) {
+              this.Rect.Y = this.RectAtMouseDown!.Y +
+                (shapeMouseEvent.Point.Y - this.mousePosRelativeToSvgAtMouseDown.y)
+            }
+          }
+        })
+    )
+
+    this.subscriptions.push(
+      rectangleEventService.mouseMouseUpEvent$.subscribe(
+        (shapeMouseEvent: ShapeMouseEvent) => {
+
+          if (shapeMouseEvent.ShapeID != this.Rect.ID) {
             if (this.Rect.IsSelected) {
               this.Rect.IsSelected = false
               this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
@@ -113,28 +135,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
         })
     );
 
-    this.subscriptions.push(
-      rectangleEventService.mouseRectMouseDragEvent$.subscribe(
-        ({ rectangleID: rectangleID, MousePosRelativeSVG: mousePosRelativeSVG }) => {
 
-          if (this.rectDragging || this.Rect.IsSelected) {
-            if (this.Rect?.CanMoveHorizontaly) {
-              // console.log("Rect : mouseRectMouseDragEvent",
-              //   "this.Rect.X", this.Rect.X,
-              //   "mousePosRelativeSVG[0]", mousePosRelativeSVG[0],
-              //   "this.mousePosRelativeToSvgAtMouseDown.x", this.mousePosRelativeToSvgAtMouseDown.x
-              // )
-
-              this.Rect.X = this.RectAtMouseDown!.X +
-                (mousePosRelativeSVG[0] - this.mousePosRelativeToSvgAtMouseDown.x)
-            }
-            if (this.Rect?.CanMoveVerticaly) {
-              this.Rect.Y = this.RectAtMouseDown!.Y +
-                (mousePosRelativeSVG[1] - this.mousePosRelativeToSvgAtMouseDown.y)
-            }
-          }
-        })
-    );
 
   }
 
@@ -167,17 +168,16 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.rectDragging = true;
 
-      let mousePosRelativeSvg: { x: number; y: number } =
-      {
-        x: event.clientX - this.pageX,
-        y: event.clientY - this.pageY
-      }
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
 
-      let mouseEvent = {
-        rectangleID: this.Rect.ID,
-        MousePosRelativeSVG: [mousePosRelativeSvg.x, mousePosRelativeSvg.y] as [number, number]
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: this.Rect!.ID,
+        ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+        Point: createPoint(x, y),
+        SegmentNumber: 0
       }
-      this.rectangleEventService.emitRectMouseDownEvent(mouseEvent)
+      this.rectangleEventService.emitMouseDownEvent(shapeMouseEvent)
     } else {
       console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 
@@ -196,14 +196,12 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       return
     }
 
-    let mousePosRelativeSvg: { x: number; y: number } =
-    {
-      x: event.clientX - this.pageX,
-      y: event.clientY - this.pageY
-    }
 
-    const deltaX = mousePosRelativeSvg.x - this.mousePosRelativeToSvgAtMouseDown.x;
-    const deltaY = mousePosRelativeSvg.y - this.mousePosRelativeToSvgAtMouseDown.y;
+    let x = event.clientX - this.pageX
+    let y = event.clientY - this.pageY
+
+    const deltaX = x - this.mousePosRelativeToSvgAtMouseDown.x;
+    const deltaY = y - this.mousePosRelativeToSvgAtMouseDown.y;
     this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
     // console.log("RectComponent DragRect : ", deltaX, deltaY, distanceMoved)
@@ -212,23 +210,24 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.altKey) {
       console.log('RectComponent, Alt Mouse drag event occurred on rectangle ', this.Rect.Name, event.clientX, event.clientY);
       this.rectangleEventService.emitRectAltKeyMouseDragEvent(
-        [mousePosRelativeSvg.x, mousePosRelativeSvg.y])
+        [x, y])
       return
     }
 
     if (event.shiftKey) {
-      this.svgEventService.emitMultiShapeSelectDrag([mousePosRelativeSvg.x, mousePosRelativeSvg.y])
+      this.svgEventService.emitMultiShapeSelectDrag([x, y])
       return
     }
 
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
-    let mouseEvent = {
-      rectangleID: this.Rect.ID,
-      MousePosRelativeSVG: [mousePosRelativeSvg.x, mousePosRelativeSvg.y] as [number, number]
+    let shapeMouseEvent: ShapeMouseEvent = {
+      ShapeID: this.Rect!.ID,
+      ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+      Point: createPoint(x, y),
+      SegmentNumber: 0
     }
-
-    this.rectangleEventService.emitRectMouseDragEvent(mouseEvent)
+    this.rectangleEventService.emitMouseMoveEvent(shapeMouseEvent)
   }
 
   rectMouseUp(event: MouseEvent): void {
@@ -244,7 +243,17 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
           this.Rect.IsSelected = !this.Rect.IsSelected
           this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
 
-          this.rectangleEventService.emitRectMouseUpEvent(this.Rect.ID)
+          let x = event.clientX - this.pageX
+          let y = event.clientY - this.pageY
+
+          let shapeMouseEvent: ShapeMouseEvent = {
+            ShapeID: this.Rect!.ID,
+            ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+            Point: createPoint(x, y),
+            SegmentNumber: 0
+          }
+
+          this.rectangleEventService.emitMouseUpEvent(shapeMouseEvent)
         }
       }
     }

@@ -6,6 +6,9 @@ import { LayerDB } from './layer-db'
 import { NullInt64 } from './null-int64'
 
 export class RectDB {
+
+	static GONGSTRUCT_NAME = "Rect"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0
@@ -40,7 +43,7 @@ export class RectDB {
 	// insertion point for other declarations
 	Animations?: Array<AnimateDB>
 	Layer_RectsDBID: NullInt64 = new NullInt64
-	Layer_RectsDBID_Index: NullInt64  = new NullInt64 // store the index of the rect instance in Layer.Rects
-	Layer_Rects_reverse?: LayerDB 
+	Layer_RectsDBID_Index: NullInt64 = new NullInt64 // store the index of the rect instance in Layer.Rects
+	Layer_Rects_reverse?: LayerDB
 
 }

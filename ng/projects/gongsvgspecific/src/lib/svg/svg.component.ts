@@ -5,6 +5,8 @@ import { Coordinate, RectangleEventService } from '../rectangle-event.service';
 import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.service';
 
 import * as gongsvg from 'gongsvg'
+import { ShapeMouseEvent } from '../shape.mouse.event';
+import { createPoint } from '../link/draw.segments';
 
 @Component({
   selector: 'lib-svg',
@@ -245,7 +247,18 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     // an event is emitted for all rects to go on a unselect mode
     if (!event.altKey && !event.shiftKey) {
       console.log("SVG : on click()")
-      this.rectangleEventService.emitRectMouseUpEvent(0)
+
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: 0,
+        ShapeType: "",
+        Point: createPoint(x, y),
+        SegmentNumber: 0
+      }
+
+      this.rectangleEventService.emitMouseUpEvent(shapeMouseEvent)
     }
   }
 

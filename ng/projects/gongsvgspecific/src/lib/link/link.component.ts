@@ -2,23 +2,10 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/co
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
 import { ConnectorParams, Segment, createPoint, drawSegments } from './draw.segments';
-import { LinkEventService, ShapeMouseEvent } from '../link-event.service';
+import { LinkEventService } from '../link-event.service';
 import { Point } from 'leaflet';
 import { Subscription } from 'rxjs';
-
-// 'Uncaught (in promise): Error: NG04002: Cannot match any routes. URL Segment: 
-// 'github_com_fullstack_lang_gongsvg_go_table_github.com/fullstack-lang/gongsvg/go/models:
-// github_com_fullstack_lang_gongsvg_go-links/github.com%2Ffullstack-lang%2Fgongsvg%2Fgo%2Fmodels'
-
-// \nError: NG04002: Cannot match any routes. URL Segment: 
-// 'github_com_fullstack_lang_gongsvg_go_table_github.com/fullstack-lang/gongsvg/go/models:github_com_fullstack_lang_gongsvg_go-links/github.com%2Ffullstack-lang%2Fgongsvg%2Fgo%2Fmodels'\n…ror
-// (http://localhost:4200/vendor.js:34844:9)\n  
-//  at OperatorSubscriber.error (http://localhost:4200/vendor.js:33842:12)\n  
-//  at OperatorSubscriber._error (http://localhost:4200/vendor.js:33865:24)\n  
-//  at OperatorSubscriber.error (http://localhost:4200/vendor.js:33842:12)\n  
-//  at OperatorSubscriber._error (http://localhost:4200/vendor.js:33865:24)\n  
-//  at OperatorSubscriber.error (http://localhost:4200/vendor.js:33842:12)\n   
-// at OperatorSubscriber._error (http://localhost:4200/vendor.js:33865:24)'
+import { ShapeMouseEvent } from '../shape.mouse.event';
 
 
 @Component({

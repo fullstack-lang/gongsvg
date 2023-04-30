@@ -1,5 +1,5 @@
 import * as gongsvg from 'gongsvg'; // Replace 'gongsvg' with the correct module name
-import { drawLinePointPoint, drawLinePointRect } from './draw.line';
+import { drawLinePointRect } from './draw.line';
 
 export type ConnectorParams = {
     StartRect: gongsvg.RectDB
@@ -12,8 +12,17 @@ export type ConnectorParams = {
 }
 
 export type Segment = {
-    X: number,
-    Y: number
+    StartPoint: gongsvg.PointDB,
+    EndPoint: gongsvg.PointDB
+    Orientation: gongsvg.DirectionType
+    Number: number
+}
+export function createSegment(
+    start: gongsvg.PointDB,
+    end: gongsvg.PointDB,
+    orientaion: gongsvg.DirectionType,
+    number: number): Segment {
+    return { StartPoint: start, EndPoint: end, Orientation: orientaion, Number: number }
 }
 
 export function createPoint(x: number, y: number): gongsvg.PointDB {
@@ -24,7 +33,7 @@ export function createPoint(x: number, y: number): gongsvg.PointDB {
     return point
 }
 
-export function drawSegments(params: ConnectorParams): gongsvg.PointDB[][] {
+export function drawSegments(params: ConnectorParams): Segment[] {
     const {
         StartRect: StartRect,
         EndRect: EndRect,
@@ -33,7 +42,7 @@ export function drawSegments(params: ConnectorParams): gongsvg.PointDB[][] {
         StartRatio: StartRatio,
         EndRatio: EndRatio,
         CornerOffsetRatio: CornerOffsetRatio } = params;
-    const segments: gongsvg.PointDB[][] = []
+    const segments: Segment[] = []
 
     if (StartDirection === gongsvg.DirectionType.DIRECTION_HORIZONTAL &&
         EndDirection === gongsvg.DirectionType.DIRECTION_VERTICAL) {
@@ -43,8 +52,9 @@ export function drawSegments(params: ConnectorParams): gongsvg.PointDB[][] {
         const c1_Y = startY
         const c1 = createPoint(c1_X, c1_Y)
 
-        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection)
-        const secondSegment = drawLinePointRect(c1, EndRect, EndDirection)
+        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection, 0)
+        const secondSegment = drawLinePointRect(c1, EndRect, EndDirection, 1)
+
 
 
         segments.push(firstSegment, secondSegment)
@@ -58,8 +68,8 @@ export function drawSegments(params: ConnectorParams): gongsvg.PointDB[][] {
         const c1_Y = EndRect.Y + EndRatio * EndRect.Height
         const c1 = createPoint(c1_X, c1_Y)
 
-        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection)
-        const secondSegment = drawLinePointRect(c1, EndRect, EndDirection)
+        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection, 0)
+        const secondSegment = drawLinePointRect(c1, EndRect, EndDirection, 1)
 
 
         segments.push(firstSegment, secondSegment)
@@ -78,9 +88,9 @@ export function drawSegments(params: ConnectorParams): gongsvg.PointDB[][] {
 
         const c2 = createPoint(c2_X, c2_Y)
 
-        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection)
-        const secondSegment = drawLinePointPoint(c1, c2)
-        const thirdSegment = drawLinePointRect(c2, EndRect, EndDirection)
+        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection, 0)
+        const secondSegment = createSegment(c1, c2, gongsvg.DirectionType.DIRECTION_VERTICAL, 1)
+        const thirdSegment = drawLinePointRect(c2, EndRect, EndDirection, 2)
 
 
         segments.push(firstSegment, secondSegment, thirdSegment)
@@ -99,9 +109,9 @@ export function drawSegments(params: ConnectorParams): gongsvg.PointDB[][] {
 
         const c2 = createPoint(c2_X, c2_Y)
 
-        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection)
-        const secondSegment = drawLinePointPoint(c1, c2)
-        const thirdSegment = drawLinePointRect(c2, EndRect, EndDirection)
+        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection, 0)
+        const secondSegment = createSegment(c1, c2, gongsvg.DirectionType.DIRECTION_HORIZONTAL, 1)
+        const thirdSegment = drawLinePointRect(c2, EndRect, EndDirection, 2)
 
 
         segments.push(firstSegment, secondSegment, thirdSegment)

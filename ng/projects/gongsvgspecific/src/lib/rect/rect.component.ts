@@ -119,11 +119,11 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
           if (this.rectDragging || this.Rect.IsSelected) {
             if (this.Rect?.CanMoveHorizontaly) {
-              console.log("Rect : mouseRectMouseDragEvent",
-                "this.Rect.X", this.Rect.X,
-                "mousePosRelativeSVG[0]", mousePosRelativeSVG[0],
-                "this.mousePosRelativeToSvgAtMouseDown.x", this.mousePosRelativeToSvgAtMouseDown.x
-              )
+              // console.log("Rect : mouseRectMouseDragEvent",
+              //   "this.Rect.X", this.Rect.X,
+              //   "mousePosRelativeSVG[0]", mousePosRelativeSVG[0],
+              //   "this.mousePosRelativeToSvgAtMouseDown.x", this.mousePosRelativeToSvgAtMouseDown.x
+              // )
 
               this.Rect.X = this.RectAtMouseDown!.X +
                 (mousePosRelativeSVG[0] - this.mousePosRelativeToSvgAtMouseDown.x)

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
-import { ConnectorParams, createPoint, drawSegments } from './draw.segments';
+import { ConnectorParams, Segment, createPoint, drawSegments } from './draw.segments';
 import { LinkEventService, ShapeMouseEvent } from '../link-event.service';
 import { Point } from 'leaflet';
 import { Subscription } from 'rxjs';
@@ -68,10 +68,27 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
           if (shapeMouseEvent.shapeID === this.Link?.ID && this.dragging) {
 
-            console.log("LinkComponent processing mouse move service event: ",
-              this.Link?.Name,
-              shapeMouseEvent.Point.X - this.PointAtMouseDown!.X,
-              shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)
+
+            let segment = this.segments![shapeMouseEvent.SegmentNumber]
+
+            let deltaY = shapeMouseEvent.Point.Y - segment.StartPoint.Y
+            if (segment.Orientation == gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
+              if (segment.Number == 0 && deltaY != 0) {
+                // let new = ((segment.Start.Y + deltaY) - this.Link!.Start!.Y) 
+                let newRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
+                // console.log("shapeMouseEvent.Point.Y\t\t", shapeMouseEvent.Point.Y)
+                // console.log("this.Link!.Start!.Y\t\t", this.Link!.Start!.Y)
+                // console.log("this.Link!.Start!.Height\t", this.Link!.Start!.Height)
+                // console.log("deltaY\t\t\t\t", deltaY)
+                // console.log("Old ratio\t\t\t", this.Link!.StartRatio)
+                // console.log("New ratio\t\t\t", newRatio)
+
+
+                if (newRatio < 0) { newRatio = 0 }
+                if (newRatio > 1) { newRatio = 1 }
+                this.Link!.StartRatio = newRatio
+              }
+            }
           }
 
         })
@@ -120,7 +137,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
     return coordinate
   }
 
-  linkMouseDown(event: MouseEvent): void {
+  linkMouseDown(event: MouseEvent, segmentNumber: number): void {
 
     if (!event.altKey && !event.shiftKey) {
       event.preventDefault();
@@ -134,13 +151,14 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
       let shapeMouseEvent: ShapeMouseEvent = {
         shapeID: this.Link!.ID,
-        Point: createPoint(x, y)
+        Point: createPoint(x, y),
+        SegmentNumber: segmentNumber
       }
       this.linkEventService.emitMouseDownEvent(shapeMouseEvent)
     }
   }
 
-  linkMouseMove(event: MouseEvent): void {
+  linkMouseMove(event: MouseEvent, segmentNumber: number = 0): void {
 
     if (!event.altKey && !event.shiftKey) {
       let x = event.clientX - this.pageX
@@ -152,13 +170,14 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
       let shapeMouseEvent: ShapeMouseEvent = {
         shapeID: this.Link!.ID,
-        Point: createPoint(deltaX, deltaY)
+        Point: createPoint(deltaX, deltaY),
+        SegmentNumber: segmentNumber
       }
       this.linkEventService.emitMouseMoveEvent(shapeMouseEvent)
     }
   }
 
-  linkMouseLeave(event: MouseEvent): void {
+  linkMouseLeave(event: MouseEvent, segmentNumber: number = 0): void {
 
     this.dragging = false
 
@@ -172,13 +191,14 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
       let shapeMouseEvent: ShapeMouseEvent = {
         shapeID: this.Link!.ID,
-        Point: createPoint(x, y)
+        Point: createPoint(x, y),
+        SegmentNumber: 0
       }
       this.linkEventService.emitMouseLeaveEvent(shapeMouseEvent)
     }
   }
 
-  linkMouseUp(event: MouseEvent): void {
+  linkMouseUp(event: MouseEvent, segmentNumber: number = 0): void {
 
     this.dragging = false
 
@@ -193,7 +213,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
   }
 
   connectorParams: ConnectorParams | undefined
-  segments: gongsvg.PointDB[][] | undefined
+  segments: Segment[] | undefined
 
   drawConnector(): boolean {
 
@@ -214,10 +234,10 @@ export class LinkComponent implements OnInit, AfterViewInit {
     return true
   }
 
-  getOrientation(segment: gongsvg.PointDB[]): 'horizontal' | 'vertical' | null {
-    if (segment[0].Y === segment[1].Y) {
+  getOrientation(segment: Segment): 'horizontal' | 'vertical' | null {
+    if (segment.Orientation == gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
       return 'horizontal';
-    } else if (segment[0].X === segment[1].X) {
+    } else if (segment.Orientation == gongsvg.DirectionType.DIRECTION_VERTICAL) {
       return 'vertical';
     } else {
       return null; // You can return null or another value if the line is not strictly horizontal or vertical

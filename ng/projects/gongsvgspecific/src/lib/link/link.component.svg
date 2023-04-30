@@ -12,7 +12,7 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform" 
             
-            (mousedown)="linkMouseDown($event)" 
+            (mousedown)="linkMouseDown($event, 0)" 
             (mousemove)="linkMouseMove($event)" 
             (mouseup)="linkMouseUp($event)"
             
@@ -34,7 +34,7 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform" 
             
-            (mousedown)="linkMouseDown($event)" 
+            (mousedown)="linkMouseDown($event, 0)" 
             />
 
         <line class="overlay" 
@@ -49,7 +49,7 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform"
 
-            (mousedown)="linkMouseDown($event)" 
+            (mousedown)="linkMouseDown($event, 0)" 
             />
     </g>
 </svg>
@@ -69,7 +69,7 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform" 
 
-            (mousedown)="linkMouseDown($event)" 
+            (mousedown)="linkMouseDown($event, 0)" 
             />
     </g>
     </svg>
@@ -78,19 +78,20 @@
 <svg *ngIf="isFloatingOrthogonal && Link && drawConnector() && segments" class="svg">
     <g>
         <line *ngFor='let segment of segments' class="overlay" 
-            [attr.x1]="segment[0].X" 
-            [attr.y1]="segment[0].Y" 
-            [attr.x2]="segment[1].X" 
-            [attr.y2]="segment[1].Y"
+            [attr.x1]="segment.StartPoint.X" 
+            [attr.y1]="segment.StartPoint.Y" 
+            [attr.x2]="segment.EndPoint.X" 
+            [attr.y2]="segment.EndPoint.Y"
             [attr.fill]="Link.Color"
             [attr.fill-opacity]="Link.FillOpacity" 
             [attr.stroke]="Link.Stroke" 
             [attr.stroke-width]="Link.StrokeWidth"
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.segment-orientation]="getOrientation(segment)"
+            [attr.segment-number]="segment.Number"
             
-            (mousedown)="linkMouseDown($event)" 
-            (mousemove)="linkMouseMove($event)" 
+            (mousedown)="linkMouseDown($event, segment.Number)" 
+            (mousemove)="linkMouseMove($event, segment.Number)" 
             (mouseup)="linkMouseUp($event)"
             (mouseleave)="linkMouseLeave($event)"
             

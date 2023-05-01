@@ -257,7 +257,6 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
         ShapeID: 0,
         ShapeType: "",
         Point: createPoint(x, y),
-        SegmentNumber: 0
       }
 
       this.rectangleEventService.emitMouseUpEvent(shapeMouseEvent)
@@ -296,7 +295,6 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
         ShapeID: 0,
         ShapeType: "",
         Point: createPoint(x, y),
-        SegmentNumber: 0
       }
       this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
     }
@@ -320,7 +318,6 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
         ShapeID: 0,
         ShapeType: "",
         Point: createPoint(x, y),
-        SegmentNumber: 0
       }
       this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
     }

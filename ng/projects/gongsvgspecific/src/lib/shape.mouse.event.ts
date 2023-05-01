@@ -6,5 +6,4 @@ export interface ShapeMouseEvent {
   ShapeID: number
   ShapeType: string
   Point: PointDB
-  SegmentNumber: number
 }

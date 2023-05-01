@@ -185,7 +185,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
         ShapeID: this.Rect!.ID,
         ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
-        SegmentNumber: 0
       }
       this.rectangleEventService.emitMouseDownEvent(shapeMouseEvent)
     } else {
@@ -226,7 +225,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       ShapeID: this.Rect!.ID,
       ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
       Point: createPoint(x, y),
-      SegmentNumber: 0
     }
     this.rectangleEventService.emitMouseMoveEvent(shapeMouseEvent)
   }
@@ -241,7 +239,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
         ShapeID: this.Rect!.ID,
         ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
-        SegmentNumber: 0
       }
 
       this.rectangleEventService.emitMouseUpEvent(shapeMouseEvent)

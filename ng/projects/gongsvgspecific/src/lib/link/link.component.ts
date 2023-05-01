@@ -65,7 +65,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
         (shapeMouseEvent: ShapeMouseEvent) => {
 
           if (this.dragging) {
-            let segment = this.segments![shapeMouseEvent.SegmentNumber]
+            let segment = this.segments![this.segmentThatIsDragged]
 
             if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
               let deltaY = shapeMouseEvent.Point.Y - segment.StartPoint.Y
@@ -151,7 +151,6 @@ export class LinkComponent implements OnInit, AfterViewInit {
         (shapeMouseEvent: ShapeMouseEvent) => {
 
           if (this.dragging) {
-
             let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
             let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
             this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
@@ -231,7 +230,6 @@ export class LinkComponent implements OnInit, AfterViewInit {
         ShapeID: this.Link!.ID,
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
-        SegmentNumber: segmentNumber
       }
       this.linkEventService.emitMouseDownEvent(shapeMouseEvent)
     }
@@ -247,7 +245,6 @@ export class LinkComponent implements OnInit, AfterViewInit {
         ShapeID: this.Link!.ID,
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
-        SegmentNumber: segmentNumber
       }
       this.linkEventService.emitMouseMoveEvent(shapeMouseEvent)
     }
@@ -264,7 +261,6 @@ export class LinkComponent implements OnInit, AfterViewInit {
         ShapeID: this.Link!.ID,
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
-        SegmentNumber: segmentNumber
       }
       this.linkEventService.emitMouseUpEvent(shapeMouseEvent)
     }

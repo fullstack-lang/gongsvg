@@ -1817,7 +1817,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Type", "Start", "StartAnchorType", "End", "EndAnchorType", "StartDirection", "StartRatio", "EndDirection", "EndRatio", "CornerOffsetRatio", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Point:
@@ -2055,13 +2055,13 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "EndAnchorType":
 			enum := any(instance).(Link).EndAnchorType
 			res = enum.ToCodeString()
-		case "StartDirection":
-			enum := any(instance).(Link).StartDirection
+		case "StartOrientation":
+			enum := any(instance).(Link).StartOrientation
 			res = enum.ToCodeString()
 		case "StartRatio":
 			res = fmt.Sprintf("%f", any(instance).(Link).StartRatio)
-		case "EndDirection":
-			enum := any(instance).(Link).EndDirection
+		case "EndOrientation":
+			enum := any(instance).(Link).EndOrientation
 			res = enum.ToCodeString()
 		case "EndRatio":
 			res = fmt.Sprintf("%f", any(instance).(Link).EndRatio)

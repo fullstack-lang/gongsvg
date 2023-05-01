@@ -1713,20 +1713,20 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							log.Fatalln(err)
 						}
 						__gong__map_Link[identifier].EndAnchorType = AnchorType(val)
-					case "StartDirection":
+					case "StartOrientation":
 						var val OrientationType
 						err := (&val).FromCodeString(enumValue)
 						if err != nil {
 							log.Fatalln(err)
 						}
-						__gong__map_Link[identifier].StartDirection = OrientationType(val)
-					case "EndDirection":
+						__gong__map_Link[identifier].StartOrientation = OrientationType(val)
+					case "EndOrientation":
 						var val OrientationType
 						err := (&val).FromCodeString(enumValue)
 						if err != nil {
 							log.Fatalln(err)
 						}
-						__gong__map_Link[identifier].EndDirection = OrientationType(val)
+						__gong__map_Link[identifier].EndOrientation = OrientationType(val)
 					}
 				case "Path":
 					switch fieldName {

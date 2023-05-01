@@ -82,8 +82,19 @@ export class LinkComponent implements OnInit, AfterViewInit {
                 // console.log("Old ratio\t\t\t", this.Link!.StartRatio)
                 // console.log("New ratio\t\t\t", newRatio)
 
-                if (newRatio < 0) { newRatio = 0 }
-                if (newRatio > 1) { newRatio = 1 }
+                if (newRatio < 0 || newRatio > 1) {
+                  let newOrientationRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
+
+                  if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
+                    newRatio = newOrientationRatio
+                    this.Link!.StartOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
+                    this.drawConnector()
+                  } else {
+                    if (newRatio < 0) { newRatio = 0 }
+                    if (newRatio > 1) { newRatio = 1 }
+                  }
+                }
+
                 this.Link!.StartRatio = newRatio
               }
 
@@ -91,9 +102,6 @@ export class LinkComponent implements OnInit, AfterViewInit {
               if (segment.Number == this.segments!.length - 1 && deltaY != 0) {
 
                 let newRatio = (shapeMouseEvent.Point.Y - this.Link!.End!.Y) / this.Link!.End!.Height
-
-                if (newRatio < 0) { newRatio = 0 }
-                if (newRatio > 1) { newRatio = 1 }
                 this.Link!.EndRatio = newRatio
               }
 
@@ -287,8 +295,8 @@ export class LinkComponent implements OnInit, AfterViewInit {
     this.connectorParams = {
       StartRect: link.Start!,
       EndRect: link.End!,
-      StartDirection: link.StartDirection! as gongsvg.OrientationType,
-      EndDirection: link.EndDirection! as gongsvg.OrientationType,
+      StartDirection: link.StartOrientation! as gongsvg.OrientationType,
+      EndDirection: link.EndOrientation! as gongsvg.OrientationType,
       StartRatio: link.StartRatio,
       EndRatio: link.EndRatio,
       CornerOffsetRatio: link.CornerOffsetRatio,

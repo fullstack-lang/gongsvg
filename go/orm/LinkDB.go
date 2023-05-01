@@ -84,14 +84,14 @@ type LinkDB struct {
 	// Declation for basic field linkDB.EndAnchorType
 	EndAnchorType_Data sql.NullString
 
-	// Declation for basic field linkDB.StartDirection
-	StartDirection_Data sql.NullString
+	// Declation for basic field linkDB.StartOrientation
+	StartOrientation_Data sql.NullString
 
 	// Declation for basic field linkDB.StartRatio
 	StartRatio_Data sql.NullFloat64
 
-	// Declation for basic field linkDB.EndDirection
-	EndDirection_Data sql.NullString
+	// Declation for basic field linkDB.EndOrientation
+	EndOrientation_Data sql.NullString
 
 	// Declation for basic field linkDB.EndRatio
 	EndRatio_Data sql.NullFloat64
@@ -148,11 +148,11 @@ type LinkWOP struct {
 
 	EndAnchorType models.AnchorType `xlsx:"4"`
 
-	StartDirection models.OrientationType `xlsx:"5"`
+	StartOrientation models.OrientationType `xlsx:"5"`
 
 	StartRatio float64 `xlsx:"6"`
 
-	EndDirection models.OrientationType `xlsx:"7"`
+	EndOrientation models.OrientationType `xlsx:"7"`
 
 	EndRatio float64 `xlsx:"8"`
 
@@ -181,9 +181,9 @@ var Link_Fields = []string{
 	"Type",
 	"StartAnchorType",
 	"EndAnchorType",
-	"StartDirection",
+	"StartOrientation",
 	"StartRatio",
-	"EndDirection",
+	"EndOrientation",
 	"EndRatio",
 	"CornerOffsetRatio",
 	"Color",
@@ -537,14 +537,14 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
 	linkDB.EndAnchorType_Data.Valid = true
 
-	linkDB.StartDirection_Data.String = link.StartDirection.ToString()
-	linkDB.StartDirection_Data.Valid = true
+	linkDB.StartOrientation_Data.String = link.StartOrientation.ToString()
+	linkDB.StartOrientation_Data.Valid = true
 
 	linkDB.StartRatio_Data.Float64 = link.StartRatio
 	linkDB.StartRatio_Data.Valid = true
 
-	linkDB.EndDirection_Data.String = link.EndDirection.ToString()
-	linkDB.EndDirection_Data.Valid = true
+	linkDB.EndOrientation_Data.String = link.EndOrientation.ToString()
+	linkDB.EndOrientation_Data.Valid = true
 
 	linkDB.EndRatio_Data.Float64 = link.EndRatio
 	linkDB.EndRatio_Data.Valid = true
@@ -590,14 +590,14 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 	linkDB.EndAnchorType_Data.String = link.EndAnchorType.ToString()
 	linkDB.EndAnchorType_Data.Valid = true
 
-	linkDB.StartDirection_Data.String = link.StartDirection.ToString()
-	linkDB.StartDirection_Data.Valid = true
+	linkDB.StartOrientation_Data.String = link.StartOrientation.ToString()
+	linkDB.StartOrientation_Data.Valid = true
 
 	linkDB.StartRatio_Data.Float64 = link.StartRatio
 	linkDB.StartRatio_Data.Valid = true
 
-	linkDB.EndDirection_Data.String = link.EndDirection.ToString()
-	linkDB.EndDirection_Data.Valid = true
+	linkDB.EndOrientation_Data.String = link.EndOrientation.ToString()
+	linkDB.EndOrientation_Data.Valid = true
 
 	linkDB.EndRatio_Data.Float64 = link.EndRatio
 	linkDB.EndRatio_Data.Valid = true
@@ -634,9 +634,9 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	link.Type.FromString(linkDB.Type_Data.String)
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
-	link.StartDirection.FromString(linkDB.StartDirection_Data.String)
+	link.StartOrientation.FromString(linkDB.StartOrientation_Data.String)
 	link.StartRatio = linkDB.StartRatio_Data.Float64
-	link.EndDirection.FromString(linkDB.EndDirection_Data.String)
+	link.EndOrientation.FromString(linkDB.EndOrientation_Data.String)
 	link.EndRatio = linkDB.EndRatio_Data.Float64
 	link.CornerOffsetRatio = linkDB.CornerOffsetRatio_Data.Float64
 	link.Color = linkDB.Color_Data.String
@@ -656,9 +656,9 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.Type.FromString(linkDB.Type_Data.String)
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
-	link.StartDirection.FromString(linkDB.StartDirection_Data.String)
+	link.StartOrientation.FromString(linkDB.StartOrientation_Data.String)
 	link.StartRatio = linkDB.StartRatio_Data.Float64
-	link.EndDirection.FromString(linkDB.EndDirection_Data.String)
+	link.EndOrientation.FromString(linkDB.EndOrientation_Data.String)
 	link.EndRatio = linkDB.EndRatio_Data.Float64
 	link.CornerOffsetRatio = linkDB.CornerOffsetRatio_Data.Float64
 	link.Color = linkDB.Color_Data.String

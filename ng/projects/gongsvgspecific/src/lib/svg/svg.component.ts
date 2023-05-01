@@ -7,6 +7,7 @@ import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.
 import * as gongsvg from 'gongsvg'
 import { ShapeMouseEvent } from '../shape.mouse.event';
 import { createPoint } from '../link/draw.segments';
+import { MouseEventService } from '../mouse-event.service';
 
 @Component({
   selector: 'lib-svg',
@@ -58,6 +59,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     private svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
     private svgEventService: SvgEventService,
+    private mouseEventService: MouseEventService,
   ) {
 
     this.subscriptions.push(
@@ -262,24 +264,66 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  mousedown(event: MouseEvent): void {
+    if (event.shiftKey) {
+      this.selectionRectDrawing = true
+      this.startX = event.clientX - this.pageX
+      this.startY = event.clientY - this.pageY
+    }
+  }
+
   mousemove(event: MouseEvent): void {
-    const actualX = event.clientX - this.pageX
-    const actualY = event.clientY - this.pageY
+    const x = event.clientX - this.pageX
+    const y = event.clientY - this.pageY
 
     // we want this event to bubble to the SVG element
     if (event.altKey) {
       // console.log('SvgComponent, ALT Mouse drag event occurred', this.linkDrawing, this.startX, this.startY, this.endX, this.endY);
 
-      this.rectangleEventService.emitRectAltKeyMouseDragEvent([actualX, actualY])
+      this.rectangleEventService.emitRectAltKeyMouseDragEvent([x, y])
       return
     }
     if (event.shiftKey) {
 
-      this.svgEventService.emitMultiShapeSelectDrag([actualX, actualY])
+      this.svgEventService.emitMultiShapeSelectDrag([x, y])
       // console.log('SvgComponent, SHIFT Mouse drag event occurred', this.selectionRectDrawing, this.rectX, this.rectY, this.width, this.height);
-
     }
 
+    if (!event.shiftKey && !event.altKey) {
+      // in case of dragging something, when the mouse moves fast, it can reach the SVG background
+      // in this case, one forward the mouse event on the event bus
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: 0,
+        ShapeType: "",
+        Point: createPoint(x, y),
+        SegmentNumber: 0
+      }
+      this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
+    }
+  }
+
+
+  onmouseup(event: MouseEvent): void {
+
+    const x = event.clientX - this.pageX
+    const y = event.clientY - this.pageY
+
+    if (event.shiftKey) {
+      this.svgEventService.emitMouseShiftKeyMouseUpEvent([event.clientX, event.clientY])
+    }
+
+    if (!event.shiftKey && !event.altKey) {
+
+      // in case of dragging something, when the mouse moves fast, it can reach the SVG background
+      // in this case, one forward the mouse event on the event bus
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: 0,
+        ShapeType: "",
+        Point: createPoint(x, y),
+        SegmentNumber: 0
+      }
+      this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
+    }
   }
 
   pageX: number = 0
@@ -297,26 +341,6 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     const offsetX = rect.left + window.pageXOffset;
     const offsetY = rect.top + window.pageYOffset;
     return { offsetX, offsetY };
-  }
-
-
-  //
-  // code for the multiple shapes selection
-  //
-  // shiftKey + Drag
-  startSelectionDrag(event: MouseEvent): void {
-    if (event.shiftKey) {
-      this.selectionRectDrawing = true
-      this.startX = event.clientX - this.pageX
-      this.startY = event.clientY - this.pageY
-    }
-  }
-
-  endSelectionDrag(event: MouseEvent): void {
-
-    if (event.shiftKey) {
-      this.svgEventService.emitMouseShiftKeyMouseUpEvent([event.clientX, event.clientY])
-    }
   }
 
 }

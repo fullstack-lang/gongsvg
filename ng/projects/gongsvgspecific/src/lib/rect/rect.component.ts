@@ -61,6 +61,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
             x: shapeMouseEvent.Point.X,
             y: shapeMouseEvent.Point.Y
           }
+          this.distanceMoved = 0
         })
     )
 
@@ -89,7 +90,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       rectangleEventService.mouseMouseUpEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
-          if (this.distanceMoved > this.dragThreshold) {
+          if (shapeMouseEvent.ShapeID != 0 && this.distanceMoved > this.dragThreshold) {
             this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
           } else {
             if (this.Rect?.IsSelectable && shapeMouseEvent.ShapeID == this.Rect.ID) {

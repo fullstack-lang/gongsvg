@@ -129,7 +129,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Link_horizontal_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Link_horizontal_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Link_horizontal_to_horizontal.StartDirection = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Link_horizontal_to_horizontal.StartRatio = 0.397196
+	__Link__000000_Link_horizontal_to_horizontal.StartRatio = 0.000000
 	__Link__000000_Link_horizontal_to_horizontal.EndDirection = models.ORIENTATION_HORIZONTAL
 	__Link__000000_Link_horizontal_to_horizontal.EndRatio = 0.445214
 	__Link__000000_Link_horizontal_to_horizontal.CornerOffsetRatio = 3.748634
@@ -163,9 +163,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartDirection = models.ORIENTATION_HORIZONTAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.000000
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.397196
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndDirection = models.ORIENTATION_VERTICAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.224719
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.434457
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerOffsetRatio = 0.000000
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Color = `black`
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.FillOpacity = 0.000000

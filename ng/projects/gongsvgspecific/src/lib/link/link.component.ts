@@ -68,6 +68,10 @@ export class LinkComponent implements OnInit, AfterViewInit {
             let segment = this.segments![this.segmentThatIsDragged]
 
             if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+
+              // set up the cursor style
+              document.body.style.cursor = 'ns-resize'
+
               let deltaY = shapeMouseEvent.Point.Y - segment.StartPoint.Y
               if (segment.Number == 0 && deltaY != 0) {
                 let newRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
@@ -100,6 +104,10 @@ export class LinkComponent implements OnInit, AfterViewInit {
               }
             }
             if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+
+              // set up the cursor style
+              document.body.style.cursor = 'ew-resize'
+
               let deltaX = shapeMouseEvent.Point.X - segment.StartPoint.X
               if (segment.Number == 0 && deltaX != 0) {
                 let newRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
@@ -151,6 +159,9 @@ export class LinkComponent implements OnInit, AfterViewInit {
         (shapeMouseEvent: ShapeMouseEvent) => {
 
           if (this.dragging) {
+
+            document.body.style.cursor = ''
+
             let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
             let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
             this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)

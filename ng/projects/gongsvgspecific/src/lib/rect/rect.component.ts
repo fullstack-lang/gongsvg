@@ -68,6 +68,10 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       rectangleEventService.mouseMouseMoveEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
+          const deltaX = shapeMouseEvent.Point.X - this.mousePosRelativeToSvgAtMouseDown.x
+          const deltaY = shapeMouseEvent.Point.Y - this.mousePosRelativeToSvgAtMouseDown.y
+          this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+
           if (this.rectDragging || this.Rect.IsSelected) {
             if (this.Rect?.CanMoveHorizontaly) {
 
@@ -86,8 +90,17 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       rectangleEventService.mouseMouseUpEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
-          if (shapeMouseEvent.ShapeID != this.Rect.ID) {
-            if (this.Rect.IsSelected) {
+          if (this.distanceMoved > this.dragThreshold) {
+            this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+          } else {
+            if (this.Rect?.IsSelectable && shapeMouseEvent.ShapeID == this.Rect.ID) {
+              console.log("rect, onRectClick() toggle selected: ", this.Rect?.Name)
+              this.Rect.IsSelected = !this.Rect.IsSelected
+              this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
+            }
+
+            // mouseup emited from the backgrund let to unselect selected shapes
+            if (this.Rect.IsSelectable && this.Rect.IsSelected && shapeMouseEvent.ShapeID == 0) {
               this.Rect.IsSelected = false
               this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
             }
@@ -196,13 +209,8 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       return
     }
 
-
     let x = event.clientX - this.pageX
     let y = event.clientY - this.pageY
-
-    const deltaX = x - this.mousePosRelativeToSvgAtMouseDown.x;
-    const deltaY = y - this.mousePosRelativeToSvgAtMouseDown.y;
-    this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
     // console.log("RectComponent DragRect : ", deltaX, deltaY, distanceMoved)
 
@@ -223,7 +231,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     let shapeMouseEvent: ShapeMouseEvent = {
       ShapeID: this.Rect!.ID,
-      ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+      ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
       Point: createPoint(x, y),
       SegmentNumber: 0
     }
@@ -231,31 +239,21 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   rectMouseUp(event: MouseEvent): void {
+
     if (!event.altKey && !event.shiftKey) {
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: this.Rect!.ID,
+        ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+        Point: createPoint(x, y),
+        SegmentNumber: 0
+      }
+
+      this.rectangleEventService.emitMouseUpEvent(shapeMouseEvent)
 
       this.rectDragging = false
-
-      if (this.distanceMoved > this.dragThreshold) {
-        this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
-      } else {
-        if (this.Rect?.IsSelectable) {
-          console.log("rect, onRectClick() toggle selected: ", this.Rect?.Name)
-          this.Rect.IsSelected = !this.Rect.IsSelected
-          this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
-
-          let x = event.clientX - this.pageX
-          let y = event.clientY - this.pageY
-
-          let shapeMouseEvent: ShapeMouseEvent = {
-            ShapeID: this.Rect!.ID,
-            ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
-            Point: createPoint(x, y),
-            SegmentNumber: 0
-          }
-
-          this.rectangleEventService.emitMouseUpEvent(shapeMouseEvent)
-        }
-      }
     }
 
     if (event.altKey) {

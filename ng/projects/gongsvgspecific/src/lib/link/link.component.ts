@@ -88,6 +88,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
                   if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
                     newRatio = newOrientationRatio
                     this.Link!.StartOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
+                    this.Link!.StartRatio = newRatio
                     this.drawConnector()
                   } else {
                     if (newRatio < 0) { newRatio = 0 }
@@ -102,6 +103,20 @@ export class LinkComponent implements OnInit, AfterViewInit {
               if (segment.Number == this.segments!.length - 1 && deltaY != 0) {
 
                 let newRatio = (shapeMouseEvent.Point.Y - this.Link!.End!.Y) / this.Link!.End!.Height
+
+                if (newRatio < 0 || newRatio > 1) {
+                  let newOrientationRatio = (shapeMouseEvent.Point.X - this.Link!.End!.X) / this.Link!.End!.Width
+
+                  if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
+                    newRatio = newOrientationRatio
+                    this.Link!.EndOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
+                    this.Link!.EndRatio = newRatio
+                    this.drawConnector()
+                  } else {
+                    if (newRatio < 0) { newRatio = 0 }
+                    if (newRatio > 1) { newRatio = 1 }
+                  }
+                }
                 this.Link!.EndRatio = newRatio
               }
 
@@ -120,8 +135,19 @@ export class LinkComponent implements OnInit, AfterViewInit {
               if (segment.Number == 0 && deltaX != 0) {
                 let newRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
 
-                if (newRatio < 0) { newRatio = 0 }
-                if (newRatio > 1) { newRatio = 1 }
+                if (newRatio < 0 || newRatio > 1) {
+                  let newOrientationRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
+
+                  if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
+                    newRatio = newOrientationRatio
+                    this.Link!.StartOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
+                    this.Link!.StartRatio = newRatio
+                    this.drawConnector()
+                  } else {
+                    if (newRatio < 0) { newRatio = 0 }
+                    if (newRatio > 1) { newRatio = 1 }
+                  }
+                }
                 this.Link!.StartRatio = newRatio
               }
 
@@ -130,8 +156,19 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
                 let newRatio = (shapeMouseEvent.Point.X - this.Link!.End!.X) / this.Link!.End!.Width
 
-                if (newRatio < 0) { newRatio = 0 }
-                if (newRatio > 1) { newRatio = 1 }
+                if (newRatio < 0 || newRatio > 1) {
+                  let newOrientationRatio = (shapeMouseEvent.Point.Y - this.Link!.End!.Y) / this.Link!.End!.Height
+
+                  if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
+                    newRatio = newOrientationRatio
+                    this.Link!.EndOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
+                    this.Link!.EndRatio = newRatio
+                    this.drawConnector()
+                  } else {
+                    if (newRatio < 0) { newRatio = 0 }
+                    if (newRatio > 1) { newRatio = 1 }
+                  }
+                }
                 this.Link!.EndRatio = newRatio
               }
 

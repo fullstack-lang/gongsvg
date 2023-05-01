@@ -63,10 +63,9 @@ export class LinkComponent implements OnInit, AfterViewInit {
           if (shapeMouseEvent.ShapeID === this.Link?.ID && this.dragging) {
             let segment = this.segments![shapeMouseEvent.SegmentNumber]
 
-            let deltaY = shapeMouseEvent.Point.Y - segment.StartPoint.Y
             if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+              let deltaY = shapeMouseEvent.Point.Y - segment.StartPoint.Y
               if (segment.Number == 0 && deltaY != 0) {
-                // let new = ((segment.Start.Y + deltaY) - this.Link!.Start!.Y) 
                 let newRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
                 // console.log("shapeMouseEvent.Point.Y\t\t", shapeMouseEvent.Point.Y)
                 // console.log("this.Link!.Start!.Y\t\t", this.Link!.Start!.Y)
@@ -75,10 +74,51 @@ export class LinkComponent implements OnInit, AfterViewInit {
                 // console.log("Old ratio\t\t\t", this.Link!.StartRatio)
                 // console.log("New ratio\t\t\t", newRatio)
 
+                if (newRatio < 0) { newRatio = 0 }
+                if (newRatio > 1) { newRatio = 1 }
+                this.Link!.StartRatio = newRatio
+              }
+
+              // last segment
+              if (segment.Number == this.segments!.length - 1 && deltaY != 0) {
+
+                let newRatio = (shapeMouseEvent.Point.Y - this.Link!.End!.Y) / this.Link!.End!.Height
+
+                if (newRatio < 0) { newRatio = 0 }
+                if (newRatio > 1) { newRatio = 1 }
+                this.Link!.EndRatio = newRatio
+              }
+
+              // middle segment
+              if (this.segments!.length == 3 && segment.Number == 1 && deltaY != 0) {
+                let newRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
+                this.Link!.CornerOffsetRatio = newRatio
+              }
+            }
+            if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+              let deltaX = shapeMouseEvent.Point.X - segment.StartPoint.X
+              if (segment.Number == 0 && deltaX != 0) {
+                let newRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
 
                 if (newRatio < 0) { newRatio = 0 }
                 if (newRatio > 1) { newRatio = 1 }
                 this.Link!.StartRatio = newRatio
+              }
+
+              // last segment
+              if (segment.Number == this.segments!.length - 1 && deltaX != 0) {
+
+                let newRatio = (shapeMouseEvent.Point.X - this.Link!.End!.X) / this.Link!.End!.Width
+
+                if (newRatio < 0) { newRatio = 0 }
+                if (newRatio > 1) { newRatio = 1 }
+                this.Link!.EndRatio = newRatio
+              }
+
+              // middle segment
+              if (this.segments!.length == 3 && segment.Number == 1 && deltaX != 0) {
+                let newRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
+                this.Link!.CornerOffsetRatio = newRatio
               }
             }
           }
@@ -91,28 +131,23 @@ export class LinkComponent implements OnInit, AfterViewInit {
         (shapeMouseEvent: ShapeMouseEvent) => {
 
           if (shapeMouseEvent.ShapeID === this.Link?.ID && this.dragging) {
-            let segment = this.segments![shapeMouseEvent.SegmentNumber]
 
-            if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
-              if (segment.Number == 0) {
+            let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
+            let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
+            this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
-                let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
-                let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
-                this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
-
-                if (this.distanceMoved < this.dragThreshold) {
-                  console.log("Link, link selected selected: ", this.Link?.Name)
-                } else {
-                  this.linkService.updateLink(this.Link!, this.GONG__StackPath).subscribe(
-                    link => {
-                      // console.log("Updated", link.ID)
-                    }
-                  )
+            if (this.distanceMoved < this.dragThreshold) {
+              console.log("Link, link selected selected: ", this.Link?.Name)
+            } else {
+              this.linkService.updateLink(this.Link!, this.GONG__StackPath).subscribe(
+                link => {
+                  // console.log("Updated", link.ID)
                 }
-              }
-              this.dragging = false
+              )
             }
+
           }
+          this.dragging = false
         })
     )
   }

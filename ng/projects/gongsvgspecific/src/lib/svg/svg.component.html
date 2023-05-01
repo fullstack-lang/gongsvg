@@ -1,14 +1,8 @@
-<div #drawingArea
-    class="parent" 
-    (click)="onClick($event)">
+<div #drawingArea class="parent" (click)="onClick($event)">
 
     <!-- the background is the part of the screen where 
     no shapes appears. It is useful for certain events -->
-    <div class="background" 
-    (mousedown)="startSelectionDrag($event)" 
-    (mousemove)="mousemove($event)"
-    (mouseup)="endSelectionDrag($event)"
-    >
+    <div class="background" (mousedown)="mousedown($event)" (mousemove)="mousemove($event)" (mouseup)="onmouseup($event)">
 
     </div>
 
@@ -18,24 +12,16 @@
         </lib-layer>
     </div>
 
-    <div >
+    <div>
         <svg *ngIf="linkDrawing" class="link_trace">
             <g>
-                <line 
-                [attr.x1]="startX" [attr.y1]="startY" 
-                [attr.x2]="endX" [attr.y2]="endY" 
-                stroke="black" stroke-dasharray="5,5" 
-                [attr.stroke-width]="2">
+                <line [attr.x1]="startX" [attr.y1]="startY" [attr.x2]="endX" [attr.y2]="endY" stroke="black" stroke-dasharray="5,5" [attr.stroke-width]="2">
                 </line>
             </g>
         </svg>
         <svg *ngIf="selectionRectDrawing" class="link_trace">
             <g>
-                <rect 
-                [attr.x]="rectX" [attr.y]="rectY" 
-                [attr.width]="width" 
-                [attr.height]="height" 
-                stroke-dasharray="5,5" stroke="black" stroke-width="2" fill="none" />
+                <rect [attr.x]="rectX" [attr.y]="rectY" [attr.width]="width" [attr.height]="height" stroke-dasharray="5,5" stroke="black" stroke-width="2" fill="none" />
             </g>
         </svg>
     </div>

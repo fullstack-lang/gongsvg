@@ -6,6 +6,7 @@ import { LinkEventService } from '../link-event.service';
 import { Point } from 'leaflet';
 import { Subscription } from 'rxjs';
 import { ShapeMouseEvent } from '../shape.mouse.event';
+import { MouseEventService } from '../mouse-event.service';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
   // to compute wether it was a select / dragging event
   dragging = false
+  segmentThatIsDragged = 0
 
   // offset between the cursor at the start and the top left corner
   offsetX = 0;
@@ -46,7 +48,9 @@ export class LinkComponent implements OnInit, AfterViewInit {
   constructor(
     private linkService: gongsvg.LinkService,
     private linkEventService: LinkEventService,
-    private elementRef: ElementRef) {
+    private mouseEventService: MouseEventService,
+    private elementRef: ElementRef,
+  ) {
 
     this.subscriptions.push(
       linkEventService.mouseMouseDownEvent$.subscribe(
@@ -60,10 +64,14 @@ export class LinkComponent implements OnInit, AfterViewInit {
       linkEventService.mouseMouseMoveEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
-          if (shapeMouseEvent.ShapeID === this.Link?.ID && this.dragging) {
-            let segment = this.segments![shapeMouseEvent.SegmentNumber]
+          if (this.dragging) {
+            let segment = this.segments![this.segmentThatIsDragged]
 
             if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+
+              // set up the cursor style
+              document.body.style.cursor = 'ns-resize'
+
               let deltaY = shapeMouseEvent.Point.Y - segment.StartPoint.Y
               if (segment.Number == 0 && deltaY != 0) {
                 let newRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
@@ -96,6 +104,10 @@ export class LinkComponent implements OnInit, AfterViewInit {
               }
             }
             if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+
+              // set up the cursor style
+              document.body.style.cursor = 'ew-resize'
+
               let deltaX = shapeMouseEvent.Point.X - segment.StartPoint.X
               if (segment.Number == 0 && deltaX != 0) {
                 let newRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
@@ -126,11 +138,29 @@ export class LinkComponent implements OnInit, AfterViewInit {
         })
     )
 
+    // getting event from the background (when the mouse moves faster than the link)
+    this.subscriptions.push(
+      mouseEventService.mouseMouseMoveEvent$.subscribe(
+        (shapeMouseEvent: ShapeMouseEvent) => {
+          this.linkEventService.emitMouseMoveEvent(shapeMouseEvent)
+        }
+      )
+    )
+    this.subscriptions.push(
+      mouseEventService.mouseMouseUpEvent$.subscribe(
+        (shapeMouseEvent: ShapeMouseEvent) => {
+          this.linkEventService.emitMouseUpEvent(shapeMouseEvent)
+        }
+      )
+    )
+
     this.subscriptions.push(
       linkEventService.mouseMouseUpEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
-          if (shapeMouseEvent.ShapeID === this.Link?.ID && this.dragging) {
+          if (this.dragging) {
+
+            document.body.style.cursor = ''
 
             let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
             let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
@@ -205,12 +235,12 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
       // this link shit to dragging state
       this.dragging = true
+      this.segmentThatIsDragged = segmentNumber
 
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: this.Link!.ID,
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
-        SegmentNumber: segmentNumber
       }
       this.linkEventService.emitMouseDownEvent(shapeMouseEvent)
     }
@@ -226,7 +256,6 @@ export class LinkComponent implements OnInit, AfterViewInit {
         ShapeID: this.Link!.ID,
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
-        SegmentNumber: segmentNumber
       }
       this.linkEventService.emitMouseMoveEvent(shapeMouseEvent)
     }
@@ -243,7 +272,6 @@ export class LinkComponent implements OnInit, AfterViewInit {
         ShapeID: this.Link!.ID,
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
-        SegmentNumber: segmentNumber
       }
       this.linkEventService.emitMouseUpEvent(shapeMouseEvent)
     }

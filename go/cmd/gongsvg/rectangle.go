@@ -129,10 +129,10 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Link_horizontal_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Link_horizontal_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Link_horizontal_to_horizontal.StartDirection = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Link_horizontal_to_horizontal.StartRatio = 0.359840
+	__Link__000000_Link_horizontal_to_horizontal.StartRatio = 0.000000
 	__Link__000000_Link_horizontal_to_horizontal.EndDirection = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Link_horizontal_to_horizontal.EndRatio = 0.087591
-	__Link__000000_Link_horizontal_to_horizontal.CornerOffsetRatio = 2.781421
+	__Link__000000_Link_horizontal_to_horizontal.EndRatio = 0.445214
+	__Link__000000_Link_horizontal_to_horizontal.CornerOffsetRatio = 3.748634
 	__Link__000000_Link_horizontal_to_horizontal.Color = ``
 	__Link__000000_Link_horizontal_to_horizontal.FillOpacity = 0.000000
 	__Link__000000_Link_horizontal_to_horizontal.Stroke = `red`
@@ -147,8 +147,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000001_Link_vertical_to_vertical.StartDirection = models.ORIENTATION_VERTICAL
 	__Link__000001_Link_vertical_to_vertical.StartRatio = 0.349727
 	__Link__000001_Link_vertical_to_vertical.EndDirection = models.ORIENTATION_VERTICAL
-	__Link__000001_Link_vertical_to_vertical.EndRatio = 0.303371
-	__Link__000001_Link_vertical_to_vertical.CornerOffsetRatio = 0.831802
+	__Link__000001_Link_vertical_to_vertical.EndRatio = 0.617978
+	__Link__000001_Link_vertical_to_vertical.CornerOffsetRatio = 1.383178
 	__Link__000001_Link_vertical_to_vertical.Color = ``
 	__Link__000001_Link_vertical_to_vertical.FillOpacity = 0.000000
 	__Link__000001_Link_vertical_to_vertical.Stroke = `coral`
@@ -163,9 +163,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartDirection = models.ORIENTATION_HORIZONTAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.261709
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.397196
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndDirection = models.ORIENTATION_VERTICAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.500000
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.434457
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerOffsetRatio = 0.000000
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Color = `black`
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.FillOpacity = 0.000000
@@ -181,9 +181,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartDirection = models.ORIENTATION_VERTICAL
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.786885
+	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.732240
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndDirection = models.ORIENTATION_HORIZONTAL
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.948905
+	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.744484
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 0.000000
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Color = ``
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.FillOpacity = 0.000000
@@ -195,8 +195,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 407.000000
-	__Rect__000000_Bottom.Y = 103.005684
+	__Rect__000000_Bottom.X = 423.000000
+	__Rect__000000_Bottom.Y = 248.005684
 	__Rect__000000_Bottom.Width = 267.000000
 	__Rect__000000_Bottom.Height = 137.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -222,8 +222,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 132.000000
-	__Rect__000001_Top.Y = 96.000000
+	__Rect__000001_Top.X = 80.000000
+	__Rect__000001_Top.Y = 126.000000
 	__Rect__000001_Top.Width = 183.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000

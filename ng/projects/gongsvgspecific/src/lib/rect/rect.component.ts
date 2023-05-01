@@ -9,6 +9,7 @@ import * as gongsvg from 'gongsvg'
 import { Subscription } from 'rxjs';
 import { ShapeMouseEvent } from '../shape.mouse.event';
 import { createPoint } from '../link/draw.segments';
+import { MouseEventService } from '../mouse-event.service';
 
 @Component({
   selector: 'lib-rect',
@@ -47,6 +48,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private rectService: gongsvg.RectService,
     private rectangleEventService: RectangleEventService,
+    private mouseEventService: MouseEventService,
     private svgEventService: SvgEventService,
     private elementRef: ElementRef) {
 
@@ -221,12 +223,15 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
-    let shapeMouseEvent: ShapeMouseEvent = {
-      ShapeID: this.Rect!.ID,
-      ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
-      Point: createPoint(x, y),
+    if (!event.altKey && !event.shiftKey) {
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: this.Rect!.ID,
+        ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+        Point: createPoint(x, y),
+      }
+      this.rectangleEventService.emitMouseMoveEvent(shapeMouseEvent)
+      this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
     }
-    this.rectangleEventService.emitMouseMoveEvent(shapeMouseEvent)
   }
 
   rectMouseUp(event: MouseEvent): void {
@@ -242,6 +247,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       this.rectangleEventService.emitMouseUpEvent(shapeMouseEvent)
+      this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
 
       this.rectDragging = false
     }

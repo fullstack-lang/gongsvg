@@ -148,11 +148,11 @@ type LinkWOP struct {
 
 	EndAnchorType models.AnchorType `xlsx:"4"`
 
-	StartDirection models.DirectionType `xlsx:"5"`
+	StartDirection models.OrientationType `xlsx:"5"`
 
 	StartRatio float64 `xlsx:"6"`
 
-	EndDirection models.DirectionType `xlsx:"7"`
+	EndDirection models.OrientationType `xlsx:"7"`
 
 	EndRatio float64 `xlsx:"8"`
 

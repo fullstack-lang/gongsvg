@@ -12,7 +12,7 @@ import { MapOfSortingComponents } from '../map-components'
 // insertion point for imports
 import { LinkTypeSelect, LinkTypeList } from '../LinkType'
 import { AnchorTypeSelect, AnchorTypeList } from '../AnchorType'
-import { DirectionTypeSelect, DirectionTypeList } from '../DirectionType'
+import { OrientationTypeSelect, OrientationTypeList } from '../OrientationType'
 import { LayerDB } from '../layer-db'
 
 import { Router, ActivatedRoute } from '@angular/router';
@@ -40,7 +40,7 @@ export class LinkDetailComponent implements OnInit {
 	// insertion point for declarations
 	LinkTypeList: LinkTypeSelect[] = []
 	AnchorTypeList: AnchorTypeSelect[] = []
-	DirectionTypeList: DirectionTypeSelect[] = []
+	OrientationTypeList: OrientationTypeSelect[] = []
 
 	// the LinkDB of interest
 	link: LinkDB = new LinkDB
@@ -124,7 +124,7 @@ export class LinkDetailComponent implements OnInit {
 		// insertion point for initialisation of enums list
 		this.LinkTypeList = LinkTypeList
 		this.AnchorTypeList = AnchorTypeList
-		this.DirectionTypeList = DirectionTypeList
+		this.OrientationTypeList = OrientationTypeList
 	}
 
 	getLink(): void {

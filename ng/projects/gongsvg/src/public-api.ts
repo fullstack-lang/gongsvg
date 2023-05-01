@@ -97,7 +97,7 @@ export * from './lib/text.service'
 
 export * from './lib/AnchorType'
 export * from './lib/ColorType'
-export * from './lib/DirectionType'
 export * from './lib/DrawingState'
 export * from './lib/LinkType'
+export * from './lib/OrientationType'
 export * from './lib/SideType'

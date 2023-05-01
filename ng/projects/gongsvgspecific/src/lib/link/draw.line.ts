@@ -5,12 +5,12 @@ import { Segment, createPoint, createSegment } from './draw.segments';
 export function drawLinePointRect(
     point: gongsvg.PointDB,
     rect: gongsvg.RectDB,
-    direction: gongsvg.DirectionType,
+    direction: gongsvg.OrientationType,
     number: number):
     Segment {
     let segment = createSegment(point, createPoint(0, 0), direction, number)
 
-    if (direction === gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
+    if (direction === gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
         if (point.X <= rect.X + rect.Width / 2) {
             const endPoint = createPoint(rect.X, point.Y)
             segment.EndPoint = endPoint
@@ -20,7 +20,7 @@ export function drawLinePointRect(
             segment.EndPoint = endPoint
         }
     }
-    if (direction === gongsvg.DirectionType.DIRECTION_VERTICAL) {
+    if (direction === gongsvg.OrientationType.ORIENTATION_VERTICAL) {
         if (point.Y <= rect.Y + rect.Height / 2) {
             const endPoint = createPoint(point.X, rect.Y)
             segment.EndPoint = endPoint

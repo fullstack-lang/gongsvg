@@ -4,8 +4,8 @@ import { drawLinePointRect } from './draw.line';
 export type ConnectorParams = {
     StartRect: gongsvg.RectDB
     EndRect: gongsvg.RectDB
-    StartDirection: gongsvg.DirectionType
-    EndDirection: gongsvg.DirectionType
+    StartDirection: gongsvg.OrientationType
+    EndDirection: gongsvg.OrientationType
     StartRatio: number
     EndRatio: number
     CornerOffsetRatio: number
@@ -14,13 +14,13 @@ export type ConnectorParams = {
 export type Segment = {
     StartPoint: gongsvg.PointDB,
     EndPoint: gongsvg.PointDB
-    Orientation: gongsvg.DirectionType
+    Orientation: gongsvg.OrientationType
     Number: number
 }
 export function createSegment(
     start: gongsvg.PointDB,
     end: gongsvg.PointDB,
-    orientaion: gongsvg.DirectionType,
+    orientaion: gongsvg.OrientationType,
     number: number): Segment {
     return { StartPoint: start, EndPoint: end, Orientation: orientaion, Number: number }
 }
@@ -44,8 +44,8 @@ export function drawSegments(params: ConnectorParams): Segment[] {
         CornerOffsetRatio: CornerOffsetRatio } = params;
     const segments: Segment[] = []
 
-    if (StartDirection === gongsvg.DirectionType.DIRECTION_HORIZONTAL &&
-        EndDirection === gongsvg.DirectionType.DIRECTION_VERTICAL) {
+    if (StartDirection === gongsvg.OrientationType.ORIENTATION_HORIZONTAL &&
+        EndDirection === gongsvg.OrientationType.ORIENTATION_VERTICAL) {
 
         const startY = StartRect.Y + StartRatio * StartRect.Height
         const c1_X = EndRect.X + EndRatio * EndRect.Width
@@ -60,8 +60,8 @@ export function drawSegments(params: ConnectorParams): Segment[] {
         segments.push(firstSegment, secondSegment)
     }
 
-    if (StartDirection === gongsvg.DirectionType.DIRECTION_VERTICAL &&
-        EndDirection === gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
+    if (StartDirection === gongsvg.OrientationType.ORIENTATION_VERTICAL &&
+        EndDirection === gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
 
         const startX = StartRect.X + StartRatio * StartRect.Width
         const c1_X = startX
@@ -75,8 +75,8 @@ export function drawSegments(params: ConnectorParams): Segment[] {
         segments.push(firstSegment, secondSegment)
     }
 
-    if (StartDirection === gongsvg.DirectionType.DIRECTION_HORIZONTAL &&
-        EndDirection === gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
+    if (StartDirection === gongsvg.OrientationType.ORIENTATION_HORIZONTAL &&
+        EndDirection === gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
 
         const c1_X = StartRect.X + CornerOffsetRatio * StartRect.Width
         const c1_Y = StartRect.Y + StartRatio * StartRect.Height
@@ -89,15 +89,15 @@ export function drawSegments(params: ConnectorParams): Segment[] {
         const c2 = createPoint(c2_X, c2_Y)
 
         const firstSegment = drawLinePointRect(c1, StartRect, StartDirection, 0)
-        const secondSegment = createSegment(c1, c2, gongsvg.DirectionType.DIRECTION_VERTICAL, 1)
+        const secondSegment = createSegment(c1, c2, gongsvg.OrientationType.ORIENTATION_VERTICAL, 1)
         const thirdSegment = drawLinePointRect(c2, EndRect, EndDirection, 2)
 
 
         segments.push(firstSegment, secondSegment, thirdSegment)
     }
 
-    if (StartDirection === gongsvg.DirectionType.DIRECTION_VERTICAL &&
-        EndDirection === gongsvg.DirectionType.DIRECTION_VERTICAL) {
+    if (StartDirection === gongsvg.OrientationType.ORIENTATION_VERTICAL &&
+        EndDirection === gongsvg.OrientationType.ORIENTATION_VERTICAL) {
 
         const c1_X = StartRect.X + StartRatio * StartRect.Width
         const c1_Y = StartRect.Y + CornerOffsetRatio * StartRect.Height
@@ -110,7 +110,7 @@ export function drawSegments(params: ConnectorParams): Segment[] {
         const c2 = createPoint(c2_X, c2_Y)
 
         const firstSegment = drawLinePointRect(c1, StartRect, StartDirection, 0)
-        const secondSegment = createSegment(c1, c2, gongsvg.DirectionType.DIRECTION_HORIZONTAL, 1)
+        const secondSegment = createSegment(c1, c2, gongsvg.OrientationType.ORIENTATION_HORIZONTAL, 1)
         const thirdSegment = drawLinePointRect(c2, EndRect, EndDirection, 2)
 
 

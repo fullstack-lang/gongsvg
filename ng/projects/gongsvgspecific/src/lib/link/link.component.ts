@@ -61,12 +61,10 @@ export class LinkComponent implements OnInit, AfterViewInit {
         (shapeMouseEvent: ShapeMouseEvent) => {
 
           if (shapeMouseEvent.ShapeID === this.Link?.ID && this.dragging) {
-
-
             let segment = this.segments![shapeMouseEvent.SegmentNumber]
 
             let deltaY = shapeMouseEvent.Point.Y - segment.StartPoint.Y
-            if (segment.Orientation == gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
+            if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
               if (segment.Number == 0 && deltaY != 0) {
                 // let new = ((segment.Start.Y + deltaY) - this.Link!.Start!.Y) 
                 let newRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
@@ -95,7 +93,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
           if (shapeMouseEvent.ShapeID === this.Link?.ID && this.dragging) {
             let segment = this.segments![shapeMouseEvent.SegmentNumber]
 
-            if (segment.Orientation == gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
+            if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
               if (segment.Number == 0) {
 
                 let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
@@ -226,8 +224,8 @@ export class LinkComponent implements OnInit, AfterViewInit {
     this.connectorParams = {
       StartRect: link.Start!,
       EndRect: link.End!,
-      StartDirection: link.StartDirection! as gongsvg.DirectionType,
-      EndDirection: link.EndDirection! as gongsvg.DirectionType,
+      StartDirection: link.StartDirection! as gongsvg.OrientationType,
+      EndDirection: link.EndDirection! as gongsvg.OrientationType,
       StartRatio: link.StartRatio,
       EndRatio: link.EndRatio,
       CornerOffsetRatio: link.CornerOffsetRatio,
@@ -239,9 +237,9 @@ export class LinkComponent implements OnInit, AfterViewInit {
   }
 
   getOrientation(segment: Segment): 'horizontal' | 'vertical' | null {
-    if (segment.Orientation == gongsvg.DirectionType.DIRECTION_HORIZONTAL) {
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
       return 'horizontal';
-    } else if (segment.Orientation == gongsvg.DirectionType.DIRECTION_VERTICAL) {
+    } else if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
       return 'vertical';
     } else {
       return null; // You can return null or another value if the line is not strictly horizontal or vertical

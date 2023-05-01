@@ -74,7 +74,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
           if (this.rectDragging || this.Rect.IsSelected) {
             if (this.Rect?.CanMoveHorizontaly) {
-
               this.Rect.X = this.RectAtMouseDown!.X +
                 (shapeMouseEvent.Point.X - this.mousePosRelativeToSvgAtMouseDown.x)
             }
@@ -147,9 +146,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         })
     );
-
-
-
   }
 
   ngOnInit(): void {
@@ -204,10 +200,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   rectMouseMove(event: MouseEvent): void {
-
-    if (!this.rectDragging) {
-      return
-    }
 
     let x = event.clientX - this.pageX
     let y = event.clientY - this.pageY

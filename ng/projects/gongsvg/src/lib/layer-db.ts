@@ -14,6 +14,9 @@ import { SVGDB } from './svg-db'
 import { NullInt64 } from './null-int64'
 
 export class LayerDB {
+
+	static GONGSTRUCT_NAME = "Layer"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

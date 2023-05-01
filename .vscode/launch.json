@@ -12,7 +12,7 @@
             "webRoot": "${workspaceFolder}/ng",
         },
         {
-            "name": "Launch Chrome currently tweaking",
+            "name": "Launch Chrome",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
@@ -45,29 +45,6 @@
             "program": "${workspaceFolder}/go/cmd/colorgrid",
             "args": [
                 "-port=8080"
-            ]
-        },
-        {
-            "name": "Launch firefox appv localhost:4200",
-            "type": "firefox",
-            "request": "launch",
-            "firefoxExecutable": "C:/Users/peugeot/AppData/Local/Microsoft/AppV/Client/Integration/F8B22858-413B-4241-955C-7CDA2C0B6696/Root/VFS/ProgramFilesX64/Mozilla Firefox/firefox.exe",
-            "reAttach": true,
-            "url": "http://localhost:4200/",
-            "webRoot": "${workspaceFolder}/ng",
-            "reloadOnChange": {
-                "watch": [
-                    "${workspaceFolder}/**/*.js"
-                ],
-                "ignore": [
-                    "${workspaceFolder}/node_modules/**"
-                ]
-            },
-            "pathMappings": [
-                {
-                    "url": "webpack:///projects",
-                    "path": "${workspaceFolder}/ng/projects"
-                }
             ]
         },
         {

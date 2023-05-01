@@ -5,6 +5,8 @@ import { Coordinate, RectangleEventService } from '../rectangle-event.service';
 import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.service';
 
 import * as gongsvg from 'gongsvg'
+import { ShapeMouseEvent } from '../shape.mouse.event';
+import { createPoint } from '../link/draw.segments';
 
 @Component({
   selector: 'lib-svg',
@@ -22,7 +24,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
   // the checkCommiNbFromBagetCommitNbFromBackTimer polls the commit number of the back repo
   // if the commit number has increased, it pulls the front repo and redraw the diagram
   checkCommiNbFromBagetCommitNbFromBackTimer: Observable<number> = timer(500, 500);
-  lastCommiNbFromBagetCommitNbFromBack = -1
+  lastCommitNbFromBack = -1
   lastPushFromFrontNb = -1
   currTime: number = 0
 
@@ -56,12 +58,11 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     private svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
     private svgEventService: SvgEventService,
-    private elementRef: ElementRef,
   ) {
 
     this.subscriptions.push(
       rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe(
-        ({ rectangleID: rectangleID, Coordinate: coordinate }) => {
+        ({ rectangleID: rectangleID, MousePosRelativeSVG: coordinate }) => {
           // console.log('SvgComponent, Mouse down event occurred on rectangle ', rectangleID, " at ", coordinate)
           this.linkStartRectangleID = rectangleID
 
@@ -147,11 +148,22 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     // see above for the explanation
     this.gongsvgNbFromBackService.getCommitNbFromBack(500, this.GONG__StackPath).subscribe(
       commiNbFromBagetCommitNbFromBack => {
-        if (this.lastCommiNbFromBagetCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
+        if (this.lastCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
 
           // console.log("last commit nb " + this.lastCommiNbFromBagetCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
           this.refresh()
-          this.lastCommiNbFromBagetCommitNbFromBack = commiNbFromBagetCommitNbFromBack
+          this.lastCommitNbFromBack = commiNbFromBagetCommitNbFromBack
+        }
+      }
+    )
+
+    this.gongsvgPushFromFrontNbService.getPushNbFromFront(500, this.GONG__StackPath).subscribe(
+      commiNbFromBagetCommitNbFromBack => {
+        if (this.lastCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
+
+          // console.log("last commit nb " + this.lastCommiNbFromBagetCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
+          this.refresh()
+          this.lastCommitNbFromBack = commiNbFromBagetCommitNbFromBack
         }
       }
     )
@@ -235,7 +247,18 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     // an event is emitted for all rects to go on a unselect mode
     if (!event.altKey && !event.shiftKey) {
       console.log("SVG : on click()")
-      this.rectangleEventService.emitRectMouseUpEvent(0)
+
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: 0,
+        ShapeType: "",
+        Point: createPoint(x, y),
+        SegmentNumber: 0
+      }
+
+      this.rectangleEventService.emitMouseUpEvent(shapeMouseEvent)
     }
   }
 

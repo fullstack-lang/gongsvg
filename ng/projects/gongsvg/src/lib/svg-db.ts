@@ -6,6 +6,9 @@ import { RectDB } from './rect-db'
 import { NullInt64 } from './null-int64'
 
 export class SVGDB {
+
+	static GONGSTRUCT_NAME = "SVG"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

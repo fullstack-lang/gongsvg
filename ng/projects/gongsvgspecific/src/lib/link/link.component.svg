@@ -12,7 +12,7 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform" 
             
-            (mousedown)="linkMouseDown($event)" 
+            (mousedown)="linkMouseDown($event, 0)" 
             (mousemove)="linkMouseMove($event)" 
             (mouseup)="linkMouseUp($event)"
             
@@ -34,7 +34,7 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform" 
             
-            (mousedown)="linkMouseDown($event)" 
+            (mousedown)="linkMouseDown($event, 0)" 
             />
 
         <line class="overlay" 
@@ -49,7 +49,7 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform"
 
-            (mousedown)="linkMouseDown($event)" 
+            (mousedown)="linkMouseDown($event, 0)" 
             />
     </g>
 </svg>
@@ -69,83 +69,40 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform" 
 
-            (mousedown)="linkMouseDown($event)" 
+            (mousedown)="linkMouseDown($event, 0)" 
             />
     </g>
     </svg>
 </svg>
 
-<svg *ngIf="isFloatingOrthogonal && Link && drawConnector() && points" class="svg">
+<svg *ngIf="isFloatingOrthogonal && Link && drawConnector() && segments" class="svg">
     <g>
-        <line class="overlay" 
-            [attr.x1]="points[0][0].X" 
-            [attr.y1]="points[0][0].Y" 
-            [attr.x2]="points[0][1].X" 
-            [attr.y2]="points[0][1].Y"
+        <line *ngFor='let segment of segments' class="overlay" 
+            [attr.x1]="segment.StartPoint.X" 
+            [attr.y1]="segment.StartPoint.Y" 
+            [attr.x2]="segment.EndPoint.X" 
+            [attr.y2]="segment.EndPoint.Y"
             [attr.fill]="Link.Color"
             [attr.fill-opacity]="Link.FillOpacity" 
             [attr.stroke]="Link.Stroke" 
             [attr.stroke-width]="Link.StrokeWidth"
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
+            [attr.segment-orientation]="getOrientation(segment)"
+            [attr.segment-number]="segment.Number"
             
-            (mousedown)="linkMouseDown($event)" 
-            (mousemove)="linkMouseMove($event)" 
+            (mousedown)="linkMouseDown($event, segment.Number)" 
+            (mousemove)="linkMouseMove($event, segment.Number)" 
             (mouseup)="linkMouseUp($event)"
             
             />
-
         <!-- <circle class="overlay" 
-            [attr.r]="10" 
-            [attr.cx]="points[0][1].X" 
-            [attr.cy]="points[0][1].Y"
-            [attr.fill]="Link.Color"
-            [attr.fill-opacity]="Link.FillOpacity" 
-            [attr.stroke]="Link.Stroke" 
-            [attr.stroke-width]="Link.StrokeWidth"
-            [attr.stroke-dasharray]="Link.StrokeDashArray" 
-            
-            (mousedown)="linkMouseDown($event)" 
-            (mousemove)="linkMouseMove($event)" 
-            (mouseup)="linkMouseUp($event)"
-            
-            /> -->
 
-        <!-- <circle class="overlay" 
-            [attr.r]="20" 
-            [attr.cx]="points[0][0].X" 
-            [attr.cy]="points[0][0].Y"
-            [attr.fill]="Link.Color"
-            [attr.fill-opacity]="Link.FillOpacity" 
-            [attr.stroke]="Link.Stroke" 
-            [attr.stroke-width]="Link.StrokeWidth"
-            [attr.stroke-dasharray]="Link.StrokeDashArray" 
-            
-            (mousedown)="linkMouseDown($event)" 
-            (mousemove)="linkMouseMove($event)" 
-            (mouseup)="linkMouseUp($event)"
-            
-            /> -->
+                    (mouseenter)="onMouseEnter($event)"
+            (mouseleave)="onMouseLeave($event)"
 
-                 <!-- <circle class="overlay" 
-            [attr.r]="15" 
-            [attr.cx]="points[1][1].X" 
-            [attr.cy]="points[1][1].Y"
-            [attr.fill]="Link.Color"
-            [attr.fill-opacity]="Link.FillOpacity" 
-            [attr.stroke]="Link.Stroke" 
-            [attr.stroke-width]="Link.StrokeWidth"
-            [attr.stroke-dasharray]="Link.StrokeDashArray" 
-            
-            (mousedown)="linkMouseDown($event)" 
-            (mousemove)="linkMouseMove($event)" 
-            (mouseup)="linkMouseUp($event)"
-            
-            /> -->
-<!-- 
-        <circle class="overlay" 
             [attr.r]="25" 
-            [attr.cx]="points[1][0].X" 
-            [attr.cy]="points[1][0].Y"
+            [attr.cx]="segments[1][0].X" 
+            [attr.cy]="segments[1][0].Y"
             [attr.fill]="Link.Color"
             [attr.fill-opacity]="Link.FillOpacity" 
             [attr.stroke]="Link.Stroke" 
@@ -157,36 +114,5 @@
             (mouseup)="linkMouseUp($event)"
             
             /> -->
-        <line *ngIf="points[1]" class="overlay" 
-            [attr.x1]="points[1][0].X" 
-            [attr.y1]="points[1][0].Y" 
-            [attr.x2]="points[1][1].X" 
-            [attr.y2]="points[1][1].Y"
-            [attr.fill]="Link.Color"
-            [attr.fill-opacity]="Link.FillOpacity" 
-            [attr.stroke]="Link.Stroke" 
-            [attr.stroke-width]="Link.StrokeWidth"
-            [attr.stroke-dasharray]="Link.StrokeDashArray" 
-            
-            (mousedown)="linkMouseDown($event)" 
-            (mousemove)="linkMouseMove($event)" 
-            (mouseup)="linkMouseUp($event)"
-            />
-
-        <line *ngIf="points[2]" class="overlay" 
-            [attr.x1]="points[2][0].X" 
-            [attr.y1]="points[2][0].Y" 
-            [attr.x2]="points[2][1].X" 
-            [attr.y2]="points[2][1].Y"
-            [attr.fill]="Link.Color"
-            [attr.fill-opacity]="Link.FillOpacity" 
-            [attr.stroke]="Link.Stroke" 
-            [attr.stroke-width]="Link.StrokeWidth"
-            [attr.stroke-dasharray]="Link.StrokeDashArray" 
-            
-            (mousedown)="linkMouseDown($event)" 
-            (mousemove)="linkMouseMove($event)" 
-            (mouseup)="linkMouseUp($event)"
-            />
     </g>
 </svg>

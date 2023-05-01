@@ -7,6 +7,9 @@ import { LayerDB } from './layer-db'
 import { NullInt64 } from './null-int64'
 
 export class LinkDB {
+
+	static GONGSTRUCT_NAME = "Link"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

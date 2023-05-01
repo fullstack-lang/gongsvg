@@ -15,9 +15,9 @@ type Link struct {
 
 	// if link type is floating orthogonal ratio, from 0 to 1,
 	// where the anchor starts on the edge (horizontal / vertical)
-	StartDirection DirectionType
+	StartDirection OrientationType
 	StartRatio     float64
-	EndDirection   DirectionType
+	EndDirection   OrientationType
 	EndRatio       float64
 
 	// in case StartDirection is the same as EndDirection,

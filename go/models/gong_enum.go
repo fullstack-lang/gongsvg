@@ -1298,62 +1298,6 @@ func (colortype *ColorType) ToCodeString() (res string) {
 	return
 }
 
-// Utility function for DirectionType
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (directiontype DirectionType) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch directiontype {
-	// insertion code per enum code
-	case DIRECTION_HORIZONTAL:
-		res = "DIRECTION_HORIZONTAL"
-	case DIRECTION_VERTICAL:
-		res = "DIRECTION_VERTICAL"
-	}
-	return
-}
-
-func (directiontype *DirectionType) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "DIRECTION_HORIZONTAL":
-		*directiontype = DIRECTION_HORIZONTAL
-	case "DIRECTION_VERTICAL":
-		*directiontype = DIRECTION_VERTICAL
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (directiontype *DirectionType) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "DIRECTION_HORIZONTAL":
-		*directiontype = DIRECTION_HORIZONTAL
-	case "DIRECTION_VERTICAL":
-		*directiontype = DIRECTION_VERTICAL
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (directiontype *DirectionType) ToCodeString() (res string) {
-
-	switch *directiontype {
-	// insertion code per enum code
-	case DIRECTION_HORIZONTAL:
-		res = "DIRECTION_HORIZONTAL"
-	case DIRECTION_VERTICAL:
-		res = "DIRECTION_VERTICAL"
-	}
-	return
-}
-
 // Utility function for DrawingState
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -1462,6 +1406,62 @@ func (linktype *LinkType) ToCodeString() (res string) {
 		res = "LINK_TYPE_LINE_WITH_CONTROL_POINTS"
 	case LINK_TYPE_FLOATING_ORTHOGONAL:
 		res = "LINK_TYPE_FLOATING_ORTHOGONAL"
+	}
+	return
+}
+
+// Utility function for OrientationType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (orientationtype OrientationType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch orientationtype {
+	// insertion code per enum code
+	case ORIENTATION_HORIZONTAL:
+		res = "ORIENTATION_HORIZONTAL"
+	case ORIENTATION_VERTICAL:
+		res = "ORIENTATION_VERTICAL"
+	}
+	return
+}
+
+func (orientationtype *OrientationType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ORIENTATION_HORIZONTAL":
+		*orientationtype = ORIENTATION_HORIZONTAL
+	case "ORIENTATION_VERTICAL":
+		*orientationtype = ORIENTATION_VERTICAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (orientationtype *OrientationType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ORIENTATION_HORIZONTAL":
+		*orientationtype = ORIENTATION_HORIZONTAL
+	case "ORIENTATION_VERTICAL":
+		*orientationtype = ORIENTATION_VERTICAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (orientationtype *OrientationType) ToCodeString() (res string) {
+
+	switch *orientationtype {
+	// insertion code per enum code
+	case ORIENTATION_HORIZONTAL:
+		res = "ORIENTATION_HORIZONTAL"
+	case ORIENTATION_VERTICAL:
+		res = "ORIENTATION_VERTICAL"
 	}
 	return
 }

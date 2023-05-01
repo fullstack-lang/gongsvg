@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ShapeMouseEvent } from './shape.mouse.event';
 
 export type Coordinate = [number, number]
 
 // Define the interface for the event object
 interface RectMouseEvent {
   rectangleID: number;
-  Coordinate: [number, number]
+  MousePosRelativeSVG: [number, number]
 }
 
 @Injectable({
@@ -17,26 +18,25 @@ export class RectangleEventService {
   //
   // mouse events
   //
-  private mouseRectMouseDownEventSource = new Subject<RectMouseEvent>();
-  mouseRectMouseDownEvent$ = this.mouseRectMouseDownEventSource.asObservable();
-  emitRectMouseDownEvent(rectMouseEvent: RectMouseEvent) {
+  private mouseDownEventSource = new Subject<ShapeMouseEvent>();
+  mouseMouseDownEvent$ = this.mouseDownEventSource.asObservable();
+  emitMouseDownEvent(shapeMouseEvent: ShapeMouseEvent) {
     // console.log('RectangleEventService, rect mouse down event, rectangle', rectangleID)
-    this.mouseRectMouseDownEventSource.next(rectMouseEvent);
+    this.mouseDownEventSource.next(shapeMouseEvent);
   }
 
-
-  private mouseRectMouseDragEventSource = new Subject<RectMouseEvent>();
-  mouseRectMouseDragEvent$ = this.mouseRectMouseDragEventSource.asObservable();
-  emitRectMouseDragEvent(rectMouseEvent: RectMouseEvent) {
+  private mouseMoveEventSource = new Subject<ShapeMouseEvent>();
+  mouseMouseMoveEvent$ = this.mouseMoveEventSource.asObservable();
+  emitMouseMoveEvent(ShapeMouseEvent: ShapeMouseEvent) {
     // console.log('RectangleEventService, rect mouse drag event, rectangle', rectangleID)
-    this.mouseRectMouseDragEventSource.next(rectMouseEvent);
+    this.mouseMoveEventSource.next(ShapeMouseEvent);
   }
 
-  private mouseRectMouseUpEventSource = new Subject<number>();
-  mouseRectMouseUpEvent$ = this.mouseRectMouseUpEventSource.asObservable();
-  emitRectMouseUpEvent(rectangleID: number) {
+  private mouseMouseUpEventSource = new Subject<ShapeMouseEvent>();
+  mouseMouseUpEvent$ = this.mouseMouseUpEventSource.asObservable();
+  emitMouseUpEvent(ShapeMouseEvent: ShapeMouseEvent) {
     // console.log('RectangleEventService, rect mouse down event, rectangle', rectangleID)
-    this.mouseRectMouseUpEventSource.next(rectangleID);
+    this.mouseMouseUpEventSource.next(ShapeMouseEvent);
   }
 
   //
@@ -46,7 +46,7 @@ export class RectangleEventService {
   private mouseRectAltKeyMouseDownEventSource = new Subject<RectMouseEvent>();
   mouseRectAltKeyMouseDownEvent$ = this.mouseRectAltKeyMouseDownEventSource.asObservable();
   emitRectAltKeyMouseDownEvent(rectangleID: number, coordinate: [number, number]) {
-    this.mouseRectAltKeyMouseDownEventSource.next({ rectangleID, Coordinate: coordinate });
+    this.mouseRectAltKeyMouseDownEventSource.next({ rectangleID, MousePosRelativeSVG: coordinate });
   }
 
   private mouseRectAltKeyMouseUpEventSource = new Subject<number>();

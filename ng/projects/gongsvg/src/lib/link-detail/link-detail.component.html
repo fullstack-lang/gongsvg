@@ -75,7 +75,7 @@
     <mat-form-field appearance="fill" class="detail-full-width">
         <mat-label>StartDirection</mat-label>
         <mat-select [(ngModel)]="link.StartDirection" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let enum of DirectionTypeList" [value]="enum.value">
+            <mat-option *ngFor="let enum of OrientationTypeList" [value]="enum.value">
                 {{enum.viewValue}}
             </mat-option>
         </mat-select>
@@ -91,7 +91,7 @@
     <mat-form-field appearance="fill" class="detail-full-width">
         <mat-label>EndDirection</mat-label>
         <mat-select [(ngModel)]="link.EndDirection" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let enum of DirectionTypeList" [value]="enum.value">
+            <mat-option *ngFor="let enum of OrientationTypeList" [value]="enum.value">
                 {{enum.viewValue}}
             </mat-option>
         </mat-select>

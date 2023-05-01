@@ -12,6 +12,9 @@ import { TextDB } from './text-db'
 import { NullInt64 } from './null-int64'
 
 export class AnimateDB {
+
+	static GONGSTRUCT_NAME = "Animate"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

@@ -6,6 +6,9 @@ import { LayerDB } from './layer-db'
 import { NullInt64 } from './null-int64'
 
 export class LineDB {
+
+	static GONGSTRUCT_NAME = "Line"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

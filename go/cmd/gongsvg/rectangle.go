@@ -129,10 +129,11 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Link_horizontal_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Link_horizontal_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Link_horizontal_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Link_horizontal_to_horizontal.StartRatio = 0.799065
+	__Link__000000_Link_horizontal_to_horizontal.StartRatio = 0.182243
 	__Link__000000_Link_horizontal_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Link_horizontal_to_horizontal.EndRatio = 0.445214
-	__Link__000000_Link_horizontal_to_horizontal.CornerOffsetRatio = 1.595628
+	__Link__000000_Link_horizontal_to_horizontal.EndRatio = 0.700688
+	__Link__000000_Link_horizontal_to_horizontal.CornerOffsetRatio = 1.295082
+	__Link__000000_Link_horizontal_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Link_horizontal_to_horizontal.Color = ``
 	__Link__000000_Link_horizontal_to_horizontal.FillOpacity = 0.000000
 	__Link__000000_Link_horizontal_to_horizontal.Stroke = `red`
@@ -149,6 +150,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000001_Link_vertical_to_vertical.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000001_Link_vertical_to_vertical.EndRatio = 0.280899
 	__Link__000001_Link_vertical_to_vertical.CornerOffsetRatio = 1.383178
+	__Link__000001_Link_vertical_to_vertical.CornerRadius = 8.000000
 	__Link__000001_Link_vertical_to_vertical.Color = ``
 	__Link__000001_Link_vertical_to_vertical.FillOpacity = 0.000000
 	__Link__000001_Link_vertical_to_vertical.Stroke = `coral`
@@ -162,11 +164,12 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.989071
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.214953
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerOffsetRatio = 0.000000
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerOffsetRatio = 1.459016
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerRadius = 8.000000
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Color = `black`
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.FillOpacity = 0.000000
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Stroke = `black`
@@ -180,11 +183,12 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartRatio = 1.000000
+	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.915888
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.228464
+	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.104869
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.000000
+	__Link__000003_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Color = ``
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.FillOpacity = 0.000000
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Stroke = `green`
@@ -195,8 +199,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 464.000000
-	__Rect__000000_Bottom.Y = 100.005684
+	__Rect__000000_Bottom.X = 355.000000
+	__Rect__000000_Bottom.Y = 263.005684
 	__Rect__000000_Bottom.Width = 267.000000
 	__Rect__000000_Bottom.Height = 137.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -222,9 +226,9 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 93.000000
-	__Rect__000001_Top.Y = 50.000000
-	__Rect__000001_Top.Width = 183.000000
+	__Rect__000001_Top.X = 132.000000
+	__Rect__000001_Top.Y = 26.000000
+	__Rect__000001_Top.Width = 48.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000
 	__Rect__000001_Top.Color = `lightcyan`
@@ -281,10 +285,10 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000001_Top
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Top_Rectangle_layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_horizontal_to_vertical)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Link_layer_vertical_to_horizontal)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Link_layer_vertical_to_vertical)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Top_Rectangle_layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Link_layer_horizontal_to_horizontal)
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000001_Top

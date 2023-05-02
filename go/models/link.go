@@ -20,10 +20,13 @@ type Link struct {
 	EndOrientation   OrientationType
 	EndRatio         float64
 
-	// in case StartDirection is the same as EndDirection,
+	// in case StartOrientation is the same as EndOrientation,
 	// there is a perpendicular line that reach the corner at
 	// CornerOffsetRatio
 	CornerOffsetRatio float64
+
+	// corner radius
+	CornerRadius float64
 
 	ControlPoints []*Point
 

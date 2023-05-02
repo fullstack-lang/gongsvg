@@ -1,7 +1,8 @@
 import * as gongsvg from 'gongsvg'; // Replace 'gongsvg' with the correct module name
-import { drawLinePointRect } from './draw.line';
+import { drawLinePointRect as drawPointRectSegment } from './draw.point.rect.segment'
+import { drawPointPointSegment } from './draw.point.point.segment';
 
-export type ConnectorParams = {
+export type SegmentsParams = {
     StartRect: gongsvg.RectDB
     EndRect: gongsvg.RectDB
     StartDirection: gongsvg.OrientationType
@@ -9,20 +10,16 @@ export type ConnectorParams = {
     StartRatio: number
     EndRatio: number
     CornerOffsetRatio: number
+    CornerRadius: number
 }
 
 export type Segment = {
     StartPoint: gongsvg.PointDB,
     EndPoint: gongsvg.PointDB
+    StartPointWithoutRadius: gongsvg.PointDB,
+    EndPointWithoutRadius: gongsvg.PointDB
     Orientation: gongsvg.OrientationType
     Number: number
-}
-export function createSegment(
-    start: gongsvg.PointDB,
-    end: gongsvg.PointDB,
-    orientaion: gongsvg.OrientationType,
-    number: number): Segment {
-    return { StartPoint: start, EndPoint: end, Orientation: orientaion, Number: number }
 }
 
 export function createPoint(x: number, y: number): gongsvg.PointDB {
@@ -33,7 +30,7 @@ export function createPoint(x: number, y: number): gongsvg.PointDB {
     return point
 }
 
-export function drawSegments(params: ConnectorParams): Segment[] {
+export function drawSegments(params: SegmentsParams): Segment[] {
     const {
         StartRect: StartRect,
         EndRect: EndRect,
@@ -41,7 +38,9 @@ export function drawSegments(params: ConnectorParams): Segment[] {
         EndDirection: EndDirection,
         StartRatio: StartRatio,
         EndRatio: EndRatio,
-        CornerOffsetRatio: CornerOffsetRatio } = params;
+        CornerOffsetRatio: CornerOffsetRatio,
+        CornerRadius: CornerRadius,
+    } = params;
     const segments: Segment[] = []
 
     if (StartDirection === gongsvg.OrientationType.ORIENTATION_HORIZONTAL &&
@@ -51,12 +50,9 @@ export function drawSegments(params: ConnectorParams): Segment[] {
         const c1_X = EndRect.X + EndRatio * EndRect.Width
         const c1_Y = startY
         const c1 = createPoint(c1_X, c1_Y)
+        const firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, CornerRadius, 0)
 
-        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection, 0)
-        const secondSegment = drawLinePointRect(c1, EndRect, EndDirection, 1)
-
-
-
+        const secondSegment = drawPointRectSegment(c1, EndRect, EndDirection, CornerRadius, 1)
         segments.push(firstSegment, secondSegment)
     }
 
@@ -68,8 +64,8 @@ export function drawSegments(params: ConnectorParams): Segment[] {
         const c1_Y = EndRect.Y + EndRatio * EndRect.Height
         const c1 = createPoint(c1_X, c1_Y)
 
-        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection, 0)
-        const secondSegment = drawLinePointRect(c1, EndRect, EndDirection, 1)
+        const firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, CornerRadius, 0)
+        const secondSegment = drawPointRectSegment(c1, EndRect, EndDirection, CornerRadius, 1)
 
 
         segments.push(firstSegment, secondSegment)
@@ -88,9 +84,9 @@ export function drawSegments(params: ConnectorParams): Segment[] {
 
         const c2 = createPoint(c2_X, c2_Y)
 
-        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection, 0)
-        const secondSegment = createSegment(c1, c2, gongsvg.OrientationType.ORIENTATION_VERTICAL, 1)
-        const thirdSegment = drawLinePointRect(c2, EndRect, EndDirection, 2)
+        const firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, CornerRadius, 0)
+        const secondSegment = drawPointPointSegment(c1, c2, gongsvg.OrientationType.ORIENTATION_VERTICAL, CornerRadius, 1)
+        const thirdSegment = drawPointRectSegment(c2, EndRect, EndDirection, CornerRadius, 2)
 
 
         segments.push(firstSegment, secondSegment, thirdSegment)
@@ -109,9 +105,9 @@ export function drawSegments(params: ConnectorParams): Segment[] {
 
         const c2 = createPoint(c2_X, c2_Y)
 
-        const firstSegment = drawLinePointRect(c1, StartRect, StartDirection, 0)
-        const secondSegment = createSegment(c1, c2, gongsvg.OrientationType.ORIENTATION_HORIZONTAL, 1)
-        const thirdSegment = drawLinePointRect(c2, EndRect, EndDirection, 2)
+        const firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, CornerRadius, 0)
+        const secondSegment = drawPointPointSegment(c1, c2, gongsvg.OrientationType.ORIENTATION_HORIZONTAL, CornerRadius, 1)
+        const thirdSegment = drawPointRectSegment(c2, EndRect, EndDirection, CornerRadius, 2)
 
 
         segments.push(firstSegment, secondSegment, thirdSegment)

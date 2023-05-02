@@ -24,6 +24,7 @@ export class LinkDB {
 	EndOrientation: string = ""
 	EndRatio: number = 0
 	CornerOffsetRatio: number = 0
+	CornerRadius: number = 0
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""

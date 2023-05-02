@@ -19,9 +19,9 @@ export class LinkDB {
 	Type: string = ""
 	StartAnchorType: string = ""
 	EndAnchorType: string = ""
-	StartDirection: string = ""
+	StartOrientation: string = ""
 	StartRatio: number = 0
-	EndDirection: string = ""
+	EndOrientation: string = ""
 	EndRatio: number = 0
 	CornerOffsetRatio: number = 0
 	Color: string = ""

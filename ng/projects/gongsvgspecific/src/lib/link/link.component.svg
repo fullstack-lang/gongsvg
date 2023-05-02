@@ -91,7 +91,7 @@
             [attr.segment-number]="segment.Number"
             
             (mousedown)="linkMouseDown($event, segment.Number)" 
-            (mousemove)="linkMouseMove($event, segment.Number)" 
+            (mousemove)="linkMouseMove($event)" 
             (mouseup)="linkMouseUp($event)"
             
             />

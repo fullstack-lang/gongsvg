@@ -24,7 +24,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
   // to compute wether it was a select / dragging event
   dragging = false
-  segmentThatIsDragged = 0
+  draggedSegment = 0
 
   // offset between the cursor at the start and the top left corner
   offsetX = 0;
@@ -65,7 +65,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
         (shapeMouseEvent: ShapeMouseEvent) => {
 
           if (this.dragging) {
-            let segment = this.segments![this.segmentThatIsDragged]
+            let segment = this.segments![this.draggedSegment]
 
             if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
 
@@ -73,7 +73,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
               document.body.style.cursor = 'ns-resize'
 
               let deltaY = shapeMouseEvent.Point.Y - segment.StartPoint.Y
-              if (segment.Number == 0 && deltaY != 0) {
+              if (this.draggedSegment == 0 && deltaY != 0) {
                 let newRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
                 // console.log("shapeMouseEvent.Point.Y\t\t", shapeMouseEvent.Point.Y)
                 // console.log("this.Link!.Start!.Y\t\t", this.Link!.Start!.Y)
@@ -82,23 +82,67 @@ export class LinkComponent implements OnInit, AfterViewInit {
                 // console.log("Old ratio\t\t\t", this.Link!.StartRatio)
                 // console.log("New ratio\t\t\t", newRatio)
 
-                if (newRatio < 0) { newRatio = 0 }
-                if (newRatio > 1) { newRatio = 1 }
+                if (newRatio < 0 || newRatio > 1) {
+                  let newOrientationRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
+
+                  if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
+                    if (newRatio < 0) {
+                      this.Link!.CornerOffsetRatio = 0
+                    }
+                    if (newRatio > 1) {
+                      this.Link!.CornerOffsetRatio = 1
+                    }
+                    // switch dragged element to next segment
+                    this.draggedSegment = 1
+
+                    newRatio = newOrientationRatio
+                    this.Link!.StartOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
+                    this.Link!.StartRatio = newRatio
+                    this.drawConnector()
+                  } else {
+                    document.body.style.cursor = 'not-allowed'
+                    if (newRatio < 0) { newRatio = 0 }
+                    if (newRatio > 1) { newRatio = 1 }
+                  }
+                }
+
                 this.Link!.StartRatio = newRatio
               }
 
               // last segment
-              if (segment.Number == this.segments!.length - 1 && deltaY != 0) {
+              if (this.draggedSegment == this.segments!.length - 1 && deltaY != 0) {
 
                 let newRatio = (shapeMouseEvent.Point.Y - this.Link!.End!.Y) / this.Link!.End!.Height
 
-                if (newRatio < 0) { newRatio = 0 }
-                if (newRatio > 1) { newRatio = 1 }
+                if (newRatio < 0 || newRatio > 1) {
+                  let newOrientationRatio = (shapeMouseEvent.Point.X - this.Link!.End!.X) / this.Link!.End!.Width
+
+                  if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
+
+                    if (newRatio < 0) {
+                      this.Link!.CornerOffsetRatio = 0
+                    }
+                    if (newRatio > 1) {
+                      this.Link!.CornerOffsetRatio = 1
+                    }
+                    // switch dragged element to previous segment
+                    this.draggedSegment = this.segments!.length - 2
+
+                    newRatio = newOrientationRatio
+                    this.Link!.EndOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
+                    this.Link!.EndRatio = newRatio
+                    this.drawConnector()
+                  } else {
+                    document.body.style.cursor = 'not-allowed'
+                    if (newRatio < 0) { newRatio = 0 }
+                    if (newRatio > 1) { newRatio = 1 }
+                  }
+                }
                 this.Link!.EndRatio = newRatio
               }
 
               // middle segment
-              if (this.segments!.length == 3 && segment.Number == 1 && deltaY != 0) {
+              if (this.segments!.length == 3 && this.draggedSegment == 1 && deltaY != 0) {
                 let newRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
                 this.Link!.CornerOffsetRatio = newRatio
               }
@@ -109,26 +153,68 @@ export class LinkComponent implements OnInit, AfterViewInit {
               document.body.style.cursor = 'ew-resize'
 
               let deltaX = shapeMouseEvent.Point.X - segment.StartPoint.X
-              if (segment.Number == 0 && deltaX != 0) {
+              if (this.draggedSegment == 0 && deltaX != 0) {
                 let newRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
 
-                if (newRatio < 0) { newRatio = 0 }
-                if (newRatio > 1) { newRatio = 1 }
+                if (newRatio < 0 || newRatio > 1) {
+                  let newOrientationRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
+
+                  if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
+                    if (newRatio < 0) {
+                      this.Link!.CornerOffsetRatio = 0
+                    }
+                    if (newRatio > 1) {
+                      this.Link!.CornerOffsetRatio = 1
+                    }
+                    // switch dragged element to next segment
+                    this.draggedSegment = 1
+
+                    newRatio = newOrientationRatio
+                    this.Link!.StartOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
+                    this.Link!.StartRatio = newRatio
+                    this.drawConnector()
+                  } else {
+                    document.body.style.cursor = 'not-allowed'
+                    if (newRatio < 0) { newRatio = 0 }
+                    if (newRatio > 1) { newRatio = 1 }
+                  }
+                }
                 this.Link!.StartRatio = newRatio
               }
 
               // last segment
-              if (segment.Number == this.segments!.length - 1 && deltaX != 0) {
+              if (this.draggedSegment == this.segments!.length - 1 && deltaX != 0) {
 
                 let newRatio = (shapeMouseEvent.Point.X - this.Link!.End!.X) / this.Link!.End!.Width
 
-                if (newRatio < 0) { newRatio = 0 }
-                if (newRatio > 1) { newRatio = 1 }
+                if (newRatio < 0 || newRatio > 1) {
+                  let newOrientationRatio = (shapeMouseEvent.Point.Y - this.Link!.End!.Y) / this.Link!.End!.Height
+
+                  if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
+                    if (newRatio < 0) {
+                      this.Link!.CornerOffsetRatio = 0
+                    }
+                    if (newRatio > 1) {
+                      this.Link!.CornerOffsetRatio = 1
+                    }
+                    // switch dragged element to previous segment
+                    this.draggedSegment = this.segments!.length - 2
+
+                    newRatio = newOrientationRatio
+                    this.Link!.EndOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
+                    this.Link!.EndRatio = newRatio
+                    this.drawConnector()
+                  } else {
+                    document.body.style.cursor = 'not-allowed'
+                    if (newRatio < 0) { newRatio = 0 }
+                    if (newRatio > 1) { newRatio = 1 }
+                  }
+                }
                 this.Link!.EndRatio = newRatio
               }
 
               // middle segment
-              if (this.segments!.length == 3 && segment.Number == 1 && deltaX != 0) {
+              if (this.segments!.length == 3 && this.draggedSegment == 1 && deltaX != 0) {
                 let newRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
                 this.Link!.CornerOffsetRatio = newRatio
               }
@@ -235,7 +321,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
       // this link shit to dragging state
       this.dragging = true
-      this.segmentThatIsDragged = segmentNumber
+      this.draggedSegment = segmentNumber
 
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: this.Link!.ID,
@@ -246,7 +332,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
     }
   }
 
-  linkMouseMove(event: MouseEvent, segmentNumber: number = 0): void {
+  linkMouseMove(event: MouseEvent): void {
 
     if (!event.altKey && !event.shiftKey) {
       let x = event.clientX - this.pageX
@@ -287,8 +373,8 @@ export class LinkComponent implements OnInit, AfterViewInit {
     this.connectorParams = {
       StartRect: link.Start!,
       EndRect: link.End!,
-      StartDirection: link.StartDirection! as gongsvg.OrientationType,
-      EndDirection: link.EndDirection! as gongsvg.OrientationType,
+      StartDirection: link.StartOrientation! as gongsvg.OrientationType,
+      EndDirection: link.EndOrientation! as gongsvg.OrientationType,
       StartRatio: link.StartRatio,
       EndRatio: link.EndRatio,
       CornerOffsetRatio: link.CornerOffsetRatio,

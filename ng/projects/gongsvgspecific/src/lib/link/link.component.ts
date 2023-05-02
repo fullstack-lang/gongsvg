@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
-import { ConnectorParams, Segment, createPoint, drawSegments } from './draw.segments';
+import { SegmentsParams, Segment, createPoint, drawSegments } from './draw.segments';
 import { LinkEventService } from '../link-event.service';
 import { Point } from 'leaflet';
 import { Subscription } from 'rxjs';
@@ -98,7 +98,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
                     newRatio = newOrientationRatio
                     this.Link!.StartOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
                     this.Link!.StartRatio = newRatio
-                    this.drawConnector()
+                    this.drawSegments()
                   } else {
                     document.body.style.cursor = 'not-allowed'
                     if (newRatio < 0) { newRatio = 0 }
@@ -131,7 +131,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
                     newRatio = newOrientationRatio
                     this.Link!.EndOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
                     this.Link!.EndRatio = newRatio
-                    this.drawConnector()
+                    this.drawSegments()
                   } else {
                     document.body.style.cursor = 'not-allowed'
                     if (newRatio < 0) { newRatio = 0 }
@@ -172,7 +172,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
                     newRatio = newOrientationRatio
                     this.Link!.StartOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
                     this.Link!.StartRatio = newRatio
-                    this.drawConnector()
+                    this.drawSegments()
                   } else {
                     document.body.style.cursor = 'not-allowed'
                     if (newRatio < 0) { newRatio = 0 }
@@ -203,7 +203,7 @@ export class LinkComponent implements OnInit, AfterViewInit {
                     newRatio = newOrientationRatio
                     this.Link!.EndOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
                     this.Link!.EndRatio = newRatio
-                    this.drawConnector()
+                    this.drawSegments()
                   } else {
                     document.body.style.cursor = 'not-allowed'
                     if (newRatio < 0) { newRatio = 0 }
@@ -363,14 +363,14 @@ export class LinkComponent implements OnInit, AfterViewInit {
     }
   }
 
-  connectorParams: ConnectorParams | undefined
+  segmentsParams: SegmentsParams | undefined
   segments: Segment[] | undefined
 
-  drawConnector(): boolean {
+  drawSegments(): boolean {
 
     let link = this.Link!
 
-    this.connectorParams = {
+    this.segmentsParams = {
       StartRect: link.Start!,
       EndRect: link.End!,
       StartDirection: link.StartOrientation! as gongsvg.OrientationType,
@@ -378,9 +378,10 @@ export class LinkComponent implements OnInit, AfterViewInit {
       StartRatio: link.StartRatio,
       EndRatio: link.EndRatio,
       CornerOffsetRatio: link.CornerOffsetRatio,
+      CornerRadius: link.CornerRadius,
     }
 
-    this.segments = drawSegments(this.connectorParams)
+    this.segments = drawSegments(this.segmentsParams)
 
     return true
   }

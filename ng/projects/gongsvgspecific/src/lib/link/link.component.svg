@@ -75,7 +75,7 @@
     </svg>
 </svg>
 
-<svg *ngIf="isFloatingOrthogonal && Link && drawConnector() && segments" class="svg">
+<svg *ngIf="isFloatingOrthogonal && Link && drawSegments() && segments" class="svg">
     <g>
         <line *ngFor='let segment of segments' class="overlay" 
             [attr.x1]="segment.StartPoint.X" 

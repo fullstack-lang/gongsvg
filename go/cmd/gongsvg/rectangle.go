@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -128,11 +129,11 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Link_horizontal_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Link_horizontal_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Link_horizontal_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Link_horizontal_to_horizontal.StartRatio = 0.799065
+	__Link__000000_Link_horizontal_to_horizontal.StartRatio = 0.182243
 	__Link__000000_Link_horizontal_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Link_horizontal_to_horizontal.EndRatio = 0.445214
-	__Link__000000_Link_horizontal_to_horizontal.CornerOffsetRatio = 1.595628
-	__Link__000000_Link_horizontal_to_horizontal.CornerRadius = 3.000000
+	__Link__000000_Link_horizontal_to_horizontal.EndRatio = 0.700688
+	__Link__000000_Link_horizontal_to_horizontal.CornerOffsetRatio = 1.295082
+	__Link__000000_Link_horizontal_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Link_horizontal_to_horizontal.Color = ``
 	__Link__000000_Link_horizontal_to_horizontal.FillOpacity = 0.000000
 	__Link__000000_Link_horizontal_to_horizontal.Stroke = `red`
@@ -149,7 +150,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000001_Link_vertical_to_vertical.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000001_Link_vertical_to_vertical.EndRatio = 0.280899
 	__Link__000001_Link_vertical_to_vertical.CornerOffsetRatio = 1.383178
-	__Link__000001_Link_vertical_to_vertical.CornerRadius = 3.000000
+	__Link__000001_Link_vertical_to_vertical.CornerRadius = 8.000000
 	__Link__000001_Link_vertical_to_vertical.Color = ``
 	__Link__000001_Link_vertical_to_vertical.FillOpacity = 0.000000
 	__Link__000001_Link_vertical_to_vertical.Stroke = `coral`
@@ -168,7 +169,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.000000
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerOffsetRatio = 1.459016
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerRadius = 3.000000
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerRadius = 8.000000
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Color = `black`
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.FillOpacity = 0.000000
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Stroke = `black`
@@ -187,7 +188,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.228464
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.000000
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 3.000000
+	__Link__000003_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Color = ``
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.FillOpacity = 0.000000
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Stroke = `green`
@@ -198,8 +199,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 475.000000
-	__Rect__000000_Bottom.Y = 122.005684
+	__Rect__000000_Bottom.X = 503.000000
+	__Rect__000000_Bottom.Y = 101.005684
 	__Rect__000000_Bottom.Width = 267.000000
 	__Rect__000000_Bottom.Height = 137.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -225,8 +226,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 93.000000
-	__Rect__000001_Top.Y = 50.000000
+	__Rect__000001_Top.X = 183.000000
+	__Rect__000001_Top.Y = 93.000000
 	__Rect__000001_Top.Width = 183.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000
@@ -289,3 +290,5 @@ func rectangleInjection(stage *models.StageStruct) {
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000001_Top
 }
+
+

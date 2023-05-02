@@ -1,6 +1,6 @@
 import * as gongsvg from 'gongsvg'; // Replace 'gongsvg' with the correct module name
 import { drawLinePointRect as drawPointRectSegment } from './draw.point.rect.segment'
-import { createSegment as drawPointPointSegment } from './draw.point.point.segment';
+import { drawPointPointSegment } from './draw.point.point.segment';
 
 export type SegmentsParams = {
     StartRect: gongsvg.RectDB
@@ -16,6 +16,8 @@ export type SegmentsParams = {
 export type Segment = {
     StartPoint: gongsvg.PointDB,
     EndPoint: gongsvg.PointDB
+    StartPointWithoutRadius: gongsvg.PointDB,
+    EndPointWithoutRadius: gongsvg.PointDB
     Orientation: gongsvg.OrientationType
     Number: number
 }

@@ -1,7 +1,7 @@
 import * as gongsvg from 'gongsvg'; // Replace 'gongsvg' with the correct module name
 import { Segment, createPoint } from './draw.segments';
 
-export function createSegment(
+export function drawPointPointSegment(
     start: gongsvg.PointDB,
     end: gongsvg.PointDB,
     orientation: gongsvg.OrientationType,
@@ -30,7 +30,15 @@ export function createSegment(
         }
     }
 
-    let segment: Segment = { StartPoint: newStart, EndPoint: newEnd, Orientation: orientation, Number: number }
+    let segment: Segment =
+    {
+        StartPoint: newStart,
+        EndPoint: newEnd,
+        StartPointWithoutRadius: start,
+        EndPointWithoutRadius: end,
+        Orientation: orientation,
+        Number: number
+    }
 
     return segment
 }

@@ -462,7 +462,6 @@ export class LinkComponent implements OnInit, AfterViewInit {
   getArrowPath(segment: Segment): string {
     const ratio = 0.707106781 / 2 // (1/sqrt(2)) / 2
 
-
     let firstStartX = segment.EndPoint.X
     let firstStartY = segment.EndPoint.Y
 
@@ -523,9 +522,9 @@ export class LinkComponent implements OnInit, AfterViewInit {
       }
     }
 
+    let path = `M ${firstStartX} ${firstStartY} L ${firstTipX} ${firstTipY} M ${secondStartX} ${secondStartY} L ${secondTipX} ${secondTipY}`
 
-
-    return `M ${firstStartX} ${firstStartY} L ${firstTipX} ${firstTipY} M ${secondStartX} ${secondStartY} L ${secondTipX} ${secondTipY}}`
+    return path
   }
 
   pageX: number = 0

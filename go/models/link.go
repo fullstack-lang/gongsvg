@@ -28,6 +28,10 @@ type Link struct {
 	// corner radius
 	CornerRadius float64
 
+	// Arrows
+	HasEndArrow  bool
+	EndArrowSize float64
+
 	ControlPoints []*Point
 
 	Presentation

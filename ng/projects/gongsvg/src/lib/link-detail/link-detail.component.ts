@@ -41,6 +41,7 @@ export class LinkDetailComponent implements OnInit {
 	LinkTypeList: LinkTypeSelect[] = []
 	AnchorTypeList: AnchorTypeSelect[] = []
 	OrientationTypeList: OrientationTypeSelect[] = []
+	HasEndArrowFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the LinkDB of interest
 	link: LinkDB = new LinkDB
@@ -152,6 +153,7 @@ export class LinkDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.HasEndArrowFormControl.setValue(this.link.HasEndArrow)
 			}
 		)
 
@@ -184,6 +186,7 @@ export class LinkDetailComponent implements OnInit {
 			this.link.EndID.Int64 = 0
 			this.link.EndID.Valid = true
 		}
+		this.link.HasEndArrow = this.HasEndArrowFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

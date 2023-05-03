@@ -108,6 +108,12 @@ export class LinksTableComponent implements OnInit {
         case 'CornerRadius':
           return linkDB.CornerRadius;
 
+        case 'HasEndArrow':
+          return linkDB.HasEndArrow ? "true" : "false";
+
+        case 'EndArrowSize':
+          return linkDB.EndArrowSize;
+
         case 'Color':
           return linkDB.Color;
 
@@ -166,6 +172,7 @@ export class LinksTableComponent implements OnInit {
       mergedContent += linkDB.EndRatio.toString()
       mergedContent += linkDB.CornerOffsetRatio.toString()
       mergedContent += linkDB.CornerRadius.toString()
+      mergedContent += linkDB.EndArrowSize.toString()
       mergedContent += linkDB.Color.toLowerCase()
       mergedContent += linkDB.FillOpacity.toString()
       mergedContent += linkDB.Stroke.toLowerCase()
@@ -243,6 +250,8 @@ export class LinksTableComponent implements OnInit {
         "EndRatio",
         "CornerOffsetRatio",
         "CornerRadius",
+        "HasEndArrow",
+        "EndArrowSize",
         "Color",
         "FillOpacity",
         "Stroke",
@@ -266,6 +275,8 @@ export class LinksTableComponent implements OnInit {
         "EndRatio",
         "CornerOffsetRatio",
         "CornerRadius",
+        "HasEndArrow",
+        "EndArrowSize",
         "Color",
         "FillOpacity",
         "Stroke",

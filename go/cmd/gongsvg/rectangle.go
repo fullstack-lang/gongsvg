@@ -134,6 +134,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Link_horizontal_to_horizontal.EndRatio = 0.700688
 	__Link__000000_Link_horizontal_to_horizontal.CornerOffsetRatio = 1.295082
 	__Link__000000_Link_horizontal_to_horizontal.CornerRadius = 8.000000
+	__Link__000000_Link_horizontal_to_horizontal.HasEndArrow = false
+	__Link__000000_Link_horizontal_to_horizontal.EndArrowSize = 0.000000
 	__Link__000000_Link_horizontal_to_horizontal.Color = ``
 	__Link__000000_Link_horizontal_to_horizontal.FillOpacity = 0.000000
 	__Link__000000_Link_horizontal_to_horizontal.Stroke = `red`
@@ -151,6 +153,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000001_Link_vertical_to_vertical.EndRatio = 0.280899
 	__Link__000001_Link_vertical_to_vertical.CornerOffsetRatio = 1.383178
 	__Link__000001_Link_vertical_to_vertical.CornerRadius = 8.000000
+	__Link__000001_Link_vertical_to_vertical.HasEndArrow = true
+	__Link__000001_Link_vertical_to_vertical.EndArrowSize = 20.000000
 	__Link__000001_Link_vertical_to_vertical.Color = ``
 	__Link__000001_Link_vertical_to_vertical.FillOpacity = 0.000000
 	__Link__000001_Link_vertical_to_vertical.Stroke = `coral`
@@ -170,6 +174,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.000000
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerOffsetRatio = 1.459016
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerRadius = 8.000000
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.HasEndArrow = false
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndArrowSize = 0.000000
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Color = `black`
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.FillOpacity = 0.000000
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Stroke = `black`
@@ -189,6 +195,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.104869
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.000000
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
+	__Link__000003_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = false
+	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 0.000000
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Color = ``
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.FillOpacity = 0.000000
 	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Stroke = `green`

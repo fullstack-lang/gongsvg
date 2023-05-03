@@ -64,6 +64,8 @@ export class LinkComponent implements OnInit, AfterViewInit {
       linkEventService.mouseMouseMoveEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
+          const offSetForNewMidlleSegment = 100
+
           if (this.dragging) {
             let segment = this.segments![this.draggedSegment]
 
@@ -87,10 +89,14 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
                   if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
                     if (newRatio < 0) {
-                      this.Link!.CornerOffsetRatio = 0
+                      // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                      // at the left of the End Rect
+                      let targetY_ForVerticalMiddleSegment = this.Link!.Start!.Y - offSetForNewMidlleSegment
+                      this.Link!.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - this.Link!.Start!.Y) / this.Link!.Start!.Height
                     }
                     if (newRatio > 1) {
-                      this.Link!.CornerOffsetRatio = 1
+                      let targetY_ForVerticalMiddleSegment = this.Link!.Start!.Y + this.Link!.Start!.Height + offSetForNewMidlleSegment
+                      this.Link!.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - this.Link!.Start!.Y) / this.Link!.Start!.Height
                     }
                     // switch dragged element to next segment
                     this.draggedSegment = 1
@@ -120,10 +126,14 @@ export class LinkComponent implements OnInit, AfterViewInit {
                   if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
 
                     if (newRatio < 0) {
-                      this.Link!.CornerOffsetRatio = 0
+                      // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                      // at the left of the End Rect
+                      let targetY_ForVerticalMiddleSegment = this.Link!.End!.Y - offSetForNewMidlleSegment
+                      this.Link!.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - this.Link!.End!.Y) / this.Link!.End!.Height
                     }
                     if (newRatio > 1) {
-                      this.Link!.CornerOffsetRatio = 1
+                      let targetY_ForVerticalMiddleSegment = this.Link!.End!.Y + this.Link!.End!.Height + offSetForNewMidlleSegment
+                      this.Link!.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - this.Link!.End!.Y) / this.Link!.End!.Height
                     }
                     // switch dragged element to previous segment
                     this.draggedSegment = this.segments!.length - 2
@@ -161,13 +171,15 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
                   if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
                     if (newRatio < 0) {
-                      this.Link!.CornerOffsetRatio = 0
+                      // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                      // at the left of the End Rect
+                      let targetX_ForVerticalMiddleSegment = this.Link!.Start!.X - offSetForNewMidlleSegment
+                      this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
                     }
                     if (newRatio > 1) {
-                      this.Link!.CornerOffsetRatio = 1
+                      let targetX_ForVerticalMiddleSegment = this.Link!.Start!.X + this.Link!.Start!.Width + offSetForNewMidlleSegment
+                      this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
                     }
-                    // switch dragged element to next segment
-                    this.draggedSegment = 1
 
                     newRatio = newOrientationRatio
                     this.Link!.StartOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
@@ -192,18 +204,22 @@ export class LinkComponent implements OnInit, AfterViewInit {
 
                   if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
                     if (newRatio < 0) {
-                      this.Link!.CornerOffsetRatio = 0
+                      // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                      // at the left of the End Rect
+                      let targetX_ForVerticalMiddleSegment = this.Link!.End!.X - offSetForNewMidlleSegment
+                      this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
                     }
                     if (newRatio > 1) {
-                      this.Link!.CornerOffsetRatio = 1
+                      let targetX_ForVerticalMiddleSegment = this.Link!.End!.X + this.Link!.End!.Width + offSetForNewMidlleSegment
+                      this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
                     }
-                    // switch dragged element to previous segment
-                    this.draggedSegment = this.segments!.length - 2
 
                     newRatio = newOrientationRatio
                     this.Link!.EndOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
                     this.Link!.EndRatio = newRatio
                     this.drawSegments()
+                    // switch dragged element to previous segment
+                    this.draggedSegment = this.segments!.length - 1
                   } else {
                     document.body.style.cursor = 'not-allowed'
                     if (newRatio < 0) { newRatio = 0 }

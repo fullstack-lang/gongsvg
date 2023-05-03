@@ -459,6 +459,47 @@ export class LinkComponent implements OnInit, AfterViewInit {
     return `M ${startX} ${startY} A ${this.Link!.CornerRadius} ${this.Link!.CornerRadius} 0 ${largeArcFlag} ${sweepFlag} ${endX} ${endY}`;
   }
 
+  getArrowPath(segment: Segment): string {
+    const startX = segment.EndPoint.X
+    const startY = segment.EndPoint.Y
+
+    let firstTipX = 100
+    let firstTipY = 100
+    let secondTipX = 100
+    let secondTipY = - 100
+
+
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+      if (segment.EndPoint.X > segment.StartPoint.X) {
+        firstTipX = - this.Link!.EndArrowSize
+        firstTipY = this.Link!.EndArrowSize
+        secondTipX = - this.Link!.EndArrowSize
+        secondTipY = - this.Link!.EndArrowSize
+      } else {
+        firstTipX = this.Link!.EndArrowSize
+        firstTipY = this.Link!.EndArrowSize
+        secondTipX = this.Link!.EndArrowSize
+        secondTipY = - this.Link!.EndArrowSize
+      }
+    }
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+      if (segment.EndPoint.Y > segment.StartPoint.Y) {
+        firstTipX = - this.Link!.EndArrowSize
+        firstTipY = - this.Link!.EndArrowSize
+        secondTipX = this.Link!.EndArrowSize
+        secondTipY = - this.Link!.EndArrowSize
+      } else {
+        firstTipX = - this.Link!.EndArrowSize
+        firstTipY = this.Link!.EndArrowSize
+        secondTipX = this.Link!.EndArrowSize
+        secondTipY = this.Link!.EndArrowSize
+      }
+    }
+
+
+
+    return `M ${startX} ${startY} L ${segment.EndPoint.X + firstTipX} ${segment.EndPoint.Y + firstTipY} M ${startX} ${startY} L ${segment.EndPoint.X + secondTipX} ${segment.EndPoint.Y + secondTipY}}`
+  }
 
   pageX: number = 0
   pageY: number = 0

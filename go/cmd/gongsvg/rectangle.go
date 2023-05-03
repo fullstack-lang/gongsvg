@@ -58,9 +58,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of Link
 	__Link__000000_Link_horizontal_to_horizontal := (&models.Link{Name: `Link horizontal to horizontal`}).Stage(stage)
-	__Link__000001_Link_vertical_to_vertical := (&models.Link{Name: `Link vertical to vertical`}).Stage(stage)
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical := (&models.Link{Name: `Top to Bottom horizontal to vertical`}).Stage(stage)
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal := (&models.Link{Name: `Top to Bottom vertical to horizontal`}).Stage(stage)
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical := (&models.Link{Name: `Top to Bottom horizontal to vertical`}).Stage(stage)
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal := (&models.Link{Name: `Top to Bottom vertical to horizontal`}).Stage(stage)
 
 	// Declarations of staged instances of Path
 
@@ -130,9 +129,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Link_horizontal_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Link_horizontal_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000000_Link_horizontal_to_horizontal.StartRatio = 0.182243
-	__Link__000000_Link_horizontal_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Link_horizontal_to_horizontal.EndRatio = 0.000000
-	__Link__000000_Link_horizontal_to_horizontal.CornerOffsetRatio = 1.295082
+	__Link__000000_Link_horizontal_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000000_Link_horizontal_to_horizontal.EndRatio = 0.112360
+	__Link__000000_Link_horizontal_to_horizontal.CornerOffsetRatio = 0.000000
 	__Link__000000_Link_horizontal_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Link_horizontal_to_horizontal.HasEndArrow = false
 	__Link__000000_Link_horizontal_to_horizontal.EndArrowSize = 0.000000
@@ -145,70 +144,51 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Link_horizontal_to_horizontal.Transform = ``
 
 	// Link values setup
-	__Link__000001_Link_vertical_to_vertical.Name = `Link vertical to vertical`
-	__Link__000001_Link_vertical_to_vertical.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
-	__Link__000001_Link_vertical_to_vertical.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Link_vertical_to_vertical.StartRatio = 0.000000
-	__Link__000001_Link_vertical_to_vertical.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Link_vertical_to_vertical.EndRatio = 0.445693
-	__Link__000001_Link_vertical_to_vertical.CornerOffsetRatio = 1.000000
-	__Link__000001_Link_vertical_to_vertical.CornerRadius = 8.000000
-	__Link__000001_Link_vertical_to_vertical.HasEndArrow = true
-	__Link__000001_Link_vertical_to_vertical.EndArrowSize = 15.000000
-	__Link__000001_Link_vertical_to_vertical.Color = ``
-	__Link__000001_Link_vertical_to_vertical.FillOpacity = 0.000000
-	__Link__000001_Link_vertical_to_vertical.Stroke = `coral`
-	__Link__000001_Link_vertical_to_vertical.StrokeWidth = 3.000000
-	__Link__000001_Link_vertical_to_vertical.StrokeDashArray = ``
-	__Link__000001_Link_vertical_to_vertical.StrokeDashArrayWhenSelected = ``
-	__Link__000001_Link_vertical_to_vertical.Transform = ``
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.Name = `Top to Bottom horizontal to vertical`
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.StartAnchorType = models.ANCHOR_CENTER
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.EndAnchorType = models.ANCHOR_CENTER
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.000000
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.239700
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.CornerOffsetRatio = 0.000000
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.CornerRadius = 8.000000
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.HasEndArrow = false
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.EndArrowSize = 0.000000
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.Color = `black`
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.FillOpacity = 0.000000
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.Stroke = `black`
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.StrokeWidth = 3.000000
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.StrokeDashArray = ``
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.StrokeDashArrayWhenSelected = ``
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.Transform = ``
 
 	// Link values setup
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Name = `Top to Bottom horizontal to vertical`
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartAnchorType = models.ANCHOR_CENTER
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.239700
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerOffsetRatio = 0.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerRadius = 8.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.HasEndArrow = false
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndArrowSize = 0.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Color = `black`
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.FillOpacity = 0.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Stroke = `black`
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StrokeWidth = 3.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StrokeDashArray = ``
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StrokeDashArrayWhenSelected = ``
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Transform = ``
-
-	// Link values setup
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Name = `Top to Bottom vertical to horizontal`
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.738318
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.211637
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 0.000000
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = false
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 0.000000
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Color = ``
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.FillOpacity = 0.000000
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Stroke = `green`
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StrokeWidth = 4.000000
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StrokeDashArray = ``
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.StrokeDashArrayWhenSelected = ``
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Transform = ``
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.Name = `Top to Bottom vertical to horizontal`
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_VERTICAL
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.439024
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.599251
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.341121
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.Color = ``
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.FillOpacity = 0.000000
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.Stroke = `green`
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.StrokeWidth = 4.000000
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.StrokeDashArray = ``
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.StrokeDashArrayWhenSelected = ``
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.Transform = ``
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 336.000000
-	__Rect__000000_Bottom.Y = 239.005684
+	__Rect__000000_Bottom.X = 216.000000
+	__Rect__000000_Bottom.Y = 386.005684
 	__Rect__000000_Bottom.Width = 267.000000
 	__Rect__000000_Bottom.Height = 137.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -234,9 +214,9 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 59.000000
-	__Rect__000001_Top.Y = 191.000000
-	__Rect__000001_Top.Width = 48.000000
+	__Rect__000001_Top.X = 707.000000
+	__Rect__000001_Top.Y = 179.000000
+	__Rect__000001_Top.Width = 123.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000
 	__Rect__000001_Top.Color = `lightcyan`
@@ -249,9 +229,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.IsSelectable = true
 	__Rect__000001_Top.IsSelected = false
 	__Rect__000001_Top.CanHaveLeftHandle = true
-	__Rect__000001_Top.HasLeftHandle = false
+	__Rect__000001_Top.HasLeftHandle = true
 	__Rect__000001_Top.CanHaveRightHandle = true
-	__Rect__000001_Top.HasRightHandle = false
+	__Rect__000001_Top.HasRightHandle = true
 	__Rect__000001_Top.CanHaveTopHandle = false
 	__Rect__000001_Top.HasTopHandle = false
 	__Rect__000001_Top.CanHaveBottomHandle = false
@@ -280,24 +260,19 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom)
 	__Layer__000001_Circle_Layer.Circles = append(__Layer__000001_Circle_Layer.Circles, __Circle__000000_Test)
 	__Layer__000002_Link_layer_horizontal_to_horizontal.Links = append(__Layer__000002_Link_layer_horizontal_to_horizontal.Links, __Link__000000_Link_horizontal_to_horizontal)
-	__Layer__000003_Link_layer_horizontal_to_vertical.Links = append(__Layer__000003_Link_layer_horizontal_to_vertical.Links, __Link__000002_Top_to_Bottom_horizontal_to_vertical)
-	__Layer__000004_Link_layer_vertical_to_horizontal.Links = append(__Layer__000004_Link_layer_vertical_to_horizontal.Links, __Link__000003_Top_to_Bottom_vertical_to_horizontal)
-	__Layer__000005_Link_layer_vertical_to_vertical.Links = append(__Layer__000005_Link_layer_vertical_to_vertical.Links, __Link__000001_Link_vertical_to_vertical)
+	__Layer__000003_Link_layer_horizontal_to_vertical.Links = append(__Layer__000003_Link_layer_horizontal_to_vertical.Links, __Link__000001_Top_to_Bottom_horizontal_to_vertical)
+	__Layer__000004_Link_layer_vertical_to_horizontal.Links = append(__Layer__000004_Link_layer_vertical_to_horizontal.Links, __Link__000002_Top_to_Bottom_vertical_to_horizontal)
 	__Layer__000006_Top_Rectangle_layer.Rects = append(__Layer__000006_Top_Rectangle_layer.Rects, __Rect__000001_Top)
 	__Link__000000_Link_horizontal_to_horizontal.Start = __Rect__000001_Top
 	__Link__000000_Link_horizontal_to_horizontal.End = __Rect__000000_Bottom
-	__Link__000001_Link_vertical_to_vertical.Start = __Rect__000001_Top
-	__Link__000001_Link_vertical_to_vertical.End = __Rect__000000_Bottom
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000001_Top
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.End = __Rect__000000_Bottom
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000001_Top
-	__Link__000003_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000001_Top
+	__Link__000001_Top_to_Bottom_horizontal_to_vertical.End = __Rect__000000_Bottom
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000001_Top
+	__Link__000002_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_horizontal_to_vertical)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Top_Rectangle_layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Link_layer_vertical_to_horizontal)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Link_layer_vertical_to_vertical)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Top_Rectangle_layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Link_layer_horizontal_to_horizontal)
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000001_Top
 }

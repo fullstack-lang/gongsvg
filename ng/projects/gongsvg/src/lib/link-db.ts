@@ -25,6 +25,8 @@ export class LinkDB {
 	EndRatio: number = 0
 	CornerOffsetRatio: number = 0
 	CornerRadius: number = 0
+	HasEndArrow: boolean = false
+	EndArrowSize: number = 0
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""

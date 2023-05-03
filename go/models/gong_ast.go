@@ -1139,6 +1139,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_Link[identifier].CornerRadius = fielValue
+				case "EndArrowSize":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Link[identifier].EndArrowSize = fielValue
 				case "Color":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1529,6 +1536,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				case "End":
 					targetIdentifier := ident.Name
 					__gong__map_Link[identifier].End = __gong__map_Rect[targetIdentifier]
+				case "HasEndArrow":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Link[identifier].HasEndArrow = fielValue
 				}
 			case "Path":
 				switch fieldName {

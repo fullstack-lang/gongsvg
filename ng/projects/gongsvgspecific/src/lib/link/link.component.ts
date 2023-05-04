@@ -247,6 +247,12 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
               }
             }
           }
+          if (this.textDragging) {
+            let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
+            let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
+
+            console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
+          }
 
         })
     )
@@ -291,6 +297,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
 
           }
           this.dragging = false
+          this.textDragging = false
         })
     )
   }

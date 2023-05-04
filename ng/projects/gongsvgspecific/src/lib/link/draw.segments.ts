@@ -13,6 +13,11 @@ export type SegmentsParams = {
     CornerRadius: number
 }
 
+export type Offset = {
+    X_Offset: number
+    Y_Offset: number
+}
+
 export type Segment = {
     StartPoint: gongsvg.PointDB,
     EndPoint: gongsvg.PointDB
@@ -20,6 +25,7 @@ export type Segment = {
     EndPointWithoutRadius: gongsvg.PointDB
     Orientation: gongsvg.OrientationType
     Number: number
+    ArrowEndAnchoredText: Array<Offset>
 }
 
 export function createPoint(x: number, y: number): gongsvg.PointDB {

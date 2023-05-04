@@ -75,7 +75,7 @@
     </svg>
 </svg>
 
-<svg *ngIf="isFloatingOrthogonal && Link && drawSegments() && segments" class="svg">
+<svg *ngIf="isFloatingOrthogonal && Link && segments" class="svg">
     <g>
         <line *ngFor='let segment of segments' class="overlay" 
             [attr.x1]="segment.StartPoint.X" 
@@ -107,8 +107,9 @@
                 [attr.stroke-dasharray]="Link.StrokeDashArray" 
                 />
             <ng-container *ngIf="(i == (segments.length - 1)) && this.Link!.HasEndArrow">
-                <path class="overlay" [attr.d]="getArrowPath(segment)" 
-            
+                <path class="overlay" 
+                
+                    [attr.d]="getArrowPath(segment)"
                     [attr.fill]="Link.Color"
                     [attr.fill-opacity]="Link.FillOpacity" 
                     [attr.stroke]="Link.Stroke" 
@@ -116,17 +117,20 @@
                     [attr.stroke-dasharray]="Link.StrokeDashArray" 
                 />
                 <ng-container *ngFor='let text of this.Link.TextAtArrowEnd!; let i = index'>
+                     <rect class="movable-text"
+                        [attr.x]="segment.EndPoint.X + adjustToSegentDirection(segment, text.X_Offset, text.Y_Offset).x"
+                        [attr.y]="segment.EndPoint.Y + adjustToSegentDirection(segment, text.X_Offset, text.Y_Offset).y - textHeight"
+                        [attr.width]="textWidth"
+                        [attr.height]="textHeight"
+                        fill="transparant"
+                        fill-opacity="0"
+                        style="cursor: move"
+                        >
+                    </rect>
 
-                    <!-- <text 
-                        [attr.x]="segment.EndPoint.X + rotateToSegentDirection(segment, text.X_Offset, text.Y_Offset).x" 
-                        [attr.y]="segment.EndPoint.Y + rotateToSegentDirection(segment, text.X_Offset, text.Y_Offset).y" 
-                        [attr.fill]="text.Color"    
-                        [attr.fill-opacity]="text.FillOpacity"
-                        [attr.stroke]="text.Stroke"
-                        [attr.stroke-width]="text.StrokeWidth"
-                        [attr.stroke-dasharray]="text.StrokeDashArray"
-                        [attr.transform]="text.Transform">{{text.Content}}</text> -->
-                     <text 
+                     <text class="movable-text"
+                        
+                        #textElement
                         [attr.x]="segment.EndPoint.X + adjustToSegentDirection(segment, text.X_Offset, text.Y_Offset).x" 
                         [attr.y]="segment.EndPoint.Y + adjustToSegentDirection(segment, text.X_Offset, text.Y_Offset).y" 
                         [attr.fill]="text.Color"    
@@ -134,13 +138,14 @@
                         [attr.stroke]="text.Stroke"
                         [attr.stroke-width]="text.StrokeWidth"
                         [attr.stroke-dasharray]="text.StrokeDashArray"
-                        [attr.transform]="text.Transform">{{text.Content}}</text>
+                        [attr.transform]="text.Transform"
+                        
+                        (mousedown)="textAnchoredMouseDown($event, i)" 
+                        (mousemove)="textAnchoredMouseMove($event)" 
+                        (mouseup)="textAnchoredMouseUp($event)"
+                        >{{text.Content}}</text>
                 </ng-container>
-            
             </ng-container>
-
         </ng-container>
-
-
     </g>
 </svg>

@@ -118,8 +118,8 @@
                 />
                 <ng-container *ngFor='let text of this.Link.TextAtArrowEnd!; let i = index'>
                      <rect class="movable-text"
-                        [attr.x]="segment.EndPoint.X + adjustToSegentDirection(segment, text.X_Offset, text.Y_Offset).x"
-                        [attr.y]="segment.EndPoint.Y + adjustToSegentDirection(segment, text.X_Offset, text.Y_Offset).y - textHeight"
+                        [attr.x]="segment.EndPoint.X + text.X_Offset"
+                        [attr.y]="segment.EndPoint.Y + text.Y_Offset - textHeight"
                         [attr.width]="textWidth"
                         [attr.height]="textHeight"
                         fill="transparant"
@@ -128,11 +128,9 @@
                         >
                     </rect>
 
-                     <text class="movable-text"
-                        
-                        #textElement
-                        [attr.x]="segment.EndPoint.X + adjustToSegentDirection(segment, text.X_Offset, text.Y_Offset).x" 
-                        [attr.y]="segment.EndPoint.Y + adjustToSegentDirection(segment, text.X_Offset, text.Y_Offset).y" 
+                     <text 
+                        [attr.x]="segment.EndPoint.X + text.X_Offset" 
+                        [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
                         [attr.fill]="text.Color"    
                         [attr.fill-opacity]="text.FillOpacity"
                         [attr.stroke]="text.Stroke"

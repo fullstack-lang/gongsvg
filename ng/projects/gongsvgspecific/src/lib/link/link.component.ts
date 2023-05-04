@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, DoCheck, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
-import { SegmentsParams, Segment, createPoint, drawSegments } from './draw.segments';
+import { SegmentsParams, Segment, createPoint, drawSegments, Offset } from './draw.segments';
 import { LinkEventService } from '../link-event.service';
 import { Point } from 'leaflet';
 import { Subscription } from 'rxjs';
@@ -316,6 +316,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
 
     this.drawSegments()
     this.resetPreviousState()
+    this.drawSegments()
   }
 
   ngDoCheck(): void {

@@ -1,5 +1,5 @@
 import * as gongsvg from 'gongsvg'; // Replace 'gongsvg' with the correct module name
-import { drawLinePointRect as drawPointRectSegment } from './draw.point.rect.segment'
+import { drawPointRectSegment } from './draw.point.rect.segment'
 import { drawPointPointSegment } from './draw.point.point.segment';
 
 export type SegmentsParams = {

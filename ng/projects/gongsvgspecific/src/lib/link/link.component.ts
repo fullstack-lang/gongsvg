@@ -7,6 +7,7 @@ import { Point } from 'leaflet';
 import { Subscription } from 'rxjs';
 import { ShapeMouseEvent } from '../shape.mouse.event';
 import { MouseEventService } from '../mouse-event.service';
+import { GongModule } from '../../../../../../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/lib/gong.module';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
   // LinkAtMouseDown is the clone of the Link when mouse down
   private PointAtMouseDown: gongsvg.PointDB | undefined
   private LinkAtMouseDown: gongsvg.LinkDB | undefined
+  private AnchoredTextAtMouseDown: gongsvg.AnchoredTextDB | undefined
 
   //
   // for events management
@@ -58,6 +60,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
 
   constructor(
     private linkService: gongsvg.LinkService,
+    private anchoredTextService: gongsvg.AnchoredTextService,
     private linkEventService: LinkEventService,
     private mouseEventService: MouseEventService,
     private elementRef: ElementRef,
@@ -68,6 +71,10 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
         (shapeMouseEvent: ShapeMouseEvent) => {
           this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
           this.LinkAtMouseDown = structuredClone(this.Link!)
+
+          if (this.Link!.TextAtArrowEnd && this.Link!.TextAtArrowEnd[0]) {
+            this.AnchoredTextAtMouseDown = structuredClone(this.Link!.TextAtArrowEnd[0])
+          }
         })
     )
 
@@ -246,14 +253,18 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
                 this.Link!.CornerOffsetRatio = newRatio
               }
             }
+            this.drawSegments()
           }
           if (this.textDragging) {
             let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
             let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
 
-            console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
-          }
+            // console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
 
+            let text = this.Link!.TextAtArrowEnd![0]
+            text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
+            text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
+          }
         })
     )
 
@@ -278,7 +289,6 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
         (shapeMouseEvent: ShapeMouseEvent) => {
 
           if (this.dragging) {
-
             document.body.style.cursor = ''
 
             let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
@@ -294,7 +304,11 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
                 }
               )
             }
+          }
 
+          if (this.textDragging) {
+            let text = this.Link!.TextAtArrowEnd![0]
+            this.anchoredTextService.updateAnchoredText(text, this.GONG__StackPath).subscribe()
           }
           this.dragging = false
           this.textDragging = false

@@ -128,7 +128,7 @@
                         >
                     </rect>
 
-                     <text 
+                     <text class="movable-text"
                         [attr.x]="segment.EndPoint.X + text.X_Offset" 
                         [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
                         [attr.fill]="text.Color"    

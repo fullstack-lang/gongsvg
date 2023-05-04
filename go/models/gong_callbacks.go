@@ -5,6 +5,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *AnchoredText:
+		if stage.OnAfterAnchoredTextCreateCallback != nil {
+			stage.OnAfterAnchoredTextCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Animate:
 		if stage.OnAfterAnimateCreateCallback != nil {
 			stage.OnAfterAnimateCreateCallback.OnAfterCreate(stage, target)
@@ -67,6 +71,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
+	case *AnchoredText:
+		newTarget := any(new).(*AnchoredText)
+		if stage.OnAfterAnchoredTextUpdateCallback != nil {
+			stage.OnAfterAnchoredTextUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Animate:
 		newTarget := any(new).(*Animate)
 		if stage.OnAfterAnimateUpdateCallback != nil {
@@ -142,6 +151,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 
 	switch front := any(front).(type) {
 	// insertion point
+	case *AnchoredText:
+		if stage.OnAfterAnchoredTextDeleteCallback != nil {
+			staged := any(staged).(*AnchoredText)
+			stage.OnAfterAnchoredTextDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Animate:
 		if stage.OnAfterAnimateDeleteCallback != nil {
 			staged := any(staged).(*Animate)
@@ -217,6 +231,10 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *AnchoredText:
+		if stage.OnAfterAnchoredTextReadCallback != nil {
+			stage.OnAfterAnchoredTextReadCallback.OnAfterRead(stage, target)
+		}
 	case *Animate:
 		if stage.OnAfterAnimateReadCallback != nil {
 			stage.OnAfterAnimateReadCallback.OnAfterRead(stage, target)
@@ -280,6 +298,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *AnchoredText:
+		stage.OnAfterAnchoredTextUpdateCallback = any(callback).(OnAfterUpdateInterface[AnchoredText])
+	
 	case *Animate:
 		stage.OnAfterAnimateUpdateCallback = any(callback).(OnAfterUpdateInterface[Animate])
 	
@@ -326,6 +347,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *AnchoredText:
+		stage.OnAfterAnchoredTextCreateCallback = any(callback).(OnAfterCreateInterface[AnchoredText])
+	
 	case *Animate:
 		stage.OnAfterAnimateCreateCallback = any(callback).(OnAfterCreateInterface[Animate])
 	
@@ -372,6 +396,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *AnchoredText:
+		stage.OnAfterAnchoredTextDeleteCallback = any(callback).(OnAfterDeleteInterface[AnchoredText])
+	
 	case *Animate:
 		stage.OnAfterAnimateDeleteCallback = any(callback).(OnAfterDeleteInterface[Animate])
 	
@@ -418,6 +445,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *AnchoredText:
+		stage.OnAfterAnchoredTextReadCallback = any(callback).(OnAfterReadInterface[AnchoredText])
+	
 	case *Animate:
 		stage.OnAfterAnimateReadCallback = any(callback).(OnAfterReadInterface[Animate])
 	

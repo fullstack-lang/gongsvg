@@ -16,3 +16,8 @@ line.overlay[segment-orientation='horizontal'] {
 line.overlay[segment-orientation='vertical'] {
     cursor: ew-resize;
 }
+
+.movable-text {
+    cursor: move;
+    pointer-events: auto;
+}

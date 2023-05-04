@@ -1,5 +1,6 @@
 // insertion point for imports
 import { RectDB } from './rect-db'
+import { AnchoredTextDB } from './anchoredtext-db'
 import { PointDB } from './point-db'
 import { LayerDB } from './layer-db'
 
@@ -42,6 +43,7 @@ export class LinkDB {
 	End?: RectDB
 	EndID: NullInt64 = new NullInt64 // if pointer is null, End.ID = 0
 
+	TextAtArrowEnd?: Array<AnchoredTextDB>
 	ControlPoints?: Array<PointDB>
 	Layer_LinksDBID: NullInt64 = new NullInt64
 	Layer_LinksDBID_Index: NullInt64  = new NullInt64 // store the index of the link instance in Layer.Links

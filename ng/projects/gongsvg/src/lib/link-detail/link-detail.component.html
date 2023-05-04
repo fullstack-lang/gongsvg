@@ -126,6 +126,19 @@
 
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('AnchoredText', 'Link_TextAtArrowEndDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">TextAtArrowEnd</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('AnchoredText', 'Link_TextAtArrowEndDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
             <button mat-raised-button (click)="openReverseSelection('Point', 'Link_ControlPointsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">ControlPoints</button>
         </mat-grid-tile>
         <!-- insertion point for the button of the MANY_MANY association-->

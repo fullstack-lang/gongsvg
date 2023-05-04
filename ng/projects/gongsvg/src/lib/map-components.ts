@@ -1,4 +1,6 @@
 // insertion point sub template for components imports 
+  import { AnchoredTextsTableComponent } from './anchoredtexts-table/anchoredtexts-table.component'
+  import { AnchoredTextSortingComponent } from './anchoredtext-sorting/anchoredtext-sorting.component'
   import { AnimatesTableComponent } from './animates-table/animates-table.component'
   import { AnimateSortingComponent } from './animate-sorting/animate-sorting.component'
   import { CirclesTableComponent } from './circles-table/circles-table.component'
@@ -27,6 +29,8 @@
   import { TextSortingComponent } from './text-sorting/text-sorting.component'
 
 // insertion point sub template for map of components per struct 
+  export const MapOfAnchoredTextsComponents: Map<string, any> = new Map([["AnchoredTextsTableComponent", AnchoredTextsTableComponent],])
+  export const MapOfAnchoredTextSortingComponents: Map<string, any> = new Map([["AnchoredTextSortingComponent", AnchoredTextSortingComponent],])
   export const MapOfAnimatesComponents: Map<string, any> = new Map([["AnimatesTableComponent", AnimatesTableComponent],])
   export const MapOfAnimateSortingComponents: Map<string, any> = new Map([["AnimateSortingComponent", AnimateSortingComponent],])
   export const MapOfCirclesComponents: Map<string, any> = new Map([["CirclesTableComponent", CirclesTableComponent],])
@@ -59,6 +63,7 @@ export const MapOfComponents: Map<string, any> =
   new Map(
     [
       // insertion point sub template for map of components 
+      ["AnchoredText", MapOfAnchoredTextsComponents],
       ["Animate", MapOfAnimatesComponents],
       ["Circle", MapOfCirclesComponents],
       ["Ellipse", MapOfEllipsesComponents],
@@ -80,6 +85,7 @@ export const MapOfSortingComponents: Map<string, any> =
   new Map(
     [
     // insertion point sub template for map of sorting components 
+      ["AnchoredText", MapOfAnchoredTextSortingComponents],
       ["Animate", MapOfAnimateSortingComponents],
       ["Circle", MapOfCircleSortingComponents],
       ["Ellipse", MapOfEllipseSortingComponents],

@@ -37,7 +37,8 @@ export function drawPointPointSegment(
         StartPointWithoutRadius: start,
         EndPointWithoutRadius: end,
         Orientation: orientation,
-        Number: number
+        Number: number,
+        ArrowEndAnchoredText: [],
     }
 
     return segment

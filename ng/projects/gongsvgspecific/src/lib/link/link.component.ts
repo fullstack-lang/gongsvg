@@ -1,12 +1,13 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, DoCheck, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
-import { SegmentsParams, Segment, createPoint, drawSegments } from './draw.segments';
+import { SegmentsParams, Segment, createPoint, drawSegments, Offset } from './draw.segments';
 import { LinkEventService } from '../link-event.service';
 import { Point } from 'leaflet';
 import { Subscription } from 'rxjs';
 import { ShapeMouseEvent } from '../shape.mouse.event';
 import { MouseEventService } from '../mouse-event.service';
+import { GongModule } from '../../../../../../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/lib/gong.module';
 
 
 @Component({
@@ -14,10 +15,14 @@ import { MouseEventService } from '../mouse-event.service';
   templateUrl: './link.component.svg',
   styleUrls: ['./link.component.css']
 })
-export class LinkComponent implements OnInit, AfterViewInit {
+export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
 
   @Input() Link?: gongsvg.LinkDB
   @Input() GONG__StackPath: string = ""
+
+  @ViewChild('textElement', { static: false }) textElement: ElementRef | undefined
+  textWidth: number = 0
+  textHeight: number = 0
 
   nbControlPoints = 0
   isFloatingOrthogonal = false
@@ -26,27 +31,36 @@ export class LinkComponent implements OnInit, AfterViewInit {
   dragging = false
   draggedSegment = 0
 
+  // dragged anchored text
+  textDragging = false
+  draggedTextIndex = 0
+
   // offset between the cursor at the start and the top left corner
   offsetX = 0;
   offsetY = 0;
   distanceMoved = 0
-
-  private mousePosRelativeToShapeAtMouseDown: { x: number; y: number } = { x: 0, y: 0 }
 
   private dragThreshold = 5;
   isSelected = false
   // LinkAtMouseDown is the clone of the Link when mouse down
   private PointAtMouseDown: gongsvg.PointDB | undefined
   private LinkAtMouseDown: gongsvg.LinkDB | undefined
-
+  private AnchoredTextAtMouseDown: gongsvg.AnchoredTextDB | undefined
 
   //
   // for events management
   //
-  private subscriptions: Subscription[] = [];
+  private subscriptions: Subscription[] = []
+
+  // for change detection, we need to store start and end rect
+  previousStartX = 0
+  previousStartY = 0
+  previousEndX = 0
+  previousEndY = 0
 
   constructor(
     private linkService: gongsvg.LinkService,
+    private anchoredTextService: gongsvg.AnchoredTextService,
     private linkEventService: LinkEventService,
     private mouseEventService: MouseEventService,
     private elementRef: ElementRef,
@@ -57,6 +71,10 @@ export class LinkComponent implements OnInit, AfterViewInit {
         (shapeMouseEvent: ShapeMouseEvent) => {
           this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
           this.LinkAtMouseDown = structuredClone(this.Link!)
+
+          if (this.Link!.TextAtArrowEnd && this.Link!.TextAtArrowEnd[0]) {
+            this.AnchoredTextAtMouseDown = structuredClone(this.Link!.TextAtArrowEnd[0])
+          }
         })
     )
 
@@ -235,8 +253,18 @@ export class LinkComponent implements OnInit, AfterViewInit {
                 this.Link!.CornerOffsetRatio = newRatio
               }
             }
+            this.drawSegments()
           }
+          if (this.textDragging) {
+            let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
+            let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
 
+            // console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
+
+            let text = this.Link!.TextAtArrowEnd![0]
+            text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
+            text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
+          }
         })
     )
 
@@ -261,7 +289,6 @@ export class LinkComponent implements OnInit, AfterViewInit {
         (shapeMouseEvent: ShapeMouseEvent) => {
 
           if (this.dragging) {
-
             document.body.style.cursor = ''
 
             let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
@@ -277,9 +304,14 @@ export class LinkComponent implements OnInit, AfterViewInit {
                 }
               )
             }
+          }
 
+          if (this.textDragging) {
+            let text = this.Link!.TextAtArrowEnd![0]
+            this.anchoredTextService.updateAnchoredText(text, this.GONG__StackPath).subscribe()
           }
           this.dragging = false
+          this.textDragging = false
         })
     )
   }
@@ -295,6 +327,29 @@ export class LinkComponent implements OnInit, AfterViewInit {
         this.nbControlPoints = this.Link.ControlPoints.length
       }
     }
+
+    this.drawSegments()
+    this.resetPreviousState()
+    this.drawSegments()
+  }
+
+  ngDoCheck(): void {
+
+    if (
+      this.previousStartX != this.Link!.Start!.X ||
+      this.previousStartY != this.Link!.Start!.Y ||
+      this.previousEndX != this.Link!.End!.X ||
+      this.previousEndY != this.Link!.End!.Y) {
+      this.drawSegments()
+      this.resetPreviousState()
+    }
+  }
+
+  resetPreviousState() {
+    this.previousStartX = this.Link!.Start!.X
+    this.previousStartY = this.Link!.Start!.Y
+    this.previousEndX = this.Link!.End!.X
+    this.previousEndY = this.Link!.End!.Y
   }
 
   public getPosition(rect: gongsvg.RectDB | undefined, position: string | undefined): Coordinate {
@@ -495,13 +550,11 @@ export class LinkComponent implements OnInit, AfterViewInit {
       firstTipX += x
       firstTipY += y
     }
-
     {
       let { x, y } = this.rotateToSegentDirection(segment, this.Link!.StrokeWidth * ratio, this.Link!.StrokeWidth * ratio)
       firstStartX += x
       firstStartY += y
     }
-
     {
       let { x, y } = this.rotateToSegentDirection(segment, - this.Link!.EndArrowSize, this.Link!.EndArrowSize)
 
@@ -546,18 +599,106 @@ export class LinkComponent implements OnInit, AfterViewInit {
     return { x: x_res, y: y_res }
   }
 
+  adjustToSegentDirection(segment: Segment, x: number, y: number): { x: number, y: number } {
+    let x_res = 0
+    let y_res = 0
+
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+      if (segment.EndPoint.X > segment.StartPoint.X) { // 0'
+        x_res = x
+        y_res = y
+      } else { // pi
+        x_res = -x
+        y_res = y
+      }
+    }
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+      if (segment.EndPoint.Y > segment.StartPoint.Y) { // pi/2
+        x_res = y
+        y_res = x
+      } else { // 3*pi/2
+        x_res = -y
+        y_res = -x
+      }
+    }
+
+    return { x: x_res, y: y_res }
+  }
+
+  textAnchoredMouseDown(event: MouseEvent, anchoredTextIndex: number): void {
+
+    if (!event.altKey && !event.shiftKey) {
+      event.preventDefault();
+      event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
+
+      // this text shift to dragging state
+      this.textDragging = true
+      this.draggedTextIndex = anchoredTextIndex
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: this.Link!.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+        Point: createPoint(x, y),
+      }
+      this.linkEventService.emitMouseDownEvent(shapeMouseEvent)
+    }
+  }
+
+  textAnchoredMouseMove(event: MouseEvent): void {
+
+    if (!event.altKey && !event.shiftKey) {
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: this.Link!.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+        Point: createPoint(x, y),
+      }
+      this.linkEventService.emitMouseMoveEvent(shapeMouseEvent)
+    }
+  }
+
+  textAnchoredMouseUp(event: MouseEvent): void {
+
+    // console.log("Link : linkMouseUp", this.Link?.Name)
+    if (!event.altKey && !event.shiftKey) {
+      let x = event.clientX - this.pageX
+      let y = event.clientY - this.pageY
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: this.Link!.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+        Point: createPoint(x, y),
+      }
+      this.linkEventService.emitMouseUpEvent(shapeMouseEvent)
+    }
+  }
+
   pageX: number = 0
   pageY: number = 0
   getSvgTopLeftCoordinates() {
-    const svgElement = this.elementRef.nativeElement.querySelector('svg');
-    const svgRect = svgElement.getBoundingClientRect();
-    this.pageX = svgRect.left + window.pageXOffset;
-    this.pageY = svgRect.top + window.pageYOffset;
+    const svgElement = this.elementRef.nativeElement.querySelector('svg')
+
+    const svgRect = svgElement?.getBoundingClientRect()
+    this.pageX = svgRect?.left + window.pageXOffset
+    this.pageY = svgRect?.top + window.pageYOffset
 
     // console.log('SVG Top-Left Corner:', this.pageX, this.pageY);
   }
 
   ngAfterViewInit() {
     this.getSvgTopLeftCoordinates();
+
+    const bbox = this.textElement?.nativeElement.getBBox()
+
+    if (bbox != undefined) {
+      this.textWidth = bbox.width;
+      this.textHeight = bbox.height;
+    }
+
   }
 }

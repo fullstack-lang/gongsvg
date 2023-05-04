@@ -3,7 +3,7 @@ import { Segment, createPoint } from './draw.segments';
 import { drawPointPointSegment } from './draw.point.point.segment';
 import { swapSegment } from './swap.segment';
 
-export function drawLinePointRect(
+export function drawPointRectSegment(
     point: gongsvg.PointDB,
     rect: gongsvg.RectDB,
     direction: gongsvg.OrientationType,

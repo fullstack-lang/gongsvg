@@ -489,58 +489,61 @@ export class LinkComponent implements OnInit, AfterViewInit {
     let secondTipX = segment.EndPoint.X
     let secondTipY = segment.EndPoint.Y
 
+    {
+      let { x, y } = this.rotateToSegentDirection(segment, - this.Link!.EndArrowSize, - this.Link!.EndArrowSize)
 
-    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
-      if (segment.EndPoint.X > segment.StartPoint.X) {
-        firstTipX += - this.Link!.EndArrowSize
-        firstTipY += this.Link!.EndArrowSize
-        firstStartX += this.Link!.StrokeWidth * ratio
-        firstStartY -= this.Link!.StrokeWidth * ratio
-
-        secondTipX += - this.Link!.EndArrowSize
-        secondTipY += - this.Link!.EndArrowSize
-        secondStartX += this.Link!.StrokeWidth * ratio
-        secondStartY += this.Link!.StrokeWidth * ratio
-
-      } else {
-        firstTipX += this.Link!.EndArrowSize
-        firstTipY += this.Link!.EndArrowSize
-        firstStartX -= this.Link!.StrokeWidth * ratio
-        firstStartY -= this.Link!.StrokeWidth * ratio
-
-        secondTipX += this.Link!.EndArrowSize
-        secondTipY += - this.Link!.EndArrowSize
-        secondStartX -= this.Link!.StrokeWidth * ratio
-        secondStartY += this.Link!.StrokeWidth * ratio
-      }
+      firstTipX += x
+      firstTipY += y
     }
-    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
-      if (segment.EndPoint.Y > segment.StartPoint.Y) {
-        firstTipX += - this.Link!.EndArrowSize
-        firstTipY += - this.Link!.EndArrowSize
-        firstStartX += this.Link!.StrokeWidth * ratio
-        firstStartY += this.Link!.StrokeWidth * ratio
 
-        secondTipX += this.Link!.EndArrowSize
-        secondTipY += - this.Link!.EndArrowSize
-        secondStartX -= this.Link!.StrokeWidth * ratio
-        secondStartY += this.Link!.StrokeWidth * ratio
-      } else {
-        firstTipX += - this.Link!.EndArrowSize
-        firstTipY += this.Link!.EndArrowSize
-        firstStartX += this.Link!.StrokeWidth * ratio
-        firstStartY -= this.Link!.StrokeWidth * ratio
+    {
+      let { x, y } = this.rotateToSegentDirection(segment, this.Link!.StrokeWidth * ratio, this.Link!.StrokeWidth * ratio)
+      firstStartX += x
+      firstStartY += y
+    }
 
-        secondTipX += this.Link!.EndArrowSize
-        secondTipY += this.Link!.EndArrowSize
-        secondStartX -= this.Link!.StrokeWidth * ratio
-        secondStartY -= this.Link!.StrokeWidth * ratio
-      }
+    {
+      let { x, y } = this.rotateToSegentDirection(segment, - this.Link!.EndArrowSize, this.Link!.EndArrowSize)
+
+      secondTipX += x
+      secondTipY += y
+    }
+    {
+      let { x, y } = this.rotateToSegentDirection(segment, this.Link!.StrokeWidth * ratio, - this.Link!.StrokeWidth * ratio)
+
+      secondStartX += x
+      secondStartY += y
     }
 
     let path = `M ${firstStartX} ${firstStartY} L ${firstTipX} ${firstTipY} M ${secondStartX} ${secondStartY} L ${secondTipX} ${secondTipY}`
 
     return path
+  }
+
+  rotateToSegentDirection(segment: Segment, x: number, y: number): { x: number, y: number } {
+    let x_res = 0
+    let y_res = 0
+
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+      if (segment.EndPoint.X > segment.StartPoint.X) { // 0'
+        x_res = x
+        y_res = y
+      } else { // pi
+        x_res = -x
+        y_res = y
+      }
+    }
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+      if (segment.EndPoint.Y > segment.StartPoint.Y) { // pi/2
+        x_res = y
+        y_res = x
+      } else { // 3*pi/2
+        x_res = -y
+        y_res = -x
+      }
+    }
+
+    return { x: x_res, y: y_res }
   }
 
   pageX: number = 0

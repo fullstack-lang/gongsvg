@@ -127,11 +127,11 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.691057
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.102804
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.707988
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 4.991870
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.554703
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.219512
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -187,8 +187,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 456.000000
-	__Rect__000000_Bottom.Y = 252.005684
+	__Rect__000000_Bottom.X = 201.000000
+	__Rect__000000_Bottom.Y = 34.005684
 	__Rect__000000_Bottom.Width = 267.000000
 	__Rect__000000_Bottom.Height = 137.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -214,8 +214,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 209.000000
-	__Rect__000001_Top.Y = 512.000000
+	__Rect__000001_Top.X = 23.000000
+	__Rect__000001_Top.Y = 11.000000
 	__Rect__000001_Top.Width = 123.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000

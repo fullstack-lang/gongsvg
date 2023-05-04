@@ -4,6 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 
 // insertion point sub template for services imports 
+import { AnchoredTextDB } from './anchoredtext-db'
+import { AnchoredTextService } from './anchoredtext.service'
+
 import { AnimateDB } from './animate-db'
 import { AnimateService } from './animate.service'
 
@@ -46,6 +49,9 @@ import { TextService } from './text.service'
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
+  AnchoredTexts_array = new Array<AnchoredTextDB>(); // array of repo instances
+  AnchoredTexts = new Map<number, AnchoredTextDB>(); // map of repo instances
+  AnchoredTexts_batch = new Map<number, AnchoredTextDB>(); // same but only in last GET (for finding repo instances to delete)
   Animates_array = new Array<AnimateDB>(); // array of repo instances
   Animates = new Map<number, AnimateDB>(); // map of repo instances
   Animates_batch = new Map<number, AnimateDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -147,6 +153,7 @@ export class FrontRepoService {
 
   constructor(
     private http: HttpClient, // insertion point sub template 
+    private anchoredtextService: AnchoredTextService,
     private animateService: AnimateService,
     private circleService: CircleService,
     private ellipseService: EllipseService,
@@ -190,6 +197,7 @@ export class FrontRepoService {
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
+    Observable<AnchoredTextDB[]>,
     Observable<AnimateDB[]>,
     Observable<CircleDB[]>,
     Observable<EllipseDB[]>,
@@ -204,6 +212,7 @@ export class FrontRepoService {
     Observable<SVGDB[]>,
     Observable<TextDB[]>,
   ] = [ // insertion point sub template
+      this.anchoredtextService.getAnchoredTexts(this.GONG__StackPath),
       this.animateService.getAnimates(this.GONG__StackPath),
       this.circleService.getCircles(this.GONG__StackPath),
       this.ellipseService.getEllipses(this.GONG__StackPath),
@@ -230,6 +239,7 @@ export class FrontRepoService {
     this.GONG__StackPath = GONG__StackPath
 
     this.observableFrontRepo = [ // insertion point sub template
+      this.anchoredtextService.getAnchoredTexts(this.GONG__StackPath),
       this.animateService.getAnimates(this.GONG__StackPath),
       this.circleService.getCircles(this.GONG__StackPath),
       this.ellipseService.getEllipses(this.GONG__StackPath),
@@ -251,6 +261,7 @@ export class FrontRepoService {
           this.observableFrontRepo
         ).subscribe(
           ([ // insertion point sub template for declarations 
+            anchoredtexts_,
             animates_,
             circles_,
             ellipses_,
@@ -267,6 +278,8 @@ export class FrontRepoService {
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
+            var anchoredtexts: AnchoredTextDB[]
+            anchoredtexts = anchoredtexts_ as AnchoredTextDB[]
             var animates: AnimateDB[]
             animates = animates_ as AnimateDB[]
             var circles: CircleDB[]
@@ -297,6 +310,39 @@ export class FrontRepoService {
             // 
             // First Step: init map of instances
             // insertion point sub template for init 
+            // init the array
+            this.frontRepo.AnchoredTexts_array = anchoredtexts
+
+            // clear the map that counts AnchoredText in the GET
+            this.frontRepo.AnchoredTexts_batch.clear()
+
+            anchoredtexts.forEach(
+              anchoredtext => {
+                this.frontRepo.AnchoredTexts.set(anchoredtext.ID, anchoredtext)
+                this.frontRepo.AnchoredTexts_batch.set(anchoredtext.ID, anchoredtext)
+              }
+            )
+
+            // clear anchoredtexts that are absent from the batch
+            this.frontRepo.AnchoredTexts.forEach(
+              anchoredtext => {
+                if (this.frontRepo.AnchoredTexts_batch.get(anchoredtext.ID) == undefined) {
+                  this.frontRepo.AnchoredTexts.delete(anchoredtext.ID)
+                }
+              }
+            )
+
+            // sort AnchoredTexts_array array
+            this.frontRepo.AnchoredTexts_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
             // init the array
             this.frontRepo.Animates_array = animates
 
@@ -730,11 +776,44 @@ export class FrontRepoService {
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
             // insertion point sub template for redeem 
+            anchoredtexts.forEach(
+              anchoredtext => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Link.TextAtArrowEnd redeeming
+                {
+                  let _link = this.frontRepo.Links.get(anchoredtext.Link_TextAtArrowEndDBID.Int64)
+                  if (_link) {
+                    if (_link.TextAtArrowEnd == undefined) {
+                      _link.TextAtArrowEnd = new Array<AnchoredTextDB>()
+                    }
+                    _link.TextAtArrowEnd.push(anchoredtext)
+                    if (anchoredtext.Link_TextAtArrowEnd_reverse == undefined) {
+                      anchoredtext.Link_TextAtArrowEnd_reverse = _link
+                    }
+                  }
+                }
+              }
+            )
             animates.forEach(
               animate => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field AnchoredText.Animates redeeming
+                {
+                  let _anchoredtext = this.frontRepo.AnchoredTexts.get(animate.AnchoredText_AnimatesDBID.Int64)
+                  if (_anchoredtext) {
+                    if (_anchoredtext.Animates == undefined) {
+                      _anchoredtext.Animates = new Array<AnimateDB>()
+                    }
+                    _anchoredtext.Animates.push(animate)
+                    if (animate.AnchoredText_Animates_reverse == undefined) {
+                      animate.AnchoredText_Animates_reverse = _anchoredtext
+                    }
+                  }
+                }
                 // insertion point for slice of pointer field Circle.Animations redeeming
                 {
                   let _circle = this.frontRepo.Circles.get(animate.Circle_AnimationsDBID.Int64)
@@ -1107,6 +1186,70 @@ export class FrontRepoService {
 
   // insertion point for pull per struct 
 
+  // AnchoredTextPull performs a GET on AnchoredText of the stack and redeem association pointers 
+  AnchoredTextPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.anchoredtextService.getAnchoredTexts(this.GONG__StackPath)
+        ]).subscribe(
+          ([ // insertion point sub template 
+            anchoredtexts,
+          ]) => {
+            // init the array
+            this.frontRepo.AnchoredTexts_array = anchoredtexts
+
+            // clear the map that counts AnchoredText in the GET
+            this.frontRepo.AnchoredTexts_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            anchoredtexts.forEach(
+              anchoredtext => {
+                this.frontRepo.AnchoredTexts.set(anchoredtext.ID, anchoredtext)
+                this.frontRepo.AnchoredTexts_batch.set(anchoredtext.ID, anchoredtext)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Link.TextAtArrowEnd redeeming
+                {
+                  let _link = this.frontRepo.Links.get(anchoredtext.Link_TextAtArrowEndDBID.Int64)
+                  if (_link) {
+                    if (_link.TextAtArrowEnd == undefined) {
+                      _link.TextAtArrowEnd = new Array<AnchoredTextDB>()
+                    }
+                    _link.TextAtArrowEnd.push(anchoredtext)
+                    if (anchoredtext.Link_TextAtArrowEnd_reverse == undefined) {
+                      anchoredtext.Link_TextAtArrowEnd_reverse = _link
+                    }
+                  }
+                }
+              }
+            )
+
+            // clear anchoredtexts that are absent from the GET
+            this.frontRepo.AnchoredTexts.forEach(
+              anchoredtext => {
+                if (this.frontRepo.AnchoredTexts_batch.get(anchoredtext.ID) == undefined) {
+                  this.frontRepo.AnchoredTexts.delete(anchoredtext.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(this.frontRepo)
+          }
+        )
+      }
+    )
+  }
+
   // AnimatePull performs a GET on Animate of the stack and redeem association pointers 
   AnimatePull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
@@ -1134,6 +1277,19 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field AnchoredText.Animates redeeming
+                {
+                  let _anchoredtext = this.frontRepo.AnchoredTexts.get(animate.AnchoredText_AnimatesDBID.Int64)
+                  if (_anchoredtext) {
+                    if (_anchoredtext.Animates == undefined) {
+                      _anchoredtext.Animates = new Array<AnimateDB>()
+                    }
+                    _anchoredtext.Animates.push(animate)
+                    if (animate.AnchoredText_Animates_reverse == undefined) {
+                      animate.AnchoredText_Animates_reverse = _anchoredtext
+                    }
+                  }
+                }
                 // insertion point for slice of pointer field Circle.Animations redeeming
                 {
                   let _circle = this.frontRepo.Circles.get(animate.Circle_AnimationsDBID.Int64)
@@ -2047,42 +2203,45 @@ export class FrontRepoService {
 }
 
 // insertion point for get unique ID per struct 
-export function getAnimateUniqueID(id: number): number {
+export function getAnchoredTextUniqueID(id: number): number {
   return 31 * id
 }
-export function getCircleUniqueID(id: number): number {
+export function getAnimateUniqueID(id: number): number {
   return 37 * id
 }
-export function getEllipseUniqueID(id: number): number {
+export function getCircleUniqueID(id: number): number {
   return 41 * id
 }
-export function getLayerUniqueID(id: number): number {
+export function getEllipseUniqueID(id: number): number {
   return 43 * id
 }
-export function getLineUniqueID(id: number): number {
+export function getLayerUniqueID(id: number): number {
   return 47 * id
 }
-export function getLinkUniqueID(id: number): number {
+export function getLineUniqueID(id: number): number {
   return 53 * id
 }
-export function getPathUniqueID(id: number): number {
+export function getLinkUniqueID(id: number): number {
   return 59 * id
 }
-export function getPointUniqueID(id: number): number {
+export function getPathUniqueID(id: number): number {
   return 61 * id
 }
-export function getPolygoneUniqueID(id: number): number {
+export function getPointUniqueID(id: number): number {
   return 67 * id
 }
-export function getPolylineUniqueID(id: number): number {
+export function getPolygoneUniqueID(id: number): number {
   return 71 * id
 }
-export function getRectUniqueID(id: number): number {
+export function getPolylineUniqueID(id: number): number {
   return 73 * id
 }
-export function getSVGUniqueID(id: number): number {
+export function getRectUniqueID(id: number): number {
   return 79 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getSVGUniqueID(id: number): number {
   return 83 * id
+}
+export function getTextUniqueID(id: number): number {
+  return 89 * id
 }

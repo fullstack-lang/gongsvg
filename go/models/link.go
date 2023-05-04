@@ -32,6 +32,10 @@ type Link struct {
 	HasEndArrow  bool
 	EndArrowSize float64
 
+	// to be displayed at the end
+	TextAtArrowEnd []*AnchoredText
+
+	// for non floating orthogonal anchors
 	ControlPoints []*Point
 
 	Presentation

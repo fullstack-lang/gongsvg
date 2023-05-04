@@ -74,6 +74,7 @@ export class LinkService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     linkdb.Start = new RectDB
     linkdb.End = new RectDB
+    linkdb.TextAtArrowEnd = []
     linkdb.ControlPoints = []
     let _Layer_Links_reverse = linkdb.Layer_Links_reverse
     linkdb.Layer_Links_reverse = new LayerDB
@@ -119,6 +120,7 @@ export class LinkService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     linkdb.Start = new RectDB
     linkdb.End = new RectDB
+    linkdb.TextAtArrowEnd = []
     linkdb.ControlPoints = []
     let _Layer_Links_reverse = linkdb.Layer_Links_reverse
     linkdb.Layer_Links_reverse = new LayerDB

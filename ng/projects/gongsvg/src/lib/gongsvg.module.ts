@@ -39,6 +39,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { GongstructSelectionService } from './gongstruct-selection.service'
 
 // insertion point for imports 
+import { AnchoredTextsTableComponent } from './anchoredtexts-table/anchoredtexts-table.component'
+import { AnchoredTextSortingComponent } from './anchoredtext-sorting/anchoredtext-sorting.component'
+import { AnchoredTextDetailComponent } from './anchoredtext-detail/anchoredtext-detail.component'
+
 import { AnimatesTableComponent } from './animates-table/animates-table.component'
 import { AnimateSortingComponent } from './animate-sorting/animate-sorting.component'
 import { AnimateDetailComponent } from './animate-detail/animate-detail.component'
@@ -95,6 +99,10 @@ import { TextDetailComponent } from './text-detail/text-detail.component'
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
+		AnchoredTextsTableComponent,
+		AnchoredTextSortingComponent,
+		AnchoredTextDetailComponent,
+
 		AnimatesTableComponent,
 		AnimateSortingComponent,
 		AnimateDetailComponent,
@@ -186,6 +194,10 @@ import { TextDetailComponent } from './text-detail/text-detail.component'
 	],
 	exports: [
 		// insertion point for declarations 
+		AnchoredTextsTableComponent,
+		AnchoredTextSortingComponent,
+		AnchoredTextDetailComponent,
+
 		AnimatesTableComponent,
 		AnimateSortingComponent,
 		AnimateDetailComponent,

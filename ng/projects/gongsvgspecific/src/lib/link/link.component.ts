@@ -495,13 +495,11 @@ export class LinkComponent implements OnInit, AfterViewInit {
       firstTipX += x
       firstTipY += y
     }
-
     {
       let { x, y } = this.rotateToSegentDirection(segment, this.Link!.StrokeWidth * ratio, this.Link!.StrokeWidth * ratio)
       firstStartX += x
       firstStartY += y
     }
-
     {
       let { x, y } = this.rotateToSegentDirection(segment, - this.Link!.EndArrowSize, this.Link!.EndArrowSize)
 

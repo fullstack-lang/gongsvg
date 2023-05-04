@@ -303,6 +303,7 @@ func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileS
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps
+var __gong__map_AnchoredText = make(map[string]*AnchoredText)
 var __gong__map_Animate = make(map[string]*Animate)
 var __gong__map_Circle = make(map[string]*Circle)
 var __gong__map_Ellipse = make(map[string]*Ellipse)
@@ -488,6 +489,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 									// this is the place where an instance is created
 									switch gongstructName {
 									// insertion point for identifiers
+									case "AnchoredText":
+										instanceAnchoredText := (&AnchoredText{Name: instanceName}).Stage(stage)
+										instance = any(instanceAnchoredText)
+										__gong__map_AnchoredText[identifier] = instanceAnchoredText
 									case "Animate":
 										instanceAnimate := (&Animate{Name: instanceName}).Stage(stage)
 										instance = any(instanceAnimate)
@@ -576,6 +581,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						}
 						switch gongstructName {
 						// insertion point for basic lit assignments
+						case "AnchoredText":
+							switch fieldName {
+							// insertion point for date assign code
+							}
 						case "Animate":
 							switch fieldName {
 							// insertion point for date assign code
@@ -653,6 +662,16 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					}
 					switch gongstructName {
 					// insertion point for slice of pointers assignments
+					case "AnchoredText":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						case "Animates":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Animate[targetIdentifier]
+							__gong__map_AnchoredText[identifier].Animates =
+								append(__gong__map_AnchoredText[identifier].Animates, target)
+						}
 					case "Animate":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
@@ -748,6 +767,12 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					case "Link":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "TextAtArrowEnd":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_AnchoredText[targetIdentifier]
+							__gong__map_Link[identifier].TextAtArrowEnd =
+								append(__gong__map_Link[identifier].TextAtArrowEnd, target)
 						case "ControlPoints":
 							// remove first and last char
 							targetIdentifier := ident.Name
@@ -855,6 +880,66 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 
 			switch gongstructName {
 			// insertion point for basic lit assignments
+			case "AnchoredText":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_AnchoredText[identifier].Name = fielValue
+				case "Content":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_AnchoredText[identifier].Content = fielValue
+				case "X_Offset":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_AnchoredText[identifier].X_Offset = fielValue
+				case "Y_Offset":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_AnchoredText[identifier].Y_Offset = fielValue
+				case "Color":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_AnchoredText[identifier].Color = fielValue
+				case "FillOpacity":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_AnchoredText[identifier].FillOpacity = fielValue
+				case "Stroke":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_AnchoredText[identifier].Stroke = fielValue
+				case "StrokeWidth":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_AnchoredText[identifier].StrokeWidth = fielValue
+				case "StrokeDashArray":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_AnchoredText[identifier].StrokeDashArray = fielValue
+				case "StrokeDashArrayWhenSelected":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_AnchoredText[identifier].StrokeDashArrayWhenSelected = fielValue
+				case "Transform":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_AnchoredText[identifier].Transform = fielValue
+				}
 			case "Animate":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1500,6 +1585,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			}
 			switch gongstructName {
 			// insertion point for bool & pointers assignments
+			case "AnchoredText":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			case "Animate":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1690,6 +1779,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				_ = enumValue
 				switch gongstructName {
 				// insertion point for enums assignments
+				case "AnchoredText":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
 				case "Animate":
 					switch fieldName {
 					// insertion point for enum assign code

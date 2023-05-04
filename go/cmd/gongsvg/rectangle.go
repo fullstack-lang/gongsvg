@@ -38,6 +38,9 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
+	// Declarations of staged instances of AnchoredText
+	__AnchoredText__000000_Anchored_Text_Test := (&models.AnchoredText{Name: `Anchored Text Test`}).Stage(stage)
+
 	// Declarations of staged instances of Animate
 
 	// Declarations of staged instances of Circle
@@ -80,6 +83,19 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Text__000000_Essai := (&models.Text{Name: `Essai`}).Stage(stage)
 
 	// Setup of values
+
+	// AnchoredText values setup
+	__AnchoredText__000000_Anchored_Text_Test.Name = `Anchored Text Test`
+	__AnchoredText__000000_Anchored_Text_Test.Content = `Ipsum Lorem`
+	__AnchoredText__000000_Anchored_Text_Test.X_Offset = 0.000000
+	__AnchoredText__000000_Anchored_Text_Test.Y_Offset = 100.000000
+	__AnchoredText__000000_Anchored_Text_Test.Color = ``
+	__AnchoredText__000000_Anchored_Text_Test.FillOpacity = 0.000000
+	__AnchoredText__000000_Anchored_Text_Test.Stroke = `black`
+	__AnchoredText__000000_Anchored_Text_Test.StrokeWidth = 1.000000
+	__AnchoredText__000000_Anchored_Text_Test.StrokeDashArray = ``
+	__AnchoredText__000000_Anchored_Text_Test.StrokeDashArrayWhenSelected = ``
+	__AnchoredText__000000_Anchored_Text_Test.Transform = ``
 
 	// Circle values setup
 	__Circle__000000_Test.Name = `Test`
@@ -265,6 +281,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000006_Top_Rectangle_layer.Rects = append(__Layer__000006_Top_Rectangle_layer.Rects, __Rect__000001_Top)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000001_Top
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __AnchoredText__000000_Anchored_Text_Test)
 	__Link__000001_Link_horizontal_to_horizontal.Start = __Rect__000001_Top
 	__Link__000001_Link_horizontal_to_horizontal.End = __Rect__000000_Bottom
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000001_Top

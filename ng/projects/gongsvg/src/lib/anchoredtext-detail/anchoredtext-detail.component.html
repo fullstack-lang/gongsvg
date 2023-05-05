@@ -187,6 +187,15 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Link) TextAtArrowStart</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="anchoredtext.Link_TextAtArrowStart_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let link of frontRepo.Links_array" [value]="link">
+                {{link.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
             Save anchoredtext

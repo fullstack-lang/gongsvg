@@ -112,6 +112,13 @@ export class AnchoredTextsTableComponent implements OnInit {
             return ""
           }
 
+        case 'Link_TextAtArrowStart':
+          if (this.frontRepo.Links.get(anchoredtextDB.Link_TextAtArrowStartDBID.Int64) != undefined) {
+            return this.frontRepo.Links.get(anchoredtextDB.Link_TextAtArrowStartDBID.Int64)!.Name
+          } else {
+            return ""
+          }
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -139,6 +146,10 @@ export class AnchoredTextsTableComponent implements OnInit {
       mergedContent += anchoredtextDB.Transform.toLowerCase()
       if (anchoredtextDB.Link_TextAtArrowEndDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Links.get(anchoredtextDB.Link_TextAtArrowEndDBID.Int64)!.Name.toLowerCase()
+      }
+
+      if (anchoredtextDB.Link_TextAtArrowStartDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Links.get(anchoredtextDB.Link_TextAtArrowStartDBID.Int64)!.Name.toLowerCase()
       }
 
 
@@ -207,6 +218,7 @@ export class AnchoredTextsTableComponent implements OnInit {
         "StrokeDashArrayWhenSelected",
         "Transform",
         "Link_TextAtArrowEnd",
+        "Link_TextAtArrowStart",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -222,6 +234,7 @@ export class AnchoredTextsTableComponent implements OnInit {
         "StrokeDashArrayWhenSelected",
         "Transform",
         "Link_TextAtArrowEnd",
+        "Link_TextAtArrowStart",
       ]
       this.selection = new SelectionModel<AnchoredTextDB>(allowMultiSelect, this.initialSelection);
     }

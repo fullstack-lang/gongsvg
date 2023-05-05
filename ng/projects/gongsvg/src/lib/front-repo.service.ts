@@ -794,6 +794,19 @@ export class FrontRepoService {
                     }
                   }
                 }
+                // insertion point for slice of pointer field Link.TextAtArrowStart redeeming
+                {
+                  let _link = this.frontRepo.Links.get(anchoredtext.Link_TextAtArrowStartDBID.Int64)
+                  if (_link) {
+                    if (_link.TextAtArrowStart == undefined) {
+                      _link.TextAtArrowStart = new Array<AnchoredTextDB>()
+                    }
+                    _link.TextAtArrowStart.push(anchoredtext)
+                    if (anchoredtext.Link_TextAtArrowStart_reverse == undefined) {
+                      anchoredtext.Link_TextAtArrowStart_reverse = _link
+                    }
+                  }
+                }
               }
             )
             animates.forEach(
@@ -1223,6 +1236,19 @@ export class FrontRepoService {
                     _link.TextAtArrowEnd.push(anchoredtext)
                     if (anchoredtext.Link_TextAtArrowEnd_reverse == undefined) {
                       anchoredtext.Link_TextAtArrowEnd_reverse = _link
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Link.TextAtArrowStart redeeming
+                {
+                  let _link = this.frontRepo.Links.get(anchoredtext.Link_TextAtArrowStartDBID.Int64)
+                  if (_link) {
+                    if (_link.TextAtArrowStart == undefined) {
+                      _link.TextAtArrowStart = new Array<AnchoredTextDB>()
+                    }
+                    _link.TextAtArrowStart.push(anchoredtext)
+                    if (anchoredtext.Link_TextAtArrowStart_reverse == undefined) {
+                      anchoredtext.Link_TextAtArrowStart_reverse = _link
                     }
                   }
                 }

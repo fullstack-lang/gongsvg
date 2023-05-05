@@ -359,6 +359,9 @@ func (stage *StageStruct) StageBranchLink(link *Link) {
 	for _, _anchoredtext := range link.TextAtArrowEnd {
 		StageBranch(stage, _anchoredtext)
 	}
+	for _, _anchoredtext := range link.TextAtArrowStart {
+		StageBranch(stage, _anchoredtext)
+	}
 	for _, _point := range link.ControlPoints {
 		StageBranch(stage, _point)
 	}
@@ -699,6 +702,9 @@ func (stage *StageStruct) UnstageBranchLink(link *Link) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _anchoredtext := range link.TextAtArrowEnd {
+		UnstageBranch(stage, _anchoredtext)
+	}
+	for _, _anchoredtext := range link.TextAtArrowStart {
 		UnstageBranch(stage, _anchoredtext)
 	}
 	for _, _point := range link.ControlPoints {

@@ -773,6 +773,12 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							target := __gong__map_AnchoredText[targetIdentifier]
 							__gong__map_Link[identifier].TextAtArrowEnd =
 								append(__gong__map_Link[identifier].TextAtArrowEnd, target)
+						case "TextAtArrowStart":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_AnchoredText[targetIdentifier]
+							__gong__map_Link[identifier].TextAtArrowStart =
+								append(__gong__map_Link[identifier].TextAtArrowStart, target)
 						case "ControlPoints":
 							// remove first and last char
 							targetIdentifier := ident.Name

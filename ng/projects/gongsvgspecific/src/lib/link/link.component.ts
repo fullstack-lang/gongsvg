@@ -69,8 +69,8 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
           this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
           this.LinkAtMouseDown = structuredClone(this.Link!)
 
-          if (this.Link!.TextAtArrowEnd && this.Link!.TextAtArrowEnd[0]) {
-            this.AnchoredTextAtMouseDown = structuredClone(this.Link!.TextAtArrowEnd[0])
+          if (this.Link!.TextAtArrowEnd && this.Link!.TextAtArrowEnd[this.draggedTextIndex]) {
+            this.AnchoredTextAtMouseDown = structuredClone(this.Link!.TextAtArrowEnd[this.draggedTextIndex])
           }
         })
     )
@@ -258,7 +258,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
 
             // console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
 
-            let text = this.Link!.TextAtArrowEnd![0]
+            let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
             text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
             text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
           }
@@ -304,7 +304,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
           }
 
           if (this.textDragging) {
-            let text = this.Link!.TextAtArrowEnd![0]
+            let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
             this.anchoredTextService.updateAnchoredText(text, this.GONG__StackPath).subscribe()
           }
           this.dragging = false

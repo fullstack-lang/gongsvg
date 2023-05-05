@@ -40,6 +40,7 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of AnchoredText
 	__AnchoredText__000000_Anchored_Text_Test := (&models.AnchoredText{Name: `Anchored Text Test`}).Stage(stage)
+	__AnchoredText__000001_Another_Anchored_Text := (&models.AnchoredText{Name: `Another Anchored Text`}).Stage(stage)
 
 	// Declarations of staged instances of Animate
 
@@ -87,8 +88,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	// AnchoredText values setup
 	__AnchoredText__000000_Anchored_Text_Test.Name = `Anchored Text Test`
 	__AnchoredText__000000_Anchored_Text_Test.Content = `Ipsum Lorem`
-	__AnchoredText__000000_Anchored_Text_Test.X_Offset = -119.000000
-	__AnchoredText__000000_Anchored_Text_Test.Y_Offset = 23.000000
+	__AnchoredText__000000_Anchored_Text_Test.X_Offset = -105.000000
+	__AnchoredText__000000_Anchored_Text_Test.Y_Offset = 29.000000
 	__AnchoredText__000000_Anchored_Text_Test.Color = ``
 	__AnchoredText__000000_Anchored_Text_Test.FillOpacity = 100.000000
 	__AnchoredText__000000_Anchored_Text_Test.Stroke = `black`
@@ -96,6 +97,19 @@ func rectangleInjection(stage *models.StageStruct) {
 	__AnchoredText__000000_Anchored_Text_Test.StrokeDashArray = ``
 	__AnchoredText__000000_Anchored_Text_Test.StrokeDashArrayWhenSelected = ``
 	__AnchoredText__000000_Anchored_Text_Test.Transform = ``
+
+	// AnchoredText values setup
+	__AnchoredText__000001_Another_Anchored_Text.Name = `Another Anchored Text`
+	__AnchoredText__000001_Another_Anchored_Text.Content = `0..1`
+	__AnchoredText__000001_Another_Anchored_Text.X_Offset = -41.000000
+	__AnchoredText__000001_Another_Anchored_Text.Y_Offset = -24.000000
+	__AnchoredText__000001_Another_Anchored_Text.Color = ``
+	__AnchoredText__000001_Another_Anchored_Text.FillOpacity = 0.000000
+	__AnchoredText__000001_Another_Anchored_Text.Stroke = `lightblue`
+	__AnchoredText__000001_Another_Anchored_Text.StrokeWidth = 1.000000
+	__AnchoredText__000001_Another_Anchored_Text.StrokeDashArray = ``
+	__AnchoredText__000001_Another_Anchored_Text.StrokeDashArrayWhenSelected = ``
+	__AnchoredText__000001_Another_Anchored_Text.Transform = ``
 
 	// Circle values setup
 	__Circle__000000_Test.Name = `Test`
@@ -203,8 +217,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 472.000000
-	__Rect__000000_Bottom.Y = 140.005684
+	__Rect__000000_Bottom.X = 869.000000
+	__Rect__000000_Bottom.Y = 277.005684
 	__Rect__000000_Bottom.Width = 267.000000
 	__Rect__000000_Bottom.Height = 137.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -282,6 +296,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000001_Top
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __AnchoredText__000000_Anchored_Text_Test)
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __AnchoredText__000001_Another_Anchored_Text)
 	__Link__000001_Link_horizontal_to_horizontal.Start = __Rect__000001_Top
 	__Link__000001_Link_horizontal_to_horizontal.End = __Rect__000000_Bottom
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000001_Top

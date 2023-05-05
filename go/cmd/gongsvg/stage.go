@@ -1,17 +1,44 @@
 package main
 
 import (
+	"time"
+
 	"github.com/fullstack-lang/gongsvg/go/models"
+
+	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage models.StageStruct
+var ___dummy__Stage_stage models.StageStruct
+var ___dummy__Time_stage time.Time
+
+// Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
+
+// currently, DocLink renaming is not enabled in gopls
+// the following map are devised to overcome this limitation
+// those maps and the processing code will be eleminated when
+// DocLink renaming will be enabled in gopls
+// [Corresponding Issue](https://github.com/golang/go/issues/57559)
+//
+// When parsed, those maps will help with the renaming process
+var map_DocLink_Identifier_stage map[string]any = map[string]any{
+	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
+}
+
+// init might be handy if one want to have the data embedded in the binary
+// but it has to properly reference the Injection gateway in the main package
+// func init() {
+// 	_ = __Dummy_time_variable
+// 	InjectionGateway["stage"] = stageInjection
+// }
 
 // stageInjection will stage objects of database "stage"
 func stageInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
+
+	// Declarations of staged instances of AnchoredText
 
 	// Declarations of staged instances of Animate
 	__Animate__000000_A1 := (&models.Animate{Name: `A1`}).Stage(stage)
@@ -25,11 +52,18 @@ func stageInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Ellipse
 	__Ellipse__000000_Ellipse_Example_SVG := (&models.Ellipse{Name: `Ellipse Example SVG`}).Stage(stage)
 
+	// Declarations of staged instances of Layer
+	__Layer__000000_SVG2 := (&models.Layer{Name: `SVG2`}).Stage(stage)
+
 	// Declarations of staged instances of Line
 	__Line__000000_Line := (&models.Line{Name: `Line`}).Stage(stage)
 
+	// Declarations of staged instances of Link
+
 	// Declarations of staged instances of Path
 	__Path__000000_Path_example := (&models.Path{Name: `Path example`}).Stage(stage)
+
+	// Declarations of staged instances of Point
 
 	// Declarations of staged instances of Polygone
 	__Polygone__000000_Polygone_example_SVG := (&models.Polygone{Name: `Polygone example SVG`}).Stage(stage)
@@ -45,7 +79,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000004_Test_Rect := (&models.Rect{Name: `Test Rect`}).Stage(stage)
 
 	// Declarations of staged instances of SVG
-	__SVG__000000_SVG2 := (&models.Layer{Name: `SVG2`}).Stage(stage)
+	__SVG__000000_SVG := (&models.SVG{Name: `SVG`}).Stage(stage)
 
 	// Declarations of staged instances of Text
 	__Text__000000_Bonjorno := (&models.Text{Name: `Bonjorno`}).Stage(stage)
@@ -91,6 +125,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Circle__000000_C1a.Stroke = `blue`
 	__Circle__000000_C1a.StrokeWidth = 1.000000
 	__Circle__000000_C1a.StrokeDashArray = ``
+	__Circle__000000_C1a.StrokeDashArrayWhenSelected = ``
 	__Circle__000000_C1a.Transform = ``
 
 	// Ellipse values setup
@@ -104,7 +139,12 @@ func stageInjection(stage *models.StageStruct) {
 	__Ellipse__000000_Ellipse_Example_SVG.Stroke = `black`
 	__Ellipse__000000_Ellipse_Example_SVG.StrokeWidth = 2.000000
 	__Ellipse__000000_Ellipse_Example_SVG.StrokeDashArray = ``
+	__Ellipse__000000_Ellipse_Example_SVG.StrokeDashArrayWhenSelected = ``
 	__Ellipse__000000_Ellipse_Example_SVG.Transform = ``
+
+	// Layer values setup
+	__Layer__000000_SVG2.Display = true
+	__Layer__000000_SVG2.Name = `SVG2`
 
 	// Line values setup
 	__Line__000000_Line.Name = `Line`
@@ -117,7 +157,10 @@ func stageInjection(stage *models.StageStruct) {
 	__Line__000000_Line.Stroke = `red`
 	__Line__000000_Line.StrokeWidth = 1.000000
 	__Line__000000_Line.StrokeDashArray = ``
+	__Line__000000_Line.StrokeDashArrayWhenSelected = ``
 	__Line__000000_Line.Transform = ``
+	__Line__000000_Line.MouseClickX = 0.000000
+	__Line__000000_Line.MouseClickY = 0.000000
 
 	// Path values setup
 	__Path__000000_Path_example.Name = `Path example`
@@ -127,6 +170,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Path__000000_Path_example.Stroke = `blue`
 	__Path__000000_Path_example.StrokeWidth = 2.000000
 	__Path__000000_Path_example.StrokeDashArray = `4 4`
+	__Path__000000_Path_example.StrokeDashArrayWhenSelected = ``
 	__Path__000000_Path_example.Transform = ``
 
 	// Polygone values setup
@@ -137,6 +181,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Polygone__000000_Polygone_example_SVG.Stroke = ``
 	__Polygone__000000_Polygone_example_SVG.StrokeWidth = 0.000000
 	__Polygone__000000_Polygone_example_SVG.StrokeDashArray = ``
+	__Polygone__000000_Polygone_example_SVG.StrokeDashArrayWhenSelected = ``
 	__Polygone__000000_Polygone_example_SVG.Transform = ``
 
 	// Polyline values setup
@@ -147,6 +192,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Polyline__000000_Polyline_example_SVG.Stroke = ``
 	__Polyline__000000_Polyline_example_SVG.StrokeWidth = 0.000000
 	__Polyline__000000_Polyline_example_SVG.StrokeDashArray = ``
+	__Polyline__000000_Polyline_example_SVG.StrokeDashArrayWhenSelected = ``
 	__Polyline__000000_Polyline_example_SVG.Transform = ``
 
 	// Rect values setup
@@ -161,7 +207,20 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000000_R1.Stroke = `blue`
 	__Rect__000000_R1.StrokeWidth = 1.000000
 	__Rect__000000_R1.StrokeDashArray = `4 4`
+	__Rect__000000_R1.StrokeDashArrayWhenSelected = ``
 	__Rect__000000_R1.Transform = ``
+	__Rect__000000_R1.IsSelectable = false
+	__Rect__000000_R1.IsSelected = false
+	__Rect__000000_R1.CanHaveLeftHandle = false
+	__Rect__000000_R1.HasLeftHandle = false
+	__Rect__000000_R1.CanHaveRightHandle = false
+	__Rect__000000_R1.HasRightHandle = false
+	__Rect__000000_R1.CanHaveTopHandle = false
+	__Rect__000000_R1.HasTopHandle = false
+	__Rect__000000_R1.CanHaveBottomHandle = false
+	__Rect__000000_R1.HasBottomHandle = false
+	__Rect__000000_R1.CanMoveHorizontaly = false
+	__Rect__000000_R1.CanMoveVerticaly = false
 
 	// Rect values setup
 	__Rect__000001_R2.Name = `R2`
@@ -175,7 +234,20 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000001_R2.Stroke = `yellow`
 	__Rect__000001_R2.StrokeWidth = 3.000000
 	__Rect__000001_R2.StrokeDashArray = `4 1`
+	__Rect__000001_R2.StrokeDashArrayWhenSelected = ``
 	__Rect__000001_R2.Transform = ``
+	__Rect__000001_R2.IsSelectable = false
+	__Rect__000001_R2.IsSelected = false
+	__Rect__000001_R2.CanHaveLeftHandle = false
+	__Rect__000001_R2.HasLeftHandle = false
+	__Rect__000001_R2.CanHaveRightHandle = false
+	__Rect__000001_R2.HasRightHandle = false
+	__Rect__000001_R2.CanHaveTopHandle = false
+	__Rect__000001_R2.HasTopHandle = false
+	__Rect__000001_R2.CanHaveBottomHandle = false
+	__Rect__000001_R2.HasBottomHandle = false
+	__Rect__000001_R2.CanMoveHorizontaly = false
+	__Rect__000001_R2.CanMoveVerticaly = false
 
 	// Rect values setup
 	__Rect__000002_R3.Name = `R3`
@@ -189,7 +261,20 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000002_R3.Stroke = `pink`
 	__Rect__000002_R3.StrokeWidth = 6.000000
 	__Rect__000002_R3.StrokeDashArray = ``
+	__Rect__000002_R3.StrokeDashArrayWhenSelected = ``
 	__Rect__000002_R3.Transform = ``
+	__Rect__000002_R3.IsSelectable = false
+	__Rect__000002_R3.IsSelected = false
+	__Rect__000002_R3.CanHaveLeftHandle = false
+	__Rect__000002_R3.HasLeftHandle = false
+	__Rect__000002_R3.CanHaveRightHandle = false
+	__Rect__000002_R3.HasRightHandle = false
+	__Rect__000002_R3.CanHaveTopHandle = false
+	__Rect__000002_R3.HasTopHandle = false
+	__Rect__000002_R3.CanHaveBottomHandle = false
+	__Rect__000002_R3.HasBottomHandle = false
+	__Rect__000002_R3.CanMoveHorizontaly = false
+	__Rect__000002_R3.CanMoveVerticaly = false
 
 	// Rect values setup
 	__Rect__000003_R4_rounded.Name = `R4 rounded`
@@ -203,7 +288,20 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000003_R4_rounded.Stroke = ``
 	__Rect__000003_R4_rounded.StrokeWidth = 0.000000
 	__Rect__000003_R4_rounded.StrokeDashArray = ``
+	__Rect__000003_R4_rounded.StrokeDashArrayWhenSelected = ``
 	__Rect__000003_R4_rounded.Transform = ``
+	__Rect__000003_R4_rounded.IsSelectable = false
+	__Rect__000003_R4_rounded.IsSelected = false
+	__Rect__000003_R4_rounded.CanHaveLeftHandle = false
+	__Rect__000003_R4_rounded.HasLeftHandle = false
+	__Rect__000003_R4_rounded.CanHaveRightHandle = false
+	__Rect__000003_R4_rounded.HasRightHandle = false
+	__Rect__000003_R4_rounded.CanHaveTopHandle = false
+	__Rect__000003_R4_rounded.HasTopHandle = false
+	__Rect__000003_R4_rounded.CanHaveBottomHandle = false
+	__Rect__000003_R4_rounded.HasBottomHandle = false
+	__Rect__000003_R4_rounded.CanMoveHorizontaly = false
+	__Rect__000003_R4_rounded.CanMoveVerticaly = false
 
 	// Rect values setup
 	__Rect__000004_Test_Rect.Name = `Test Rect`
@@ -217,11 +315,23 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000004_Test_Rect.Stroke = ``
 	__Rect__000004_Test_Rect.StrokeWidth = 0.000000
 	__Rect__000004_Test_Rect.StrokeDashArray = ``
+	__Rect__000004_Test_Rect.StrokeDashArrayWhenSelected = ``
 	__Rect__000004_Test_Rect.Transform = ``
+	__Rect__000004_Test_Rect.IsSelectable = false
+	__Rect__000004_Test_Rect.IsSelected = false
+	__Rect__000004_Test_Rect.CanHaveLeftHandle = false
+	__Rect__000004_Test_Rect.HasLeftHandle = false
+	__Rect__000004_Test_Rect.CanHaveRightHandle = false
+	__Rect__000004_Test_Rect.HasRightHandle = false
+	__Rect__000004_Test_Rect.CanHaveTopHandle = false
+	__Rect__000004_Test_Rect.HasTopHandle = false
+	__Rect__000004_Test_Rect.CanHaveBottomHandle = false
+	__Rect__000004_Test_Rect.HasBottomHandle = false
+	__Rect__000004_Test_Rect.CanMoveHorizontaly = false
+	__Rect__000004_Test_Rect.CanMoveVerticaly = false
 
 	// SVG values setup
-	__SVG__000000_SVG2.Display = true
-	__SVG__000000_SVG2.Name = `SVG2`
+	__SVG__000000_SVG.Name = `SVG`
 
 	// Text values setup
 	__Text__000000_Bonjorno.Name = `Bonjorno`
@@ -233,6 +343,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Text__000000_Bonjorno.Stroke = `black`
 	__Text__000000_Bonjorno.StrokeWidth = 0.000000
 	__Text__000000_Bonjorno.StrokeDashArray = ``
+	__Text__000000_Bonjorno.StrokeDashArrayWhenSelected = ``
 	__Text__000000_Bonjorno.Transform = ``
 
 	// Text values setup
@@ -245,24 +356,28 @@ func stageInjection(stage *models.StageStruct) {
 	__Text__000001_Hello.Stroke = `red`
 	__Text__000001_Hello.StrokeWidth = 3.000000
 	__Text__000001_Hello.StrokeDashArray = ``
+	__Text__000001_Hello.StrokeDashArrayWhenSelected = ``
 	__Text__000001_Hello.Transform = ``
 
 	// Setup of pointers
 	__Circle__000000_C1a.Animations = append(__Circle__000000_C1a.Animations, __Animate__000002_C1a_animation)
+	__Layer__000000_SVG2.Rects = append(__Layer__000000_SVG2.Rects, __Rect__000002_R3)
+	__Layer__000000_SVG2.Rects = append(__Layer__000000_SVG2.Rects, __Rect__000003_R4_rounded)
+	__Layer__000000_SVG2.Rects = append(__Layer__000000_SVG2.Rects, __Rect__000004_Test_Rect)
+	__Layer__000000_SVG2.Rects = append(__Layer__000000_SVG2.Rects, __Rect__000000_R1)
+	__Layer__000000_SVG2.Rects = append(__Layer__000000_SVG2.Rects, __Rect__000001_R2)
+	__Layer__000000_SVG2.Texts = append(__Layer__000000_SVG2.Texts, __Text__000001_Hello)
+	__Layer__000000_SVG2.Texts = append(__Layer__000000_SVG2.Texts, __Text__000000_Bonjorno)
+	__Layer__000000_SVG2.Circles = append(__Layer__000000_SVG2.Circles, __Circle__000000_C1a)
+	__Layer__000000_SVG2.Lines = append(__Layer__000000_SVG2.Lines, __Line__000000_Line)
+	__Layer__000000_SVG2.Ellipses = append(__Layer__000000_SVG2.Ellipses, __Ellipse__000000_Ellipse_Example_SVG)
+	__Layer__000000_SVG2.Polylines = append(__Layer__000000_SVG2.Polylines, __Polyline__000000_Polyline_example_SVG)
+	__Layer__000000_SVG2.Polygones = append(__Layer__000000_SVG2.Polygones, __Polygone__000000_Polygone_example_SVG)
+	__Layer__000000_SVG2.Paths = append(__Layer__000000_SVG2.Paths, __Path__000000_Path_example)
 	__Rect__000003_R4_rounded.Animations = append(__Rect__000003_R4_rounded.Animations, __Animate__000000_A1)
 	__Rect__000003_R4_rounded.Animations = append(__Rect__000003_R4_rounded.Animations, __Animate__000001_Animate_oppacity)
-	__SVG__000000_SVG2.Rects = append(__SVG__000000_SVG2.Rects, __Rect__000002_R3)
-	__SVG__000000_SVG2.Rects = append(__SVG__000000_SVG2.Rects, __Rect__000003_R4_rounded)
-	__SVG__000000_SVG2.Rects = append(__SVG__000000_SVG2.Rects, __Rect__000004_Test_Rect)
-	__SVG__000000_SVG2.Rects = append(__SVG__000000_SVG2.Rects, __Rect__000000_R1)
-	__SVG__000000_SVG2.Rects = append(__SVG__000000_SVG2.Rects, __Rect__000001_R2)
-	__SVG__000000_SVG2.Texts = append(__SVG__000000_SVG2.Texts, __Text__000001_Hello)
-	__SVG__000000_SVG2.Texts = append(__SVG__000000_SVG2.Texts, __Text__000000_Bonjorno)
-	__SVG__000000_SVG2.Circles = append(__SVG__000000_SVG2.Circles, __Circle__000000_C1a)
-	__SVG__000000_SVG2.Lines = append(__SVG__000000_SVG2.Lines, __Line__000000_Line)
-	__SVG__000000_SVG2.Ellipses = append(__SVG__000000_SVG2.Ellipses, __Ellipse__000000_Ellipse_Example_SVG)
-	__SVG__000000_SVG2.Polylines = append(__SVG__000000_SVG2.Polylines, __Polyline__000000_Polyline_example_SVG)
-	__SVG__000000_SVG2.Polygones = append(__SVG__000000_SVG2.Polygones, __Polygone__000000_Polygone_example_SVG)
-	__SVG__000000_SVG2.Paths = append(__SVG__000000_SVG2.Paths, __Path__000000_Path_example)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_SVG2)
 	__Text__000001_Hello.Animates = append(__Text__000001_Hello.Animates, __Animate__000003_Move_text)
 }
+
+

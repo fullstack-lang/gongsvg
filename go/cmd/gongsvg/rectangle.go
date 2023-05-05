@@ -87,9 +87,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	// AnchoredText values setup
 	__AnchoredText__000000_Anchored_Text_Test.Name = `Anchored Text Test`
 	__AnchoredText__000000_Anchored_Text_Test.Content = `Ipsum Lorem`
-	__AnchoredText__000000_Anchored_Text_Test.X_Offset = 12.000000
-	__AnchoredText__000000_Anchored_Text_Test.Y_Offset = 36.000000
-	__AnchoredText__000000_Anchored_Text_Test.Color = `cyan`
+	__AnchoredText__000000_Anchored_Text_Test.X_Offset = -119.000000
+	__AnchoredText__000000_Anchored_Text_Test.Y_Offset = 23.000000
+	__AnchoredText__000000_Anchored_Text_Test.Color = ``
 	__AnchoredText__000000_Anchored_Text_Test.FillOpacity = 100.000000
 	__AnchoredText__000000_Anchored_Text_Test.Stroke = `black`
 	__AnchoredText__000000_Anchored_Text_Test.StrokeWidth = 1.000000
@@ -203,8 +203,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 235.000000
-	__Rect__000000_Bottom.Y = 310.005684
+	__Rect__000000_Bottom.X = 472.000000
+	__Rect__000000_Bottom.Y = 140.005684
 	__Rect__000000_Bottom.Width = 267.000000
 	__Rect__000000_Bottom.Height = 137.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -230,8 +230,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 52.000000
-	__Rect__000001_Top.Y = 43.000000
+	__Rect__000001_Top.X = 264.000000
+	__Rect__000001_Top.Y = 112.000000
 	__Rect__000001_Top.Width = 123.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000

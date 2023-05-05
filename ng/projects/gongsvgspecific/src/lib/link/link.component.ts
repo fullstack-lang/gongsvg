@@ -3,12 +3,9 @@ import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
 import { SegmentsParams, Segment, createPoint, drawSegments, Offset } from './draw.segments';
 import { LinkEventService } from '../link-event.service';
-import { Point } from 'leaflet';
 import { Subscription } from 'rxjs';
 import { ShapeMouseEvent } from '../shape.mouse.event';
 import { MouseEventService } from '../mouse-event.service';
-import { GongModule } from '../../../../../../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/lib/gong.module';
-
 
 @Component({
   selector: 'lib-link',

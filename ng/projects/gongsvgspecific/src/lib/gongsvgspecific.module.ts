@@ -58,7 +58,8 @@ import { LinkComponent } from './link/link.component';
   exports: [
     GongsvgspecificComponent,
     SvgComponent,
-    DataModelPanelComponent
+    DataModelPanelComponent,
+    LayerComponent
   ]
 })
 export class GongsvgspecificModule { }

@@ -27,6 +27,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
   // to compute wether it was a select / dragging event
   dragging = false
   draggedSegment = 0
+  draggedSegmentPositionOnArrow: gongsvg.PositionOnArrowType = gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START
 
   // dragged anchored text
   textDragging = false
@@ -69,9 +70,17 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
           this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
           this.LinkAtMouseDown = structuredClone(this.Link!)
 
-          if (this.Link!.TextAtArrowEnd && this.Link!.TextAtArrowEnd[this.draggedTextIndex]) {
-            this.AnchoredTextAtMouseDown = structuredClone(this.Link!.TextAtArrowEnd[this.draggedTextIndex])
+          if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+            if (this.Link!.TextAtArrowEnd && this.Link!.TextAtArrowEnd[this.draggedTextIndex]) {
+              this.AnchoredTextAtMouseDown = structuredClone(this.Link!.TextAtArrowEnd[this.draggedTextIndex])
+            }
           }
+          if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+            if (this.Link!.TextAtArrowStart && this.Link!.TextAtArrowStart[this.draggedTextIndex]) {
+              this.AnchoredTextAtMouseDown = structuredClone(this.Link!.TextAtArrowStart[this.draggedTextIndex])
+            }
+          }
+
         })
     )
 
@@ -258,9 +267,17 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
 
             // console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
 
-            let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
-            text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
-            text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
+            if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+              let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
+              text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
+              text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
+            }
+            if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+              let text = this.Link!.TextAtArrowStart![this.draggedTextIndex]
+              text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
+              text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
+            }
+
           }
         })
     )
@@ -304,8 +321,14 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
           }
 
           if (this.textDragging) {
-            let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
-            this.anchoredTextService.updateAnchoredText(text, this.GONG__StackPath).subscribe()
+            if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+              let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
+              this.anchoredTextService.updateAnchoredText(text, this.GONG__StackPath).subscribe()
+            }
+            if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+              let text = this.Link!.TextAtArrowStart![this.draggedTextIndex]
+              this.anchoredTextService.updateAnchoredText(text, this.GONG__StackPath).subscribe()
+            }
           }
           this.dragging = false
           this.textDragging = false
@@ -378,7 +401,9 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
     return coordinate
   }
 
-  linkMouseDown(event: MouseEvent, segmentNumber: number): void {
+  linkMouseDown(
+    event: MouseEvent,
+    segmentNumber: number): void {
 
     if (!event.altKey && !event.shiftKey) {
       event.preventDefault();
@@ -622,7 +647,10 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
     return { x: x_res, y: y_res }
   }
 
-  textAnchoredMouseDown(event: MouseEvent, anchoredTextIndex: number): void {
+  textAnchoredMouseDown(
+    event: MouseEvent,
+    anchoredTextIndex: number,
+    draggedSegmentPositionOnArrow: string): void {
 
     if (!event.altKey && !event.shiftKey) {
       event.preventDefault();
@@ -634,6 +662,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
       // this text shift to dragging state
       this.textDragging = true
       this.draggedTextIndex = anchoredTextIndex
+      this.draggedSegmentPositionOnArrow = draggedSegmentPositionOnArrow as gongsvg.PositionOnArrowType
 
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: this.Link!.ID,

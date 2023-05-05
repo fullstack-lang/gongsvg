@@ -89,8 +89,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	// AnchoredText values setup
 	__AnchoredText__000000_Anchored_Text_Test.Name = `Anchored Text Test`
 	__AnchoredText__000000_Anchored_Text_Test.Content = `Ipsum Lorem`
-	__AnchoredText__000000_Anchored_Text_Test.X_Offset = -116.000000
-	__AnchoredText__000000_Anchored_Text_Test.Y_Offset = 28.000000
+	__AnchoredText__000000_Anchored_Text_Test.X_Offset = -117.000000
+	__AnchoredText__000000_Anchored_Text_Test.Y_Offset = 33.000000
 	__AnchoredText__000000_Anchored_Text_Test.Color = ``
 	__AnchoredText__000000_Anchored_Text_Test.FillOpacity = 100.000000
 	__AnchoredText__000000_Anchored_Text_Test.Stroke = `black`
@@ -103,7 +103,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__AnchoredText__000001_Another_Anchored_Text.Name = `Another Anchored Text`
 	__AnchoredText__000001_Another_Anchored_Text.Content = `0..1`
 	__AnchoredText__000001_Another_Anchored_Text.X_Offset = -43.000000
-	__AnchoredText__000001_Another_Anchored_Text.Y_Offset = -16.000000
+	__AnchoredText__000001_Another_Anchored_Text.Y_Offset = -17.000000
 	__AnchoredText__000001_Another_Anchored_Text.Color = ``
 	__AnchoredText__000001_Another_Anchored_Text.FillOpacity = 0.000000
 	__AnchoredText__000001_Another_Anchored_Text.Stroke = `lightblue`
@@ -115,8 +115,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	// AnchoredText values setup
 	__AnchoredText__000002_Start_Anchored_Text_Test.Name = `Start Anchored Text Test`
 	__AnchoredText__000002_Start_Anchored_Text_Test.Content = `* Hello *`
-	__AnchoredText__000002_Start_Anchored_Text_Test.X_Offset = 0.000000
-	__AnchoredText__000002_Start_Anchored_Text_Test.Y_Offset = 0.000000
+	__AnchoredText__000002_Start_Anchored_Text_Test.X_Offset = 17.000000
+	__AnchoredText__000002_Start_Anchored_Text_Test.Y_Offset = -13.000000
 	__AnchoredText__000002_Start_Anchored_Text_Test.Color = ``
 	__AnchoredText__000002_Start_Anchored_Text_Test.FillOpacity = 0.000000
 	__AnchoredText__000002_Start_Anchored_Text_Test.Stroke = `cyan`

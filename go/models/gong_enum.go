@@ -1466,6 +1466,62 @@ func (orientationtype *OrientationType) ToCodeString() (res string) {
 	return
 }
 
+// Utility function for PositionOnArrowType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (positiononarrowtype PositionOnArrowType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch positiononarrowtype {
+	// insertion code per enum code
+	case POSITION_ON_ARROW_START:
+		res = "POSITION_ON_ARROW_START"
+	case POSITION_ON_ARROW_END:
+		res = "POSITION_ON_ARROW_END"
+	}
+	return
+}
+
+func (positiononarrowtype *PositionOnArrowType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "POSITION_ON_ARROW_START":
+		*positiononarrowtype = POSITION_ON_ARROW_START
+	case "POSITION_ON_ARROW_END":
+		*positiononarrowtype = POSITION_ON_ARROW_END
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (positiononarrowtype *PositionOnArrowType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "POSITION_ON_ARROW_START":
+		*positiononarrowtype = POSITION_ON_ARROW_START
+	case "POSITION_ON_ARROW_END":
+		*positiononarrowtype = POSITION_ON_ARROW_END
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (positiononarrowtype *PositionOnArrowType) ToCodeString() (res string) {
+
+	switch *positiononarrowtype {
+	// insertion code per enum code
+	case POSITION_ON_ARROW_START:
+		res = "POSITION_ON_ARROW_START"
+	case POSITION_ON_ARROW_END:
+		res = "POSITION_ON_ARROW_END"
+	}
+	return
+}
+
 // Utility function for SideType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

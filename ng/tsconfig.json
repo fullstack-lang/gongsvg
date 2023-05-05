@@ -41,6 +41,9 @@
       "jointjs": [
         "./node_modules/jointjs"
       ],
+      "gongsvgdatamodel": [
+        "dist/gongsvgdatamodel"
+      ],
       "gongsvgspecific": [
         "projects/gongsvgspecific/src/public-api.ts"
       ],

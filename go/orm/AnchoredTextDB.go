@@ -51,6 +51,12 @@ type AnchoredTextPointersEnconding struct {
 
 	// implementation of the index of the withing the slice
 	Link_TextAtArrowEndDBID_Index sql.NullInt64
+
+	// Implementation of a reverse ID for field Link{}.TextAtArrowStart []*AnchoredText
+	Link_TextAtArrowStartDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Link_TextAtArrowStartDBID_Index sql.NullInt64
 }
 
 // AnchoredTextDB describes a anchoredtext in the database
@@ -725,6 +731,12 @@ func (backRepoAnchoredText *BackRepoAnchoredTextStruct) RestorePhaseTwo() {
 		if anchoredtextDB.Link_TextAtArrowEndDBID.Int64 != 0 {
 			anchoredtextDB.Link_TextAtArrowEndDBID.Int64 =
 				int64(BackRepoLinkid_atBckpTime_newID[uint(anchoredtextDB.Link_TextAtArrowEndDBID.Int64)])
+		}
+
+		// This reindex anchoredtext.TextAtArrowStart
+		if anchoredtextDB.Link_TextAtArrowStartDBID.Int64 != 0 {
+			anchoredtextDB.Link_TextAtArrowStartDBID.Int64 =
+				int64(BackRepoLinkid_atBckpTime_newID[uint(anchoredtextDB.Link_TextAtArrowStartDBID.Int64)])
 		}
 
 		// update databse with new index encoding

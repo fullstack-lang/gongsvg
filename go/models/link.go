@@ -35,6 +35,9 @@ type Link struct {
 	// to be displayed at the end
 	TextAtArrowEnd []*AnchoredText
 
+	// to be displayed at the start
+	TextAtArrowStart []*AnchoredText
+
 	// for non floating orthogonal anchors
 	ControlPoints []*Point
 

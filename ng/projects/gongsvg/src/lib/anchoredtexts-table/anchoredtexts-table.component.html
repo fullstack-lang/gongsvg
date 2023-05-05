@@ -102,6 +102,13 @@
                 {{frontRepo.Links.get(anchoredtext.Link_TextAtArrowEndDBID.Int64)?.Name}}
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Link_TextAtArrowStart">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Link) TextAtArrowStart </th>
+            <td mat-cell *matCellDef="let anchoredtext">
+                {{frontRepo.Links.get(anchoredtext.Link_TextAtArrowStartDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>

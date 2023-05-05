@@ -1411,6 +1411,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			End: &Rect{Name: "End"},
 			// field is initialized with an instance of AnchoredText with the name of the field
 			TextAtArrowEnd: []*AnchoredText{{Name: "TextAtArrowEnd"}},
+			// field is initialized with an instance of AnchoredText with the name of the field
+			TextAtArrowStart: []*AnchoredText{{Name: "TextAtArrowStart"}},
 			// field is initialized with an instance of Point with the name of the field
 			ControlPoints: []*Point{{Name: "ControlPoints"}},
 		}).(*Type)
@@ -1776,6 +1778,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End]*Start)
+		case "TextAtArrowStart":
+			res := make(map[*AnchoredText]*Link)
+			for link := range stage.Links {
+				for _, anchoredtext_ := range link.TextAtArrowStart {
+					res[anchoredtext_] = link
+				}
+			}
+			return any(res).(map[*End]*Start)
 		case "ControlPoints":
 			res := make(map[*Point]*Link)
 			for link := range stage.Links {
@@ -1932,7 +1942,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Type", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "TextAtArrowEnd", "TextAtArrowStart", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Point:
@@ -2223,6 +2233,13 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(Link).EndArrowSize)
 		case "TextAtArrowEnd":
 			for idx, __instance__ := range any(instance).(Link).TextAtArrowEnd {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "TextAtArrowStart":
+			for idx, __instance__ := range any(instance).(Link).TextAtArrowStart {
 				if idx > 0 {
 					res += "\n"
 				}

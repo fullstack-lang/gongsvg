@@ -1193,6 +1193,38 @@ export class SidebarComponent implements OnInit {
           })
 
           /**
+          * let append a node for the slide of pointer TextAtArrowStart
+          */
+          let TextAtArrowStartGongNodeAssociation: GongNode = {
+            name: "(AnchoredText) TextAtArrowStart",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: linkDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Link",
+            associationField: "TextAtArrowStart",
+            associatedStructName: "AnchoredText",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          linkGongNodeInstance.children.push(TextAtArrowStartGongNodeAssociation)
+
+          linkDB.TextAtArrowStart?.forEach(anchoredtextDB => {
+            let anchoredtextNode: GongNode = {
+              name: anchoredtextDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: anchoredtextDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getLinkUniqueID(linkDB.ID)
+                + 11 * getAnchoredTextUniqueID(anchoredtextDB.ID),
+              structName: "AnchoredText",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            TextAtArrowStartGongNodeAssociation.children.push(anchoredtextNode)
+          })
+
+          /**
           * let append a node for the slide of pointer ControlPoints
           */
           let ControlPointsGongNodeAssociation: GongNode = {

@@ -39,9 +39,10 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of AnchoredText
-	__AnchoredText__000000_Anchored_Text_Test := (&models.AnchoredText{Name: `Anchored Text Test`}).Stage(stage)
-	__AnchoredText__000001_Another_Anchored_Text := (&models.AnchoredText{Name: `Another Anchored Text`}).Stage(stage)
-	__AnchoredText__000002_Start_Anchored_Text_Test := (&models.AnchoredText{Name: `Start Anchored Text Test`}).Stage(stage)
+	__AnchoredText__000000_End_Anchored_1 := (&models.AnchoredText{Name: `End Anchored 1`}).Stage(stage)
+	__AnchoredText__000001_End_Anchored_2 := (&models.AnchoredText{Name: `End Anchored 2`}).Stage(stage)
+	__AnchoredText__000002_Start_Anchored_1 := (&models.AnchoredText{Name: `Start Anchored 1`}).Stage(stage)
+	__AnchoredText__000003_Start_Anchored_2 := (&models.AnchoredText{Name: `Start Anchored 2`}).Stage(stage)
 
 	// Declarations of staged instances of Animate
 
@@ -87,43 +88,56 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Setup of values
 
 	// AnchoredText values setup
-	__AnchoredText__000000_Anchored_Text_Test.Name = `Anchored Text Test`
-	__AnchoredText__000000_Anchored_Text_Test.Content = `Ipsum Lorem`
-	__AnchoredText__000000_Anchored_Text_Test.X_Offset = -126.000000
-	__AnchoredText__000000_Anchored_Text_Test.Y_Offset = 29.000000
-	__AnchoredText__000000_Anchored_Text_Test.Color = ``
-	__AnchoredText__000000_Anchored_Text_Test.FillOpacity = 100.000000
-	__AnchoredText__000000_Anchored_Text_Test.Stroke = `black`
-	__AnchoredText__000000_Anchored_Text_Test.StrokeWidth = 1.000000
-	__AnchoredText__000000_Anchored_Text_Test.StrokeDashArray = ``
-	__AnchoredText__000000_Anchored_Text_Test.StrokeDashArrayWhenSelected = ``
-	__AnchoredText__000000_Anchored_Text_Test.Transform = ``
+	__AnchoredText__000000_End_Anchored_1.Name = `End Anchored 1`
+	__AnchoredText__000000_End_Anchored_1.Content = `End Anchored 1`
+	__AnchoredText__000000_End_Anchored_1.X_Offset = -135.000000
+	__AnchoredText__000000_End_Anchored_1.Y_Offset = 23.000000
+	__AnchoredText__000000_End_Anchored_1.Color = ``
+	__AnchoredText__000000_End_Anchored_1.FillOpacity = 0.000000
+	__AnchoredText__000000_End_Anchored_1.Stroke = `violet`
+	__AnchoredText__000000_End_Anchored_1.StrokeWidth = 2.000000
+	__AnchoredText__000000_End_Anchored_1.StrokeDashArray = ``
+	__AnchoredText__000000_End_Anchored_1.StrokeDashArrayWhenSelected = ``
+	__AnchoredText__000000_End_Anchored_1.Transform = ``
 
 	// AnchoredText values setup
-	__AnchoredText__000001_Another_Anchored_Text.Name = `Another Anchored Text`
-	__AnchoredText__000001_Another_Anchored_Text.Content = `0..1`
-	__AnchoredText__000001_Another_Anchored_Text.X_Offset = -52.000000
-	__AnchoredText__000001_Another_Anchored_Text.Y_Offset = -24.000000
-	__AnchoredText__000001_Another_Anchored_Text.Color = ``
-	__AnchoredText__000001_Another_Anchored_Text.FillOpacity = 0.000000
-	__AnchoredText__000001_Another_Anchored_Text.Stroke = `lightblue`
-	__AnchoredText__000001_Another_Anchored_Text.StrokeWidth = 1.000000
-	__AnchoredText__000001_Another_Anchored_Text.StrokeDashArray = ``
-	__AnchoredText__000001_Another_Anchored_Text.StrokeDashArrayWhenSelected = ``
-	__AnchoredText__000001_Another_Anchored_Text.Transform = ``
+	__AnchoredText__000001_End_Anchored_2.Name = `End Anchored 2`
+	__AnchoredText__000001_End_Anchored_2.Content = `End Anchored 2`
+	__AnchoredText__000001_End_Anchored_2.X_Offset = -130.000000
+	__AnchoredText__000001_End_Anchored_2.Y_Offset = -34.000000
+	__AnchoredText__000001_End_Anchored_2.Color = ``
+	__AnchoredText__000001_End_Anchored_2.FillOpacity = 0.000000
+	__AnchoredText__000001_End_Anchored_2.Stroke = `blue`
+	__AnchoredText__000001_End_Anchored_2.StrokeWidth = 2.000000
+	__AnchoredText__000001_End_Anchored_2.StrokeDashArray = ``
+	__AnchoredText__000001_End_Anchored_2.StrokeDashArrayWhenSelected = ``
+	__AnchoredText__000001_End_Anchored_2.Transform = ``
 
 	// AnchoredText values setup
-	__AnchoredText__000002_Start_Anchored_Text_Test.Name = `Start Anchored Text Test`
-	__AnchoredText__000002_Start_Anchored_Text_Test.Content = `* Hello *`
-	__AnchoredText__000002_Start_Anchored_Text_Test.X_Offset = 13.000000
-	__AnchoredText__000002_Start_Anchored_Text_Test.Y_Offset = -15.000000
-	__AnchoredText__000002_Start_Anchored_Text_Test.Color = ``
-	__AnchoredText__000002_Start_Anchored_Text_Test.FillOpacity = 0.000000
-	__AnchoredText__000002_Start_Anchored_Text_Test.Stroke = `cyan`
-	__AnchoredText__000002_Start_Anchored_Text_Test.StrokeWidth = 2.000000
-	__AnchoredText__000002_Start_Anchored_Text_Test.StrokeDashArray = ``
-	__AnchoredText__000002_Start_Anchored_Text_Test.StrokeDashArrayWhenSelected = ``
-	__AnchoredText__000002_Start_Anchored_Text_Test.Transform = ``
+	__AnchoredText__000002_Start_Anchored_1.Name = `Start Anchored 1`
+	__AnchoredText__000002_Start_Anchored_1.Content = `Start Anchored 1`
+	__AnchoredText__000002_Start_Anchored_1.X_Offset = 31.000000
+	__AnchoredText__000002_Start_Anchored_1.Y_Offset = 0.000000
+	__AnchoredText__000002_Start_Anchored_1.Color = ``
+	__AnchoredText__000002_Start_Anchored_1.FillOpacity = 0.000000
+	__AnchoredText__000002_Start_Anchored_1.Stroke = `cyan`
+	__AnchoredText__000002_Start_Anchored_1.StrokeWidth = 2.000000
+	__AnchoredText__000002_Start_Anchored_1.StrokeDashArray = ``
+	__AnchoredText__000002_Start_Anchored_1.StrokeDashArrayWhenSelected = ``
+	__AnchoredText__000002_Start_Anchored_1.Transform = ``
+
+	// AnchoredText values setup
+	__AnchoredText__000003_Start_Anchored_2.Name = `Start Anchored 2`
+	__AnchoredText__000003_Start_Anchored_2.Content = `Start Anchored 2`
+	__AnchoredText__000003_Start_Anchored_2.X_Offset = 32.000000
+	__AnchoredText__000003_Start_Anchored_2.Y_Offset = 48.000000
+	__AnchoredText__000003_Start_Anchored_2.Color = ``
+	__AnchoredText__000003_Start_Anchored_2.FillOpacity = 0.000000
+	__AnchoredText__000003_Start_Anchored_2.Stroke = `black`
+	__AnchoredText__000003_Start_Anchored_2.StrokeWidth = 1.000000
+	__AnchoredText__000003_Start_Anchored_2.StrokeDashArray = ``
+	__AnchoredText__000003_Start_Anchored_2.StrokeDashArrayWhenSelected = ``
+	__AnchoredText__000003_Start_Anchored_2.Transform = ``
 
 	// Circle values setup
 	__Circle__000000_Test.Name = `Test`
@@ -309,9 +323,10 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000006_Top_Rectangle_layer.Rects = append(__Layer__000006_Top_Rectangle_layer.Rects, __Rect__000001_Top)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000001_Top
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __AnchoredText__000000_Anchored_Text_Test)
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __AnchoredText__000001_Another_Anchored_Text)
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __AnchoredText__000002_Start_Anchored_Text_Test)
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __AnchoredText__000001_End_Anchored_2)
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __AnchoredText__000000_End_Anchored_1)
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __AnchoredText__000003_Start_Anchored_2)
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __AnchoredText__000002_Start_Anchored_1)
 	__Link__000001_Link_horizontal_to_horizontal.Start = __Rect__000001_Top
 	__Link__000001_Link_horizontal_to_horizontal.End = __Rect__000000_Bottom
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000001_Top

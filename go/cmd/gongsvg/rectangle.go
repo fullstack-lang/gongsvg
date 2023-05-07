@@ -87,8 +87,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	// AnchoredText values setup
 	__AnchoredText__000000_Start_Anchored_1.Name = `Start Anchored 1`
 	__AnchoredText__000000_Start_Anchored_1.Content = `Start Anchored 1`
-	__AnchoredText__000000_Start_Anchored_1.X_Offset = 203.000000
-	__AnchoredText__000000_Start_Anchored_1.Y_Offset = -48.000000
+	__AnchoredText__000000_Start_Anchored_1.X_Offset = -148.000000
+	__AnchoredText__000000_Start_Anchored_1.Y_Offset = -75.000000
 	__AnchoredText__000000_Start_Anchored_1.Color = ``
 	__AnchoredText__000000_Start_Anchored_1.FillOpacity = 0.000000
 	__AnchoredText__000000_Start_Anchored_1.Stroke = `cyan`

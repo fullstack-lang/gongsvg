@@ -411,6 +411,7 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			// log.Println(astCoordinate)
 			identifier = selectorExpr.X.(*ast.Ident).Name
 			fieldName = selectorExpr.Sel.Name
+
 		}
 	}
 	for _, expr := range assignStmt.Rhs {
@@ -868,9 +869,22 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					}
 				}
 			}
-		case *ast.BasicLit:
+		case *ast.BasicLit, *ast.UnaryExpr:
+
+			var basicLit *ast.BasicLit
+			var exprSign = 1.0
+
+			if bl, ok := expr.(*ast.BasicLit); ok {
+				basicLit = bl
+			} else if ue, ok := expr.(*ast.UnaryExpr); ok {
+				// Assuming you want to extract a *ast.BasicLit from the *ast.UnaryExpr
+				// Replace this line with the appropriate logic based on your requirements
+				basicLit = ue.X.(*ast.BasicLit)
+				exprSign = -1
+			}
+
 			// assignment to string field
-			basicLit := expr
+
 			// astCoordinate := astCoordinate + "\tBasicLit" + "." + basicLit.Value
 			// log.Println(astCoordinate)
 			var ok bool
@@ -903,14 +917,14 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_AnchoredText[identifier].X_Offset = fielValue
+					__gong__map_AnchoredText[identifier].X_Offset = exprSign * fielValue
 				case "Y_Offset":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_AnchoredText[identifier].Y_Offset = fielValue
+					__gong__map_AnchoredText[identifier].Y_Offset = exprSign * fielValue
 				case "Color":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]

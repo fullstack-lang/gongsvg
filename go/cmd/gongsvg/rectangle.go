@@ -203,8 +203,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 605.000000
-	__Rect__000000_Bottom.Y = 419.000000
+	__Rect__000000_Bottom.X = 569.000000
+	__Rect__000000_Bottom.Y = 345.000000
 	__Rect__000000_Bottom.Width = 377.000000
 	__Rect__000000_Bottom.Height = 119.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -230,8 +230,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 120.000000
-	__Rect__000001_Top.Y = 125.000000
+	__Rect__000001_Top.X = 118.000000
+	__Rect__000001_Top.Y = 73.000000
 	__Rect__000001_Top.Width = 209.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000

@@ -106,13 +106,14 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
             this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
           } else {
             if (this.Rect?.IsSelectable && shapeMouseEvent.ShapeID == this.Rect.ID) {
-              console.log("rect, onRectClick() toggle selected: ", this.Rect?.Name)
+              console.log("rect, mouseEventService.mouseMouseUpEvent$.subscribe, from the shape: ", this.Rect?.Name)
               this.Rect.IsSelected = !this.Rect.IsSelected
               this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
             }
 
             // mouseup emited from the background let to unselect selected shapes
             if (this.Rect.IsSelectable && this.Rect.IsSelected && shapeMouseEvent.ShapeID == 0) {
+              console.log("rect, mouseEventService.mouseMouseUpEvent$.subscribe: from the svg", this.Rect?.Name)
               this.Rect.IsSelected = false
               this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
             }
@@ -232,6 +233,9 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   rectMouseUp(event: MouseEvent): void {
+
+    event.preventDefault();
+    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
     if (!event.altKey && !event.shiftKey) {
       let x = event.clientX - this.pageX

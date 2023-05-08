@@ -87,8 +87,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	// AnchoredText values setup
 	__AnchoredText__000000_Start_Anchored_1.Name = `Start Anchored 1`
 	__AnchoredText__000000_Start_Anchored_1.Content = `Start Anchored 1`
-	__AnchoredText__000000_Start_Anchored_1.X_Offset = -148.000000
-	__AnchoredText__000000_Start_Anchored_1.Y_Offset = -75.000000
+	__AnchoredText__000000_Start_Anchored_1.X_Offset = 52.000000
+	__AnchoredText__000000_Start_Anchored_1.Y_Offset = 40.000000
 	__AnchoredText__000000_Start_Anchored_1.Color = ``
 	__AnchoredText__000000_Start_Anchored_1.FillOpacity = 0.000000
 	__AnchoredText__000000_Start_Anchored_1.Stroke = `cyan`
@@ -145,9 +145,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.261682
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.615725
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.883065
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.639257
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -0.840336
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -203,10 +203,10 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 636.000000
-	__Rect__000000_Bottom.Y = 71.000000
-	__Rect__000000_Bottom.Width = 287.000000
-	__Rect__000000_Bottom.Height = 295.000000
+	__Rect__000000_Bottom.X = 605.000000
+	__Rect__000000_Bottom.Y = 419.000000
+	__Rect__000000_Bottom.Width = 377.000000
+	__Rect__000000_Bottom.Height = 119.000000
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`
 	__Rect__000000_Bottom.FillOpacity = 50.000000

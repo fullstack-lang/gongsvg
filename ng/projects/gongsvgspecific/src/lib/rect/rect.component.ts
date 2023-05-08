@@ -170,24 +170,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     this.anchorDragging = false
   }
 
-  onSVGClick(event: MouseEvent) {
-    console.log("rect, onSVGClick(): ", this.Rect?.Name)
-  }
-
-  onRectClick(event: MouseEvent) {
-    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
-
-    if (this.rectDragging) {
-      this.rectDragging = false;
-      return
-    }
-
-    if (!event.altKey && !event.shiftKey) {
-
-
-    }
-  }
-
   rectMouseDown(event: MouseEvent): void {
 
     if (!event.altKey && !event.shiftKey) {

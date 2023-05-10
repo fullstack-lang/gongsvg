@@ -7,7 +7,7 @@ type RectAnchoredText struct {
 	X_Offset float64
 	Y_Offset float64
 
-	AnchorType AnchorType
+	RectAnchorType RectAnchorType
 
 	Presentation
 	Animates []*Animate

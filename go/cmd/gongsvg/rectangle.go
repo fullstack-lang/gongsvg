@@ -76,6 +76,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Bottom := (&models.Rect{Name: `Bottom`}).Stage(stage)
 	__Rect__000001_Top := (&models.Rect{Name: `Top`}).Stage(stage)
 
+	// Declarations of staged instances of RectAnchoredText
+	__RectAnchoredText__000000_Top_anchored_top_middle := (&models.RectAnchoredText{Name: `Top anchored top middle`}).Stage(stage)
+
 	// Declarations of staged instances of SVG
 	__SVG__000000_SVG := (&models.SVG{Name: `SVG`}).Stage(stage)
 
@@ -230,8 +233,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 118.000000
-	__Rect__000001_Top.Y = 73.000000
+	__Rect__000001_Top.X = 77.000000
+	__Rect__000001_Top.Y = 63.000000
 	__Rect__000001_Top.Width = 209.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000
@@ -254,6 +257,20 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.HasBottomHandle = false
 	__Rect__000001_Top.CanMoveHorizontaly = true
 	__Rect__000001_Top.CanMoveVerticaly = true
+
+	// RectAnchoredText values setup
+	__RectAnchoredText__000000_Top_anchored_top_middle.Name = `Top anchored top middle`
+	__RectAnchoredText__000000_Top_anchored_top_middle.Content = `Top anchored top middle`
+	__RectAnchoredText__000000_Top_anchored_top_middle.X_Offset = 0.000000
+	__RectAnchoredText__000000_Top_anchored_top_middle.Y_Offset = 0.000000
+	__RectAnchoredText__000000_Top_anchored_top_middle.RectAnchorType = models.RECT_ANCHOR_TOP
+	__RectAnchoredText__000000_Top_anchored_top_middle.Color = ``
+	__RectAnchoredText__000000_Top_anchored_top_middle.FillOpacity = 0.000000
+	__RectAnchoredText__000000_Top_anchored_top_middle.Stroke = `bisque`
+	__RectAnchoredText__000000_Top_anchored_top_middle.StrokeWidth = 1.000000
+	__RectAnchoredText__000000_Top_anchored_top_middle.StrokeDashArray = ``
+	__RectAnchoredText__000000_Top_anchored_top_middle.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredText__000000_Top_anchored_top_middle.Transform = ``
 
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
@@ -286,6 +303,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000001_Link_horizontal_to_horizontal.End = __Rect__000000_Bottom
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000001_Top
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.End = __Rect__000000_Bottom
+	__Rect__000001_Top.RectAnchoredTexts = append(__Rect__000001_Top.RectAnchoredTexts, __RectAnchoredText__000000_Top_anchored_top_middle)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Top_Rectangle_layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Link_layer_vertical_to_horizontal)

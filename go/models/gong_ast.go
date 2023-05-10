@@ -315,6 +315,7 @@ var __gong__map_Point = make(map[string]*Point)
 var __gong__map_Polygone = make(map[string]*Polygone)
 var __gong__map_Polyline = make(map[string]*Polyline)
 var __gong__map_Rect = make(map[string]*Rect)
+var __gong__map_RectAnchoredText = make(map[string]*RectAnchoredText)
 var __gong__map_SVG = make(map[string]*SVG)
 var __gong__map_Text = make(map[string]*Text)
 
@@ -537,6 +538,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 										instanceRect := (&Rect{Name: instanceName}).Stage(stage)
 										instance = any(instanceRect)
 										__gong__map_Rect[identifier] = instanceRect
+									case "RectAnchoredText":
+										instanceRectAnchoredText := (&RectAnchoredText{Name: instanceName}).Stage(stage)
+										instance = any(instanceRectAnchoredText)
+										__gong__map_RectAnchoredText[identifier] = instanceRectAnchoredText
 									case "SVG":
 										instanceSVG := (&SVG{Name: instanceName}).Stage(stage)
 										instance = any(instanceSVG)
@@ -626,6 +631,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							// insertion point for date assign code
 							}
 						case "Rect":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "RectAnchoredText":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -829,6 +838,22 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							target := __gong__map_Animate[targetIdentifier]
 							__gong__map_Rect[identifier].Animations =
 								append(__gong__map_Rect[identifier].Animations, target)
+						case "RectAnchoredTexts":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_RectAnchoredText[targetIdentifier]
+							__gong__map_Rect[identifier].RectAnchoredTexts =
+								append(__gong__map_Rect[identifier].RectAnchoredTexts, target)
+						}
+					case "RectAnchoredText":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						case "Animates":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Animate[targetIdentifier]
+							__gong__map_RectAnchoredText[identifier].Animates =
+								append(__gong__map_RectAnchoredText[identifier].Animates, target)
 						}
 					case "SVG":
 						switch fieldName {
@@ -872,6 +897,7 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 
 			var basicLit *ast.BasicLit
 			var exprSign = 1.0
+			_ = exprSign // in case this is not used
 
 			if bl, ok := expr.(*ast.BasicLit); ok {
 				// expression is  for instance ... = 18.000
@@ -1521,6 +1547,66 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Rect[identifier].Transform = fielValue
 				}
+			case "RectAnchoredText":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_RectAnchoredText[identifier].Name = fielValue
+				case "Content":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_RectAnchoredText[identifier].Content = fielValue
+				case "X_Offset":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_RectAnchoredText[identifier].X_Offset = exprSign * fielValue
+				case "Y_Offset":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_RectAnchoredText[identifier].Y_Offset = exprSign * fielValue
+				case "Color":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_RectAnchoredText[identifier].Color = fielValue
+				case "FillOpacity":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_RectAnchoredText[identifier].FillOpacity = exprSign * fielValue
+				case "Stroke":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_RectAnchoredText[identifier].Stroke = fielValue
+				case "StrokeWidth":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_RectAnchoredText[identifier].StrokeWidth = exprSign * fielValue
+				case "StrokeDashArray":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_RectAnchoredText[identifier].StrokeDashArray = fielValue
+				case "StrokeDashArrayWhenSelected":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_RectAnchoredText[identifier].StrokeDashArrayWhenSelected = fielValue
+				case "Transform":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_RectAnchoredText[identifier].Transform = fielValue
+				}
 			case "SVG":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1755,6 +1841,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					}
 					__gong__map_Rect[identifier].CanMoveVerticaly = fielValue
 				}
+			case "RectAnchoredText":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			case "SVG":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1879,6 +1969,24 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				case "Rect":
 					switch fieldName {
 					// insertion point for enum assign code
+					}
+				case "RectAnchoredText":
+					switch fieldName {
+					// insertion point for enum assign code
+					case "RectAnchorType":
+						var val RectAnchorType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_RectAnchoredText[identifier].RectAnchorType = RectAnchorType(val)
+					case "TextAnchorType":
+						var val TextAnchorType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_RectAnchoredText[identifier].TextAnchorType = TextAnchorType(val)
 					}
 				case "SVG":
 					switch fieldName {

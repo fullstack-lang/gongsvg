@@ -1,11 +1,11 @@
-<form *ngIf="rect" class="details">
-    <h2 class="details__title">rect</h2>
+<form *ngIf="rectanchoredtext" class="details">
+    <h2 class="details__title">rectanchoredtext</h2>
     <!-- insertion point for fields specific code -->
     <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Name">
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.Name">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -18,44 +18,66 @@
     </mat-grid-list>
     <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
         <mat-label>Name</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Name"></textarea>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.Name"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Content")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Content</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.Content">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Content')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Content")' mat-form-field class="detail-full-width">
+        <mat-label>Content</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.Content"></textarea>
     </mat-form-field>
 
     <!-- -->
     <mat-form-field class="detail-full-width">
-        <mat-label>X</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.X" [ngModelOptions]="{standalone: true}">
+        <mat-label>X_Offset</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.X_Offset" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
     <!-- -->
     <mat-form-field class="detail-full-width">
-        <mat-label>Y</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Y" [ngModelOptions]="{standalone: true}">
+        <mat-label>Y_Offset</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.Y_Offset" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
     <!-- -->
-    <mat-form-field class="detail-full-width">
-        <mat-label>Width</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Width" [ngModelOptions]="{standalone: true}">
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>RectAnchorType</mat-label>
+        <mat-select [(ngModel)]="rectanchoredtext.RectAnchorType" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of RectAnchorTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
     </mat-form-field>
 
     <!-- -->
-    <mat-form-field class="detail-full-width">
-        <mat-label>Height</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Height" [ngModelOptions]="{standalone: true}">
-    </mat-form-field>
-
-    <!-- -->
-    <mat-form-field class="detail-full-width">
-        <mat-label>RX</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.RX" [ngModelOptions]="{standalone: true}">
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>TextAnchorType</mat-label>
+        <mat-select [(ngModel)]="rectanchoredtext.TextAnchorType" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of TextAnchorTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
     </mat-form-field>
 
     <mat-grid-list *ngIf='!isATextArea("Color")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Color</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Color">
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.Color">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -68,20 +90,20 @@
     </mat-grid-list>
     <mat-form-field *ngIf='isATextArea("Color")' mat-form-field class="detail-full-width">
         <mat-label>Color</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Color"></textarea>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.Color"></textarea>
     </mat-form-field>
 
     <!-- -->
     <mat-form-field class="detail-full-width">
         <mat-label>FillOpacity</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.FillOpacity" [ngModelOptions]="{standalone: true}">
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.FillOpacity" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
     <mat-grid-list *ngIf='!isATextArea("Stroke")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Stroke</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Stroke">
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.Stroke">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -94,20 +116,20 @@
     </mat-grid-list>
     <mat-form-field *ngIf='isATextArea("Stroke")' mat-form-field class="detail-full-width">
         <mat-label>Stroke</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Stroke"></textarea>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.Stroke"></textarea>
     </mat-form-field>
 
     <!-- -->
     <mat-form-field class="detail-full-width">
         <mat-label>StrokeWidth</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.StrokeWidth" [ngModelOptions]="{standalone: true}">
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.StrokeWidth" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
     <mat-grid-list *ngIf='!isATextArea("StrokeDashArray")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>StrokeDashArray</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.StrokeDashArray">
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.StrokeDashArray">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -120,14 +142,14 @@
     </mat-grid-list>
     <mat-form-field *ngIf='isATextArea("StrokeDashArray")' mat-form-field class="detail-full-width">
         <mat-label>StrokeDashArray</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.StrokeDashArray"></textarea>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.StrokeDashArray"></textarea>
     </mat-form-field>
 
     <mat-grid-list *ngIf='!isATextArea("StrokeDashArrayWhenSelected")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>StrokeDashArrayWhenSelected</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.StrokeDashArrayWhenSelected">
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.StrokeDashArrayWhenSelected">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -140,14 +162,14 @@
     </mat-grid-list>
     <mat-form-field *ngIf='isATextArea("StrokeDashArrayWhenSelected")' mat-form-field class="detail-full-width">
         <mat-label>StrokeDashArrayWhenSelected</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.StrokeDashArrayWhenSelected"></textarea>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.StrokeDashArrayWhenSelected"></textarea>
     </mat-form-field>
 
     <mat-grid-list *ngIf='!isATextArea("Transform")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Transform</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Transform">
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.Transform">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -160,65 +182,16 @@
     </mat-grid-list>
     <mat-form-field *ngIf='isATextArea("Transform")' mat-form-field class="detail-full-width">
         <mat-label>Transform</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rect.Transform"></textarea>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectanchoredtext.Transform"></textarea>
     </mat-form-field>
 
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
-            <button mat-raised-button (click)="openReverseSelection('Animate', 'Rect_AnimationsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Animations</button>
+            <button mat-raised-button (click)="openReverseSelection('Animate', 'RectAnchoredText_AnimatesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Animates</button>
         </mat-grid-tile>
         <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
-            <button mat-raised-button (click)="openDragAndDropOrdering('Animate', 'Rect_AnimationsDBID')">
-                <mat-icon>
-                    shuffle
-                </mat-icon>
-            </button>
-        </mat-grid-tile>
-    </mat-grid-list>
-    <!-- -->
-    <mat-checkbox [formControl]="IsSelectableFormControl">IsSelectable</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="IsSelectedFormControl">IsSelected</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="CanHaveLeftHandleFormControl">CanHaveLeftHandle</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="HasLeftHandleFormControl">HasLeftHandle</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="CanHaveRightHandleFormControl">CanHaveRightHandle</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="HasRightHandleFormControl">HasRightHandle</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="CanHaveTopHandleFormControl">CanHaveTopHandle</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="HasTopHandleFormControl">HasTopHandle</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="CanHaveBottomHandleFormControl">CanHaveBottomHandle</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="HasBottomHandleFormControl">HasBottomHandle</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="CanMoveHorizontalyFormControl">CanMoveHorizontaly</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="CanMoveVerticalyFormControl">CanMoveVerticaly</mat-checkbox>
-
-    <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="3">
-            <button mat-raised-button (click)="openReverseSelection('RectAnchoredText', 'Rect_RectAnchoredTextsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">RectAnchoredTexts</button>
-        </mat-grid-tile>
-        <!-- insertion point for the button of the MANY_MANY association-->
-        <mat-grid-tile>
-            <button mat-raised-button (click)="openDragAndDropOrdering('RectAnchoredText', 'Rect_RectAnchoredTextsDBID')">
+            <button mat-raised-button (click)="openDragAndDropOrdering('Animate', 'RectAnchoredText_AnimatesDBID')">
                 <mat-icon>
                     shuffle
                 </mat-icon>
@@ -226,17 +199,17 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-form-field class="detail-full-width">
-        <mat-label>(Layer) Rects</mat-label>
-        <mat-select [compareWith]="compareObjects" [(ngModel)]="rect.Layer_Rects_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-label>(Rect) RectAnchoredTexts</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="rectanchoredtext.Rect_RectAnchoredTexts_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let layer of frontRepo.Layers_array" [value]="layer">
-                {{layer.Name}}
+            <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
+                {{rect.Name}}
             </mat-option>
         </mat-select>
     </mat-form-field>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
-            Save rect
+            Save rectanchoredtext
         </button>
     </div>
 </form>

@@ -21,6 +21,9 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() Rect: gongsvg.RectDB = new gongsvg.RectDB()
   @Input() GONG__StackPath: string = ""
 
+  // for use in the template
+  RectAnchorType = gongsvg.RectAnchorType
+
   // In your component
   anchorRadius = 8; // Adjust this value according to your desired anchor size
   anchorFillColor = 'blue'; // Choose your desired anchor fill color
@@ -263,6 +266,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
+    gongsvg.RectAnchorType.RECT_ANCHOR_TOP
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 

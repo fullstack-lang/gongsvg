@@ -19,6 +19,7 @@ export class RectAnchoredTextDB {
 	X_Offset: number = 0
 	Y_Offset: number = 0
 	RectAnchorType: string = ""
+	TextAnchorType: string = ""
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""

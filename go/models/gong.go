@@ -2067,7 +2067,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Rect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts"}
 	case RectAnchoredText:
-		res = []string{"Name", "Content", "X_Offset", "Y_Offset", "RectAnchorType", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case SVG:
 		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect"}
 	case Text:
@@ -2560,6 +2560,9 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(RectAnchoredText).Y_Offset)
 		case "RectAnchorType":
 			enum := any(instance).(RectAnchoredText).RectAnchorType
+			res = enum.ToCodeString()
+		case "TextAnchorType":
+			enum := any(instance).(RectAnchoredText).TextAnchorType
 			res = enum.ToCodeString()
 		case "Color":
 			res = any(instance).(RectAnchoredText).Color

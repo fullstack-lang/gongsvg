@@ -11,6 +11,7 @@ import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
 import { RectAnchorTypeSelect, RectAnchorTypeList } from '../RectAnchorType'
+import { TextAnchorTypeSelect, TextAnchorTypeList } from '../TextAnchorType'
 import { RectDB } from '../rect-db'
 
 import { Router, ActivatedRoute } from '@angular/router';
@@ -37,6 +38,7 @@ export class RectAnchoredTextDetailComponent implements OnInit {
 
 	// insertion point for declarations
 	RectAnchorTypeList: RectAnchorTypeSelect[] = []
+	TextAnchorTypeList: TextAnchorTypeSelect[] = []
 
 	// the RectAnchoredTextDB of interest
 	rectanchoredtext: RectAnchoredTextDB = new RectAnchoredTextDB
@@ -119,6 +121,7 @@ export class RectAnchoredTextDetailComponent implements OnInit {
 
 		// insertion point for initialisation of enums list
 		this.RectAnchorTypeList = RectAnchorTypeList
+		this.TextAnchorTypeList = TextAnchorTypeList
 	}
 
 	getRectAnchoredText(): void {

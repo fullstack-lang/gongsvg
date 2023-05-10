@@ -87,6 +87,9 @@ export class RectAnchoredTextsTableComponent implements OnInit {
         case 'RectAnchorType':
           return rectanchoredtextDB.RectAnchorType;
 
+        case 'TextAnchorType':
+          return rectanchoredtextDB.TextAnchorType;
+
         case 'Color':
           return rectanchoredtextDB.Color;
 
@@ -134,6 +137,7 @@ export class RectAnchoredTextsTableComponent implements OnInit {
       mergedContent += rectanchoredtextDB.X_Offset.toString()
       mergedContent += rectanchoredtextDB.Y_Offset.toString()
       mergedContent += rectanchoredtextDB.RectAnchorType.toLowerCase()
+      mergedContent += rectanchoredtextDB.TextAnchorType.toLowerCase()
       mergedContent += rectanchoredtextDB.Color.toLowerCase()
       mergedContent += rectanchoredtextDB.FillOpacity.toString()
       mergedContent += rectanchoredtextDB.Stroke.toLowerCase()
@@ -204,6 +208,7 @@ export class RectAnchoredTextsTableComponent implements OnInit {
         "X_Offset",
         "Y_Offset",
         "RectAnchorType",
+        "TextAnchorType",
         "Color",
         "FillOpacity",
         "Stroke",
@@ -220,6 +225,7 @@ export class RectAnchoredTextsTableComponent implements OnInit {
         "X_Offset",
         "Y_Offset",
         "RectAnchorType",
+        "TextAnchorType",
         "Color",
         "FillOpacity",
         "Stroke",

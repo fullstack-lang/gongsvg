@@ -1,9 +1,9 @@
 // generated from ng_file_enum.ts.go
 export enum TextAnchorType {
 	// insertion point	
-	TEXT_ANCHOR_LEFT = "TEXT_ANCHOR_LEFT",
-	TEXT_ANCHOR_RIGHT = "TEXT_ANCHOR_RIGHT",
-	TEXT_ANCHOR_CENTER = "TEXT_ANCHOR_MIDDLE",
+	TEXT_ANCHOR_LEFT = "left",
+	TEXT_ANCHOR_RIGHT = "right",
+	TEXT_ANCHOR_CENTER = "middle",
 }
 
 export interface TextAnchorTypeSelect {
@@ -12,7 +12,7 @@ export interface TextAnchorTypeSelect {
 }
 
 export const TextAnchorTypeList: TextAnchorTypeSelect[] = [ // insertion point	
-	{ value: TextAnchorType.TEXT_ANCHOR_LEFT, viewValue: "TEXT_ANCHOR_LEFT" },
-	{ value: TextAnchorType.TEXT_ANCHOR_RIGHT, viewValue: "TEXT_ANCHOR_RIGHT" },
-	{ value: TextAnchorType.TEXT_ANCHOR_CENTER, viewValue: "TEXT_ANCHOR_MIDDLE" },
+	{ value: TextAnchorType.TEXT_ANCHOR_LEFT, viewValue: "left" },
+	{ value: TextAnchorType.TEXT_ANCHOR_RIGHT, viewValue: "right" },
+	{ value: TextAnchorType.TEXT_ANCHOR_CENTER, viewValue: "middle" },
 ];

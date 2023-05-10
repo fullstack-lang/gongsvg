@@ -1715,11 +1715,11 @@ func (textanchortype TextAnchorType) ToString() (res string) {
 	switch textanchortype {
 	// insertion code per enum code
 	case TEXT_ANCHOR_LEFT:
-		res = "TEXT_ANCHOR_LEFT"
+		res = "left"
 	case TEXT_ANCHOR_RIGHT:
-		res = "TEXT_ANCHOR_RIGHT"
+		res = "right"
 	case TEXT_ANCHOR_CENTER:
-		res = "TEXT_ANCHOR_MIDDLE"
+		res = "middle"
 	}
 	return
 }
@@ -1728,11 +1728,11 @@ func (textanchortype *TextAnchorType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "TEXT_ANCHOR_LEFT":
+	case "left":
 		*textanchortype = TEXT_ANCHOR_LEFT
-	case "TEXT_ANCHOR_RIGHT":
+	case "right":
 		*textanchortype = TEXT_ANCHOR_RIGHT
-	case "TEXT_ANCHOR_MIDDLE":
+	case "middle":
 		*textanchortype = TEXT_ANCHOR_CENTER
 	default:
 		return errUnkownEnum

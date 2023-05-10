@@ -63,6 +63,16 @@
         </mat-select>
     </mat-form-field>
 
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>TextAnchorType</mat-label>
+        <mat-select [(ngModel)]="rectanchoredtext.TextAnchorType" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of TextAnchorTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <mat-grid-list *ngIf='!isATextArea("Color")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">

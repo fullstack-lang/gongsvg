@@ -79,6 +79,9 @@ type RectAnchoredTextDB struct {
 	// Declation for basic field rectanchoredtextDB.RectAnchorType
 	RectAnchorType_Data sql.NullString
 
+	// Declation for basic field rectanchoredtextDB.TextAnchorType
+	TextAnchorType_Data sql.NullString
+
 	// Declation for basic field rectanchoredtextDB.Color
 	Color_Data sql.NullString
 
@@ -130,19 +133,21 @@ type RectAnchoredTextWOP struct {
 
 	RectAnchorType models.RectAnchorType `xlsx:"5"`
 
-	Color string `xlsx:"6"`
+	TextAnchorType models.TextAnchorType `xlsx:"6"`
 
-	FillOpacity float64 `xlsx:"7"`
+	Color string `xlsx:"7"`
 
-	Stroke string `xlsx:"8"`
+	FillOpacity float64 `xlsx:"8"`
 
-	StrokeWidth float64 `xlsx:"9"`
+	Stroke string `xlsx:"9"`
 
-	StrokeDashArray string `xlsx:"10"`
+	StrokeWidth float64 `xlsx:"10"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"11"`
+	StrokeDashArray string `xlsx:"11"`
 
-	Transform string `xlsx:"12"`
+	StrokeDashArrayWhenSelected string `xlsx:"12"`
+
+	Transform string `xlsx:"13"`
 	// insertion for WOP pointer fields
 }
 
@@ -154,6 +159,7 @@ var RectAnchoredText_Fields = []string{
 	"X_Offset",
 	"Y_Offset",
 	"RectAnchorType",
+	"TextAnchorType",
 	"Color",
 	"FillOpacity",
 	"Stroke",
@@ -482,6 +488,9 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsFromRectAnchoredTex
 	rectanchoredtextDB.RectAnchorType_Data.String = rectanchoredtext.RectAnchorType.ToString()
 	rectanchoredtextDB.RectAnchorType_Data.Valid = true
 
+	rectanchoredtextDB.TextAnchorType_Data.String = rectanchoredtext.TextAnchorType.ToString()
+	rectanchoredtextDB.TextAnchorType_Data.Valid = true
+
 	rectanchoredtextDB.Color_Data.String = rectanchoredtext.Color
 	rectanchoredtextDB.Color_Data.Valid = true
 
@@ -523,6 +532,9 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsFromRectAnchoredTex
 	rectanchoredtextDB.RectAnchorType_Data.String = rectanchoredtext.RectAnchorType.ToString()
 	rectanchoredtextDB.RectAnchorType_Data.Valid = true
 
+	rectanchoredtextDB.TextAnchorType_Data.String = rectanchoredtext.TextAnchorType.ToString()
+	rectanchoredtextDB.TextAnchorType_Data.Valid = true
+
 	rectanchoredtextDB.Color_Data.String = rectanchoredtext.Color
 	rectanchoredtextDB.Color_Data.Valid = true
 
@@ -553,6 +565,7 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsToRectAnchoredText(
 	rectanchoredtext.X_Offset = rectanchoredtextDB.X_Offset_Data.Float64
 	rectanchoredtext.Y_Offset = rectanchoredtextDB.Y_Offset_Data.Float64
 	rectanchoredtext.RectAnchorType.FromString(rectanchoredtextDB.RectAnchorType_Data.String)
+	rectanchoredtext.TextAnchorType.FromString(rectanchoredtextDB.TextAnchorType_Data.String)
 	rectanchoredtext.Color = rectanchoredtextDB.Color_Data.String
 	rectanchoredtext.FillOpacity = rectanchoredtextDB.FillOpacity_Data.Float64
 	rectanchoredtext.Stroke = rectanchoredtextDB.Stroke_Data.String
@@ -571,6 +584,7 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsToRectAnchoredTextW
 	rectanchoredtext.X_Offset = rectanchoredtextDB.X_Offset_Data.Float64
 	rectanchoredtext.Y_Offset = rectanchoredtextDB.Y_Offset_Data.Float64
 	rectanchoredtext.RectAnchorType.FromString(rectanchoredtextDB.RectAnchorType_Data.String)
+	rectanchoredtext.TextAnchorType.FromString(rectanchoredtextDB.TextAnchorType_Data.String)
 	rectanchoredtext.Color = rectanchoredtextDB.Color_Data.String
 	rectanchoredtext.FillOpacity = rectanchoredtextDB.FillOpacity_Data.Float64
 	rectanchoredtext.Stroke = rectanchoredtextDB.Stroke_Data.String

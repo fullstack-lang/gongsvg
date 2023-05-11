@@ -33,6 +33,20 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="FontWeight">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> FontWeight </th>
+            <td mat-cell *matCellDef="let RectAnchoredText">
+                {{RectAnchoredText.FontWeight}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="FontSize">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> FontSize </th>
+            <td mat-cell *matCellDef="let RectAnchoredText">
+                {{RectAnchoredText.FontSize}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="X_Offset">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> X_Offset </th>
             <td mat-cell *matCellDef="let RectAnchoredText">

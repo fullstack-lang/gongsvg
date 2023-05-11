@@ -70,6 +70,12 @@ type RectAnchoredTextDB struct {
 	// Declation for basic field rectanchoredtextDB.Content
 	Content_Data sql.NullString
 
+	// Declation for basic field rectanchoredtextDB.FontWeight
+	FontWeight_Data sql.NullString
+
+	// Declation for basic field rectanchoredtextDB.FontSize
+	FontSize_Data sql.NullInt64
+
 	// Declation for basic field rectanchoredtextDB.X_Offset
 	X_Offset_Data sql.NullFloat64
 
@@ -127,27 +133,31 @@ type RectAnchoredTextWOP struct {
 
 	Content string `xlsx:"2"`
 
-	X_Offset float64 `xlsx:"3"`
+	FontWeight string `xlsx:"3"`
 
-	Y_Offset float64 `xlsx:"4"`
+	FontSize int `xlsx:"4"`
 
-	RectAnchorType models.RectAnchorType `xlsx:"5"`
+	X_Offset float64 `xlsx:"5"`
 
-	TextAnchorType models.TextAnchorType `xlsx:"6"`
+	Y_Offset float64 `xlsx:"6"`
 
-	Color string `xlsx:"7"`
+	RectAnchorType models.RectAnchorType `xlsx:"7"`
 
-	FillOpacity float64 `xlsx:"8"`
+	TextAnchorType models.TextAnchorType `xlsx:"8"`
 
-	Stroke string `xlsx:"9"`
+	Color string `xlsx:"9"`
 
-	StrokeWidth float64 `xlsx:"10"`
+	FillOpacity float64 `xlsx:"10"`
 
-	StrokeDashArray string `xlsx:"11"`
+	Stroke string `xlsx:"11"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"12"`
+	StrokeWidth float64 `xlsx:"12"`
 
-	Transform string `xlsx:"13"`
+	StrokeDashArray string `xlsx:"13"`
+
+	StrokeDashArrayWhenSelected string `xlsx:"14"`
+
+	Transform string `xlsx:"15"`
 	// insertion for WOP pointer fields
 }
 
@@ -156,6 +166,8 @@ var RectAnchoredText_Fields = []string{
 	"ID",
 	"Name",
 	"Content",
+	"FontWeight",
+	"FontSize",
 	"X_Offset",
 	"Y_Offset",
 	"RectAnchorType",
@@ -479,6 +491,12 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsFromRectAnchoredTex
 	rectanchoredtextDB.Content_Data.String = rectanchoredtext.Content
 	rectanchoredtextDB.Content_Data.Valid = true
 
+	rectanchoredtextDB.FontWeight_Data.String = rectanchoredtext.FontWeight
+	rectanchoredtextDB.FontWeight_Data.Valid = true
+
+	rectanchoredtextDB.FontSize_Data.Int64 = int64(rectanchoredtext.FontSize)
+	rectanchoredtextDB.FontSize_Data.Valid = true
+
 	rectanchoredtextDB.X_Offset_Data.Float64 = rectanchoredtext.X_Offset
 	rectanchoredtextDB.X_Offset_Data.Valid = true
 
@@ -523,6 +541,12 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsFromRectAnchoredTex
 	rectanchoredtextDB.Content_Data.String = rectanchoredtext.Content
 	rectanchoredtextDB.Content_Data.Valid = true
 
+	rectanchoredtextDB.FontWeight_Data.String = rectanchoredtext.FontWeight
+	rectanchoredtextDB.FontWeight_Data.Valid = true
+
+	rectanchoredtextDB.FontSize_Data.Int64 = int64(rectanchoredtext.FontSize)
+	rectanchoredtextDB.FontSize_Data.Valid = true
+
 	rectanchoredtextDB.X_Offset_Data.Float64 = rectanchoredtext.X_Offset
 	rectanchoredtextDB.X_Offset_Data.Valid = true
 
@@ -562,6 +586,8 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsToRectAnchoredText(
 	// insertion point for checkout of basic fields (back repo to stage)
 	rectanchoredtext.Name = rectanchoredtextDB.Name_Data.String
 	rectanchoredtext.Content = rectanchoredtextDB.Content_Data.String
+	rectanchoredtext.FontWeight = rectanchoredtextDB.FontWeight_Data.String
+	rectanchoredtext.FontSize = int(rectanchoredtextDB.FontSize_Data.Int64)
 	rectanchoredtext.X_Offset = rectanchoredtextDB.X_Offset_Data.Float64
 	rectanchoredtext.Y_Offset = rectanchoredtextDB.Y_Offset_Data.Float64
 	rectanchoredtext.RectAnchorType.FromString(rectanchoredtextDB.RectAnchorType_Data.String)
@@ -581,6 +607,8 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsToRectAnchoredTextW
 	// insertion point for checkout of basic fields (back repo to stage)
 	rectanchoredtext.Name = rectanchoredtextDB.Name_Data.String
 	rectanchoredtext.Content = rectanchoredtextDB.Content_Data.String
+	rectanchoredtext.FontWeight = rectanchoredtextDB.FontWeight_Data.String
+	rectanchoredtext.FontSize = int(rectanchoredtextDB.FontSize_Data.Int64)
 	rectanchoredtext.X_Offset = rectanchoredtextDB.X_Offset_Data.Float64
 	rectanchoredtext.Y_Offset = rectanchoredtextDB.Y_Offset_Data.Float64
 	rectanchoredtext.RectAnchorType.FromString(rectanchoredtextDB.RectAnchorType_Data.String)

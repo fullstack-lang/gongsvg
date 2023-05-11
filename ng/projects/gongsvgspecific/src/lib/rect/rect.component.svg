@@ -28,33 +28,29 @@
         </rect>
 
         <ng-container *ngFor='let text of Rect.RectAnchoredTexts!; let i = index'>
-                <ng-container *ngIf='text.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP'>
-                        <text class="anchored-text"
-                        [attr.x]="Rect.X + Rect.Width/2 + text.X_Offset" 
-                        [attr.y]="Rect.Y + text.Y_Offset" 
-                        [attr.fill]="text.Color"    
-                        [attr.fill-opacity]="text.FillOpacity"
-                        [attr.stroke]="text.Stroke"
-                        [attr.stroke-width]="text.StrokeWidth"
-                        [attr.stroke-dasharray]="text.StrokeDashArray"
-                        [attr.transform]="text.Transform"
-                        [attr.text-anchor]="text.TextAnchorType"
-                        
-                        >{{text.Content}}</text>
+                <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP" 
+                        [ngTemplateOutlet]="anchoredText" 
+                        [ngTemplateOutletContext]="{ 
+                                text: text, 
+                                anchorX: Rect.X + Rect.Width/2 + text.X_Offset, 
+                                anchorY: Rect.Y + text.Y_Offset }
+                        ">
                 </ng-container>
-                <ng-container *ngIf='text.RectAnchorType == RectAnchorType.RECT_ANCHOR_BOTTOM'>
-                        <text class="anchored-text"
-                        [attr.x]="Rect.X + Rect.Width/2 + text.X_Offset" 
-                        [attr.y]="Rect.Y + Rect.Height + text.Y_Offset" 
-                        [attr.fill]="text.Color"    
-                        [attr.fill-opacity]="text.FillOpacity"
-                        [attr.stroke]="text.Stroke"
-                        [attr.stroke-width]="text.StrokeWidth"
-                        [attr.stroke-dasharray]="text.StrokeDashArray"
-                        [attr.transform]="text.Transform"
-                        [attr.text-anchor]="text.TextAnchorType"
-                        
-                        >{{text.Content}}</text>
+                <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 
+                        [ngTemplateOutlet]="anchoredText" 
+                        [ngTemplateOutletContext]="{ 
+                                text: text, 
+                                anchorX: Rect.X + text.X_Offset, 
+                                anchorY: Rect.Y + text.Y_Offset }
+                        ">
+                </ng-container>
+                <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_ANCHOR_BOTTOM" 
+                        [ngTemplateOutlet]="anchoredText" 
+                        [ngTemplateOutletContext]="{ 
+                                text: text, 
+                                anchorX: Rect.X + Rect.Width/2 + text.X_Offset, 
+                                anchorY: Rect.Y + Rect.Height + text.Y_Offset }
+                        ">
                 </ng-container>
         </ng-container>
 
@@ -108,3 +104,19 @@
                 (mouseup)="anchorMouseUp($event)"/>
     </g>
 </svg>
+
+<ng-template #anchoredText let-text="text" let-anchorX="anchorX" let-anchorY="anchorY">
+    <svg:text class="anchored-text"
+    [attr.x]="anchorX" 
+    [attr.y]="anchorY" 
+    [attr.fill]="text.Color"    
+    [attr.fill-opacity]="text.FillOpacity"
+    [attr.stroke]="text.Stroke"
+    [attr.stroke-width]="text.StrokeWidth != 0 ? text.StrokeWidth : null"
+    [attr.stroke-dasharray]="text.StrokeDashArray"
+    [attr.transform]="text.Transform"
+    [attr.text-anchor]="text.TextAnchorType"
+    [attr.font-weight]="text.FontWeight"
+    [attr.font-size]="text.FontSize !== 0 ? text.FontSize + 'px' : null"
+    >{{text.Content}}</text>
+</ng-template>

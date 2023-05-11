@@ -2067,7 +2067,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Rect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts"}
 	case RectAnchoredText:
-		res = []string{"Name", "Content", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "FontWeight", "FontSize", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case SVG:
 		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect"}
 	case Text:
@@ -2554,6 +2554,10 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = any(instance).(RectAnchoredText).Name
 		case "Content":
 			res = any(instance).(RectAnchoredText).Content
+		case "FontWeight":
+			res = any(instance).(RectAnchoredText).FontWeight
+		case "FontSize":
+			res = fmt.Sprintf("%d", any(instance).(RectAnchoredText).FontSize)
 		case "X_Offset":
 			res = fmt.Sprintf("%f", any(instance).(RectAnchoredText).X_Offset)
 		case "Y_Offset":

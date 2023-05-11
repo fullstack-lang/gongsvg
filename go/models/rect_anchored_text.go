@@ -4,6 +4,10 @@ type RectAnchoredText struct {
 	Name    string
 	Content string
 
+	// "bold", "normal", ...
+	FontWeight string
+	FontSize   int
+
 	X_Offset float64
 	Y_Offset float64
 

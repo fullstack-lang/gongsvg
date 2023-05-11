@@ -1558,6 +1558,17 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_RectAnchoredText[identifier].Content = fielValue
+				case "FontWeight":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_RectAnchoredText[identifier].FontWeight = fielValue
+				case "FontSize":
+					// convert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_RectAnchoredText[identifier].FontSize = int(exprSign) * int(fielValue)
 				case "X_Offset":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)

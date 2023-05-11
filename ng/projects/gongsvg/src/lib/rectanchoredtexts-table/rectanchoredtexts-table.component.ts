@@ -78,6 +78,12 @@ export class RectAnchoredTextsTableComponent implements OnInit {
         case 'Content':
           return rectanchoredtextDB.Content;
 
+        case 'FontWeight':
+          return rectanchoredtextDB.FontWeight;
+
+        case 'FontSize':
+          return rectanchoredtextDB.FontSize;
+
         case 'X_Offset':
           return rectanchoredtextDB.X_Offset;
 
@@ -134,6 +140,8 @@ export class RectAnchoredTextsTableComponent implements OnInit {
       // insertion point for merging of fields
       mergedContent += rectanchoredtextDB.Name.toLowerCase()
       mergedContent += rectanchoredtextDB.Content.toLowerCase()
+      mergedContent += rectanchoredtextDB.FontWeight.toLowerCase()
+      mergedContent += rectanchoredtextDB.FontSize.toString()
       mergedContent += rectanchoredtextDB.X_Offset.toString()
       mergedContent += rectanchoredtextDB.Y_Offset.toString()
       mergedContent += rectanchoredtextDB.RectAnchorType.toLowerCase()
@@ -205,6 +213,8 @@ export class RectAnchoredTextsTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Content",
+        "FontWeight",
+        "FontSize",
         "X_Offset",
         "Y_Offset",
         "RectAnchorType",
@@ -222,6 +232,8 @@ export class RectAnchoredTextsTableComponent implements OnInit {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Content",
+        "FontWeight",
+        "FontSize",
         "X_Offset",
         "Y_Offset",
         "RectAnchorType",

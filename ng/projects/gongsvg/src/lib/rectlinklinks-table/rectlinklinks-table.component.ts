@@ -84,6 +84,27 @@ export class RectLinkLinksTableComponent implements OnInit {
         case 'TargetAnchorPosition':
           return rectlinklinkDB.TargetAnchorPosition;
 
+        case 'Color':
+          return rectlinklinkDB.Color;
+
+        case 'FillOpacity':
+          return rectlinklinkDB.FillOpacity;
+
+        case 'Stroke':
+          return rectlinklinkDB.Stroke;
+
+        case 'StrokeWidth':
+          return rectlinklinkDB.StrokeWidth;
+
+        case 'StrokeDashArray':
+          return rectlinklinkDB.StrokeDashArray;
+
+        case 'StrokeDashArrayWhenSelected':
+          return rectlinklinkDB.StrokeDashArrayWhenSelected;
+
+        case 'Transform':
+          return rectlinklinkDB.Transform;
+
         case 'Layer_RectLinkLinks':
           if (this.frontRepo.Layers.get(rectlinklinkDB.Layer_RectLinkLinksDBID.Int64) != undefined) {
             return this.frontRepo.Layers.get(rectlinklinkDB.Layer_RectLinkLinksDBID.Int64)!.Name
@@ -113,6 +134,13 @@ export class RectLinkLinksTableComponent implements OnInit {
         mergedContent += rectlinklinkDB.End.Name.toLowerCase()
       }
       mergedContent += rectlinklinkDB.TargetAnchorPosition.toString()
+      mergedContent += rectlinklinkDB.Color.toLowerCase()
+      mergedContent += rectlinklinkDB.FillOpacity.toString()
+      mergedContent += rectlinklinkDB.Stroke.toLowerCase()
+      mergedContent += rectlinklinkDB.StrokeWidth.toString()
+      mergedContent += rectlinklinkDB.StrokeDashArray.toLowerCase()
+      mergedContent += rectlinklinkDB.StrokeDashArrayWhenSelected.toLowerCase()
+      mergedContent += rectlinklinkDB.Transform.toLowerCase()
       if (rectlinklinkDB.Layer_RectLinkLinksDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Layers.get(rectlinklinkDB.Layer_RectLinkLinksDBID.Int64)!.Name.toLowerCase()
       }
@@ -175,6 +203,13 @@ export class RectLinkLinksTableComponent implements OnInit {
         "Start",
         "End",
         "TargetAnchorPosition",
+        "Color",
+        "FillOpacity",
+        "Stroke",
+        "StrokeWidth",
+        "StrokeDashArray",
+        "StrokeDashArrayWhenSelected",
+        "Transform",
         "Layer_RectLinkLinks",
       ]
     } else {
@@ -183,6 +218,13 @@ export class RectLinkLinksTableComponent implements OnInit {
         "Start",
         "End",
         "TargetAnchorPosition",
+        "Color",
+        "FillOpacity",
+        "Stroke",
+        "StrokeWidth",
+        "StrokeDashArray",
+        "StrokeDashArrayWhenSelected",
+        "Transform",
         "Layer_RectLinkLinks",
       ]
       this.selection = new SelectionModel<RectLinkLinkDB>(allowMultiSelect, this.initialSelection);

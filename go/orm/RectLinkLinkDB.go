@@ -77,6 +77,27 @@ type RectLinkLinkDB struct {
 
 	// Declation for basic field rectlinklinkDB.TargetAnchorPosition
 	TargetAnchorPosition_Data sql.NullFloat64
+
+	// Declation for basic field rectlinklinkDB.Color
+	Color_Data sql.NullString
+
+	// Declation for basic field rectlinklinkDB.FillOpacity
+	FillOpacity_Data sql.NullFloat64
+
+	// Declation for basic field rectlinklinkDB.Stroke
+	Stroke_Data sql.NullString
+
+	// Declation for basic field rectlinklinkDB.StrokeWidth
+	StrokeWidth_Data sql.NullFloat64
+
+	// Declation for basic field rectlinklinkDB.StrokeDashArray
+	StrokeDashArray_Data sql.NullString
+
+	// Declation for basic field rectlinklinkDB.StrokeDashArrayWhenSelected
+	StrokeDashArrayWhenSelected_Data sql.NullString
+
+	// Declation for basic field rectlinklinkDB.Transform
+	Transform_Data sql.NullString
 	// encoding of pointers
 	RectLinkLinkPointersEnconding
 }
@@ -101,6 +122,20 @@ type RectLinkLinkWOP struct {
 	Name string `xlsx:"1"`
 
 	TargetAnchorPosition float64 `xlsx:"2"`
+
+	Color string `xlsx:"3"`
+
+	FillOpacity float64 `xlsx:"4"`
+
+	Stroke string `xlsx:"5"`
+
+	StrokeWidth float64 `xlsx:"6"`
+
+	StrokeDashArray string `xlsx:"7"`
+
+	StrokeDashArrayWhenSelected string `xlsx:"8"`
+
+	Transform string `xlsx:"9"`
 	// insertion for WOP pointer fields
 }
 
@@ -109,6 +144,13 @@ var RectLinkLink_Fields = []string{
 	"ID",
 	"Name",
 	"TargetAnchorPosition",
+	"Color",
+	"FillOpacity",
+	"Stroke",
+	"StrokeWidth",
+	"StrokeDashArray",
+	"StrokeDashArrayWhenSelected",
+	"Transform",
 }
 
 type BackRepoRectLinkLinkStruct struct {
@@ -400,6 +442,27 @@ func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsFromRectLinkLink(rectlinkli
 
 	rectlinklinkDB.TargetAnchorPosition_Data.Float64 = rectlinklink.TargetAnchorPosition
 	rectlinklinkDB.TargetAnchorPosition_Data.Valid = true
+
+	rectlinklinkDB.Color_Data.String = rectlinklink.Color
+	rectlinklinkDB.Color_Data.Valid = true
+
+	rectlinklinkDB.FillOpacity_Data.Float64 = rectlinklink.FillOpacity
+	rectlinklinkDB.FillOpacity_Data.Valid = true
+
+	rectlinklinkDB.Stroke_Data.String = rectlinklink.Stroke
+	rectlinklinkDB.Stroke_Data.Valid = true
+
+	rectlinklinkDB.StrokeWidth_Data.Float64 = rectlinklink.StrokeWidth
+	rectlinklinkDB.StrokeWidth_Data.Valid = true
+
+	rectlinklinkDB.StrokeDashArray_Data.String = rectlinklink.StrokeDashArray
+	rectlinklinkDB.StrokeDashArray_Data.Valid = true
+
+	rectlinklinkDB.StrokeDashArrayWhenSelected_Data.String = rectlinklink.StrokeDashArrayWhenSelected
+	rectlinklinkDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	rectlinklinkDB.Transform_Data.String = rectlinklink.Transform
+	rectlinklinkDB.Transform_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRectLinkLinkWOP
@@ -411,6 +474,27 @@ func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsFromRectLinkLinkWOP(rectlin
 
 	rectlinklinkDB.TargetAnchorPosition_Data.Float64 = rectlinklink.TargetAnchorPosition
 	rectlinklinkDB.TargetAnchorPosition_Data.Valid = true
+
+	rectlinklinkDB.Color_Data.String = rectlinklink.Color
+	rectlinklinkDB.Color_Data.Valid = true
+
+	rectlinklinkDB.FillOpacity_Data.Float64 = rectlinklink.FillOpacity
+	rectlinklinkDB.FillOpacity_Data.Valid = true
+
+	rectlinklinkDB.Stroke_Data.String = rectlinklink.Stroke
+	rectlinklinkDB.Stroke_Data.Valid = true
+
+	rectlinklinkDB.StrokeWidth_Data.Float64 = rectlinklink.StrokeWidth
+	rectlinklinkDB.StrokeWidth_Data.Valid = true
+
+	rectlinklinkDB.StrokeDashArray_Data.String = rectlinklink.StrokeDashArray
+	rectlinklinkDB.StrokeDashArray_Data.Valid = true
+
+	rectlinklinkDB.StrokeDashArrayWhenSelected_Data.String = rectlinklink.StrokeDashArrayWhenSelected
+	rectlinklinkDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	rectlinklinkDB.Transform_Data.String = rectlinklink.Transform
+	rectlinklinkDB.Transform_Data.Valid = true
 }
 
 // CopyBasicFieldsToRectLinkLink
@@ -418,6 +502,13 @@ func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsToRectLinkLink(rectlinklink
 	// insertion point for checkout of basic fields (back repo to stage)
 	rectlinklink.Name = rectlinklinkDB.Name_Data.String
 	rectlinklink.TargetAnchorPosition = rectlinklinkDB.TargetAnchorPosition_Data.Float64
+	rectlinklink.Color = rectlinklinkDB.Color_Data.String
+	rectlinklink.FillOpacity = rectlinklinkDB.FillOpacity_Data.Float64
+	rectlinklink.Stroke = rectlinklinkDB.Stroke_Data.String
+	rectlinklink.StrokeWidth = rectlinklinkDB.StrokeWidth_Data.Float64
+	rectlinklink.StrokeDashArray = rectlinklinkDB.StrokeDashArray_Data.String
+	rectlinklink.StrokeDashArrayWhenSelected = rectlinklinkDB.StrokeDashArrayWhenSelected_Data.String
+	rectlinklink.Transform = rectlinklinkDB.Transform_Data.String
 }
 
 // CopyBasicFieldsToRectLinkLinkWOP
@@ -426,6 +517,13 @@ func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsToRectLinkLinkWOP(rectlinkl
 	// insertion point for checkout of basic fields (back repo to stage)
 	rectlinklink.Name = rectlinklinkDB.Name_Data.String
 	rectlinklink.TargetAnchorPosition = rectlinklinkDB.TargetAnchorPosition_Data.Float64
+	rectlinklink.Color = rectlinklinkDB.Color_Data.String
+	rectlinklink.FillOpacity = rectlinklinkDB.FillOpacity_Data.Float64
+	rectlinklink.Stroke = rectlinklinkDB.Stroke_Data.String
+	rectlinklink.StrokeWidth = rectlinklinkDB.StrokeWidth_Data.Float64
+	rectlinklink.StrokeDashArray = rectlinklinkDB.StrokeDashArray_Data.String
+	rectlinklink.StrokeDashArrayWhenSelected = rectlinklinkDB.StrokeDashArrayWhenSelected_Data.String
+	rectlinklink.Transform = rectlinklinkDB.Transform_Data.String
 }
 
 // Backup generates a json file from a slice of all RectLinkLinkDB instances in the backrepo

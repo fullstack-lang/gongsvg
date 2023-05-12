@@ -11,11 +11,11 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_Link models.StageStruct
-var ___dummy__Time_Link time.Time
+var ___dummy__Stage_Links models.StageStruct
+var ___dummy__Time_Links time.Time
 
 // Injection point for meta package dummy declaration
-var ___dummy__ref_models_Link ref_models.StageStruct
+var ___dummy__ref_models_Links ref_models.StageStruct
 
 // currently, DocLink renaming is not enabled in gopls
 // the following map are devised to overcome this limitation
@@ -24,7 +24,7 @@ var ___dummy__ref_models_Link ref_models.StageStruct
 // [Corresponding Issue](https://github.com/golang/go/issues/57559)
 //
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_Link map[string]any = map[string]any{
+var map_DocLink_Identifier_Links map[string]any = map[string]any{
 	// injection point for docLink to identifiers
 
 	"ref_models.ANCHOR_BOTTOM": ref_models.ANCHOR_BOTTOM,
@@ -292,6 +292,8 @@ var map_DocLink_Identifier_Link map[string]any = map[string]any{
 	"ref_models.Layer.Polygones": (ref_models.Layer{}).Polygones,
 
 	"ref_models.Layer.Polylines": (ref_models.Layer{}).Polylines,
+
+	"ref_models.Layer.RectLinkLinks": (ref_models.Layer{}).RectLinkLinks,
 
 	"ref_models.Layer.Rects": (ref_models.Layer{}).Rects,
 
@@ -856,11 +858,11 @@ var map_DocLink_Identifier_Link map[string]any = map[string]any{
 // but it has to properly reference the Injection gateway in the main package
 // func init() {
 // 	_ = __Dummy_time_variable
-// 	InjectionGateway["Link"] = LinkInjection
+// 	InjectionGateway["Links"] = LinksInjection
 // }
 
-// LinkInjection will stage objects of database "Link"
-func LinkInjection(stage *models.StageStruct) {
+// LinksInjection will stage objects of database "Links"
+func LinksInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
@@ -913,7 +915,7 @@ func LinkInjection(stage *models.StageStruct) {
 
 	// Classdiagram values setup
 	__Classdiagram__000000_Links.Name = `Links`
-	__Classdiagram__000000_Links.IsInDrawMode = false
+	__Classdiagram__000000_Links.IsInDrawMode = true
 
 	// GongStructShape values setup
 	__GongStructShape__000000_NewDiagram_1_Link.Name = `NewDiagram_1-Link`
@@ -1025,18 +1027,18 @@ func LinkInjection(stage *models.StageStruct) {
 	__Position__000001_Pos_NewDiagram_1_Rect.Name = `Pos-NewDiagram_1-Rect`
 
 	// Position values setup
-	__Position__000002_Pos_NewDiagram_1_RectLinkLink.X = 280.000000
-	__Position__000002_Pos_NewDiagram_1_RectLinkLink.Y = 390.000000
+	__Position__000002_Pos_NewDiagram_1_RectLinkLink.X = 270.000000
+	__Position__000002_Pos_NewDiagram_1_RectLinkLink.Y = 340.000000
 	__Position__000002_Pos_NewDiagram_1_RectLinkLink.Name = `Pos-NewDiagram_1-RectLinkLink`
 
 	// Vertice values setup
-	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.X = 333.000000
-	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Y = 28.500000
+	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.X = 403.000000
+	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Y = 218.500000
 	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Name = `Verticle in class diagram NewDiagram_1 in middle between NewDiagram_1-Link and NewDiagram_1-Rect`
 
 	// Vertice values setup
-	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.X = 403.000000
-	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Y = 218.500000
+	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.X = 333.000000
+	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Y = 28.500000
 	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Name = `Verticle in class diagram NewDiagram_1 in middle between NewDiagram_1-Link and NewDiagram_1-Rect`
 
 	// Vertice values setup
@@ -1060,8 +1062,10 @@ func LinkInjection(stage *models.StageStruct) {
 	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Position = __Position__000002_Pos_NewDiagram_1_RectLinkLink
 	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links = append(__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links, __Link__000003_Start)
 	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links = append(__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links, __Link__000001_End)
-	__Link__000000_End.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect
+	__Link__000000_End.Middlevertice = __Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect
 	__Link__000001_End.Middlevertice = __Vertice__000002_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link
-	__Link__000002_Start.Middlevertice = __Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect
+	__Link__000002_Start.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect
 	__Link__000003_Start.Middlevertice = __Vertice__000003_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect
 }
+
+

@@ -865,7 +865,7 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Classdiagram
-	__Classdiagram__000000_NewDiagram_1 := (&models.Classdiagram{Name: `NewDiagram_1`}).Stage(stage)
+	__Classdiagram__000000_AroundLinks := (&models.Classdiagram{Name: `AroundLinks`}).Stage(stage)
 
 	// Declarations of staged instances of DiagramPackage
 
@@ -912,8 +912,8 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	// Setup of values
 
 	// Classdiagram values setup
-	__Classdiagram__000000_NewDiagram_1.Name = `NewDiagram_1`
-	__Classdiagram__000000_NewDiagram_1.IsInDrawMode = true
+	__Classdiagram__000000_AroundLinks.Name = `AroundLinks`
+	__Classdiagram__000000_AroundLinks.IsInDrawMode = true
 
 	// GongStructShape values setup
 	__GongStructShape__000000_NewDiagram_1_Link.Name = `NewDiagram_1-Link`
@@ -1050,9 +1050,9 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	__Vertice__000003_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect.Name = `Verticle in class diagram NewDiagram_1 in middle between NewDiagram_1-RectLinkLink and NewDiagram_1-Rect`
 
 	// Setup of pointers
-	__Classdiagram__000000_NewDiagram_1.GongStructShapes = append(__Classdiagram__000000_NewDiagram_1.GongStructShapes, __GongStructShape__000001_NewDiagram_1_Rect)
-	__Classdiagram__000000_NewDiagram_1.GongStructShapes = append(__Classdiagram__000000_NewDiagram_1.GongStructShapes, __GongStructShape__000000_NewDiagram_1_Link)
-	__Classdiagram__000000_NewDiagram_1.GongStructShapes = append(__Classdiagram__000000_NewDiagram_1.GongStructShapes, __GongStructShape__000002_NewDiagram_1_RectLinkLink)
+	__Classdiagram__000000_AroundLinks.GongStructShapes = append(__Classdiagram__000000_AroundLinks.GongStructShapes, __GongStructShape__000001_NewDiagram_1_Rect)
+	__Classdiagram__000000_AroundLinks.GongStructShapes = append(__Classdiagram__000000_AroundLinks.GongStructShapes, __GongStructShape__000000_NewDiagram_1_Link)
+	__Classdiagram__000000_AroundLinks.GongStructShapes = append(__Classdiagram__000000_AroundLinks.GongStructShapes, __GongStructShape__000002_NewDiagram_1_RectLinkLink)
 	__GongStructShape__000000_NewDiagram_1_Link.Position = __Position__000000_Pos_NewDiagram_1_Link
 	__GongStructShape__000000_NewDiagram_1_Link.Links = append(__GongStructShape__000000_NewDiagram_1_Link.Links, __Link__000001_End)
 	__GongStructShape__000000_NewDiagram_1_Link.Links = append(__GongStructShape__000000_NewDiagram_1_Link.Links, __Link__000002_Start)
@@ -1065,5 +1065,3 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	__Link__000002_Start.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect
 	__Link__000003_Start.Middlevertice = __Vertice__000003_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect
 }
-
-

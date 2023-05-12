@@ -17,6 +17,13 @@ export class RectLinkLinkDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	TargetAnchorPosition: number = 0
+	Color: string = ""
+	FillOpacity: number = 0
+	Stroke: string = ""
+	StrokeWidth: number = 0
+	StrokeDashArray: string = ""
+	StrokeDashArrayWhenSelected: string = ""
+	Transform: string = ""
 
 	// insertion point for other declarations
 	Start?: RectDB

@@ -2315,7 +2315,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case RectAnchoredText:
 		res = []string{"Name", "Content", "FontWeight", "FontSize", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case RectLinkLink:
-		res = []string{"Name", "Start", "End", "TargetAnchorPosition"}
+		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case SVG:
 		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect"}
 	case Text:
@@ -2908,6 +2908,20 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			}
 		case "TargetAnchorPosition":
 			res = fmt.Sprintf("%f", any(instance).(RectLinkLink).TargetAnchorPosition)
+		case "Color":
+			res = any(instance).(RectLinkLink).Color
+		case "FillOpacity":
+			res = fmt.Sprintf("%f", any(instance).(RectLinkLink).FillOpacity)
+		case "Stroke":
+			res = any(instance).(RectLinkLink).Stroke
+		case "StrokeWidth":
+			res = fmt.Sprintf("%f", any(instance).(RectLinkLink).StrokeWidth)
+		case "StrokeDashArray":
+			res = any(instance).(RectLinkLink).StrokeDashArray
+		case "StrokeDashArrayWhenSelected":
+			res = any(instance).(RectLinkLink).StrokeDashArrayWhenSelected
+		case "Transform":
+			res = any(instance).(RectLinkLink).Transform
 		}
 	case SVG:
 		switch fieldName {

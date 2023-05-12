@@ -1357,6 +1357,19 @@ export class FrontRepoService {
                 }
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Layer.RectLinkLinks redeeming
+                {
+                  let _layer = this.frontRepo.Layers.get(rectlinklink.Layer_RectLinkLinksDBID.Int64)
+                  if (_layer) {
+                    if (_layer.RectLinkLinks == undefined) {
+                      _layer.RectLinkLinks = new Array<RectLinkLinkDB>()
+                    }
+                    _layer.RectLinkLinks.push(rectlinklink)
+                    if (rectlinklink.Layer_RectLinkLinks_reverse == undefined) {
+                      rectlinklink.Layer_RectLinkLinks_reverse = _layer
+                    }
+                  }
+                }
               }
             )
             svgs.forEach(
@@ -2492,6 +2505,19 @@ export class FrontRepoService {
                 }
 
                 // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Layer.RectLinkLinks redeeming
+                {
+                  let _layer = this.frontRepo.Layers.get(rectlinklink.Layer_RectLinkLinksDBID.Int64)
+                  if (_layer) {
+                    if (_layer.RectLinkLinks == undefined) {
+                      _layer.RectLinkLinks = new Array<RectLinkLinkDB>()
+                    }
+                    _layer.RectLinkLinks.push(rectlinklink)
+                    if (rectlinklink.Layer_RectLinkLinks_reverse == undefined) {
+                      rectlinklink.Layer_RectLinkLinks_reverse = _layer
+                    }
+                  }
+                }
               }
             )
 

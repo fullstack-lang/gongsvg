@@ -1003,6 +1003,38 @@ export class SidebarComponent implements OnInit {
             LinksGongNodeAssociation.children.push(linkNode)
           })
 
+          /**
+          * let append a node for the slide of pointer RectLinkLinks
+          */
+          let RectLinkLinksGongNodeAssociation: GongNode = {
+            name: "(RectLinkLink) RectLinkLinks",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: layerDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Layer",
+            associationField: "RectLinkLinks",
+            associatedStructName: "RectLinkLink",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          layerGongNodeInstance.children.push(RectLinkLinksGongNodeAssociation)
+
+          layerDB.RectLinkLinks?.forEach(rectlinklinkDB => {
+            let rectlinklinkNode: GongNode = {
+              name: rectlinklinkDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: rectlinklinkDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getLayerUniqueID(layerDB.ID)
+                + 11 * getRectLinkLinkUniqueID(rectlinklinkDB.ID),
+              structName: "RectLinkLink",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            RectLinkLinksGongNodeAssociation.children.push(rectlinklinkNode)
+          })
+
         }
       )
 

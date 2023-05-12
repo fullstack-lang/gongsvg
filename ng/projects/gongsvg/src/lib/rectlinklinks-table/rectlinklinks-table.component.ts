@@ -84,6 +84,13 @@ export class RectLinkLinksTableComponent implements OnInit {
         case 'TargetAnchorPosition':
           return rectlinklinkDB.TargetAnchorPosition;
 
+        case 'Layer_RectLinkLinks':
+          if (this.frontRepo.Layers.get(rectlinklinkDB.Layer_RectLinkLinksDBID.Int64) != undefined) {
+            return this.frontRepo.Layers.get(rectlinklinkDB.Layer_RectLinkLinksDBID.Int64)!.Name
+          } else {
+            return ""
+          }
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -106,6 +113,10 @@ export class RectLinkLinksTableComponent implements OnInit {
         mergedContent += rectlinklinkDB.End.Name.toLowerCase()
       }
       mergedContent += rectlinklinkDB.TargetAnchorPosition.toString()
+      if (rectlinklinkDB.Layer_RectLinkLinksDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Layers.get(rectlinklinkDB.Layer_RectLinkLinksDBID.Int64)!.Name.toLowerCase()
+      }
+
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -164,6 +175,7 @@ export class RectLinkLinksTableComponent implements OnInit {
         "Start",
         "End",
         "TargetAnchorPosition",
+        "Layer_RectLinkLinks",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -171,6 +183,7 @@ export class RectLinkLinksTableComponent implements OnInit {
         "Start",
         "End",
         "TargetAnchorPosition",
+        "Layer_RectLinkLinks",
       ]
       this.selection = new SelectionModel<RectLinkLinkDB>(allowMultiSelect, this.initialSelection);
     }

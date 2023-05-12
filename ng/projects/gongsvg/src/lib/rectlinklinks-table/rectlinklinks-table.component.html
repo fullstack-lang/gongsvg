@@ -46,6 +46,13 @@
                 {{RectLinkLink.TargetAnchorPosition.toPrecision(5)}}
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Layer_RectLinkLinks">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Layer) RectLinkLinks </th>
+            <td mat-cell *matCellDef="let rectlinklink">
+                {{frontRepo.Layers.get(rectlinklink.Layer_RectLinkLinksDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>

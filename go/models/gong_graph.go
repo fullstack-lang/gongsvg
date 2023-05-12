@@ -356,6 +356,9 @@ func (stage *StageStruct) StageBranchLayer(layer *Layer) {
 	for _, _link := range layer.Links {
 		StageBranch(stage, _link)
 	}
+	for _, _rectlinklink := range layer.RectLinkLinks {
+		StageBranch(stage, _rectlinklink)
+	}
 
 }
 
@@ -769,6 +772,9 @@ func (stage *StageStruct) UnstageBranchLayer(layer *Layer) {
 	}
 	for _, _link := range layer.Links {
 		UnstageBranch(stage, _link)
+	}
+	for _, _rectlinklink := range layer.RectLinkLinks {
+		UnstageBranch(stage, _rectlinklink)
 	}
 
 }

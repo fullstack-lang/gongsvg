@@ -780,6 +780,12 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							target := __gong__map_Link[targetIdentifier]
 							__gong__map_Layer[identifier].Links =
 								append(__gong__map_Layer[identifier].Links, target)
+						case "RectLinkLinks":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_RectLinkLink[targetIdentifier]
+							__gong__map_Layer[identifier].RectLinkLinks =
+								append(__gong__map_Layer[identifier].RectLinkLinks, target)
 						}
 					case "Line":
 						switch fieldName {

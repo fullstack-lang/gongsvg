@@ -1626,6 +1626,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Paths: []*Path{{Name: "Paths"}},
 			// field is initialized with an instance of Link with the name of the field
 			Links: []*Link{{Name: "Links"}},
+			// field is initialized with an instance of RectLinkLink with the name of the field
+			RectLinkLinks: []*RectLinkLink{{Name: "RectLinkLinks"}},
 		}).(*Type)
 	case Line:
 		return any(&Line{
@@ -2054,6 +2056,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End]*Start)
+		case "RectLinkLinks":
+			res := make(map[*RectLinkLink]*Layer)
+			for layer := range stage.Layers {
+				for _, rectlinklink_ := range layer.RectLinkLinks {
+					res[rectlinklink_] = layer
+				}
+			}
+			return any(res).(map[*End]*Start)
 		}
 	// reverse maps of direct associations of Line
 	case Line:
@@ -2285,7 +2295,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Ellipse:
 		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Layer:
-		res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links"}
+		res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
@@ -2499,6 +2509,13 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			}
 		case "Links":
 			for idx, __instance__ := range any(instance).(Layer).Links {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "RectLinkLinks":
+			for idx, __instance__ := range any(instance).(Layer).RectLinkLinks {
 				if idx > 0 {
 					res += "\n"
 				}

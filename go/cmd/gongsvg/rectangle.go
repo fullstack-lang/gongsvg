@@ -275,8 +275,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 69.000000
-	__Rect__000002_Top.Y = -7.000000
+	__Rect__000002_Top.X = 57.000000
+	__Rect__000002_Top.Y = 29.000000
 	__Rect__000002_Top.Width = 257.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000
@@ -418,6 +418,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000003_Link_layer_horizontal_to_vertical.Links = append(__Layer__000003_Link_layer_horizontal_to_vertical.Links, __Link__000002_Top_to_Bottom_horizontal_to_vertical)
 	__Layer__000004_Link_layer_vertical_to_horizontal.Links = append(__Layer__000004_Link_layer_vertical_to_horizontal.Links, __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal)
 	__Layer__000006_Middle_Rect_Layer.Rects = append(__Layer__000006_Middle_Rect_Layer.Rects, __Rect__000001_Middle_Rect)
+	__Layer__000006_Middle_Rect_Layer.RectLinkLinks = append(__Layer__000006_Middle_Rect_Layer.RectLinkLinks, __RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link)
 	__Layer__000007_Top_Rectangle_layer.Rects = append(__Layer__000007_Top_Rectangle_layer.Rects, __Rect__000002_Top)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom

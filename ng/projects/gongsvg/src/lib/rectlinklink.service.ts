@@ -16,6 +16,7 @@ import { RectLinkLinkDB } from './rectlinklink-db';
 // insertion point for imports
 import { RectDB } from './rect-db'
 import { LinkDB } from './link-db'
+import { LayerDB } from './layer-db'
 
 @Injectable({
   providedIn: 'root'
@@ -74,6 +75,8 @@ export class RectLinkLinkService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     rectlinklinkdb.Start = new RectDB
     rectlinklinkdb.End = new LinkDB
+    let _Layer_RectLinkLinks_reverse = rectlinklinkdb.Layer_RectLinkLinks_reverse
+    rectlinklinkdb.Layer_RectLinkLinks_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -84,6 +87,7 @@ export class RectLinkLinkService {
     return this.http.post<RectLinkLinkDB>(this.rectlinklinksUrl, rectlinklinkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        rectlinklinkdb.Layer_RectLinkLinks_reverse = _Layer_RectLinkLinks_reverse
         // this.log(`posted rectlinklinkdb id=${rectlinklinkdb.ID}`)
       }),
       catchError(this.handleError<RectLinkLinkDB>('postRectLinkLink'))
@@ -115,6 +119,8 @@ export class RectLinkLinkService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     rectlinklinkdb.Start = new RectDB
     rectlinklinkdb.End = new LinkDB
+    let _Layer_RectLinkLinks_reverse = rectlinklinkdb.Layer_RectLinkLinks_reverse
+    rectlinklinkdb.Layer_RectLinkLinks_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -125,6 +131,7 @@ export class RectLinkLinkService {
     return this.http.put<RectLinkLinkDB>(url, rectlinklinkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        rectlinklinkdb.Layer_RectLinkLinks_reverse = _Layer_RectLinkLinks_reverse
         // this.log(`updated rectlinklinkdb id=${rectlinklinkdb.ID}`)
       }),
       catchError(this.handleError<RectLinkLinkDB>('updateRectLinkLink'))

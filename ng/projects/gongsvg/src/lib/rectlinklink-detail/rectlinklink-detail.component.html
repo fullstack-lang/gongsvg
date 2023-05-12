@@ -47,6 +47,15 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.TargetAnchorPosition" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Layer) RectLinkLinks</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="rectlinklink.Layer_RectLinkLinks_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let layer of frontRepo.Layers_array" [value]="layer">
+                {{layer.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
             Save rectlinklink

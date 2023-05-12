@@ -53,6 +53,12 @@ type RectLinkLinkPointersEnconding struct {
 	// field End is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	EndID sql.NullInt64
+
+	// Implementation of a reverse ID for field Layer{}.RectLinkLinks []*RectLinkLink
+	Layer_RectLinkLinksDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Layer_RectLinkLinksDBID_Index sql.NullInt64
 }
 
 // RectLinkLinkDB describes a rectlinklink in the database
@@ -587,6 +593,12 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) RestorePhaseTwo() {
 		if rectlinklinkDB.EndID.Int64 != 0 {
 			rectlinklinkDB.EndID.Int64 = int64(BackRepoLinkid_atBckpTime_newID[uint(rectlinklinkDB.EndID.Int64)])
 			rectlinklinkDB.EndID.Valid = true
+		}
+
+		// This reindex rectlinklink.RectLinkLinks
+		if rectlinklinkDB.Layer_RectLinkLinksDBID.Int64 != 0 {
+			rectlinklinkDB.Layer_RectLinkLinksDBID.Int64 =
+				int64(BackRepoLayerid_atBckpTime_newID[uint(rectlinklinkDB.Layer_RectLinkLinksDBID.Int64)])
 		}
 
 		// update databse with new index encoding

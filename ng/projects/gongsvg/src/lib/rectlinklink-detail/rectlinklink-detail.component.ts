@@ -10,6 +10,7 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
+import { LayerDB } from '../layer-db'
 
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -23,6 +24,7 @@ enum RectLinkLinkDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_Layer_RectLinkLinks_SET,
 }
 
 @Component({
@@ -92,6 +94,10 @@ export class RectLinkLinkDetailComponent implements OnInit {
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
+					case "RectLinkLinks":
+						// console.log("RectLinkLink" + " is instanciated with back pointer to instance " + this.id + " Layer association RectLinkLinks")
+						this.state = RectLinkLinkDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Layer_RectLinkLinks_SET
+						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
 				}
@@ -128,6 +134,10 @@ export class RectLinkLinkDetailComponent implements OnInit {
 						this.rectlinklink = rectlinklink!
 						break;
 					// insertion point for init of association field
+					case RectLinkLinkDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Layer_RectLinkLinks_SET:
+						this.rectlinklink = new (RectLinkLinkDB)
+						this.rectlinklink.Layer_RectLinkLinks_reverse = frontRepo.Layers.get(this.id)!
+						break;
 					default:
 						console.log(this.state + " is unkown state")
 				}
@@ -169,6 +179,18 @@ export class RectLinkLinkDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
+		if (this.rectlinklink.Layer_RectLinkLinks_reverse != undefined) {
+			if (this.rectlinklink.Layer_RectLinkLinksDBID == undefined) {
+				this.rectlinklink.Layer_RectLinkLinksDBID = new NullInt64
+			}
+			this.rectlinklink.Layer_RectLinkLinksDBID.Int64 = this.rectlinklink.Layer_RectLinkLinks_reverse.ID
+			this.rectlinklink.Layer_RectLinkLinksDBID.Valid = true
+			if (this.rectlinklink.Layer_RectLinkLinksDBID_Index == undefined) {
+				this.rectlinklink.Layer_RectLinkLinksDBID_Index = new NullInt64
+			}
+			this.rectlinklink.Layer_RectLinkLinksDBID_Index.Valid = true
+			this.rectlinklink.Layer_RectLinkLinks_reverse = new LayerDB // very important, otherwise, circular JSON
+		}
 
 		switch (this.state) {
 			case RectLinkLinkDetailComponentState.UPDATE_INSTANCE:

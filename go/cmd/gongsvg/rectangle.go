@@ -55,7 +55,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000003_Link_layer_horizontal_to_vertical := (&models.Layer{Name: `Link layer horizontal to vertical`}).Stage(stage)
 	__Layer__000004_Link_layer_vertical_to_horizontal := (&models.Layer{Name: `Link layer vertical to horizontal`}).Stage(stage)
 	__Layer__000005_Link_layer_vertical_to_vertical := (&models.Layer{Name: `Link layer vertical to vertical`}).Stage(stage)
-	__Layer__000006_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
+	__Layer__000006_Middle_Rect_Layer := (&models.Layer{Name: `Middle Rect Layer`}).Stage(stage)
+	__Layer__000007_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
 
 	// Declarations of staged instances of Line
 
@@ -74,7 +75,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of Rect
 	__Rect__000000_Bottom := (&models.Rect{Name: `Bottom`}).Stage(stage)
-	__Rect__000001_Top := (&models.Rect{Name: `Top`}).Stage(stage)
+	__Rect__000001_Middle_Rect := (&models.Rect{Name: `Middle Rect`}).Stage(stage)
+	__Rect__000002_Top := (&models.Rect{Name: `Top`}).Stage(stage)
 
 	// Declarations of staged instances of RectAnchoredRect
 	__RectAnchoredRect__000000_Rect_within_top := (&models.RectAnchoredRect{Name: `Rect within top`}).Stage(stage)
@@ -84,6 +86,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__RectAnchoredText__000000_Top_Left := (&models.RectAnchoredText{Name: `Top Left`}).Stage(stage)
 	__RectAnchoredText__000001_Top_anchored_top_middle := (&models.RectAnchoredText{Name: `Top anchored top middle`}).Stage(stage)
 	__RectAnchoredText__000002_Top_anchored_top_middle := (&models.RectAnchoredText{Name: `Top anchored top middle`}).Stage(stage)
+
+	// Declarations of staged instances of RectLinkLink
+	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link := (&models.RectLinkLink{Name: `Test Middle to Top-Bottom Link`}).Stage(stage)
 
 	// Declarations of staged instances of SVG
 	__SVG__000000_SVG := (&models.SVG{Name: `SVG`}).Stage(stage)
@@ -144,8 +149,12 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000005_Link_layer_vertical_to_vertical.Name = `Link layer vertical to vertical`
 
 	// Layer values setup
-	__Layer__000006_Top_Rectangle_layer.Display = false
-	__Layer__000006_Top_Rectangle_layer.Name = `Top Rectangle layer`
+	__Layer__000006_Middle_Rect_Layer.Display = false
+	__Layer__000006_Middle_Rect_Layer.Name = `Middle Rect Layer`
+
+	// Layer values setup
+	__Layer__000007_Top_Rectangle_layer.Display = false
+	__Layer__000007_Top_Rectangle_layer.Name = `Top Rectangle layer`
 
 	// Link values setup
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Name = `Arrow - Top to Bottom vertical to horizontal`
@@ -212,8 +221,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 452.000000
-	__Rect__000000_Bottom.Y = 328.000000
+	__Rect__000000_Bottom.X = 505.000000
+	__Rect__000000_Bottom.Y = 398.000000
 	__Rect__000000_Bottom.Width = 377.000000
 	__Rect__000000_Bottom.Height = 119.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -238,31 +247,58 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
 	// Rect values setup
-	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 115.000000
-	__Rect__000001_Top.Y = 39.000000
-	__Rect__000001_Top.Width = 257.000000
-	__Rect__000001_Top.Height = 214.000000
-	__Rect__000001_Top.RX = 3.000000
-	__Rect__000001_Top.Color = `lightcyan`
-	__Rect__000001_Top.FillOpacity = 100.000000
-	__Rect__000001_Top.Stroke = `darkcyan`
-	__Rect__000001_Top.StrokeWidth = 2.000000
-	__Rect__000001_Top.StrokeDashArray = ``
-	__Rect__000001_Top.StrokeDashArrayWhenSelected = `5 5`
-	__Rect__000001_Top.Transform = ``
-	__Rect__000001_Top.IsSelectable = true
-	__Rect__000001_Top.IsSelected = false
-	__Rect__000001_Top.CanHaveLeftHandle = true
-	__Rect__000001_Top.HasLeftHandle = false
-	__Rect__000001_Top.CanHaveRightHandle = true
-	__Rect__000001_Top.HasRightHandle = false
-	__Rect__000001_Top.CanHaveTopHandle = false
-	__Rect__000001_Top.HasTopHandle = false
-	__Rect__000001_Top.CanHaveBottomHandle = false
-	__Rect__000001_Top.HasBottomHandle = false
-	__Rect__000001_Top.CanMoveHorizontaly = true
-	__Rect__000001_Top.CanMoveVerticaly = true
+	__Rect__000001_Middle_Rect.Name = `Middle Rect`
+	__Rect__000001_Middle_Rect.X = 149.000000
+	__Rect__000001_Middle_Rect.Y = 340.000000
+	__Rect__000001_Middle_Rect.Width = 200.000000
+	__Rect__000001_Middle_Rect.Height = 150.000000
+	__Rect__000001_Middle_Rect.RX = 3.000000
+	__Rect__000001_Middle_Rect.Color = `lavender`
+	__Rect__000001_Middle_Rect.FillOpacity = 50.000000
+	__Rect__000001_Middle_Rect.Stroke = `turquoise`
+	__Rect__000001_Middle_Rect.StrokeWidth = 1.000000
+	__Rect__000001_Middle_Rect.StrokeDashArray = ``
+	__Rect__000001_Middle_Rect.StrokeDashArrayWhenSelected = `5 5`
+	__Rect__000001_Middle_Rect.Transform = ``
+	__Rect__000001_Middle_Rect.IsSelectable = true
+	__Rect__000001_Middle_Rect.IsSelected = false
+	__Rect__000001_Middle_Rect.CanHaveLeftHandle = true
+	__Rect__000001_Middle_Rect.HasLeftHandle = false
+	__Rect__000001_Middle_Rect.CanHaveRightHandle = true
+	__Rect__000001_Middle_Rect.HasRightHandle = false
+	__Rect__000001_Middle_Rect.CanHaveTopHandle = true
+	__Rect__000001_Middle_Rect.HasTopHandle = false
+	__Rect__000001_Middle_Rect.CanHaveBottomHandle = true
+	__Rect__000001_Middle_Rect.HasBottomHandle = false
+	__Rect__000001_Middle_Rect.CanMoveHorizontaly = true
+	__Rect__000001_Middle_Rect.CanMoveVerticaly = true
+
+	// Rect values setup
+	__Rect__000002_Top.Name = `Top`
+	__Rect__000002_Top.X = 69.000000
+	__Rect__000002_Top.Y = -7.000000
+	__Rect__000002_Top.Width = 257.000000
+	__Rect__000002_Top.Height = 214.000000
+	__Rect__000002_Top.RX = 3.000000
+	__Rect__000002_Top.Color = `lightcyan`
+	__Rect__000002_Top.FillOpacity = 100.000000
+	__Rect__000002_Top.Stroke = `darkcyan`
+	__Rect__000002_Top.StrokeWidth = 2.000000
+	__Rect__000002_Top.StrokeDashArray = ``
+	__Rect__000002_Top.StrokeDashArrayWhenSelected = `5 5`
+	__Rect__000002_Top.Transform = ``
+	__Rect__000002_Top.IsSelectable = true
+	__Rect__000002_Top.IsSelected = false
+	__Rect__000002_Top.CanHaveLeftHandle = true
+	__Rect__000002_Top.HasLeftHandle = false
+	__Rect__000002_Top.CanHaveRightHandle = true
+	__Rect__000002_Top.HasRightHandle = false
+	__Rect__000002_Top.CanHaveTopHandle = false
+	__Rect__000002_Top.HasTopHandle = false
+	__Rect__000002_Top.CanHaveBottomHandle = false
+	__Rect__000002_Top.HasBottomHandle = false
+	__Rect__000002_Top.CanMoveHorizontaly = true
+	__Rect__000002_Top.CanMoveVerticaly = true
 
 	// RectAnchoredRect values setup
 	__RectAnchoredRect__000000_Rect_within_top.Name = `Rect within top`
@@ -354,6 +390,10 @@ func rectangleInjection(stage *models.StageStruct) {
 	__RectAnchoredText__000002_Top_anchored_top_middle.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__000002_Top_anchored_top_middle.Transform = ``
 
+	// RectLinkLink values setup
+	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Name = `Test Middle to Top-Bottom Link`
+	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.TargetAnchorPosition = 0.400000
+
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
 	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINE
@@ -377,24 +417,28 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000002_Link_layer_horizontal_to_horizontal.Links = append(__Layer__000002_Link_layer_horizontal_to_horizontal.Links, __Link__000001_Link_horizontal_to_horizontal)
 	__Layer__000003_Link_layer_horizontal_to_vertical.Links = append(__Layer__000003_Link_layer_horizontal_to_vertical.Links, __Link__000002_Top_to_Bottom_horizontal_to_vertical)
 	__Layer__000004_Link_layer_vertical_to_horizontal.Links = append(__Layer__000004_Link_layer_vertical_to_horizontal.Links, __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal)
-	__Layer__000006_Top_Rectangle_layer.Rects = append(__Layer__000006_Top_Rectangle_layer.Rects, __Rect__000001_Top)
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000001_Top
+	__Layer__000006_Middle_Rect_Layer.Rects = append(__Layer__000006_Middle_Rect_Layer.Rects, __Rect__000001_Middle_Rect)
+	__Layer__000007_Top_Rectangle_layer.Rects = append(__Layer__000007_Top_Rectangle_layer.Rects, __Rect__000002_Top)
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __AnchoredText__000000_Start_Anchored_1)
-	__Link__000001_Link_horizontal_to_horizontal.Start = __Rect__000001_Top
+	__Link__000001_Link_horizontal_to_horizontal.Start = __Rect__000002_Top
 	__Link__000001_Link_horizontal_to_horizontal.End = __Rect__000000_Bottom
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000001_Top
+	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000002_Top
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.End = __Rect__000000_Bottom
 	__Rect__000000_Bottom.RectAnchoredRects = append(__Rect__000000_Bottom.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
-	__Rect__000001_Top.RectAnchoredTexts = append(__Rect__000001_Top.RectAnchoredTexts, __RectAnchoredText__000002_Top_anchored_top_middle)
-	__Rect__000001_Top.RectAnchoredTexts = append(__Rect__000001_Top.RectAnchoredTexts, __RectAnchoredText__000000_Top_Left)
-	__Rect__000001_Top.RectAnchoredTexts = append(__Rect__000001_Top.RectAnchoredTexts, __RectAnchoredText__000001_Top_anchored_top_middle)
-	__Rect__000001_Top.RectAnchoredRects = append(__Rect__000001_Top.RectAnchoredRects, __RectAnchoredRect__000000_Rect_within_top)
+	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000002_Top_anchored_top_middle)
+	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000000_Top_Left)
+	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000001_Top_anchored_top_middle)
+	__Rect__000002_Top.RectAnchoredRects = append(__Rect__000002_Top.RectAnchoredRects, __RectAnchoredRect__000000_Rect_within_top)
+	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Start = __Rect__000001_Middle_Rect
+	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.End = __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Top_Rectangle_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Middle_Rect_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000007_Top_Rectangle_layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Link_layer_vertical_to_horizontal)
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
-	__SVG__000000_SVG.EndRect = __Rect__000001_Top
+	__SVG__000000_SVG.EndRect = __Rect__000002_Top
 }
 
 

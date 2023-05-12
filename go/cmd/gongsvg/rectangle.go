@@ -76,6 +76,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000000_Bottom := (&models.Rect{Name: `Bottom`}).Stage(stage)
 	__Rect__000001_Top := (&models.Rect{Name: `Top`}).Stage(stage)
 
+	// Declarations of staged instances of RectAnchoredRect
+	__RectAnchoredRect__000000_Rect_within_top := (&models.RectAnchoredRect{Name: `Rect within top`}).Stage(stage)
+
 	// Declarations of staged instances of RectAnchoredText
 	__RectAnchoredText__000000_Top_Left := (&models.RectAnchoredText{Name: `Top Left`}).Stage(stage)
 	__RectAnchoredText__000001_Top_anchored_top_middle := (&models.RectAnchoredText{Name: `Top anchored top middle`}).Stage(stage)
@@ -208,8 +211,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 574.000000
-	__Rect__000000_Bottom.Y = 416.000000
+	__Rect__000000_Bottom.X = 321.000000
+	__Rect__000000_Bottom.Y = 360.000000
 	__Rect__000000_Bottom.Width = 377.000000
 	__Rect__000000_Bottom.Height = 119.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -235,9 +238,9 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Top.Name = `Top`
-	__Rect__000001_Top.X = 119.000000
-	__Rect__000001_Top.Y = 104.000000
-	__Rect__000001_Top.Width = 308.000000
+	__Rect__000001_Top.X = 115.000000
+	__Rect__000001_Top.Y = 39.000000
+	__Rect__000001_Top.Width = 257.000000
 	__Rect__000001_Top.Height = 214.000000
 	__Rect__000001_Top.RX = 3.000000
 	__Rect__000001_Top.Color = `lightcyan`
@@ -259,6 +262,24 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.HasBottomHandle = false
 	__Rect__000001_Top.CanMoveHorizontaly = true
 	__Rect__000001_Top.CanMoveVerticaly = true
+
+	// RectAnchoredRect values setup
+	__RectAnchoredRect__000000_Rect_within_top.Name = `Rect within top`
+	__RectAnchoredRect__000000_Rect_within_top.X = 0.000000
+	__RectAnchoredRect__000000_Rect_within_top.Y = 0.000000
+	__RectAnchoredRect__000000_Rect_within_top.Width = 100.000000
+	__RectAnchoredRect__000000_Rect_within_top.Height = 30.000000
+	__RectAnchoredRect__000000_Rect_within_top.RX = 3.000000
+	__RectAnchoredRect__000000_Rect_within_top.X_Offset = 0.000000
+	__RectAnchoredRect__000000_Rect_within_top.Y_Offset = 40.000000
+	__RectAnchoredRect__000000_Rect_within_top.RectAnchorType = models.RECT_ANCHOR_TOP
+	__RectAnchoredRect__000000_Rect_within_top.Color = `lightgrey`
+	__RectAnchoredRect__000000_Rect_within_top.FillOpacity = 40.000000
+	__RectAnchoredRect__000000_Rect_within_top.Stroke = `bisque`
+	__RectAnchoredRect__000000_Rect_within_top.StrokeWidth = 1.000000
+	__RectAnchoredRect__000000_Rect_within_top.StrokeDashArray = ``
+	__RectAnchoredRect__000000_Rect_within_top.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredRect__000000_Rect_within_top.Transform = ``
 
 	// RectAnchoredText values setup
 	__RectAnchoredText__000000_Top_Left.Name = `Top Left`
@@ -344,6 +365,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Rect__000001_Top.RectAnchoredTexts = append(__Rect__000001_Top.RectAnchoredTexts, __RectAnchoredText__000002_Top_anchored_top_middle)
 	__Rect__000001_Top.RectAnchoredTexts = append(__Rect__000001_Top.RectAnchoredTexts, __RectAnchoredText__000000_Top_Left)
 	__Rect__000001_Top.RectAnchoredTexts = append(__Rect__000001_Top.RectAnchoredTexts, __RectAnchoredText__000001_Top_anchored_top_middle)
+	__Rect__000001_Top.RectAnchoredRects = append(__Rect__000001_Top.RectAnchoredRects, __RectAnchoredRect__000000_Rect_within_top)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Top_Rectangle_layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Link_layer_vertical_to_horizontal)

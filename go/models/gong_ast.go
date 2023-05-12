@@ -1965,6 +1965,20 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "RectAnchoredRect":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "WidthFollowRect":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_RectAnchoredRect[identifier].WidthFollowRect = fielValue
+				case "HeightFollowRect":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_RectAnchoredRect[identifier].HeightFollowRect = fielValue
 				}
 			case "RectAnchoredText":
 				switch fieldName {

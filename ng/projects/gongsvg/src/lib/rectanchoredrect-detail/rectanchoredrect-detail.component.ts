@@ -37,6 +37,8 @@ export class RectAnchoredRectDetailComponent implements OnInit {
 
 	// insertion point for declarations
 	RectAnchorTypeList: RectAnchorTypeSelect[] = []
+	WidthFollowRectFormControl: UntypedFormControl = new UntypedFormControl(false);
+	HeightFollowRectFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the RectAnchoredRectDB of interest
 	rectanchoredrect: RectAnchoredRectDB = new RectAnchoredRectDB
@@ -146,6 +148,8 @@ export class RectAnchoredRectDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.WidthFollowRectFormControl.setValue(this.rectanchoredrect.WidthFollowRect)
+				this.HeightFollowRectFormControl.setValue(this.rectanchoredrect.HeightFollowRect)
 			}
 		)
 
@@ -158,6 +162,8 @@ export class RectAnchoredRectDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+		this.rectanchoredrect.WidthFollowRect = this.WidthFollowRectFormControl.value
+		this.rectanchoredrect.HeightFollowRect = this.HeightFollowRectFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

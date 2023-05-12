@@ -91,6 +91,14 @@ type RectAnchoredRectDB struct {
 	// Declation for basic field rectanchoredrectDB.RectAnchorType
 	RectAnchorType_Data sql.NullString
 
+	// Declation for basic field rectanchoredrectDB.WidthFollowRect
+	// provide the sql storage for the boolan
+	WidthFollowRect_Data sql.NullBool
+
+	// Declation for basic field rectanchoredrectDB.HeightFollowRect
+	// provide the sql storage for the boolan
+	HeightFollowRect_Data sql.NullBool
+
 	// Declation for basic field rectanchoredrectDB.Color
 	Color_Data sql.NullString
 
@@ -150,19 +158,23 @@ type RectAnchoredRectWOP struct {
 
 	RectAnchorType models.RectAnchorType `xlsx:"9"`
 
-	Color string `xlsx:"10"`
+	WidthFollowRect bool `xlsx:"10"`
 
-	FillOpacity float64 `xlsx:"11"`
+	HeightFollowRect bool `xlsx:"11"`
 
-	Stroke string `xlsx:"12"`
+	Color string `xlsx:"12"`
 
-	StrokeWidth float64 `xlsx:"13"`
+	FillOpacity float64 `xlsx:"13"`
 
-	StrokeDashArray string `xlsx:"14"`
+	Stroke string `xlsx:"14"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"15"`
+	StrokeWidth float64 `xlsx:"15"`
 
-	Transform string `xlsx:"16"`
+	StrokeDashArray string `xlsx:"16"`
+
+	StrokeDashArrayWhenSelected string `xlsx:"17"`
+
+	Transform string `xlsx:"18"`
 	// insertion for WOP pointer fields
 }
 
@@ -178,6 +190,8 @@ var RectAnchoredRect_Fields = []string{
 	"X_Offset",
 	"Y_Offset",
 	"RectAnchorType",
+	"WidthFollowRect",
+	"HeightFollowRect",
 	"Color",
 	"FillOpacity",
 	"Stroke",
@@ -472,6 +486,12 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsFromRectAnchoredRec
 	rectanchoredrectDB.RectAnchorType_Data.String = rectanchoredrect.RectAnchorType.ToString()
 	rectanchoredrectDB.RectAnchorType_Data.Valid = true
 
+	rectanchoredrectDB.WidthFollowRect_Data.Bool = rectanchoredrect.WidthFollowRect
+	rectanchoredrectDB.WidthFollowRect_Data.Valid = true
+
+	rectanchoredrectDB.HeightFollowRect_Data.Bool = rectanchoredrect.HeightFollowRect
+	rectanchoredrectDB.HeightFollowRect_Data.Valid = true
+
 	rectanchoredrectDB.Color_Data.String = rectanchoredrect.Color
 	rectanchoredrectDB.Color_Data.Valid = true
 
@@ -525,6 +545,12 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsFromRectAnchoredRec
 	rectanchoredrectDB.RectAnchorType_Data.String = rectanchoredrect.RectAnchorType.ToString()
 	rectanchoredrectDB.RectAnchorType_Data.Valid = true
 
+	rectanchoredrectDB.WidthFollowRect_Data.Bool = rectanchoredrect.WidthFollowRect
+	rectanchoredrectDB.WidthFollowRect_Data.Valid = true
+
+	rectanchoredrectDB.HeightFollowRect_Data.Bool = rectanchoredrect.HeightFollowRect
+	rectanchoredrectDB.HeightFollowRect_Data.Valid = true
+
 	rectanchoredrectDB.Color_Data.String = rectanchoredrect.Color
 	rectanchoredrectDB.Color_Data.Valid = true
 
@@ -559,6 +585,8 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsToRectAnchoredRect(
 	rectanchoredrect.X_Offset = rectanchoredrectDB.X_Offset_Data.Float64
 	rectanchoredrect.Y_Offset = rectanchoredrectDB.Y_Offset_Data.Float64
 	rectanchoredrect.RectAnchorType.FromString(rectanchoredrectDB.RectAnchorType_Data.String)
+	rectanchoredrect.WidthFollowRect = rectanchoredrectDB.WidthFollowRect_Data.Bool
+	rectanchoredrect.HeightFollowRect = rectanchoredrectDB.HeightFollowRect_Data.Bool
 	rectanchoredrect.Color = rectanchoredrectDB.Color_Data.String
 	rectanchoredrect.FillOpacity = rectanchoredrectDB.FillOpacity_Data.Float64
 	rectanchoredrect.Stroke = rectanchoredrectDB.Stroke_Data.String
@@ -581,6 +609,8 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsToRectAnchoredRectW
 	rectanchoredrect.X_Offset = rectanchoredrectDB.X_Offset_Data.Float64
 	rectanchoredrect.Y_Offset = rectanchoredrectDB.Y_Offset_Data.Float64
 	rectanchoredrect.RectAnchorType.FromString(rectanchoredrectDB.RectAnchorType_Data.String)
+	rectanchoredrect.WidthFollowRect = rectanchoredrectDB.WidthFollowRect_Data.Bool
+	rectanchoredrect.HeightFollowRect = rectanchoredrectDB.HeightFollowRect_Data.Bool
 	rectanchoredrect.Color = rectanchoredrectDB.Color_Data.String
 	rectanchoredrect.FillOpacity = rectanchoredrectDB.FillOpacity_Data.Float64
 	rectanchoredrect.Stroke = rectanchoredrectDB.Stroke_Data.String

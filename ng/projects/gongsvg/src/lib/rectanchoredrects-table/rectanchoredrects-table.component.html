@@ -82,6 +82,20 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="WidthFollowRect">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> WidthFollowRect </th>
+            <td mat-cell *matCellDef="let RectAnchoredRect">
+                <mat-checkbox [checked]="RectAnchoredRect.WidthFollowRect" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="HeightFollowRect">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> HeightFollowRect </th>
+            <td mat-cell *matCellDef="let RectAnchoredRect">
+                <mat-checkbox [checked]="RectAnchoredRect.HeightFollowRect" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Color">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
             <td mat-cell *matCellDef="let RectAnchoredRect">

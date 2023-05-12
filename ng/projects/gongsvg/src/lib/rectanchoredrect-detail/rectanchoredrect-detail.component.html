@@ -73,6 +73,12 @@
         </mat-select>
     </mat-form-field>
 
+    <!-- -->
+    <mat-checkbox [formControl]="WidthFollowRectFormControl">WidthFollowRect</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HeightFollowRectFormControl">HeightFollowRect</mat-checkbox>
+
     <mat-grid-list *ngIf='!isATextArea("Color")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">

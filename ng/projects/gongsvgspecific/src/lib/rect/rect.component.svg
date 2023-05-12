@@ -33,7 +33,8 @@
                         [ngTemplateOutletContext]="{ 
                                 rect: rect, 
                                 anchorX: Rect.X + Rect.Width/2 + rect.X_Offset, 
-                                anchorY: Rect.Y + rect.Y_Offset }
+                                anchorY: Rect.Y + rect.Y_Offset,
+                                width: (rect.WidthFollowRect ? Rect.Width : rect.Width) }
                         ">
                 </ng-container>
                 <ng-container *ngIf="rect.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 
@@ -41,7 +42,8 @@
                         [ngTemplateOutletContext]="{ 
                                 rect: rect, 
                                 anchorX: Rect.X + rect.X_Offset, 
-                                anchorY: Rect.Y + rect.Y_Offset }
+                                anchorY: Rect.Y + rect.Y_Offset ,
+                                width: (rect.WidthFollowRect ? Rect.Width : rect.Width) }
                         ">
                 </ng-container>
                 <ng-container *ngIf="rect.RectAnchorType == RectAnchorType.RECT_ANCHOR_BOTTOM" 
@@ -49,7 +51,8 @@
                         [ngTemplateOutletContext]="{ 
                                 rect: rect, 
                                 anchorX: Rect.X + Rect.Width/2 + rect.X_Offset, 
-                                anchorY: Rect.Y + Rect.Height + rect.Y_Offset }
+                                anchorY: Rect.Y + Rect.Height + rect.Y_Offset ,
+                                width: (rect.WidthFollowRect ? Rect.Width : rect.Width) }
                         ">
                 </ng-container>
         </ng-container>
@@ -150,12 +153,12 @@
     >{{text.Content}}</text>
 </ng-template>
 
-<ng-template #anchoredRect let-rect="rect" let-anchorX="anchorX" let-anchorY="anchorY">
+<ng-template #anchoredRect let-rect="rect" let-anchorX="anchorX" let-anchorY="anchorY" let-width="width">
         <svg:rect   
         class="anchored-rect"
         [attr.x]="anchorX"
         [attr.y]="anchorY"
-        [attr.width]="rect.Width"
+        [attr.width]="width"
         [attr.height]="rect.Height"
         [attr.rx]="rect.RX"
         [attr.fill]="rect.Color"

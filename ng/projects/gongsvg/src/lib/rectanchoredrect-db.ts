@@ -22,6 +22,8 @@ export class RectAnchoredRectDB {
 	X_Offset: number = 0
 	Y_Offset: number = 0
 	RectAnchorType: string = ""
+	WidthFollowRect: boolean = false
+	HeightFollowRect: boolean = false
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""

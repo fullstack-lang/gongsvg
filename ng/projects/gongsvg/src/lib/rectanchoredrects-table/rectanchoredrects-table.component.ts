@@ -99,6 +99,12 @@ export class RectAnchoredRectsTableComponent implements OnInit {
         case 'RectAnchorType':
           return rectanchoredrectDB.RectAnchorType;
 
+        case 'WidthFollowRect':
+          return rectanchoredrectDB.WidthFollowRect ? "true" : "false";
+
+        case 'HeightFollowRect':
+          return rectanchoredrectDB.HeightFollowRect ? "true" : "false";
+
         case 'Color':
           return rectanchoredrectDB.Color;
 
@@ -224,6 +230,8 @@ export class RectAnchoredRectsTableComponent implements OnInit {
         "X_Offset",
         "Y_Offset",
         "RectAnchorType",
+        "WidthFollowRect",
+        "HeightFollowRect",
         "Color",
         "FillOpacity",
         "Stroke",
@@ -244,6 +252,8 @@ export class RectAnchoredRectsTableComponent implements OnInit {
         "X_Offset",
         "Y_Offset",
         "RectAnchorType",
+        "WidthFollowRect",
+        "HeightFollowRect",
         "Color",
         "FillOpacity",
         "Stroke",

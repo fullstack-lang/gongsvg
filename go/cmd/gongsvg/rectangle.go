@@ -78,6 +78,7 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of RectAnchoredRect
 	__RectAnchoredRect__000000_Rect_within_top := (&models.RectAnchoredRect{Name: `Rect within top`}).Stage(stage)
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width := (&models.RectAnchoredRect{Name: `Top on Bottom with same width`}).Stage(stage)
 
 	// Declarations of staged instances of RectAnchoredText
 	__RectAnchoredText__000000_Top_Left := (&models.RectAnchoredText{Name: `Top Left`}).Stage(stage)
@@ -211,8 +212,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 321.000000
-	__Rect__000000_Bottom.Y = 360.000000
+	__Rect__000000_Bottom.X = 452.000000
+	__Rect__000000_Bottom.Y = 328.000000
 	__Rect__000000_Bottom.Width = 377.000000
 	__Rect__000000_Bottom.Height = 119.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -273,6 +274,8 @@ func rectangleInjection(stage *models.StageStruct) {
 	__RectAnchoredRect__000000_Rect_within_top.X_Offset = 0.000000
 	__RectAnchoredRect__000000_Rect_within_top.Y_Offset = 40.000000
 	__RectAnchoredRect__000000_Rect_within_top.RectAnchorType = models.RECT_ANCHOR_TOP
+	__RectAnchoredRect__000000_Rect_within_top.WidthFollowRect = false
+	__RectAnchoredRect__000000_Rect_within_top.HeightFollowRect = false
 	__RectAnchoredRect__000000_Rect_within_top.Color = `lightgrey`
 	__RectAnchoredRect__000000_Rect_within_top.FillOpacity = 40.000000
 	__RectAnchoredRect__000000_Rect_within_top.Stroke = `bisque`
@@ -280,6 +283,26 @@ func rectangleInjection(stage *models.StageStruct) {
 	__RectAnchoredRect__000000_Rect_within_top.StrokeDashArray = ``
 	__RectAnchoredRect__000000_Rect_within_top.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredRect__000000_Rect_within_top.Transform = ``
+
+	// RectAnchoredRect values setup
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Name = `Top on Bottom with same width`
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.X = 0.000000
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Y = 0.000000
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Width = 100.000000
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Height = 50.000000
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.RX = 0.000000
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.X_Offset = 0.000000
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Y_Offset = 0.000000
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.RectAnchorType = models.RECT_ANCHOR_TOP
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.WidthFollowRect = true
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.HeightFollowRect = false
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Color = `lightblue`
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.FillOpacity = 100.000000
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Stroke = ``
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.StrokeWidth = 0.000000
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.StrokeDashArray = ``
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Transform = ``
 
 	// RectAnchoredText values setup
 	__RectAnchoredText__000000_Top_Left.Name = `Top Left`
@@ -362,6 +385,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000001_Link_horizontal_to_horizontal.End = __Rect__000000_Bottom
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000001_Top
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.End = __Rect__000000_Bottom
+	__Rect__000000_Bottom.RectAnchoredRects = append(__Rect__000000_Bottom.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
 	__Rect__000001_Top.RectAnchoredTexts = append(__Rect__000001_Top.RectAnchoredTexts, __RectAnchoredText__000002_Top_anchored_top_middle)
 	__Rect__000001_Top.RectAnchoredTexts = append(__Rect__000001_Top.RectAnchoredTexts, __RectAnchoredText__000000_Top_Left)
 	__Rect__000001_Top.RectAnchoredTexts = append(__Rect__000001_Top.RectAnchoredTexts, __RectAnchoredText__000001_Top_anchored_top_middle)

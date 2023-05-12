@@ -10,5 +10,9 @@ type RectAnchoredRect struct {
 
 	RectAnchorType RectAnchorType
 
+	// if true, rect has the same Dimension that the rect it is anchored to
+	WidthFollowRect  bool
+	HeightFollowRect bool
+
 	Presentation
 }

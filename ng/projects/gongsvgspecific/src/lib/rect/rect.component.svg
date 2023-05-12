@@ -27,6 +27,33 @@
 
         </rect>
 
+                <ng-container *ngFor='let rect of Rect.RectAnchoredRects!; let i = index'>
+                <ng-container *ngIf="rect.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP" 
+                        [ngTemplateOutlet]="anchoredRect" 
+                        [ngTemplateOutletContext]="{ 
+                                rect: rect, 
+                                anchorX: Rect.X + Rect.Width/2 + rect.X_Offset, 
+                                anchorY: Rect.Y + rect.Y_Offset }
+                        ">
+                </ng-container>
+                <ng-container *ngIf="rect.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 
+                        [ngTemplateOutlet]="anchoredRect" 
+                        [ngTemplateOutletContext]="{ 
+                                rect: rect, 
+                                anchorX: Rect.X + rect.X_Offset, 
+                                anchorY: Rect.Y + rect.Y_Offset }
+                        ">
+                </ng-container>
+                <ng-container *ngIf="rect.RectAnchorType == RectAnchorType.RECT_ANCHOR_BOTTOM" 
+                        [ngTemplateOutlet]="anchoredRect" 
+                        [ngTemplateOutletContext]="{ 
+                                rect: rect, 
+                                anchorX: Rect.X + Rect.Width/2 + rect.X_Offset, 
+                                anchorY: Rect.Y + Rect.Height + rect.Y_Offset }
+                        ">
+                </ng-container>
+        </ng-container>
+
         <ng-container *ngFor='let text of Rect.RectAnchoredTexts!; let i = index'>
                 <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP" 
                         [ngTemplateOutlet]="anchoredText" 
@@ -54,32 +81,7 @@
                 </ng-container>
         </ng-container>
 
-        <ng-container *ngFor='let rect of Rect.RectAnchoredRects!; let i = index'>
-                <ng-container *ngIf="rect.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP" 
-                        [ngTemplateOutlet]="anchoredRect" 
-                        [ngTemplateOutletContext]="{ 
-                                rect: rect, 
-                                anchorX: Rect.X + Rect.Width/2 + rect.X_Offset, 
-                                anchorY: Rect.Y + rect.Y_Offset }
-                        ">
-                </ng-container>
-                <ng-container *ngIf="rect.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 
-                        [ngTemplateOutlet]="anchoredRect" 
-                        [ngTemplateOutletContext]="{ 
-                                rect: rect, 
-                                anchorX: Rect.X + rect.X_Offset, 
-                                anchorY: Rect.Y + rect.Y_Offset }
-                        ">
-                </ng-container>
-                <ng-container *ngIf="rect.RectAnchorType == RectAnchorType.RECT_ANCHOR_BOTTOM" 
-                        [ngTemplateOutlet]="anchoredRect" 
-                        [ngTemplateOutletContext]="{ 
-                                rect: rect, 
-                                anchorX: Rect.X + Rect.Width/2 + rect.X_Offset, 
-                                anchorY: Rect.Y + Rect.Height + rect.Y_Offset }
-                        ">
-                </ng-container>
-        </ng-container>
+
 
         <!-- Left anchor -->
         <circle

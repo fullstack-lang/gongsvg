@@ -169,7 +169,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.261682
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.639257
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.323607
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -0.840336
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
@@ -226,8 +226,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 505.000000
-	__Rect__000000_Bottom.Y = 398.000000
+	__Rect__000000_Bottom.X = 713.000000
+	__Rect__000000_Bottom.Y = 220.000000
 	__Rect__000000_Bottom.Width = 377.000000
 	__Rect__000000_Bottom.Height = 119.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -253,8 +253,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 114.000000
-	__Rect__000001_Middle_Rect.Y = 383.000000
+	__Rect__000001_Middle_Rect.X = 192.000000
+	__Rect__000001_Middle_Rect.Y = 379.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 150.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -280,8 +280,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 57.000000
-	__Rect__000002_Top.Y = 29.000000
+	__Rect__000002_Top.X = 121.000000
+	__Rect__000002_Top.Y = 62.000000
 	__Rect__000002_Top.Width = 257.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000
@@ -364,16 +364,16 @@ func rectangleInjection(stage *models.StageStruct) {
 	// RectAnchoredText values setup
 	__RectAnchoredText__000001_Top_anchored_top_middle.Name = `Top anchored top middle`
 	__RectAnchoredText__000001_Top_anchored_top_middle.Content = `Top anchored top middle`
-	__RectAnchoredText__000001_Top_anchored_top_middle.FontWeight = ``
+	__RectAnchoredText__000001_Top_anchored_top_middle.FontWeight = `bold`
 	__RectAnchoredText__000001_Top_anchored_top_middle.FontSize = 0
 	__RectAnchoredText__000001_Top_anchored_top_middle.X_Offset = 0.000000
 	__RectAnchoredText__000001_Top_anchored_top_middle.Y_Offset = 20.000000
-	__RectAnchoredText__000001_Top_anchored_top_middle.RectAnchorType = models.RECT_ANCHOR_BOTTOM
-	__RectAnchoredText__000001_Top_anchored_top_middle.TextAnchorType = models.TEXT_ANCHOR_LEFT
+	__RectAnchoredText__000001_Top_anchored_top_middle.RectAnchorType = models.RECT_ANCHOR_TOP
+	__RectAnchoredText__000001_Top_anchored_top_middle.TextAnchorType = models.TEXT_ANCHOR_CENTER
 	__RectAnchoredText__000001_Top_anchored_top_middle.Color = ``
 	__RectAnchoredText__000001_Top_anchored_top_middle.FillOpacity = 100.000000
-	__RectAnchoredText__000001_Top_anchored_top_middle.Stroke = `blue`
-	__RectAnchoredText__000001_Top_anchored_top_middle.StrokeWidth = 2.000000
+	__RectAnchoredText__000001_Top_anchored_top_middle.Stroke = `black`
+	__RectAnchoredText__000001_Top_anchored_top_middle.StrokeWidth = 1.000000
 	__RectAnchoredText__000001_Top_anchored_top_middle.StrokeDashArray = ``
 	__RectAnchoredText__000001_Top_anchored_top_middle.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__000001_Top_anchored_top_middle.Transform = ``
@@ -381,23 +381,23 @@ func rectangleInjection(stage *models.StageStruct) {
 	// RectAnchoredText values setup
 	__RectAnchoredText__000002_Top_anchored_top_middle.Name = `Top anchored top middle`
 	__RectAnchoredText__000002_Top_anchored_top_middle.Content = `Top anchored top middle`
-	__RectAnchoredText__000002_Top_anchored_top_middle.FontWeight = `bold`
+	__RectAnchoredText__000002_Top_anchored_top_middle.FontWeight = ``
 	__RectAnchoredText__000002_Top_anchored_top_middle.FontSize = 0
 	__RectAnchoredText__000002_Top_anchored_top_middle.X_Offset = 0.000000
 	__RectAnchoredText__000002_Top_anchored_top_middle.Y_Offset = 20.000000
-	__RectAnchoredText__000002_Top_anchored_top_middle.RectAnchorType = models.RECT_ANCHOR_TOP
-	__RectAnchoredText__000002_Top_anchored_top_middle.TextAnchorType = models.TEXT_ANCHOR_CENTER
+	__RectAnchoredText__000002_Top_anchored_top_middle.RectAnchorType = models.RECT_ANCHOR_BOTTOM
+	__RectAnchoredText__000002_Top_anchored_top_middle.TextAnchorType = models.TEXT_ANCHOR_LEFT
 	__RectAnchoredText__000002_Top_anchored_top_middle.Color = ``
 	__RectAnchoredText__000002_Top_anchored_top_middle.FillOpacity = 100.000000
-	__RectAnchoredText__000002_Top_anchored_top_middle.Stroke = `black`
-	__RectAnchoredText__000002_Top_anchored_top_middle.StrokeWidth = 1.000000
+	__RectAnchoredText__000002_Top_anchored_top_middle.Stroke = `blue`
+	__RectAnchoredText__000002_Top_anchored_top_middle.StrokeWidth = 2.000000
 	__RectAnchoredText__000002_Top_anchored_top_middle.StrokeDashArray = ``
 	__RectAnchoredText__000002_Top_anchored_top_middle.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__000002_Top_anchored_top_middle.Transform = ``
 
 	// RectLinkLink values setup
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Name = `Test Middle to Top-Bottom Link`
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.TargetAnchorPosition = 0.400000
+	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.TargetAnchorPosition = 0.600000
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Color = ``
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.FillOpacity = 0.000000
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Stroke = `lightgreen`
@@ -440,9 +440,9 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000002_Top
 	__Link__000002_Top_to_Bottom_horizontal_to_vertical.End = __Rect__000000_Bottom
 	__Rect__000000_Bottom.RectAnchoredRects = append(__Rect__000000_Bottom.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
-	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000002_Top_anchored_top_middle)
-	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000000_Top_Left)
 	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000001_Top_anchored_top_middle)
+	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000000_Top_Left)
+	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000002_Top_anchored_top_middle)
 	__Rect__000002_Top.RectAnchoredRects = append(__Rect__000002_Top.RectAnchoredRects, __RectAnchoredRect__000000_Rect_within_top)
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Start = __Rect__000001_Middle_Rect
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.End = __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal

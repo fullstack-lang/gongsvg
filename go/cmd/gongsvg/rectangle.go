@@ -253,8 +253,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 329.000000
-	__Rect__000001_Middle_Rect.Y = 317.000000
+	__Rect__000001_Middle_Rect.X = 344.000000
+	__Rect__000001_Middle_Rect.Y = 397.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 150.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000

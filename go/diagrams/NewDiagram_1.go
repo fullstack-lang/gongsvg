@@ -293,6 +293,8 @@ var map_DocLink_Identifier_NewDiagram_1 map[string]any = map[string]any{
 
 	"ref_models.Layer.Polylines": (ref_models.Layer{}).Polylines,
 
+	"ref_models.Layer.RectLinkLinks": (ref_models.Layer{}).RectLinkLinks,
+
 	"ref_models.Layer.Rects": (ref_models.Layer{}).Rects,
 
 	"ref_models.Layer.Texts": (ref_models.Layer{}).Texts,
@@ -601,8 +603,6 @@ var map_DocLink_Identifier_NewDiagram_1 map[string]any = map[string]any{
 
 	"ref_models.Rect.CanHaveLeftHandle": (ref_models.Rect{}).CanHaveLeftHandle,
 
-	"ref_models.Rect.CanHaveLeftHandle": (ref_models.Rect{}).CanHaveLeftHandle,
-
 	"ref_models.Rect.CanHaveRightHandle": (ref_models.Rect{}).CanHaveRightHandle,
 
 	"ref_models.Rect.CanHaveTopHandle": (ref_models.Rect{}).CanHaveTopHandle,
@@ -616,8 +616,6 @@ var map_DocLink_Identifier_NewDiagram_1 map[string]any = map[string]any{
 	"ref_models.Rect.FillOpacity": (ref_models.Rect{}).FillOpacity,
 
 	"ref_models.Rect.HasBottomHandle": (ref_models.Rect{}).HasBottomHandle,
-
-	"ref_models.Rect.HasLeftHandle": (ref_models.Rect{}).HasLeftHandle,
 
 	"ref_models.Rect.HasLeftHandle": (ref_models.Rect{}).HasLeftHandle,
 
@@ -731,13 +729,27 @@ var map_DocLink_Identifier_NewDiagram_1 map[string]any = map[string]any{
 
 	"ref_models.RectLinkLink": &(ref_models.RectLinkLink{}),
 
+	"ref_models.RectLinkLink.Color": (ref_models.RectLinkLink{}).Color,
+
 	"ref_models.RectLinkLink.End": (ref_models.RectLinkLink{}).End,
+
+	"ref_models.RectLinkLink.FillOpacity": (ref_models.RectLinkLink{}).FillOpacity,
 
 	"ref_models.RectLinkLink.Name": (ref_models.RectLinkLink{}).Name,
 
 	"ref_models.RectLinkLink.Start": (ref_models.RectLinkLink{}).Start,
 
+	"ref_models.RectLinkLink.Stroke": (ref_models.RectLinkLink{}).Stroke,
+
+	"ref_models.RectLinkLink.StrokeDashArray": (ref_models.RectLinkLink{}).StrokeDashArray,
+
+	"ref_models.RectLinkLink.StrokeDashArrayWhenSelected": (ref_models.RectLinkLink{}).StrokeDashArrayWhenSelected,
+
+	"ref_models.RectLinkLink.StrokeWidth": (ref_models.RectLinkLink{}).StrokeWidth,
+
 	"ref_models.RectLinkLink.TargetAnchorPosition": (ref_models.RectLinkLink{}).TargetAnchorPosition,
+
+	"ref_models.RectLinkLink.Transform": (ref_models.RectLinkLink{}).Transform,
 
 	"ref_models.Red": ref_models.Red,
 
@@ -865,11 +877,13 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Classdiagram
-	__Classdiagram__000000_AroundLinks := (&models.Classdiagram{Name: `AroundLinks`}).Stage(stage)
+	__Classdiagram__000000_NewDiagram_1 := (&models.Classdiagram{Name: `NewDiagram_1`}).Stage(stage)
 
 	// Declarations of staged instances of DiagramPackage
 
 	// Declarations of staged instances of Field
+	__Field__000000_CornerOffsetRatio := (&models.Field{Name: `CornerOffsetRatio`}).Stage(stage)
+	__Field__000001_CornerRadius := (&models.Field{Name: `CornerRadius`}).Stage(stage)
 
 	// Declarations of staged instances of GongEnumShape
 
@@ -912,8 +926,30 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	// Setup of values
 
 	// Classdiagram values setup
-	__Classdiagram__000000_AroundLinks.Name = `AroundLinks`
-	__Classdiagram__000000_AroundLinks.IsInDrawMode = true
+	__Classdiagram__000000_NewDiagram_1.Name = `NewDiagram_1`
+	__Classdiagram__000000_NewDiagram_1.IsInDrawMode = true
+
+	// Field values setup
+	__Field__000000_CornerOffsetRatio.Name = `CornerOffsetRatio`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Link.CornerOffsetRatio]
+	__Field__000000_CornerOffsetRatio.Identifier = `ref_models.Link.CornerOffsetRatio`
+	__Field__000000_CornerOffsetRatio.FieldTypeAsString = ``
+	__Field__000000_CornerOffsetRatio.Structname = `Link`
+	__Field__000000_CornerOffsetRatio.Fieldtypename = `float64`
+
+	// Field values setup
+	__Field__000001_CornerRadius.Name = `CornerRadius`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Link.CornerRadius]
+	__Field__000001_CornerRadius.Identifier = `ref_models.Link.CornerRadius`
+	__Field__000001_CornerRadius.FieldTypeAsString = ``
+	__Field__000001_CornerRadius.Structname = `Link`
+	__Field__000001_CornerRadius.Fieldtypename = `float64`
 
 	// GongStructShape values setup
 	__GongStructShape__000000_NewDiagram_1_Link.Name = `NewDiagram_1-Link`
@@ -925,7 +961,7 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	__GongStructShape__000000_NewDiagram_1_Link.ShowNbInstances = false
 	__GongStructShape__000000_NewDiagram_1_Link.NbInstances = 0
 	__GongStructShape__000000_NewDiagram_1_Link.Width = 240.000000
-	__GongStructShape__000000_NewDiagram_1_Link.Heigth = 63.000000
+	__GongStructShape__000000_NewDiagram_1_Link.Heigth = 93.000000
 	__GongStructShape__000000_NewDiagram_1_Link.IsSelected = false
 
 	// GongStructShape values setup
@@ -989,8 +1025,8 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [ref_models.Link.Start]
-	__Link__000002_Start.Identifier = `ref_models.Link.Start`
+	//gong:ident [ref_models.RectLinkLink.Start]
+	__Link__000002_Start.Identifier = `ref_models.RectLinkLink.Start`
 
 	// comment added to overcome the problem with the comment map association
 
@@ -1004,8 +1040,8 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [ref_models.RectLinkLink.Start]
-	__Link__000003_Start.Identifier = `ref_models.RectLinkLink.Start`
+	//gong:ident [ref_models.Link.Start]
+	__Link__000003_Start.Identifier = `ref_models.Link.Start`
 
 	// comment added to overcome the problem with the comment map association
 
@@ -1015,53 +1051,57 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	__Link__000003_Start.SourceMultiplicity = models.MANY
 
 	// Position values setup
-	__Position__000000_Pos_NewDiagram_1_Link.X = 60.000000
-	__Position__000000_Pos_NewDiagram_1_Link.Y = 90.000000
+	__Position__000000_Pos_NewDiagram_1_Link.X = 80.000000
+	__Position__000000_Pos_NewDiagram_1_Link.Y = 120.000000
 	__Position__000000_Pos_NewDiagram_1_Link.Name = `Pos-NewDiagram_1-Link`
 
 	// Position values setup
-	__Position__000001_Pos_NewDiagram_1_Rect.X = 540.000000
-	__Position__000001_Pos_NewDiagram_1_Rect.Y = 80.000000
+	__Position__000001_Pos_NewDiagram_1_Rect.X = 420.000000
+	__Position__000001_Pos_NewDiagram_1_Rect.Y = 430.000000
 	__Position__000001_Pos_NewDiagram_1_Rect.Name = `Pos-NewDiagram_1-Rect`
 
 	// Position values setup
-	__Position__000002_Pos_NewDiagram_1_RectLinkLink.X = 280.000000
-	__Position__000002_Pos_NewDiagram_1_RectLinkLink.Y = 390.000000
+	__Position__000002_Pos_NewDiagram_1_RectLinkLink.X = 640.000000
+	__Position__000002_Pos_NewDiagram_1_RectLinkLink.Y = 160.000000
 	__Position__000002_Pos_NewDiagram_1_RectLinkLink.Name = `Pos-NewDiagram_1-RectLinkLink`
 
 	// Vertice values setup
-	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.X = 403.000000
-	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Y = 218.500000
+	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.X = 130.000000
+	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Y = 366.500000
 	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Name = `Verticle in class diagram NewDiagram_1 in middle between NewDiagram_1-Link and NewDiagram_1-Rect`
 
 	// Vertice values setup
-	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.X = 333.000000
-	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Y = 28.500000
+	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.X = 580.000000
+	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Y = 326.500000
 	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect.Name = `Verticle in class diagram NewDiagram_1 in middle between NewDiagram_1-Link and NewDiagram_1-Rect`
 
 	// Vertice values setup
-	__Vertice__000002_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link.X = 162.500000
-	__Vertice__000002_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link.Y = 283.000000
+	__Vertice__000002_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link.X = 490.000000
+	__Vertice__000002_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link.Y = 81.500000
 	__Vertice__000002_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link.Name = `Verticle in class diagram NewDiagram_1 in middle between NewDiagram_1-RectLinkLink and NewDiagram_1-Link`
 
 	// Vertice values setup
-	__Vertice__000003_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect.X = 640.000000
-	__Vertice__000003_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect.Y = 205.500000
+	__Vertice__000003_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect.X = 770.000000
+	__Vertice__000003_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect.Y = 456.500000
 	__Vertice__000003_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect.Name = `Verticle in class diagram NewDiagram_1 in middle between NewDiagram_1-RectLinkLink and NewDiagram_1-Rect`
 
 	// Setup of pointers
-	__Classdiagram__000000_AroundLinks.GongStructShapes = append(__Classdiagram__000000_AroundLinks.GongStructShapes, __GongStructShape__000001_NewDiagram_1_Rect)
-	__Classdiagram__000000_AroundLinks.GongStructShapes = append(__Classdiagram__000000_AroundLinks.GongStructShapes, __GongStructShape__000000_NewDiagram_1_Link)
-	__Classdiagram__000000_AroundLinks.GongStructShapes = append(__Classdiagram__000000_AroundLinks.GongStructShapes, __GongStructShape__000002_NewDiagram_1_RectLinkLink)
+	__Classdiagram__000000_NewDiagram_1.GongStructShapes = append(__Classdiagram__000000_NewDiagram_1.GongStructShapes, __GongStructShape__000000_NewDiagram_1_Link)
+	__Classdiagram__000000_NewDiagram_1.GongStructShapes = append(__Classdiagram__000000_NewDiagram_1.GongStructShapes, __GongStructShape__000002_NewDiagram_1_RectLinkLink)
+	__Classdiagram__000000_NewDiagram_1.GongStructShapes = append(__Classdiagram__000000_NewDiagram_1.GongStructShapes, __GongStructShape__000001_NewDiagram_1_Rect)
 	__GongStructShape__000000_NewDiagram_1_Link.Position = __Position__000000_Pos_NewDiagram_1_Link
+	__GongStructShape__000000_NewDiagram_1_Link.Fields = append(__GongStructShape__000000_NewDiagram_1_Link.Fields, __Field__000000_CornerOffsetRatio)
+	__GongStructShape__000000_NewDiagram_1_Link.Fields = append(__GongStructShape__000000_NewDiagram_1_Link.Fields, __Field__000001_CornerRadius)
 	__GongStructShape__000000_NewDiagram_1_Link.Links = append(__GongStructShape__000000_NewDiagram_1_Link.Links, __Link__000001_End)
-	__GongStructShape__000000_NewDiagram_1_Link.Links = append(__GongStructShape__000000_NewDiagram_1_Link.Links, __Link__000002_Start)
+	__GongStructShape__000000_NewDiagram_1_Link.Links = append(__GongStructShape__000000_NewDiagram_1_Link.Links, __Link__000003_Start)
 	__GongStructShape__000001_NewDiagram_1_Rect.Position = __Position__000001_Pos_NewDiagram_1_Rect
 	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Position = __Position__000002_Pos_NewDiagram_1_RectLinkLink
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links = append(__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links, __Link__000003_Start)
 	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links = append(__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links, __Link__000000_End)
+	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links = append(__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links, __Link__000002_Start)
 	__Link__000000_End.Middlevertice = __Vertice__000002_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link
 	__Link__000001_End.Middlevertice = __Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect
-	__Link__000002_Start.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect
-	__Link__000003_Start.Middlevertice = __Vertice__000003_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect
+	__Link__000002_Start.Middlevertice = __Vertice__000003_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect
+	__Link__000003_Start.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_Link_and_NewDiagram_1_Rect
 }
+
+

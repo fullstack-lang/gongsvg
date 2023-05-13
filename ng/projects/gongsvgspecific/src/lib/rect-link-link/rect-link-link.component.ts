@@ -9,7 +9,7 @@ import { compareRectGeometries } from '../compare.rect.geometries';
   templateUrl: './rect-link-link.component.svg',
   styleUrls: ['./rect-link-link.component.css']
 })
-export class RectLinkLinkComponent implements OnInit, DoCheck  {
+export class RectLinkLinkComponent implements OnInit, DoCheck {
 
   @Input() RectLinkLink: gongsvg.RectLinkLinkDB = new gongsvg.RectLinkLinkDB()
   @Input() GONG__StackPath: string = ""
@@ -22,22 +22,22 @@ export class RectLinkLinkComponent implements OnInit, DoCheck  {
     this.resetPreviousState()
   }
 
-  public getStartPosition(rect: gongsvg.RectDB): Coordinate {
+  public getStartPosition(): Coordinate {
 
     let coordinate: Coordinate = [0, 0]
 
-    coordinate[0] = rect.X + rect.Width/2
-    coordinate[1] = rect.Y + rect.Height/2
+    coordinate[0] = this.previousStart!.X + this.previousStart!.Width / 2
+    coordinate[1] = this.previousStart!.Y + this.previousStart!.Height / 2
 
     return coordinate
   }
 
-  public getEndPosition(link: gongsvg.LinkDB): Coordinate {
+  public getEndPosition(): Coordinate {
 
     let coordinate: Coordinate = [0, 0]
 
-    coordinate[0] = link.Start!.X + link.Start!.Width/2
-    coordinate[1] = link.Start!.Y + link.Start!.Height/2
+    coordinate[0] = this.previousEnd_StartRect!.X + this.previousEnd_StartRect!.Width / 2
+    coordinate[1] = this.previousEnd_StartRect!.Y + this.previousEnd_StartRect!.Height / 2
 
     return coordinate
   }
@@ -45,8 +45,10 @@ export class RectLinkLinkComponent implements OnInit, DoCheck  {
   ngDoCheck(): void {
 
     let hasStartChanged = !compareRectGeometries(this.previousStart!, this.RectLinkLink!.Start!)
+    let hasEnd_StartChanged = !compareRectGeometries(this.previousEnd_StartRect!, this.RectLinkLink!.End!.Start!)
+    let hasEnd_EndChanged = !compareRectGeometries(this.previousEnd_EndRect!, this.RectLinkLink!.End!.End!)
 
-    if (hasStartChanged ) {
+    if (hasStartChanged || hasEnd_StartChanged || hasEnd_EndChanged) {
       // if (hasStartChanged || hasEndChanged) {
       // this.drawSegments()
       this.resetPreviousState()

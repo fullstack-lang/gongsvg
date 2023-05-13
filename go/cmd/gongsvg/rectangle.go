@@ -253,8 +253,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 149.000000
-	__Rect__000001_Middle_Rect.Y = 340.000000
+	__Rect__000001_Middle_Rect.X = 114.000000
+	__Rect__000001_Middle_Rect.Y = 383.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 150.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -401,7 +401,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Color = ``
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.FillOpacity = 0.000000
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Stroke = `lightgreen`
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeWidth = 2.000000
+	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeWidth = 4.000000
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeDashArray = ``
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeDashArrayWhenSelected = ``
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Transform = ``

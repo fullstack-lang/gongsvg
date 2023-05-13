@@ -1,12 +1,10 @@
 <svg *ngIf="this.RectLinkLink && this.RectLinkLink.Start && this.RectLinkLink.End">
     <g>
-        <rect x="100" y="200" width="300" height="400" color="blue" fill-opacity="100">
-        </rect>
         <line class="rect-link-link" 
-            [attr.x1]="getStartPosition(RectLinkLink.Start)[0]" 
-            [attr.y1]="getStartPosition(RectLinkLink.Start)[1]" 
-            [attr.x2]="getEndPosition(RectLinkLink.End)[0]" 
-            [attr.y2]="getEndPosition(RectLinkLink.End)[1]"
+            [attr.x1]="getStartPosition()[0]" 
+            [attr.y1]="getStartPosition()[1]" 
+            [attr.x2]="getEndPosition()[0]" 
+            [attr.y2]="getEndPosition()[1]"
             [attr.fill]="RectLinkLink.Color"
             [attr.fill-opacity]="RectLinkLink.FillOpacity" 
             [attr.stroke]="RectLinkLink.Stroke" 

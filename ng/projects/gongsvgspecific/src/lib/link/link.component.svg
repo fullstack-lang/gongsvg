@@ -119,20 +119,26 @@
             </ng-container>
             <ng-container *ngIf="(i == (segments.length - 1))">
                 <ng-container *ngFor='let text of this.Link.TextAtArrowEnd!; let i = index'>
-                     <text class="movable-text"
-                        [attr.x]="segment.EndPoint.X + text.X_Offset" 
-                        [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
-                        [attr.fill]="text.Color"    
-                        [attr.fill-opacity]="text.FillOpacity"
-                        [attr.stroke]="text.Stroke"
-                        [attr.stroke-width]="text.StrokeWidth"
-                        [attr.stroke-dasharray]="text.StrokeDashArray"
-                        [attr.transform]="text.Transform"
-                        
-                        (mousedown)="textAnchoredMouseDown($event, i, 'POSITION_ON_ARROW_END')" 
-                        (mousemove)="textAnchoredMouseMove($event)" 
-                        (mouseup)="textAnchoredMouseUp($event)"
-                        >{{text.Content}}</text>
+                    <ng-container *ngIf='splitTextIntoLines(text.Content) as lines'>
+                        <text class="movable-text"
+                            [attr.x]="segment.EndPoint.X + text.X_Offset" 
+                            [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
+                            [attr.fill]="text.Color"    
+                            [attr.fill-opacity]="text.FillOpacity"
+                            [attr.stroke]="text.Stroke"
+                            [attr.stroke-width]="text.StrokeWidth"
+                            [attr.stroke-dasharray]="text.StrokeDashArray"
+                            [attr.transform]="text.Transform"
+                            
+                            (mousedown)="textAnchoredMouseDown($event, i, 'POSITION_ON_ARROW_END')" 
+                            (mousemove)="textAnchoredMouseMove($event)" 
+                            (mouseup)="textAnchoredMouseUp($event)"
+                            >
+                            <tspan *ngFor='let line of lines; let j = index' 
+                                [attr.x]="segment.StartPoint.X + text.X_Offset"
+                                [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>  
+                            </text>
+                    </ng-container>
                 </ng-container>
             </ng-container>
             <ng-container *ngIf="i == 0">

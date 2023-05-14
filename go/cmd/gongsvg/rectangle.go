@@ -102,12 +102,13 @@ func rectangleInjection(stage *models.StageStruct) {
 	// AnchoredText values setup
 	__AnchoredText__000000_Start_Anchored_1.Name = `Start Anchored 1`
 	__AnchoredText__000000_Start_Anchored_1.Content = `Start Anchored 1`
-	__AnchoredText__000000_Start_Anchored_1.X_Offset = 52.000000
-	__AnchoredText__000000_Start_Anchored_1.Y_Offset = 40.000000
-	__AnchoredText__000000_Start_Anchored_1.Color = ``
-	__AnchoredText__000000_Start_Anchored_1.FillOpacity = 0.000000
+	__AnchoredText__000000_Start_Anchored_1.X_Offset = 41.000000
+	__AnchoredText__000000_Start_Anchored_1.Y_Offset = -20.000000
+	__AnchoredText__000000_Start_Anchored_1.FontWeight = `light`
+	__AnchoredText__000000_Start_Anchored_1.Color = `cyan`
+	__AnchoredText__000000_Start_Anchored_1.FillOpacity = 100.000000
 	__AnchoredText__000000_Start_Anchored_1.Stroke = `cyan`
-	__AnchoredText__000000_Start_Anchored_1.StrokeWidth = 2.000000
+	__AnchoredText__000000_Start_Anchored_1.StrokeWidth = 1.000000
 	__AnchoredText__000000_Start_Anchored_1.StrokeDashArray = ``
 	__AnchoredText__000000_Start_Anchored_1.StrokeDashArrayWhenSelected = ``
 	__AnchoredText__000000_Start_Anchored_1.Transform = ``
@@ -226,8 +227,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 701.000000
-	__Rect__000000_Bottom.Y = 277.000000
+	__Rect__000000_Bottom.X = 579.000000
+	__Rect__000000_Bottom.Y = 384.000000
 	__Rect__000000_Bottom.Width = 377.000000
 	__Rect__000000_Bottom.Height = 119.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -253,8 +254,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 344.000000
-	__Rect__000001_Middle_Rect.Y = 397.000000
+	__Rect__000001_Middle_Rect.X = 258.000000
+	__Rect__000001_Middle_Rect.Y = 441.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 150.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -280,8 +281,8 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 121.000000
-	__Rect__000002_Top.Y = 62.000000
+	__Rect__000002_Top.X = 297.000000
+	__Rect__000002_Top.Y = 68.000000
 	__Rect__000002_Top.Width = 257.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000

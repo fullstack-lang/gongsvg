@@ -30,7 +30,7 @@
             "webRoot": "${workspaceFolder}/ng"
         },
         {
-            "name": "go server colorgrid",
+            "name": "go server colorgrid 8082",
             "type": "go",
             "request": "launch",
             "mode": "auto",

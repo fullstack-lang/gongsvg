@@ -48,6 +48,8 @@ export class RectLinkLinkComponent implements OnInit, DoCheck {
     coordinate[0] = this.target!.X
     coordinate[1] = this.target!.Y
 
+    console.log("end", coordinate)
+
     return coordinate
   }
 

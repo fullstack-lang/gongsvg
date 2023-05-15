@@ -318,6 +318,8 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
             } else {
               this.linkService.updateLink(this.Link!, this.GONG__StackPath).subscribe(
                 link => {
+                  // this.Link = link
+                  this.resetPreviousState()
                   // console.log("Updated", link.ID)
                 }
               )

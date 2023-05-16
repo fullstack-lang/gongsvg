@@ -116,7 +116,11 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
 
               let deltaY = shapeMouseEvent.Point.Y - segment.StartPoint.Y
               if (this.draggedSegment == 0 && deltaY != 0) {
-                let newRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
+
+                let newRatio = this.LinkAtMouseDown!.StartRatio +
+                  (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y) / this.previousStart!.Height
+
+                // (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
                 // console.log("shapeMouseEvent.Point.Y\t\t", shapeMouseEvent.Point.Y)
                 // console.log("this.Link!.Start!.Y\t\t", this.Link!.Start!.Y)
                 // console.log("this.Link!.Start!.Height\t", this.Link!.Start!.Height)
@@ -159,7 +163,8 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
               // last segment
               if (this.draggedSegment == this.segments!.length - 1 && deltaY != 0) {
 
-                let newRatio = (shapeMouseEvent.Point.Y - this.Link!.End!.Y) / this.Link!.End!.Height
+                let newRatio = this.LinkAtMouseDown!.EndRatio +
+                  (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y) / this.previousEnd!.Height
 
                 if (newRatio < 0 || newRatio > 1) {
                   let newOrientationRatio = (shapeMouseEvent.Point.X - this.Link!.End!.X) / this.Link!.End!.Width
@@ -195,7 +200,11 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
 
               // middle segment
               if (this.segments!.length == 3 && this.draggedSegment == 1 && deltaY != 0) {
-                let newRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
+
+
+                let newRatio = this.LinkAtMouseDown!.CornerOffsetRatio +
+                  (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y) / this.Link!.Start!.Height
+
                 this.Link!.CornerOffsetRatio = newRatio
               }
             }
@@ -204,9 +213,12 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
               // set up the cursor style
               document.body.style.cursor = 'ew-resize'
 
-              let deltaX = shapeMouseEvent.Point.X - segment.StartPoint.X
+              let deltaX = (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X)
+
               if (this.draggedSegment == 0 && deltaX != 0) {
-                let newRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
+
+                let newRatio = this.LinkAtMouseDown!.StartRatio +
+                  (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X) / this.previousStart!.Width
 
                 if (newRatio < 0 || newRatio > 1) {
                   let newOrientationRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
@@ -241,7 +253,8 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
               // last segment
               if (this.draggedSegment == this.segments!.length - 1 && deltaX != 0) {
 
-                let newRatio = (shapeMouseEvent.Point.X - this.Link!.End!.X) / this.Link!.End!.Width
+                let newRatio = this.LinkAtMouseDown!.EndRatio +
+                  (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X) / this.previousEnd!.Width
 
                 if (newRatio < 0 || newRatio > 1) {
                   let newOrientationRatio = (shapeMouseEvent.Point.Y - this.Link!.End!.Y) / this.Link!.End!.Height
@@ -277,7 +290,10 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
 
               // middle segment
               if (this.segments!.length == 3 && this.draggedSegment == 1 && deltaX != 0) {
-                let newRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
+
+                let newRatio = this.LinkAtMouseDown!.CornerOffsetRatio +
+                  (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y) / this.previousStart!.Height
+
                 this.Link!.CornerOffsetRatio = newRatio
               }
             }

@@ -123,8 +123,8 @@ Line 2`
 	__AnchoredText__000001_Start_Anchored_1.Content = `Start Anchored 1
 Second line
 Third Line`
-	__AnchoredText__000001_Start_Anchored_1.X_Offset = 37.000000
-	__AnchoredText__000001_Start_Anchored_1.Y_Offset = -121.000000
+	__AnchoredText__000001_Start_Anchored_1.X_Offset = 47.000000
+	__AnchoredText__000001_Start_Anchored_1.Y_Offset = -64.987488
 	__AnchoredText__000001_Start_Anchored_1.FontWeight = `light`
 	__AnchoredText__000001_Start_Anchored_1.Color = `cyan`
 	__AnchoredText__000001_Start_Anchored_1.FillOpacity = 100.000000
@@ -188,11 +188,11 @@ Third Line`
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.762557
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.575150
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.691589
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.518692
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.516129
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.035661
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -248,10 +248,10 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 136.000000
-	__Rect__000000_Bottom.Y = 582.000000
-	__Rect__000000_Bottom.Width = 499.000000
-	__Rect__000000_Bottom.Height = 248.000000
+	__Rect__000000_Bottom.X = 502.000000
+	__Rect__000000_Bottom.Y = 467.000000
+	__Rect__000000_Bottom.Width = 604.000000
+	__Rect__000000_Bottom.Height = 164.000000
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`
 	__Rect__000000_Bottom.FillOpacity = 50.000000
@@ -275,8 +275,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 130.000000
-	__Rect__000001_Middle_Rect.Y = 158.000000
+	__Rect__000001_Middle_Rect.X = 950.000000
+	__Rect__000001_Middle_Rect.Y = 660.000000
 	__Rect__000001_Middle_Rect.Width = 253.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -302,9 +302,9 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 779.000000
-	__Rect__000002_Top.Y = 33.000000
-	__Rect__000002_Top.Width = 219.000000
+	__Rect__000002_Top.X = 583.000000
+	__Rect__000002_Top.Y = 83.000000
+	__Rect__000002_Top.Width = 673.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000
 	__Rect__000002_Top.Color = `lightcyan`

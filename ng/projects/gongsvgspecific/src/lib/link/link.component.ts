@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { ShapeMouseEvent } from '../shape.mouse.event';
 import { MouseEventService } from '../mouse-event.service';
 import { compareRectGeometries } from '../compare.rect.geometries'
-import { off } from 'process';
 
 @Component({
   selector: 'lib-link',

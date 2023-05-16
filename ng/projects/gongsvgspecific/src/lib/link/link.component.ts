@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { ShapeMouseEvent } from '../shape.mouse.event';
 import { MouseEventService } from '../mouse-event.service';
 import { compareRectGeometries } from '../compare.rect.geometries'
+import { off } from 'process';
 
 @Component({
   selector: 'lib-link',
@@ -98,7 +99,13 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
       linkEventService.mouseMouseMoveEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
+          // offSetForNewMidlleSegment denotes the standard distance between
+          // a rect and the middle segment that is created when going from a
+          // two segment link to a three segment link
           const offSetForNewMidlleSegment = 100
+
+          // in order to have middle segment always visible
+          const offsetFromBorderForNewMidlleSegment = 50
 
           if (this.dragging) {
             let segment = this.segments![this.draggedSegment]
@@ -125,7 +132,8 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
                     if (newRatio < 0) {
                       // we compute the CornerOffsetRatio in order to have the vertical middle segment
                       // at the left of the End Rect
-                      let targetY_ForVerticalMiddleSegment = this.Link!.Start!.Y - offSetForNewMidlleSegment
+                      let targetY_ForVerticalMiddleSegment =
+                        Math.max(this.Link!.Start!.Y - offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
                       this.Link!.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - this.Link!.Start!.Y) / this.Link!.Start!.Height
                     }
                     if (newRatio > 1) {
@@ -162,7 +170,8 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
                     if (newRatio < 0) {
                       // we compute the CornerOffsetRatio in order to have the vertical middle segment
                       // at the left of the End Rect
-                      let targetY_ForVerticalMiddleSegment = this.Link!.End!.Y - offSetForNewMidlleSegment
+                      let targetY_ForVerticalMiddleSegment =
+                        Math.max(this.Link!.End!.Y - offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
                       this.Link!.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - this.Link!.End!.Y) / this.Link!.End!.Height
                     }
                     if (newRatio > 1) {
@@ -207,11 +216,13 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
                     if (newRatio < 0) {
                       // we compute the CornerOffsetRatio in order to have the vertical middle segment
                       // at the left of the End Rect
-                      let targetX_ForVerticalMiddleSegment = this.Link!.Start!.X - offSetForNewMidlleSegment
+                      let targetX_ForVerticalMiddleSegment =
+                        Math.max(this.Link!.Start!.X - offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
                       this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
                     }
                     if (newRatio > 1) {
-                      let targetX_ForVerticalMiddleSegment = this.Link!.Start!.X + this.Link!.Start!.Width + offSetForNewMidlleSegment
+                      let targetX_ForVerticalMiddleSegment =
+                        Math.max(this.Link!.Start!.X + this.Link!.Start!.Width + offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
                       this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
                     }
 
@@ -240,11 +251,13 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
                     if (newRatio < 0) {
                       // we compute the CornerOffsetRatio in order to have the vertical middle segment
                       // at the left of the End Rect
-                      let targetX_ForVerticalMiddleSegment = this.Link!.End!.X - offSetForNewMidlleSegment
+                      let targetX_ForVerticalMiddleSegment =
+                        Math.max(this.Link!.End!.X - offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
                       this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
                     }
                     if (newRatio > 1) {
-                      let targetX_ForVerticalMiddleSegment = this.Link!.End!.X + this.Link!.End!.Width + offSetForNewMidlleSegment
+                      let targetX_ForVerticalMiddleSegment =
+                        Math.max(this.Link!.End!.X + this.Link!.End!.Width + offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
                       this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
                     }
 

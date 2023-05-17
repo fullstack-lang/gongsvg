@@ -167,7 +167,7 @@ Third Line`
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.105546
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.573345
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.182119
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.308411
@@ -239,7 +239,7 @@ Third Line`
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
 	__Rect__000002_Top.X = 203.000000
-	__Rect__000002_Top.Y = 187.000000
+	__Rect__000002_Top.Y = 128.000000
 	__Rect__000002_Top.Width = 1118.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000

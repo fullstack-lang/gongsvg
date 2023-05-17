@@ -13,8 +13,8 @@
     </as-split-area>
 
 
-    <as-split-area [size]="$any('*')">
-        <as-split unit="pixel" direction="horizontal">
+    <as-split-area #splitEl [size]="$any('*')">
+        <as-split unit="pixel" direction="horizontal" (dragEnd)="onDragEnd()">
             <as-split-area [size]=80>
             </as-split-area>
             <as-split-area [size]="$any('*')">

@@ -473,6 +473,8 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
       let x = event.clientX - this.pageX
       let y = event.clientY - this.pageY
 
+      console.log("client x, y:", event.clientX, event.clientY,"x, y", x, y)
+
       // this link shit to dragging state
       this.dragging = true
       this.draggedSegment = segmentNumber
@@ -778,7 +780,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
     this.pageX = svgRect?.left + window.pageXOffset
     this.pageY = svgRect?.top + window.pageYOffset
 
-    // console.log('SVG Top-Left Corner:', this.pageX, this.pageY);
+    console.log('SVG Top-Left Corner:', this.pageX, this.pageY);
   }
 
   ngAfterViewInit() {

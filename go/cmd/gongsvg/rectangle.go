@@ -52,21 +52,15 @@ Line 2`}).Stage(stage)
 
 	// Declarations of staged instances of Layer
 	__Layer__000000_Bottom_Rectangle_Layer := (&models.Layer{Name: `Bottom Rectangle Layer`}).Stage(stage)
-	__Layer__000001_Circle_Layer := (&models.Layer{Name: `Circle Layer`}).Stage(stage)
-	__Layer__000002_Layer_RectLinkLink_Medium_to_Top_Bottom := (&models.Layer{Name: `Layer RectLinkLink Medium to Top-Bottom`}).Stage(stage)
-	__Layer__000003_Link_layer_horizontal_to_horizontal := (&models.Layer{Name: `Link layer horizontal to horizontal`}).Stage(stage)
-	__Layer__000004_Link_layer_horizontal_to_vertical := (&models.Layer{Name: `Link layer horizontal to vertical`}).Stage(stage)
-	__Layer__000005_Link_layer_vertical_to_horizontal := (&models.Layer{Name: `Link layer vertical to horizontal`}).Stage(stage)
-	__Layer__000006_Link_layer_vertical_to_vertical := (&models.Layer{Name: `Link layer vertical to vertical`}).Stage(stage)
-	__Layer__000007_Middle_Rect_Layer := (&models.Layer{Name: `Middle Rect Layer`}).Stage(stage)
-	__Layer__000008_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
+	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom := (&models.Layer{Name: `Layer RectLinkLink Medium to Top-Bottom`}).Stage(stage)
+	__Layer__000002_Link_layer_vertical_to_horizontal := (&models.Layer{Name: `Link layer vertical to horizontal`}).Stage(stage)
+	__Layer__000003_Middle_Rect_Layer := (&models.Layer{Name: `Middle Rect Layer`}).Stage(stage)
+	__Layer__000004_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
 
 	// Declarations of staged instances of Line
 
 	// Declarations of staged instances of Link
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal := (&models.Link{Name: `Arrow - Top to Bottom vertical to horizontal`}).Stage(stage)
-	__Link__000001_Link_horizontal_to_horizontal := (&models.Link{Name: `Link horizontal to horizontal`}).Stage(stage)
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical := (&models.Link{Name: `Top to Bottom horizontal to vertical`}).Stage(stage)
 
 	// Declarations of staged instances of Path
 
@@ -107,8 +101,8 @@ Line 2`}).Stage(stage)
 Line 2`
 	__AnchoredText__000000_Liine_1_Line_2.Content = `Liine 1
 Line 2`
-	__AnchoredText__000000_Liine_1_Line_2.X_Offset = 22.000000
-	__AnchoredText__000000_Liine_1_Line_2.Y_Offset = -70.000000
+	__AnchoredText__000000_Liine_1_Line_2.X_Offset = 14.000000
+	__AnchoredText__000000_Liine_1_Line_2.Y_Offset = 32.000000
 	__AnchoredText__000000_Liine_1_Line_2.FontWeight = `normal`
 	__AnchoredText__000000_Liine_1_Line_2.Color = `black`
 	__AnchoredText__000000_Liine_1_Line_2.FillOpacity = 100.000000
@@ -123,8 +117,8 @@ Line 2`
 	__AnchoredText__000001_Start_Anchored_1.Content = `Start Anchored 1
 Second line
 Third Line`
-	__AnchoredText__000001_Start_Anchored_1.X_Offset = 47.000000
-	__AnchoredText__000001_Start_Anchored_1.Y_Offset = -64.987488
+	__AnchoredText__000001_Start_Anchored_1.X_Offset = -272.000000
+	__AnchoredText__000001_Start_Anchored_1.Y_Offset = -65.987488
 	__AnchoredText__000001_Start_Anchored_1.FontWeight = `light`
 	__AnchoredText__000001_Start_Anchored_1.Color = `cyan`
 	__AnchoredText__000001_Start_Anchored_1.FillOpacity = 100.000000
@@ -152,47 +146,31 @@ Third Line`
 	__Layer__000000_Bottom_Rectangle_Layer.Name = `Bottom Rectangle Layer`
 
 	// Layer values setup
-	__Layer__000001_Circle_Layer.Display = false
-	__Layer__000001_Circle_Layer.Name = `Circle Layer`
+	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Display = false
+	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Name = `Layer RectLinkLink Medium to Top-Bottom`
 
 	// Layer values setup
-	__Layer__000002_Layer_RectLinkLink_Medium_to_Top_Bottom.Display = false
-	__Layer__000002_Layer_RectLinkLink_Medium_to_Top_Bottom.Name = `Layer RectLinkLink Medium to Top-Bottom`
+	__Layer__000002_Link_layer_vertical_to_horizontal.Display = false
+	__Layer__000002_Link_layer_vertical_to_horizontal.Name = `Link layer vertical to horizontal`
 
 	// Layer values setup
-	__Layer__000003_Link_layer_horizontal_to_horizontal.Display = false
-	__Layer__000003_Link_layer_horizontal_to_horizontal.Name = `Link layer horizontal to horizontal`
+	__Layer__000003_Middle_Rect_Layer.Display = false
+	__Layer__000003_Middle_Rect_Layer.Name = `Middle Rect Layer`
 
 	// Layer values setup
-	__Layer__000004_Link_layer_horizontal_to_vertical.Display = false
-	__Layer__000004_Link_layer_horizontal_to_vertical.Name = `Link layer horizontal to vertical`
-
-	// Layer values setup
-	__Layer__000005_Link_layer_vertical_to_horizontal.Display = false
-	__Layer__000005_Link_layer_vertical_to_horizontal.Name = `Link layer vertical to horizontal`
-
-	// Layer values setup
-	__Layer__000006_Link_layer_vertical_to_vertical.Display = false
-	__Layer__000006_Link_layer_vertical_to_vertical.Name = `Link layer vertical to vertical`
-
-	// Layer values setup
-	__Layer__000007_Middle_Rect_Layer.Display = false
-	__Layer__000007_Middle_Rect_Layer.Name = `Middle Rect Layer`
-
-	// Layer values setup
-	__Layer__000008_Top_Rectangle_layer.Display = false
-	__Layer__000008_Top_Rectangle_layer.Name = `Top Rectangle layer`
+	__Layer__000004_Top_Rectangle_layer.Display = false
+	__Layer__000004_Top_Rectangle_layer.Name = `Top Rectangle layer`
 
 	// Link values setup
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Name = `Arrow - Top to Bottom vertical to horizontal`
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.518692
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.516129
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.035661
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_VERTICAL
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.105546
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.182119
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.308411
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -204,54 +182,12 @@ Third Line`
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StrokeDashArrayWhenSelected = ``
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Transform = ``
 
-	// Link values setup
-	__Link__000001_Link_horizontal_to_horizontal.Name = `Link horizontal to horizontal`
-	__Link__000001_Link_horizontal_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
-	__Link__000001_Link_horizontal_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
-	__Link__000001_Link_horizontal_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000001_Link_horizontal_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Link_horizontal_to_horizontal.StartRatio = 0.182243
-	__Link__000001_Link_horizontal_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Link_horizontal_to_horizontal.EndRatio = 0.112360
-	__Link__000001_Link_horizontal_to_horizontal.CornerOffsetRatio = 0.000000
-	__Link__000001_Link_horizontal_to_horizontal.CornerRadius = 8.000000
-	__Link__000001_Link_horizontal_to_horizontal.HasEndArrow = false
-	__Link__000001_Link_horizontal_to_horizontal.EndArrowSize = 0.000000
-	__Link__000001_Link_horizontal_to_horizontal.Color = ``
-	__Link__000001_Link_horizontal_to_horizontal.FillOpacity = 0.000000
-	__Link__000001_Link_horizontal_to_horizontal.Stroke = `red`
-	__Link__000001_Link_horizontal_to_horizontal.StrokeWidth = 3.000000
-	__Link__000001_Link_horizontal_to_horizontal.StrokeDashArray = ``
-	__Link__000001_Link_horizontal_to_horizontal.StrokeDashArrayWhenSelected = ``
-	__Link__000001_Link_horizontal_to_horizontal.Transform = ``
-
-	// Link values setup
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Name = `Top to Bottom horizontal to vertical`
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartAnchorType = models.ANCHOR_CENTER
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StartRatio = 0.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndRatio = 0.239700
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerOffsetRatio = 0.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.CornerRadius = 8.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.HasEndArrow = false
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.EndArrowSize = 0.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Color = `black`
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.FillOpacity = 0.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Stroke = `black`
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StrokeWidth = 3.000000
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StrokeDashArray = ``
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.StrokeDashArrayWhenSelected = ``
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Transform = ``
-
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 502.000000
-	__Rect__000000_Bottom.Y = 467.000000
+	__Rect__000000_Bottom.X = 36.000000
+	__Rect__000000_Bottom.Y = 508.000000
 	__Rect__000000_Bottom.Width = 604.000000
-	__Rect__000000_Bottom.Height = 164.000000
+	__Rect__000000_Bottom.Height = 253.000000
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`
 	__Rect__000000_Bottom.FillOpacity = 50.000000
@@ -302,9 +238,9 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 583.000000
-	__Rect__000002_Top.Y = 83.000000
-	__Rect__000002_Top.Width = 673.000000
+	__Rect__000002_Top.X = 203.000000
+	__Rect__000002_Top.Y = 187.000000
+	__Rect__000002_Top.Width = 1118.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000
 	__Rect__000002_Top.Color = `lightcyan`
@@ -475,21 +411,14 @@ line 3`
 
 	// Setup of pointers
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom)
-	__Layer__000001_Circle_Layer.Circles = append(__Layer__000001_Circle_Layer.Circles, __Circle__000000_Test)
-	__Layer__000002_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks = append(__Layer__000002_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks, __RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link)
-	__Layer__000003_Link_layer_horizontal_to_horizontal.Links = append(__Layer__000003_Link_layer_horizontal_to_horizontal.Links, __Link__000001_Link_horizontal_to_horizontal)
-	__Layer__000004_Link_layer_horizontal_to_vertical.Links = append(__Layer__000004_Link_layer_horizontal_to_vertical.Links, __Link__000002_Top_to_Bottom_horizontal_to_vertical)
-	__Layer__000005_Link_layer_vertical_to_horizontal.Links = append(__Layer__000005_Link_layer_vertical_to_horizontal.Links, __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal)
-	__Layer__000007_Middle_Rect_Layer.Rects = append(__Layer__000007_Middle_Rect_Layer.Rects, __Rect__000001_Middle_Rect)
-	__Layer__000008_Top_Rectangle_layer.Rects = append(__Layer__000008_Top_Rectangle_layer.Rects, __Rect__000002_Top)
+	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks = append(__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks, __RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link)
+	__Layer__000002_Link_layer_vertical_to_horizontal.Links = append(__Layer__000002_Link_layer_vertical_to_horizontal.Links, __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal)
+	__Layer__000003_Middle_Rect_Layer.Rects = append(__Layer__000003_Middle_Rect_Layer.Rects, __Rect__000001_Middle_Rect)
+	__Layer__000004_Top_Rectangle_layer.Rects = append(__Layer__000004_Top_Rectangle_layer.Rects, __Rect__000002_Top)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __AnchoredText__000000_Liine_1_Line_2)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __AnchoredText__000001_Start_Anchored_1)
-	__Link__000001_Link_horizontal_to_horizontal.Start = __Rect__000002_Top
-	__Link__000001_Link_horizontal_to_horizontal.End = __Rect__000000_Bottom
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.Start = __Rect__000002_Top
-	__Link__000002_Top_to_Bottom_horizontal_to_vertical.End = __Rect__000000_Bottom
 	__Rect__000000_Bottom.RectAnchoredTexts = append(__Rect__000000_Bottom.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
 	__Rect__000000_Bottom.RectAnchoredRects = append(__Rect__000000_Bottom.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
 	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000003_Top_anchored_top_middle)
@@ -499,10 +428,10 @@ line 3`
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Start = __Rect__000001_Middle_Rect
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.End = __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000008_Top_Rectangle_layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000007_Middle_Rect_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Link_layer_vertical_to_horizontal)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Layer_RectLinkLink_Medium_to_Top_Bottom)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Top_Rectangle_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Middle_Rect_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Link_layer_vertical_to_horizontal)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom)
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top
 }

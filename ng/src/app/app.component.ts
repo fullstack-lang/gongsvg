@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Observable, combineLatest, timer } from 'rxjs'
-
-import * as gongdoc from 'gongdoc'
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AngularDragEndEventService } from 'projects/gongsvgspecific/src/lib/angular-drag-end-event.service';
 
 @Component({
   selector: 'app-root',
@@ -21,11 +18,17 @@ export class AppComponent implements OnInit {
   loading = true
 
   constructor(
+    private angularDragEndEventService: AngularDragEndEventService,
   ) {
 
   }
 
   ngOnInit(): void {
     this.loading = false
+  }
+
+  onDragEnd(): void {
+    console.log("angular split : on drag end")
+    this.angularDragEndEventService.emitMouseUpEvent(0)
   }
 }

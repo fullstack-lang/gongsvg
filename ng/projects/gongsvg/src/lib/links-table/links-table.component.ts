@@ -93,17 +93,35 @@ export class LinksTableComponent implements OnInit {
         case 'StartOrientation':
           return linkDB.StartOrientation;
 
-        case 'StartRatio':
-          return linkDB.StartRatio;
-
         case 'EndOrientation':
           return linkDB.EndOrientation;
+
+        case 'CornerOffsetRatio':
+          return linkDB.CornerOffsetRatio;
+
+        case 'StartRatio':
+          return linkDB.StartRatio;
 
         case 'EndRatio':
           return linkDB.EndRatio;
 
-        case 'CornerOffsetRatio':
-          return linkDB.CornerOffsetRatio;
+        case 'StartHC':
+          return linkDB.StartHC;
+
+        case 'StartVC':
+          return linkDB.StartVC;
+
+        case 'MiddleHC':
+          return linkDB.MiddleHC;
+
+        case 'MiddleVC':
+          return linkDB.MiddleVC;
+
+        case 'EndHC':
+          return linkDB.EndHC;
+
+        case 'EndVC':
+          return linkDB.EndVC;
 
         case 'CornerRadius':
           return linkDB.CornerRadius;
@@ -167,10 +185,16 @@ export class LinksTableComponent implements OnInit {
       }
       mergedContent += linkDB.EndAnchorType.toLowerCase()
       mergedContent += linkDB.StartOrientation.toLowerCase()
-      mergedContent += linkDB.StartRatio.toString()
       mergedContent += linkDB.EndOrientation.toLowerCase()
-      mergedContent += linkDB.EndRatio.toString()
       mergedContent += linkDB.CornerOffsetRatio.toString()
+      mergedContent += linkDB.StartRatio.toString()
+      mergedContent += linkDB.EndRatio.toString()
+      mergedContent += linkDB.StartHC.toString()
+      mergedContent += linkDB.StartVC.toString()
+      mergedContent += linkDB.MiddleHC.toString()
+      mergedContent += linkDB.MiddleVC.toString()
+      mergedContent += linkDB.EndHC.toString()
+      mergedContent += linkDB.EndVC.toString()
       mergedContent += linkDB.CornerRadius.toString()
       mergedContent += linkDB.EndArrowSize.toString()
       mergedContent += linkDB.Color.toLowerCase()
@@ -245,10 +269,16 @@ export class LinksTableComponent implements OnInit {
         "End",
         "EndAnchorType",
         "StartOrientation",
-        "StartRatio",
         "EndOrientation",
-        "EndRatio",
         "CornerOffsetRatio",
+        "StartRatio",
+        "EndRatio",
+        "StartHC",
+        "StartVC",
+        "MiddleHC",
+        "MiddleVC",
+        "EndHC",
+        "EndVC",
         "CornerRadius",
         "HasEndArrow",
         "EndArrowSize",
@@ -270,10 +300,16 @@ export class LinksTableComponent implements OnInit {
         "End",
         "EndAnchorType",
         "StartOrientation",
-        "StartRatio",
         "EndOrientation",
-        "EndRatio",
         "CornerOffsetRatio",
+        "StartRatio",
+        "EndRatio",
+        "StartHC",
+        "StartVC",
+        "MiddleHC",
+        "MiddleVC",
+        "EndHC",
+        "EndVC",
         "CornerRadius",
         "HasEndArrow",
         "EndArrowSize",

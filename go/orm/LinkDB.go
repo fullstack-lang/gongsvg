@@ -87,17 +87,35 @@ type LinkDB struct {
 	// Declation for basic field linkDB.StartOrientation
 	StartOrientation_Data sql.NullString
 
-	// Declation for basic field linkDB.StartRatio
-	StartRatio_Data sql.NullFloat64
-
 	// Declation for basic field linkDB.EndOrientation
 	EndOrientation_Data sql.NullString
+
+	// Declation for basic field linkDB.CornerOffsetRatio
+	CornerOffsetRatio_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.StartRatio
+	StartRatio_Data sql.NullFloat64
 
 	// Declation for basic field linkDB.EndRatio
 	EndRatio_Data sql.NullFloat64
 
-	// Declation for basic field linkDB.CornerOffsetRatio
-	CornerOffsetRatio_Data sql.NullFloat64
+	// Declation for basic field linkDB.StartHC
+	StartHC_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.StartVC
+	StartVC_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.MiddleHC
+	MiddleHC_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.MiddleVC
+	MiddleVC_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.EndHC
+	EndHC_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.EndVC
+	EndVC_Data sql.NullFloat64
 
 	// Declation for basic field linkDB.CornerRadius
 	CornerRadius_Data sql.NullFloat64
@@ -160,33 +178,45 @@ type LinkWOP struct {
 
 	StartOrientation models.OrientationType `xlsx:"5"`
 
-	StartRatio float64 `xlsx:"6"`
+	EndOrientation models.OrientationType `xlsx:"6"`
 
-	EndOrientation models.OrientationType `xlsx:"7"`
+	CornerOffsetRatio float64 `xlsx:"7"`
 
-	EndRatio float64 `xlsx:"8"`
+	StartRatio float64 `xlsx:"8"`
 
-	CornerOffsetRatio float64 `xlsx:"9"`
+	EndRatio float64 `xlsx:"9"`
 
-	CornerRadius float64 `xlsx:"10"`
+	StartHC float64 `xlsx:"10"`
 
-	HasEndArrow bool `xlsx:"11"`
+	StartVC float64 `xlsx:"11"`
 
-	EndArrowSize float64 `xlsx:"12"`
+	MiddleHC float64 `xlsx:"12"`
 
-	Color string `xlsx:"13"`
+	MiddleVC float64 `xlsx:"13"`
 
-	FillOpacity float64 `xlsx:"14"`
+	EndHC float64 `xlsx:"14"`
 
-	Stroke string `xlsx:"15"`
+	EndVC float64 `xlsx:"15"`
 
-	StrokeWidth float64 `xlsx:"16"`
+	CornerRadius float64 `xlsx:"16"`
 
-	StrokeDashArray string `xlsx:"17"`
+	HasEndArrow bool `xlsx:"17"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"18"`
+	EndArrowSize float64 `xlsx:"18"`
 
-	Transform string `xlsx:"19"`
+	Color string `xlsx:"19"`
+
+	FillOpacity float64 `xlsx:"20"`
+
+	Stroke string `xlsx:"21"`
+
+	StrokeWidth float64 `xlsx:"22"`
+
+	StrokeDashArray string `xlsx:"23"`
+
+	StrokeDashArrayWhenSelected string `xlsx:"24"`
+
+	Transform string `xlsx:"25"`
 	// insertion for WOP pointer fields
 }
 
@@ -198,10 +228,16 @@ var Link_Fields = []string{
 	"StartAnchorType",
 	"EndAnchorType",
 	"StartOrientation",
-	"StartRatio",
 	"EndOrientation",
-	"EndRatio",
 	"CornerOffsetRatio",
+	"StartRatio",
+	"EndRatio",
+	"StartHC",
+	"StartVC",
+	"MiddleHC",
+	"MiddleVC",
+	"EndHC",
+	"EndVC",
 	"CornerRadius",
 	"HasEndArrow",
 	"EndArrowSize",
@@ -651,17 +687,35 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 	linkDB.StartOrientation_Data.String = link.StartOrientation.ToString()
 	linkDB.StartOrientation_Data.Valid = true
 
-	linkDB.StartRatio_Data.Float64 = link.StartRatio
-	linkDB.StartRatio_Data.Valid = true
-
 	linkDB.EndOrientation_Data.String = link.EndOrientation.ToString()
 	linkDB.EndOrientation_Data.Valid = true
+
+	linkDB.CornerOffsetRatio_Data.Float64 = link.CornerOffsetRatio
+	linkDB.CornerOffsetRatio_Data.Valid = true
+
+	linkDB.StartRatio_Data.Float64 = link.StartRatio
+	linkDB.StartRatio_Data.Valid = true
 
 	linkDB.EndRatio_Data.Float64 = link.EndRatio
 	linkDB.EndRatio_Data.Valid = true
 
-	linkDB.CornerOffsetRatio_Data.Float64 = link.CornerOffsetRatio
-	linkDB.CornerOffsetRatio_Data.Valid = true
+	linkDB.StartHC_Data.Float64 = link.StartHC
+	linkDB.StartHC_Data.Valid = true
+
+	linkDB.StartVC_Data.Float64 = link.StartVC
+	linkDB.StartVC_Data.Valid = true
+
+	linkDB.MiddleHC_Data.Float64 = link.MiddleHC
+	linkDB.MiddleHC_Data.Valid = true
+
+	linkDB.MiddleVC_Data.Float64 = link.MiddleVC
+	linkDB.MiddleVC_Data.Valid = true
+
+	linkDB.EndHC_Data.Float64 = link.EndHC
+	linkDB.EndHC_Data.Valid = true
+
+	linkDB.EndVC_Data.Float64 = link.EndVC
+	linkDB.EndVC_Data.Valid = true
 
 	linkDB.CornerRadius_Data.Float64 = link.CornerRadius
 	linkDB.CornerRadius_Data.Valid = true
@@ -713,17 +767,35 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 	linkDB.StartOrientation_Data.String = link.StartOrientation.ToString()
 	linkDB.StartOrientation_Data.Valid = true
 
-	linkDB.StartRatio_Data.Float64 = link.StartRatio
-	linkDB.StartRatio_Data.Valid = true
-
 	linkDB.EndOrientation_Data.String = link.EndOrientation.ToString()
 	linkDB.EndOrientation_Data.Valid = true
+
+	linkDB.CornerOffsetRatio_Data.Float64 = link.CornerOffsetRatio
+	linkDB.CornerOffsetRatio_Data.Valid = true
+
+	linkDB.StartRatio_Data.Float64 = link.StartRatio
+	linkDB.StartRatio_Data.Valid = true
 
 	linkDB.EndRatio_Data.Float64 = link.EndRatio
 	linkDB.EndRatio_Data.Valid = true
 
-	linkDB.CornerOffsetRatio_Data.Float64 = link.CornerOffsetRatio
-	linkDB.CornerOffsetRatio_Data.Valid = true
+	linkDB.StartHC_Data.Float64 = link.StartHC
+	linkDB.StartHC_Data.Valid = true
+
+	linkDB.StartVC_Data.Float64 = link.StartVC
+	linkDB.StartVC_Data.Valid = true
+
+	linkDB.MiddleHC_Data.Float64 = link.MiddleHC
+	linkDB.MiddleHC_Data.Valid = true
+
+	linkDB.MiddleVC_Data.Float64 = link.MiddleVC
+	linkDB.MiddleVC_Data.Valid = true
+
+	linkDB.EndHC_Data.Float64 = link.EndHC
+	linkDB.EndHC_Data.Valid = true
+
+	linkDB.EndVC_Data.Float64 = link.EndVC
+	linkDB.EndVC_Data.Valid = true
 
 	linkDB.CornerRadius_Data.Float64 = link.CornerRadius
 	linkDB.CornerRadius_Data.Valid = true
@@ -764,10 +836,16 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
 	link.StartOrientation.FromString(linkDB.StartOrientation_Data.String)
-	link.StartRatio = linkDB.StartRatio_Data.Float64
 	link.EndOrientation.FromString(linkDB.EndOrientation_Data.String)
-	link.EndRatio = linkDB.EndRatio_Data.Float64
 	link.CornerOffsetRatio = linkDB.CornerOffsetRatio_Data.Float64
+	link.StartRatio = linkDB.StartRatio_Data.Float64
+	link.EndRatio = linkDB.EndRatio_Data.Float64
+	link.StartHC = linkDB.StartHC_Data.Float64
+	link.StartVC = linkDB.StartVC_Data.Float64
+	link.MiddleHC = linkDB.MiddleHC_Data.Float64
+	link.MiddleVC = linkDB.MiddleVC_Data.Float64
+	link.EndHC = linkDB.EndHC_Data.Float64
+	link.EndVC = linkDB.EndVC_Data.Float64
 	link.CornerRadius = linkDB.CornerRadius_Data.Float64
 	link.HasEndArrow = linkDB.HasEndArrow_Data.Bool
 	link.EndArrowSize = linkDB.EndArrowSize_Data.Float64
@@ -789,10 +867,16 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
 	link.StartOrientation.FromString(linkDB.StartOrientation_Data.String)
-	link.StartRatio = linkDB.StartRatio_Data.Float64
 	link.EndOrientation.FromString(linkDB.EndOrientation_Data.String)
-	link.EndRatio = linkDB.EndRatio_Data.Float64
 	link.CornerOffsetRatio = linkDB.CornerOffsetRatio_Data.Float64
+	link.StartRatio = linkDB.StartRatio_Data.Float64
+	link.EndRatio = linkDB.EndRatio_Data.Float64
+	link.StartHC = linkDB.StartHC_Data.Float64
+	link.StartVC = linkDB.StartVC_Data.Float64
+	link.MiddleHC = linkDB.MiddleHC_Data.Float64
+	link.MiddleVC = linkDB.MiddleVC_Data.Float64
+	link.EndHC = linkDB.EndHC_Data.Float64
+	link.EndVC = linkDB.EndVC_Data.Float64
 	link.CornerRadius = linkDB.CornerRadius_Data.Float64
 	link.HasEndArrow = linkDB.HasEndArrow_Data.Bool
 	link.EndArrowSize = linkDB.EndArrowSize_Data.Float64

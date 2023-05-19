@@ -82,12 +82,6 @@
     </mat-form-field>
 
     <!-- -->
-    <mat-form-field class="detail-full-width">
-        <mat-label>StartRatio</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.StartRatio" [ngModelOptions]="{standalone: true}">
-    </mat-form-field>
-
-    <!-- -->
     <mat-form-field appearance="fill" class="detail-full-width">
         <mat-label>EndOrientation</mat-label>
         <mat-select [(ngModel)]="link.EndOrientation" [ngModelOptions]="{standalone: true}">
@@ -99,14 +93,56 @@
 
     <!-- -->
     <mat-form-field class="detail-full-width">
+        <mat-label>CornerOffsetRatio</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.CornerOffsetRatio" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>StartRatio</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.StartRatio" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
         <mat-label>EndRatio</mat-label>
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.EndRatio" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
     <!-- -->
     <mat-form-field class="detail-full-width">
-        <mat-label>CornerOffsetRatio</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.CornerOffsetRatio" [ngModelOptions]="{standalone: true}">
+        <mat-label>StartHC</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.StartHC" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>StartVC</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.StartVC" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>MiddleHC</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.MiddleHC" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>MiddleVC</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.MiddleVC" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>EndHC</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.EndHC" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>EndVC</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.EndVC" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
     <!-- -->

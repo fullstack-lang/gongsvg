@@ -2,7 +2,6 @@ import { AfterViewInit, Component, ElementRef, Input, DoCheck, OnInit, SimpleCha
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
 import { SegmentsParams, Segment, createPoint, drawSegments, Offset } from './draw.segments';
-import { LinkEventService } from '../link-event.service';
 import { Subscription } from 'rxjs';
 import { ShapeMouseEvent } from '../shape.mouse.event';
 import { MouseEventService } from '../mouse-event.service';

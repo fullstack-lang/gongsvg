@@ -75,14 +75,13 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
   constructor(
     private linkService: gongsvg.LinkService,
     private anchoredTextService: gongsvg.AnchoredTextService,
-    private linkEventService: LinkEventService,
     private angularDragEndEventService: AngularDragEndEventService,
     private mouseEventService: MouseEventService,
     private elementRef: ElementRef,
   ) {
 
     this.subscriptions.push(
-      linkEventService.mouseMouseDownEvent$.subscribe(
+      mouseEventService.mouseMouseDownEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
           this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
           this.LinkAtMouseDown = structuredClone(this.Link!)
@@ -102,7 +101,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
     )
 
     this.subscriptions.push(
-      linkEventService.mouseMouseMoveEvent$.subscribe(
+      mouseEventService.mouseMouseMoveEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
           // offSetForNewMidlleSegment denotes the standard distance between
@@ -330,24 +329,8 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
         })
     )
 
-    // getting event from the background (when the mouse moves faster than the link)
-    this.subscriptions.push(
-      mouseEventService.mouseMouseMoveEvent$.subscribe(
-        (shapeMouseEvent: ShapeMouseEvent) => {
-          this.linkEventService.emitMouseMoveEvent(shapeMouseEvent)
-        }
-      )
-    )
     this.subscriptions.push(
       mouseEventService.mouseMouseUpEvent$.subscribe(
-        (shapeMouseEvent: ShapeMouseEvent) => {
-          this.linkEventService.emitMouseUpEvent(shapeMouseEvent)
-        }
-      )
-    )
-
-    this.subscriptions.push(
-      linkEventService.mouseMouseUpEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
           if (this.dragging) {
@@ -473,7 +456,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
       let x = event.clientX - this.pageX
       let y = event.clientY - this.pageY
 
-      console.log("client x, y:", event.clientX, event.clientY,"x, y", x, y)
+      console.log("client x, y:", event.clientX, event.clientY, "x, y", x, y)
 
       // this link shit to dragging state
       this.dragging = true
@@ -484,7 +467,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
       }
-      this.linkEventService.emitMouseDownEvent(shapeMouseEvent)
+      this.mouseEventService.emitMouseDownEvent(shapeMouseEvent)
     }
   }
 
@@ -499,7 +482,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
       }
-      this.linkEventService.emitMouseMoveEvent(shapeMouseEvent)
+      this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
     }
   }
 
@@ -515,7 +498,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
       }
-      this.linkEventService.emitMouseUpEvent(shapeMouseEvent)
+      this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
     }
   }
 
@@ -736,7 +719,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
       }
-      this.linkEventService.emitMouseDownEvent(shapeMouseEvent)
+      this.mouseEventService.emitMouseDownEvent(shapeMouseEvent)
     }
   }
 
@@ -751,7 +734,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
       }
-      this.linkEventService.emitMouseMoveEvent(shapeMouseEvent)
+      this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
     }
   }
 
@@ -767,7 +750,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: createPoint(x, y),
       }
-      this.linkEventService.emitMouseUpEvent(shapeMouseEvent)
+      this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
     }
   }
 

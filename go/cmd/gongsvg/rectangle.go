@@ -101,8 +101,8 @@ Line 2`}).Stage(stage)
 Line 2`
 	__AnchoredText__000000_Liine_1_Line_2.Content = `Liine 1
 Line 2`
-	__AnchoredText__000000_Liine_1_Line_2.X_Offset = 14.000000
-	__AnchoredText__000000_Liine_1_Line_2.Y_Offset = 32.000000
+	__AnchoredText__000000_Liine_1_Line_2.X_Offset = -88.000000
+	__AnchoredText__000000_Liine_1_Line_2.Y_Offset = -88.000000
 	__AnchoredText__000000_Liine_1_Line_2.FontWeight = `normal`
 	__AnchoredText__000000_Liine_1_Line_2.Color = `black`
 	__AnchoredText__000000_Liine_1_Line_2.FillOpacity = 100.000000
@@ -117,8 +117,8 @@ Line 2`
 	__AnchoredText__000001_Start_Anchored_1.Content = `Start Anchored 1
 Second line
 Third Line`
-	__AnchoredText__000001_Start_Anchored_1.X_Offset = -272.000000
-	__AnchoredText__000001_Start_Anchored_1.Y_Offset = -65.987488
+	__AnchoredText__000001_Start_Anchored_1.X_Offset = -160.000000
+	__AnchoredText__000001_Start_Anchored_1.Y_Offset = 44.012512
 	__AnchoredText__000001_Start_Anchored_1.FontWeight = `light`
 	__AnchoredText__000001_Start_Anchored_1.Color = `cyan`
 	__AnchoredText__000001_Start_Anchored_1.FillOpacity = 100.000000
@@ -166,11 +166,11 @@ Third Line`
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.190519
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.501976
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -0.189624
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.672897
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.215190
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 2.144860
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -184,9 +184,9 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 180.000000
-	__Rect__000000_Bottom.Y = 423.000000
-	__Rect__000000_Bottom.Width = 604.000000
+	__Rect__000000_Bottom.X = 207.000000
+	__Rect__000000_Bottom.Y = 484.000000
+	__Rect__000000_Bottom.Width = 632.000000
 	__Rect__000000_Bottom.Height = 253.000000
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`
@@ -211,8 +211,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 950.000000
-	__Rect__000001_Middle_Rect.Y = 660.000000
+	__Rect__000001_Middle_Rect.X = 779.000000
+	__Rect__000001_Middle_Rect.Y = 327.000000
 	__Rect__000001_Middle_Rect.Width = 253.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -238,9 +238,9 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 292.000000
-	__Rect__000002_Top.Y = 98.000000
-	__Rect__000002_Top.Width = 1118.000000
+	__Rect__000002_Top.X = 518.000000
+	__Rect__000002_Top.Y = 55.000000
+	__Rect__000002_Top.Width = 500.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000
 	__Rect__000002_Top.Color = `lightcyan`

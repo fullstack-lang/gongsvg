@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, DoCheck, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, DoCheck, OnInit, SimpleChanges, ViewChild, AfterViewChecked, OnChanges } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
 import { SegmentsParams, Segment, createPoint, drawSegments, Offset } from './draw.segments';
@@ -16,15 +16,12 @@ import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
   templateUrl: './link.component.svg',
   styleUrls: ['./link.component.css']
 })
-export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
+export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewChecked, OnChanges {
 
   @Input() Link?: gongsvg.LinkDB
   @Input() GONG__StackPath: string = ""
 
-  // to detect angular drag events
-  @ViewChild('splitEl') splitEl: SplitComponent | undefined
-
-  @ViewChild('textElement', { static: false }) textElement: ElementRef | undefined
+  // @ViewChild('textElement', { static: false }) textElement: ElementRef | undefined
   textWidth: number = 0
   textHeight: number = 0
 
@@ -395,6 +392,17 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
     }
   }
 
+  ngAfterViewChecked() {
+    console.log('Change detection run on MySvgComponent');
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['Link']) {
+      // console.log('Previous value: ', changes['Link'].previousValue);
+      // console.log('Current value: ', changes['Link'].currentValue);
+    }
+  }
+
   resetPreviousState() {
     this.previousStart = structuredClone(this.Link!.Start!)
     this.previousEnd = structuredClone(this.Link!.End!)
@@ -728,12 +736,12 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
 
   ngAfterViewInit() {
 
-    const bbox = this.textElement?.nativeElement.getBBox()
+    // const bbox = this.textElement?.nativeElement.getBBox()
 
-    if (bbox != undefined) {
-      this.textWidth = bbox.width;
-      this.textHeight = bbox.height;
-    }
+    // if (bbox != undefined) {
+    //   this.textWidth = bbox.width;
+    //   this.textHeight = bbox.height;
+    // }
   }
 
   splitTextIntoLines(text: string): string[] {

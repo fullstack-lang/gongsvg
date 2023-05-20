@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { ShapeMouseEvent } from '../shape.mouse.event';
 import { createPoint } from '../link/draw.segments';
 import { MouseEventService } from '../mouse-event.service';
+import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 
 @Component({
   selector: 'lib-rect',
@@ -190,25 +191,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   rectMouseDown(event: MouseEvent): void {
 
-    const targetElement = event.target as SVGElement
-    const svg = targetElement.ownerSVGElement
-
-    if (svg) {
-      const point = svg.createSVGPoint()
-
-      point.x = event.clientX;
-      point.y = event.clientY;
-
-      // console.log(point.x, point.y); // window x, y
-
-      const SVGmatrix = svg.getScreenCTM()
-
-      const localPoint = point.matrixTransform(SVGmatrix!.inverse());
-
-      // console.log(localPoint.x, localPoint.y); // local x and y
-      console.log(point.x - localPoint.x, point.y - localPoint.y)
-    }
-
 
     if (!event.altKey && !event.shiftKey) {
       event.preventDefault();
@@ -216,13 +198,10 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.rectDragging = true;
 
-      let x = event.clientX - this.pageX
-      let y = event.clientY - this.pageY
-
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: this.Rect!.ID,
         ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
-        Point: createPoint(x, y),
+        Point: mouseCoordInComponentRef(event),
       }
       this.mouseEventService.emitMouseDownEvent(shapeMouseEvent)
     } else {
@@ -263,7 +242,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: this.Rect!.ID,
         ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
-        Point: createPoint(x, y),
+        Point: mouseCoordInComponentRef(event),
       }
       this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
     }
@@ -275,13 +254,10 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
     if (!event.altKey && !event.shiftKey) {
-      let x = event.clientX - this.pageX
-      let y = event.clientY - this.pageY
-
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: this.Rect!.ID,
         ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
-        Point: createPoint(x, y),
+        Point: mouseCoordInComponentRef(event),
       }
       this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
       this.rectDragging = false
@@ -306,14 +282,11 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     this.anchorDragging = true;
     this.activeAnchor = anchor;
 
-    const x = event.clientX - this.pageX
-    const y = event.clientY - this.pageY
-
     if (!event.altKey && !event.shiftKey) {
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: this.Rect!.ID,
         ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
-        Point: createPoint(x, y),
+        Point: mouseCoordInComponentRef(event),
       }
       this.mouseEventService.emitMouseDownEvent(shapeMouseEvent)
     }
@@ -322,14 +295,11 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   anchorMouseMove(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom'): void {
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
-    const x = event.clientX - this.pageX
-    const y = event.clientY - this.pageY
-
     if (!event.altKey && !event.shiftKey) {
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: this.Rect!.ID,
         ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
-        Point: createPoint(x, y),
+        Point: mouseCoordInComponentRef(event),
       }
       this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
     }

@@ -17,7 +17,7 @@ import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
   templateUrl: './rect.component.svg',
   styleUrls: ['./rect.component.css']
 })
-export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
+export class RectComponent implements OnInit, OnDestroy {
 
   @Input() Rect: gongsvg.RectDB = new gongsvg.RectDB()
   @Input() GONG__StackPath: string = ""
@@ -173,22 +173,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
-  // for debugging sake, we offset coord relative to the page
-  pageX: number = 0
-  pageY: number = 0
-  getSvgTopLeftCoordinates() {
-    const svgElement = this.elementRef.nativeElement.querySelector('svg');
-    const svgRect = svgElement.getBoundingClientRect();
-    this.pageX = svgRect.left + window.pageXOffset;
-    this.pageY = svgRect.top + window.pageYOffset;
-
-    // console.log('SVG Top-Left Corner:', this.pageX, this.pageY);
-  }
-
-  ngAfterViewInit() {
-    this.getSvgTopLeftCoordinates();
-  }
-
   rectMouseDown(event: MouseEvent): void {
 
 
@@ -217,9 +201,6 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   rectMouseMove(event: MouseEvent): void {
-
-    let x = event.clientX - this.pageX
-    let y = event.clientY - this.pageY
 
     let shapeMouseEvent: ShapeMouseEvent = {
       ShapeID: this.Rect.ID,

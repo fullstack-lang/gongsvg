@@ -9,6 +9,7 @@ import { ShapeMouseEvent } from '../shape.mouse.event';
 import { createPoint } from '../link/draw.segments';
 import { MouseEventService } from '../mouse-event.service';
 import { AngularDragEndEventService } from '../angular-drag-end-event.service';
+import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 
 @Component({
   selector: 'lib-svg',
@@ -61,33 +62,32 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     private rectangleEventService: RectangleEventService,
     private svgEventService: SvgEventService,
     private mouseEventService: MouseEventService,
-    private angularDragEndEventService: AngularDragEndEventService,
-
   ) {
 
     this.subscriptions.push(
       rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe(
-        ({ rectangleID: rectangleID, MousePosRelativeSVG: coordinate }) => {
+        (shapeMouseEvent: ShapeMouseEvent) => {
           // console.log('SvgComponent, Mouse down event occurred on rectangle ', rectangleID, " at ", coordinate)
-          this.linkStartRectangleID = rectangleID
+          this.linkStartRectangleID = shapeMouseEvent.ShapeID
 
-          let rect = this.gongsvgFrontRepo?.Rects.get(rectangleID)
+          let rect = this.gongsvgFrontRepo?.Rects.get(shapeMouseEvent.ShapeID)
 
           if (rect == undefined) {
             return
           }
 
           this.linkDrawing = true
-          this.startX = coordinate[0]
-          this.startY = coordinate[1]
+          this.startX = shapeMouseEvent.Point.X
+          this.startY = shapeMouseEvent.Point.Y
         })
     );
 
     this.subscriptions.push(
-      rectangleEventService.mouseRectAltKeyMouseDragEvent$.subscribe((coordinate: Coordinate) => {
 
-        this.endX = coordinate[0]
-        this.endY = coordinate[1]
+      rectangleEventService.mouseRectAltKeyMouseDragEvent$.subscribe((shapeMouseEvent: ShapeMouseEvent) => {
+
+        this.endX = shapeMouseEvent.Point.X
+        this.endY = shapeMouseEvent.Point.Y
         // console.log('SvgComponent, Received Mouse drag event occurred', this.linkDrawing, this.startX, this.startY, this.endX, this.endY);
       })
     )
@@ -142,18 +142,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       )
     )
-
-    this.subscriptions.push(
-      angularDragEndEventService.angularSplitDragEndEvent$.subscribe(
-        () => {
-          console.log("link component captured angular drag event")
-          this.getSvgTopLeftCoordinates()
-        }
-      )
-    )
   }
-
-
 
   ngOnInit(): void {
 
@@ -269,11 +258,16 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     const x = event.clientX - this.pageX
     const y = event.clientY - this.pageY
 
+    let shapeMouseEvent: ShapeMouseEvent = {
+      ShapeID: 0,
+      ShapeType: "",
+      Point: mouseCoordInComponentRef(event),
+    }
+
     // we want this event to bubble to the SVG element
     if (event.altKey) {
       // console.log('SvgComponent, ALT Mouse drag event occurred', this.linkDrawing, this.startX, this.startY, this.endX, this.endY);
-
-      this.rectangleEventService.emitRectAltKeyMouseDragEvent([x, y])
+      this.rectangleEventService.emitRectAltKeyMouseDragEvent(shapeMouseEvent)
       return
     }
     if (event.shiftKey) {

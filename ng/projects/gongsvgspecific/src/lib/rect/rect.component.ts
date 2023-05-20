@@ -199,7 +199,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
       this.rectDragging = true;
 
       let shapeMouseEvent: ShapeMouseEvent = {
-        ShapeID: this.Rect!.ID,
+        ShapeID: this.Rect.ID,
         ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
         Point: mouseCoordInComponentRef(event),
       }
@@ -207,12 +207,12 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
 
-      const actualX = event.clientX - this.pageX
-      const actualY = event.clientY - this.pageY
-
-      this.rectangleEventService.emitRectAltKeyMouseDownEvent(
-        this.Rect.ID,
-        [actualX, actualY]);
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: this.Rect.ID,
+        ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.rectangleEventService.emitRectAltKeyMouseDownEvent(shapeMouseEvent)
     }
   }
 
@@ -221,13 +221,18 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     let x = event.clientX - this.pageX
     let y = event.clientY - this.pageY
 
+    let shapeMouseEvent: ShapeMouseEvent = {
+      ShapeID: this.Rect.ID,
+      ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+      Point: mouseCoordInComponentRef(event),
+    }
+
     // console.log("RectComponent DragRect : ", deltaX, deltaY, distanceMoved)
 
     // we want this event to bubble to the SVG element
     if (event.altKey) {
       console.log('RectComponent, Alt Mouse drag event occurred on rectangle ', this.Rect.Name, event.clientX, event.clientY);
-      this.rectangleEventService.emitRectAltKeyMouseDragEvent(
-        [x, y])
+      this.rectangleEventService.emitRectAltKeyMouseDragEvent(shapeMouseEvent)
       return
     }
 

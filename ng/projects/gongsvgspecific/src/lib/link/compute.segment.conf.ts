@@ -47,16 +47,16 @@ export function computeSegmentConf(input: SegmentConf): { valid: boolean, conf: 
         if (!isBetweenZeroAndOne(input.VC)) {
             // swap orientation
             res.conf.Orientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
-            res.conf.VC = ensureBetweenZeroAndOne(res.conf.VC)
         }
     }
     if (input.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
         if (!isBetweenZeroAndOne(input.HC)) {
             // swap orientation
             res.conf.Orientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
-            res.conf.HC = ensureBetweenZeroAndOne(res.conf.HC)
         }
     }
+    res.conf.VC = ensureBetweenZeroAndOne(res.conf.VC)
+    res.conf.HC = ensureBetweenZeroAndOne(res.conf.HC)
 
     return res
 }

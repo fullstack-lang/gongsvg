@@ -75,7 +75,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
               this.Rect.Width = this.RectAtMouseDown!.Width + (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X)
             } else if (this.activeAnchor === 'top') {
               this.Rect.Y = this.RectAtMouseDown!.Y + (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)
-              this.Rect.Height = this.RectAtMouseDown!.Height - (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)              
+              this.Rect.Height = this.RectAtMouseDown!.Height - (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)
             } else if (this.activeAnchor === 'bottom') {
               this.Rect.Height = this.RectAtMouseDown!.Height + (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)
             }
@@ -189,6 +189,26 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   rectMouseDown(event: MouseEvent): void {
+
+    const targetElement = event.target as SVGElement
+    const svg = targetElement.ownerSVGElement
+
+    if (svg) {
+      const point = svg.createSVGPoint()
+
+      point.x = event.clientX;
+      point.y = event.clientY;
+
+      // console.log(point.x, point.y); // window x, y
+
+      const SVGmatrix = svg.getScreenCTM()
+
+      const localPoint = point.matrixTransform(SVGmatrix!.inverse());
+
+      // console.log(localPoint.x, localPoint.y); // local x and y
+      console.log(point.x - localPoint.x, point.y - localPoint.y)
+    }
+
 
     if (!event.altKey && !event.shiftKey) {
       event.preventDefault();

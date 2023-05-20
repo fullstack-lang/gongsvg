@@ -105,41 +105,6 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
       mouseEventService.mouseMouseMoveEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
 
-          // compute new fields in differential mode
-          let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
-          let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
-
-          this.Link!.StartHC = this.Link!.StartHC + deltaX / this.Link!.Start!.Width
-          this.Link!.StartVC = this.Link!.StartVC + deltaY / this.Link!.Start!.Height
-
-          let segmentStartIn: SegmentConf = {
-            HC: this.Link!.StartHC,
-            VC: this.Link!.StartVC,
-            Orientation: this.Link!.StartOrientation as gongsvg.OrientationType,
-          }
-          let { valid: validStart, conf: segmentStartOut } = computeSegmentConf(segmentStartIn)
-          if (validStart) {
-            this.Link!.StartHC = segmentStartOut.HC
-            this.Link!.StartVC = segmentStartOut.VC
-          }
-
-          this.Link!.MiddleHC = this.Link!.MiddleHC + deltaX / this.Link!.Start!.Width
-          this.Link!.MiddleVC = this.Link!.MiddleVC + deltaY / this.Link!.Start!.Height
-
-          this.Link!.EndHC = this.Link!.EndHC + deltaX / this.Link!.End!.Width
-          this.Link!.EndVC = this.Link!.EndVC + deltaY / this.Link!.End!.Height
-
-          let segmentEndIn: SegmentConf = {
-            HC: this.Link!.EndHC,
-            VC: this.Link!.EndVC,
-            Orientation: this.Link!.EndOrientation as gongsvg.OrientationType,
-          }
-          let { valid: valid, conf: segmentEndOut } = computeSegmentConf(segmentEndIn)
-          if (valid) {
-            this.Link!.EndHC = segmentEndOut.HC
-            this.Link!.EndVC = segmentEndOut.VC
-          }
-
           // offSetForNewMidlleSegment denotes the standard distance between
           // a rect and the middle segment that is created when going from a
           // two segment link to a three segment link
@@ -149,6 +114,59 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
           const offsetFromBorderForNewMidlleSegment = 50
 
           if (this.dragging) {
+
+            // compute new fields in differential mode
+            let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
+            let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
+
+            if (deltaX == 0 && deltaY == 0) {
+              return
+            }
+
+            if (this.draggedSegment == 0) {
+              let newHC = this.LinkAtMouseDown!.StartHC + deltaX / this.Link!.Start!.Width
+              let newVC = this.LinkAtMouseDown!.StartVC + deltaY / this.Link!.Start!.Height
+
+              if (this.Link!.StartOrientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+                console.log("delta Y", deltaY, "this.Link!.StartVC", this.Link!.StartVC, "newVC", newVC, "startRatio", this.Link!.StartRatio)
+              } else {
+                console.log("delta X", deltaY, "this.Link!.StartHC", this.Link!.StartHC, "newHC", newHC, "startRatio", this.Link!.StartRatio)
+              }
+
+              this.Link!.StartHC = newHC
+              this.Link!.StartVC = newVC
+
+              let segmentStartIn: SegmentConf = {
+                HC: this.Link!.StartHC,
+                VC: this.Link!.StartVC,
+                Orientation: this.Link!.StartOrientation as gongsvg.OrientationType,
+              }
+              let { valid: validStart, conf: segmentStartOut } = computeSegmentConf(segmentStartIn)
+              if (validStart) {
+                this.Link!.StartHC = segmentStartOut.HC
+                this.Link!.StartVC = segmentStartOut.VC
+              }
+
+              this.Link!.MiddleHC = this.LinkAtMouseDown!.MiddleHC + deltaX / this.Link!.Start!.Width
+              this.Link!.MiddleVC = this.LinkAtMouseDown!.MiddleVC + deltaY / this.Link!.Start!.Height
+
+              this.Link!.EndHC = this.LinkAtMouseDown!.EndHC + deltaX / this.Link!.End!.Width
+              this.Link!.EndVC = this.LinkAtMouseDown!.EndVC + deltaY / this.Link!.End!.Height
+
+              let segmentEndIn: SegmentConf = {
+                HC: this.Link!.EndHC,
+                VC: this.Link!.EndVC,
+                Orientation: this.Link!.EndOrientation as gongsvg.OrientationType,
+              }
+              let { valid: valid, conf: segmentEndOut } = computeSegmentConf(segmentEndIn)
+              if (valid) {
+                this.Link!.EndHC = segmentEndOut.HC
+                this.Link!.EndVC = segmentEndOut.VC
+              }
+            }
+
+
+
             let segment = this.segments![this.draggedSegment]
 
             if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
@@ -405,14 +423,14 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck {
         })
     )
 
-    this.subscriptions.push(
-      angularDragEndEventService.angularSplitDragEndEvent$.subscribe(
-        () => {
-          console.log("link component captured angular drag event")
-          this.getSvgTopLeftCoordinates()
-        }
-      )
-    )
+    // this.subscriptions.push(
+    //   angularDragEndEventService.angularSplitDragEndEvent$.subscribe(
+    //     () => {
+    //       console.log("link component captured angular drag event")
+    //       this.getSvgTopLeftCoordinates()
+    //     }
+    //   )
+    // )
   }
 
 

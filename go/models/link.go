@@ -16,31 +16,14 @@ type Link struct {
 	// if link type is floating orthogonal ratio, from 0 to 1,
 	// where the anchor starts on the edge (horizontal / vertical)
 	StartOrientation OrientationType
-
-	EndOrientation OrientationType
-
-	// legacy implementation
+	StartRatio       float64
+	EndOrientation   OrientationType
+	EndRatio         float64
 
 	// in case StartOrientation is the same as EndOrientation,
 	// there is a perpendicular line that reach the corner at
 	// CornerOffsetRatio
 	CornerOffsetRatio float64
-	StartRatio        float64
-	EndRatio          float64
-
-	// end of legacy implementation
-
-	// new implementation
-
-	// horizontal & vertical cutoff for the link at start
-	StartHC, StartVC float64
-
-	// at middle
-	MiddleHC, MiddleVC float64
-
-	// at end
-	EndHC, EndVC float64
-	// end of new implementation
 
 	// corner radius
 	CornerRadius float64

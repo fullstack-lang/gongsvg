@@ -2299,7 +2299,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Type", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "EndOrientation", "CornerOffsetRatio", "StartRatio", "EndRatio", "StartHC", "StartVC", "MiddleHC", "MiddleVC", "EndHC", "EndVC", "CornerRadius", "HasEndArrow", "EndArrowSize", "TextAtArrowEnd", "TextAtArrowStart", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "TextAtArrowEnd", "TextAtArrowStart", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Point:
@@ -2588,27 +2588,15 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "StartOrientation":
 			enum := any(instance).(Link).StartOrientation
 			res = enum.ToCodeString()
+		case "StartRatio":
+			res = fmt.Sprintf("%f", any(instance).(Link).StartRatio)
 		case "EndOrientation":
 			enum := any(instance).(Link).EndOrientation
 			res = enum.ToCodeString()
-		case "CornerOffsetRatio":
-			res = fmt.Sprintf("%f", any(instance).(Link).CornerOffsetRatio)
-		case "StartRatio":
-			res = fmt.Sprintf("%f", any(instance).(Link).StartRatio)
 		case "EndRatio":
 			res = fmt.Sprintf("%f", any(instance).(Link).EndRatio)
-		case "StartHC":
-			res = fmt.Sprintf("%f", any(instance).(Link).StartHC)
-		case "StartVC":
-			res = fmt.Sprintf("%f", any(instance).(Link).StartVC)
-		case "MiddleHC":
-			res = fmt.Sprintf("%f", any(instance).(Link).MiddleHC)
-		case "MiddleVC":
-			res = fmt.Sprintf("%f", any(instance).(Link).MiddleVC)
-		case "EndHC":
-			res = fmt.Sprintf("%f", any(instance).(Link).EndHC)
-		case "EndVC":
-			res = fmt.Sprintf("%f", any(instance).(Link).EndVC)
+		case "CornerOffsetRatio":
+			res = fmt.Sprintf("%f", any(instance).(Link).CornerOffsetRatio)
 		case "CornerRadius":
 			res = fmt.Sprintf("%f", any(instance).(Link).CornerRadius)
 		case "HasEndArrow":

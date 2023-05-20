@@ -10,6 +10,7 @@ import { compareRectGeometries } from '../compare.rect.geometries'
 import { SplitComponent } from 'angular-split'
 import { AngularDragEndEventService } from '../angular-drag-end-event.service';
 import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
+import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
 
 @Component({
   selector: 'lib-link',
@@ -413,29 +414,39 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
     this.previousEndY = this.Link!.End!.Y
   }
 
-  public getPosition(rect: gongsvg.RectDB | undefined, position: string | undefined): Coordinate {
+  public getPosition(
+    startRect: gongsvg.RectDB | undefined,
+    position: string | undefined,
+    endRect?: gongsvg.RectDB | undefined
+  ): Coordinate {
 
     let coordinate: Coordinate = [0, 0]
 
-    if (rect == undefined || position == undefined) {
+    if (startRect == undefined || position == undefined) {
       return coordinate
     }
 
     switch (position) {
       case gongsvg.AnchorType.ANCHOR_BOTTOM:
-        coordinate = [rect.X + rect.Width / 2, rect.Y + rect.Height]
+        coordinate = [startRect.X + startRect.Width / 2, startRect.Y + startRect.Height]
         break;
       case gongsvg.AnchorType.ANCHOR_TOP:
-        coordinate = [rect.X + rect.Width / 2, rect.Y]
+        coordinate = [startRect.X + startRect.Width / 2, startRect.Y]
         break;
       case gongsvg.AnchorType.ANCHOR_LEFT:
-        coordinate = [rect.X, rect.Y + rect.Height / 2]
+        coordinate = [startRect.X, startRect.Y + startRect.Height / 2]
         break;
       case gongsvg.AnchorType.ANCHOR_RIGHT:
-        coordinate = [rect.X + rect.Width, rect.Y + rect.Height / 2]
+        coordinate = [startRect.X + startRect.Width, startRect.Y + startRect.Height / 2]
         break;
       case gongsvg.AnchorType.ANCHOR_CENTER:
-        coordinate = [rect.X + rect.Width / 2, rect.Y + rect.Height / 2]
+        if (endRect == undefined) {
+          coordinate = [startRect.X + startRect.Width / 2, startRect.Y + startRect.Height / 2]
+        } else {
+          let endRectCenter = createPoint(endRect.X + endRect.Width / 2, endRect.Y + endRect.Height / 2)
+          let borderPoint = drawLineFromRectToB(startRect, endRectCenter)
+          coordinate = [borderPoint.X, borderPoint.Y]
+        }
         break;
     }
 

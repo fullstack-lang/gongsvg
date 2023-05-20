@@ -109,10 +109,10 @@ func simple_linkInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_End.Name = `End`
-	__Rect__000000_End.X = 544.000000
-	__Rect__000000_End.Y = 382.000000
+	__Rect__000000_End.X = 607.000000
+	__Rect__000000_End.Y = 203.000000
 	__Rect__000000_End.Width = 248.000000
-	__Rect__000000_End.Height = 100.000000
+	__Rect__000000_End.Height = 167.000000
 	__Rect__000000_End.RX = 0.000000
 	__Rect__000000_End.Color = `lightcyan`
 	__Rect__000000_End.FillOpacity = 50.000000
@@ -136,8 +136,8 @@ func simple_linkInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Start.Name = `Start`
-	__Rect__000001_Start.X = 270.000000
-	__Rect__000001_Start.Y = 186.000000
+	__Rect__000001_Start.X = 277.000000
+	__Rect__000001_Start.Y = 290.000000
 	__Rect__000001_Start.Width = 169.000000
 	__Rect__000001_Start.Height = 200.000000
 	__Rect__000001_Start.RX = 0.000000

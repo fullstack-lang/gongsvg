@@ -237,7 +237,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (event.shiftKey) {
-      this.svgEventService.emitMultiShapeSelectDrag([x, y])
+      this.svgEventService.emitMultiShapeSelectDrag(shapeMouseEvent)
       return
     }
 
@@ -258,12 +258,14 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     event.preventDefault();
     event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
+    let shapeMouseEvent: ShapeMouseEvent = {
+      ShapeID: this.Rect!.ID,
+      ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+      Point: mouseCoordInComponentRef(event),
+    }
+
     if (!event.altKey && !event.shiftKey) {
-      let shapeMouseEvent: ShapeMouseEvent = {
-        ShapeID: this.Rect!.ID,
-        ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
-        Point: mouseCoordInComponentRef(event),
-      }
+
       this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
       this.rectDragging = false
       this.anchorDragging = false
@@ -276,7 +278,7 @@ export class RectComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (event.shiftKey) {
-      this.svgEventService.emitMouseShiftKeyMouseUpEvent([event.clientX, event.clientY])
+      this.svgEventService.emitMouseShiftKeyMouseUpEvent(shapeMouseEvent)
     }
   }
 

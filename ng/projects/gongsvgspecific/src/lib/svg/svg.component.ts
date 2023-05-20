@@ -103,10 +103,10 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscriptions.push(
       svgEventService.multiShapeSelectDragEvent$.subscribe(
-        (coordinate: Coordinate) => {
+        (shapeMouseEvent: ShapeMouseEvent) => {
 
-          let actualX = coordinate[0]
-          let actualY = coordinate[1]
+          let actualX = shapeMouseEvent.Point.X
+          let actualY = shapeMouseEvent.Point.Y
 
           this.rectX = Math.min(this.startX, actualX);
           this.rectY = Math.min(this.startY, actualY);
@@ -117,14 +117,11 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscriptions.push(
       svgEventService.mouseShiftKeyMouseUpEvent$.subscribe(
-        (coordinate: Coordinate) => {
-
-          let actualX = coordinate[0]
-          let actualY = coordinate[1]
+        (shapeMouseEvent) => {
 
           this.selectionRectDrawing = false
-          this.endX = actualX - this.pageX
-          this.endY = actualY - this.pageY
+          this.endX = shapeMouseEvent.Point.X
+          this.endY = shapeMouseEvent.Point.Y
 
           let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
 
@@ -261,7 +258,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     let shapeMouseEvent: ShapeMouseEvent = {
       ShapeID: 0,
       ShapeType: "",
-      Point: mouseCoordInComponentRef(event),
+      Point: createPoint(x, y),
     }
 
     // we want this event to bubble to the SVG element
@@ -272,7 +269,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.shiftKey) {
 
-      this.svgEventService.emitMultiShapeSelectDrag([x, y])
+      this.svgEventService.emitMultiShapeSelectDrag(shapeMouseEvent)
       // console.log('SvgComponent, SHIFT Mouse drag event occurred', this.selectionRectDrawing, this.rectX, this.rectY, this.width, this.height);
     }
 
@@ -295,19 +292,19 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
     const x = event.clientX - this.pageX
     const y = event.clientY - this.pageY
 
+    let shapeMouseEvent: ShapeMouseEvent = {
+      ShapeID: 0,
+      ShapeType: "",
+      Point: createPoint(x, y),
+    }
+
     if (event.shiftKey) {
-      this.svgEventService.emitMouseShiftKeyMouseUpEvent([event.clientX, event.clientY])
+      this.svgEventService.emitMouseShiftKeyMouseUpEvent(shapeMouseEvent)
     }
 
     if (!event.shiftKey && !event.altKey) {
-
       // in case of dragging something, when the mouse moves fast, it can reach the SVG background
       // in this case, one forward the mouse event on the event bus
-      let shapeMouseEvent: ShapeMouseEvent = {
-        ShapeID: 0,
-        ShapeType: "",
-        Point: createPoint(x, y),
-      }
       this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
     }
   }

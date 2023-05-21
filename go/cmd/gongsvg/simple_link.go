@@ -109,8 +109,8 @@ func simple_linkInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_End.Name = `End`
-	__Rect__000000_End.X = 607.000000
-	__Rect__000000_End.Y = 203.000000
+	__Rect__000000_End.X = 506.000000
+	__Rect__000000_End.Y = 159.000000
 	__Rect__000000_End.Width = 248.000000
 	__Rect__000000_End.Height = 167.000000
 	__Rect__000000_End.RX = 0.000000
@@ -122,22 +122,22 @@ func simple_linkInjection(stage *models.StageStruct) {
 	__Rect__000000_End.StrokeDashArrayWhenSelected = ``
 	__Rect__000000_End.Transform = ``
 	__Rect__000000_End.IsSelectable = true
-	__Rect__000000_End.IsSelected = false
+	__Rect__000000_End.IsSelected = true
 	__Rect__000000_End.CanHaveLeftHandle = true
-	__Rect__000000_End.HasLeftHandle = false
+	__Rect__000000_End.HasLeftHandle = true
 	__Rect__000000_End.CanHaveRightHandle = true
-	__Rect__000000_End.HasRightHandle = false
+	__Rect__000000_End.HasRightHandle = true
 	__Rect__000000_End.CanHaveTopHandle = true
-	__Rect__000000_End.HasTopHandle = false
+	__Rect__000000_End.HasTopHandle = true
 	__Rect__000000_End.CanHaveBottomHandle = true
-	__Rect__000000_End.HasBottomHandle = false
+	__Rect__000000_End.HasBottomHandle = true
 	__Rect__000000_End.CanMoveHorizontaly = true
 	__Rect__000000_End.CanMoveVerticaly = true
 
 	// Rect values setup
 	__Rect__000001_Start.Name = `Start`
-	__Rect__000001_Start.X = 277.000000
-	__Rect__000001_Start.Y = 290.000000
+	__Rect__000001_Start.X = 172.000000
+	__Rect__000001_Start.Y = 116.000000
 	__Rect__000001_Start.Width = 169.000000
 	__Rect__000001_Start.Height = 200.000000
 	__Rect__000001_Start.RX = 0.000000
@@ -149,20 +149,21 @@ func simple_linkInjection(stage *models.StageStruct) {
 	__Rect__000001_Start.StrokeDashArrayWhenSelected = ``
 	__Rect__000001_Start.Transform = ``
 	__Rect__000001_Start.IsSelectable = true
-	__Rect__000001_Start.IsSelected = false
+	__Rect__000001_Start.IsSelected = true
 	__Rect__000001_Start.CanHaveLeftHandle = true
-	__Rect__000001_Start.HasLeftHandle = false
+	__Rect__000001_Start.HasLeftHandle = true
 	__Rect__000001_Start.CanHaveRightHandle = true
-	__Rect__000001_Start.HasRightHandle = false
+	__Rect__000001_Start.HasRightHandle = true
 	__Rect__000001_Start.CanHaveTopHandle = true
-	__Rect__000001_Start.HasTopHandle = false
+	__Rect__000001_Start.HasTopHandle = true
 	__Rect__000001_Start.CanHaveBottomHandle = true
-	__Rect__000001_Start.HasBottomHandle = false
+	__Rect__000001_Start.HasBottomHandle = true
 	__Rect__000001_Start.CanMoveHorizontaly = true
 	__Rect__000001_Start.CanMoveVerticaly = true
 
 	// SVG values setup
 	__SVG__000000_test.Name = `test`
+	__SVG__000000_test.IsEditable = false
 
 	// Setup of pointers
 	__Layer__000000_Links.Links = append(__Layer__000000_Links.Links, __Link__000000_Start_to_End)

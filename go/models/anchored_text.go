@@ -19,6 +19,6 @@ type AnchoredText struct {
 func (anchoredText *AnchoredText) OnAfterUpdate(stage *StageStruct, _, frontAnchoredText *AnchoredText) {
 
 	if anchoredText.Impl != nil {
-		anchoredText.Impl.AnchoredTextUpdated(anchoredText)
+		anchoredText.Impl.AnchoredTextUpdated(frontAnchoredText)
 	}
 }

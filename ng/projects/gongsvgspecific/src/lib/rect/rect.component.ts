@@ -60,8 +60,11 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
     this.subscriptions.push(
       mouseEventService.mouseMouseDownEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
-          this.RectAtMouseDown = structuredClone(this.Rect)
-          this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
+
+          if (this.anchorDragging || this.rectDragging || this.Rect.IsSelected) {
+            this.RectAtMouseDown = structuredClone(this.Rect)
+            this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
+          }
         }
       )
     )
@@ -112,6 +115,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
           if (shapeMouseEvent.ShapeID != 0 && this.distanceMoved > this.dragThreshold) {
 
             if (this.isEditableService.getIsEditable()) {
+              this.Rect.IsSelected = false
               this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
             }
           }

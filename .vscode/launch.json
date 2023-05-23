@@ -69,5 +69,15 @@
                 "-marshallOnCommit=rectangle"
             ]
         },
+        {
+            "name": "go server -benchmark 10",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/go/cmd/gongsvg",
+            "args": [
+                "-benchmark=10"
+            ]
+        },
     ]
 }

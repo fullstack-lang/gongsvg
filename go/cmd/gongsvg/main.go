@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"strings"
 
@@ -26,6 +27,8 @@ var (
 
 	diagrams         = flag.Bool("diagrams", true, "parse/analysis go/models and go/diagrams")
 	embeddedDiagrams = flag.Bool("embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
+
+	benchmark = flag.Int("benchmark", -1, "benchmark")
 )
 
 // InjectionGateway is the singloton that stores all functions
@@ -126,6 +129,176 @@ func main() {
 	if *marshallOnCommit != "" {
 		hook := new(BeforeCommitImplementation)
 		stage.OnInitCommitFromFrontCallback = hook
+	}
+
+	if *benchmark != -1 {
+		heightBetweenRect := 50.0
+
+		stage.Reset()
+		stage.Commit()
+
+		svg := new(gongsvg_models.SVG).Stage(stage)
+		svg.Name = "Bench"
+		svg.IsEditable = true
+
+		for i := 0; i < *benchmark; i++ {
+			layer := new(gongsvg_models.Layer).Stage(stage)
+			svg.Layers = append(svg.Layers, layer)
+			layer.Name = fmt.Sprintf("%d", i)
+
+			startRect := (&gongsvg_models.Rect{Name: "Start " + layer.Name}).Stage(stage)
+			layer.Rects = append(layer.Rects, startRect)
+			startRect.X = 50
+			startRect.Y = float64(i+1) * heightBetweenRect
+
+			startRect.Width = 50
+			startRect.Height = 50 / 1.618
+
+			startRect.Stroke = gongsvg_models.Lightsalmon.ToString()
+			startRect.StrokeWidth = 1
+			startRect.StrokeDashArrayWhenSelected = "5 5"
+
+			startRect.FillOpacity = 100
+			startRect.Color = gongsvg_models.Lightsalmon.ToString()
+
+			// moveability
+			startRect.CanMoveHorizontaly = true
+			startRect.CanMoveVerticaly = true
+
+			// resizing
+			startRect.IsSelectable = true
+			startRect.CanHaveBottomHandle = true
+			startRect.CanHaveLeftHandle = true
+			startRect.CanHaveTopHandle = true
+			startRect.CanHaveRightHandle = true
+
+			title := new(gongsvg_models.RectAnchoredText).Stage(stage)
+			title.Name = fmt.Sprintf("%d", i)
+			title.Content = title.Name
+			title.X_Offset = 0
+			title.Y_Offset = 20
+			title.RectAnchorType = gongsvg_models.RECT_ANCHOR_TOP
+			title.TextAnchorType = gongsvg_models.TEXT_ANCHOR_CENTER
+			title.FontWeight = "bold"
+			title.Color = gongsvg_models.Black.ToString()
+			title.FillOpacity = 1.0
+			startRect.RectAnchoredTexts = append(startRect.RectAnchoredTexts, title)
+
+			endRect := (&gongsvg_models.Rect{Name: "End " + layer.Name}).Stage(stage)
+			layer.Rects = append(layer.Rects, endRect)
+			endRect.X = 50 + 400
+			endRect.Y = float64(i+1) * heightBetweenRect
+
+			endRect.Width = 50
+			endRect.Height = 50 / 1.618
+
+			endRect.Stroke = gongsvg_models.Lightsalmon.ToString()
+			endRect.StrokeWidth = 1
+			endRect.StrokeDashArrayWhenSelected = "5 5"
+
+			endRect.FillOpacity = 100
+			endRect.Color = gongsvg_models.Lightsalmon.ToString()
+
+			// moveability
+			endRect.CanMoveHorizontaly = true
+			endRect.CanMoveVerticaly = true
+
+			// resizing
+			endRect.IsSelectable = true
+			endRect.CanHaveBottomHandle = true
+			endRect.CanHaveLeftHandle = true
+			endRect.CanHaveTopHandle = true
+			endRect.CanHaveRightHandle = true
+
+			link := new(gongsvg_models.Link).Stage(stage)
+			link.Name = startRect.Name + " - to - " + endRect.Name
+
+			linkLayer := new(gongsvg_models.Layer).Stage(stage)
+
+			linkLayer.Links = append(linkLayer.Links, link)
+			svg.Layers = append(svg.Layers, linkLayer)
+
+			// configuration
+			link.Stroke = gongsvg_models.Slategray.ToString()
+			link.StrokeWidth = 3
+			link.HasEndArrow = true
+			link.EndArrowSize = 8
+
+			link.Type = gongsvg_models.LINK_TYPE_FLOATING_ORTHOGONAL
+			link.StartOrientation = gongsvg_models.ORIENTATION_HORIZONTAL
+			link.StartRatio = 0.5
+			link.EndOrientation = gongsvg_models.ORIENTATION_HORIZONTAL
+			link.EndRatio = 0.5
+			link.CornerOffsetRatio = 1.4
+			link.CornerRadius = 3
+
+			link.Start = startRect
+			link.End = endRect
+
+			// add text to the arrow
+			textAtArrowEnd := new(gongsvg_models.AnchoredText).Stage(stage)
+			link.TextAtArrowEnd = append(link.TextAtArrowEnd, textAtArrowEnd)
+			link.HasEndArrow = true
+
+			textAtArrowEnd.Name = "A"
+			textAtArrowEnd.Content = textAtArrowEnd.Name
+			textAtArrowEnd.X_Offset = -50
+			textAtArrowEnd.Y_Offset = 16
+			textAtArrowEnd.Stroke = gongsvg_models.Black.ToString()
+			textAtArrowEnd.StrokeWidth = 1
+			textAtArrowEnd.Color = gongsvg_models.Black.ToString()
+			textAtArrowEnd.FillOpacity = 100
+			textAtArrowEnd.FontWeight = "normal"
+		}
+
+		for i := 0; i < *benchmark; i++ {
+
+			map_Name_Rect := (*gongsvg_models.GetGongstructInstancesMap[gongsvg_models.Rect](stage))
+			startRect := map_Name_Rect[fmt.Sprintf("Start %d", i)]
+			endRect := map_Name_Rect[fmt.Sprintf("End %d", rand.Intn(*benchmark))]
+
+			link := new(gongsvg_models.Link).Stage(stage)
+			link.Name = startRect.Name + " - to - " + endRect.Name
+
+			linkLayer := new(gongsvg_models.Layer).Stage(stage)
+
+			linkLayer.Links = append(linkLayer.Links, link)
+			svg.Layers = append(svg.Layers, linkLayer)
+
+			// configuration
+			link.Stroke = gongsvg_models.Slategray.ToString()
+			link.StrokeWidth = 3
+			link.HasEndArrow = true
+			link.EndArrowSize = 8
+
+			link.Type = gongsvg_models.LINK_TYPE_FLOATING_ORTHOGONAL
+			link.StartOrientation = gongsvg_models.ORIENTATION_HORIZONTAL
+			link.StartRatio = 0.6
+			link.EndOrientation = gongsvg_models.ORIENTATION_HORIZONTAL
+			link.EndRatio = 0.6
+			link.CornerOffsetRatio = 1.4 + float64(i)/10.0
+			link.CornerRadius = 3
+
+			link.Start = startRect
+			link.End = endRect
+
+			// add text to the arrow
+			textAtArrowEnd := new(gongsvg_models.AnchoredText).Stage(stage)
+			link.TextAtArrowEnd = append(link.TextAtArrowEnd, textAtArrowEnd)
+			link.HasEndArrow = true
+
+			textAtArrowEnd.Name = "Rand"
+			textAtArrowEnd.Content = textAtArrowEnd.Name
+			textAtArrowEnd.X_Offset = -50
+			textAtArrowEnd.Y_Offset = 16
+			textAtArrowEnd.Stroke = gongsvg_models.Black.ToString()
+			textAtArrowEnd.StrokeWidth = 1
+			textAtArrowEnd.Color = gongsvg_models.Black.ToString()
+			textAtArrowEnd.FillOpacity = 100
+			textAtArrowEnd.FontWeight = "normal"
+		}
+
+		stage.Commit()
 	}
 
 	gongdoc_load.Load(

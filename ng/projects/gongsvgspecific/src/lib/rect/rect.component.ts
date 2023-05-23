@@ -60,8 +60,11 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
     this.subscriptions.push(
       mouseEventService.mouseMouseDownEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
-          this.RectAtMouseDown = structuredClone(this.Rect)
-          this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
+
+          if (this.anchorDragging || this.rectDragging || this.Rect.IsSelected) {
+            this.RectAtMouseDown = structuredClone(this.Rect)
+            this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
+          }
         }
       )
     )

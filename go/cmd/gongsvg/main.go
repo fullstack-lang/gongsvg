@@ -235,19 +235,19 @@ func main() {
 			link.End = endRect
 
 			// add text to the arrow
-			targetMulitplicity := new(gongsvg_models.AnchoredText).Stage(stage)
-			link.TextAtArrowStart = append(link.TextAtArrowStart, targetMulitplicity)
+			textAtArrowEnd := new(gongsvg_models.AnchoredText).Stage(stage)
+			link.TextAtArrowEnd = append(link.TextAtArrowEnd, textAtArrowEnd)
 			link.HasEndArrow = true
 
-			targetMulitplicity.Name = "A"
-			targetMulitplicity.Content = targetMulitplicity.Name
-			targetMulitplicity.X_Offset = -50
-			targetMulitplicity.Y_Offset = 16
-			targetMulitplicity.Stroke = gongsvg_models.Black.ToString()
-			targetMulitplicity.StrokeWidth = 1
-			targetMulitplicity.Color = gongsvg_models.Black.ToString()
-			targetMulitplicity.FillOpacity = 100
-			targetMulitplicity.FontWeight = "normal"
+			textAtArrowEnd.Name = "A"
+			textAtArrowEnd.Content = textAtArrowEnd.Name
+			textAtArrowEnd.X_Offset = -50
+			textAtArrowEnd.Y_Offset = 16
+			textAtArrowEnd.Stroke = gongsvg_models.Black.ToString()
+			textAtArrowEnd.StrokeWidth = 1
+			textAtArrowEnd.Color = gongsvg_models.Black.ToString()
+			textAtArrowEnd.FillOpacity = 100
+			textAtArrowEnd.FontWeight = "normal"
 		}
 		stage.Commit()
 	}

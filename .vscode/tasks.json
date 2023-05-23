@@ -61,6 +61,21 @@
 			"group": "build"
 		},
 		{
+			"label": "02 - go run -benchmark 10",
+			"type": "shell",
+			"options": {
+				"cwd": "./go/cmd/gongsvg"
+			},
+			"command": "go",
+			"args": [
+				"run",
+				"main.go",
+				"-benchmark",
+				"10"
+			],
+			"group": "build"
+		},
+		{
 			"label": "02 - go run  --unmarshallFromCode=simple_link.go --marshallOnCommit=simple_link",
 			"type": "shell",
 			"options": {

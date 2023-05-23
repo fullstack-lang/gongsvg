@@ -115,6 +115,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
           if (shapeMouseEvent.ShapeID != 0 && this.distanceMoved > this.dragThreshold) {
 
             if (this.isEditableService.getIsEditable()) {
+              this.Rect.IsSelected = false
               this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe()
             }
           }

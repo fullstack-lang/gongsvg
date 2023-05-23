@@ -61,7 +61,7 @@
 			"group": "build"
 		},
 		{
-			"label": "02 - go run -benchmark 10",
+			"label": "02 - go run -benchmark",
 			"type": "shell",
 			"options": {
 				"cwd": "./go/cmd/gongsvg"
@@ -71,7 +71,7 @@
 				"run",
 				"main.go",
 				"-benchmark",
-				"10"
+				"60"
 			],
 			"group": "build"
 		},

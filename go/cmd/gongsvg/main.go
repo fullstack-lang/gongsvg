@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"strings"
 
@@ -145,7 +146,7 @@ func main() {
 			svg.Layers = append(svg.Layers, layer)
 			layer.Name = fmt.Sprintf("%d", i)
 
-			startRect := new(gongsvg_models.Rect).Stage(stage)
+			startRect := (&gongsvg_models.Rect{Name: "Start " + layer.Name}).Stage(stage)
 			layer.Rects = append(layer.Rects, startRect)
 			startRect.X = 50
 			startRect.Y = float64(i+1) * heightBetweenRect
@@ -183,7 +184,7 @@ func main() {
 			title.FillOpacity = 1.0
 			startRect.RectAnchoredTexts = append(startRect.RectAnchoredTexts, title)
 
-			endRect := new(gongsvg_models.Rect).Stage(stage)
+			endRect := (&gongsvg_models.Rect{Name: "End " + layer.Name}).Stage(stage)
 			layer.Rects = append(layer.Rects, endRect)
 			endRect.X = 50 + 400
 			endRect.Y = float64(i+1) * heightBetweenRect
@@ -249,6 +250,54 @@ func main() {
 			textAtArrowEnd.FillOpacity = 100
 			textAtArrowEnd.FontWeight = "normal"
 		}
+
+		for i := 0; i < *benchmark; i++ {
+
+			map_Name_Rect := (*gongsvg_models.GetGongstructInstancesMap[gongsvg_models.Rect](stage))
+			startRect := map_Name_Rect[fmt.Sprintf("Start %d", i)]
+			endRect := map_Name_Rect[fmt.Sprintf("End %d", rand.Intn(*benchmark))]
+
+			link := new(gongsvg_models.Link).Stage(stage)
+			link.Name = startRect.Name + " - to - " + endRect.Name
+
+			linkLayer := new(gongsvg_models.Layer).Stage(stage)
+
+			linkLayer.Links = append(linkLayer.Links, link)
+			svg.Layers = append(svg.Layers, linkLayer)
+
+			// configuration
+			link.Stroke = gongsvg_models.Slategray.ToString()
+			link.StrokeWidth = 3
+			link.HasEndArrow = true
+			link.EndArrowSize = 8
+
+			link.Type = gongsvg_models.LINK_TYPE_FLOATING_ORTHOGONAL
+			link.StartOrientation = gongsvg_models.ORIENTATION_HORIZONTAL
+			link.StartRatio = 0.6
+			link.EndOrientation = gongsvg_models.ORIENTATION_HORIZONTAL
+			link.EndRatio = 0.6
+			link.CornerOffsetRatio = 1.4 + float64(i)/10.0
+			link.CornerRadius = 3
+
+			link.Start = startRect
+			link.End = endRect
+
+			// add text to the arrow
+			textAtArrowEnd := new(gongsvg_models.AnchoredText).Stage(stage)
+			link.TextAtArrowEnd = append(link.TextAtArrowEnd, textAtArrowEnd)
+			link.HasEndArrow = true
+
+			textAtArrowEnd.Name = "Rand"
+			textAtArrowEnd.Content = textAtArrowEnd.Name
+			textAtArrowEnd.X_Offset = -50
+			textAtArrowEnd.Y_Offset = 16
+			textAtArrowEnd.Stroke = gongsvg_models.Black.ToString()
+			textAtArrowEnd.StrokeWidth = 1
+			textAtArrowEnd.Color = gongsvg_models.Black.ToString()
+			textAtArrowEnd.FillOpacity = 100
+			textAtArrowEnd.FontWeight = "normal"
+		}
+
 		stage.Commit()
 	}
 

@@ -68,6 +68,7 @@ func issue104Injection(stage *models.StageStruct) {
 	__RectAnchoredRect__000000_Test_104 := (&models.RectAnchoredRect{Name: `Test 104`}).Stage(stage)
 
 	// Declarations of staged instances of RectAnchoredText
+	__RectAnchoredText__000000_test := (&models.RectAnchoredText{Name: `test`}).Stage(stage)
 
 	// Declarations of staged instances of RectLinkLink
 
@@ -84,8 +85,8 @@ func issue104Injection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_104.Name = `104`
-	__Rect__000000_104.X = 129.000000
-	__Rect__000000_104.Y = 118.000000
+	__Rect__000000_104.X = 127.000000
+	__Rect__000000_104.Y = 153.000000
 	__Rect__000000_104.Width = 300.000000
 	__Rect__000000_104.Height = 200.000000
 	__Rect__000000_104.RX = 4.000000
@@ -129,12 +130,30 @@ func issue104Injection(stage *models.StageStruct) {
 	__RectAnchoredRect__000000_Test_104.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredRect__000000_Test_104.Transform = ``
 
+	// RectAnchoredText values setup
+	__RectAnchoredText__000000_test.Name = `test`
+	__RectAnchoredText__000000_test.Content = `test`
+	__RectAnchoredText__000000_test.FontWeight = ``
+	__RectAnchoredText__000000_test.FontSize = 14
+	__RectAnchoredText__000000_test.X_Offset = 0.000000
+	__RectAnchoredText__000000_test.Y_Offset = -100.000000
+	__RectAnchoredText__000000_test.RectAnchorType = models.RECT_ANCHOR_TOP
+	__RectAnchoredText__000000_test.TextAnchorType = models.TEXT_ANCHOR_CENTER
+	__RectAnchoredText__000000_test.Color = ``
+	__RectAnchoredText__000000_test.FillOpacity = 0.000000
+	__RectAnchoredText__000000_test.Stroke = `black`
+	__RectAnchoredText__000000_test.StrokeWidth = 1.000000
+	__RectAnchoredText__000000_test.StrokeDashArray = ``
+	__RectAnchoredText__000000_test.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredText__000000_test.Transform = ``
+
 	// SVG values setup
 	__SVG__000000_104.Name = `104`
 	__SVG__000000_104.IsEditable = true
 
 	// Setup of pointers
 	__Layer__000000_104.Rects = append(__Layer__000000_104.Rects, __Rect__000000_104)
+	__Rect__000000_104.RectAnchoredTexts = append(__Rect__000000_104.RectAnchoredTexts, __RectAnchoredText__000000_test)
 	__Rect__000000_104.RectAnchoredRects = append(__Rect__000000_104.RectAnchoredRects, __RectAnchoredRect__000000_Test_104)
 	__SVG__000000_104.Layers = append(__SVG__000000_104.Layers, __Layer__000000_104)
 }

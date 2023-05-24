@@ -184,8 +184,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 865.000000
-	__Rect__000000_Bottom.Y = 107.000000
+	__Rect__000000_Bottom.X = 814.000000
+	__Rect__000000_Bottom.Y = 137.000000
 	__Rect__000000_Bottom.Width = 632.000000
 	__Rect__000000_Bottom.Height = 253.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -197,15 +197,15 @@ Third Line`
 	__Rect__000000_Bottom.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000000_Bottom.Transform = ``
 	__Rect__000000_Bottom.IsSelectable = true
-	__Rect__000000_Bottom.IsSelected = true
+	__Rect__000000_Bottom.IsSelected = false
 	__Rect__000000_Bottom.CanHaveLeftHandle = true
-	__Rect__000000_Bottom.HasLeftHandle = true
+	__Rect__000000_Bottom.HasLeftHandle = false
 	__Rect__000000_Bottom.CanHaveRightHandle = true
-	__Rect__000000_Bottom.HasRightHandle = true
+	__Rect__000000_Bottom.HasRightHandle = false
 	__Rect__000000_Bottom.CanHaveTopHandle = true
-	__Rect__000000_Bottom.HasTopHandle = true
+	__Rect__000000_Bottom.HasTopHandle = false
 	__Rect__000000_Bottom.CanHaveBottomHandle = true
-	__Rect__000000_Bottom.HasBottomHandle = true
+	__Rect__000000_Bottom.HasBottomHandle = false
 	__Rect__000000_Bottom.CanMoveHorizontaly = true
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
@@ -224,22 +224,22 @@ Third Line`
 	__Rect__000001_Middle_Rect.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000001_Middle_Rect.Transform = ``
 	__Rect__000001_Middle_Rect.IsSelectable = true
-	__Rect__000001_Middle_Rect.IsSelected = true
+	__Rect__000001_Middle_Rect.IsSelected = false
 	__Rect__000001_Middle_Rect.CanHaveLeftHandle = true
-	__Rect__000001_Middle_Rect.HasLeftHandle = true
+	__Rect__000001_Middle_Rect.HasLeftHandle = false
 	__Rect__000001_Middle_Rect.CanHaveRightHandle = true
-	__Rect__000001_Middle_Rect.HasRightHandle = true
+	__Rect__000001_Middle_Rect.HasRightHandle = false
 	__Rect__000001_Middle_Rect.CanHaveTopHandle = true
-	__Rect__000001_Middle_Rect.HasTopHandle = true
+	__Rect__000001_Middle_Rect.HasTopHandle = false
 	__Rect__000001_Middle_Rect.CanHaveBottomHandle = true
-	__Rect__000001_Middle_Rect.HasBottomHandle = true
+	__Rect__000001_Middle_Rect.HasBottomHandle = false
 	__Rect__000001_Middle_Rect.CanMoveHorizontaly = true
 	__Rect__000001_Middle_Rect.CanMoveVerticaly = true
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 116.000000
-	__Rect__000002_Top.Y = 132.000000
+	__Rect__000002_Top.X = 68.000000
+	__Rect__000002_Top.Y = 164.000000
 	__Rect__000002_Top.Width = 500.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000
@@ -251,11 +251,11 @@ Third Line`
 	__Rect__000002_Top.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000002_Top.Transform = ``
 	__Rect__000002_Top.IsSelectable = true
-	__Rect__000002_Top.IsSelected = true
+	__Rect__000002_Top.IsSelected = false
 	__Rect__000002_Top.CanHaveLeftHandle = true
-	__Rect__000002_Top.HasLeftHandle = true
+	__Rect__000002_Top.HasLeftHandle = false
 	__Rect__000002_Top.CanHaveRightHandle = true
-	__Rect__000002_Top.HasRightHandle = true
+	__Rect__000002_Top.HasRightHandle = false
 	__Rect__000002_Top.CanHaveTopHandle = false
 	__Rect__000002_Top.HasTopHandle = false
 	__Rect__000002_Top.CanHaveBottomHandle = false

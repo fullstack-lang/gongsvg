@@ -61,6 +61,23 @@
 			"group": "build"
 		},
 		{
+			"label": "02 - go run  --unmarshallFromCode=issue104.go --marshallOnCommit=issue104",
+			"type": "shell",
+			"options": {
+				"cwd": "./go/cmd/gongsvg"
+			},
+			"command": "go",
+			"args": [
+				"run",
+				"main.go",
+				"-unmarshallFromCode",
+				"issue104.go",
+				"-marshallOnCommit",
+				"issue104"
+			],
+			"group": "build"
+		},
+		{
 			"label": "02 - go run -benchmark",
 			"type": "shell",
 			"options": {

@@ -236,7 +236,7 @@ func main() {
 			link.End = endRect
 
 			// add text to the arrow
-			textAtArrowEnd := new(gongsvg_models.AnchoredText).Stage(stage)
+			textAtArrowEnd := new(gongsvg_models.LinkAnchoredText).Stage(stage)
 			link.TextAtArrowEnd = append(link.TextAtArrowEnd, textAtArrowEnd)
 			link.HasEndArrow = true
 
@@ -283,7 +283,7 @@ func main() {
 			link.End = endRect
 
 			// add text to the arrow
-			textAtArrowEnd := new(gongsvg_models.AnchoredText).Stage(stage)
+			textAtArrowEnd := new(gongsvg_models.LinkAnchoredText).Stage(stage)
 			link.TextAtArrowEnd = append(link.TextAtArrowEnd, textAtArrowEnd)
 			link.HasEndArrow = true
 

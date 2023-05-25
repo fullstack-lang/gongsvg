@@ -353,7 +353,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.X_Offset = 0.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Y_Offset = 20.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.RectAnchorType = models.RECT_ANCHOR_BOTTOM
-	__RectAnchoredText__000002_Top_anchored_bottom_middle.TextAnchorType = models.TEXT_ANCHOR_LEFT
+	__RectAnchoredText__000002_Top_anchored_bottom_middle.TextAnchorType = models.TEXT_ANCHOR_START
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Color = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FillOpacity = 100.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Stroke = `blue`
@@ -372,7 +372,7 @@ line 3`
 	__RectAnchoredText__000003_Top_anchored_top_middle.X_Offset = 0.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.Y_Offset = 20.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.RectAnchorType = models.RECT_ANCHOR_TOP
-	__RectAnchoredText__000003_Top_anchored_top_middle.TextAnchorType = models.TEXT_ANCHOR_CENTER
+	__RectAnchoredText__000003_Top_anchored_top_middle.TextAnchorType = models.TEXT_ANCHOR_START
 	__RectAnchoredText__000003_Top_anchored_top_middle.Color = ``
 	__RectAnchoredText__000003_Top_anchored_top_middle.FillOpacity = 100.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.Stroke = `black`

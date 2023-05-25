@@ -162,7 +162,8 @@
                 >
                 <tspan *ngFor='let line of lines; let j = index' 
                         [attr.x]="anchorX"
-                        [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>  
+                        [attr.dy]="j > 0 ? '1em' : '0'"
+                        [attr.text-anchor]="text.TextAnchorType">{{line}}</tspan>  
                 </text>
         </ng-container>
 </ng-template>

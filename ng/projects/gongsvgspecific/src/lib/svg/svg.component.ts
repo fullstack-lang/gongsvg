@@ -300,7 +300,7 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: 0,
         ShapeType: "",
-        Point: createPoint(x, y),
+        Point: mouseCoordInComponentRef(event),
       }
       this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
       // console.log("svg background, mouse move", x, y)

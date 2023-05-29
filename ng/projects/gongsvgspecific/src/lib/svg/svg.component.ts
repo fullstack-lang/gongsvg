@@ -13,14 +13,16 @@ import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 import { IsEditableService } from '../is-editable.service';
 import { RefreshService } from '../refresh.service';
 
+
 @Component({
   selector: 'lib-svg',
   templateUrl: './svg.component.html',
   styleUrls: ['./svg.component.css']
 })
-export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SvgComponent implements OnInit, OnDestroy {
 
   @Input() GONG__StackPath: string = ""
+  @ViewChild('drawingArea') drawingArea: ElementRef<HTMLDivElement> | undefined
 
   public gongsvgFrontRepo?: gongsvg.FrontRepo
 
@@ -261,9 +263,6 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
   mousedown(event: MouseEvent): void {
     if (event.shiftKey) {
 
-      this.updateSvgTopLeftCoordinates()
-      // console.log("page X, Y", this.pageX, this.pageY)
-
       this.selectionRectDrawing = true
 
       let point = mouseCoordInComponentRef(event)
@@ -274,7 +273,6 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   mousemove(event: MouseEvent): void {
-    this.updateSvgTopLeftCoordinates()
 
     let shapeMouseEvent: ShapeMouseEvent = {
       ShapeID: 0,
@@ -303,8 +301,6 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onmouseup(event: MouseEvent): void {
 
-    this.updateSvgTopLeftCoordinates()
-
     let shapeMouseEvent: ShapeMouseEvent = {
       ShapeID: 0,
       ShapeType: "",
@@ -321,26 +317,4 @@ export class SvgComponent implements OnInit, OnDestroy, AfterViewInit {
       this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
     }
   }
-
-  pageX: number = 0
-  pageY: number = 0
-  @ViewChild('drawingArea') drawingArea: ElementRef<HTMLDivElement> | undefined
-
-  ngAfterViewInit() {
-    this.updateSvgTopLeftCoordinates()
-  }
-
-  updateSvgTopLeftCoordinates() {
-    const offset = this.getDivOffset(this.drawingArea!.nativeElement);
-    this.pageX = offset.offsetX
-    this.pageY = offset.offsetY
-  }
-
-  getDivOffset(div: HTMLDivElement): { offsetX: number; offsetY: number } {
-    const rect = div.getBoundingClientRect();
-    const offsetX = rect.left + window.pageXOffset;
-    const offsetY = rect.top + window.pageYOffset;
-    return { offsetX, offsetY };
-  }
-
 }

@@ -317,4 +317,29 @@ export class SvgComponent implements OnInit, OnDestroy {
       this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
     }
   }
+
+  exportSVG() {
+    const serializer = new XMLSerializer();
+    const svgString = serializer.serializeToString(this.drawingArea!.nativeElement);
+    return svgString;
+  }
+
+  downloadSVG() {
+    const svgString = this.exportSVG();
+    const blob = new Blob([svgString], { type: 'image/svg+xml' });
+    const url = window.URL.createObjectURL(blob);
+
+    // Create a link element
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = 'image.svg';
+
+    // Attach the link to the document
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+
+    // Clean up after to avoid memory leaks
+    document.body.removeChild(downloadLink);
+  }
+
 }

@@ -279,6 +279,14 @@ func NewStage() (stage *StageStruct) {
 	return
 }
 
+func (stage *StageStruct) CommitWithSuspendedCallbacks() {
+
+	tmp := stage.OnInitCommitFromBackCallback
+	stage.OnInitCommitFromBackCallback = nil
+	stage.Commit()
+	stage.OnInitCommitFromBackCallback = tmp
+}
+
 func (stage *StageStruct) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
@@ -1585,7 +1593,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case GongNote:
 		res = []string{"Name", "Body", "BodyHTML", "Links"}
 	case GongStruct:
-		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields"}
+		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields", "HasOnAfterUpdateSignature"}
 	case GongTimeField:
 		res = []string{"Name", "Index", "CompositeStructName"}
 	case Meta:
@@ -1711,6 +1719,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 				}
 				res += __instance__.Name
 			}
+		case "HasOnAfterUpdateSignature":
+			res = fmt.Sprintf("%t", any(instance).(GongStruct).HasOnAfterUpdateSignature)
 		}
 	case GongTimeField:
 		switch fieldName {

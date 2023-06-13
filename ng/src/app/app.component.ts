@@ -12,7 +12,8 @@ export class AppComponent implements OnInit {
 
   views: string[] = [this.svg, this.default];
 
-  GONG__StackPath = "github.com/fullstack-lang/gongsvg/go/models"
+  GONG__DATAMODEL_StackPath = "github.com/fullstack-lang/gongsvg/go/models"
+  GONG__StackPath = "svg"
 
   loading = true
 

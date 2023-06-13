@@ -1,7 +1,6 @@
 package models
 
 import (
-	"log"
 	"sort"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -9,8 +8,6 @@ import (
 
 // to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
 func SetupMapDocLinkRenaming(gongStage *gong_models.StageStruct, gongdocStage *StageStruct) {
-
-	gongdocStage.Map_DocLink_Renaming = make(map[string]GONG__Identifier)
 
 	gongstructOrdered := []*gong_models.GongStruct{}
 	for gongstruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](gongStage) {
@@ -35,11 +32,6 @@ func SetupMapDocLinkRenaming(gongStage *gong_models.StageStruct, gongdocStage *S
 			var identifier GONG__Identifier
 			identifier.Ident = ident
 			identifier.Type = GONG__FIELD_VALUE
-
-			if _, ok := gongdocStage.Map_DocLink_Renaming[ident]; ok {
-				log.Println("problem")
-			}
-
 			gongdocStage.Map_DocLink_Renaming[ident] = identifier
 		}
 	}

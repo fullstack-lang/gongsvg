@@ -66,10 +66,10 @@ func main() {
 	var stage *gongsvg_models.StageStruct
 	if *marshallOnCommit != "" {
 		// persistence in a SQLite file on disk in memory
-		stage = gongsvg_fullstack.NewStackInstance(r, "svg")
+		stage = gongsvg_fullstack.NewStackInstance(r, "gongsvg")
 	} else {
 		// persistence in a SQLite file on disk
-		stage = gongsvg_fullstack.NewStackInstance(r, "svg", "./test.db")
+		stage = gongsvg_fullstack.NewStackInstance(r, "gongsvg", "./test.db")
 	}
 
 	// generate injection code from the stage

@@ -31,7 +31,7 @@ func main() {
 
 	// setup GORM
 	r := gongsvg_static.ServeStaticFiles(false)
-	stage := gongsvg_fullstack.NewStackInstance(r, "github.com/fullstack-lang/gongsvg/go/models")
+	stage, _ := gongsvg_fullstack.NewStackInstance(r, "github.com/fullstack-lang/gongsvg/go/models")
 
 	colorLayer := (&gongsvg_models.Layer{Name: "color"}).Stage(stage)
 	colorLayer.Display = true

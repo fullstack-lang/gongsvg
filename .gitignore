@@ -7,3 +7,4 @@ go/cmd/gongsvg/gongsvg
 go/cmd/gongsvg/__debug_bin.exe
 go/cmd/colorgrid/__debug_bin.exe
 go/cmd/gongsvg/test.db
+go/cmd/gongsvg/__debug_bin*

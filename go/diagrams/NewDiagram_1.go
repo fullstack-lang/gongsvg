@@ -395,21 +395,11 @@ var map_DocLink_Identifier_NewDiagram_1 map[string]any = map[string]any{
 
 	"ref_models.LinkAnchoredText": &(ref_models.LinkAnchoredText{}),
 
-	"ref_models.LinkAnchoredText": &(ref_models.LinkAnchoredText{}),
-
-	"ref_models.LinkAnchoredText.Animates": (ref_models.LinkAnchoredText{}).Animates,
-
 	"ref_models.LinkAnchoredText.Animates": (ref_models.LinkAnchoredText{}).Animates,
 
 	"ref_models.LinkAnchoredText.Color": (ref_models.LinkAnchoredText{}).Color,
 
-	"ref_models.LinkAnchoredText.Color": (ref_models.LinkAnchoredText{}).Color,
-
 	"ref_models.LinkAnchoredText.Content": (ref_models.LinkAnchoredText{}).Content,
-
-	"ref_models.LinkAnchoredText.Content": (ref_models.LinkAnchoredText{}).Content,
-
-	"ref_models.LinkAnchoredText.FillOpacity": (ref_models.LinkAnchoredText{}).FillOpacity,
 
 	"ref_models.LinkAnchoredText.FillOpacity": (ref_models.LinkAnchoredText{}).FillOpacity,
 
@@ -417,33 +407,17 @@ var map_DocLink_Identifier_NewDiagram_1 map[string]any = map[string]any{
 
 	"ref_models.LinkAnchoredText.Name": (ref_models.LinkAnchoredText{}).Name,
 
-	"ref_models.LinkAnchoredText.Name": (ref_models.LinkAnchoredText{}).Name,
-
 	"ref_models.LinkAnchoredText.Stroke": (ref_models.LinkAnchoredText{}).Stroke,
-
-	"ref_models.LinkAnchoredText.Stroke": (ref_models.LinkAnchoredText{}).Stroke,
-
-	"ref_models.LinkAnchoredText.StrokeDashArray": (ref_models.LinkAnchoredText{}).StrokeDashArray,
 
 	"ref_models.LinkAnchoredText.StrokeDashArray": (ref_models.LinkAnchoredText{}).StrokeDashArray,
 
 	"ref_models.LinkAnchoredText.StrokeDashArrayWhenSelected": (ref_models.LinkAnchoredText{}).StrokeDashArrayWhenSelected,
 
-	"ref_models.LinkAnchoredText.StrokeDashArrayWhenSelected": (ref_models.LinkAnchoredText{}).StrokeDashArrayWhenSelected,
-
-	"ref_models.LinkAnchoredText.StrokeWidth": (ref_models.LinkAnchoredText{}).StrokeWidth,
-
 	"ref_models.LinkAnchoredText.StrokeWidth": (ref_models.LinkAnchoredText{}).StrokeWidth,
 
 	"ref_models.LinkAnchoredText.Transform": (ref_models.LinkAnchoredText{}).Transform,
 
-	"ref_models.LinkAnchoredText.Transform": (ref_models.LinkAnchoredText{}).Transform,
-
 	"ref_models.LinkAnchoredText.X_Offset": (ref_models.LinkAnchoredText{}).X_Offset,
-
-	"ref_models.LinkAnchoredText.X_Offset": (ref_models.LinkAnchoredText{}).X_Offset,
-
-	"ref_models.LinkAnchoredText.Y_Offset": (ref_models.LinkAnchoredText{}).Y_Offset,
 
 	"ref_models.LinkAnchoredText.Y_Offset": (ref_models.LinkAnchoredText{}).Y_Offset,
 
@@ -910,8 +884,6 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	// Declarations of staged instances of Button
-
 	// Declarations of staged instances of Classdiagram
 	__Classdiagram__000000_NewDiagram_1 := (&models.Classdiagram{Name: `NewDiagram_1`}).Stage(stage)
 
@@ -934,8 +906,6 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	__Link__000000_End := (&models.Link{Name: `End`}).Stage(stage)
 	__Link__000001_Start := (&models.Link{Name: `Start`}).Stage(stage)
 
-	// Declarations of staged instances of Node
-
 	// Declarations of staged instances of NoteShape
 
 	// Declarations of staged instances of NoteShapeLink
@@ -944,8 +914,6 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	__Position__000000_Pos_NewDiagram_1_Link := (&models.Position{Name: `Pos-NewDiagram_1-Link`}).Stage(stage)
 	__Position__000001_Pos_NewDiagram_1_Rect := (&models.Position{Name: `Pos-NewDiagram_1-Rect`}).Stage(stage)
 	__Position__000002_Pos_NewDiagram_1_RectLinkLink := (&models.Position{Name: `Pos-NewDiagram_1-RectLinkLink`}).Stage(stage)
-
-	// Declarations of staged instances of Tree
 
 	// Declarations of staged instances of UmlState
 

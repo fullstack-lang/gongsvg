@@ -293,7 +293,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 	// insertion point
 	case *models.Animate:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Animate Form",
 			OnSave: NewAnimateFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -302,7 +303,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Circle:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Circle Form",
 			OnSave: NewCircleFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -311,7 +313,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Ellipse:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Ellipse Form",
 			OnSave: NewEllipseFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -320,7 +323,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Layer:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Layer Form",
 			OnSave: NewLayerFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -329,7 +333,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Line:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Line Form",
 			OnSave: NewLineFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -338,7 +343,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Link:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Link Form",
 			OnSave: NewLinkFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -347,7 +353,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.LinkAnchoredText:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update LinkAnchoredText Form",
 			OnSave: NewLinkAnchoredTextFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -356,7 +363,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Path:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Path Form",
 			OnSave: NewPathFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -365,7 +373,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Point:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Point Form",
 			OnSave: NewPointFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -374,7 +383,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Polygone:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Polygone Form",
 			OnSave: NewPolygoneFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -383,7 +393,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Polyline:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Polyline Form",
 			OnSave: NewPolylineFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -392,7 +403,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Rect:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Rect Form",
 			OnSave: NewRectFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -401,7 +413,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.RectAnchoredRect:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update RectAnchoredRect Form",
 			OnSave: NewRectAnchoredRectFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -410,7 +423,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.RectAnchoredText:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update RectAnchoredText Form",
 			OnSave: NewRectAnchoredTextFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -419,7 +433,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.RectLinkLink:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update RectLinkLink Form",
 			OnSave: NewRectLinkLinkFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -428,7 +443,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.SVG:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update SVG Form",
 			OnSave: NewSVGFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -437,7 +453,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Text:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Text Form",
 			OnSave: NewTextFormCallback(
 				instancesTyped,
 				rowUpdate.playground,

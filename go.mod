@@ -3,22 +3,22 @@ module github.com/fullstack-lang/gongsvg
 go 1.21.0
 
 require (
-	github.com/fullstack-lang/gong v0.0.0-20230909011346-a70edca74461
-	github.com/fullstack-lang/gongdoc v0.0.0-20230909011055-ede73c039617
-	github.com/fullstack-lang/gongtable v0.0.0-20230909010039-ab3f84f5b4aa
-	github.com/fullstack-lang/gongtree v0.0.0-20230909010144-da3583949c10
+	github.com/fullstack-lang/gong v0.0.0-20230914122759-f65b71b5ebb7
+	github.com/fullstack-lang/gongdoc v0.0.0-20230910200256-43715514dfd6
+	github.com/fullstack-lang/gongtable v0.0.0-20230913224020-fb679588244d
+	github.com/fullstack-lang/gongtree v0.0.0-20230915022939-1c0cedbd61ba
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.9.1
 	github.com/glebarez/sqlite v1.9.0
-	github.com/tealeg/xlsx/v3 v3.3.0
+	github.com/tealeg/xlsx/v3 v3.3.1
 	github.com/xuri/excelize/v2 v2.8.0
 	gorm.io/gorm v1.25.4
 )
 
 require (
-	github.com/bytedance/sonic v1.10.0 // indirect
+	github.com/bytedance/sonic v1.10.1 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
@@ -28,7 +28,7 @@ require (
 	github.com/glebarez/go-sqlite v1.21.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-playground/validator/v10 v10.15.3 // indirect
+	github.com/go-playground/validator/v10 v10.15.4 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/google/btree v1.1.2 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect

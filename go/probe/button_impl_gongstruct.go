@@ -46,7 +46,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 	// insertion point
 	case "Animate":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Animate Form",
 			OnSave: NewAnimateFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -56,7 +57,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(animate, formGroup, buttonImpl.playground)
 	case "Circle":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Circle Form",
 			OnSave: NewCircleFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -66,7 +68,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(circle, formGroup, buttonImpl.playground)
 	case "Ellipse":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Ellipse Form",
 			OnSave: NewEllipseFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -76,7 +79,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(ellipse, formGroup, buttonImpl.playground)
 	case "Layer":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Layer Form",
 			OnSave: NewLayerFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -86,7 +90,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(layer, formGroup, buttonImpl.playground)
 	case "Line":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Line Form",
 			OnSave: NewLineFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -96,7 +101,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(line, formGroup, buttonImpl.playground)
 	case "Link":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Link Form",
 			OnSave: NewLinkFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -106,7 +112,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(link, formGroup, buttonImpl.playground)
 	case "LinkAnchoredText":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New LinkAnchoredText Form",
 			OnSave: NewLinkAnchoredTextFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -116,7 +123,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(linkanchoredtext, formGroup, buttonImpl.playground)
 	case "Path":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Path Form",
 			OnSave: NewPathFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -126,7 +134,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(path, formGroup, buttonImpl.playground)
 	case "Point":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Point Form",
 			OnSave: NewPointFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -136,7 +145,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(point, formGroup, buttonImpl.playground)
 	case "Polygone":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Polygone Form",
 			OnSave: NewPolygoneFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -146,7 +156,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(polygone, formGroup, buttonImpl.playground)
 	case "Polyline":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Polyline Form",
 			OnSave: NewPolylineFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -156,7 +167,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(polyline, formGroup, buttonImpl.playground)
 	case "Rect":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Rect Form",
 			OnSave: NewRectFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -166,7 +178,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(rect, formGroup, buttonImpl.playground)
 	case "RectAnchoredRect":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New RectAnchoredRect Form",
 			OnSave: NewRectAnchoredRectFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -176,7 +189,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(rectanchoredrect, formGroup, buttonImpl.playground)
 	case "RectAnchoredText":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New RectAnchoredText Form",
 			OnSave: NewRectAnchoredTextFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -186,7 +200,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(rectanchoredtext, formGroup, buttonImpl.playground)
 	case "RectLinkLink":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New RectLinkLink Form",
 			OnSave: NewRectLinkLinkFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -196,7 +211,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(rectlinklink, formGroup, buttonImpl.playground)
 	case "SVG":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New SVG Form",
 			OnSave: NewSVGFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -206,7 +222,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(svg, formGroup, buttonImpl.playground)
 	case "Text":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Text Form",
 			OnSave: NewTextFormCallback(
 				nil,
 				buttonImpl.playground,

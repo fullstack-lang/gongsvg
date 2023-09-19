@@ -8,10 +8,10 @@ import (
 	"strconv"
 
 	gongsvg_go "github.com/fullstack-lang/gongsvg/go"
-	gongsvg_data "github.com/fullstack-lang/gongsvg/go/data"
 	gongsvg_fullstack "github.com/fullstack-lang/gongsvg/go/fullstack"
 	gongsvg_models "github.com/fullstack-lang/gongsvg/go/models"
 	gongsvg_orm "github.com/fullstack-lang/gongsvg/go/orm"
+	gongsvg_probe "github.com/fullstack-lang/gongsvg/go/probe"
 	gongsvg_static "github.com/fullstack-lang/gongsvg/go/static"
 
 	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
@@ -72,8 +72,6 @@ func main() {
 		stage, backRepo = gongsvg_fullstack.NewStackInstance(r, "gongsvg", "./gongsvg.db")
 	}
 
-	gongsvg_data.Load(r, gongsvg_go.GoModelsDir, "gongsvg", stage, backRepo)
-
 	if *unmarshallFromCode != "" {
 		stage.Checkout()
 		stage.Reset()
@@ -97,6 +95,8 @@ func main() {
 		hook := new(BeforeCommitImplementation)
 		stage.OnInitCommitCallback = hook
 	}
+
+	gongsvg_probe.NewProbe(r, gongsvg_go.GoModelsDir, "gongsvg", stage, backRepo)
 
 	gongdoc_load.Load(
 		"gongsvg",

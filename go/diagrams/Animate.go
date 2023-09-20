@@ -11,11 +11,11 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_NewDiagram_1 models.StageStruct
-var ___dummy__Time_NewDiagram_1 time.Time
+var ___dummy__Stage_Animate models.StageStruct
+var ___dummy__Time_Animate time.Time
 
 // Injection point for meta package dummy declaration
-var ___dummy__ref_models_NewDiagram_1 ref_models.StageStruct
+var ___dummy__ref_models_Animate ref_models.StageStruct
 
 // currently, DocLink renaming is not enabled in gopls
 // the following map are devised to overcome this limitation
@@ -24,7 +24,7 @@ var ___dummy__ref_models_NewDiagram_1 ref_models.StageStruct
 // [Corresponding Issue](https://github.com/golang/go/issues/57559)
 //
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_NewDiagram_1 map[string]any = map[string]any{
+var map_DocLink_Identifier_Animate map[string]any = map[string]any{
 	// injection point for docLink to identifiers
 
 	"ref_models.ANCHOR_BOTTOM": ref_models.ANCHOR_BOTTOM,
@@ -876,210 +876,433 @@ var map_DocLink_Identifier_NewDiagram_1 map[string]any = map[string]any{
 // but it has to properly reference the Injection gateway in the main package
 // func init() {
 // 	_ = __Dummy_time_variable
-// 	InjectionGateway["NewDiagram_1"] = NewDiagram_1Injection
+// 	InjectionGateway["Animate"] = AnimateInjection
 // }
 
-// NewDiagram_1Injection will stage objects of database "NewDiagram_1"
-func NewDiagram_1Injection(stage *models.StageStruct) {
+// AnimateInjection will stage objects of database "Animate"
+func AnimateInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Classdiagram
-	__Classdiagram__000000_NewDiagram_1 := (&models.Classdiagram{Name: `NewDiagram_1`}).Stage(stage)
+	__Classdiagram__000000_Animate := (&models.Classdiagram{Name: `Animate`}).Stage(stage)
 
 	// Declarations of staged instances of DiagramPackage
 
 	// Declarations of staged instances of Field
-	__Field__000000_CornerOffsetRatio := (&models.Field{Name: `CornerOffsetRatio`}).Stage(stage)
-	__Field__000001_CornerRadius := (&models.Field{Name: `CornerRadius`}).Stage(stage)
+	__Field__000000_AttributeName := (&models.Field{Name: `AttributeName`}).Stage(stage)
+	__Field__000001_Dur := (&models.Field{Name: `Dur`}).Stage(stage)
+	__Field__000002_Name := (&models.Field{Name: `Name`}).Stage(stage)
+	__Field__000003_Name := (&models.Field{Name: `Name`}).Stage(stage)
+	__Field__000004_RepeatCount := (&models.Field{Name: `RepeatCount`}).Stage(stage)
+	__Field__000005_Values := (&models.Field{Name: `Values`}).Stage(stage)
 
 	// Declarations of staged instances of GongEnumShape
 
 	// Declarations of staged instances of GongEnumValueEntry
 
 	// Declarations of staged instances of GongStructShape
-	__GongStructShape__000000_NewDiagram_1_Link := (&models.GongStructShape{Name: `NewDiagram_1-Link`}).Stage(stage)
-	__GongStructShape__000001_NewDiagram_1_Rect := (&models.GongStructShape{Name: `NewDiagram_1-Rect`}).Stage(stage)
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink := (&models.GongStructShape{Name: `NewDiagram_1-RectLinkLink`}).Stage(stage)
+	__GongStructShape__000000_Animate_Animate := (&models.GongStructShape{Name: `Animate-Animate`}).Stage(stage)
+	__GongStructShape__000001_Animate_Circle := (&models.GongStructShape{Name: `Animate-Circle`}).Stage(stage)
+	__GongStructShape__000002_Animate_Ellipse := (&models.GongStructShape{Name: `Animate-Ellipse`}).Stage(stage)
+	__GongStructShape__000003_Animate_Line := (&models.GongStructShape{Name: `Animate-Line`}).Stage(stage)
+	__GongStructShape__000004_Animate_Rect := (&models.GongStructShape{Name: `Animate-Rect`}).Stage(stage)
+	__GongStructShape__000005_Animate_Text := (&models.GongStructShape{Name: `Animate-Text`}).Stage(stage)
 
 	// Declarations of staged instances of Link
-	__Link__000000_End := (&models.Link{Name: `End`}).Stage(stage)
-	__Link__000001_Start := (&models.Link{Name: `Start`}).Stage(stage)
+	__Link__000000_Animates := (&models.Link{Name: `Animates`}).Stage(stage)
+	__Link__000001_Animates := (&models.Link{Name: `Animates`}).Stage(stage)
+	__Link__000002_Animates := (&models.Link{Name: `Animates`}).Stage(stage)
+	__Link__000003_Animations := (&models.Link{Name: `Animations`}).Stage(stage)
+	__Link__000004_Animations := (&models.Link{Name: `Animations`}).Stage(stage)
 
 	// Declarations of staged instances of NoteShape
 
 	// Declarations of staged instances of NoteShapeLink
 
 	// Declarations of staged instances of Position
-	__Position__000000_Pos_NewDiagram_1_Link := (&models.Position{Name: `Pos-NewDiagram_1-Link`}).Stage(stage)
-	__Position__000001_Pos_NewDiagram_1_Rect := (&models.Position{Name: `Pos-NewDiagram_1-Rect`}).Stage(stage)
-	__Position__000002_Pos_NewDiagram_1_RectLinkLink := (&models.Position{Name: `Pos-NewDiagram_1-RectLinkLink`}).Stage(stage)
+	__Position__000000_Pos_Animate_Animate := (&models.Position{Name: `Pos-Animate-Animate`}).Stage(stage)
+	__Position__000001_Pos_Animate_Circle := (&models.Position{Name: `Pos-Animate-Circle`}).Stage(stage)
+	__Position__000002_Pos_Animate_Ellipse := (&models.Position{Name: `Pos-Animate-Ellipse`}).Stage(stage)
+	__Position__000003_Pos_Animate_Line := (&models.Position{Name: `Pos-Animate-Line`}).Stage(stage)
+	__Position__000004_Pos_Animate_Rect := (&models.Position{Name: `Pos-Animate-Rect`}).Stage(stage)
+	__Position__000005_Pos_Animate_Text := (&models.Position{Name: `Pos-Animate-Text`}).Stage(stage)
 
 	// Declarations of staged instances of UmlState
 
 	// Declarations of staged instances of Umlsc
 
 	// Declarations of staged instances of Vertice
-	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link := (&models.Vertice{Name: `Verticle in class diagram NewDiagram_1 in middle between NewDiagram_1-RectLinkLink and NewDiagram_1-Link`}).Stage(stage)
-	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect := (&models.Vertice{Name: `Verticle in class diagram NewDiagram_1 in middle between NewDiagram_1-RectLinkLink and NewDiagram_1-Rect`}).Stage(stage)
+	__Vertice__000000_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Circle_and_Animate_Animate := (&models.Vertice{Name: `Verticle in class diagram Animate in middle between Animate-Circle and Animate-Animate`}).Stage(stage)
+	__Vertice__000001_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Ellipse_and_Animate_Animate := (&models.Vertice{Name: `Verticle in class diagram Animate in middle between Animate-Ellipse and Animate-Animate`}).Stage(stage)
+	__Vertice__000002_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Line_and_Animate_Animate := (&models.Vertice{Name: `Verticle in class diagram Animate in middle between Animate-Line and Animate-Animate`}).Stage(stage)
+	__Vertice__000003_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Rect_and_Animate_Animate := (&models.Vertice{Name: `Verticle in class diagram Animate in middle between Animate-Rect and Animate-Animate`}).Stage(stage)
+	__Vertice__000004_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Text_and_Animate_Animate := (&models.Vertice{Name: `Verticle in class diagram Animate in middle between Animate-Text and Animate-Animate`}).Stage(stage)
 
 	// Setup of values
 
 	// Classdiagram values setup
-	__Classdiagram__000000_NewDiagram_1.Name = `NewDiagram_1`
-	__Classdiagram__000000_NewDiagram_1.IsInDrawMode = true
+	__Classdiagram__000000_Animate.Name = `Animate`
+	__Classdiagram__000000_Animate.IsInDrawMode = true
 
 	// Field values setup
-	__Field__000000_CornerOffsetRatio.Name = `CornerOffsetRatio`
+	__Field__000000_AttributeName.Name = `AttributeName`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [ref_models.Link.CornerOffsetRatio]
-	__Field__000000_CornerOffsetRatio.Identifier = `ref_models.Link.CornerOffsetRatio`
-	__Field__000000_CornerOffsetRatio.FieldTypeAsString = ``
-	__Field__000000_CornerOffsetRatio.Structname = `Link`
-	__Field__000000_CornerOffsetRatio.Fieldtypename = `float64`
+	//gong:ident [ref_models.Animate.AttributeName]
+	__Field__000000_AttributeName.Identifier = `ref_models.Animate.AttributeName`
+	__Field__000000_AttributeName.FieldTypeAsString = ``
+	__Field__000000_AttributeName.Structname = `Animate`
+	__Field__000000_AttributeName.Fieldtypename = `string`
 
 	// Field values setup
-	__Field__000001_CornerRadius.Name = `CornerRadius`
+	__Field__000001_Dur.Name = `Dur`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [ref_models.Link.CornerRadius]
-	__Field__000001_CornerRadius.Identifier = `ref_models.Link.CornerRadius`
-	__Field__000001_CornerRadius.FieldTypeAsString = ``
-	__Field__000001_CornerRadius.Structname = `Link`
-	__Field__000001_CornerRadius.Fieldtypename = `float64`
+	//gong:ident [ref_models.Animate.Dur]
+	__Field__000001_Dur.Identifier = `ref_models.Animate.Dur`
+	__Field__000001_Dur.FieldTypeAsString = ``
+	__Field__000001_Dur.Structname = `Animate`
+	__Field__000001_Dur.Fieldtypename = `string`
 
-	// GongStructShape values setup
-	__GongStructShape__000000_NewDiagram_1_Link.Name = `NewDiagram_1-Link`
+	// Field values setup
+	__Field__000002_Name.Name = `Name`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [ref_models.Link]
-	__GongStructShape__000000_NewDiagram_1_Link.Identifier = `ref_models.Link`
-	__GongStructShape__000000_NewDiagram_1_Link.ShowNbInstances = true
-	__GongStructShape__000000_NewDiagram_1_Link.NbInstances = 1
-	__GongStructShape__000000_NewDiagram_1_Link.Width = 240.000000
-	__GongStructShape__000000_NewDiagram_1_Link.Heigth = 96.000000
-	__GongStructShape__000000_NewDiagram_1_Link.IsSelected = false
+	//gong:ident [ref_models.Rect.Name]
+	__Field__000002_Name.Identifier = `ref_models.Rect.Name`
+	__Field__000002_Name.FieldTypeAsString = ``
+	__Field__000002_Name.Structname = `Rect`
+	__Field__000002_Name.Fieldtypename = `string`
+
+	// Field values setup
+	__Field__000003_Name.Name = `Name`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Animate.Name]
+	__Field__000003_Name.Identifier = `ref_models.Animate.Name`
+	__Field__000003_Name.FieldTypeAsString = ``
+	__Field__000003_Name.Structname = `Animate`
+	__Field__000003_Name.Fieldtypename = `string`
+
+	// Field values setup
+	__Field__000004_RepeatCount.Name = `RepeatCount`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Animate.RepeatCount]
+	__Field__000004_RepeatCount.Identifier = `ref_models.Animate.RepeatCount`
+	__Field__000004_RepeatCount.FieldTypeAsString = ``
+	__Field__000004_RepeatCount.Structname = `Animate`
+	__Field__000004_RepeatCount.Fieldtypename = `string`
+
+	// Field values setup
+	__Field__000005_Values.Name = `Values`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Animate.Values]
+	__Field__000005_Values.Identifier = `ref_models.Animate.Values`
+	__Field__000005_Values.FieldTypeAsString = ``
+	__Field__000005_Values.Structname = `Animate`
+	__Field__000005_Values.Fieldtypename = `string`
 
 	// GongStructShape values setup
-	__GongStructShape__000001_NewDiagram_1_Rect.Name = `NewDiagram_1-Rect`
+	__GongStructShape__000000_Animate_Animate.Name = `Animate-Animate`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Animate]
+	__GongStructShape__000000_Animate_Animate.Identifier = `ref_models.Animate`
+	__GongStructShape__000000_Animate_Animate.ShowNbInstances = false
+	__GongStructShape__000000_Animate_Animate.NbInstances = 0
+	__GongStructShape__000000_Animate_Animate.Width = 240.000000
+	__GongStructShape__000000_Animate_Animate.Heigth = 466.000000
+	__GongStructShape__000000_Animate_Animate.IsSelected = false
+
+	// GongStructShape values setup
+	__GongStructShape__000001_Animate_Circle.Name = `Animate-Circle`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Circle]
+	__GongStructShape__000001_Animate_Circle.Identifier = `ref_models.Circle`
+	__GongStructShape__000001_Animate_Circle.ShowNbInstances = false
+	__GongStructShape__000001_Animate_Circle.NbInstances = 0
+	__GongStructShape__000001_Animate_Circle.Width = 240.000000
+	__GongStructShape__000001_Animate_Circle.Heigth = 63.000000
+	__GongStructShape__000001_Animate_Circle.IsSelected = false
+
+	// GongStructShape values setup
+	__GongStructShape__000002_Animate_Ellipse.Name = `Animate-Ellipse`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Ellipse]
+	__GongStructShape__000002_Animate_Ellipse.Identifier = `ref_models.Ellipse`
+	__GongStructShape__000002_Animate_Ellipse.ShowNbInstances = false
+	__GongStructShape__000002_Animate_Ellipse.NbInstances = 0
+	__GongStructShape__000002_Animate_Ellipse.Width = 240.000000
+	__GongStructShape__000002_Animate_Ellipse.Heigth = 63.000000
+	__GongStructShape__000002_Animate_Ellipse.IsSelected = false
+
+	// GongStructShape values setup
+	__GongStructShape__000003_Animate_Line.Name = `Animate-Line`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Line]
+	__GongStructShape__000003_Animate_Line.Identifier = `ref_models.Line`
+	__GongStructShape__000003_Animate_Line.ShowNbInstances = false
+	__GongStructShape__000003_Animate_Line.NbInstances = 0
+	__GongStructShape__000003_Animate_Line.Width = 240.000000
+	__GongStructShape__000003_Animate_Line.Heigth = 63.000000
+	__GongStructShape__000003_Animate_Line.IsSelected = false
+
+	// GongStructShape values setup
+	__GongStructShape__000004_Animate_Rect.Name = `Animate-Rect`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.Rect]
-	__GongStructShape__000001_NewDiagram_1_Rect.Identifier = `ref_models.Rect`
-	__GongStructShape__000001_NewDiagram_1_Rect.ShowNbInstances = true
-	__GongStructShape__000001_NewDiagram_1_Rect.NbInstances = 3
-	__GongStructShape__000001_NewDiagram_1_Rect.Width = 240.000000
-	__GongStructShape__000001_NewDiagram_1_Rect.Heigth = 63.000000
-	__GongStructShape__000001_NewDiagram_1_Rect.IsSelected = false
+	__GongStructShape__000004_Animate_Rect.Identifier = `ref_models.Rect`
+	__GongStructShape__000004_Animate_Rect.ShowNbInstances = false
+	__GongStructShape__000004_Animate_Rect.NbInstances = 0
+	__GongStructShape__000004_Animate_Rect.Width = 240.000000
+	__GongStructShape__000004_Animate_Rect.Heigth = 78.000000
+	__GongStructShape__000004_Animate_Rect.IsSelected = false
 
 	// GongStructShape values setup
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Name = `NewDiagram_1-RectLinkLink`
+	__GongStructShape__000005_Animate_Text.Name = `Animate-Text`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [ref_models.RectLinkLink]
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Identifier = `ref_models.RectLinkLink`
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.ShowNbInstances = true
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.NbInstances = 1
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Width = 240.000000
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Heigth = 63.000000
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.IsSelected = false
+	//gong:ident [ref_models.Text]
+	__GongStructShape__000005_Animate_Text.Identifier = `ref_models.Text`
+	__GongStructShape__000005_Animate_Text.ShowNbInstances = false
+	__GongStructShape__000005_Animate_Text.NbInstances = 0
+	__GongStructShape__000005_Animate_Text.Width = 240.000000
+	__GongStructShape__000005_Animate_Text.Heigth = 63.000000
+	__GongStructShape__000005_Animate_Text.IsSelected = false
 
 	// Link values setup
-	__Link__000000_End.Name = `End`
+	__Link__000000_Animates.Name = `Animates`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [ref_models.RectLinkLink.End]
-	__Link__000000_End.Identifier = `ref_models.RectLinkLink.End`
+	//gong:ident [ref_models.Ellipse.Animates]
+	__Link__000000_Animates.Identifier = `ref_models.Ellipse.Animates`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [ref_models.Link]
-	__Link__000000_End.Fieldtypename = `ref_models.Link`
-	__Link__000000_End.FieldOffsetX = -63.000000
-	__Link__000000_End.FieldOffsetY = -21.000000
-	__Link__000000_End.TargetMultiplicity = models.ZERO_ONE
-	__Link__000000_End.TargetMultiplicityOffsetX = -55.000000
-	__Link__000000_End.TargetMultiplicityOffsetY = 23.000000
-	__Link__000000_End.SourceMultiplicity = models.MANY
-	__Link__000000_End.SourceMultiplicityOffsetX = 19.000000
-	__Link__000000_End.SourceMultiplicityOffsetY = 19.000000
-	__Link__000000_End.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000000_End.StartRatio = 0.318055
-	__Link__000000_End.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_End.EndRatio = 0.746528
-	__Link__000000_End.CornerOffsetRatio = 2.429067
+	//gong:ident [ref_models.Animate]
+	__Link__000000_Animates.Fieldtypename = `ref_models.Animate`
+	__Link__000000_Animates.FieldOffsetX = -89.000000
+	__Link__000000_Animates.FieldOffsetY = -20.000000
+	__Link__000000_Animates.TargetMultiplicity = models.MANY
+	__Link__000000_Animates.TargetMultiplicityOffsetX = -43.000000
+	__Link__000000_Animates.TargetMultiplicityOffsetY = 26.000000
+	__Link__000000_Animates.SourceMultiplicity = models.ZERO_ONE
+	__Link__000000_Animates.SourceMultiplicityOffsetX = 17.000000
+	__Link__000000_Animates.SourceMultiplicityOffsetY = 23.000000
+	__Link__000000_Animates.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000000_Animates.StartRatio = 0.500000
+	__Link__000000_Animates.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000000_Animates.EndRatio = 0.896996
+	__Link__000000_Animates.CornerOffsetRatio = 1.626042
 
 	// Link values setup
-	__Link__000001_Start.Name = `Start`
+	__Link__000001_Animates.Name = `Animates`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [ref_models.RectLinkLink.Start]
-	__Link__000001_Start.Identifier = `ref_models.RectLinkLink.Start`
+	//gong:ident [ref_models.Line.Animates]
+	__Link__000001_Animates.Identifier = `ref_models.Line.Animates`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [ref_models.Rect]
-	__Link__000001_Start.Fieldtypename = `ref_models.Rect`
-	__Link__000001_Start.FieldOffsetX = -62.000000
-	__Link__000001_Start.FieldOffsetY = -20.000000
-	__Link__000001_Start.TargetMultiplicity = models.ZERO_ONE
-	__Link__000001_Start.TargetMultiplicityOffsetX = -52.000000
-	__Link__000001_Start.TargetMultiplicityOffsetY = 27.000000
-	__Link__000001_Start.SourceMultiplicity = models.MANY
-	__Link__000001_Start.SourceMultiplicityOffsetX = 13.000000
-	__Link__000001_Start.SourceMultiplicityOffsetY = 29.000000
-	__Link__000001_Start.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start.StartRatio = 0.333829
-	__Link__000001_Start.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start.EndRatio = 0.397321
-	__Link__000001_Start.CornerOffsetRatio = 1.284722
+	//gong:ident [ref_models.Animate]
+	__Link__000001_Animates.Fieldtypename = `ref_models.Animate`
+	__Link__000001_Animates.FieldOffsetX = -90.000000
+	__Link__000001_Animates.FieldOffsetY = -18.000000
+	__Link__000001_Animates.TargetMultiplicity = models.MANY
+	__Link__000001_Animates.TargetMultiplicityOffsetX = -50.000000
+	__Link__000001_Animates.TargetMultiplicityOffsetY = 16.000000
+	__Link__000001_Animates.SourceMultiplicity = models.ZERO_ONE
+	__Link__000001_Animates.SourceMultiplicityOffsetX = 18.000000
+	__Link__000001_Animates.SourceMultiplicityOffsetY = 23.000000
+	__Link__000001_Animates.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000001_Animates.StartRatio = 0.500000
+	__Link__000001_Animates.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000001_Animates.EndRatio = 0.738197
+	__Link__000001_Animates.CornerOffsetRatio = 1.555208
+
+	// Link values setup
+	__Link__000002_Animates.Name = `Animates`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Text.Animates]
+	__Link__000002_Animates.Identifier = `ref_models.Text.Animates`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Animate]
+	__Link__000002_Animates.Fieldtypename = `ref_models.Animate`
+	__Link__000002_Animates.FieldOffsetX = -95.000000
+	__Link__000002_Animates.FieldOffsetY = -20.000000
+	__Link__000002_Animates.TargetMultiplicity = models.MANY
+	__Link__000002_Animates.TargetMultiplicityOffsetX = -45.000000
+	__Link__000002_Animates.TargetMultiplicityOffsetY = 26.000000
+	__Link__000002_Animates.SourceMultiplicity = models.ZERO_ONE
+	__Link__000002_Animates.SourceMultiplicityOffsetX = 14.000000
+	__Link__000002_Animates.SourceMultiplicityOffsetY = 24.000000
+	__Link__000002_Animates.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000002_Animates.StartRatio = 0.500000
+	__Link__000002_Animates.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000002_Animates.EndRatio = 0.360515
+	__Link__000002_Animates.CornerOffsetRatio = 1.530208
+
+	// Link values setup
+	__Link__000003_Animations.Name = `Animations`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Rect.Animations]
+	__Link__000003_Animations.Identifier = `ref_models.Rect.Animations`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Animate]
+	__Link__000003_Animations.Fieldtypename = `ref_models.Animate`
+	__Link__000003_Animations.FieldOffsetX = -111.000000
+	__Link__000003_Animations.FieldOffsetY = -21.000000
+	__Link__000003_Animations.TargetMultiplicity = models.MANY
+	__Link__000003_Animations.TargetMultiplicityOffsetX = -40.000000
+	__Link__000003_Animations.TargetMultiplicityOffsetY = 36.000000
+	__Link__000003_Animations.SourceMultiplicity = models.ZERO_ONE
+	__Link__000003_Animations.SourceMultiplicityOffsetX = 15.000000
+	__Link__000003_Animations.SourceMultiplicityOffsetY = 24.000000
+	__Link__000003_Animations.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000003_Animations.StartRatio = 0.500000
+	__Link__000003_Animations.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000003_Animations.EndRatio = 0.141631
+	__Link__000003_Animations.CornerOffsetRatio = 1.521875
+
+	// Link values setup
+	__Link__000004_Animations.Name = `Animations`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Circle.Animations]
+	__Link__000004_Animations.Identifier = `ref_models.Circle.Animations`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Animate]
+	__Link__000004_Animations.Fieldtypename = `ref_models.Animate`
+	__Link__000004_Animations.FieldOffsetX = -104.000000
+	__Link__000004_Animations.FieldOffsetY = -22.000000
+	__Link__000004_Animations.TargetMultiplicity = models.MANY
+	__Link__000004_Animations.TargetMultiplicityOffsetX = -44.000000
+	__Link__000004_Animations.TargetMultiplicityOffsetY = 32.000000
+	__Link__000004_Animations.SourceMultiplicity = models.ZERO_ONE
+	__Link__000004_Animations.SourceMultiplicityOffsetX = 15.000000
+	__Link__000004_Animations.SourceMultiplicityOffsetY = 20.000000
+	__Link__000004_Animations.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000004_Animations.StartRatio = 0.500000
+	__Link__000004_Animations.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000004_Animations.EndRatio = 0.549356
+	__Link__000004_Animations.CornerOffsetRatio = 1.805208
 
 	// Position values setup
-	__Position__000000_Pos_NewDiagram_1_Link.X = 592.000000
-	__Position__000000_Pos_NewDiagram_1_Link.Y = 222.000000
-	__Position__000000_Pos_NewDiagram_1_Link.Name = `Pos-NewDiagram_1-Link`
+	__Position__000000_Pos_Animate_Animate.X = 611.000000
+	__Position__000000_Pos_Animate_Animate.Y = 139.000000
+	__Position__000000_Pos_Animate_Animate.Name = `Pos-Animate-Animate`
 
 	// Position values setup
-	__Position__000001_Pos_NewDiagram_1_Rect.X = 598.000000
-	__Position__000001_Pos_NewDiagram_1_Rect.Y = 89.000000
-	__Position__000001_Pos_NewDiagram_1_Rect.Name = `Pos-NewDiagram_1-Rect`
+	__Position__000001_Pos_Animate_Circle.X = 39.000000
+	__Position__000001_Pos_Animate_Circle.Y = 364.000000
+	__Position__000001_Pos_Animate_Circle.Name = `Pos-Animate-Circle`
 
 	// Position values setup
-	__Position__000002_Pos_NewDiagram_1_RectLinkLink.X = 80.000000
-	__Position__000002_Pos_NewDiagram_1_RectLinkLink.Y = 97.000000
-	__Position__000002_Pos_NewDiagram_1_RectLinkLink.Name = `Pos-NewDiagram_1-RectLinkLink`
+	__Position__000002_Pos_Animate_Ellipse.X = 38.000000
+	__Position__000002_Pos_Animate_Ellipse.Y = 528.000000
+	__Position__000002_Pos_Animate_Ellipse.Name = `Pos-Animate-Ellipse`
+
+	// Position values setup
+	__Position__000003_Pos_Animate_Line.X = 39.000000
+	__Position__000003_Pos_Animate_Line.Y = 447.000000
+	__Position__000003_Pos_Animate_Line.Name = `Pos-Animate-Line`
+
+	// Position values setup
+	__Position__000004_Pos_Animate_Rect.X = 41.000000
+	__Position__000004_Pos_Animate_Rect.Y = 169.000000
+	__Position__000004_Pos_Animate_Rect.Name = `Pos-Animate-Rect`
+
+	// Position values setup
+	__Position__000005_Pos_Animate_Text.X = 36.000000
+	__Position__000005_Pos_Animate_Text.Y = 271.000000
+	__Position__000005_Pos_Animate_Text.Name = `Pos-Animate-Text`
 
 	// Vertice values setup
-	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link.X = 490.000000
-	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link.Y = 81.500000
-	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link.Name = `Verticle in class diagram NewDiagram_1 in middle between NewDiagram_1-RectLinkLink and NewDiagram_1-Link`
+	__Vertice__000000_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Circle_and_Animate_Animate.X = 685.000000
+	__Vertice__000000_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Circle_and_Animate_Animate.Y = 283.000000
+	__Vertice__000000_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Circle_and_Animate_Animate.Name = `Verticle in class diagram Animate in middle between Animate-Circle and Animate-Animate`
 
 	// Vertice values setup
-	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect.X = 770.000000
-	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect.Y = 456.500000
-	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect.Name = `Verticle in class diagram NewDiagram_1 in middle between NewDiagram_1-RectLinkLink and NewDiagram_1-Rect`
+	__Vertice__000001_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Ellipse_and_Animate_Animate.X = 702.500000
+	__Vertice__000001_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Ellipse_and_Animate_Animate.Y = 121.000000
+	__Vertice__000001_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Ellipse_and_Animate_Animate.Name = `Verticle in class diagram Animate in middle between Animate-Ellipse and Animate-Animate`
+
+	// Vertice values setup
+	__Vertice__000002_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Line_and_Animate_Animate.X = 684.500000
+	__Vertice__000002_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Line_and_Animate_Animate.Y = 321.500000
+	__Vertice__000002_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Line_and_Animate_Animate.Name = `Verticle in class diagram Animate in middle between Animate-Line and Animate-Animate`
+
+	// Vertice values setup
+	__Vertice__000003_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Rect_and_Animate_Animate.X = 657.500000
+	__Vertice__000003_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Rect_and_Animate_Animate.Y = 163.500000
+	__Vertice__000003_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Rect_and_Animate_Animate.Name = `Verticle in class diagram Animate in middle between Animate-Rect and Animate-Animate`
+
+	// Vertice values setup
+	__Vertice__000004_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Text_and_Animate_Animate.X = 683.500000
+	__Vertice__000004_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Text_and_Animate_Animate.Y = 236.500000
+	__Vertice__000004_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Text_and_Animate_Animate.Name = `Verticle in class diagram Animate in middle between Animate-Text and Animate-Animate`
 
 	// Setup of pointers
-	__Classdiagram__000000_NewDiagram_1.GongStructShapes = append(__Classdiagram__000000_NewDiagram_1.GongStructShapes, __GongStructShape__000000_NewDiagram_1_Link)
-	__Classdiagram__000000_NewDiagram_1.GongStructShapes = append(__Classdiagram__000000_NewDiagram_1.GongStructShapes, __GongStructShape__000002_NewDiagram_1_RectLinkLink)
-	__Classdiagram__000000_NewDiagram_1.GongStructShapes = append(__Classdiagram__000000_NewDiagram_1.GongStructShapes, __GongStructShape__000001_NewDiagram_1_Rect)
-	__GongStructShape__000000_NewDiagram_1_Link.Position = __Position__000000_Pos_NewDiagram_1_Link
-	__GongStructShape__000000_NewDiagram_1_Link.Fields = append(__GongStructShape__000000_NewDiagram_1_Link.Fields, __Field__000000_CornerOffsetRatio)
-	__GongStructShape__000000_NewDiagram_1_Link.Fields = append(__GongStructShape__000000_NewDiagram_1_Link.Fields, __Field__000001_CornerRadius)
-	__GongStructShape__000001_NewDiagram_1_Rect.Position = __Position__000001_Pos_NewDiagram_1_Rect
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Position = __Position__000002_Pos_NewDiagram_1_RectLinkLink
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links = append(__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links, __Link__000000_End)
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links = append(__GongStructShape__000002_NewDiagram_1_RectLinkLink.Links, __Link__000001_Start)
-	__Link__000000_End.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link
-	__Link__000001_Start.Middlevertice = __Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect
+	__Classdiagram__000000_Animate.GongStructShapes = append(__Classdiagram__000000_Animate.GongStructShapes, __GongStructShape__000000_Animate_Animate)
+	__Classdiagram__000000_Animate.GongStructShapes = append(__Classdiagram__000000_Animate.GongStructShapes, __GongStructShape__000004_Animate_Rect)
+	__Classdiagram__000000_Animate.GongStructShapes = append(__Classdiagram__000000_Animate.GongStructShapes, __GongStructShape__000001_Animate_Circle)
+	__Classdiagram__000000_Animate.GongStructShapes = append(__Classdiagram__000000_Animate.GongStructShapes, __GongStructShape__000002_Animate_Ellipse)
+	__Classdiagram__000000_Animate.GongStructShapes = append(__Classdiagram__000000_Animate.GongStructShapes, __GongStructShape__000005_Animate_Text)
+	__Classdiagram__000000_Animate.GongStructShapes = append(__Classdiagram__000000_Animate.GongStructShapes, __GongStructShape__000003_Animate_Line)
+	__GongStructShape__000000_Animate_Animate.Position = __Position__000000_Pos_Animate_Animate
+	__GongStructShape__000000_Animate_Animate.Fields = append(__GongStructShape__000000_Animate_Animate.Fields, __Field__000003_Name)
+	__GongStructShape__000000_Animate_Animate.Fields = append(__GongStructShape__000000_Animate_Animate.Fields, __Field__000000_AttributeName)
+	__GongStructShape__000000_Animate_Animate.Fields = append(__GongStructShape__000000_Animate_Animate.Fields, __Field__000005_Values)
+	__GongStructShape__000000_Animate_Animate.Fields = append(__GongStructShape__000000_Animate_Animate.Fields, __Field__000001_Dur)
+	__GongStructShape__000000_Animate_Animate.Fields = append(__GongStructShape__000000_Animate_Animate.Fields, __Field__000004_RepeatCount)
+	__GongStructShape__000001_Animate_Circle.Position = __Position__000001_Pos_Animate_Circle
+	__GongStructShape__000001_Animate_Circle.Links = append(__GongStructShape__000001_Animate_Circle.Links, __Link__000004_Animations)
+	__GongStructShape__000002_Animate_Ellipse.Position = __Position__000002_Pos_Animate_Ellipse
+	__GongStructShape__000002_Animate_Ellipse.Links = append(__GongStructShape__000002_Animate_Ellipse.Links, __Link__000000_Animates)
+	__GongStructShape__000003_Animate_Line.Position = __Position__000003_Pos_Animate_Line
+	__GongStructShape__000003_Animate_Line.Links = append(__GongStructShape__000003_Animate_Line.Links, __Link__000001_Animates)
+	__GongStructShape__000004_Animate_Rect.Position = __Position__000004_Pos_Animate_Rect
+	__GongStructShape__000004_Animate_Rect.Fields = append(__GongStructShape__000004_Animate_Rect.Fields, __Field__000002_Name)
+	__GongStructShape__000004_Animate_Rect.Links = append(__GongStructShape__000004_Animate_Rect.Links, __Link__000003_Animations)
+	__GongStructShape__000005_Animate_Text.Position = __Position__000005_Pos_Animate_Text
+	__GongStructShape__000005_Animate_Text.Links = append(__GongStructShape__000005_Animate_Text.Links, __Link__000002_Animates)
+	__Link__000000_Animates.Middlevertice = __Vertice__000001_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Ellipse_and_Animate_Animate
+	__Link__000001_Animates.Middlevertice = __Vertice__000002_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Line_and_Animate_Animate
+	__Link__000002_Animates.Middlevertice = __Vertice__000004_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Text_and_Animate_Animate
+	__Link__000003_Animations.Middlevertice = __Vertice__000003_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Rect_and_Animate_Animate
+	__Link__000004_Animations.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_Animate_in_middle_between_Animate_Circle_and_Animate_Animate
 }
 
 

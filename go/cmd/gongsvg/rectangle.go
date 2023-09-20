@@ -39,6 +39,7 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Animate
+	__Animate__000000_ := (&models.Animate{Name: ``}).Stage(stage)
 
 	// Declarations of staged instances of Circle
 	__Circle__000000_Test := (&models.Circle{Name: `Test`}).Stage(stage)
@@ -95,6 +96,13 @@ Line 2`}).Stage(stage)
 	__Text__000000_Essai := (&models.Text{Name: `Essai`}).Stage(stage)
 
 	// Setup of values
+
+	// Animate values setup
+	__Animate__000000_.Name = ``
+	__Animate__000000_.AttributeName = ``
+	__Animate__000000_.Values = ``
+	__Animate__000000_.Dur = ``
+	__Animate__000000_.RepeatCount = ``
 
 	// Circle values setup
 	__Circle__000000_Test.Name = `Test`

@@ -40,7 +40,6 @@ import { GongtablespecificModule } from 'gongtablespecific'
 
 import { GongsvgModule } from 'gongsvg'
 import { GongsvgspecificModule } from 'gongsvgspecific'
-import { GongsvgdatamodelModule } from 'gongsvgdatamodel'
 
 // mandatory
 import { HttpClientModule } from '@angular/common/http';
@@ -88,7 +87,6 @@ import { HttpClientModule } from '@angular/common/http';
 
     GongsvgModule,
     GongsvgspecificModule,
-    GongsvgdatamodelModule,
   ],
   providers: [
   ],

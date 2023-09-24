@@ -13,8 +13,6 @@ import (
 	gongsvg_orm "github.com/fullstack-lang/gongsvg/go/orm"
 	gongsvg_probe "github.com/fullstack-lang/gongsvg/go/probe"
 	gongsvg_static "github.com/fullstack-lang/gongsvg/go/static"
-
-	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
 )
 
 var (
@@ -96,16 +94,8 @@ func main() {
 		stage.OnInitCommitCallback = hook
 	}
 
-	gongsvg_probe.NewProbe(r, gongsvg_go.GoModelsDir, "gongsvg", stage, backRepo)
-
-	gongdoc_load.Load(
-		"gongsvg",
-		"github.com/fullstack-lang/gongsvg/go/models",
-		gongsvg_go.GoModelsDir,
-		gongsvg_go.GoDiagramsDir,
-		r,
-		*embeddedDiagrams,
-		&stage.Map_GongStructName_InstancesNb)
+	gongsvg_probe.NewProbe(r, gongsvg_go.GoModelsDir, gongsvg_go.GoDiagramsDir, 
+		*embeddedDiagrams,"gongsvg", stage, backRepo)
 
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

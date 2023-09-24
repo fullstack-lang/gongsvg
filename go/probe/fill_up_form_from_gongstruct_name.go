@@ -30,7 +30,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Animate Form",
-			OnSave: NewAnimateFormCallback(
+			OnSave: __gong__New__AnimateFormCallback(
 				nil,
 				playground,
 			),
@@ -41,7 +41,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Circle Form",
-			OnSave: NewCircleFormCallback(
+			OnSave: __gong__New__CircleFormCallback(
 				nil,
 				playground,
 			),
@@ -52,7 +52,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Ellipse Form",
-			OnSave: NewEllipseFormCallback(
+			OnSave: __gong__New__EllipseFormCallback(
 				nil,
 				playground,
 			),
@@ -63,7 +63,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Layer Form",
-			OnSave: NewLayerFormCallback(
+			OnSave: __gong__New__LayerFormCallback(
 				nil,
 				playground,
 			),
@@ -74,7 +74,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Line Form",
-			OnSave: NewLineFormCallback(
+			OnSave: __gong__New__LineFormCallback(
 				nil,
 				playground,
 			),
@@ -85,7 +85,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Link Form",
-			OnSave: NewLinkFormCallback(
+			OnSave: __gong__New__LinkFormCallback(
 				nil,
 				playground,
 			),
@@ -96,7 +96,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " LinkAnchoredText Form",
-			OnSave: NewLinkAnchoredTextFormCallback(
+			OnSave: __gong__New__LinkAnchoredTextFormCallback(
 				nil,
 				playground,
 			),
@@ -107,7 +107,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Path Form",
-			OnSave: NewPathFormCallback(
+			OnSave: __gong__New__PathFormCallback(
 				nil,
 				playground,
 			),
@@ -118,7 +118,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Point Form",
-			OnSave: NewPointFormCallback(
+			OnSave: __gong__New__PointFormCallback(
 				nil,
 				playground,
 			),
@@ -129,7 +129,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Polygone Form",
-			OnSave: NewPolygoneFormCallback(
+			OnSave: __gong__New__PolygoneFormCallback(
 				nil,
 				playground,
 			),
@@ -140,7 +140,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Polyline Form",
-			OnSave: NewPolylineFormCallback(
+			OnSave: __gong__New__PolylineFormCallback(
 				nil,
 				playground,
 			),
@@ -151,7 +151,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Rect Form",
-			OnSave: NewRectFormCallback(
+			OnSave: __gong__New__RectFormCallback(
 				nil,
 				playground,
 			),
@@ -162,7 +162,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " RectAnchoredRect Form",
-			OnSave: NewRectAnchoredRectFormCallback(
+			OnSave: __gong__New__RectAnchoredRectFormCallback(
 				nil,
 				playground,
 			),
@@ -173,7 +173,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " RectAnchoredText Form",
-			OnSave: NewRectAnchoredTextFormCallback(
+			OnSave: __gong__New__RectAnchoredTextFormCallback(
 				nil,
 				playground,
 			),
@@ -184,7 +184,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " RectLinkLink Form",
-			OnSave: NewRectLinkLinkFormCallback(
+			OnSave: __gong__New__RectLinkLinkFormCallback(
 				nil,
 				playground,
 			),
@@ -195,7 +195,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " SVG Form",
-			OnSave: NewSVGFormCallback(
+			OnSave: __gong__New__SVGFormCallback(
 				nil,
 				playground,
 			),
@@ -206,7 +206,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Text Form",
-			OnSave: NewTextFormCallback(
+			OnSave: __gong__New__TextFormCallback(
 				nil,
 				playground,
 			),

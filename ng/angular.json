@@ -168,39 +168,6 @@
           }
         }
       }
-    },
-    "gongsvgdatamodel": {
-      "projectType": "library",
-      "root": "projects/gongsvgdatamodel",
-      "sourceRoot": "projects/gongsvgdatamodel/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/gongsvgdatamodel/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/gongsvgdatamodel/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/gongsvgdatamodel/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "tsConfig": "projects/gongsvgdatamodel/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
-          }
-        }
-      }
     }
   },
   "version": 1

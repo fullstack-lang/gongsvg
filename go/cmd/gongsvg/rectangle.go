@@ -143,7 +143,7 @@ Line 2`}).Stage(stage)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.925234
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.696262
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.420455
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.735577
@@ -246,8 +246,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 87.999969
-	__Rect__000002_Top.Y = 109.000000
+	__Rect__000002_Top.X = 70.999969
+	__Rect__000002_Top.Y = 83.000000
 	__Rect__000002_Top.Width = 208.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000

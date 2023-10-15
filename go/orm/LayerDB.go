@@ -35,16 +35,46 @@ var dummy_Layer_sort sort.Float64Slice
 type LayerAPI struct {
 	gorm.Model
 
-	models.Layer
+	models.Layer_WOP
 
 	// encoding of pointers
-	LayerPointersEnconding
+	LayerPointersEncoding
 }
 
-// LayerPointersEnconding encodes pointers to Struct and
+// LayerPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type LayerPointersEnconding struct {
+type LayerPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
+
+	// field Rects is a slice of pointers to another Struct (optional or 0..1)
+	Rects IntSlice`gorm:"type:TEXT"`
+
+	// field Texts is a slice of pointers to another Struct (optional or 0..1)
+	Texts IntSlice`gorm:"type:TEXT"`
+
+	// field Circles is a slice of pointers to another Struct (optional or 0..1)
+	Circles IntSlice`gorm:"type:TEXT"`
+
+	// field Lines is a slice of pointers to another Struct (optional or 0..1)
+	Lines IntSlice`gorm:"type:TEXT"`
+
+	// field Ellipses is a slice of pointers to another Struct (optional or 0..1)
+	Ellipses IntSlice`gorm:"type:TEXT"`
+
+	// field Polylines is a slice of pointers to another Struct (optional or 0..1)
+	Polylines IntSlice`gorm:"type:TEXT"`
+
+	// field Polygones is a slice of pointers to another Struct (optional or 0..1)
+	Polygones IntSlice`gorm:"type:TEXT"`
+
+	// field Paths is a slice of pointers to another Struct (optional or 0..1)
+	Paths IntSlice`gorm:"type:TEXT"`
+
+	// field Links is a slice of pointers to another Struct (optional or 0..1)
+	Links IntSlice`gorm:"type:TEXT"`
+
+	// field RectLinkLinks is a slice of pointers to another Struct (optional or 0..1)
+	RectLinkLinks IntSlice`gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field SVG{}.Layers []*Layer
 	SVG_LayersDBID sql.NullInt64
@@ -71,7 +101,7 @@ type LayerDB struct {
 	// Declation for basic field layerDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	LayerPointersEnconding
+	LayerPointersEncoding
 }
 
 // LayerDBs arrays layerDBs
@@ -163,7 +193,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitDeleteInstance(id uint) (Error e
 	layerDB := backRepoLayer.Map_LayerDBID_LayerDB[id]
 	query := backRepoLayer.db.Unscoped().Delete(&layerDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -189,7 +219,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseOneInstance(layer *models.L
 
 	query := backRepoLayer.db.Create(&layerDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -240,6 +270,16 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 			}
 		}
 
+		// 1. reset
+		layerDB.LayerPointersEncoding.Rects = make([]int, 0)
+		// 2. encode
+		for _, rectAssocEnd := range layer.Rects {
+			rectAssocEnd_DB :=
+				backRepo.BackRepoRect.GetRectDBFromRectPtr(rectAssocEnd)
+			layerDB.LayerPointersEncoding.Rects =
+				append(layerDB.LayerPointersEncoding.Rects, int(rectAssocEnd_DB.ID))
+		}
+
 		// This loop encodes the slice of pointers layer.Texts into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -257,6 +297,16 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 			if q := backRepoLayer.db.Save(textAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		layerDB.LayerPointersEncoding.Texts = make([]int, 0)
+		// 2. encode
+		for _, textAssocEnd := range layer.Texts {
+			textAssocEnd_DB :=
+				backRepo.BackRepoText.GetTextDBFromTextPtr(textAssocEnd)
+			layerDB.LayerPointersEncoding.Texts =
+				append(layerDB.LayerPointersEncoding.Texts, int(textAssocEnd_DB.ID))
 		}
 
 		// This loop encodes the slice of pointers layer.Circles into the back repo.
@@ -278,6 +328,16 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 			}
 		}
 
+		// 1. reset
+		layerDB.LayerPointersEncoding.Circles = make([]int, 0)
+		// 2. encode
+		for _, circleAssocEnd := range layer.Circles {
+			circleAssocEnd_DB :=
+				backRepo.BackRepoCircle.GetCircleDBFromCirclePtr(circleAssocEnd)
+			layerDB.LayerPointersEncoding.Circles =
+				append(layerDB.LayerPointersEncoding.Circles, int(circleAssocEnd_DB.ID))
+		}
+
 		// This loop encodes the slice of pointers layer.Lines into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -295,6 +355,16 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 			if q := backRepoLayer.db.Save(lineAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		layerDB.LayerPointersEncoding.Lines = make([]int, 0)
+		// 2. encode
+		for _, lineAssocEnd := range layer.Lines {
+			lineAssocEnd_DB :=
+				backRepo.BackRepoLine.GetLineDBFromLinePtr(lineAssocEnd)
+			layerDB.LayerPointersEncoding.Lines =
+				append(layerDB.LayerPointersEncoding.Lines, int(lineAssocEnd_DB.ID))
 		}
 
 		// This loop encodes the slice of pointers layer.Ellipses into the back repo.
@@ -316,6 +386,16 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 			}
 		}
 
+		// 1. reset
+		layerDB.LayerPointersEncoding.Ellipses = make([]int, 0)
+		// 2. encode
+		for _, ellipseAssocEnd := range layer.Ellipses {
+			ellipseAssocEnd_DB :=
+				backRepo.BackRepoEllipse.GetEllipseDBFromEllipsePtr(ellipseAssocEnd)
+			layerDB.LayerPointersEncoding.Ellipses =
+				append(layerDB.LayerPointersEncoding.Ellipses, int(ellipseAssocEnd_DB.ID))
+		}
+
 		// This loop encodes the slice of pointers layer.Polylines into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -333,6 +413,16 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 			if q := backRepoLayer.db.Save(polylineAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		layerDB.LayerPointersEncoding.Polylines = make([]int, 0)
+		// 2. encode
+		for _, polylineAssocEnd := range layer.Polylines {
+			polylineAssocEnd_DB :=
+				backRepo.BackRepoPolyline.GetPolylineDBFromPolylinePtr(polylineAssocEnd)
+			layerDB.LayerPointersEncoding.Polylines =
+				append(layerDB.LayerPointersEncoding.Polylines, int(polylineAssocEnd_DB.ID))
 		}
 
 		// This loop encodes the slice of pointers layer.Polygones into the back repo.
@@ -354,6 +444,16 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 			}
 		}
 
+		// 1. reset
+		layerDB.LayerPointersEncoding.Polygones = make([]int, 0)
+		// 2. encode
+		for _, polygoneAssocEnd := range layer.Polygones {
+			polygoneAssocEnd_DB :=
+				backRepo.BackRepoPolygone.GetPolygoneDBFromPolygonePtr(polygoneAssocEnd)
+			layerDB.LayerPointersEncoding.Polygones =
+				append(layerDB.LayerPointersEncoding.Polygones, int(polygoneAssocEnd_DB.ID))
+		}
+
 		// This loop encodes the slice of pointers layer.Paths into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -371,6 +471,16 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 			if q := backRepoLayer.db.Save(pathAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		layerDB.LayerPointersEncoding.Paths = make([]int, 0)
+		// 2. encode
+		for _, pathAssocEnd := range layer.Paths {
+			pathAssocEnd_DB :=
+				backRepo.BackRepoPath.GetPathDBFromPathPtr(pathAssocEnd)
+			layerDB.LayerPointersEncoding.Paths =
+				append(layerDB.LayerPointersEncoding.Paths, int(pathAssocEnd_DB.ID))
 		}
 
 		// This loop encodes the slice of pointers layer.Links into the back repo.
@@ -392,6 +502,16 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 			}
 		}
 
+		// 1. reset
+		layerDB.LayerPointersEncoding.Links = make([]int, 0)
+		// 2. encode
+		for _, linkAssocEnd := range layer.Links {
+			linkAssocEnd_DB :=
+				backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkAssocEnd)
+			layerDB.LayerPointersEncoding.Links =
+				append(layerDB.LayerPointersEncoding.Links, int(linkAssocEnd_DB.ID))
+		}
+
 		// This loop encodes the slice of pointers layer.RectLinkLinks into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -411,9 +531,19 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 			}
 		}
 
+		// 1. reset
+		layerDB.LayerPointersEncoding.RectLinkLinks = make([]int, 0)
+		// 2. encode
+		for _, rectlinklinkAssocEnd := range layer.RectLinkLinks {
+			rectlinklinkAssocEnd_DB :=
+				backRepo.BackRepoRectLinkLink.GetRectLinkLinkDBFromRectLinkLinkPtr(rectlinklinkAssocEnd)
+			layerDB.LayerPointersEncoding.RectLinkLinks =
+				append(layerDB.LayerPointersEncoding.RectLinkLinks, int(rectlinklinkAssocEnd_DB.ID))
+		}
+
 		query := backRepoLayer.db.Save(&layerDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -810,7 +940,7 @@ func (backRepo *BackRepoStruct) CheckoutLayer(layer *models.Layer) {
 			layerDB.ID = id
 
 			if err := backRepo.BackRepoLayer.db.First(&layerDB, id).Error; err != nil {
-				log.Panicln("CheckoutLayer : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutLayer : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoLayer.CheckoutPhaseOneInstance(&layerDB)
 			backRepo.BackRepoLayer.CheckoutPhaseTwoInstance(backRepo, &layerDB)
@@ -820,6 +950,17 @@ func (backRepo *BackRepoStruct) CheckoutLayer(layer *models.Layer) {
 
 // CopyBasicFieldsFromLayer
 func (layerDB *LayerDB) CopyBasicFieldsFromLayer(layer *models.Layer) {
+	// insertion point for fields commit
+
+	layerDB.Display_Data.Bool = layer.Display
+	layerDB.Display_Data.Valid = true
+
+	layerDB.Name_Data.String = layer.Name
+	layerDB.Name_Data.Valid = true
+}
+
+// CopyBasicFieldsFromLayer_WOP
+func (layerDB *LayerDB) CopyBasicFieldsFromLayer_WOP(layer *models.Layer_WOP) {
 	// insertion point for fields commit
 
 	layerDB.Display_Data.Bool = layer.Display
@@ -842,6 +983,13 @@ func (layerDB *LayerDB) CopyBasicFieldsFromLayerWOP(layer *LayerWOP) {
 
 // CopyBasicFieldsToLayer
 func (layerDB *LayerDB) CopyBasicFieldsToLayer(layer *models.Layer) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	layer.Display = layerDB.Display_Data.Bool
+	layer.Name = layerDB.Name_Data.String
+}
+
+// CopyBasicFieldsToLayer_WOP
+func (layerDB *LayerDB) CopyBasicFieldsToLayer_WOP(layer *models.Layer_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	layer.Display = layerDB.Display_Data.Bool
 	layer.Name = layerDB.Name_Data.String
@@ -874,12 +1022,12 @@ func (backRepoLayer *BackRepoLayerStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Layer ", filename, " ", err.Error())
+		log.Fatal("Cannot json Layer ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Layer file", err.Error())
+		log.Fatal("Cannot write the json Layer file", err.Error())
 	}
 }
 
@@ -899,7 +1047,7 @@ func (backRepoLayer *BackRepoLayerStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Layer")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -924,13 +1072,13 @@ func (backRepoLayer *BackRepoLayerStruct) RestoreXLPhaseOne(file *xlsx.File) {
 	sh, ok := file.Sheet["Layer"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoLayer.rowVisitorLayer)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -952,7 +1100,7 @@ func (backRepoLayer *BackRepoLayerStruct) rowVisitorLayer(row *xlsx.Row) error {
 		layerDB.ID = 0
 		query := backRepoLayer.db.Create(layerDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoLayer.Map_LayerDBID_LayerDB[layerDB.ID] = layerDB
 		BackRepoLayerid_atBckpTime_newID[layerDB_ID_atBackupTime] = layerDB.ID
@@ -972,7 +1120,7 @@ func (backRepoLayer *BackRepoLayerStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Layer file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Layer file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -989,14 +1137,14 @@ func (backRepoLayer *BackRepoLayerStruct) RestorePhaseOne(dirPath string) {
 		layerDB.ID = 0
 		query := backRepoLayer.db.Create(layerDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoLayer.Map_LayerDBID_LayerDB[layerDB.ID] = layerDB
 		BackRepoLayerid_atBckpTime_newID[layerDB_ID_atBackupTime] = layerDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Layer file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Layer file", err.Error())
 	}
 }
 
@@ -1019,7 +1167,7 @@ func (backRepoLayer *BackRepoLayerStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoLayer.db.Model(layerDB).Updates(*layerDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

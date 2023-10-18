@@ -38,7 +38,7 @@ type LinkAnchoredTextAPI struct {
 	models.LinkAnchoredText_WOP
 
 	// encoding of pointers
-	LinkAnchoredTextPointersEncoding
+	LinkAnchoredTextPointersEncoding LinkAnchoredTextPointersEncoding
 }
 
 // LinkAnchoredTextPointersEncoding encodes pointers to Struct and
@@ -47,18 +47,22 @@ type LinkAnchoredTextPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
-	Animates IntSlice`gorm:"type:TEXT"`
+	Animates IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field Link{}.TextAtArrowEnd []*LinkAnchoredText
+	// (to be removed)
 	Link_TextAtArrowEndDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Link_TextAtArrowEndDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Link{}.TextAtArrowStart []*LinkAnchoredText
+	// (to be removed)
 	Link_TextAtArrowStartDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Link_TextAtArrowStartDBID_Index sql.NullInt64
 }
 
@@ -299,6 +303,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseTwoIn
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.LinkAnchoredText_AnimatesDBID.Int64 = int64(linkanchoredtextDB.ID)
 			animateAssocEnd_DB.LinkAnchoredText_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.LinkAnchoredText_AnimatesDBID_Index.Int64 = int64(idx)

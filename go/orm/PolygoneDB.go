@@ -38,7 +38,7 @@ type PolygoneAPI struct {
 	models.Polygone_WOP
 
 	// encoding of pointers
-	PolygonePointersEncoding
+	PolygonePointersEncoding PolygonePointersEncoding
 }
 
 // PolygonePointersEncoding encodes pointers to Struct and
@@ -47,12 +47,14 @@ type PolygonePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
-	Animates IntSlice`gorm:"type:TEXT"`
+	Animates IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field Layer{}.Polygones []*Polygone
+	// (to be removed)
 	Layer_PolygonesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_PolygonesDBID_Index sql.NullInt64
 }
 
@@ -275,6 +277,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Polygone_AnimatesDBID.Int64 = int64(polygoneDB.ID)
 			animateAssocEnd_DB.Polygone_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.Polygone_AnimatesDBID_Index.Int64 = int64(idx)

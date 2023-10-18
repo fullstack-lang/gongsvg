@@ -38,7 +38,7 @@ type RectAPI struct {
 	models.Rect_WOP
 
 	// encoding of pointers
-	RectPointersEncoding
+	RectPointersEncoding RectPointersEncoding
 }
 
 // RectPointersEncoding encodes pointers to Struct and
@@ -47,18 +47,20 @@ type RectPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Animations is a slice of pointers to another Struct (optional or 0..1)
-	Animations IntSlice`gorm:"type:TEXT"`
+	Animations IntSlice `gorm:"type:TEXT"`
 
 	// field RectAnchoredTexts is a slice of pointers to another Struct (optional or 0..1)
-	RectAnchoredTexts IntSlice`gorm:"type:TEXT"`
+	RectAnchoredTexts IntSlice `gorm:"type:TEXT"`
 
 	// field RectAnchoredRects is a slice of pointers to another Struct (optional or 0..1)
-	RectAnchoredRects IntSlice`gorm:"type:TEXT"`
+	RectAnchoredRects IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field Layer{}.Rects []*Rect
+	// (to be removed)
 	Layer_RectsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_RectsDBID_Index sql.NullInt64
 }
 
@@ -389,6 +391,7 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Rect_AnimationsDBID.Int64 = int64(rectDB.ID)
 			animateAssocEnd_DB.Rect_AnimationsDBID.Valid = true
 			animateAssocEnd_DB.Rect_AnimationsDBID_Index.Int64 = int64(idx)
@@ -418,6 +421,7 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoRectAnchoredText.GetRectAnchoredTextDBFromRectAnchoredTextPtr(rectanchoredtextAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			rectanchoredtextAssocEnd_DB.Rect_RectAnchoredTextsDBID.Int64 = int64(rectDB.ID)
 			rectanchoredtextAssocEnd_DB.Rect_RectAnchoredTextsDBID.Valid = true
 			rectanchoredtextAssocEnd_DB.Rect_RectAnchoredTextsDBID_Index.Int64 = int64(idx)
@@ -447,6 +451,7 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoRectAnchoredRect.GetRectAnchoredRectDBFromRectAnchoredRectPtr(rectanchoredrectAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			rectanchoredrectAssocEnd_DB.Rect_RectAnchoredRectsDBID.Int64 = int64(rectDB.ID)
 			rectanchoredrectAssocEnd_DB.Rect_RectAnchoredRectsDBID.Valid = true
 			rectanchoredrectAssocEnd_DB.Rect_RectAnchoredRectsDBID_Index.Int64 = int64(idx)

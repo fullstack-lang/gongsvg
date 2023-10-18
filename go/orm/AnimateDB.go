@@ -38,7 +38,7 @@ type AnimateAPI struct {
 	models.Animate_WOP
 
 	// encoding of pointers
-	AnimatePointersEncoding
+	AnimatePointersEncoding AnimatePointersEncoding
 }
 
 // AnimatePointersEncoding encodes pointers to Struct and
@@ -47,63 +47,83 @@ type AnimatePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field Circle{}.Animations []*Animate
+	// (to be removed)
 	Circle_AnimationsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Circle_AnimationsDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Ellipse{}.Animates []*Animate
+	// (to be removed)
 	Ellipse_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Ellipse_AnimatesDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Line{}.Animates []*Animate
+	// (to be removed)
 	Line_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Line_AnimatesDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field LinkAnchoredText{}.Animates []*Animate
+	// (to be removed)
 	LinkAnchoredText_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	LinkAnchoredText_AnimatesDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Path{}.Animates []*Animate
+	// (to be removed)
 	Path_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Path_AnimatesDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Polygone{}.Animates []*Animate
+	// (to be removed)
 	Polygone_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Polygone_AnimatesDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Polyline{}.Animates []*Animate
+	// (to be removed)
 	Polyline_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Polyline_AnimatesDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Rect{}.Animations []*Animate
+	// (to be removed)
 	Rect_AnimationsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Rect_AnimationsDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field RectAnchoredText{}.Animates []*Animate
+	// (to be removed)
 	RectAnchoredText_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	RectAnchoredText_AnimatesDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Text{}.Animates []*Animate
+	// (to be removed)
 	Text_AnimatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Text_AnimatesDBID_Index sql.NullInt64
 }
 

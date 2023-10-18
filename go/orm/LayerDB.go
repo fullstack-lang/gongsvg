@@ -38,7 +38,7 @@ type LayerAPI struct {
 	models.Layer_WOP
 
 	// encoding of pointers
-	LayerPointersEncoding
+	LayerPointersEncoding LayerPointersEncoding
 }
 
 // LayerPointersEncoding encodes pointers to Struct and
@@ -47,39 +47,41 @@ type LayerPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Rects is a slice of pointers to another Struct (optional or 0..1)
-	Rects IntSlice`gorm:"type:TEXT"`
+	Rects IntSlice `gorm:"type:TEXT"`
 
 	// field Texts is a slice of pointers to another Struct (optional or 0..1)
-	Texts IntSlice`gorm:"type:TEXT"`
+	Texts IntSlice `gorm:"type:TEXT"`
 
 	// field Circles is a slice of pointers to another Struct (optional or 0..1)
-	Circles IntSlice`gorm:"type:TEXT"`
+	Circles IntSlice `gorm:"type:TEXT"`
 
 	// field Lines is a slice of pointers to another Struct (optional or 0..1)
-	Lines IntSlice`gorm:"type:TEXT"`
+	Lines IntSlice `gorm:"type:TEXT"`
 
 	// field Ellipses is a slice of pointers to another Struct (optional or 0..1)
-	Ellipses IntSlice`gorm:"type:TEXT"`
+	Ellipses IntSlice `gorm:"type:TEXT"`
 
 	// field Polylines is a slice of pointers to another Struct (optional or 0..1)
-	Polylines IntSlice`gorm:"type:TEXT"`
+	Polylines IntSlice `gorm:"type:TEXT"`
 
 	// field Polygones is a slice of pointers to another Struct (optional or 0..1)
-	Polygones IntSlice`gorm:"type:TEXT"`
+	Polygones IntSlice `gorm:"type:TEXT"`
 
 	// field Paths is a slice of pointers to another Struct (optional or 0..1)
-	Paths IntSlice`gorm:"type:TEXT"`
+	Paths IntSlice `gorm:"type:TEXT"`
 
 	// field Links is a slice of pointers to another Struct (optional or 0..1)
-	Links IntSlice`gorm:"type:TEXT"`
+	Links IntSlice `gorm:"type:TEXT"`
 
 	// field RectLinkLinks is a slice of pointers to another Struct (optional or 0..1)
-	RectLinkLinks IntSlice`gorm:"type:TEXT"`
+	RectLinkLinks IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field SVG{}.Layers []*Layer
+	// (to be removed)
 	SVG_LayersDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	SVG_LayersDBID_Index sql.NullInt64
 }
 
@@ -261,6 +263,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoRect.GetRectDBFromRectPtr(rectAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			rectAssocEnd_DB.Layer_RectsDBID.Int64 = int64(layerDB.ID)
 			rectAssocEnd_DB.Layer_RectsDBID.Valid = true
 			rectAssocEnd_DB.Layer_RectsDBID_Index.Int64 = int64(idx)
@@ -290,6 +293,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoText.GetTextDBFromTextPtr(textAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			textAssocEnd_DB.Layer_TextsDBID.Int64 = int64(layerDB.ID)
 			textAssocEnd_DB.Layer_TextsDBID.Valid = true
 			textAssocEnd_DB.Layer_TextsDBID_Index.Int64 = int64(idx)
@@ -319,6 +323,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoCircle.GetCircleDBFromCirclePtr(circleAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			circleAssocEnd_DB.Layer_CirclesDBID.Int64 = int64(layerDB.ID)
 			circleAssocEnd_DB.Layer_CirclesDBID.Valid = true
 			circleAssocEnd_DB.Layer_CirclesDBID_Index.Int64 = int64(idx)
@@ -348,6 +353,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoLine.GetLineDBFromLinePtr(lineAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			lineAssocEnd_DB.Layer_LinesDBID.Int64 = int64(layerDB.ID)
 			lineAssocEnd_DB.Layer_LinesDBID.Valid = true
 			lineAssocEnd_DB.Layer_LinesDBID_Index.Int64 = int64(idx)
@@ -377,6 +383,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoEllipse.GetEllipseDBFromEllipsePtr(ellipseAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			ellipseAssocEnd_DB.Layer_EllipsesDBID.Int64 = int64(layerDB.ID)
 			ellipseAssocEnd_DB.Layer_EllipsesDBID.Valid = true
 			ellipseAssocEnd_DB.Layer_EllipsesDBID_Index.Int64 = int64(idx)
@@ -406,6 +413,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoPolyline.GetPolylineDBFromPolylinePtr(polylineAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			polylineAssocEnd_DB.Layer_PolylinesDBID.Int64 = int64(layerDB.ID)
 			polylineAssocEnd_DB.Layer_PolylinesDBID.Valid = true
 			polylineAssocEnd_DB.Layer_PolylinesDBID_Index.Int64 = int64(idx)
@@ -435,6 +443,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoPolygone.GetPolygoneDBFromPolygonePtr(polygoneAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			polygoneAssocEnd_DB.Layer_PolygonesDBID.Int64 = int64(layerDB.ID)
 			polygoneAssocEnd_DB.Layer_PolygonesDBID.Valid = true
 			polygoneAssocEnd_DB.Layer_PolygonesDBID_Index.Int64 = int64(idx)
@@ -464,6 +473,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoPath.GetPathDBFromPathPtr(pathAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			pathAssocEnd_DB.Layer_PathsDBID.Int64 = int64(layerDB.ID)
 			pathAssocEnd_DB.Layer_PathsDBID.Valid = true
 			pathAssocEnd_DB.Layer_PathsDBID_Index.Int64 = int64(idx)
@@ -493,6 +503,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			linkAssocEnd_DB.Layer_LinksDBID.Int64 = int64(layerDB.ID)
 			linkAssocEnd_DB.Layer_LinksDBID.Valid = true
 			linkAssocEnd_DB.Layer_LinksDBID_Index.Int64 = int64(idx)
@@ -522,6 +533,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoRectLinkLink.GetRectLinkLinkDBFromRectLinkLinkPtr(rectlinklinkAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			rectlinklinkAssocEnd_DB.Layer_RectLinkLinksDBID.Int64 = int64(layerDB.ID)
 			rectlinklinkAssocEnd_DB.Layer_RectLinkLinksDBID.Valid = true
 			rectlinklinkAssocEnd_DB.Layer_RectLinkLinksDBID_Index.Int64 = int64(idx)

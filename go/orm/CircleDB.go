@@ -38,7 +38,7 @@ type CircleAPI struct {
 	models.Circle_WOP
 
 	// encoding of pointers
-	CirclePointersEncoding
+	CirclePointersEncoding CirclePointersEncoding
 }
 
 // CirclePointersEncoding encodes pointers to Struct and
@@ -47,12 +47,14 @@ type CirclePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Animations is a slice of pointers to another Struct (optional or 0..1)
-	Animations IntSlice`gorm:"type:TEXT"`
+	Animations IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field Layer{}.Circles []*Circle
+	// (to be removed)
 	Layer_CirclesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_CirclesDBID_Index sql.NullInt64
 }
 
@@ -287,6 +289,7 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseTwoInstance(backRepo *Bac
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Circle_AnimationsDBID.Int64 = int64(circleDB.ID)
 			animateAssocEnd_DB.Circle_AnimationsDBID.Valid = true
 			animateAssocEnd_DB.Circle_AnimationsDBID_Index.Int64 = int64(idx)

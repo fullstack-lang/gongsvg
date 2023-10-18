@@ -38,7 +38,7 @@ type RectLinkLinkAPI struct {
 	models.RectLinkLink_WOP
 
 	// encoding of pointers
-	RectLinkLinkPointersEncoding
+	RectLinkLinkPointersEncoding RectLinkLinkPointersEncoding
 }
 
 // RectLinkLinkPointersEncoding encodes pointers to Struct and
@@ -55,9 +55,11 @@ type RectLinkLinkPointersEncoding struct {
 	EndID sql.NullInt64
 
 	// Implementation of a reverse ID for field Layer{}.RectLinkLinks []*RectLinkLink
+	// (to be removed)
 	Layer_RectLinkLinksDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_RectLinkLinksDBID_Index sql.NullInt64
 }
 

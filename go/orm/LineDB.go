@@ -38,7 +38,7 @@ type LineAPI struct {
 	models.Line_WOP
 
 	// encoding of pointers
-	LinePointersEncoding
+	LinePointersEncoding LinePointersEncoding
 }
 
 // LinePointersEncoding encodes pointers to Struct and
@@ -47,12 +47,14 @@ type LinePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
-	Animates IntSlice`gorm:"type:TEXT"`
+	Animates IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field Layer{}.Lines []*Line
+	// (to be removed)
 	Layer_LinesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_LinesDBID_Index sql.NullInt64
 }
 
@@ -305,6 +307,7 @@ func (backRepoLine *BackRepoLineStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Line_AnimatesDBID.Int64 = int64(lineDB.ID)
 			animateAssocEnd_DB.Line_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.Line_AnimatesDBID_Index.Int64 = int64(idx)

@@ -38,7 +38,7 @@ type LinkAPI struct {
 	models.Link_WOP
 
 	// encoding of pointers
-	LinkPointersEncoding
+	LinkPointersEncoding LinkPointersEncoding
 }
 
 // LinkPointersEncoding encodes pointers to Struct and
@@ -55,18 +55,20 @@ type LinkPointersEncoding struct {
 	EndID sql.NullInt64
 
 	// field TextAtArrowEnd is a slice of pointers to another Struct (optional or 0..1)
-	TextAtArrowEnd IntSlice`gorm:"type:TEXT"`
+	TextAtArrowEnd IntSlice `gorm:"type:TEXT"`
 
 	// field TextAtArrowStart is a slice of pointers to another Struct (optional or 0..1)
-	TextAtArrowStart IntSlice`gorm:"type:TEXT"`
+	TextAtArrowStart IntSlice `gorm:"type:TEXT"`
 
 	// field ControlPoints is a slice of pointers to another Struct (optional or 0..1)
-	ControlPoints IntSlice`gorm:"type:TEXT"`
+	ControlPoints IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field Layer{}.Links []*Link
+	// (to be removed)
 	Layer_LinksDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_LinksDBID_Index sql.NullInt64
 }
 
@@ -374,6 +376,7 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoLinkAnchoredText.GetLinkAnchoredTextDBFromLinkAnchoredTextPtr(linkanchoredtextAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			linkanchoredtextAssocEnd_DB.Link_TextAtArrowEndDBID.Int64 = int64(linkDB.ID)
 			linkanchoredtextAssocEnd_DB.Link_TextAtArrowEndDBID.Valid = true
 			linkanchoredtextAssocEnd_DB.Link_TextAtArrowEndDBID_Index.Int64 = int64(idx)
@@ -403,6 +406,7 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoLinkAnchoredText.GetLinkAnchoredTextDBFromLinkAnchoredTextPtr(linkanchoredtextAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			linkanchoredtextAssocEnd_DB.Link_TextAtArrowStartDBID.Int64 = int64(linkDB.ID)
 			linkanchoredtextAssocEnd_DB.Link_TextAtArrowStartDBID.Valid = true
 			linkanchoredtextAssocEnd_DB.Link_TextAtArrowStartDBID_Index.Int64 = int64(idx)
@@ -432,6 +436,7 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoPoint.GetPointDBFromPointPtr(pointAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			pointAssocEnd_DB.Link_ControlPointsDBID.Int64 = int64(linkDB.ID)
 			pointAssocEnd_DB.Link_ControlPointsDBID.Valid = true
 			pointAssocEnd_DB.Link_ControlPointsDBID_Index.Int64 = int64(idx)

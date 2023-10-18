@@ -38,7 +38,7 @@ type TextAPI struct {
 	models.Text_WOP
 
 	// encoding of pointers
-	TextPointersEncoding
+	TextPointersEncoding TextPointersEncoding
 }
 
 // TextPointersEncoding encodes pointers to Struct and
@@ -47,12 +47,14 @@ type TextPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
-	Animates IntSlice`gorm:"type:TEXT"`
+	Animates IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field Layer{}.Texts []*Text
+	// (to be removed)
 	Layer_TextsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_TextsDBID_Index sql.NullInt64
 }
 
@@ -287,6 +289,7 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Text_AnimatesDBID.Int64 = int64(textDB.ID)
 			animateAssocEnd_DB.Text_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.Text_AnimatesDBID_Index.Int64 = int64(idx)

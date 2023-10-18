@@ -38,7 +38,7 @@ type PointAPI struct {
 	models.Point_WOP
 
 	// encoding of pointers
-	PointPointersEncoding
+	PointPointersEncoding PointPointersEncoding
 }
 
 // PointPointersEncoding encodes pointers to Struct and
@@ -47,9 +47,11 @@ type PointPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field Link{}.ControlPoints []*Point
+	// (to be removed)
 	Link_ControlPointsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Link_ControlPointsDBID_Index sql.NullInt64
 }
 

@@ -38,7 +38,7 @@ type RectAnchoredTextAPI struct {
 	models.RectAnchoredText_WOP
 
 	// encoding of pointers
-	RectAnchoredTextPointersEncoding
+	RectAnchoredTextPointersEncoding RectAnchoredTextPointersEncoding
 }
 
 // RectAnchoredTextPointersEncoding encodes pointers to Struct and
@@ -47,12 +47,14 @@ type RectAnchoredTextPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
-	Animates IntSlice`gorm:"type:TEXT"`
+	Animates IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field Rect{}.RectAnchoredTexts []*RectAnchoredText
+	// (to be removed)
 	Rect_RectAnchoredTextsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Rect_RectAnchoredTextsDBID_Index sql.NullInt64
 }
 
@@ -311,6 +313,7 @@ func (backRepoRectAnchoredText *BackRepoRectAnchoredTextStruct) CommitPhaseTwoIn
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.RectAnchoredText_AnimatesDBID.Int64 = int64(rectanchoredtextDB.ID)
 			animateAssocEnd_DB.RectAnchoredText_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.RectAnchoredText_AnimatesDBID_Index.Int64 = int64(idx)

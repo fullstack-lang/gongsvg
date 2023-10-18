@@ -38,7 +38,7 @@ type SVGAPI struct {
 	models.SVG_WOP
 
 	// encoding of pointers
-	SVGPointersEncoding
+	SVGPointersEncoding SVGPointersEncoding
 }
 
 // SVGPointersEncoding encodes pointers to Struct and
@@ -47,7 +47,7 @@ type SVGPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Layers is a slice of pointers to another Struct (optional or 0..1)
-	Layers IntSlice`gorm:"type:TEXT"`
+	Layers IntSlice `gorm:"type:TEXT"`
 
 	// field StartRect is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
@@ -242,6 +242,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				backRepo.BackRepoLayer.GetLayerDBFromLayerPtr(layerAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			layerAssocEnd_DB.SVG_LayersDBID.Int64 = int64(svgDB.ID)
 			layerAssocEnd_DB.SVG_LayersDBID.Valid = true
 			layerAssocEnd_DB.SVG_LayersDBID_Index.Int64 = int64(idx)

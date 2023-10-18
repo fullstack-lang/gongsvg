@@ -38,7 +38,7 @@ type PolylineAPI struct {
 	models.Polyline_WOP
 
 	// encoding of pointers
-	PolylinePointersEncoding
+	PolylinePointersEncoding PolylinePointersEncoding
 }
 
 // PolylinePointersEncoding encodes pointers to Struct and
@@ -47,12 +47,14 @@ type PolylinePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
-	Animates IntSlice`gorm:"type:TEXT"`
+	Animates IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field Layer{}.Polylines []*Polyline
+	// (to be removed)
 	Layer_PolylinesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_PolylinesDBID_Index sql.NullInt64
 }
 
@@ -275,6 +277,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseTwoInstance(backRepo 
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Polyline_AnimatesDBID.Int64 = int64(polylineDB.ID)
 			animateAssocEnd_DB.Polyline_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.Polyline_AnimatesDBID_Index.Int64 = int64(idx)

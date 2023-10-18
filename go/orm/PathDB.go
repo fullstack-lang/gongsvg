@@ -38,7 +38,7 @@ type PathAPI struct {
 	models.Path_WOP
 
 	// encoding of pointers
-	PathPointersEncoding
+	PathPointersEncoding PathPointersEncoding
 }
 
 // PathPointersEncoding encodes pointers to Struct and
@@ -47,12 +47,14 @@ type PathPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
-	Animates IntSlice`gorm:"type:TEXT"`
+	Animates IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field Layer{}.Paths []*Path
+	// (to be removed)
 	Layer_PathsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_PathsDBID_Index sql.NullInt64
 }
 
@@ -275,6 +277,7 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Path_AnimatesDBID.Int64 = int64(pathDB.ID)
 			animateAssocEnd_DB.Path_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.Path_AnimatesDBID_Index.Int64 = int64(idx)

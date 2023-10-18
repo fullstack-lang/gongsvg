@@ -38,7 +38,7 @@ type EllipseAPI struct {
 	models.Ellipse_WOP
 
 	// encoding of pointers
-	EllipsePointersEncoding
+	EllipsePointersEncoding EllipsePointersEncoding
 }
 
 // EllipsePointersEncoding encodes pointers to Struct and
@@ -47,12 +47,14 @@ type EllipsePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
-	Animates IntSlice`gorm:"type:TEXT"`
+	Animates IntSlice `gorm:"type:TEXT"`
 
 	// Implementation of a reverse ID for field Layer{}.Ellipses []*Ellipse
+	// (to be removed)
 	Layer_EllipsesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_EllipsesDBID_Index sql.NullInt64
 }
 
@@ -293,6 +295,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Ellipse_AnimatesDBID.Int64 = int64(ellipseDB.ID)
 			animateAssocEnd_DB.Ellipse_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.Ellipse_AnimatesDBID_Index.Int64 = int64(idx)

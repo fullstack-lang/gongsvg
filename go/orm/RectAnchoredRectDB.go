@@ -38,7 +38,7 @@ type RectAnchoredRectAPI struct {
 	models.RectAnchoredRect_WOP
 
 	// encoding of pointers
-	RectAnchoredRectPointersEncoding
+	RectAnchoredRectPointersEncoding RectAnchoredRectPointersEncoding
 }
 
 // RectAnchoredRectPointersEncoding encodes pointers to Struct and
@@ -47,9 +47,11 @@ type RectAnchoredRectPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field Rect{}.RectAnchoredRects []*RectAnchoredRect
+	// (to be removed)
 	Rect_RectAnchoredRectsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Rect_RectAnchoredRectsDBID_Index sql.NullInt64
 }
 

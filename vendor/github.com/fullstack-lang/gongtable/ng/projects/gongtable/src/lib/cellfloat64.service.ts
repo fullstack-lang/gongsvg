@@ -12,6 +12,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { CellFloat64DB } from './cellfloat64-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 
@@ -42,7 +43,11 @@ export class CellFloat64Service {
   }
 
   /** GET cellfloat64s from the server */
-  getCellFloat64s(GONG__StackPath: string): Observable<CellFloat64DB[]> {
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB[]> {
+    return this.getCellFloat64s(GONG__StackPath, frontRepo)
+  }
+  getCellFloat64s(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -55,7 +60,11 @@ export class CellFloat64Service {
   }
 
   /** GET cellfloat64 by id. Will 404 if id not found */
-  getCellFloat64(id: number, GONG__StackPath: string): Observable<CellFloat64DB> {
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
+    return this.getCellFloat64(id, GONG__StackPath, frontRepo)
+  }
+  getCellFloat64(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -67,7 +76,10 @@ export class CellFloat64Service {
   }
 
   /** POST: add a new cellfloat64 to the server */
-  postCellFloat64(cellfloat64db: CellFloat64DB, GONG__StackPath: string): Observable<CellFloat64DB> {
+  post(cellfloat64db: CellFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
+    return this.postCellFloat64(cellfloat64db, GONG__StackPath, frontRepo)
+  }
+  postCellFloat64(cellfloat64db: CellFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
@@ -87,6 +99,9 @@ export class CellFloat64Service {
   }
 
   /** DELETE: delete the cellfloat64db from the server */
+  delete(cellfloat64db: CellFloat64DB | number, GONG__StackPath: string): Observable<CellFloat64DB> {
+    return this.deleteCellFloat64(cellfloat64db, GONG__StackPath)
+  }
   deleteCellFloat64(cellfloat64db: CellFloat64DB | number, GONG__StackPath: string): Observable<CellFloat64DB> {
     const id = typeof cellfloat64db === 'number' ? cellfloat64db : cellfloat64db.ID;
     const url = `${this.cellfloat64sUrl}/${id}`;
@@ -104,11 +119,15 @@ export class CellFloat64Service {
   }
 
   /** PUT: update the cellfloat64db on the server */
-  updateCellFloat64(cellfloat64db: CellFloat64DB, GONG__StackPath: string): Observable<CellFloat64DB> {
+  update(cellfloat64db: CellFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
+    return this.updateCellFloat64(cellfloat64db, GONG__StackPath, frontRepo)
+  }
+  updateCellFloat64(cellfloat64db: CellFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
     const id = typeof cellfloat64db === 'number' ? cellfloat64db : cellfloat64db.ID;
     const url = `${this.cellfloat64sUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -146,6 +165,6 @@ export class CellFloat64Service {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

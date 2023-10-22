@@ -8,7 +8,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"sync"
 
 	"github.com/fullstack-lang/gongdoc/go/models"
 
@@ -270,21 +269,6 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoUmlsc.CommitPhaseOne(stage)
 	backRepo.BackRepoVertice.CommitPhaseOne(stage)
 
-	// insertion point for per struct back repo for reseting the reverse pointers
-	backRepo.BackRepoClassdiagram.ResetReversePointers(backRepo)
-	backRepo.BackRepoDiagramPackage.ResetReversePointers(backRepo)
-	backRepo.BackRepoField.ResetReversePointers(backRepo)
-	backRepo.BackRepoGongEnumShape.ResetReversePointers(backRepo)
-	backRepo.BackRepoGongEnumValueEntry.ResetReversePointers(backRepo)
-	backRepo.BackRepoGongStructShape.ResetReversePointers(backRepo)
-	backRepo.BackRepoLink.ResetReversePointers(backRepo)
-	backRepo.BackRepoNoteShape.ResetReversePointers(backRepo)
-	backRepo.BackRepoNoteShapeLink.ResetReversePointers(backRepo)
-	backRepo.BackRepoPosition.ResetReversePointers(backRepo)
-	backRepo.BackRepoUmlState.ResetReversePointers(backRepo)
-	backRepo.BackRepoUmlsc.ResetReversePointers(backRepo)
-	backRepo.BackRepoVertice.ResetReversePointers(backRepo)
-
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoClassdiagram.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoDiagramPackage.CommitPhaseTwo(backRepo)
@@ -334,25 +318,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoUmlState.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoUmlsc.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoVertice.CheckoutPhaseTwo(backRepo)
-}
-
-var _backRepo *BackRepoStruct
-
-var once sync.Once
-
-func GetDefaultBackRepo() *BackRepoStruct {
-	once.Do(func() {
-		_backRepo = NewBackRepo(models.GetDefaultStage(), "")
-	})
-	return _backRepo
-}
-
-func GetLastCommitFromBackNb() uint {
-	return GetDefaultBackRepo().GetLastCommitFromBackNb()
-}
-
-func GetLastPushFromFrontNb() uint {
-	return GetDefaultBackRepo().GetLastPushFromFrontNb()
 }
 
 // Backup the BackRepoStruct

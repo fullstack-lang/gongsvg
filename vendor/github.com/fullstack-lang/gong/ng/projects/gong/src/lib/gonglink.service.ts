@@ -12,9 +12,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { GongLinkDB } from './gonglink-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { GongNoteDB } from './gongnote-db'
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +43,11 @@ export class GongLinkService {
   }
 
   /** GET gonglinks from the server */
-  getGongLinks(GONG__StackPath: string): Observable<GongLinkDB[]> {
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB[]> {
+    return this.getGongLinks(GONG__StackPath, frontRepo)
+  }
+  getGongLinks(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,7 +60,11 @@ export class GongLinkService {
   }
 
   /** GET gonglink by id. Will 404 if id not found */
-  getGongLink(id: number, GONG__StackPath: string): Observable<GongLinkDB> {
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
+    return this.getGongLink(id, GONG__StackPath, frontRepo)
+  }
+  getGongLink(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -68,11 +76,12 @@ export class GongLinkService {
   }
 
   /** POST: add a new gonglink to the server */
-  postGongLink(gonglinkdb: GongLinkDB, GONG__StackPath: string): Observable<GongLinkDB> {
+  post(gonglinkdb: GongLinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
+    return this.postGongLink(gonglinkdb, GONG__StackPath, frontRepo)
+  }
+  postGongLink(gonglinkdb: GongLinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongNote_Links_reverse = gonglinkdb.GongNote_Links_reverse
-    gonglinkdb.GongNote_Links_reverse = new GongNoteDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -83,7 +92,6 @@ export class GongLinkService {
     return this.http.post<GongLinkDB>(this.gonglinksUrl, gonglinkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gonglinkdb.GongNote_Links_reverse = _GongNote_Links_reverse
         // this.log(`posted gonglinkdb id=${gonglinkdb.ID}`)
       }),
       catchError(this.handleError<GongLinkDB>('postGongLink'))
@@ -91,6 +99,9 @@ export class GongLinkService {
   }
 
   /** DELETE: delete the gonglinkdb from the server */
+  delete(gonglinkdb: GongLinkDB | number, GONG__StackPath: string): Observable<GongLinkDB> {
+    return this.deleteGongLink(gonglinkdb, GONG__StackPath)
+  }
   deleteGongLink(gonglinkdb: GongLinkDB | number, GONG__StackPath: string): Observable<GongLinkDB> {
     const id = typeof gonglinkdb === 'number' ? gonglinkdb : gonglinkdb.ID;
     const url = `${this.gonglinksUrl}/${id}`;
@@ -108,13 +119,15 @@ export class GongLinkService {
   }
 
   /** PUT: update the gonglinkdb on the server */
-  updateGongLink(gonglinkdb: GongLinkDB, GONG__StackPath: string): Observable<GongLinkDB> {
+  update(gonglinkdb: GongLinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
+    return this.updateGongLink(gonglinkdb, GONG__StackPath, frontRepo)
+  }
+  updateGongLink(gonglinkdb: GongLinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
     const id = typeof gonglinkdb === 'number' ? gonglinkdb : gonglinkdb.ID;
     const url = `${this.gonglinksUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongNote_Links_reverse = gonglinkdb.GongNote_Links_reverse
-    gonglinkdb.GongNote_Links_reverse = new GongNoteDB
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -125,7 +138,6 @@ export class GongLinkService {
     return this.http.put<GongLinkDB>(url, gonglinkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gonglinkdb.GongNote_Links_reverse = _GongNote_Links_reverse
         // this.log(`updated gonglinkdb id=${gonglinkdb.ID}`)
       }),
       catchError(this.handleError<GongLinkDB>('updateGongLink'))
@@ -153,6 +165,6 @@ export class GongLinkService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

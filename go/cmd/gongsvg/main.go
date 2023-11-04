@@ -33,8 +33,8 @@ func main() {
 	r := gongsvg_static.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
-	stage := gongsvg_stack.NewStage(r, "gongsvg", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
-	_ = stage
+	stack := gongsvg_stack.NewStack(r, "gongsvg", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack.Probe.Refresh()
 
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

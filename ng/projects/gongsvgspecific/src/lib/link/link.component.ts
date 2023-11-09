@@ -622,7 +622,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
     return `M ${startX} ${startY} A ${this.Link!.CornerRadius} ${this.Link!.CornerRadius} 0 ${largeArcFlag} ${sweepFlag} ${endX} ${endY}`;
   }
 
-  getEndArrowPath(segment: Segment): string {
+  getEndArrowPath(segment: Segment, arrowSize: number): string {
     const ratio = 0.707106781 / 2 // (1/sqrt(2)) / 2
 
     let firstStartX = segment.EndPoint.X
@@ -637,7 +637,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
     let secondTipY = segment.EndPoint.Y
 
     {
-      let { x, y } = this.rotateToSegmentDirection(segment, - this.Link!.EndArrowSize, - this.Link!.EndArrowSize)
+      let { x, y } = this.rotateToSegmentDirection(segment, - arrowSize, - arrowSize)
 
       firstTipX += x
       firstTipY += y
@@ -648,7 +648,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
       firstStartY += y
     }
     {
-      let { x, y } = this.rotateToSegmentDirection(segment, - this.Link!.EndArrowSize, this.Link!.EndArrowSize)
+      let { x, y } = this.rotateToSegmentDirection(segment, - arrowSize, arrowSize)
 
       secondTipX += x
       secondTipY += y
@@ -665,11 +665,11 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
     return path
   }
 
-  getStartArrowPath(segment: Segment): string {
+  getStartArrowPath(segment: Segment, arrowSize: number): string {
 
     let inverseSegment = swapSegment(segment)
 
-    let path = this.getEndArrowPath(inverseSegment)
+    let path = this.getEndArrowPath(inverseSegment, arrowSize)
 
     return path
   }

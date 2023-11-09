@@ -175,7 +175,7 @@ Line 2`}).Stage(stage)
 	__Link__000001_Second_Arrow_both_arrows.HasEndArrow = true
 	__Link__000001_Second_Arrow_both_arrows.EndArrowSize = 15.000000
 	__Link__000001_Second_Arrow_both_arrows.HasStartArrow = true
-	__Link__000001_Second_Arrow_both_arrows.StartArrowSize = 15.000000
+	__Link__000001_Second_Arrow_both_arrows.StartArrowSize = 25.000000
 	__Link__000001_Second_Arrow_both_arrows.Color = ``
 	__Link__000001_Second_Arrow_both_arrows.FillOpacity = 0.000000
 	__Link__000001_Second_Arrow_both_arrows.Stroke = `red`

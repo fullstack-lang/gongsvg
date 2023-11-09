@@ -13,6 +13,7 @@ import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
 import { IsEditableService } from '../is-editable.service';
 import { RefreshService } from '../refresh.service';
+import { swapSegment } from './swap.segment';
 
 @Component({
   selector: 'lib-link',
@@ -621,7 +622,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
     return `M ${startX} ${startY} A ${this.Link!.CornerRadius} ${this.Link!.CornerRadius} 0 ${largeArcFlag} ${sweepFlag} ${endX} ${endY}`;
   }
 
-  getArrowPath(segment: Segment): string {
+  getEndArrowPath(segment: Segment): string {
     const ratio = 0.707106781 / 2 // (1/sqrt(2)) / 2
 
     let firstStartX = segment.EndPoint.X
@@ -660,6 +661,15 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
     }
 
     let path = `M ${firstStartX} ${firstStartY} L ${firstTipX} ${firstTipY} M ${secondStartX} ${secondStartY} L ${secondTipX} ${secondTipY}`
+
+    return path
+  }
+
+  getStartArrowPath(segment: Segment): string {
+
+    let inverseSegment = swapSegment(segment)
+
+    let path = this.getEndArrowPath(inverseSegment)
 
     return path
   }

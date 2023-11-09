@@ -1104,6 +1104,10 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(link_.HasEndArrow), formDiv)
 		case "EndArrowSize":
 			FormDivBasicFieldToField(&(link_.EndArrowSize), formDiv)
+		case "HasStartArrow":
+			FormDivBasicFieldToField(&(link_.HasStartArrow), formDiv)
+		case "StartArrowSize":
+			FormDivBasicFieldToField(&(link_.StartArrowSize), formDiv)
 		case "Color":
 			FormDivBasicFieldToField(&(link_.Color), formDiv)
 		case "FillOpacity":

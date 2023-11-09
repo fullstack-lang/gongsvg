@@ -414,6 +414,8 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("CornerRadius", instanceWithInferedType.CornerRadius, instanceWithInferedType, probe.formStage, formGroup, false)
 		BasicFieldtoForm("HasEndArrow", instanceWithInferedType.HasEndArrow, instanceWithInferedType, probe.formStage, formGroup, false)
 		BasicFieldtoForm("EndArrowSize", instanceWithInferedType.EndArrowSize, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("HasStartArrow", instanceWithInferedType.HasStartArrow, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("StartArrowSize", instanceWithInferedType.StartArrowSize, instanceWithInferedType, probe.formStage, formGroup, false)
 		AssociationSliceToForm("TextAtArrowEnd", instanceWithInferedType, &instanceWithInferedType.TextAtArrowEnd, formGroup, probe)
 		AssociationSliceToForm("TextAtArrowStart", instanceWithInferedType, &instanceWithInferedType.TextAtArrowStart, formGroup, probe)
 		AssociationSliceToForm("ControlPoints", instanceWithInferedType, &instanceWithInferedType.ControlPoints, formGroup, probe)

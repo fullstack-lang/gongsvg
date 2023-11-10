@@ -1431,7 +1431,14 @@ func Xungetc(t *TLS, c int32, stream uintptr) int32 {
 	if __ccgo_strace {
 		trc("t=%v c=%v stream=%v, (%v:)", t, c, stream, origin(2))
 	}
-	panic(todo(""))
+	if c == stdio.EOF {
+		return c
+	}
+
+	ungetcMu.Lock()
+	ungetc[stream] = byte(c)
+	ungetcMu.Unlock()
+	return int32(byte(c))
 }
 
 // int fscanf(FILE *stream, const char *format, ...);
@@ -1756,6 +1763,14 @@ func Xfgetc(t *TLS, stream uintptr) int32 {
 	if __ccgo_strace {
 		trc("t=%v stream=%v, (%v:)", t, stream, origin(2))
 	}
+	ungetcMu.Lock()
+	c, ok := ungetc[stream]
+	delete(ungetc, stream)
+	ungetcMu.Unlock()
+	if ok {
+		return int32(c)
+	}
+
 	fd := int((*stdio.FILE)(unsafe.Pointer(stream)).F_fileno)
 	var buf [1]byte
 	if n, _ := unix.Read(fd, buf[:]); n != 0 {

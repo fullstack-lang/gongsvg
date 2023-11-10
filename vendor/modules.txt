@@ -319,7 +319,7 @@ gorm.io/gorm/logger
 gorm.io/gorm/migrator
 gorm.io/gorm/schema
 gorm.io/gorm/utils
-# modernc.org/libc v1.31.0
+# modernc.org/libc v1.32.0
 ## explicit; go 1.20
 modernc.org/libc
 modernc.org/libc/errno

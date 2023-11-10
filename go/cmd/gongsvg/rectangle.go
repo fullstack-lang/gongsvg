@@ -167,10 +167,10 @@ Line 2`}).Stage(stage)
 	__Link__000001_Second_Arrow_both_arrows.StartAnchorType = models.ANCHOR_BOTTOM
 	__Link__000001_Second_Arrow_both_arrows.EndAnchorType = models.ANCHOR_LEFT
 	__Link__000001_Second_Arrow_both_arrows.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Second_Arrow_both_arrows.StartRatio = 0.318038
-	__Link__000001_Second_Arrow_both_arrows.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Second_Arrow_both_arrows.EndRatio = 0.827103
-	__Link__000001_Second_Arrow_both_arrows.CornerOffsetRatio = 1.008197
+	__Link__000001_Second_Arrow_both_arrows.StartRatio = 0.466772
+	__Link__000001_Second_Arrow_both_arrows.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000001_Second_Arrow_both_arrows.EndRatio = 0.120192
+	__Link__000001_Second_Arrow_both_arrows.CornerOffsetRatio = 1.614754
 	__Link__000001_Second_Arrow_both_arrows.CornerRadius = 0.000000
 	__Link__000001_Second_Arrow_both_arrows.HasEndArrow = true
 	__Link__000001_Second_Arrow_both_arrows.EndArrowSize = 15.000000
@@ -218,8 +218,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 608.000000
-	__Rect__000000_Bottom.Y = 24.000000
+	__Rect__000000_Bottom.X = 267.000000
+	__Rect__000000_Bottom.Y = 246.000000
 	__Rect__000000_Bottom.Width = 632.000000
 	__Rect__000000_Bottom.Height = 122.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -245,8 +245,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 486.000000
-	__Rect__000001_Middle_Rect.Y = 387.000000
+	__Rect__000001_Middle_Rect.X = 959.000000
+	__Rect__000001_Middle_Rect.Y = 222.000000
 	__Rect__000001_Middle_Rect.Width = 253.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -272,8 +272,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 70.999969
-	__Rect__000002_Top.Y = 83.000000
+	__Rect__000002_Top.X = 451.999969
+	__Rect__000002_Top.Y = 523.000000
 	__Rect__000002_Top.Width = 208.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000

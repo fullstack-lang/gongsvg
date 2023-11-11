@@ -7,11 +7,13 @@
     </mat-radio-group>
 </ng-template>
 
-<as-split unit="pixel" *ngIf="view==svg" direction="vertical">
+<as-split unit="pixel" *ngIf="view==svgView" direction="vertical">
     <as-split-area [size]=80>
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
-
+    <as-split-area [size]=40>
+        <button mat-raised-button color="primary" (click)="toogleEditable()">Switch Editable/Non Editable</button>
+    </as-split-area>
 
     <as-split-area #splitEl [size]="$any('*')">
         <as-split unit="pixel" direction="horizontal">

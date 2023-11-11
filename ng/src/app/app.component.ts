@@ -20,11 +20,23 @@ import { GongtablespecificModule } from 'gongtablespecific'
 })
 export class AppComponent implements OnInit {
 
-  default = 'SVG Data/Model'
-  svg = 'SVG rendering'
-  view = this.svg
+  toogleEditable() {
+    this.mySVG.IsEditable = !this.mySVG.IsEditable
+    this.svgService.updateSVG(this.mySVG, this.StackName, this.frontRepo).subscribe(
+      () => {
+        console.log("SVG Is editale toggled")
+      }
+    )
+  }
 
-  views: string[] = [this.svg, this.default];
+  default = 'SVG Data/Model'
+  svgView = 'SVG rendering'
+  view = this.svgView
+
+  mySVG: gongsvg.SVGDB = new gongsvg.SVGDB
+  frontRepo: gongsvg.FrontRepo = new gongsvg.FrontRepo
+
+  views: string[] = [this.svgView, this.default];
 
   scrollStyle = {
     'overflow- x': 'auto',
@@ -35,11 +47,23 @@ export class AppComponent implements OnInit {
   StackName = gongsvg.StackName.StackNameDefault
   loading = true
   constructor(
+    private gongsvgFrontRepoService: gongsvg.FrontRepoService,
+    private svgService: gongsvg.SVGService,
   ) {
 
   }
 
   ngOnInit(): void {
     this.loading = false
+
+    // get all svgs and assigns the first one to mysvg
+    this.gongsvgFrontRepoService.pull(this.StackName).subscribe(
+      gongsvgsFrontRepo => {
+        this.frontRepo = gongsvgsFrontRepo
+        for (let svg of gongsvgsFrontRepo.SVGs_array) {
+          this.mySVG = svg
+        }
+      }
+    )
   }
 }

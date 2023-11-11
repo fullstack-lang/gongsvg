@@ -218,8 +218,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 267.000000
-	__Rect__000000_Bottom.Y = 246.000000
+	__Rect__000000_Bottom.X = 58.000000
+	__Rect__000000_Bottom.Y = 136.000000
 	__Rect__000000_Bottom.Width = 632.000000
 	__Rect__000000_Bottom.Height = 122.000000
 	__Rect__000000_Bottom.RX = 5.000000

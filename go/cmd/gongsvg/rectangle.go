@@ -429,7 +429,7 @@ line 3`
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
 	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINE
-	__SVG__000000_SVG.IsEditable = true
+	__SVG__000000_SVG.IsEditable = false
 
 	// Text values setup
 	__Text__000000_Essai.Name = `Essai`

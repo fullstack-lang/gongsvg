@@ -38,8 +38,6 @@ func simple_linkInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	// Declarations of staged instances of AnchoredText
-
 	// Declarations of staged instances of Animate
 
 	// Declarations of staged instances of Circle
@@ -53,7 +51,8 @@ func simple_linkInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Line
 
 	// Declarations of staged instances of Link
-	__Link__000000_Start_to_End := (&models.Link{Name: `Start to End`}).Stage(stage)
+
+	// Declarations of staged instances of LinkAnchoredText
 
 	// Declarations of staged instances of Path
 
@@ -88,25 +87,6 @@ func simple_linkInjection(stage *models.StageStruct) {
 	__Layer__000001_Rects.Display = false
 	__Layer__000001_Rects.Name = `Rects`
 
-	// Link values setup
-	__Link__000000_Start_to_End.Name = `Start to End`
-	__Link__000000_Start_to_End.Type = models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-	__Link__000000_Start_to_End.StartAnchorType = models.ANCHOR_CENTER
-	__Link__000000_Start_to_End.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000000_Start_to_End.StartRatio = 0.000000
-	__Link__000000_Start_to_End.EndRatio = 0.000000
-	__Link__000000_Start_to_End.CornerOffsetRatio = 0.000000
-	__Link__000000_Start_to_End.CornerRadius = 0.000000
-	__Link__000000_Start_to_End.HasEndArrow = true
-	__Link__000000_Start_to_End.EndArrowSize = 0.000000
-	__Link__000000_Start_to_End.Color = ``
-	__Link__000000_Start_to_End.FillOpacity = 0.000000
-	__Link__000000_Start_to_End.Stroke = `lightblue`
-	__Link__000000_Start_to_End.StrokeWidth = 3.000000
-	__Link__000000_Start_to_End.StrokeDashArray = ``
-	__Link__000000_Start_to_End.StrokeDashArrayWhenSelected = `5 5`
-	__Link__000000_Start_to_End.Transform = ``
-
 	// Rect values setup
 	__Rect__000000_End.Name = `End`
 	__Rect__000000_End.X = 506.000000
@@ -122,15 +102,15 @@ func simple_linkInjection(stage *models.StageStruct) {
 	__Rect__000000_End.StrokeDashArrayWhenSelected = ``
 	__Rect__000000_End.Transform = ``
 	__Rect__000000_End.IsSelectable = true
-	__Rect__000000_End.IsSelected = true
+	__Rect__000000_End.IsSelected = false
 	__Rect__000000_End.CanHaveLeftHandle = true
-	__Rect__000000_End.HasLeftHandle = true
+	__Rect__000000_End.HasLeftHandle = false
 	__Rect__000000_End.CanHaveRightHandle = true
-	__Rect__000000_End.HasRightHandle = true
+	__Rect__000000_End.HasRightHandle = false
 	__Rect__000000_End.CanHaveTopHandle = true
-	__Rect__000000_End.HasTopHandle = true
+	__Rect__000000_End.HasTopHandle = false
 	__Rect__000000_End.CanHaveBottomHandle = true
-	__Rect__000000_End.HasBottomHandle = true
+	__Rect__000000_End.HasBottomHandle = false
 	__Rect__000000_End.CanMoveHorizontaly = true
 	__Rect__000000_End.CanMoveVerticaly = true
 
@@ -149,28 +129,25 @@ func simple_linkInjection(stage *models.StageStruct) {
 	__Rect__000001_Start.StrokeDashArrayWhenSelected = ``
 	__Rect__000001_Start.Transform = ``
 	__Rect__000001_Start.IsSelectable = true
-	__Rect__000001_Start.IsSelected = true
+	__Rect__000001_Start.IsSelected = false
 	__Rect__000001_Start.CanHaveLeftHandle = true
-	__Rect__000001_Start.HasLeftHandle = true
+	__Rect__000001_Start.HasLeftHandle = false
 	__Rect__000001_Start.CanHaveRightHandle = true
-	__Rect__000001_Start.HasRightHandle = true
+	__Rect__000001_Start.HasRightHandle = false
 	__Rect__000001_Start.CanHaveTopHandle = true
-	__Rect__000001_Start.HasTopHandle = true
+	__Rect__000001_Start.HasTopHandle = false
 	__Rect__000001_Start.CanHaveBottomHandle = true
-	__Rect__000001_Start.HasBottomHandle = true
+	__Rect__000001_Start.HasBottomHandle = false
 	__Rect__000001_Start.CanMoveHorizontaly = true
 	__Rect__000001_Start.CanMoveVerticaly = true
 
 	// SVG values setup
 	__SVG__000000_test.Name = `test`
-	__SVG__000000_test.IsEditable = false
+	__SVG__000000_test.IsEditable = true
 
 	// Setup of pointers
-	__Layer__000000_Links.Links = append(__Layer__000000_Links.Links, __Link__000000_Start_to_End)
 	__Layer__000001_Rects.Rects = append(__Layer__000001_Rects.Rects, __Rect__000001_Start)
 	__Layer__000001_Rects.Rects = append(__Layer__000001_Rects.Rects, __Rect__000000_End)
-	__Link__000000_Start_to_End.Start = __Rect__000001_Start
-	__Link__000000_Start_to_End.End = __Rect__000000_End
 	__SVG__000000_test.Layers = append(__SVG__000000_test.Layers, __Layer__000001_Rects)
 	__SVG__000000_test.Layers = append(__SVG__000000_test.Layers, __Layer__000000_Links)
 }

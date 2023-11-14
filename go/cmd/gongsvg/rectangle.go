@@ -49,11 +49,13 @@ func rectangleInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Layer
 	__Layer__000000_Bottom_Rectangle_Layer := (&models.Layer{Name: `Bottom Rectangle Layer`}).Stage(stage)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom := (&models.Layer{Name: `Layer RectLinkLink Medium to Top-Bottom`}).Stage(stage)
-	__Layer__000002_Link_layer_vertical_to_horizontal := (&models.Layer{Name: `Link layer vertical to horizontal`}).Stage(stage)
-	__Layer__000003_Middle_Rect_Layer := (&models.Layer{Name: `Middle Rect Layer`}).Stage(stage)
-	__Layer__000004_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
+	__Layer__000002_Line_layer := (&models.Layer{Name: `Line layer`}).Stage(stage)
+	__Layer__000003_Link_layer_vertical_to_horizontal := (&models.Layer{Name: `Link layer vertical to horizontal`}).Stage(stage)
+	__Layer__000004_Middle_Rect_Layer := (&models.Layer{Name: `Middle Rect Layer`}).Stage(stage)
+	__Layer__000005_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
 
 	// Declarations of staged instances of Line
+	__Line__000000_Line_connecting_rect_Bottom_to_Top := (&models.Line{Name: `Line connecting rect Bottom to Top`}).Stage(stage)
 
 	// Declarations of staged instances of Link
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal := (&models.Link{Name: `Arrow - Top to Bottom vertical to horizontal`}).Stage(stage)
@@ -127,16 +129,36 @@ Line 2`}).Stage(stage)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Name = `Layer RectLinkLink Medium to Top-Bottom`
 
 	// Layer values setup
-	__Layer__000002_Link_layer_vertical_to_horizontal.Display = false
-	__Layer__000002_Link_layer_vertical_to_horizontal.Name = `Link layer vertical to horizontal`
+	__Layer__000002_Line_layer.Display = false
+	__Layer__000002_Line_layer.Name = `Line layer`
 
 	// Layer values setup
-	__Layer__000003_Middle_Rect_Layer.Display = false
-	__Layer__000003_Middle_Rect_Layer.Name = `Middle Rect Layer`
+	__Layer__000003_Link_layer_vertical_to_horizontal.Display = false
+	__Layer__000003_Link_layer_vertical_to_horizontal.Name = `Link layer vertical to horizontal`
 
 	// Layer values setup
-	__Layer__000004_Top_Rectangle_layer.Display = false
-	__Layer__000004_Top_Rectangle_layer.Name = `Top Rectangle layer`
+	__Layer__000004_Middle_Rect_Layer.Display = false
+	__Layer__000004_Middle_Rect_Layer.Name = `Middle Rect Layer`
+
+	// Layer values setup
+	__Layer__000005_Top_Rectangle_layer.Display = false
+	__Layer__000005_Top_Rectangle_layer.Name = `Top Rectangle layer`
+
+	// Line values setup
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Name = `Line connecting rect Bottom to Top`
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.X1 = 374.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Y1 = 258.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.X2 = 555.999969
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Y2 = 523.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Color = `olivedrab`
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.FillOpacity = 0.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Stroke = `olivedrab`
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeWidth = 4.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeDashArray = ``
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeDashArrayWhenSelected = ``
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.Transform = ``
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickX = 0.000000
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickY = 0.000000
 
 	// Link values setup
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Name = `Arrow - Top to Bottom vertical to horizontal`
@@ -429,7 +451,7 @@ line 3`
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
 	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINE
-	__SVG__000000_SVG.IsEditable = false
+	__SVG__000000_SVG.IsEditable = true
 
 	// Text values setup
 	__Text__000000_Essai.Name = `Essai`
@@ -447,10 +469,11 @@ line 3`
 	// Setup of pointers
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks = append(__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks, __RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link)
-	__Layer__000002_Link_layer_vertical_to_horizontal.Links = append(__Layer__000002_Link_layer_vertical_to_horizontal.Links, __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal)
-	__Layer__000002_Link_layer_vertical_to_horizontal.Links = append(__Layer__000002_Link_layer_vertical_to_horizontal.Links, __Link__000001_Second_Arrow_both_arrows)
-	__Layer__000003_Middle_Rect_Layer.Rects = append(__Layer__000003_Middle_Rect_Layer.Rects, __Rect__000001_Middle_Rect)
-	__Layer__000004_Top_Rectangle_layer.Rects = append(__Layer__000004_Top_Rectangle_layer.Rects, __Rect__000002_Top)
+	__Layer__000002_Line_layer.Lines = append(__Layer__000002_Line_layer.Lines, __Line__000000_Line_connecting_rect_Bottom_to_Top)
+	__Layer__000003_Link_layer_vertical_to_horizontal.Links = append(__Layer__000003_Link_layer_vertical_to_horizontal.Links, __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal)
+	__Layer__000003_Link_layer_vertical_to_horizontal.Links = append(__Layer__000003_Link_layer_vertical_to_horizontal.Links, __Link__000001_Second_Arrow_both_arrows)
+	__Layer__000004_Middle_Rect_Layer.Rects = append(__Layer__000004_Middle_Rect_Layer.Rects, __Rect__000001_Middle_Rect)
+	__Layer__000005_Top_Rectangle_layer.Rects = append(__Layer__000005_Top_Rectangle_layer.Rects, __Rect__000002_Top)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000000_Liine_1_Line_2)
@@ -466,9 +489,9 @@ line 3`
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Start = __Rect__000001_Middle_Rect
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.End = __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Top_Rectangle_layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Middle_Rect_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Link_layer_vertical_to_horizontal)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Top_Rectangle_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Middle_Rect_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_vertical_to_horizontal)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom)
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top

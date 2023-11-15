@@ -231,7 +231,7 @@ export class SvgComponent implements OnInit, OnDestroy {
 
     this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINE
 
-    let rectMap = this.gongsvgFrontRepo!.getMap<gongsvg.RectDB>(this.GONG__StackPath)
+    let rectMap = this.gongsvgFrontRepo!.getMap<gongsvg.RectDB>(gongsvg.RectDB.GONGSTRUCT_NAME)
 
     this.svg.StartRect = rectMap.get(startRectangleID)
     this.svg.EndRect = rectMap.get(endRectangleID)

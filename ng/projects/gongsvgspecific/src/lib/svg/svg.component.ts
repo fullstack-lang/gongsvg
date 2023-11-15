@@ -73,7 +73,7 @@ export class SvgComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
-          // console.log('SvgComponent, Mouse down event occurred on rectangle ', rectangleID, " at ", coordinate)
+          console.log('SvgComponent, Alt Mouse down event occurred on rectangle ', shapeMouseEvent.ShapeID)
           this.linkStartRectangleID = shapeMouseEvent.ShapeID
 
           // refactorable of Rect name
@@ -101,7 +101,7 @@ export class SvgComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       rectangleEventService.mouseRectAltKeyMouseUpEvent$.subscribe((rectangleID: number) => {
-        // console.log('SvgComponent, Mouse up event occurred on rectangle ', rectangleID);
+        console.log('SvgComponent, Mouse up event occurred on rectangle ', rectangleID);
         this.linkDrawing = false
 
         this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)

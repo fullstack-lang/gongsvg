@@ -36,6 +36,7 @@ func (svg *SVG) OnAfterUpdate(stage *StageStruct, _, frontSVG *SVG) {
 		// let's create a new layer with a line in it that connects both rectangles
 		layer := new(Layer).Stage(stage)
 		layer.Name = "Line layer"
+		layer.Display = true
 		svg.Layers = append(svg.Layers, layer)
 
 		line := closestMidpoints(svg.StartRect, svg.EndRect).Stage(stage)

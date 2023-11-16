@@ -372,6 +372,14 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseTwoInstance(backRepo *BackRep
 	svg := backRepoSVG.Map_SVGDBID_SVGPtr[svgDB.ID]
 	_ = svg // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
+	svgDB.DecodePointers(backRepo, svg)
+
+	return
+}
+
+// DecodePointers of svgDB into svg
+func (svgDB *SVGDB) DecodePointers(backRepo *BackRepoStruct, svg *models.SVG) {
+
 	// insertion point for checkout of pointer encoding
 	// This loop redeem svg.Layers in the stage from the encode in the back repo
 	// It parses all LayerDB in the back repo and if the reverse pointer encoding matches the back repo ID
@@ -392,6 +400,7 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseTwoInstance(backRepo *BackRep
 	if svgDB.EndRectID.Int64 != 0 {
 		svg.EndRect = backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(svgDB.EndRectID.Int64)]
 	}
+
 	return
 }
 

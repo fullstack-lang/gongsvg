@@ -370,14 +370,12 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct)
 func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, svgDB *SVGDB) (Error error) {
 
 	svg := backRepoSVG.Map_SVGDBID_SVGPtr[svgDB.ID]
-	_ = svg // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	svgDB.DecodePointers(backRepo, svg)
 
 	return
 }
 
-// DecodePointers of svgDB into svg
 func (svgDB *SVGDB) DecodePointers(backRepo *BackRepoStruct, svg *models.SVG) {
 
 	// insertion point for checkout of pointer encoding
@@ -400,7 +398,6 @@ func (svgDB *SVGDB) DecodePointers(backRepo *BackRepoStruct, svg *models.SVG) {
 	if svgDB.EndRectID.Int64 != 0 {
 		svg.EndRect = backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(svgDB.EndRectID.Int64)]
 	}
-
 	return
 }
 
@@ -685,7 +682,7 @@ func (backRepoSVG *BackRepoSVGStruct) ResetReversePointers(backRepo *BackRepoStr
 	return
 }
 
-func (backRepoSVG *BackRepoSVGStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.SVG) (Error error) {
+func (backRepoSVG *BackRepoSVGStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, svg *models.SVG) (Error error) {
 
 	// fetch matching svgDB
 	if svgDB, ok := backRepoSVG.Map_SVGDBID_SVGDB[idx]; ok {

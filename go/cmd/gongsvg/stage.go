@@ -38,8 +38,6 @@ func stageInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	// Declarations of staged instances of AnchoredText
-
 	// Declarations of staged instances of Animate
 	__Animate__000000_A1 := (&models.Animate{Name: `A1`}).Stage(stage)
 	__Animate__000001_Animate_oppacity := (&models.Animate{Name: `Animate oppacity`}).Stage(stage)
@@ -60,6 +58,8 @@ func stageInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of Link
 
+	// Declarations of staged instances of LinkAnchoredText
+
 	// Declarations of staged instances of Path
 	__Path__000000_Path_example := (&models.Path{Name: `Path example`}).Stage(stage)
 
@@ -77,6 +77,12 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000002_R3 := (&models.Rect{Name: `R3`}).Stage(stage)
 	__Rect__000003_R4_rounded := (&models.Rect{Name: `R4 rounded`}).Stage(stage)
 	__Rect__000004_Test_Rect := (&models.Rect{Name: `Test Rect`}).Stage(stage)
+
+	// Declarations of staged instances of RectAnchoredRect
+
+	// Declarations of staged instances of RectAnchoredText
+
+	// Declarations of staged instances of RectLinkLink
 
 	// Declarations of staged instances of SVG
 	__SVG__000000_SVG := (&models.SVG{Name: `SVG`}).Stage(stage)
@@ -305,9 +311,9 @@ func stageInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000004_Test_Rect.Name = `Test Rect`
-	__Rect__000004_Test_Rect.X = 800.000000
-	__Rect__000004_Test_Rect.Y = 800.000000
-	__Rect__000004_Test_Rect.Width = 400.000000
+	__Rect__000004_Test_Rect.X = 100.000000
+	__Rect__000004_Test_Rect.Y = 400.000000
+	__Rect__000004_Test_Rect.Width = 1200.000000
 	__Rect__000004_Test_Rect.Height = 400.000000
 	__Rect__000004_Test_Rect.RX = 0.000000
 	__Rect__000004_Test_Rect.Color = `blue`
@@ -332,6 +338,7 @@ func stageInjection(stage *models.StageStruct) {
 
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
+	__SVG__000000_SVG.IsEditable = false
 
 	// Text values setup
 	__Text__000000_Bonjorno.Name = `Bonjorno`

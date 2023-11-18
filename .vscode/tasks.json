@@ -39,7 +39,7 @@
 				"run",
 				"main.go",
 				"-marshallOnCommit=stage",
-				"-unmarshallFromCode=stage.go",
+				"-unmarshallFromCode=stage.go"
 			],
 			"group": "build"
 		},
@@ -118,7 +118,7 @@
 			"command": "go",
 			"args": [
 				"run",
-				"main.go",
+				"main.go"
 			],
 			"group": "build"
 		},
@@ -238,9 +238,16 @@
 				"github.com/fullstack-lang/gong@HEAD",
 				"github.com/fullstack-lang/gongdoc@HEAD",
 				"github.com/fullstack-lang/gongtable@HEAD",
-				"github.com/fullstack-lang/gongtree@HEAD",
+				"github.com/fullstack-lang/gongtree@HEAD"
 			],
 			"group": "build"
+		},
+		{
+			"label": "03 - ng build --configuration development",
+			"type": "shell",
+			"command": "cd ng; ng build --configuration development",
+			"group": "build",
+			"problemMatcher": []
 		},
 	]
 }

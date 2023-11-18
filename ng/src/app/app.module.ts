@@ -43,10 +43,12 @@ import { GongsvgspecificModule } from 'gongsvgspecific'
 
 // mandatory
 import { HttpClientModule } from '@angular/common/http';
+import { BlueBackgroundComponent } from './blue-background/blue-background.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BlueBackgroundComponent
   ],
   imports: [
     BrowserModule,

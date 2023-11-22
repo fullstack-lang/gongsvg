@@ -961,7 +961,7 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	__GongStructShape__000000_NewDiagram_1_Link.ShowNbInstances = true
 	__GongStructShape__000000_NewDiagram_1_Link.NbInstances = 1
 	__GongStructShape__000000_NewDiagram_1_Link.Width = 240.000000
-	__GongStructShape__000000_NewDiagram_1_Link.Heigth = 96.000000
+	__GongStructShape__000000_NewDiagram_1_Link.Height = 96.000000
 	__GongStructShape__000000_NewDiagram_1_Link.IsSelected = false
 
 	// GongStructShape values setup
@@ -974,7 +974,7 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	__GongStructShape__000001_NewDiagram_1_Rect.ShowNbInstances = true
 	__GongStructShape__000001_NewDiagram_1_Rect.NbInstances = 3
 	__GongStructShape__000001_NewDiagram_1_Rect.Width = 240.000000
-	__GongStructShape__000001_NewDiagram_1_Rect.Heigth = 63.000000
+	__GongStructShape__000001_NewDiagram_1_Rect.Height = 63.000000
 	__GongStructShape__000001_NewDiagram_1_Rect.IsSelected = false
 
 	// GongStructShape values setup
@@ -987,7 +987,7 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	__GongStructShape__000002_NewDiagram_1_RectLinkLink.ShowNbInstances = true
 	__GongStructShape__000002_NewDiagram_1_RectLinkLink.NbInstances = 1
 	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Width = 240.000000
-	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Heigth = 63.000000
+	__GongStructShape__000002_NewDiagram_1_RectLinkLink.Height = 63.000000
 	__GongStructShape__000002_NewDiagram_1_RectLinkLink.IsSelected = false
 
 	// Link values setup
@@ -1081,5 +1081,3 @@ func NewDiagram_1Injection(stage *models.StageStruct) {
 	__Link__000000_End.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Link
 	__Link__000001_Start.Middlevertice = __Vertice__000001_Verticle_in_class_diagram_NewDiagram_1_in_middle_between_NewDiagram_1_RectLinkLink_and_NewDiagram_1_Rect
 }
-
-

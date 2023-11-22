@@ -13,6 +13,7 @@ import { GongtreespecificModule } from 'gongtreespecific'
 
 import { GongtableModule } from 'gongtable'
 import { GongtablespecificModule } from 'gongtablespecific'
+import { ISplitDirection } from 'angular-split';
 
 @Component({
   selector: 'app-root',
@@ -53,6 +54,30 @@ export class AppComponent implements OnInit {
 
   }
 
+  direction: ISplitDirection = 'horizontal'
+  sizes = {
+    percentWithoutWildcards: {
+      area1: 30,
+      area2: 70,
+    },
+    percentWithWildcards: {
+      area1: '*',
+      area2: 20,
+      area3: 10,
+    },
+    pixel: {
+      area1: 120,
+      area2: '*',
+      area3: 160,
+    },
+  }
+
+  dragEndPixel(event: any) {
+
+    // const dragEvent = event as unknown as DragEvent
+    console.log(event)
+  }
+
   ngOnInit(): void {
     this.loading = false
 
@@ -66,4 +91,9 @@ export class AppComponent implements OnInit {
       }
     )
   }
+}
+
+export type DragEvent = {
+  gutterNum: number;
+  sizes: Array<number>;
 }

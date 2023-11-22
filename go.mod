@@ -3,8 +3,8 @@ module github.com/fullstack-lang/gongsvg
 go 1.21.0
 
 require (
-	github.com/fullstack-lang/gong v0.0.0-20231118160254-19ee555859bf
-	github.com/fullstack-lang/gongdoc v0.0.0-20231117043232-a52b0bb823bd
+	github.com/fullstack-lang/gong v0.0.0-20231121185001-2ffdfa9a2e6b
+	github.com/fullstack-lang/gongdoc v0.0.0-20231121144036-1c4b148306fa
 	github.com/fullstack-lang/gongtable v0.0.0-20231110024948-a7a414cc3516
 	github.com/fullstack-lang/gongtree v0.0.0-20231117042431-586d8529de87
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
@@ -66,7 +66,7 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/libc v1.34.4 // indirect
+	modernc.org/libc v1.34.9 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.7.2 // indirect
 	modernc.org/sqlite v1.27.0 // indirect

@@ -1,6 +1,6 @@
 .parent {
     position: absolute;
-    width: 3000;
+    width: 3000px;
     height: 8000;
     /* z-index: 100; */
     pointer-events: none;
@@ -8,7 +8,7 @@
 
 .child {
     position: absolute;
-    width: 3000;
+    width: 3000px;
     pointer-events: none;
 }
 

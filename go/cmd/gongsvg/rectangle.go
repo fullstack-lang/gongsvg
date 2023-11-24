@@ -166,10 +166,10 @@ Line 2`}).Stage(stage)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.696262
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.873394
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.420455
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 1.735577
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.368084
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 4.230769
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -191,8 +191,8 @@ Line 2`}).Stage(stage)
 	__Link__000001_Second_Arrow_both_arrows.StartOrientation = models.ORIENTATION_VERTICAL
 	__Link__000001_Second_Arrow_both_arrows.StartRatio = 0.466772
 	__Link__000001_Second_Arrow_both_arrows.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Second_Arrow_both_arrows.EndRatio = 0.120192
-	__Link__000001_Second_Arrow_both_arrows.CornerOffsetRatio = 1.614754
+	__Link__000001_Second_Arrow_both_arrows.EndRatio = 0.442308
+	__Link__000001_Second_Arrow_both_arrows.CornerOffsetRatio = 1.859887
 	__Link__000001_Second_Arrow_both_arrows.CornerRadius = 0.000000
 	__Link__000001_Second_Arrow_both_arrows.HasEndArrow = true
 	__Link__000001_Second_Arrow_both_arrows.EndArrowSize = 15.000000
@@ -240,8 +240,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 58.000000
-	__Rect__000000_Bottom.Y = 136.000000
+	__Rect__000000_Bottom.X = 61.000000
+	__Rect__000000_Bottom.Y = 78.000000
 	__Rect__000000_Bottom.Width = 632.000000
 	__Rect__000000_Bottom.Height = 122.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -267,8 +267,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 959.000000
-	__Rect__000001_Middle_Rect.Y = 222.000000
+	__Rect__000001_Middle_Rect.X = 391.000000
+	__Rect__000001_Middle_Rect.Y = 400.000000
 	__Rect__000001_Middle_Rect.Width = 253.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -294,8 +294,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 451.999969
-	__Rect__000002_Top.Y = 523.000000
+	__Rect__000002_Top.X = 127.999969
+	__Rect__000002_Top.Y = 408.000000
 	__Rect__000002_Top.Width = 208.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000

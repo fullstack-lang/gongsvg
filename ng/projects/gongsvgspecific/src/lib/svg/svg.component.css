@@ -1,7 +1,7 @@
 .parent {
     position: absolute;
-    width: 3000px;
-    height: 8000;
+    /* width: 100%; */
+    height: 100%;
     /* z-index: 100; */
     pointer-events: none;
 
@@ -9,21 +9,21 @@
 
 .child {
     position: absolute;
-    width: 3000px;
+    /* width: 100%; */
     pointer-events: none;
 }
 
 .link_trace {
     position: absolute;
-    width: 3000px;
-    height: 8000px;
+    /* width: 100%; */
+    /* height: 100%; */
     pointer-events: none;
 }
 
 .background {
     position: absolute;
-    width: 3000px;
-    height: 8000px;
+    /* width: 100%; */
+    /* height: 100%; */
     pointer-events: auto;
 }
 

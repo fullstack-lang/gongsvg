@@ -1,1 +1,19 @@
 <p>material-svg works!</p>
+<svg>
+    <g>
+        <ng-container *ngFor="let layer of svg.Layers" class="child">
+            <ng-container *ngFor="let circle of layer.Circles">
+                <circle class="overlay" [attr.cx]="circle.CX" [attr.cy]="circle.CY" [attr.r]="circle.Radius" [attr.fill]="circle.Color!" [attr.fill-opacity]="circle.FillOpacity"
+                [attr.stroke]="circle.Stroke" [attr.stroke-width]="circle.StrokeWidth" [attr.stroke-dasharray]="circle.StrokeDashArray"
+                [attr.transform]="circle.Transform">
+    
+                <animate *ngFor="let animate of circle.Animations" 
+                [attr.attributeName]="animate.AttributeName" 
+                [attr.values]="animate.Values" 
+                [attr.dur]="animate.Dur" 
+                [attr.repeatCount]="animate.RepeatCount" />
+            </circle>
+            </ng-container>
+        </ng-container>
+    </g>
+</svg>

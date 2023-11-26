@@ -102,6 +102,71 @@
                     [attr.dur]="animate.Dur" 
                     [attr.repeatCount]="animate.RepeatCount" />
             </ng-container>
+            <ng-container *ngFor="let rect of layer.Rects">
+                <rect   
+                    [attr.x]="rect.X"
+                    [attr.y]="rect.Y"
+                    [attr.width]="rect.Width"
+                    [attr.height]="rect.Height"
+                    [attr.rx]="rect.RX"
+                    [attr.fill]="rect.Color"
+                    [attr.fill-opacity]="rect.FillOpacity"
+                    [attr.stroke]="rect.Stroke"
+                    [attr.stroke-width]="rect.StrokeWidth"
+                    [attr.stroke-dasharray]="rect.IsSelected ? rect.StrokeDashArrayWhenSelected : rect.StrokeDashArray"
+                    [attr.transform]="rect.Transform"
+
+                    (mousedown)="rectMouseDown($event, rect)"
+                    (mousemove)="rectMouseMove($event, rect)"
+                    (mouseup)="rectMouseUp($event, rect)">
+
+            <animate
+                    *ngFor="let animate of rect.Animations"
+                    [attr.attributeName]="animate.AttributeName"
+                    [attr.values]="animate.Values"
+                    [attr.dur]="animate.Dur"
+                    [attr.repeatCount]="animate.RepeatCount" />
+
+        </rect>
+            </ng-container>
         </ng-container>
     </g>
 </svg>
+
+<ng-template #anchoredText let-text="text" let-anchorX="anchorX" let-anchorY="anchorY">
+    <ng-container *ngIf='splitTextIntoLines(text.Content) as lines'>
+            <svg:text class="anchored-text"
+            [attr.x]="anchorX" 
+            [attr.y]="anchorY" 
+            [attr.fill]="text.Color"    
+            [attr.fill-opacity]="text.FillOpacity"
+            [attr.stroke]="text.Stroke"
+            [attr.stroke-width]="text.StrokeWidth != 0 ? text.StrokeWidth : null"
+            [attr.stroke-dasharray]="text.StrokeDashArray"
+            [attr.transform]="text.Transform"
+            [attr.text-anchor]="text.TextAnchorType"
+            [attr.font-weight]="text.FontWeight"
+            [attr.font-size]="text.FontSize !== 0 ? text.FontSize + 'px' : null"
+            >
+            <tspan *ngFor='let line of lines; let j = index' 
+                    [attr.x]="anchorX"
+                    [attr.dy]="j > 0 ? '1em' : '0'"
+                    [attr.text-anchor]="text.TextAnchorType">{{line}}</tspan>  
+            </text>
+    </ng-container>
+</ng-template>
+
+<ng-template #anchoredRect let-rect="rect" let-anchorX="anchorX" let-anchorY="anchorY" let-width="width">
+    <svg:rect   
+    class="anchored-rect"
+    [attr.x]="anchorX"
+    [attr.y]="anchorY"
+    [attr.width]="width"
+    [attr.height]="rect.Height"
+    [attr.rx]="rect.RX"
+    [attr.fill]="rect.Color"
+    [attr.fill-opacity]="rect.FillOpacity"
+    [attr.stroke]="rect.Stroke"
+    [attr.stroke-width]="rect.StrokeWidth"
+    > </rect>
+</ng-template>

@@ -31,6 +31,9 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   private onResize = (): void => {
     this.updateSize();
   }
+  rectDragging: boolean = false
+  anchorDragging: boolean = false
+  activeAnchor: 'left' | 'right' | 'top' | 'bottom' = 'left'
 
   private updateSize() {
     this.svgWidth = window.innerWidth;
@@ -85,6 +88,8 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
     private isEditableService: IsEditableService,
     private refreshRequestService: RefreshService,
     private sizeTracker: SizeTrackerService,
+    private rectService: gongsvg.RectService,
+    private refreshService: RefreshService,
   ) {
 
     this.subscriptions.push(
@@ -364,4 +369,163 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
     document.body.removeChild(downloadLink);
   }
 
+
+  rectMouseDown(event: MouseEvent, rect: gongsvg.RectDB): void {
+    if (!event.altKey && !event.shiftKey) {
+      event.preventDefault();
+      event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+      this.rectDragging = true
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: rect.ID,
+        ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.mouseEventService.emitMouseDownEvent(shapeMouseEvent)
+    } else {
+      console.log('RectComponent, Alt Mouse down event occurred on rectangle ', rect.Name, rect.ID, event.clientX, event.clientY);
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: rect.ID,
+        ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.rectangleEventService.emitRectAltKeyMouseDownEvent(shapeMouseEvent)
+
+    }
+  }
+
+  rectMouseMove(event: MouseEvent, rect: gongsvg.RectDB): void {
+
+    let shapeMouseEvent: ShapeMouseEvent = {
+      ShapeID: rect.ID,
+      ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+      Point: mouseCoordInComponentRef(event),
+    }
+
+    // console.log("RectComponent DragRect : ", deltaX, deltaY, distanceMoved)
+
+    // we want this event to bubble to the SVG element
+    if (event.altKey) {
+      // console.log('RectComponent, Alt Mouse drag event occurred on rectangle ', rect.Name, event.clientX, event.clientY);
+      this.rectangleEventService.emitRectAltKeyMouseDragEvent(shapeMouseEvent)
+      return
+    }
+
+    if (event.shiftKey) {
+      this.svgEventService.emitMultiShapeSelectDrag(shapeMouseEvent)
+      return
+    }
+
+    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+    if (!event.altKey && !event.shiftKey) {
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: rect.ID,
+        ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
+    }
+  }
+
+  rectMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {
+
+    event.preventDefault();
+    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+    let shapeMouseEvent: ShapeMouseEvent = {
+      ShapeID: rect.ID,
+      ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+      Point: mouseCoordInComponentRef(event),
+    }
+
+    if (!event.altKey && !event.shiftKey) {
+      this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
+    }
+
+    if (event.altKey) {
+      console.log('RectComponent, Alt Mouse up event occurred on rectangle ', rect.Name, rect.ID, event.clientX, event.clientY);
+
+      this.rectangleEventService.emitMouseRectAltKeyMouseUpEvent(rect.ID);
+    }
+
+    if (event.shiftKey) {
+      this.svgEventService.emitMouseShiftKeyMouseUpEvent(shapeMouseEvent)
+    }
+  }
+
+  anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: gongsvg.RectDB): void {
+    event.preventDefault();
+    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+    this.anchorDragging = true;
+    this.activeAnchor = anchor;
+
+    if (!event.altKey && !event.shiftKey) {
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: rect.ID,
+        ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.mouseEventService.emitMouseDownEvent(shapeMouseEvent)
+    }
+  }
+
+  anchorMouseMove(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: gongsvg.RectDB): void {
+    event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+    if (!event.altKey && !event.shiftKey) {
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: rect.ID,
+        ShapeType: gongsvg.RectDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
+    }
+  }
+
+  anchorMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {
+    if (!event.altKey && !event.shiftKey) {
+      this.anchorDragging = false;
+      this.activeAnchor = 'bottom'
+      rect.IsSelected = false
+      this.manageHandles(rect)
+      this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+        _ => {
+          this.refreshService.emitRefreshRequestEvent(0)
+        }
+      )
+    }
+  }
+
+  splitTextIntoLines(text: string): string[] {
+    return text.split('\n')
+  }
+
+  // display or not handles if selected or not
+  manageHandles(rect: gongsvg.RectDB) {
+
+    if (rect.IsSelected && rect.CanHaveLeftHandle) {
+      rect.HasLeftHandle = true
+    } else {
+      rect.HasLeftHandle = false
+    }
+    if (rect.IsSelected && rect.CanHaveRightHandle) {
+      rect.HasRightHandle = true
+    } else {
+      rect.HasRightHandle = false
+    }
+    if (rect.IsSelected && rect.CanHaveTopHandle) {
+      rect.HasTopHandle = true
+    } else {
+      rect.HasTopHandle = false
+    }
+    if (rect.IsSelected && rect.CanHaveBottomHandle) {
+      rect.HasBottomHandle = true
+    } else {
+      rect.HasBottomHandle = false
+    }
+  }
 }

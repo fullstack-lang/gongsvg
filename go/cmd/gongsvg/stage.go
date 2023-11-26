@@ -338,7 +338,7 @@ func stageInjection(stage *models.StageStruct) {
 
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
-	__SVG__000000_SVG.IsEditable = false
+	__SVG__000000_SVG.IsEditable = true
 
 	// Text values setup
 	__Text__000000_Bonjorno.Name = `Bonjorno`

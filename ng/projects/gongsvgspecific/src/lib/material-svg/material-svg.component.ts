@@ -12,6 +12,7 @@ import { AngularDragEndEventService } from '../angular-drag-end-event.service';
 import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 import { IsEditableService } from '../is-editable.service';
 import { RefreshService } from '../refresh.service';
+import { SizeTrackerService } from '../size-tracker.service';
 
 
 @Component({
@@ -27,6 +28,17 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   // temporary, will be computed dynamicaly
   svgWidth = 3000
   svgHeight = 4000
+  private onResize = (): void => {
+    this.updateSize();
+  }
+
+  private updateSize() {
+    this.svgWidth = window.innerWidth;
+    this.svgHeight = window.innerHeight;
+    console.log(`New size: Width = ${this.width}, Height = ${this.height}`);
+
+    this.refresh()
+  }
 
 
   public gongsvgFrontRepo?: gongsvg.FrontRepo
@@ -72,6 +84,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
     private mouseEventService: MouseEventService,
     private isEditableService: IsEditableService,
     private refreshRequestService: RefreshService,
+    private sizeTracker: SizeTrackerService,
   ) {
 
     this.subscriptions.push(
@@ -162,6 +175,9 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    this.updateSize();
+    window.addEventListener('resize', this.onResize);
+
     // console.log("Svg component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
 
     // see above for the explanation
@@ -213,6 +229,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    window.removeEventListener('resize', this.onResize);
   }
 
   onEndOfLinkDrawing(startRectangleID: number, endRectangleID: number) {

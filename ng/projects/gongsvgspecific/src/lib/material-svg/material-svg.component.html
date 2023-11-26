@@ -1,4 +1,6 @@
-<svg>
+<div>Width: {{ svgWidth}}</div>
+<div>Height: {{ svgHeight }}</div>
+<svg [attr.width]="svgWidth" [attr.height]="svgHeight" >
     <g>
         <ng-container *ngFor="let layer of svg.Layers" class="child">
             <ng-container *ngFor="let circle of layer.Circles">

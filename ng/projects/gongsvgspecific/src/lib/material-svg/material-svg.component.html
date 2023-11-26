@@ -1,18 +1,104 @@
-<p>material-svg works!</p>
 <svg>
     <g>
         <ng-container *ngFor="let layer of svg.Layers" class="child">
             <ng-container *ngFor="let circle of layer.Circles">
-                <circle class="overlay" [attr.cx]="circle.CX" [attr.cy]="circle.CY" [attr.r]="circle.Radius" [attr.fill]="circle.Color!" [attr.fill-opacity]="circle.FillOpacity"
-                [attr.stroke]="circle.Stroke" [attr.stroke-width]="circle.StrokeWidth" [attr.stroke-dasharray]="circle.StrokeDashArray"
-                [attr.transform]="circle.Transform">
+                <circle class="overlay" 
+                    [attr.cx]="circle.CX" 
+                    [attr.cy]="circle.CY" 
+                    [attr.r]="circle.Radius" 
+                    [attr.fill]="circle.Color!" 
+                    [attr.fill-opacity]="circle.FillOpacity"
+                    [attr.stroke]="circle.Stroke" 
+                    [attr.stroke-width]="circle.StrokeWidth" 
+                    [attr.stroke-dasharray]="circle.StrokeDashArray"
+                    [attr.transform]="circle.Transform">
     
                 <animate *ngFor="let animate of circle.Animations" 
-                [attr.attributeName]="animate.AttributeName" 
-                [attr.values]="animate.Values" 
-                [attr.dur]="animate.Dur" 
-                [attr.repeatCount]="animate.RepeatCount" />
+                    [attr.attributeName]="animate.AttributeName" 
+                    [attr.values]="animate.Values" 
+                    [attr.dur]="animate.Dur" 
+                    [attr.repeatCount]="animate.RepeatCount" />
             </circle>
+            </ng-container>
+            <ng-container *ngFor="let ellipse of layer.Ellipses">
+                <ellipse 
+                    [attr.rx]="ellipse.RX"
+                    [attr.ry]="ellipse.RY"
+                    [attr.cx]="ellipse.CX"
+                    [attr.cy]="ellipse.CY"
+                    [attr.fill]="ellipse.Color"
+                    [attr.fill-opacity]="ellipse.FillOpacity"
+                    [attr.stroke]="ellipse.Stroke"
+                    [attr.stroke-width]="ellipse.StrokeWidth"
+                    [attr.stroke-dasharray]="ellipse.StrokeDashArray" />
+
+                <animate *ngFor="let animate of ellipse.Animates" 
+                    [attr.attributeName]="animate.AttributeName" 
+                    [attr.values]="animate.Values" 
+                    [attr.dur]="animate.Dur" 
+                    [attr.repeatCount]="animate.RepeatCount" />
+            </ng-container>
+            <ng-container *ngFor="let line of layer.Lines">
+                <line 
+                    [attr.x1]="line.X1"
+                    [attr.y1]="line.Y1"
+                    [attr.x2]="line.X2"
+                    [attr.y2]="line.Y2"
+                    [attr.fill]="line.Color"
+                    [attr.fill-opacity]="line.FillOpacity"
+                    [attr.stroke]="line.Stroke"
+                    [attr.stroke-width]="line.StrokeWidth"
+                    [attr.stroke-dasharray]="line.StrokeDashArray"
+                    [attr.transform]="line.Transform" />
+                <animate *ngFor="let animate of line.Animates" 
+                    [attr.attributeName]="animate.AttributeName" 
+                    [attr.values]="animate.Values" 
+                    [attr.dur]="animate.Dur" 
+                    [attr.repeatCount]="animate.RepeatCount" />
+            </ng-container>
+            <ng-container *ngFor="let path of layer.Paths">
+                <path [attr.d]="path.Definition"
+                    [attr.fill]="path.Color"
+                    [attr.fill-opacity]="path.FillOpacity"
+                    [attr.stroke]="path.Stroke"
+                    [attr.stroke-width]="path.StrokeWidth"
+                    [attr.stroke-dasharray]="path.StrokeDashArray"/>
+    
+                <animate *ngFor="let animate of path.Animates" 
+                    [attr.attributeName]="animate.AttributeName" 
+                    [attr.values]="animate.Values" 
+                    [attr.dur]="animate.Dur" 
+                    [attr.repeatCount]="animate.RepeatCount" />
+            </ng-container>
+            <ng-container *ngFor="let polygone of layer.Polygones">
+                <polygon 
+                    [attr.points]="polygone.Points"
+                    [attr.fill]="polygone.Color"
+                    [attr.fill-opacity]="polygone.FillOpacity"
+                    [attr.stroke]="polygone.Stroke"
+                    [attr.stroke-width]="polygone.StrokeWidth"
+                    [attr.stroke-dasharray]="polygone.StrokeDashArray" />
+    
+                <animate *ngFor="let animate of polygone.Animates" 
+                    [attr.attributeName]="animate.AttributeName" 
+                    [attr.values]="animate.Values" 
+                    [attr.dur]="animate.Dur" 
+                    [attr.repeatCount]="animate.RepeatCount" />
+            </ng-container>
+            <ng-container *ngFor="let polyline of layer.Polylines">
+                <polyline [attr.points]="polyline.Points"
+                    [attr.fill]="polyline.Color"
+                    [attr.fill-opacity]="polyline.FillOpacity"
+                    [attr.stroke]="polyline.Stroke"
+                    [attr.stroke-width]="polyline.StrokeWidth"
+                    [attr.stroke-dasharray]="polyline.StrokeDashArray"
+                />
+    
+                <animate *ngFor="let animate of polyline.Animates" 
+                    [attr.attributeName]="animate.AttributeName" 
+                    [attr.values]="animate.Values" 
+                    [attr.dur]="animate.Dur" 
+                    [attr.repeatCount]="animate.RepeatCount" />
             </ng-container>
         </ng-container>
     </g>

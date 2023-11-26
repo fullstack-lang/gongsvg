@@ -1,5 +1,5 @@
-<div>Width: {{ svgWidth}}</div>
-<div>Height: {{ svgHeight }}</div>
+<!-- <div>Width: {{ svgWidth}}</div>
+<div>Height: {{ svgHeight }}</div> -->
 <svg [attr.width]="svgWidth" [attr.height]="svgHeight" >
     <g>
         <ng-container *ngFor="let layer of svg.Layers" class="child">
@@ -156,7 +156,41 @@
                                     width: (rectanchoredrect.WidthFollowRect ? rect.Width : rectanchoredrect.Width) }
                             ">
                     </ng-container>
-            </ng-container>
+                </ng-container>
+                <ng-container *ngFor='let text of rect.RectAnchoredTexts!; let i = index'>
+                    <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 
+                            [ngTemplateOutlet]="anchoredText" 
+                            [ngTemplateOutletContext]="{ 
+                                    text: text, 
+                                    anchorX: rect.X + text.X_Offset, 
+                                    anchorY: rect.Y + text.Y_Offset }
+                            ">
+                    </ng-container>
+                    <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP" 
+                            [ngTemplateOutlet]="anchoredText" 
+                            [ngTemplateOutletContext]="{ 
+                                    text: text, 
+                                    anchorX: rect.X + rect.Width/2 + text.X_Offset, 
+                                    anchorY: rect.Y + text.Y_Offset }
+                            ">
+                    </ng-container>
+                    <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_RIGHT" 
+                            [ngTemplateOutlet]="anchoredText" 
+                            [ngTemplateOutletContext]="{ 
+                                    text: text, 
+                                    anchorX: rect.X + rect.Width + text.X_Offset, 
+                                    anchorY: rect.Y + text.Y_Offset }
+                            ">
+                    </ng-container>
+                    <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_ANCHOR_BOTTOM" 
+                            [ngTemplateOutlet]="anchoredText" 
+                            [ngTemplateOutletContext]="{ 
+                                    text: text, 
+                                    anchorX: rect.X + rect.Width/2 + text.X_Offset, 
+                                    anchorY: rect.Y + rect.Height + text.Y_Offset }
+                            ">
+                    </ng-container>
+                </ng-container>
             </ng-container>
         </ng-container>
     </g>

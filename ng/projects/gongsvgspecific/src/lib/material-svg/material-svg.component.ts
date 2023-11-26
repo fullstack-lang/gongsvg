@@ -92,90 +92,77 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
     private refreshService: RefreshService,
   ) {
 
-    this.subscriptions.push(
-      rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe(
-        (shapeMouseEvent: ShapeMouseEvent) => {
-          console.log('SvgComponent, Alt Mouse down event occurred on rectangle ', shapeMouseEvent.ShapeID)
-          this.linkStartRectangleID = shapeMouseEvent.ShapeID
+    this.subscriptions.push(rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe(
+      (shapeMouseEvent: ShapeMouseEvent) => {
+        console.log('SvgComponent, Alt Mouse down event occurred on rectangle ', shapeMouseEvent.ShapeID)
+        this.linkStartRectangleID = shapeMouseEvent.ShapeID
 
-          // refactorable of Rect name
-          let rect = this.gongsvgFrontRepo?.getMap<gongsvg.RectDB>(gongsvg.RectDB.GONGSTRUCT_NAME).get(shapeMouseEvent.ShapeID)
+        // refactorable of Rect name
+        let rect = this.gongsvgFrontRepo?.getMap<gongsvg.RectDB>(gongsvg.RectDB.GONGSTRUCT_NAME).get(shapeMouseEvent.ShapeID)
 
-          if (rect == undefined) {
-            return
-          }
+        if (rect == undefined) {
+          return
+        }
 
-          this.linkDrawing = true
-          this.startX = shapeMouseEvent.Point.X
-          this.startY = shapeMouseEvent.Point.Y
-        })
-    );
+        this.linkDrawing = true
+        this.startX = shapeMouseEvent.Point.X
+        this.startY = shapeMouseEvent.Point.Y
+      }))
 
-    this.subscriptions.push(
+    this.subscriptions.push(rectangleEventService.mouseRectAltKeyMouseDragEvent$.subscribe((shapeMouseEvent: ShapeMouseEvent) => {
 
-      rectangleEventService.mouseRectAltKeyMouseDragEvent$.subscribe((shapeMouseEvent: ShapeMouseEvent) => {
+      this.endX = shapeMouseEvent.Point.X
+      this.endY = shapeMouseEvent.Point.Y
+      // console.log('SvgComponent, Received Mouse drag event occurred', this.linkDrawing, this.startX, this.startY, this.endX, this.endY);
+    }))
 
+    this.subscriptions.push(rectangleEventService.mouseRectAltKeyMouseUpEvent$.subscribe((rectangleID: number) => {
+      console.log('SvgComponent, Mouse up event occurred on rectangle ', rectangleID);
+      this.linkDrawing = false
+
+      this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)
+    }))
+
+    this.subscriptions.push(svgEventService.multiShapeSelectDragEvent$.subscribe(
+      (shapeMouseEvent: ShapeMouseEvent) => {
+
+        let actualX = shapeMouseEvent.Point.X
+        let actualY = shapeMouseEvent.Point.Y
+
+        this.rectX = Math.min(this.startX, actualX);
+        this.rectY = Math.min(this.startY, actualY);
+        this.width = Math.abs(actualX - this.startX);
+        this.height = Math.abs(actualY - this.startY);
+      }))
+
+    this.subscriptions.push(svgEventService.mouseShiftKeyMouseUpEvent$.subscribe(
+      (shapeMouseEvent) => {
+
+        this.selectionRectDrawing = false
         this.endX = shapeMouseEvent.Point.X
         this.endY = shapeMouseEvent.Point.Y
-        // console.log('SvgComponent, Received Mouse drag event occurred', this.linkDrawing, this.startX, this.startY, this.endX, this.endY);
-      })
-    )
 
-    this.subscriptions.push(
-      rectangleEventService.mouseRectAltKeyMouseUpEvent$.subscribe((rectangleID: number) => {
-        console.log('SvgComponent, Mouse up event occurred on rectangle ', rectangleID);
-        this.linkDrawing = false
+        let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
 
-        this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)
-      })
-    )
-
-    this.subscriptions.push(
-      svgEventService.multiShapeSelectDragEvent$.subscribe(
-        (shapeMouseEvent: ShapeMouseEvent) => {
-
-          let actualX = shapeMouseEvent.Point.X
-          let actualY = shapeMouseEvent.Point.Y
-
-          this.rectX = Math.min(this.startX, actualX);
-          this.rectY = Math.min(this.startY, actualY);
-          this.width = Math.abs(actualX - this.startX);
-          this.height = Math.abs(actualY - this.startY);
-        })
-    );
-
-    this.subscriptions.push(
-      svgEventService.mouseShiftKeyMouseUpEvent$.subscribe(
-        (shapeMouseEvent) => {
-
-          this.selectionRectDrawing = false
-          this.endX = shapeMouseEvent.Point.X
-          this.endY = shapeMouseEvent.Point.Y
-
-          let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
-
-          if (this.endX > this.startX) {
-            selectAreaConfig.SweepDirection = SweepDirection.LEFT_TO_RIGHT
-            selectAreaConfig.TopLeft = [this.startX, this.startY]
-            selectAreaConfig.BottomRigth = [this.endX, this.endY]
-          } else {
-            selectAreaConfig.SweepDirection = SweepDirection.RIGHT_TO_LEFT
-            selectAreaConfig.TopLeft = [this.endX, this.endY]
-            selectAreaConfig.BottomRigth = [this.startX, this.startY]
-          }
-
-          this.svgEventService.emitMultiShapeSelectEnd(selectAreaConfig)
+        if (this.endX > this.startX) {
+          selectAreaConfig.SweepDirection = SweepDirection.LEFT_TO_RIGHT
+          selectAreaConfig.TopLeft = [this.startX, this.startY]
+          selectAreaConfig.BottomRigth = [this.endX, this.endY]
+        } else {
+          selectAreaConfig.SweepDirection = SweepDirection.RIGHT_TO_LEFT
+          selectAreaConfig.TopLeft = [this.endX, this.endY]
+          selectAreaConfig.BottomRigth = [this.startX, this.startY]
         }
-      )
-    )
 
-    this.subscriptions.push(
-      refreshRequestService.refreshRequest$.subscribe(
-        _ => {
-          this.refresh()
-        }
-      )
-    )
+        this.svgEventService.emitMultiShapeSelectEnd(selectAreaConfig)
+      }))
+
+    this.subscriptions.push(refreshRequestService.refreshRequest$.subscribe(
+      _ => {
+        this.refresh()
+      }))
+
+
   }
 
   ngOnInit(): void {

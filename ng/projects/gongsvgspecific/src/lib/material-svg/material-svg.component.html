@@ -120,14 +120,14 @@
                     (mousemove)="rectMouseMove($event, rect)"
                     (mouseup)="rectMouseUp($event, rect)">
 
-            <animate
-                    *ngFor="let animate of rect.Animations"
-                    [attr.attributeName]="animate.AttributeName"
-                    [attr.values]="animate.Values"
-                    [attr.dur]="animate.Dur"
-                    [attr.repeatCount]="animate.RepeatCount" />
+                <animate
+                        *ngFor="let animate of rect.Animations"
+                        [attr.attributeName]="animate.AttributeName"
+                        [attr.values]="animate.Values"
+                        [attr.dur]="animate.Dur"
+                        [attr.repeatCount]="animate.RepeatCount" />
 
-        </rect>
+                </rect>
             </ng-container>
         </ng-container>
     </g>

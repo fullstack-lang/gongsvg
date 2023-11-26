@@ -24,6 +24,11 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   @Input() GONG__StackPath: string = ""
   @ViewChild('drawingArea') drawingArea: ElementRef<HTMLDivElement> | undefined
 
+  // temporary, will be computed dynamicaly
+  svgWidth = 3000
+  svgHeight = 4000
+
+
   public gongsvgFrontRepo?: gongsvg.FrontRepo
 
   // the component is refreshed when modification are performed in the back repo 

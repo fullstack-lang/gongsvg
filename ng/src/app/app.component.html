@@ -7,6 +7,34 @@
     </mat-radio-group>
 </ng-template>
 
+
+<as-split *ngIf="view==materialSvgView" direction="vertical">
+    <as-split-area [size]=5>
+        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+    </as-split-area>
+    <as-split-area [size]=5>
+        <button mat-raised-button color="primary" (click)="toogleEditable()">Switch Editable/Non Editable</button>
+    </as-split-area>
+
+    <as-split-area #splitEl [size]=90>
+        <as-split unit="pixel" direction="horizontal" (dragEnd)="dragEndPixel($event)">
+            <as-split-area size=50>
+            </as-split-area>
+            <as-split-area size=500 style="overflow-x: scroll;">
+                <lib-material-svg [GONG__StackPath]="StackName">
+                </lib-material-svg>
+            </as-split-area>
+            <!-- <as-split-area size=700>
+                <lib-svg *ngIf="!loading" [GONG__StackPath]="StackName">
+                </lib-svg>
+            </as-split-area> -->
+
+            <as-split-area size="*">
+            </as-split-area>
+        </as-split>
+    </as-split-area>
+</as-split>
+
 <as-split *ngIf="view==svgView" direction="vertical">
     <as-split-area [size]=5>
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
@@ -19,14 +47,15 @@
         <as-split unit="pixel" direction="horizontal" (dragEnd)="dragEndPixel($event)">
             <as-split-area size=50>
             </as-split-area>
+            <as-split-area size=500 style="overflow-x: hidden;">
+                <lib-material-svg [GONG__StackPath]="StackName">
+                </lib-material-svg>
+            </as-split-area>
             <as-split-area size=700>
                 <lib-svg *ngIf="!loading" [GONG__StackPath]="StackName">
                 </lib-svg>
             </as-split-area>
-            <as-split-area size=500>
-                <lib-material-svg [GONG__StackPath]="StackName">
-                </lib-material-svg>
-            </as-split-area>
+
             <as-split-area size="*">
             </as-split-area>
         </as-split>

@@ -22,6 +22,7 @@ import { GongsvgModule } from 'gongsvg';
 import { SvgComponent } from './svg/svg.component';
 import { LinkComponent } from './link/link.component';
 import { RectLinkLinkComponent } from './rect-link-link/rect-link-link.component';
+import { MaterialSvgComponent } from './material-svg/material-svg.component';
 
 
 
@@ -39,7 +40,8 @@ import { RectLinkLinkComponent } from './rect-link-link/rect-link-link.component
     PolygoneComponent,
     SvgComponent,
     LinkComponent,
-    RectLinkLinkComponent
+    RectLinkLinkComponent,
+    MaterialSvgComponent
   ],
   imports: [
     CommonModule,
@@ -52,6 +54,7 @@ import { RectLinkLinkComponent } from './rect-link-link/rect-link-link.component
   exports: [
     GongsvgspecificComponent,
     SvgComponent,
+    MaterialSvgComponent,
   ]
 })
 export class GongsvgspecificModule { }

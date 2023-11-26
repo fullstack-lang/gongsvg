@@ -25,6 +25,9 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   @Input() GONG__StackPath: string = ""
   @ViewChild('drawingArea') drawingArea: ElementRef<HTMLDivElement> | undefined
 
+  // for use in the template
+  RectAnchorType = gongsvg.RectAnchorType
+
   // temporary, will be computed dynamicaly
   svgWidth = 3000
   svgHeight = 4000
@@ -311,16 +314,6 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
       }
     )
 
-    // this.gongsvgPushFromFrontNbService.getPushNbFromFront(500, this.GONG__StackPath).subscribe(
-    //   lastPushFromFrontNb => {
-    //     if (this.lastPushFromFrontNb < lastPushFromFrontNb) {
-
-    //       // console.log("last commit nb " + this.lastCommiNbFromBagetCommitNbFromFront + " new: " + commiNbFromBagetCommitNbFromFront)
-    //       this.refresh()
-    //       this.lastPushFromFrontNb = lastPushFromFrontNb
-    //     }
-    //   }
-    // )
   }
 
   refresh(): void {

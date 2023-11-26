@@ -120,14 +120,43 @@
                     (mousemove)="rectMouseMove($event, rect)"
                     (mouseup)="rectMouseUp($event, rect)">
 
-                <animate
-                        *ngFor="let animate of rect.Animations"
-                        [attr.attributeName]="animate.AttributeName"
-                        [attr.values]="animate.Values"
-                        [attr.dur]="animate.Dur"
-                        [attr.repeatCount]="animate.RepeatCount" />
+                    <animate
+                            *ngFor="let animate of rect.Animations"
+                            [attr.attributeName]="animate.AttributeName"
+                            [attr.values]="animate.Values"
+                            [attr.dur]="animate.Dur"
+                            [attr.repeatCount]="animate.RepeatCount" />
 
                 </rect>
+                <ng-container *ngFor='let rectanchoredrect of rect.RectAnchoredRects!; let i = index'>
+                    <ng-container *ngIf="rectanchoredrect.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP" 
+                            [ngTemplateOutlet]="anchoredRect" 
+                            [ngTemplateOutletContext]="{ 
+                                    rect: rectanchoredrect, 
+                                    anchorX: rect.X + rect.Width/2 + rectanchoredrect.X_Offset, 
+                                    anchorY: rect.Y + rectanchoredrect.Y_Offset,
+                                    width: (rectanchoredrect.WidthFollowRect ? rect.Width : rectanchoredrect.Width) }
+                            ">
+                    </ng-container>
+                    <ng-container *ngIf="rectanchoredrect.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 
+                            [ngTemplateOutlet]="anchoredRect" 
+                            [ngTemplateOutletContext]="{ 
+                                    rect: rectanchoredrect, 
+                                    anchorX: rect.X + rectanchoredrect.X_Offset, 
+                                    anchorY: rect.Y + rectanchoredrect.Y_Offset ,
+                                    width: (rectanchoredrect.WidthFollowRect ? rect.Width : rectanchoredrect.Width) }
+                            ">
+                    </ng-container>
+                    <ng-container *ngIf="rectanchoredrect.RectAnchorType == RectAnchorType.RECT_ANCHOR_BOTTOM" 
+                            [ngTemplateOutlet]="anchoredRect" 
+                            [ngTemplateOutletContext]="{ 
+                                    rect: rectanchoredrect, 
+                                    anchorX: rect.X + rect.Width/2 + rectanchoredrect.X_Offset, 
+                                    anchorY: rect.Y + rect.Height + rectanchoredrect.Y_Offset ,
+                                    width: (rectanchoredrect.WidthFollowRect ? rect.Width : rectanchoredrect.Width) }
+                            ">
+                    </ng-container>
+            </ng-container>
             </ng-container>
         </ng-container>
     </g>
@@ -158,15 +187,15 @@
 
 <ng-template #anchoredRect let-rect="rect" let-anchorX="anchorX" let-anchorY="anchorY" let-width="width">
     <svg:rect   
-    class="anchored-rect"
-    [attr.x]="anchorX"
-    [attr.y]="anchorY"
-    [attr.width]="width"
-    [attr.height]="rect.Height"
-    [attr.rx]="rect.RX"
-    [attr.fill]="rect.Color"
-    [attr.fill-opacity]="rect.FillOpacity"
-    [attr.stroke]="rect.Stroke"
-    [attr.stroke-width]="rect.StrokeWidth"
+        class="anchored-rect"
+        [attr.x]="anchorX"
+        [attr.y]="anchorY"
+        [attr.width]="width"
+        [attr.height]="rect.Height"
+        [attr.rx]="rect.RX"
+        [attr.fill]="rect.Color"
+        [attr.fill-opacity]="rect.FillOpacity"
+        [attr.stroke]="rect.Stroke"
+        [attr.stroke-width]="rect.StrokeWidth"
     > </rect>
 </ng-template>

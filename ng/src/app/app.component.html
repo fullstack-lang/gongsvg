@@ -47,10 +47,10 @@
         <as-split unit="pixel" direction="horizontal" (dragEnd)="dragEndPixel($event)">
             <as-split-area size=50>
             </as-split-area>
-            <as-split-area size=500 style="overflow-x: hidden;">
+            <!-- <as-split-area size=500 style="overflow-x: hidden;">
                 <lib-material-svg [GONG__StackPath]="StackName">
                 </lib-material-svg>
-            </as-split-area>
+            </as-split-area> -->
             <as-split-area size=700>
                 <lib-svg *ngIf="!loading" [GONG__StackPath]="StackName">
                 </lib-svg>

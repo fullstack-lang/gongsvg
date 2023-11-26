@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, DoCheck, OnInit, SimpleChanges, ViewChild, AfterViewChecked, OnChanges } from '@angular/core';
 import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
-import { SegmentsParams, Segment, createPoint, drawSegments, Offset } from './draw.segments';
+import { SegmentsParams, Segment, createPoint, drawSegments, Offset } from '../draw.segments';
 import { Subscription } from 'rxjs';
 import { ShapeMouseEvent } from '../shape.mouse.event';
 import { MouseEventService } from '../mouse-event.service';
@@ -13,7 +13,7 @@ import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
 import { IsEditableService } from '../is-editable.service';
 import { RefreshService } from '../refresh.service';
-import { swapSegment } from './swap.segment';
+import { swapSegment } from '../swap.segment';
 
 @Component({
   selector: 'lib-link',

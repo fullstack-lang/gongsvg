@@ -6,7 +6,7 @@ import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.
 
 import * as gongsvg from 'gongsvg'
 import { ShapeMouseEvent } from '../shape.mouse.event';
-import { createPoint } from '../link/draw.segments';
+import { createPoint } from '../draw.segments';
 import { MouseEventService } from '../mouse-event.service';
 import { AngularDragEndEventService } from '../angular-drag-end-event.service';
 import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';

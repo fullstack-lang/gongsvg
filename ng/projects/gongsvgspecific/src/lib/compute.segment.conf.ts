@@ -1,62 +1,236 @@
 import * as gongsvg from 'gongsvg'
+import { Segment } from './draw.segments'
+import { ShapeMouseEvent } from './shape.mouse.event'
 
-export interface SegmentConf {
+export interface LinkConf {
+    drawSegments(): boolean
 
-    // horizontal & vertical cutoff
-    HC: number
-    VC: number
-    Orientation: gongsvg.OrientationType
-}
+    dragging: boolean
+    draggedLink: gongsvg.LinkDB | undefined
+    draggedSegmentNumber: number
+    draggedSegmentPositionOnArrow: gongsvg.PositionOnArrowType
+    segments: Segment[] | undefined
+    PointAtMouseDown: gongsvg.PointDB | undefined
 
-function isBetweenZeroAndOne(value: number): boolean {
-    return value >= 0.0 && value <= 1.0;
-}
-
-function ensureBetweenZeroAndOne(value: number): number {
-    if (value < 0.0) {
-        return 0.0;
-    } else if (value > 1.0) {
-        return 1.0;
-    } else {
-        return value;
-    }
+    // for change detection, we need to store start and end rect
+    previousStart: gongsvg.RectDB | undefined
+    previousEnd: gongsvg.RectDB | undefined
 }
 
 
-// computeSegmentConf takes an input SegmentConf
-// and returns it unless
-//
-// there is a need for a orientation swap
-// - Orientation is horizontal and VC is outside the [0, 1] range
-// - Orientation is vertical and HC is outside the [0, 1] range
-// It performs the orientation swaps and put HC or VC back into the  [0, 1] range
-//
-// HC and VC are both outside the [0, 1] range
-// - it sets valid to false
-//
-export function computeSegmentConf(input: SegmentConf): { valid: boolean, conf: SegmentConf } {
 
-    let res = { valid: true, conf: structuredClone(input) }
+// computeSegmentConf
+export function computeSegmentConf(linkConf: LinkConf, shapeMouseEvent: ShapeMouseEvent) {
 
-    if (!isBetweenZeroAndOne(input.HC) && !isBetweenZeroAndOne(input.VC)) {
-        res.valid = false
-        return res
+    // offSetForNewMidlleSegment denotes the standard distance between
+    // a rect and the middle segment that is created when going from a
+    // two segment link to a three segment link
+    const offSetForNewMidlleSegment = 100
+
+    // in order to have middle segment always visible
+    const offsetFromBorderForNewMidlleSegment = 50
+
+    if (linkConf.draggedSegmentNumber >= linkConf.segments!.length) {
+        linkConf.draggedSegmentNumber = linkConf.segments!.length - 1
     }
 
-    if (input.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
-        if (!isBetweenZeroAndOne(input.VC)) {
-            // swap orientation
-            res.conf.Orientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
+    let segment = linkConf.segments![linkConf.draggedSegmentNumber]
+    let link = linkConf.draggedLink
+    if (link == undefined) {
+        return
+    }
+
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+
+        // set up the cursor style
+        document.body.style.cursor = 'ns-resize'
+
+        let deltaY = shapeMouseEvent.Point.Y - linkConf.PointAtMouseDown!.Y
+        if (linkConf.draggedSegmentNumber == 0 && deltaY != 0) {
+
+            let newStartRatio = (shapeMouseEvent.Point.Y - linkConf.previousStart!.Y) / linkConf.previousStart!.Height
+            link.StartRatio = newStartRatio
+
+            if (newStartRatio < 0 || newStartRatio > 1) {
+
+                let nextStartRatio = (shapeMouseEvent.Point.X - link.Start!.X) / link.Start!.Width
+
+                // we swap first segment from horizontal to vertical only if the new ratio
+                // is within 0 and 1 
+                if (nextStartRatio >= 0 && nextStartRatio <= 1) {
+
+                    // the cursor is at the left of the start rectangle
+                    if (newStartRatio < 0) {
+
+                        // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                        // at the left of the End Rect
+                        let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
+                        // Math.max(link.Start!.Y - offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
+
+                        link.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - link.Start!.Y) / link.Start!.Height
+                    }
+
+                    // 
+                    if (newStartRatio > 1) {
+                        let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
+
+                        link.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - link.Start!.Y) / link.Start!.Height
+
+                        console.log("link.CornerOffsetRatio", link.CornerOffsetRatio)
+                    }
+                    // switch dragged element to next segment
+                    linkConf.draggedSegmentNumber = 1
+
+                    newStartRatio = nextStartRatio
+                    link.StartOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
+                    link.StartRatio = newStartRatio
+                    linkConf.drawSegments()
+                } else {
+                    document.body.style.cursor = 'not-allowed'
+                    if (newStartRatio < 0) { newStartRatio = 0 }
+                    if (newStartRatio > 1) { newStartRatio = 1 }
+                }
+            }
+        }
+
+        // last segment
+        if (linkConf.draggedSegmentNumber == linkConf.segments!.length - 1 && deltaY != 0) {
+
+            let newRatio = (shapeMouseEvent.Point.Y - linkConf.previousEnd!.Y) / linkConf.previousEnd!.Height
+
+            if (newRatio < 0 || newRatio > 1) {
+                let nextStartRatio = (shapeMouseEvent.Point.X - link.End!.X) / link.End!.Width
+
+                if (nextStartRatio >= 0 && nextStartRatio <= 1) {
+
+                    if (newRatio < 0) {
+                        // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                        // at the left of the End Rect
+                        let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
+                        link.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - link.Start!.Y) / link.Start!.Height
+                    }
+                    if (newRatio > 1) {
+                        let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
+                        link.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - link.Start!.Y) / link.Start!.Height
+                    }
+                    // switch dragged element to previous segment
+                    linkConf.draggedSegmentNumber = linkConf.segments!.length - 1
+
+                    newRatio = nextStartRatio
+                    link.EndOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
+                    link.EndRatio = newRatio
+                    linkConf.drawSegments()
+                } else {
+                    document.body.style.cursor = 'not-allowed'
+                    if (newRatio < 0) { newRatio = 0 }
+                    if (newRatio > 1) { newRatio = 1 }
+                }
+            }
+            link.EndRatio = newRatio
+        }
+
+        // middle segment
+        if (linkConf.segments!.length == 3 && linkConf.draggedSegmentNumber == 1 && deltaY != 0) {
+
+            let newCornerOffsetRatio =
+                (shapeMouseEvent.Point.Y - link.Start!.Y) / link.Start!.Height
+
+            link.CornerOffsetRatio = newCornerOffsetRatio
         }
     }
-    if (input.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
-        if (!isBetweenZeroAndOne(input.HC)) {
-            // swap orientation
-            res.conf.Orientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+
+        // set up the cursor style
+        document.body.style.cursor = 'ew-resize'
+
+        let deltaX = (shapeMouseEvent.Point.X - linkConf.PointAtMouseDown!.X)
+
+        // first segment
+        if (linkConf.draggedSegmentNumber == 0 && deltaX != 0) {
+
+            let newStartRatio = (shapeMouseEvent.Point.X - linkConf.previousStart!.X) / linkConf.previousStart!.Width
+
+            link.StartRatio = newStartRatio
+
+            // special case where we need to change orientation
+            if (newStartRatio < 0 || newStartRatio > 1) {
+
+                // we change orientation (horizontal to vertical), therefore we compute the new start ratio
+                let newStartVerticalRatio = (shapeMouseEvent.Point.Y - link.Start!.Y) / link.Start!.Height
+
+                if (newStartVerticalRatio >= 0 && newStartVerticalRatio <= 1) {
+                    if (newStartRatio < 0) {
+                        // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                        // at the left of the End Rect
+                        let targetX_ForVerticalMiddleSegment = shapeMouseEvent.Point.X
+
+                        link.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - link.Start!.X) / link.Start!.Width
+                    }
+                    if (newStartRatio > 1) {
+                        let targetX_ForVerticalMiddleSegment = shapeMouseEvent.Point.X
+                        link.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - link.Start!.X) / link.Start!.Width
+                    }
+
+                    newStartRatio = newStartVerticalRatio
+                    link.StartOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
+                    link.StartRatio = newStartVerticalRatio
+                } else {
+                    document.body.style.cursor = 'not-allowed'
+                    if (newStartRatio < 0) { newStartRatio = 0 }
+                    if (newStartRatio > 1) { newStartRatio = 1 }
+                }
+            }
+
+            // in all case, we are finished here
+            linkConf.drawSegments()
+            return
+        }
+
+        // last segment
+        if (linkConf.draggedSegmentNumber == linkConf.segments!.length - 1 && deltaX != 0) {
+
+            let newEndRatio = (shapeMouseEvent.Point.X - linkConf.previousEnd!.X) / linkConf.previousEnd!.Width
+
+            if (newEndRatio < 0 || newEndRatio > 1) {
+                let newOrientationRatio = (shapeMouseEvent.Point.Y - link.End!.Y) / link.End!.Height
+
+                if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
+                    if (newEndRatio < 0) {
+                        // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                        // at the left of the End Rect
+                        let targetX_ForVerticalMiddleSegment =
+                            Math.max(link.End!.X - offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
+                        link.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - link.Start!.X) / link.Start!.Width
+                    }
+                    if (newEndRatio > 1) {
+                        let targetX_ForVerticalMiddleSegment =
+                            Math.max(link.End!.X + link.End!.Width + offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
+                        link.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - link.Start!.X) / link.Start!.Width
+                    }
+
+                    newEndRatio = newOrientationRatio
+                    link.EndOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
+                    link.EndRatio = newEndRatio
+                    linkConf.drawSegments()
+                    // switch dragged element to previous segment
+                    linkConf.draggedSegmentNumber = linkConf.segments!.length - 1
+                } else {
+                    document.body.style.cursor = 'not-allowed'
+                    if (newEndRatio < 0) { newEndRatio = 0 }
+                    if (newEndRatio > 1) { newEndRatio = 1 }
+                }
+            }
+            link.EndRatio = newEndRatio
+        }
+
+        // middle segment
+        if (linkConf.segments!.length == 3 && linkConf.draggedSegmentNumber == 1 && deltaX != 0) {
+
+            let newCornerOffsetRatio = (shapeMouseEvent.Point.X - linkConf.previousStart!.X) / linkConf.previousStart!.Width
+
+            link.CornerOffsetRatio = newCornerOffsetRatio
         }
     }
-    res.conf.VC = ensureBetweenZeroAndOne(res.conf.VC)
-    res.conf.HC = ensureBetweenZeroAndOne(res.conf.HC)
+    linkConf.drawSegments()
 
-    return res
 }

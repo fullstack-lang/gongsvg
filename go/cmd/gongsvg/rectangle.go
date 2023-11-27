@@ -166,10 +166,10 @@ Line 2`}).Stage(stage)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.747225
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.934141
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.730489
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 3.216346
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.882773
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 3.581731
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -227,8 +227,8 @@ Line 2`
 	__LinkAnchoredText__000001_Start_Anchored_1.Content = `Start Anchored 1
 Second line
 Third Line`
-	__LinkAnchoredText__000001_Start_Anchored_1.X_Offset = 5.999969
-	__LinkAnchoredText__000001_Start_Anchored_1.Y_Offset = -72.987488
+	__LinkAnchoredText__000001_Start_Anchored_1.X_Offset = 15.999969
+	__LinkAnchoredText__000001_Start_Anchored_1.Y_Offset = -47.987488
 	__LinkAnchoredText__000001_Start_Anchored_1.FontWeight = `light`
 	__LinkAnchoredText__000001_Start_Anchored_1.Color = `cyan`
 	__LinkAnchoredText__000001_Start_Anchored_1.FillOpacity = 100.000000

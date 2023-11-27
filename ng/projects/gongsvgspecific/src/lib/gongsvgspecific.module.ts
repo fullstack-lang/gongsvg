@@ -23,6 +23,7 @@ import { SvgComponent } from './svg/svg.component';
 import { LinkComponent } from './link/link.component';
 import { RectLinkLinkComponent } from './rect-link-link/rect-link-link.component';
 import { MaterialSvgComponent } from './material-svg/material-svg.component';
+import { LinkSegmentsPipe } from './link-segments.pipe';
 
 
 
@@ -41,7 +42,8 @@ import { MaterialSvgComponent } from './material-svg/material-svg.component';
     SvgComponent,
     LinkComponent,
     RectLinkLinkComponent,
-    MaterialSvgComponent
+    MaterialSvgComponent,
+    LinkSegmentsPipe
   ],
   imports: [
     CommonModule,

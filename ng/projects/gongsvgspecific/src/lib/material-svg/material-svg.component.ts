@@ -6,13 +6,14 @@ import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.
 
 import * as gongsvg from 'gongsvg'
 import { ShapeMouseEvent } from '../shape.mouse.event';
-import { createPoint } from '../draw.segments';
 import { MouseEventService } from '../mouse-event.service';
 import { AngularDragEndEventService } from '../angular-drag-end-event.service';
 import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 import { IsEditableService } from '../is-editable.service';
 import { RefreshService } from '../refresh.service';
 import { SizeTrackerService } from '../size-tracker.service';
+
+import { SegmentsParams, Segment, createPoint, drawSegments, Offset } from '../draw.segments';
 
 
 @Component({
@@ -27,6 +28,16 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
 
   // for use in the template
   RectAnchorType = gongsvg.RectAnchorType
+  LinkType = gongsvg.LinkType
+
+  // the components draws all elements directly but the links when they are 
+  // LINK_TYPE_FLOATING_ORTHOGONAL, in this case, each link is associated with a 
+  // set of segments
+  // map_Link_Segments = new (Map < gongsvg.LineDB, []segment>)
+  map_Link_Segment: Map<gongsvg.LinkDB, Segment[]> = new (Map<gongsvg.LinkDB, Segment[]>)
+  getSegments(link: gongsvg.LinkDB): Segment[] {
+    return this.map_Link_Segment.get(link)!
+  }
 
   // temporary, will be computed dynamicaly
   svgWidth = 3000

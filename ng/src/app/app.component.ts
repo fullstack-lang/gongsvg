@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   default = 'SVG Data/Model'
   svgView = 'SVG rendering'
   materialSvgView = 'Material SVG rendering'
-  view = this.svgView
+  view = this.materialSvgView
 
   mySVG: gongsvg.SVGDB = new gongsvg.SVGDB
   frontRepo: gongsvg.FrontRepo = new gongsvg.FrontRepo

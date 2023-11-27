@@ -14,6 +14,7 @@ import { RefreshService } from '../refresh.service';
 import { SizeTrackerService } from '../size-tracker.service';
 
 import { SegmentsParams, Segment, createPoint, drawSegments, Offset } from '../draw.segments';
+import { swapSegment } from '../swap.segment';
 
 
 @Component({
@@ -345,6 +346,27 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
         if (this.svg.Layers == undefined) {
           return
         }
+
+        // compute segments for links
+        this.map_Link_Segment.clear()
+
+        for (let layer of this.gongsvgFrontRepo.Layers_array) {
+          for (let link of layer.Links) {
+            let segmentsParams = {
+              StartRect: link.Start!,
+              EndRect: link.End!,
+              StartDirection: link.StartOrientation! as gongsvg.OrientationType,
+              EndDirection: link.EndOrientation! as gongsvg.OrientationType,
+              StartRatio: link.StartRatio,
+              EndRatio: link.EndRatio,
+              CornerOffsetRatio: link.CornerOffsetRatio,
+              CornerRadius: link.CornerRadius,
+            }
+
+            let segments = drawSegments(segmentsParams)
+            this.map_Link_Segment.set(link, segments)
+          }
+        }
       }
 
     )
@@ -646,4 +668,250 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
       rect.HasBottomHandle = false
     }
   }
+
+  //
+  // for links
+  //
+  
+  // to compute wether it was a select / dragging event
+  dragging = false
+  draggedLink: gongsvg.LinkDB | undefined
+  draggedSegmentNumber = 0
+  draggedSegmentPositionOnArrow: gongsvg.PositionOnArrowType = gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START
+
+  // dragged anchored text
+  textDragging = false
+  draggedTextIndex = 0
+
+  linkMouseDown(event: MouseEvent, segmentNumber: number, link: gongsvg.LinkDB): void {
+
+    if (!event.altKey && !event.shiftKey) {
+      event.preventDefault();
+      event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+      // this link shit to dragging state
+      this.dragging = true
+      this.draggedLink = link
+      this.draggedSegmentNumber = segmentNumber
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: link.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.mouseEventService.emitMouseDownEvent(shapeMouseEvent)
+    }
+  }
+
+  linkMouseMove(event: MouseEvent, link: gongsvg.LinkDB): void {
+
+    if (!event.altKey && !event.shiftKey) {
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: link.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
+    }
+  }
+
+  linkMouseUp(event: MouseEvent, link: gongsvg.LinkDB, segmentNumber: number = 0): void {
+
+    // console.log("Link : linkMouseUp", this.Link?.Name)
+    if (!event.altKey && !event.shiftKey) {
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: link.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
+    }
+  }
+
+
+  getOrientation(segment: Segment): 'horizontal' | 'vertical' | null {
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+      return 'horizontal';
+    } else if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+      return 'vertical';
+    } else {
+      return null; // You can return null or another value if the line is not strictly horizontal or vertical
+    }
+  }
+
+  // Add this method to ArcComponent
+  getArcPath(link : gongsvg.LinkDB, segment: Segment, nextSegment: Segment): string {
+
+    const startDegree = 180
+    const endDegree = 270
+    const startRadians = (startDegree * Math.PI) / 180;
+    const endRadians = (endDegree * Math.PI) / 180;
+    const startX = segment.EndPoint.X
+    const startY = segment.EndPoint.Y
+    const endX = nextSegment.StartPoint.X
+    const endY = nextSegment.StartPoint.Y
+    const largeArcFlag = endDegree - startDegree <= 180 ? 0 : 1;
+
+    // 1 is positive angle direction
+    // 0 otherwise
+    let sweepFlag = 0
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+
+      let segmentDirection = 0
+      if (segment.EndPoint.X > segment.StartPoint.X) {
+        segmentDirection = 1
+      } else {
+        segmentDirection = -1
+      }
+
+      let cornerDirection = 0
+      if (segment.EndPoint.Y < nextSegment.StartPoint.Y) {
+        cornerDirection = 1
+      } else {
+        cornerDirection = -1
+      }
+
+      if (segmentDirection * cornerDirection == 1) {
+        sweepFlag = 1
+      } else {
+        sweepFlag = 0
+      }
+
+    }
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+      let segmentDirection = 0
+      if (segment.EndPoint.Y > segment.StartPoint.Y) {
+        segmentDirection = 1
+      } else {
+        segmentDirection = -1
+      }
+
+      let cornerDirection = 0
+      if (segment.EndPoint.X < nextSegment.StartPoint.X) {
+        cornerDirection = 1
+      } else {
+        cornerDirection = -1
+      }
+
+      if (segmentDirection * cornerDirection == 1) {
+        sweepFlag = 0
+      } else {
+        sweepFlag = 1
+      }
+    }
+    return `M ${startX} ${startY} A ${link.CornerRadius} ${link.CornerRadius} 0 ${largeArcFlag} ${sweepFlag} ${endX} ${endY}`;
+  }
+
+  getEndArrowPath(link : gongsvg.LinkDB, segment: Segment, arrowSize: number): string {
+    const ratio = 0.707106781 / 2 // (1/sqrt(2)) / 2
+
+    let firstStartX = segment.EndPoint.X
+    let firstStartY = segment.EndPoint.Y
+
+    let secondStartX = segment.EndPoint.X
+    let secondStartY = segment.EndPoint.Y
+
+    let firstTipX = segment.EndPoint.X
+    let firstTipY = segment.EndPoint.Y
+    let secondTipX = segment.EndPoint.X
+    let secondTipY = segment.EndPoint.Y
+
+    {
+      let { x, y } = this.rotateToSegmentDirection(segment, - arrowSize, - arrowSize)
+
+      firstTipX += x
+      firstTipY += y
+    }
+    {
+      let { x, y } = this.rotateToSegmentDirection(segment, link.StrokeWidth * ratio, link.StrokeWidth * ratio)
+      firstStartX += x
+      firstStartY += y
+    }
+    {
+      let { x, y } = this.rotateToSegmentDirection(segment, - arrowSize, arrowSize)
+
+      secondTipX += x
+      secondTipY += y
+    }
+    {
+      let { x, y } = this.rotateToSegmentDirection(segment, link.StrokeWidth * ratio, - link.StrokeWidth * ratio)
+
+      secondStartX += x
+      secondStartY += y
+    }
+
+    let path = `M ${firstStartX} ${firstStartY} L ${firstTipX} ${firstTipY} M ${secondStartX} ${secondStartY} L ${secondTipX} ${secondTipY}`
+
+    return path
+  }
+
+  getStartArrowPath(link : gongsvg.LinkDB, segment: Segment, arrowSize: number): string {
+
+    let inverseSegment = swapSegment(segment)
+
+    let path = this.getEndArrowPath(link, inverseSegment, arrowSize)
+
+    return path
+  }
+
+  rotateToSegmentDirection(segment: Segment, x: number, y: number): { x: number, y: number } {
+    let x_res = 0
+    let y_res = 0
+
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+      if (segment.EndPoint.X > segment.StartPoint.X) { // 0'
+        x_res = x
+        y_res = y
+      } else { // pi
+        x_res = -x
+        y_res = y
+      }
+    }
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+      if (segment.EndPoint.Y > segment.StartPoint.Y) { // pi/2
+        x_res = y
+        y_res = x
+      } else { // 3*pi/2
+        x_res = -y
+        y_res = -x
+      }
+    }
+
+    return { x: x_res, y: y_res }
+  }
+
+  adjustToSegmentDirection(segment: Segment, x: number, y: number): { x: number, y: number } {
+    let x_res = 0
+    let y_res = 0
+
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+      if (segment.EndPoint.X > segment.StartPoint.X) { // 0'
+        x_res = x
+        y_res = y
+      } else { // pi
+        x_res = -x
+        y_res = y
+      }
+    }
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+      if (segment.EndPoint.Y > segment.StartPoint.Y) { // pi/2
+        x_res = y
+        y_res = x
+      } else { // 3*pi/2
+        x_res = -y
+        y_res = -x
+      }
+    }
+
+    return { x: x_res, y: y_res }
+  }
+
+
+
+
+
+
+
 }

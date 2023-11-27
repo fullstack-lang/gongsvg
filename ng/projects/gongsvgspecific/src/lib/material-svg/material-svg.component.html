@@ -194,6 +194,26 @@
             </ng-container>
             <ng-container *ngFor="let link of layer.Links;">
                 <ng-container *ngIf="link.Type == LinkType.LINK_TYPE_FLOATING_ORTHOGONAL" >
+                    <ng-container *ngIf="link | linkSegments: map_Link_Segment as segments">
+                        <line *ngFor='let segment of segments;' class="overlay" 
+                            [attr.x1]="segment.StartPoint.X" 
+                            [attr.y1]="segment.StartPoint.Y" 
+                            [attr.x2]="segment.EndPoint.X" 
+                            [attr.y2]="segment.EndPoint.Y"
+                            [attr.fill]="link.Color"
+                            [attr.fill-opacity]="link.FillOpacity" 
+                            [attr.stroke]="link.Stroke" 
+                            [attr.stroke-width]="link.StrokeWidth"
+                            [attr.stroke-dasharray]="link.StrokeDashArray" 
+                            [attr.segment-orientation]="getOrientation(segment)"
+                            [attr.segment-number]="segment.Number"
+                            
+                            (mousedown)="linkMouseDown($event, segment.Number, link)" 
+                            (mousemove)="linkMouseMove($event, link)" 
+                            (mouseup)="linkMouseUp($event, link)"
+                        
+                        />
+                    </ng-container>
 <!--                     
                     <ng-container *ngIf="let segments of (link | linkSegments : map_Link_Segment)">
                     <line *ngFor='let segment of segments;' class="overlay" 

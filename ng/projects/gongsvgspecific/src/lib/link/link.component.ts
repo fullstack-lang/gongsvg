@@ -26,6 +26,8 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChang
   @Input() Link?: gongsvg.LinkDB
   @Input() GONG__StackPath: string = ""
 
+  segments: Segment[] | undefined
+
   // @ViewChild('textElement', { static: false }) textElement: ElementRef | undefined
   textWidth: number = 0
   textHeight: number = 0
@@ -325,9 +327,6 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChang
     }
   }
 
-  segmentsParams: SegmentsParams | undefined
-  segments: Segment[] | undefined
-
   drawSegments(): boolean {
 
     if (this.linkUpdating) {
@@ -336,7 +335,7 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChang
 
     let link = this.Link!
 
-    this.segmentsParams = {
+    let segmentsParams = {
       StartRect: link.Start!,
       EndRect: link.End!,
       StartDirection: link.StartOrientation! as gongsvg.OrientationType,
@@ -347,7 +346,7 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChang
       CornerRadius: link.CornerRadius,
     }
 
-    this.segments = drawSegments(this.segmentsParams)
+    this.segments = drawSegments(segmentsParams)
 
     return true
   }

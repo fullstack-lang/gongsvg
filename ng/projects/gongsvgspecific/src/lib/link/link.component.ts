@@ -20,7 +20,7 @@ import { swapSegment } from '../swap.segment';
   templateUrl: './link.component.svg',
   styleUrls: ['./link.component.css']
 })
-export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewChecked, OnChanges {
+export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChanges {
 
   @Input() Link?: gongsvg.LinkDB
   @Input() GONG__StackPath: string = ""
@@ -34,7 +34,8 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
 
   // to compute wether it was a select / dragging event
   dragging = false
-  draggedSegment = 0
+  draggedLink: gongsvg.LinkDB | undefined
+  draggedSegmentNumber = 0
   draggedSegmentPositionOnArrow: gongsvg.PositionOnArrowType = gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START
 
   // dragged anchored text
@@ -48,7 +49,6 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
   isSelected = false
   // LinkAtMouseDown is the clone of the Link when mouse down
   private PointAtMouseDown: gongsvg.PointDB | undefined
-  private LinkAtMouseDown: gongsvg.LinkDB | undefined
   private AnchoredTextAtMouseDown: gongsvg.LinkAnchoredTextDB | undefined
 
   //
@@ -82,308 +82,321 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
     private gongsvgFrontRepoService: gongsvg.FrontRepoService,
   ) {
 
-    this.subscriptions.push(
-      mouseEventService.mouseMouseDownEvent$.subscribe(
-        (shapeMouseEvent: ShapeMouseEvent) => {
+    this.subscriptions.push(mouseEventService.mouseMouseDownEvent$.subscribe(
+      (shapeMouseEvent: ShapeMouseEvent) => {
 
-          if (shapeMouseEvent.ShapeType != gongsvg.LinkDB.GONGSTRUCT_NAME ||
-            shapeMouseEvent.ShapeID != this.Link!.ID) {
+        if (shapeMouseEvent.ShapeID == 0) {
+          return
+        }
+
+        let link = this.gongsvgFrontRepoService.frontRepo.Links.get(shapeMouseEvent.ShapeID)
+        if (link == undefined) {
+          return
+        }
+
+        if (shapeMouseEvent.ShapeType != gongsvg.LinkDB.GONGSTRUCT_NAME ||
+          shapeMouseEvent.ShapeID != this.Link!.ID) {
+          return
+        }
+
+        this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
+
+        if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+          if (link.TextAtArrowEnd && link.TextAtArrowEnd[this.draggedTextIndex]) {
+            this.AnchoredTextAtMouseDown = structuredClone(link.TextAtArrowEnd[this.draggedTextIndex])
+          }
+        }
+        if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+          if (link.TextAtArrowStart && link.TextAtArrowStart[this.draggedTextIndex]) {
+            this.AnchoredTextAtMouseDown = structuredClone(link.TextAtArrowStart[this.draggedTextIndex])
+          }
+        }
+
+      })
+    )
+
+    this.subscriptions.push(mouseEventService.mouseMouseMoveEvent$.subscribe(
+      (shapeMouseEvent: ShapeMouseEvent) => {
+
+        if (!this.isEditableService.getIsEditable()) {
+          return
+        }
+
+        if (!this.dragging && !this.textDragging) {
+          return
+        }
+
+        // offSetForNewMidlleSegment denotes the standard distance between
+        // a rect and the middle segment that is created when going from a
+        // two segment link to a three segment link
+        const offSetForNewMidlleSegment = 100
+
+        // in order to have middle segment always visible
+        const offsetFromBorderForNewMidlleSegment = 50
+
+        if (this.dragging) {
+
+          if (this.draggedSegmentNumber >= this.segments!.length) {
+            this.draggedSegmentNumber = this.segments!.length - 1
+          }
+
+          let segment = this.segments![this.draggedSegmentNumber]
+          let link = this.draggedLink
+          if (link == undefined) {
             return
           }
 
-          this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
-          this.LinkAtMouseDown = structuredClone(this.Link!)
+          if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
+
+            // set up the cursor style
+            document.body.style.cursor = 'ns-resize'
+
+            let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
+            if (this.draggedSegmentNumber == 0 && deltaY != 0) {
+
+              let newStartRatio = (shapeMouseEvent.Point.Y - this.previousStart!.Y) / this.previousStart!.Height
+              link.StartRatio = newStartRatio
+
+              if (newStartRatio < 0 || newStartRatio > 1) {
+
+                let nextStartRatio = (shapeMouseEvent.Point.X - link.Start!.X) / link.Start!.Width
+
+                // we swap first segment from horizontal to vertical only if the new ratio
+                // is within 0 and 1 
+                if (nextStartRatio >= 0 && nextStartRatio <= 1) {
+
+                  // the cursor is at the left of the start rectangle
+                  if (newStartRatio < 0) {
+
+                    // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                    // at the left of the End Rect
+                    let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
+                    // Math.max(link.Start!.Y - offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
+
+                    link.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - link.Start!.Y) / link.Start!.Height
+                  }
+
+                  // 
+                  if (newStartRatio > 1) {
+                    let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
+
+                    link.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - link.Start!.Y) / link.Start!.Height
+
+                    console.log("link.CornerOffsetRatio", link.CornerOffsetRatio)
+                  }
+                  // switch dragged element to next segment
+                  this.draggedSegmentNumber = 1
+
+                  newStartRatio = nextStartRatio
+                  link.StartOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
+                  link.StartRatio = newStartRatio
+                  this.drawSegments()
+                } else {
+                  document.body.style.cursor = 'not-allowed'
+                  if (newStartRatio < 0) { newStartRatio = 0 }
+                  if (newStartRatio > 1) { newStartRatio = 1 }
+                }
+              }
+            }
+
+            // last segment
+            if (this.draggedSegmentNumber == this.segments!.length - 1 && deltaY != 0) {
+
+              let newRatio = (shapeMouseEvent.Point.Y - this.previousEnd!.Y) / this.previousEnd!.Height
+
+              if (newRatio < 0 || newRatio > 1) {
+                let nextStartRatio = (shapeMouseEvent.Point.X - link.End!.X) / link.End!.Width
+
+                if (nextStartRatio >= 0 && nextStartRatio <= 1) {
+
+                  if (newRatio < 0) {
+                    // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                    // at the left of the End Rect
+                    let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
+                    link.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - link.Start!.Y) / link.Start!.Height
+                  }
+                  if (newRatio > 1) {
+                    let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
+                    link.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - link.Start!.Y) / link.Start!.Height
+                  }
+                  // switch dragged element to previous segment
+                  this.draggedSegmentNumber = this.segments!.length - 1
+
+                  newRatio = nextStartRatio
+                  link.EndOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
+                  link.EndRatio = newRatio
+                  this.drawSegments()
+                } else {
+                  document.body.style.cursor = 'not-allowed'
+                  if (newRatio < 0) { newRatio = 0 }
+                  if (newRatio > 1) { newRatio = 1 }
+                }
+              }
+              link.EndRatio = newRatio
+            }
+
+            // middle segment
+            if (this.segments!.length == 3 && this.draggedSegmentNumber == 1 && deltaY != 0) {
+
+              let newCornerOffsetRatio =
+                (shapeMouseEvent.Point.Y - link.Start!.Y) / link.Start!.Height
+
+              link.CornerOffsetRatio = newCornerOffsetRatio
+            }
+          }
+          if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+
+            // set up the cursor style
+            document.body.style.cursor = 'ew-resize'
+
+            let deltaX = (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X)
+
+            // first segment
+            if (this.draggedSegmentNumber == 0 && deltaX != 0) {
+
+              let newStartRatio = (shapeMouseEvent.Point.X - this.previousStart!.X) / this.previousStart!.Width
+
+              link.StartRatio = newStartRatio
+
+              // special case where we need to change orientation
+              if (newStartRatio < 0 || newStartRatio > 1) {
+
+                // we change orientation (horizontal to vertical), therefore we compute the new start ratio
+                let newStartVerticalRatio = (shapeMouseEvent.Point.Y - link.Start!.Y) / link.Start!.Height
+
+                if (newStartVerticalRatio >= 0 && newStartVerticalRatio <= 1) {
+                  if (newStartRatio < 0) {
+                    // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                    // at the left of the End Rect
+                    let targetX_ForVerticalMiddleSegment = shapeMouseEvent.Point.X
+
+                    link.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - link.Start!.X) / link.Start!.Width
+                  }
+                  if (newStartRatio > 1) {
+                    let targetX_ForVerticalMiddleSegment = shapeMouseEvent.Point.X
+                    link.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - link.Start!.X) / link.Start!.Width
+                  }
+
+                  newStartRatio = newStartVerticalRatio
+                  link.StartOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
+                  link.StartRatio = newStartVerticalRatio
+                } else {
+                  document.body.style.cursor = 'not-allowed'
+                  if (newStartRatio < 0) { newStartRatio = 0 }
+                  if (newStartRatio > 1) { newStartRatio = 1 }
+                }
+              }
+
+              // in all case, we are finished here
+              this.drawSegments()
+              return
+            }
+
+            // last segment
+            if (this.draggedSegmentNumber == this.segments!.length - 1 && deltaX != 0) {
+
+              let newEndRatio = (shapeMouseEvent.Point.X - this.previousEnd!.X) / this.previousEnd!.Width
+
+              if (newEndRatio < 0 || newEndRatio > 1) {
+                let newOrientationRatio = (shapeMouseEvent.Point.Y - link.End!.Y) / link.End!.Height
+
+                if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
+                  if (newEndRatio < 0) {
+                    // we compute the CornerOffsetRatio in order to have the vertical middle segment
+                    // at the left of the End Rect
+                    let targetX_ForVerticalMiddleSegment =
+                      Math.max(link.End!.X - offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
+                    link.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - link.Start!.X) / link.Start!.Width
+                  }
+                  if (newEndRatio > 1) {
+                    let targetX_ForVerticalMiddleSegment =
+                      Math.max(link.End!.X + link.End!.Width + offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
+                    link.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - link.Start!.X) / link.Start!.Width
+                  }
+
+                  newEndRatio = newOrientationRatio
+                  link.EndOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
+                  link.EndRatio = newEndRatio
+                  this.drawSegments()
+                  // switch dragged element to previous segment
+                  this.draggedSegmentNumber = this.segments!.length - 1
+                } else {
+                  document.body.style.cursor = 'not-allowed'
+                  if (newEndRatio < 0) { newEndRatio = 0 }
+                  if (newEndRatio > 1) { newEndRatio = 1 }
+                }
+              }
+              link.EndRatio = newEndRatio
+            }
+
+            // middle segment
+            if (this.segments!.length == 3 && this.draggedSegmentNumber == 1 && deltaX != 0) {
+
+              let newCornerOffsetRatio = (shapeMouseEvent.Point.X - this.previousStart!.X) / this.previousStart!.Width
+
+              link.CornerOffsetRatio = newCornerOffsetRatio
+            }
+          }
+          this.drawSegments()
+        }
+        if (this.textDragging) {
+          let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
+          let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
+
+          // console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
 
           if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
-            if (this.Link!.TextAtArrowEnd && this.Link!.TextAtArrowEnd[this.draggedTextIndex]) {
-              this.AnchoredTextAtMouseDown = structuredClone(this.Link!.TextAtArrowEnd[this.draggedTextIndex])
-            }
+            let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
+            text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
+            text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
           }
           if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
-            if (this.Link!.TextAtArrowStart && this.Link!.TextAtArrowStart[this.draggedTextIndex]) {
-              this.AnchoredTextAtMouseDown = structuredClone(this.Link!.TextAtArrowStart[this.draggedTextIndex])
-            }
+            let text = this.Link!.TextAtArrowStart![this.draggedTextIndex]
+            text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
+            text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
           }
 
-        })
+        }
+      })
     )
 
-    this.subscriptions.push(
-      mouseEventService.mouseMouseMoveEvent$.subscribe(
-        (shapeMouseEvent: ShapeMouseEvent) => {
+    this.subscriptions.push(mouseEventService.mouseMouseUpEvent$.subscribe(
+      (shapeMouseEvent: ShapeMouseEvent) => {
 
-          if (!this.isEditableService.getIsEditable()) {
-            return
+        if (this.dragging && this.isEditableService.getIsEditable()) {
+          document.body.style.cursor = ''
+
+          let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
+          let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
+          this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+
+          if (this.distanceMoved < this.dragThreshold) {
+            console.log("Link, link selected selected: ", this.Link?.Name)
+          } else {
+            this.linkUpdating = true
+            this.linkService.updateLink(this.Link!, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+              link => {
+                // this.Link = link
+                this.linkUpdating = false
+                this.refreshService.emitRefreshRequestEvent(0)
+              }
+            )
           }
+        }
 
-          // offSetForNewMidlleSegment denotes the standard distance between
-          // a rect and the middle segment that is created when going from a
-          // two segment link to a three segment link
-          const offSetForNewMidlleSegment = 100
-
-          // in order to have middle segment always visible
-          const offsetFromBorderForNewMidlleSegment = 50
-
-          if (this.dragging) {
-
-            if (this.draggedSegment >= this.segments!.length) {
-              this.draggedSegment = this.segments!.length - 1
-            }
-
-            let segment = this.segments![this.draggedSegment]
-
-            if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
-
-              // set up the cursor style
-              document.body.style.cursor = 'ns-resize'
-
-              let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
-              if (this.draggedSegment == 0 && deltaY != 0) {
-
-                let newStartRatio = (shapeMouseEvent.Point.Y - this.previousStart!.Y) / this.previousStart!.Height
-                this.Link!.StartRatio = newStartRatio
-
-                if (newStartRatio < 0 || newStartRatio > 1) {
-
-                  let nextStartRatio = (shapeMouseEvent.Point.X - this.Link!.Start!.X) / this.Link!.Start!.Width
-
-                  // we swap first segment from horizontal to vertical only if the new ratio
-                  // is within 0 and 1 
-                  if (nextStartRatio >= 0 && nextStartRatio <= 1) {
-
-                    // the cursor is at the left of the start rectangle
-                    if (newStartRatio < 0) {
-
-                      // we compute the CornerOffsetRatio in order to have the vertical middle segment
-                      // at the left of the End Rect
-                      let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
-                      // Math.max(this.Link!.Start!.Y - offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
-
-                      this.Link!.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - this.Link!.Start!.Y) / this.Link!.Start!.Height
-                    }
-
-                    // 
-                    if (newStartRatio > 1) {
-                      let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
-
-                      this.Link!.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - this.Link!.Start!.Y) / this.Link!.Start!.Height
-
-                      console.log("this.Link!.CornerOffsetRatio", this.Link!.CornerOffsetRatio)
-                    }
-                    // switch dragged element to next segment
-                    this.draggedSegment = 1
-
-                    newStartRatio = nextStartRatio
-                    this.Link!.StartOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
-                    this.Link!.StartRatio = newStartRatio
-                    this.drawSegments()
-                  } else {
-                    document.body.style.cursor = 'not-allowed'
-                    if (newStartRatio < 0) { newStartRatio = 0 }
-                    if (newStartRatio > 1) { newStartRatio = 1 }
-                  }
-                }
-              }
-
-              // last segment
-              if (this.draggedSegment == this.segments!.length - 1 && deltaY != 0) {
-
-                let newRatio = (shapeMouseEvent.Point.Y - this.previousEnd!.Y) / this.previousEnd!.Height
-
-                if (newRatio < 0 || newRatio > 1) {
-                  let nextStartRatio = (shapeMouseEvent.Point.X - this.Link!.End!.X) / this.Link!.End!.Width
-
-                  if (nextStartRatio >= 0 && nextStartRatio <= 1) {
-
-                    if (newRatio < 0) {
-                      // we compute the CornerOffsetRatio in order to have the vertical middle segment
-                      // at the left of the End Rect
-                      let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
-                      this.Link!.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - this.Link!.Start!.Y) / this.Link!.Start!.Height
-                    }
-                    if (newRatio > 1) {
-                      let targetY_ForVerticalMiddleSegment = shapeMouseEvent.Point.Y
-                      this.Link!.CornerOffsetRatio = (targetY_ForVerticalMiddleSegment - this.Link!.Start!.Y) / this.Link!.Start!.Height
-                    }
-                    // switch dragged element to previous segment
-                    this.draggedSegment = this.segments!.length - 1
-
-                    newRatio = nextStartRatio
-                    this.Link!.EndOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
-                    this.Link!.EndRatio = newRatio
-                    this.drawSegments()
-                  } else {
-                    document.body.style.cursor = 'not-allowed'
-                    if (newRatio < 0) { newRatio = 0 }
-                    if (newRatio > 1) { newRatio = 1 }
-                  }
-                }
-                this.Link!.EndRatio = newRatio
-              }
-
-              // middle segment
-              if (this.segments!.length == 3 && this.draggedSegment == 1 && deltaY != 0) {
-
-                let newCornerOffsetRatio =
-                  (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
-
-                this.Link!.CornerOffsetRatio = newCornerOffsetRatio
-              }
-            }
-            if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
-
-              // set up the cursor style
-              document.body.style.cursor = 'ew-resize'
-
-              let deltaX = (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X)
-
-              // first segment
-              if (this.draggedSegment == 0 && deltaX != 0) {
-
-                let newStartRatio = (shapeMouseEvent.Point.X - this.previousStart!.X) / this.previousStart!.Width
-
-                this.Link!.StartRatio = newStartRatio
-
-                // special case where we need to change orientation
-                if (newStartRatio < 0 || newStartRatio > 1) {
-
-                  // we change orientation (horizontal to vertical), therefore we compute the new start ratio
-                  let newStartVerticalRatio = (shapeMouseEvent.Point.Y - this.Link!.Start!.Y) / this.Link!.Start!.Height
-
-                  if (newStartVerticalRatio >= 0 && newStartVerticalRatio <= 1) {
-                    if (newStartRatio < 0) {
-                      // we compute the CornerOffsetRatio in order to have the vertical middle segment
-                      // at the left of the End Rect
-                      let targetX_ForVerticalMiddleSegment = shapeMouseEvent.Point.X
-
-                      this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
-                    }
-                    if (newStartRatio > 1) {
-                      let targetX_ForVerticalMiddleSegment = shapeMouseEvent.Point.X
-                      this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
-                    }
-
-                    newStartRatio = newStartVerticalRatio
-                    this.Link!.StartOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
-                    this.Link!.StartRatio = newStartVerticalRatio
-                  } else {
-                    document.body.style.cursor = 'not-allowed'
-                    if (newStartRatio < 0) { newStartRatio = 0 }
-                    if (newStartRatio > 1) { newStartRatio = 1 }
-                  }
-                }
-
-                // in all case, we are finished here
-                this.drawSegments()
-                return
-              }
-
-              // last segment
-              if (this.draggedSegment == this.segments!.length - 1 && deltaX != 0) {
-
-                let newEndRatio = (shapeMouseEvent.Point.X - this.previousEnd!.X) / this.previousEnd!.Width
-
-                if (newEndRatio < 0 || newEndRatio > 1) {
-                  let newOrientationRatio = (shapeMouseEvent.Point.Y - this.Link!.End!.Y) / this.Link!.End!.Height
-
-                  if (newOrientationRatio >= 0 && newOrientationRatio <= 1) {
-                    if (newEndRatio < 0) {
-                      // we compute the CornerOffsetRatio in order to have the vertical middle segment
-                      // at the left of the End Rect
-                      let targetX_ForVerticalMiddleSegment =
-                        Math.max(this.Link!.End!.X - offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
-                      this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
-                    }
-                    if (newEndRatio > 1) {
-                      let targetX_ForVerticalMiddleSegment =
-                        Math.max(this.Link!.End!.X + this.Link!.End!.Width + offSetForNewMidlleSegment, offsetFromBorderForNewMidlleSegment)
-                      this.Link!.CornerOffsetRatio = (targetX_ForVerticalMiddleSegment - this.Link!.Start!.X) / this.Link!.Start!.Width
-                    }
-
-                    newEndRatio = newOrientationRatio
-                    this.Link!.EndOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
-                    this.Link!.EndRatio = newEndRatio
-                    this.drawSegments()
-                    // switch dragged element to previous segment
-                    this.draggedSegment = this.segments!.length - 1
-                  } else {
-                    document.body.style.cursor = 'not-allowed'
-                    if (newEndRatio < 0) { newEndRatio = 0 }
-                    if (newEndRatio > 1) { newEndRatio = 1 }
-                  }
-                }
-                this.Link!.EndRatio = newEndRatio
-              }
-
-              // middle segment
-              if (this.segments!.length == 3 && this.draggedSegment == 1 && deltaX != 0) {
-
-                let newCornerOffsetRatio = (shapeMouseEvent.Point.X - this.previousStart!.X) / this.previousStart!.Width
-
-                this.Link!.CornerOffsetRatio = newCornerOffsetRatio
-              }
-            }
-            this.drawSegments()
+        if (this.textDragging && this.isEditableService.getIsEditable()) {
+          if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+            let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
+            this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
           }
-          if (this.textDragging) {
-            let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
-            let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
-
-            // console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
-
-            if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
-              let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
-              text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
-              text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
-            }
-            if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
-              let text = this.Link!.TextAtArrowStart![this.draggedTextIndex]
-              text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
-              text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
-            }
-
+          if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+            let text = this.Link!.TextAtArrowStart![this.draggedTextIndex]
+            this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
           }
-        })
-    )
-
-    this.subscriptions.push(
-      mouseEventService.mouseMouseUpEvent$.subscribe(
-        (shapeMouseEvent: ShapeMouseEvent) => {
-
-          if (this.dragging && this.isEditableService.getIsEditable()) {
-            document.body.style.cursor = ''
-
-            let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
-            let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
-            this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
-
-            if (this.distanceMoved < this.dragThreshold) {
-              console.log("Link, link selected selected: ", this.Link?.Name)
-            } else {
-              this.linkUpdating = true
-              this.linkService.updateLink(this.Link!, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-                link => {
-                  // this.Link = link
-                  this.linkUpdating = false
-                  this.refreshService.emitRefreshRequestEvent(0)
-                }
-              )
-            }
-          }
-
-          if (this.textDragging && this.isEditableService.getIsEditable()) {
-            if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
-              let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
-              this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
-            }
-            if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
-              let text = this.Link!.TextAtArrowStart![this.draggedTextIndex]
-              this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
-            }
-          }
-          this.dragging = false
-          this.textDragging = false
-        })
+        }
+        this.dragging = false
+        this.textDragging = false
+      })
     )
   }
 
@@ -474,9 +487,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
     return coordinate
   }
 
-  linkMouseDown(
-    event: MouseEvent,
-    segmentNumber: number): void {
+  linkMouseDown(event: MouseEvent, segmentNumber: number, link: gongsvg.LinkDB): void {
 
     if (!event.altKey && !event.shiftKey) {
       event.preventDefault();
@@ -484,10 +495,11 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
 
       // this link shit to dragging state
       this.dragging = true
-      this.draggedSegment = segmentNumber
+      this.draggedLink = link
+      this.draggedSegmentNumber = segmentNumber
 
       let shapeMouseEvent: ShapeMouseEvent = {
-        ShapeID: this.Link!.ID,
+        ShapeID: link.ID,
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: mouseCoordInComponentRef(event),
       }
@@ -495,12 +507,12 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
     }
   }
 
-  linkMouseMove(event: MouseEvent): void {
+  linkMouseMove(event: MouseEvent, link: gongsvg.LinkDB): void {
 
     if (!event.altKey && !event.shiftKey) {
 
       let shapeMouseEvent: ShapeMouseEvent = {
-        ShapeID: this.Link!.ID,
+        ShapeID: link.ID,
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: mouseCoordInComponentRef(event),
       }
@@ -508,13 +520,13 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
     }
   }
 
-  linkMouseUp(event: MouseEvent, segmentNumber: number = 0): void {
+  linkMouseUp(event: MouseEvent, link: gongsvg.LinkDB, segmentNumber: number = 0): void {
 
     // console.log("Link : linkMouseUp", this.Link?.Name)
     if (!event.altKey && !event.shiftKey) {
 
       let shapeMouseEvent: ShapeMouseEvent = {
-        ShapeID: this.Link!.ID,
+        ShapeID: link.ID,
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
         Point: mouseCoordInComponentRef(event),
       }
@@ -773,16 +785,6 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
       }
       this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
     }
-  }
-
-  ngAfterViewInit() {
-
-    // const bbox = this.textElement?.nativeElement.getBBox()
-
-    // if (bbox != undefined) {
-    //   this.textWidth = bbox.width;
-    //   this.textHeight = bbox.height;
-    // }
   }
 
   splitTextIntoLines(text: string): string[] {

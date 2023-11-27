@@ -166,10 +166,10 @@ Line 2`}).Stage(stage)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.873394
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.747225
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.368084
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 4.230769
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.730489
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = 3.216346
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -189,10 +189,10 @@ Line 2`}).Stage(stage)
 	__Link__000001_Second_Arrow_both_arrows.StartAnchorType = models.ANCHOR_BOTTOM
 	__Link__000001_Second_Arrow_both_arrows.EndAnchorType = models.ANCHOR_LEFT
 	__Link__000001_Second_Arrow_both_arrows.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Second_Arrow_both_arrows.StartRatio = 0.466772
-	__Link__000001_Second_Arrow_both_arrows.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Second_Arrow_both_arrows.EndRatio = 0.442308
-	__Link__000001_Second_Arrow_both_arrows.CornerOffsetRatio = 1.859887
+	__Link__000001_Second_Arrow_both_arrows.StartRatio = 0.215190
+	__Link__000001_Second_Arrow_both_arrows.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000001_Second_Arrow_both_arrows.EndRatio = 0.382739
+	__Link__000001_Second_Arrow_both_arrows.CornerOffsetRatio = 0.015823
 	__Link__000001_Second_Arrow_both_arrows.CornerRadius = 0.000000
 	__Link__000001_Second_Arrow_both_arrows.HasEndArrow = true
 	__Link__000001_Second_Arrow_both_arrows.EndArrowSize = 15.000000
@@ -294,8 +294,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 53.999969
-	__Rect__000002_Top.Y = 331.000000
+	__Rect__000002_Top.X = 67.999969
+	__Rect__000002_Top.Y = 387.000000
 	__Rect__000002_Top.Width = 208.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000

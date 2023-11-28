@@ -3,7 +3,7 @@ import { Segment } from './draw.segments'
 import { ShapeMouseEvent } from './shape.mouse.event'
 
 export interface LinkConf {
-    drawSegments(): boolean
+    drawSegments(link: gongsvg.LinkDB, linkUpdating: boolean, map_Link_Segment: Map<gongsvg.LinkDB, Segment[]>): boolean
 
     dragging: boolean
     draggedLink: gongsvg.LinkDB | undefined
@@ -15,6 +15,8 @@ export interface LinkConf {
     // for change detection, we need to store start and end rect
     previousStart: gongsvg.RectDB | undefined
     previousEnd: gongsvg.RectDB | undefined
+    map_Link_Segment: Map<gongsvg.LinkDB, Segment[]>
+    linkUpdating: boolean,
 }
 
 
@@ -84,7 +86,7 @@ export function computeSegmentConf(linkConf: LinkConf, shapeMouseEvent: ShapeMou
                     newStartRatio = nextStartRatio
                     link.StartOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
                     link.StartRatio = newStartRatio
-                    linkConf.drawSegments()
+                    linkConf.drawSegments(link, linkConf.linkUpdating, linkConf.map_Link_Segment)
                 } else {
                     document.body.style.cursor = 'not-allowed'
                     if (newStartRatio < 0) { newStartRatio = 0 }
@@ -119,7 +121,7 @@ export function computeSegmentConf(linkConf: LinkConf, shapeMouseEvent: ShapeMou
                     newRatio = nextStartRatio
                     link.EndOrientation = gongsvg.OrientationType.ORIENTATION_VERTICAL
                     link.EndRatio = newRatio
-                    linkConf.drawSegments()
+                    linkConf.drawSegments(link, linkConf.linkUpdating, linkConf.map_Link_Segment)
                 } else {
                     document.body.style.cursor = 'not-allowed'
                     if (newRatio < 0) { newRatio = 0 }
@@ -182,7 +184,7 @@ export function computeSegmentConf(linkConf: LinkConf, shapeMouseEvent: ShapeMou
             }
 
             // in all case, we are finished here
-            linkConf.drawSegments()
+            linkConf.drawSegments(link, linkConf.linkUpdating, linkConf.map_Link_Segment)
             return
         }
 
@@ -211,7 +213,7 @@ export function computeSegmentConf(linkConf: LinkConf, shapeMouseEvent: ShapeMou
                     newEndRatio = newOrientationRatio
                     link.EndOrientation = gongsvg.OrientationType.ORIENTATION_HORIZONTAL
                     link.EndRatio = newEndRatio
-                    linkConf.drawSegments()
+                    linkConf.drawSegments(link, linkConf.linkUpdating, linkConf.map_Link_Segment)
                     // switch dragged element to previous segment
                     linkConf.draggedSegmentNumber = linkConf.segments!.length - 1
                 } else {
@@ -231,6 +233,6 @@ export function computeSegmentConf(linkConf: LinkConf, shapeMouseEvent: ShapeMou
             link.CornerOffsetRatio = newCornerOffsetRatio
         }
     }
-    linkConf.drawSegments()
+    linkConf.drawSegments(link, linkConf.linkUpdating, linkConf.map_Link_Segment)
 
 }

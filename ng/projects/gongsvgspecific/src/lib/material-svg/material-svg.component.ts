@@ -20,6 +20,7 @@ import { getArcPath } from '../get.arc.path';
 import { getOrientation } from '../get.orientation';
 import { getEndArrowPath } from '../get.end.arrow.path';
 import { adjustToSegmentDirection } from '../adjust.to.segment.direction';
+import { LinkConf, computeSegmentConf } from '../compute.segment.conf';
 
 
 @Component({
@@ -39,11 +40,14 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   // the components draws all elements directly but the links when they are 
   // LINK_TYPE_FLOATING_ORTHOGONAL, in this case, each link is associated with a 
   // set of segments
-  // map_Link_Segments = new (Map < gongsvg.LineDB, []segment>)
   map_Link_Segment: Map<gongsvg.LinkDB, Segment[]> = new (Map<gongsvg.LinkDB, Segment[]>)
   getSegments(link: gongsvg.LinkDB): Segment[] {
     return this.map_Link_Segment.get(link)!
   }
+
+  // for change detection, we need to store start and end rect of all links
+  map_Link_PreviousStart: Map<gongsvg.LinkDB, gongsvg.RectDB> = new (Map<gongsvg.LinkDB, gongsvg.RectDB>)
+  map_Link_PreviousEnd: Map<gongsvg.LinkDB, gongsvg.RectDB> = new (Map<gongsvg.LinkDB, gongsvg.RectDB>)
 
   // temporary, will be computed dynamicaly
   svgWidth = 3000
@@ -192,62 +196,141 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
     this.subscriptions.push(mouseEventService.mouseMouseDownEvent$.subscribe(
       (shapeMouseEvent: ShapeMouseEvent) => {
 
-        let rect = this.gongsvgFrontRepo!.Rects.get(shapeMouseEvent.ShapeID)
-        if (rect == undefined) {
-          return
+        switch (shapeMouseEvent.ShapeType) {
+          case gongsvg.RectDB.GONGSTRUCT_NAME:
+            let rect = this.gongsvgFrontRepo!.Rects.get(shapeMouseEvent.ShapeID)
+            if (rect == undefined) {
+              return
+            }
+
+            if (this.anchorDragging || this.rectDragging || rect.IsSelected) {
+              console.log("rect: mouseMouseDownEvent, ", rect!.Name)
+
+              this.distanceMoved = 0
+              this.RectAtMouseDown = structuredClone(rect)
+              this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
+            }
+            break;
+          case gongsvg.LinkDB.GONGSTRUCT_NAME:
+            let link = this.gongsvgFrontRepoService.frontRepo.Links.get(shapeMouseEvent.ShapeID)
+            if (link == undefined) {
+              return
+            }
+
+            if (shapeMouseEvent.ShapeType != gongsvg.LinkDB.GONGSTRUCT_NAME ||
+              shapeMouseEvent.ShapeID != link.ID) {
+              return
+            }
+
+            this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
+
+            if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+              if (link.TextAtArrowEnd && link.TextAtArrowEnd[this.draggedTextIndex]) {
+                this.AnchoredTextAtMouseDown = structuredClone(link.TextAtArrowEnd[this.draggedTextIndex])
+              }
+            }
+            if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+              if (link.TextAtArrowStart && link.TextAtArrowStart[this.draggedTextIndex]) {
+                this.AnchoredTextAtMouseDown = structuredClone(link.TextAtArrowStart[this.draggedTextIndex])
+              }
+            }
+            break;
         }
 
-        if (this.anchorDragging || this.rectDragging || rect.IsSelected) {
-
-          console.log("rect: mouseMouseDownEvent, ", rect!.Name)
-
-          this.distanceMoved = 0
-          this.RectAtMouseDown = structuredClone(rect)
-          this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
-        }
       }
     )
     )
 
     this.subscriptions.push(mouseEventService.mouseMouseMoveEvent$.subscribe(
       (shapeMouseEvent: ShapeMouseEvent) => {
-
-        let rect = this.gongsvgFrontRepo!.Rects.get(shapeMouseEvent.ShapeID)
-        if (rect == undefined) {
-          return
-        }
-
         if (!this.isEditableService.getIsEditable()) {
           return
         }
 
-        if (this.anchorDragging) {
-          if (this.activeAnchor === 'left') {
-            rect.X = this.RectAtMouseDown!.X + (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X)
-            rect.Width = this.RectAtMouseDown!.Width - (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X)
-          } else if (this.activeAnchor === 'right') {
-            rect.Width = this.RectAtMouseDown!.Width + (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X)
-          } else if (this.activeAnchor === 'top') {
-            rect.Y = this.RectAtMouseDown!.Y + (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)
-            rect.Height = this.RectAtMouseDown!.Height - (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)
-          } else if (this.activeAnchor === 'bottom') {
-            rect.Height = this.RectAtMouseDown!.Height + (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)
-          }
-          return // we don't want the move move to be interpreted by the rect
+        switch (shapeMouseEvent.ShapeType) {
+          case gongsvg.RectDB.GONGSTRUCT_NAME:
+            let rect = this.gongsvgFrontRepo!.Rects.get(shapeMouseEvent.ShapeID)
+            if (rect == undefined) {
+              return
+            }
+
+            if (this.anchorDragging) {
+              if (this.activeAnchor === 'left') {
+                rect.X = this.RectAtMouseDown!.X + (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X)
+                rect.Width = this.RectAtMouseDown!.Width - (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X)
+              } else if (this.activeAnchor === 'right') {
+                rect.Width = this.RectAtMouseDown!.Width + (shapeMouseEvent.Point.X - this.PointAtMouseDown!.X)
+              } else if (this.activeAnchor === 'top') {
+                rect.Y = this.RectAtMouseDown!.Y + (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)
+                rect.Height = this.RectAtMouseDown!.Height - (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)
+              } else if (this.activeAnchor === 'bottom') {
+                rect.Height = this.RectAtMouseDown!.Height + (shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y)
+              }
+              return // we don't want the move move to be interpreted by the rect
+            }
+
+            if (this.PointAtMouseDown && (this.rectDragging || rect.IsSelected)) {
+              const deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
+              const deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
+              this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+
+              if (rect.CanMoveHorizontaly) {
+                rect.X = this.RectAtMouseDown!.X + deltaX
+              }
+              if (rect.CanMoveVerticaly) {
+                rect.Y = this.RectAtMouseDown!.Y + deltaY
+              }
+            }
+            break;
+          case gongsvg.LinkDB.GONGSTRUCT_NAME:
+            if (!this.dragging && !this.textDragging) {
+              return
+            }
+
+            if (this.draggedLink == undefined) {
+              return
+            }
+
+
+            if (this.dragging) {
+              let linkConf: LinkConf = {
+                drawSegments: this.updateLinkSegments,
+                dragging: this.dragging,
+                draggedLink: this.draggedLink,
+                draggedSegmentNumber: this.draggedSegmentNumber,
+                draggedSegmentPositionOnArrow: this.draggedSegmentPositionOnArrow,
+                segments: this.map_Link_Segment.get(this.draggedLink)!,
+                PointAtMouseDown: this.PointAtMouseDown,
+                previousStart: this.map_Link_PreviousStart.get(this.draggedLink)!,
+                previousEnd: this.map_Link_PreviousEnd.get(this.draggedLink)!,
+                linkUpdating: this.linkUpdating,
+                map_Link_Segment: this.map_Link_Segment
+              }
+
+              computeSegmentConf(linkConf, shapeMouseEvent)
+            }
+            if (this.textDragging) {
+              let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
+              let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
+
+              // console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
+
+              if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+                let text = this.draggedLink.TextAtArrowEnd![this.draggedTextIndex]
+                text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
+                text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
+              }
+              if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+                let text = this.draggedLink.TextAtArrowStart![this.draggedTextIndex]
+                text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
+                text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
+              }
+
+            }
+            break;
         }
 
-        if (this.PointAtMouseDown && (this.rectDragging || rect.IsSelected)) {
-          const deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
-          const deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
-          this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
-          if (rect.CanMoveHorizontaly) {
-            rect.X = this.RectAtMouseDown!.X + deltaX
-          }
-          if (rect.CanMoveVerticaly) {
-            rect.Y = this.RectAtMouseDown!.Y + deltaY
-          }
-        }
       }
     )
     )
@@ -369,6 +452,8 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
             this.map_Link_Segment.set(link, segments)
           }
         }
+
+        this.resetPreviousState()
       }
 
     )
@@ -651,7 +736,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   }
 
   //
-  // for links
+  // for links management
   //
 
   // to compute wether it was a select / dragging event
@@ -660,9 +745,16 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   draggedSegmentNumber = 0
   draggedSegmentPositionOnArrow: gongsvg.PositionOnArrowType = gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START
 
+  // indicate wether the link is being updated
+  // no drawing must happen then
+  linkUpdating: boolean = false
+
   // dragged anchored text
   textDragging = false
   draggedTextIndex = 0
+
+  // LinkAtMouseDown is the clone of the Link when mouse down
+  AnchoredTextAtMouseDown: gongsvg.LinkAnchoredTextDB | undefined
 
   linkMouseDown(event: MouseEvent, segmentNumber: number, link: gongsvg.LinkDB): void {
 
@@ -785,4 +877,50 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
     }
   }
 
+  updateLinkSegments(link: gongsvg.LinkDB, linkUpdating: boolean, map_Link_Segment: Map<gongsvg.LinkDB, Segment[]>): boolean {
+
+    if (link == undefined) {
+      return false
+    }
+
+    if (linkUpdating) {
+      return true
+    }
+
+    let segmentsParams = {
+      StartRect: link.Start!,
+      EndRect: link.End!,
+      StartDirection: link.StartOrientation! as gongsvg.OrientationType,
+      EndDirection: link.EndOrientation! as gongsvg.OrientationType,
+      StartRatio: link.StartRatio,
+      EndRatio: link.EndRatio,
+      CornerOffsetRatio: link.CornerOffsetRatio,
+      CornerRadius: link.CornerRadius,
+    }
+
+    let segments = drawSegments(segmentsParams)
+    if (segments == undefined) {
+      return false
+    }
+    if (map_Link_Segment == undefined) {
+      console.log("strange")
+    }
+
+    this.map_Link_Segment.set(link, segments)
+
+    return true
+  }
+
+  resetPreviousState() {
+
+    this.map_Link_PreviousStart.clear()
+    this.map_Link_PreviousEnd.clear()
+
+    for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+      for (let link of layer.Links) {
+        this.map_Link_PreviousStart.set(link, structuredClone(link.Start!))
+        this.map_Link_PreviousEnd.set(link, structuredClone(link.End!))
+      }
+    }
+  }
 }

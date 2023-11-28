@@ -74,6 +74,9 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChang
   previousEndX = 0
   previousEndY = 0
 
+  // to allow conformity to the drawSegment API
+  map_Link_Segment: Map<gongsvg.LinkDB, Segment[]> = new (Map<gongsvg.LinkDB, Segment[]>)
+
   constructor(
     private linkService: gongsvg.LinkService,
     private anchoredTextService: gongsvg.LinkAnchoredTextService,
@@ -205,9 +208,9 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChang
       }
     }
 
-    this.drawSegments()
+    this.drawSegments(this.Link!)
     this.resetPreviousState()
-    this.drawSegments()
+    this.drawSegments(this.Link!)
   }
 
   ngDoCheck(): void {
@@ -215,7 +218,7 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChang
     let hasStartChanged = !compareRectGeometries(this.previousStart!, this.Link!.Start!)
     let hasEndChanged = !compareRectGeometries(this.previousEnd!, this.Link!.End!)
     if (hasStartChanged || hasEndChanged) {
-      this.drawSegments()
+      this.drawSegments(this.Link!)
       this.resetPreviousState()
     }
   }
@@ -327,13 +330,16 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChang
     }
   }
 
-  drawSegments(): boolean {
+  drawSegments(link: gongsvg.LinkDB): boolean {
+
+    if (link == undefined) {
+      return false
+    }
+
 
     if (this.linkUpdating) {
       return true
     }
-
-    let link = this.Link!
 
     let segmentsParams = {
       StartRect: link.Start!,

@@ -672,7 +672,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   //
   // for links
   //
-  
+
   // to compute wether it was a select / dragging event
   dragging = false
   draggedLink: gongsvg.LinkDB | undefined
@@ -742,7 +742,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   }
 
   // Add this method to ArcComponent
-  getArcPath(link : gongsvg.LinkDB, segment: Segment, nextSegment: Segment): string {
+  getArcPath(link: gongsvg.LinkDB, segment: Segment, nextSegment: Segment): string {
 
     const startDegree = 180
     const endDegree = 270
@@ -804,7 +804,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
     return `M ${startX} ${startY} A ${link.CornerRadius} ${link.CornerRadius} 0 ${largeArcFlag} ${sweepFlag} ${endX} ${endY}`;
   }
 
-  getEndArrowPath(link : gongsvg.LinkDB, segment: Segment, arrowSize: number): string {
+  getEndArrowPath(link: gongsvg.LinkDB, segment: Segment, arrowSize: number): string {
     const ratio = 0.707106781 / 2 // (1/sqrt(2)) / 2
 
     let firstStartX = segment.EndPoint.X
@@ -847,7 +847,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
     return path
   }
 
-  getStartArrowPath(link : gongsvg.LinkDB, segment: Segment, arrowSize: number): string {
+  getStartArrowPath(link: gongsvg.LinkDB, segment: Segment, arrowSize: number): string {
 
     let inverseSegment = swapSegment(segment)
 
@@ -909,7 +909,55 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   }
 
 
+  textAnchoredMouseDown(
+    link: gongsvg.LinkDB,
+    event: MouseEvent,
+    anchoredTextIndex: number,
+    draggedSegmentPositionOnArrow: string): void {
 
+    if (!event.altKey && !event.shiftKey) {
+      event.preventDefault();
+      event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
+
+      // this text shift to dragging state
+      this.textDragging = true
+      this.draggedTextIndex = anchoredTextIndex
+      this.draggedSegmentPositionOnArrow = draggedSegmentPositionOnArrow as gongsvg.PositionOnArrowType
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: link.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.mouseEventService.emitMouseDownEvent(shapeMouseEvent)
+    }
+  }
+
+  textAnchoredMouseMove(link: gongsvg.LinkDB, event: MouseEvent): void {
+
+    if (!event.altKey && !event.shiftKey) {
+
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: link.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
+    }
+  }
+
+  textAnchoredMouseUp(link: gongsvg.LinkDB, event: MouseEvent): void {
+
+    // console.log("Link : linkMouseUp", this.Link?.Name)
+    if (!event.altKey && !event.shiftKey) {
+      let shapeMouseEvent: ShapeMouseEvent = {
+        ShapeID: link.ID,
+        ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,
+        Point: mouseCoordInComponentRef(event),
+      }
+      this.mouseEventService.emitMouseUpEvent(shapeMouseEvent)
+    }
+  }
 
 
 

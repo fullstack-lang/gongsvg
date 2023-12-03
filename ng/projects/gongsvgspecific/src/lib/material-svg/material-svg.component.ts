@@ -28,7 +28,7 @@ import { LinkConf, computeLinkFromMouseEvent } from '../compute.link.from.mouse.
   templateUrl: './material-svg.component.html',
   styleUrls: ['./material-svg.component.css']
 })
-export class MaterialSvgComponent implements OnInit, OnDestroy, OnChanges, DoCheck {
+export class MaterialSvgComponent implements OnInit, OnDestroy {
 
   @Input() GONG__StackPath: string = ""
   @ViewChild('drawingArea') drawingArea: ElementRef<HTMLDivElement> | undefined
@@ -92,7 +92,6 @@ export class MaterialSvgComponent implements OnInit, OnDestroy, OnChanges, DoChe
   // for events management
   //
   private subscriptions: Subscription[] = [];
-
 
   // if true, the end user is shiftKey + mouse down from one rectangle
   // to another
@@ -411,6 +410,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy, OnChanges, DoChe
       }
     )
 
+
   }
 
   refresh(): void {
@@ -453,7 +453,8 @@ export class MaterialSvgComponent implements OnInit, OnDestroy, OnChanges, DoChe
           }
         }
 
-        this.resetPreviousState()
+        this.resetAllLinksPreviousStartEndRects()
+
       }
 
     )
@@ -911,39 +912,17 @@ export class MaterialSvgComponent implements OnInit, OnDestroy, OnChanges, DoChe
     return true
   }
 
-  resetPreviousState() {
-
-    this.map_Link_PreviousStart.clear()
-    this.map_Link_PreviousEnd.clear()
-
-    for (let layer of this.gongsvgFrontRepo!.Layers_array) {
-      for (let link of layer.Links) {
-        this.map_Link_PreviousStart.set(link, structuredClone(link.Start!))
-        this.map_Link_PreviousEnd.set(link, structuredClone(link.End!))
-      }
+  resetAllLinksPreviousStartEndRects() {
+    for (let link of this.gongsvgFrontRepo!.Links_array) {
+      this.map_Link_PreviousStart.set(link, structuredClone(link.Start!))
+      this.map_Link_PreviousEnd.set(link, structuredClone(link.End!))
     }
   }
 
-  // A callback method that performs change-detection, invoked after the default change-detector runs. 
-  // See KeyValueDiffers and IterableDiffers for implementing custom change checking for collections.
-  ngDoCheck(): void {
-
-    // let hasStartChanged = !compareRectGeometries(this.previousStart!, this.Link!.Start!)
-    // let hasEndChanged = !compareRectGeometries(this.previousEnd!, this.Link!.End!)
-    // if (hasStartChanged || hasEndChanged) {
-    //   this.drawSegments(this.Link!)
-    //   this.resetPreviousState()
-    // }
-  }
-
-  ngAfterViewChecked() {
-    //  console.log('Change detection run on MySvgComponent');
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['Link']) {
-      // console.log('Previous value: ', changes['Link'].previousValue);
-      // console.log('Current value: ', changes['Link'].currentValue);
-    }
-  }
+  // let hasStartChanged = !compareRectGeometries(this.previousStart!, this.Link!.Start!)
+  // let hasEndChanged = !compareRectGeometries(this.previousEnd!, this.Link!.End!)
+  // if (hasStartChanged || hasEndChanged) {
+  //   this.drawSegments(this.Link!)
+  //   this.resetPreviousState()
+  // }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 
 import { Coordinate, RectangleEventService } from '../rectangle-event.service';
@@ -20,7 +20,7 @@ import { getArcPath } from '../get.arc.path';
 import { getOrientation } from '../get.orientation';
 import { getEndArrowPath } from '../get.end.arrow.path';
 import { adjustToSegmentDirection } from '../adjust.to.segment.direction';
-import { LinkConf, computeSegmentConf } from '../compute.segment.conf';
+import { LinkConf, computeLinkFromMouseEvent } from '../compute.link.from.mouse.event';
 
 
 @Component({
@@ -28,7 +28,7 @@ import { LinkConf, computeSegmentConf } from '../compute.segment.conf';
   templateUrl: './material-svg.component.html',
   styleUrls: ['./material-svg.component.css']
 })
-export class MaterialSvgComponent implements OnInit, OnDestroy {
+export class MaterialSvgComponent implements OnInit, OnDestroy, OnChanges, DoCheck {
 
   @Input() GONG__StackPath: string = ""
   @ViewChild('drawingArea') drawingArea: ElementRef<HTMLDivElement> | undefined
@@ -307,7 +307,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
                 map_Link_Segment: this.map_Link_Segment
               }
 
-              computeSegmentConf(linkConf, shapeMouseEvent)
+              computeLinkFromMouseEvent(linkConf, shapeMouseEvent)
             }
             if (this.textDragging) {
               let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
@@ -921,6 +921,29 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
         this.map_Link_PreviousStart.set(link, structuredClone(link.Start!))
         this.map_Link_PreviousEnd.set(link, structuredClone(link.End!))
       }
+    }
+  }
+
+  // A callback method that performs change-detection, invoked after the default change-detector runs. 
+  // See KeyValueDiffers and IterableDiffers for implementing custom change checking for collections.
+  ngDoCheck(): void {
+
+    // let hasStartChanged = !compareRectGeometries(this.previousStart!, this.Link!.Start!)
+    // let hasEndChanged = !compareRectGeometries(this.previousEnd!, this.Link!.End!)
+    // if (hasStartChanged || hasEndChanged) {
+    //   this.drawSegments(this.Link!)
+    //   this.resetPreviousState()
+    // }
+  }
+
+  ngAfterViewChecked() {
+    //  console.log('Change detection run on MySvgComponent');
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['Link']) {
+      // console.log('Previous value: ', changes['Link'].previousValue);
+      // console.log('Current value: ', changes['Link'].currentValue);
     }
   }
 }

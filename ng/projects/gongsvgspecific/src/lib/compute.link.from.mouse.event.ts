@@ -21,8 +21,10 @@ export interface LinkConf {
 
 
 
-// computeSegmentConf
-export function computeSegmentConf(linkConf: LinkConf, shapeMouseEvent: ShapeMouseEvent) {
+// computeLinkFromMouseEvent takes a mouse event
+// 1. update the link conf
+// 2. call drawSegment
+export function computeLinkFromMouseEvent(linkConf: LinkConf, shapeMouseEvent: ShapeMouseEvent) {
 
     // offSetForNewMidlleSegment denotes the standard distance between
     // a rect and the middle segment that is created when going from a

@@ -118,7 +118,11 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
     private isEditableService: IsEditableService,
     private refreshRequestService: RefreshService,
     private sizeTracker: SizeTrackerService,
+
     private rectService: gongsvg.RectService,
+    private linkService: gongsvg.LinkService,
+    private anchoredTextService: gongsvg.LinkAnchoredTextService,
+
     private refreshService: RefreshService,
   ) {
 
@@ -336,56 +340,100 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(mouseEventService.mouseMouseUpEvent$.subscribe(
       (shapeMouseEvent: ShapeMouseEvent) => {
-        let rect = this.gongsvgFrontRepo!.Rects.get(shapeMouseEvent.ShapeID)
-        if (rect == undefined) {
-          return
-        }
-
         if (!this.isEditableService.getIsEditable()) {
           return
         }
 
-        if (shapeMouseEvent.ShapeID != 0 && this.distanceMoved > this.dragThreshold) {
-          if (this.anchorDragging || this.rectDragging || rect.IsSelected) {
-            rect.IsSelected = false
-            this.manageHandles(rect)
-            this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-              _ => {
-                this.refreshService.emitRefreshRequestEvent(0)
-              }
-            )
-          }
+        switch (shapeMouseEvent.ShapeType) {
+          case gongsvg.RectDB.GONGSTRUCT_NAME:
+            let rect = this.gongsvgFrontRepo!.Rects.get(shapeMouseEvent.ShapeID)
+            if (rect == undefined) {
+              return
+            }
 
+            if (shapeMouseEvent.ShapeID != 0 && this.distanceMoved > this.dragThreshold) {
+              if (this.anchorDragging || this.rectDragging || rect.IsSelected) {
+                rect.IsSelected = false
+                this.manageHandles(rect)
+                this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                  _ => {
+                    this.refreshService.emitRefreshRequestEvent(0)
+                  }
+                )
+              }
+
+            }
+            if (this.distanceMoved <= this.dragThreshold) {
+              if (rect.IsSelectable &&
+                shapeMouseEvent.ShapeType == gongsvg.RectDB.GONGSTRUCT_NAME &&
+                shapeMouseEvent.ShapeID == rect.ID) {
+                console.log("rect, mouseEventService.mouseMouseUpEvent$.subscribe, from the shape: ", rect?.Name)
+                rect.IsSelected = !rect.IsSelected
+                this.manageHandles(rect)
+                this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                  _ => {
+                    this.refreshService.emitRefreshRequestEvent(0)
+                  }
+                )
+              }
+
+              // mouseup emited from the background let to unselect selected shapes
+              if (rect.IsSelectable && rect.IsSelected && shapeMouseEvent.ShapeID == 0) {
+                console.log("rect, mouseEventService.mouseMouseUpEvent$.subscribe: from the svg", rect.Name)
+                rect.IsSelected = false
+                this.manageHandles(rect)
+                this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                  _ => {
+                    this.refreshService.emitRefreshRequestEvent(0)
+                  }
+                )
+              }
+            }
+
+            this.rectDragging = false
+            this.anchorDragging = false
+            break;
+          case gongsvg.LinkDB.GONGSTRUCT_NAME:
+            if (this.dragging && this.isEditableService.getIsEditable()) {
+              document.body.style.cursor = ''
+
+              let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
+              let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
+              this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+
+              if (this.distanceMoved < this.dragThreshold) {
+                console.log("Link, link selected: ", this.draggedLink!.Name, this.draggedLink!.EndRatio)
+              } else {
+                console.log("Link, link moved: ", this.draggedLink!.Name, this.draggedLink!.EndRatio)
+
+                this.linkUpdating = true
+                this.linkService.updateLink(this.draggedLink!,
+                  this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                    link => {
+                      // this.Link = link
+                      this.linkUpdating = false
+                      this.refreshService.emitRefreshRequestEvent(0)
+                    }
+                  )
+              }
+            }
+
+            if (this.textDragging && this.isEditableService.getIsEditable()) {
+              if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+                let text = this.draggedLink!.TextAtArrowEnd![this.draggedTextIndex]
+                this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+              }
+              if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+                let text = this.draggedLink!.TextAtArrowStart![this.draggedTextIndex]
+                this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+              }
+            }
+            this.dragging = false
+            this.textDragging = false
+            break;
         }
-        if (this.distanceMoved <= this.dragThreshold) {
-          if (rect.IsSelectable &&
-            shapeMouseEvent.ShapeType == gongsvg.RectDB.GONGSTRUCT_NAME &&
-            shapeMouseEvent.ShapeID == rect.ID) {
-            console.log("rect, mouseEventService.mouseMouseUpEvent$.subscribe, from the shape: ", rect?.Name)
-            rect.IsSelected = !rect.IsSelected
-            this.manageHandles(rect)
-            this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-              _ => {
-                this.refreshService.emitRefreshRequestEvent(0)
-              }
-            )
-          }
 
-          // mouseup emited from the background let to unselect selected shapes
-          if (rect.IsSelectable && rect.IsSelected && shapeMouseEvent.ShapeID == 0) {
-            console.log("rect, mouseEventService.mouseMouseUpEvent$.subscribe: from the svg", rect.Name)
-            rect.IsSelected = false
-            this.manageHandles(rect)
-            this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-              _ => {
-                this.refreshService.emitRefreshRequestEvent(0)
-              }
-            )
-          }
-        }
 
-        this.rectDragging = false
-        this.anchorDragging = false
         // console.log('Rect ', this.Rect.Name, 'Mouse down event occurred on rectangle ', rectangleID);
       })
     )

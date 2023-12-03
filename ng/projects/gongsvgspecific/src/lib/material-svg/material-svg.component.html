@@ -4,7 +4,7 @@
     <g>
         <ng-container *ngFor="let layer of svg.Layers" class="child">
             <ng-container *ngFor="let circle of layer.Circles">
-                <circle class="overlay" 
+                <circle
                     [attr.cx]="circle.CX" 
                     [attr.cy]="circle.CY" 
                     [attr.r]="circle.Radius" 
@@ -233,8 +233,8 @@
                         />
             
                     <ng-container *ngFor='let segment of segments; let i = index'>
-                            <path *ngIf="segments[i + 1] as nextSegment" class="overlay" [attr.d]="getArcPath(link, segment, nextSegment)" 
-                        
+                            <path *ngIf="segments[i + 1] as nextSegment"
+                            [attr.d]="getArcPath(link, segment, nextSegment)" 
                             [attr.fill]="link.Color"
                             [attr.fill-opacity]="link.FillOpacity" 
                             [attr.stroke]="link.Stroke" 
@@ -242,7 +242,7 @@
                             [attr.stroke-dasharray]="link.StrokeDashArray" 
                             />
                         <ng-container *ngIf="(i == (segments.length - 1)) && this.link!.HasEndArrow">
-                            <path class="overlay" 
+                            <path
                                 [attr.d]="getEndArrowPath(link, segment, this.link!.EndArrowSize)"
                                 [attr.fill]="link.Color"
                                 [attr.fill-opacity]="link.FillOpacity" 
@@ -252,7 +252,7 @@
                             />
                         </ng-container>
                         <ng-container *ngIf="(i == 0) && this.link!.HasStartArrow">
-                            <path class="overlay" 
+                            <path
                                 [attr.d]="getStartArrowPath(link, segment, this.link!.StartArrowSize)"
                                 [attr.fill]="link.Color"
                                 [attr.fill-opacity]="link.FillOpacity" 

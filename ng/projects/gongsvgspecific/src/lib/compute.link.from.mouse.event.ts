@@ -34,6 +34,10 @@ export function computeLinkFromMouseEvent(linkConf: LinkConf, shapeMouseEvent: S
     // in order to have middle segment always visible
     const offsetFromBorderForNewMidlleSegment = 50
 
+    if (linkConf.segments == undefined) {
+        return
+    }
+
     if (linkConf.draggedSegmentNumber >= linkConf.segments!.length) {
         linkConf.draggedSegmentNumber = linkConf.segments!.length - 1
     }

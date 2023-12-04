@@ -167,8 +167,8 @@ Line 2`}).Stage(stage)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.740216
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.969937
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -0.998102
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.575949
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -1.465391
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -187,8 +187,8 @@ Line 2`}).Stage(stage)
 Line 2`
 	__LinkAnchoredText__000000_Liine_1_Line_2.Content = `Liine 1
 Line 2`
-	__LinkAnchoredText__000000_Liine_1_Line_2.X_Offset = -65.000000
-	__LinkAnchoredText__000000_Liine_1_Line_2.Y_Offset = -37.000000
+	__LinkAnchoredText__000000_Liine_1_Line_2.X_Offset = -66.000000
+	__LinkAnchoredText__000000_Liine_1_Line_2.Y_Offset = -44.000000
 	__LinkAnchoredText__000000_Liine_1_Line_2.FontWeight = `normal`
 	__LinkAnchoredText__000000_Liine_1_Line_2.Color = `black`
 	__LinkAnchoredText__000000_Liine_1_Line_2.FillOpacity = 100.000000
@@ -203,8 +203,8 @@ Line 2`
 	__LinkAnchoredText__000001_Start_Anchored_1.Content = `Start Anchored 1
 Second line
 Third Line`
-	__LinkAnchoredText__000001_Start_Anchored_1.X_Offset = 15.999969
-	__LinkAnchoredText__000001_Start_Anchored_1.Y_Offset = -47.987488
+	__LinkAnchoredText__000001_Start_Anchored_1.X_Offset = 36.999969
+	__LinkAnchoredText__000001_Start_Anchored_1.Y_Offset = -63.987488
 	__LinkAnchoredText__000001_Start_Anchored_1.FontWeight = `light`
 	__LinkAnchoredText__000001_Start_Anchored_1.Color = `cyan`
 	__LinkAnchoredText__000001_Start_Anchored_1.FillOpacity = 100.000000
@@ -216,8 +216,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 34.000000
-	__Rect__000000_Bottom.Y = 14.000000
+	__Rect__000000_Bottom.X = 9.000000
+	__Rect__000000_Bottom.Y = 89.000000
 	__Rect__000000_Bottom.Width = 632.000000
 	__Rect__000000_Bottom.Height = 197.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -243,8 +243,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 382.000000
-	__Rect__000001_Middle_Rect.Y = 339.000000
+	__Rect__000001_Middle_Rect.X = 540.000000
+	__Rect__000001_Middle_Rect.Y = 330.000000
 	__Rect__000001_Middle_Rect.Width = 253.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -270,8 +270,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 126.999969
-	__Rect__000002_Top.Y = 452.000000
+	__Rect__000002_Top.X = 51.999969
+	__Rect__000002_Top.Y = 430.000000
 	__Rect__000002_Top.Width = 208.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000

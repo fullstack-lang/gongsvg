@@ -225,8 +225,8 @@
                         [attr.r]="anchorRadius"
                         [attr.fill]="(anchorDragging && activeAnchor === 'right') ? draggingAnchorFillColor : anchorFillColor"
 
-                        (mousedown)="anchorMouseDown($event, 'left', rect)"
-                        (mousemove)="anchorMouseMove($event, 'left', rect)"
+                        (mousedown)="anchorMouseDown($event, 'right', rect)"
+                        (mousemove)="anchorMouseMove($event, 'right', rect)"
                         (mouseup)="anchorMouseUp($event, rect)"/>
 
                 <!-- Top anchor -->
@@ -238,8 +238,8 @@
                         [attr.r]="anchorRadius"
                         [attr.fill]="(anchorDragging && activeAnchor === 'top') ? draggingAnchorFillColor : anchorFillColor"
 
-                        (mousedown)="anchorMouseDown($event, 'left', rect)"
-                        (mousemove)="anchorMouseMove($event, 'left', rect)"
+                        (mousedown)="anchorMouseDown($event, 'top', rect)"
+                        (mousemove)="anchorMouseMove($event, 'top', rect)"
                         (mouseup)="anchorMouseUp($event, rect)"/>
 
                 <!-- Bottom anchor -->
@@ -251,8 +251,8 @@
                         [attr.r]="anchorRadius"
                         [attr.fill]="(anchorDragging && activeAnchor === 'bottom') ? draggingAnchorFillColor : anchorFillColor"
 
-                        (mousedown)="anchorMouseDown($event, 'left', rect)"
-                        (mousemove)="anchorMouseMove($event, 'left', rect)"
+                        (mousedown)="anchorMouseDown($event, 'bottom', rect)"
+                        (mousemove)="anchorMouseMove($event, 'bottom', rect)"
                         (mouseup)="anchorMouseUp($event, rect)"/>
             </ng-container>
             <ng-container *ngFor="let link of layer.Links;">

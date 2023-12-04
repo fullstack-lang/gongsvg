@@ -68,6 +68,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
 
   // RectAtMouseDown is the clone of the Rect when mouse down
   private RectAtMouseDown: gongsvg.RectDB | undefined
+  map_SelectedRectAtMouseDown: Map<gongsvg.RectDB, gongsvg.RectDB> = new (Map<gongsvg.RectDB, gongsvg.RectDB>)
 
   // to compute wether it was a select / dragging event
   distanceMoved = 0
@@ -218,6 +219,15 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
 
               this.distanceMoved = 0
               this.RectAtMouseDown = structuredClone(rect)
+              this.map_SelectedRectAtMouseDown = new (Map<gongsvg.RectDB, gongsvg.RectDB>)
+              for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+                for (let rect of layer.Rects) {
+                  if (rect.IsSelected) {
+                    this.map_SelectedRectAtMouseDown.set(rect, structuredClone(rect))
+                  }
+                }
+              }
+
               this.PointAtMouseDown = structuredClone(shapeMouseEvent.Point)
             }
             break;
@@ -294,13 +304,31 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
               hasMoved = true
             }
 
+            // if the rect has moved, all links that are attached must move
+            // and all links must be recomputed
             if (hasMoved == true) {
+
+              for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+                for (let rect_ of layer.Rects) {
+                  if (rect_.IsSelected) {
+                    let rectAtMouseDown_ = this.map_SelectedRectAtMouseDown.get(rect_)
+                    if (rect_.CanMoveHorizontaly) {
+                      rect_.X = rectAtMouseDown_!.X + deltaX
+                    }
+                    if (rect_.CanMoveVerticaly) {
+                      rect_.Y = rectAtMouseDown_!.Y + deltaY
+                    }
+                  }
+                }
+              }
 
               for (let layer of this.gongsvgFrontRepo!.Layers_array) {
                 for (let link of layer.Links) {
 
+                  // some other rect might have move this test
+                  // if is a bug
                   if (link.End != rect && link.Start != rect) {
-                    return
+                    // return
                   }
 
                   let segmentsParams = {
@@ -383,6 +411,20 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
                     this.refreshService.emitRefreshRequestEvent(0)
                   }
                 )
+
+                // for all other rects
+                for (let [key, value] of this.map_SelectedRectAtMouseDown) {
+                  let rect_ = key
+                  rect_.IsSelected = false
+                  this.manageHandles(rect_)
+                  this.rectService.updateRect(rect_, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                    _ => {
+                      this.refreshService.emitRefreshRequestEvent(0)
+                    }
+                  )
+
+                }
+
               }
 
             }

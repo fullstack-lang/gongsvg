@@ -3,10 +3,10 @@ module github.com/fullstack-lang/gongsvg
 go 1.21.0
 
 require (
-	github.com/fullstack-lang/gong v0.0.0-20231122071358-627f3a98b9e7
-	github.com/fullstack-lang/gongdoc v0.0.0-20231122073609-8142f91902c7
-	github.com/fullstack-lang/gongtable v0.0.0-20231122071510-beece03157f2
-	github.com/fullstack-lang/gongtree v0.0.0-20231122071510-d2ff1e6f72e0
+	github.com/fullstack-lang/gong v0.0.0-20231203075154-d4844c5feef6
+	github.com/fullstack-lang/gongdoc v0.0.0-20231202082305-5e436c8f5c5d
+	github.com/fullstack-lang/gongtable v0.0.0-20231202093416-4a8959bf53aa
+	github.com/fullstack-lang/gongtree v0.0.0-20231122074822-febf350211ba
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-contrib/static v0.0.1

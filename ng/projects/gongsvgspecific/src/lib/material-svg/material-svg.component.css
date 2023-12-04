@@ -1,3 +1,7 @@
+.noevents-area {
+    pointer-events: none;
+}
+
 .moveable-line {
     pointer-events: auto;
 }

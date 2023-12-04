@@ -285,7 +285,10 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
               }
             }
             break;
-          case gongsvg.LinkDB.GONGSTRUCT_NAME:
+
+
+          default:
+            // we are interest in all mouse move events 
             if (!this.dragging && !this.textDragging) {
               return
             }
@@ -293,7 +296,6 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
             if (this.draggedLink == undefined) {
               return
             }
-
 
             if (this.dragging) {
               let linkConf: LinkConf = {
@@ -597,7 +599,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
 
     if (!event.shiftKey && !event.altKey) {
       this.mouseEventService.emitMouseMoveEvent(shapeMouseEvent)
-      // console.log("svg background, mouse move", x, y)
+      // console.log("svg background, mouse move", shapeMouseEvent.Point.X, shapeMouseEvent.Point.Y)
     }
   }
 

@@ -2,7 +2,20 @@
 <div>Height: {{ svgHeight }}</div> -->
 <svg [attr.width]="svgWidth" [attr.height]="svgHeight" >
     <g>
-        <ng-container *ngFor="let layer of svg.Layers" class="child">
+        <!-- this rect is for catching mouse event that are in the void -->
+        <rect 
+            [attr.x]=0
+            [attr.y]=0
+            [attr.width]="svgWidth"
+            [attr.height]="svgHeight"
+
+            [attr.fill-opacity]=0
+
+            (mousedown)="mousedown($event)"
+            (mousemove)="mousemove($event)"
+            (mouseup)="onmouseup($event)">
+        </rect>
+        <ng-container *ngFor="let layer of svg.Layers" class="noevents-area">
             <ng-container *ngFor="let circle of layer.Circles">
                 <circle
                     [attr.cx]="circle.CX" 
@@ -103,7 +116,7 @@
                     [attr.repeatCount]="animate.RepeatCount" />
             </ng-container>
             <ng-container *ngFor="let rect of layer.Rects">
-                <rect   
+                <rect 
                     [attr.x]="rect.X"
                     [attr.y]="rect.Y"
                     [attr.width]="rect.Width"
@@ -195,7 +208,7 @@
             <ng-container *ngFor="let link of layer.Links;">
                 <ng-container *ngIf="link.Type == LinkType.LINK_TYPE_FLOATING_ORTHOGONAL" >
                     <ng-container *ngIf="link | linkSegments: map_Link_Segment as segments">
-                        <line *ngFor='let segment of segments;' class="overlay" 
+                        <line *ngFor='let segment of segments;' class="moveable-line" 
                             [attr.x1]="segment.StartPoint.X" 
                             [attr.y1]="segment.StartPoint.Y" 
                             [attr.x2]="segment.EndPoint.X" 
@@ -213,7 +226,7 @@
                             (mouseup)="linkMouseUp($event, link)"
                         
                         />
-                    <line *ngFor='let segment of segments;' class="overlay" 
+                    <line *ngFor='let segment of segments;' class="moveable-line" 
                         [attr.x1]="segment.StartPoint.X" 
                         [attr.y1]="segment.StartPoint.Y" 
                         [attr.x2]="segment.EndPoint.X" 

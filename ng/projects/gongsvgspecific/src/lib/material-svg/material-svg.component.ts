@@ -1,3 +1,4 @@
+
 import { AfterViewInit, Component, DoCheck, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 
@@ -55,6 +56,12 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   private onResize = (): void => {
     this.updateSize();
   }
+
+  // In your component
+  anchorRadius = 8; // Adjust this value according to your desired anchor size
+  anchorFillColor = 'blue'; // Choose your desired anchor fill color
+  draggingAnchorFillColor = 'red'; // Change this to the desired color when dragging
+
   rectDragging: boolean = false
   anchorDragging: boolean = false
   activeAnchor: 'left' | 'right' | 'top' | 'bottom' = 'left'
@@ -271,6 +278,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
             return // we don't want the move move to be interpreted by the rect
           }
 
+          // console.log("material svg mouse move event", this.PointAtMouseDown != undefined, (this.rectDragging || rect.IsSelected))
           if (this.PointAtMouseDown && (this.rectDragging || rect.IsSelected)) {
             const deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
             const deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
@@ -382,12 +390,15 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
               if (rect.IsSelectable &&
                 shapeMouseEvent.ShapeType == gongsvg.RectDB.GONGSTRUCT_NAME &&
                 shapeMouseEvent.ShapeID == rect.ID) {
-                console.log("rect, mouseEventService.mouseMouseUpEvent$.subscribe, from the shape: ", rect?.Name)
+                // console.log("rect (distance < threshold), mouseEventService.mouseMouseUpEvent$.subscribe, from the shape: ", rect?.Name)
                 rect.IsSelected = !rect.IsSelected
                 this.manageHandles(rect)
                 this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
                   _ => {
                     this.refreshService.emitRefreshRequestEvent(0)
+
+                    // one reset te point at mouse down. Otherwise, the rect will move with the mouse
+                    this.PointAtMouseDown = undefined
                   }
                 )
               }
@@ -459,7 +470,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
     this.updateSize();
     window.addEventListener('resize', this.onResize);
 
-    // console.log("Svg component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
+    console.log("Material component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
 
     // see above for the explanation
     this.gongsvgNbFromBackService.getCommitNbFromBack(500, this.GONG__StackPath).subscribe(

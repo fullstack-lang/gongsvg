@@ -276,11 +276,40 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
             const deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
             this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
+            let hasMoved: boolean = false
             if (rect.CanMoveHorizontaly) {
               rect.X = this.RectAtMouseDown!.X + deltaX
+              hasMoved = true
             }
             if (rect.CanMoveVerticaly) {
               rect.Y = this.RectAtMouseDown!.Y + deltaY
+              hasMoved = true
+            }
+
+            if (hasMoved == true) {
+
+              for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+                for (let link of layer.Links) {
+
+                  if (link.End != rect && link.Start != rect) {
+                    return
+                  }
+
+                  let segmentsParams = {
+                    StartRect: link.Start!,
+                    EndRect: link.End!,
+                    StartDirection: link.StartOrientation! as gongsvg.OrientationType,
+                    EndDirection: link.EndOrientation! as gongsvg.OrientationType,
+                    StartRatio: link.StartRatio,
+                    EndRatio: link.EndRatio,
+                    CornerOffsetRatio: link.CornerOffsetRatio,
+                    CornerRadius: link.CornerRadius,
+                  }
+
+                  let segments = drawSegments(segmentsParams)
+                  this.map_Link_Segment.set(link, segments)
+                }
+              }
             }
           }
         }

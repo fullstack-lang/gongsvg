@@ -199,6 +199,58 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
         this.svgEventService.emitMultiShapeSelectEnd(selectAreaConfig)
       }))
 
+    this.subscriptions.push(svgEventService.multiShapeSelectEndEvent$.subscribe(
+      (selectAreaConfig: SelectAreaConfig) => {
+
+        for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+          for (let rect of layer.Rects) {
+            switch (selectAreaConfig.SweepDirection) {
+              case SweepDirection.LEFT_TO_RIGHT:
+                if (
+                  rect.X > selectAreaConfig.TopLeft[0] &&
+                  rect.X + rect.Width < selectAreaConfig.BottomRigth[0] &&
+                  rect.Y > selectAreaConfig.TopLeft[1] &&
+                  rect.Y + rect.Height < selectAreaConfig.BottomRigth[1]
+                ) {
+                  rect.IsSelected = true
+                  this.manageHandles(rect)
+                  this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                    _ => {
+                      this.refreshService.emitRefreshRequestEvent(0)
+                    }
+                  )
+                }
+                break;
+              case SweepDirection.RIGHT_TO_LEFT:
+                // rectangle has to be partialy boxed in the rect
+                if (
+                  rect.X < selectAreaConfig.BottomRigth[0] &&
+                  rect.X + rect.Width > selectAreaConfig.TopLeft[0] &&
+                  rect.Y < selectAreaConfig.BottomRigth[1] &&
+                  rect.Y + rect.Height > selectAreaConfig.TopLeft[1]
+                ) {
+                  rect.IsSelected = true
+                  this.manageHandles(rect)
+                  this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                    _ => {
+                      this.refreshService.emitRefreshRequestEvent(0)
+                    }
+                  )
+                }
+                break;
+            }
+
+
+            this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+              _ => {
+                this.refreshService.emitRefreshRequestEvent(0)
+              }
+            )
+          }
+        }
+      })
+    )
+
     this.subscriptions.push(refreshRequestService.refreshRequest$.subscribe(
       _ => {
         this.refresh()
@@ -685,6 +737,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   }
 
   onmouseup(event: MouseEvent): void {
+    this.selectionRectDrawing = false
 
     let shapeMouseEvent: ShapeMouseEvent = {
       ShapeID: 0,
@@ -692,6 +745,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
       Point: mouseCoordInComponentRef(event),
     }
 
+    // strangely, when mouse up with shift key, this is not allways triggering
     if (event.shiftKey) {
       this.svgEventService.emitMouseShiftKeyMouseUpEvent(shapeMouseEvent)
     }

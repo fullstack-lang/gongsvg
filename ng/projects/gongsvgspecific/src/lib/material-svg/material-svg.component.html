@@ -376,9 +376,8 @@
                 </ng-container>
                 </ng-container>
             </ng-container>
-            
-
         </ng-container>
+        <rect *ngIf="selectionRectDrawing" [attr.x]="rectX" [attr.y]="rectY" [attr.width]="width" [attr.height]="height" stroke-dasharray="5,5" stroke="black" stroke-width="2" fill="none" />
     </g>
 </svg>
 

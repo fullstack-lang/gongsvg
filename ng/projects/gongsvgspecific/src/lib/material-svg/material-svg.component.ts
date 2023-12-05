@@ -248,6 +248,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
             )
           }
         }
+
       })
     )
 

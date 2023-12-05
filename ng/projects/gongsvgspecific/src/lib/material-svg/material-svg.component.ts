@@ -413,8 +413,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
                 )
 
                 // for all other rects
-                for (let [key, value] of this.map_SelectedRectAtMouseDown) {
-                  let rect_ = key
+                for (let [rect_, value] of this.map_SelectedRectAtMouseDown) {
                   rect_.IsSelected = false
                   this.manageHandles(rect_)
                   this.rectService.updateRect(rect_, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
@@ -422,7 +421,6 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
                       this.refreshService.emitRefreshRequestEvent(0)
                     }
                   )
-
                 }
 
               }
@@ -499,9 +497,26 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
             this.linkDragging = false
             this.textDragging = false
             break;
+          default:
+            if (this.distanceMoved <= this.dragThreshold) {
+              console.log('Material svg: Mouse down event occurred with no shape, distance', this.distanceMoved);
+
+              // one have to deselect all
+              for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+                for (let rect_ of layer.Rects) {
+                  if (rect_.IsSelected) {
+                    rect_.IsSelected = false
+                    this.manageHandles(rect_)
+                    this.rectService.updateRect(rect_, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                      _ => {
+                        this.refreshService.emitRefreshRequestEvent(0)
+                      }
+                    )
+                  }
+                }
+              }
+            }
         }
-
-
         // console.log('Rect ', this.Rect.Name, 'Mouse down event occurred on rectangle ', rectangleID);
       })
     )

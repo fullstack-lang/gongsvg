@@ -63,6 +63,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   draggingAnchorFillColor = 'red'; // Change this to the desired color when dragging
 
   rectDragging: boolean = false
+  draggedRect: gongsvg.RectDB | undefined
   anchorDragging: boolean = false
   activeAnchor: 'left' | 'right' | 'top' | 'bottom' = 'left'
 
@@ -347,57 +348,52 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
             const deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
             this.distanceMoved = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
-            let hasMoved: boolean = false
-            if (rect.CanMoveHorizontaly) {
-              rect.X = this.RectAtMouseDown!.X + deltaX
-              hasMoved = true
+            if (this.draggedRect == undefined) {
+              return
             }
-            if (rect.CanMoveVerticaly) {
-              rect.Y = this.RectAtMouseDown!.Y + deltaY
-              hasMoved = true
+            if (this.draggedRect.CanMoveHorizontaly) {
+              this.draggedRect.X = this.RectAtMouseDown!.X + deltaX
+            }
+            if (this.draggedRect.CanMoveVerticaly) {
+              this.draggedRect.Y = this.RectAtMouseDown!.Y + deltaY
             }
 
-            // if the rect has moved, all links that are attached must move
-            // and all links must be recomputed
-            if (hasMoved == true) {
-
-              for (let layer of this.gongsvgFrontRepo!.Layers_array) {
-                for (let rect_ of layer.Rects) {
-                  if (rect_.IsSelected) {
-                    let rectAtMouseDown_ = this.map_SelectedRectAtMouseDown.get(rect_)
-                    if (rect_.CanMoveHorizontaly) {
-                      rect_.X = rectAtMouseDown_!.X + deltaX
-                    }
-                    if (rect_.CanMoveVerticaly) {
-                      rect_.Y = rectAtMouseDown_!.Y + deltaY
-                    }
+            for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+              for (let rect_ of layer.Rects) {
+                if (rect_.IsSelected) {
+                  let rectAtMouseDown_ = this.map_SelectedRectAtMouseDown.get(rect_)
+                  if (rect_.CanMoveHorizontaly) {
+                    rect_.X = rectAtMouseDown_!.X + deltaX
+                  }
+                  if (rect_.CanMoveVerticaly) {
+                    rect_.Y = rectAtMouseDown_!.Y + deltaY
                   }
                 }
               }
+            }
 
-              for (let layer of this.gongsvgFrontRepo!.Layers_array) {
-                for (let link of layer.Links) {
+            for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+              for (let link of layer.Links) {
 
-                  // some other rect might have move this test
-                  // if is a bug
-                  if (link.End != rect && link.Start != rect) {
-                    // return
-                  }
-
-                  let segmentsParams = {
-                    StartRect: link.Start!,
-                    EndRect: link.End!,
-                    StartDirection: link.StartOrientation! as gongsvg.OrientationType,
-                    EndDirection: link.EndOrientation! as gongsvg.OrientationType,
-                    StartRatio: link.StartRatio,
-                    EndRatio: link.EndRatio,
-                    CornerOffsetRatio: link.CornerOffsetRatio,
-                    CornerRadius: link.CornerRadius,
-                  }
-
-                  let segments = drawSegments(segmentsParams)
-                  this.map_Link_Segment.set(link, segments)
+                // some other rect might have move this test
+                // if is a bug
+                if (link.End != rect && link.Start != rect) {
+                  // return
                 }
+
+                let segmentsParams = {
+                  StartRect: link.Start!,
+                  EndRect: link.End!,
+                  StartDirection: link.StartOrientation! as gongsvg.OrientationType,
+                  EndDirection: link.EndOrientation! as gongsvg.OrientationType,
+                  StartRatio: link.StartRatio,
+                  EndRatio: link.EndRatio,
+                  CornerOffsetRatio: link.CornerOffsetRatio,
+                  CornerRadius: link.CornerRadius,
+                }
+
+                let segments = drawSegments(segmentsParams)
+                this.map_Link_Segment.set(link, segments)
               }
             }
           }
@@ -506,6 +502,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
             }
 
             this.rectDragging = false
+            this.draggedRect = undefined
             this.anchorDragging = false
             break;
           case gongsvg.LinkDB.GONGSTRUCT_NAME:
@@ -783,6 +780,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
       event.stopPropagation(); // Prevent the event from bubbling up to the SVG element
 
       this.rectDragging = true
+      this.draggedRect = rect
 
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: rect.ID,

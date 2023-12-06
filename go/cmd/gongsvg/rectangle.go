@@ -216,8 +216,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 81.000000
-	__Rect__000000_Bottom.Y = 76.000000
+	__Rect__000000_Bottom.X = 61.000000
+	__Rect__000000_Bottom.Y = 92.000000
 	__Rect__000000_Bottom.Width = 632.000000
 	__Rect__000000_Bottom.Height = 197.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -243,8 +243,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 538.000000
-	__Rect__000001_Middle_Rect.Y = 374.000000
+	__Rect__000001_Middle_Rect.X = 593.000000
+	__Rect__000001_Middle_Rect.Y = 341.000000
 	__Rect__000001_Middle_Rect.Width = 253.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -270,8 +270,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 122.999969
-	__Rect__000002_Top.Y = 416.000000
+	__Rect__000002_Top.X = 102.999969
+	__Rect__000002_Top.Y = 387.000000
 	__Rect__000002_Top.Width = 208.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000

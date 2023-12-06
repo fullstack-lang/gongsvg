@@ -141,7 +141,7 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked {
           let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
           let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
 
-          // console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
+          console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
 
           if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
             let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]

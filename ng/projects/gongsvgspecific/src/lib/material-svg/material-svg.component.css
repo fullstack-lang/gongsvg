@@ -16,5 +16,4 @@ line.moveable-line[segment-orientation='vertical'] {
 
 .movable-text {
     cursor: move;
-    pointer-events: auto;
 }

@@ -421,22 +421,18 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
 
           computeLinkFromMouseEvent(linkConf, shapeMouseEvent)
         }
-        if (this.textDragging && this.draggedLink) {
+        if (this.textDragging) {
           let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
           let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
 
-          // console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
+          console.log("Material-SVG Text dragging, deltaX", deltaX, "deltaY", deltaY)
 
-          if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
-            let text = this.draggedLink.TextAtArrowEnd![this.draggedTextIndex]
-            text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
-            text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
+          if (this.draggedText == undefined) {
+            console.log("Problem : this.draggedText should not be undefined")
+            return
           }
-          if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
-            let text = this.draggedLink.TextAtArrowStart![this.draggedTextIndex]
-            text.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
-            text.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
-          }
+          this.draggedText.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
+          this.draggedText.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
         }
       }
     )
@@ -538,14 +534,12 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
             }
 
             if (this.textDragging && this.isEditableService.getIsEditable()) {
-              if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
-                let text = this.draggedLink!.TextAtArrowEnd![this.draggedTextIndex]
-                this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+              if (this.draggedText == undefined) {
+                console.log("Problem : this.draggedText should not be undefined")
+                return
               }
-              if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
-                let text = this.draggedLink!.TextAtArrowStart![this.draggedTextIndex]
-                this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
-              }
+              this.anchoredTextService.updateLinkAnchoredText(
+                this.draggedText, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
             }
             this.linkDragging = false
             this.textDragging = false
@@ -939,6 +933,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
   // dragged anchored text
   textDragging = false
   draggedTextIndex = 0
+  draggedText: gongsvg.LinkAnchoredTextDB | undefined
 
   // LinkAtMouseDown is the clone of the Link when mouse down
   AnchoredTextAtMouseDown: gongsvg.LinkAnchoredTextDB | undefined
@@ -1028,7 +1023,12 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
       this.textDragging = true
       this.draggedTextIndex = anchoredTextIndex
       this.draggedSegmentPositionOnArrow = draggedSegmentPositionOnArrow as gongsvg.PositionOnArrowType
-
+      if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+        this.draggedText = link.TextAtArrowStart![this.draggedTextIndex]
+      }
+      if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+        this.draggedText = link.TextAtArrowEnd![this.draggedTextIndex]
+      }
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: link.ID,
         ShapeType: gongsvg.LinkDB.GONGSTRUCT_NAME,

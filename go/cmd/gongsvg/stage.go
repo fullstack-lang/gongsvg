@@ -51,7 +51,8 @@ func stageInjection(stage *models.StageStruct) {
 	__Ellipse__000000_Ellipse_Example_SVG := (&models.Ellipse{Name: `Ellipse Example SVG`}).Stage(stage)
 
 	// Declarations of staged instances of Layer
-	__Layer__000000_SVG2 := (&models.Layer{Name: `SVG2`}).Stage(stage)
+	__Layer__000000_Default_Layer := (&models.Layer{Name: `Default Layer`}).Stage(stage)
+	__Layer__000001_Test_Layer := (&models.Layer{Name: `Test Layer`}).Stage(stage)
 
 	// Declarations of staged instances of Line
 	__Line__000000_Line := (&models.Line{Name: `Line`}).Stage(stage)
@@ -62,6 +63,9 @@ func stageInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of Path
 	__Path__000000_Path_example := (&models.Path{Name: `Path example`}).Stage(stage)
+	__Path__000001_celebration := (&models.Path{Name: `celebration`}).Stage(stage)
+	__Path__000002_path := (&models.Path{Name: `path`}).Stage(stage)
+	__Path__000003_play_shape := (&models.Path{Name: `play_shape`}).Stage(stage)
 
 	// Declarations of staged instances of Point
 
@@ -149,8 +153,12 @@ func stageInjection(stage *models.StageStruct) {
 	__Ellipse__000000_Ellipse_Example_SVG.Transform = ``
 
 	// Layer values setup
-	__Layer__000000_SVG2.Display = true
-	__Layer__000000_SVG2.Name = `SVG2`
+	__Layer__000000_Default_Layer.Display = true
+	__Layer__000000_Default_Layer.Name = `Default Layer`
+
+	// Layer values setup
+	__Layer__000001_Test_Layer.Display = true
+	__Layer__000001_Test_Layer.Name = `Test Layer`
 
 	// Line values setup
 	__Line__000000_Line.Name = `Line`
@@ -178,6 +186,39 @@ func stageInjection(stage *models.StageStruct) {
 	__Path__000000_Path_example.StrokeDashArray = `4 4`
 	__Path__000000_Path_example.StrokeDashArrayWhenSelected = ``
 	__Path__000000_Path_example.Transform = ``
+
+	// Path values setup
+	__Path__000001_celebration.Name = `celebration`
+	__Path__000001_celebration.Definition = `m80-80 200-560 360 360L80-80Zm132-132 282-100-182-182-100 282Zm370-246-42-42 224-224q32-32 77-32t77 32l24 24-42 42-24-24q-14-14-35-14t-35 14L582-458ZM422-618l-42-42 24-24q14-14 14-34t-14-34l-26-26 42-42 26 26q32 32 32 76t-32 76l-24 24Zm80 80-42-42 144-144q14-14 14-35t-14-35l-64-64 42-42 64 64q32 32 32 77t-32 77L502-538Zm160 160-42-42 64-64q32-32 77-32t77 32l64 64-42 42-64-64q-14-14-35-14t-35 14l-64 64ZM212-212Z`
+	__Path__000001_celebration.Color = `black`
+	__Path__000001_celebration.FillOpacity = 1.000000
+	__Path__000001_celebration.Stroke = `black`
+	__Path__000001_celebration.StrokeWidth = 2.000000
+	__Path__000001_celebration.StrokeDashArray = ``
+	__Path__000001_celebration.StrokeDashArrayWhenSelected = ``
+	__Path__000001_celebration.Transform = ``
+
+	// Path values setup
+	__Path__000002_path.Name = `path`
+	__Path__000002_path.Definition = `M 200 200 C 20 20, 40 70, 250 210`
+	__Path__000002_path.Color = `transparant`
+	__Path__000002_path.FillOpacity = 0.000000
+	__Path__000002_path.Stroke = `blue`
+	__Path__000002_path.StrokeWidth = 2.000000
+	__Path__000002_path.StrokeDashArray = ``
+	__Path__000002_path.StrokeDashArrayWhenSelected = ``
+	__Path__000002_path.Transform = ``
+
+	// Path values setup
+	__Path__000003_play_shape.Name = `play_shape`
+	__Path__000003_play_shape.Definition = `m 763,-197 -43,-43 q 47,-47 73.5,-108 26.5,-61 26.5,-132 0,-71 -26.5,-132 Q 767,-673 720,-720 l 43,-43 q 54,54 85.5,127 31.5,73 31.5,156 0,83 -31.5,156 -31.5,73 -85.5,127 z`
+	__Path__000003_play_shape.Color = `blue`
+	__Path__000003_play_shape.FillOpacity = 1.000000
+	__Path__000003_play_shape.Stroke = `red`
+	__Path__000003_play_shape.StrokeWidth = 1.000000
+	__Path__000003_play_shape.StrokeDashArray = ``
+	__Path__000003_play_shape.StrokeDashArrayWhenSelected = ``
+	__Path__000003_play_shape.Transform = `scale(0.5 0.5) translate(200 960)`
 
 	// Polygone values setup
 	__Polygone__000000_Polygone_example_SVG.Name = `Polygone example SVG`
@@ -368,22 +409,24 @@ func stageInjection(stage *models.StageStruct) {
 
 	// Setup of pointers
 	__Circle__000000_C1a.Animations = append(__Circle__000000_C1a.Animations, __Animate__000002_C1a_animation)
-	__Layer__000000_SVG2.Rects = append(__Layer__000000_SVG2.Rects, __Rect__000002_R3)
-	__Layer__000000_SVG2.Rects = append(__Layer__000000_SVG2.Rects, __Rect__000003_R4_rounded)
-	__Layer__000000_SVG2.Rects = append(__Layer__000000_SVG2.Rects, __Rect__000004_Test_Rect)
-	__Layer__000000_SVG2.Rects = append(__Layer__000000_SVG2.Rects, __Rect__000000_R1)
-	__Layer__000000_SVG2.Rects = append(__Layer__000000_SVG2.Rects, __Rect__000001_R2)
-	__Layer__000000_SVG2.Texts = append(__Layer__000000_SVG2.Texts, __Text__000001_Hello)
-	__Layer__000000_SVG2.Texts = append(__Layer__000000_SVG2.Texts, __Text__000000_Bonjorno)
-	__Layer__000000_SVG2.Circles = append(__Layer__000000_SVG2.Circles, __Circle__000000_C1a)
-	__Layer__000000_SVG2.Lines = append(__Layer__000000_SVG2.Lines, __Line__000000_Line)
-	__Layer__000000_SVG2.Ellipses = append(__Layer__000000_SVG2.Ellipses, __Ellipse__000000_Ellipse_Example_SVG)
-	__Layer__000000_SVG2.Polylines = append(__Layer__000000_SVG2.Polylines, __Polyline__000000_Polyline_example_SVG)
-	__Layer__000000_SVG2.Polygones = append(__Layer__000000_SVG2.Polygones, __Polygone__000000_Polygone_example_SVG)
-	__Layer__000000_SVG2.Paths = append(__Layer__000000_SVG2.Paths, __Path__000000_Path_example)
+	__Layer__000000_Default_Layer.Rects = append(__Layer__000000_Default_Layer.Rects, __Rect__000002_R3)
+	__Layer__000000_Default_Layer.Rects = append(__Layer__000000_Default_Layer.Rects, __Rect__000003_R4_rounded)
+	__Layer__000000_Default_Layer.Rects = append(__Layer__000000_Default_Layer.Rects, __Rect__000004_Test_Rect)
+	__Layer__000000_Default_Layer.Rects = append(__Layer__000000_Default_Layer.Rects, __Rect__000000_R1)
+	__Layer__000000_Default_Layer.Rects = append(__Layer__000000_Default_Layer.Rects, __Rect__000001_R2)
+	__Layer__000000_Default_Layer.Texts = append(__Layer__000000_Default_Layer.Texts, __Text__000001_Hello)
+	__Layer__000000_Default_Layer.Texts = append(__Layer__000000_Default_Layer.Texts, __Text__000000_Bonjorno)
+	__Layer__000000_Default_Layer.Circles = append(__Layer__000000_Default_Layer.Circles, __Circle__000000_C1a)
+	__Layer__000000_Default_Layer.Lines = append(__Layer__000000_Default_Layer.Lines, __Line__000000_Line)
+	__Layer__000000_Default_Layer.Ellipses = append(__Layer__000000_Default_Layer.Ellipses, __Ellipse__000000_Ellipse_Example_SVG)
+	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000000_Path_example)
+	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000002_path)
+	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000001_celebration)
+	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000003_play_shape)
 	__Rect__000003_R4_rounded.Animations = append(__Rect__000003_R4_rounded.Animations, __Animate__000000_A1)
 	__Rect__000003_R4_rounded.Animations = append(__Rect__000003_R4_rounded.Animations, __Animate__000001_Animate_oppacity)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_SVG2)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Default_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Test_Layer)
 	__Text__000001_Hello.Animates = append(__Text__000001_Hello.Animates, __Animate__000003_Move_text)
 }
 

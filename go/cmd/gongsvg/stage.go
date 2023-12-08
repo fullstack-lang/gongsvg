@@ -63,9 +63,10 @@ func stageInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of Path
 	__Path__000000_Path_example := (&models.Path{Name: `Path example`}).Stage(stage)
-	__Path__000001_celebration := (&models.Path{Name: `celebration`}).Stage(stage)
-	__Path__000002_path := (&models.Path{Name: `path`}).Stage(stage)
-	__Path__000003_play_shape := (&models.Path{Name: `play_shape`}).Stage(stage)
+	__Path__000001_another_play_shape := (&models.Path{Name: `another play shape`}).Stage(stage)
+	__Path__000002_celebration := (&models.Path{Name: `celebration`}).Stage(stage)
+	__Path__000003_path := (&models.Path{Name: `path`}).Stage(stage)
+	__Path__000004_play_shape := (&models.Path{Name: `play_shape`}).Stage(stage)
 
 	// Declarations of staged instances of Point
 
@@ -188,37 +189,48 @@ func stageInjection(stage *models.StageStruct) {
 	__Path__000000_Path_example.Transform = ``
 
 	// Path values setup
-	__Path__000001_celebration.Name = `celebration`
-	__Path__000001_celebration.Definition = `m80-80 200-560 360 360L80-80Zm132-132 282-100-182-182-100 282Zm370-246-42-42 224-224q32-32 77-32t77 32l24 24-42 42-24-24q-14-14-35-14t-35 14L582-458ZM422-618l-42-42 24-24q14-14 14-34t-14-34l-26-26 42-42 26 26q32 32 32 76t-32 76l-24 24Zm80 80-42-42 144-144q14-14 14-35t-14-35l-64-64 42-42 64 64q32 32 32 77t-32 77L502-538Zm160 160-42-42 64-64q32-32 77-32t77 32l64 64-42 42-64-64q-14-14-35-14t-35 14l-64 64ZM212-212Z`
-	__Path__000001_celebration.Color = `black`
-	__Path__000001_celebration.FillOpacity = 1.000000
-	__Path__000001_celebration.Stroke = `black`
-	__Path__000001_celebration.StrokeWidth = 2.000000
-	__Path__000001_celebration.StrokeDashArray = ``
-	__Path__000001_celebration.StrokeDashArrayWhenSelected = ``
-	__Path__000001_celebration.Transform = ``
+	__Path__000001_another_play_shape.Name = `another play shape`
+	__Path__000001_another_play_shape.Definition = `m576-540-56-56 104-104-104-104 56-56 104 104 104-104 56 56-104 104 104 104-56 56-104-104-104 104ZM80-520l200-360 200 360H80Zm200 400q-66 0-113-47t-47-113q0-67 47-113.5T280-440q66 0 113 47t47 113q0 66-47 113t-113 47Zm0-80q33 0 56.5-23.5T360-280q0-33-23.5-56.5T280-360q-33 0-56.5 23.5T200-280q0 33 23.5 56.5T280-200Zm-64-400h128l-64-115-64 115Zm304 480v-320h320v320H520Zm80-80h160v-160H600v160ZM280-658Zm0 378Zm400 0Z`
+	__Path__000001_another_play_shape.Color = `black`
+	__Path__000001_another_play_shape.FillOpacity = 0.500000
+	__Path__000001_another_play_shape.Stroke = `black`
+	__Path__000001_another_play_shape.StrokeWidth = 1.000000
+	__Path__000001_another_play_shape.StrokeDashArray = ``
+	__Path__000001_another_play_shape.StrokeDashArrayWhenSelected = ``
+	__Path__000001_another_play_shape.Transform = `scale(0.5 0.5) translate(200 960)`
 
 	// Path values setup
-	__Path__000002_path.Name = `path`
-	__Path__000002_path.Definition = `M 200 200 C 20 20, 40 70, 250 210`
-	__Path__000002_path.Color = `transparant`
-	__Path__000002_path.FillOpacity = 0.000000
-	__Path__000002_path.Stroke = `blue`
-	__Path__000002_path.StrokeWidth = 2.000000
-	__Path__000002_path.StrokeDashArray = ``
-	__Path__000002_path.StrokeDashArrayWhenSelected = ``
-	__Path__000002_path.Transform = ``
+	__Path__000002_celebration.Name = `celebration`
+	__Path__000002_celebration.Definition = `m80-80 200-560 360 360L80-80Zm132-132 282-100-182-182-100 282Zm370-246-42-42 224-224q32-32 77-32t77 32l24 24-42 42-24-24q-14-14-35-14t-35 14L582-458ZM422-618l-42-42 24-24q14-14 14-34t-14-34l-26-26 42-42 26 26q32 32 32 76t-32 76l-24 24Zm80 80-42-42 144-144q14-14 14-35t-14-35l-64-64 42-42 64 64q32 32 32 77t-32 77L502-538Zm160 160-42-42 64-64q32-32 77-32t77 32l64 64-42 42-64-64q-14-14-35-14t-35 14l-64 64ZM212-212Z`
+	__Path__000002_celebration.Color = `black`
+	__Path__000002_celebration.FillOpacity = 1.000000
+	__Path__000002_celebration.Stroke = `black`
+	__Path__000002_celebration.StrokeWidth = 2.000000
+	__Path__000002_celebration.StrokeDashArray = ``
+	__Path__000002_celebration.StrokeDashArrayWhenSelected = ``
+	__Path__000002_celebration.Transform = ``
 
 	// Path values setup
-	__Path__000003_play_shape.Name = `play_shape`
-	__Path__000003_play_shape.Definition = `m 763,-197 -43,-43 q 47,-47 73.5,-108 26.5,-61 26.5,-132 0,-71 -26.5,-132 Q 767,-673 720,-720 l 43,-43 q 54,54 85.5,127 31.5,73 31.5,156 0,83 -31.5,156 -31.5,73 -85.5,127 z`
-	__Path__000003_play_shape.Color = `blue`
-	__Path__000003_play_shape.FillOpacity = 1.000000
-	__Path__000003_play_shape.Stroke = `red`
-	__Path__000003_play_shape.StrokeWidth = 1.000000
-	__Path__000003_play_shape.StrokeDashArray = ``
-	__Path__000003_play_shape.StrokeDashArrayWhenSelected = ``
-	__Path__000003_play_shape.Transform = `scale(0.5 0.5) translate(200 960)`
+	__Path__000003_path.Name = `path`
+	__Path__000003_path.Definition = `M 200 200 C 20 20, 40 70, 250 210`
+	__Path__000003_path.Color = `transparant`
+	__Path__000003_path.FillOpacity = 0.000000
+	__Path__000003_path.Stroke = `blue`
+	__Path__000003_path.StrokeWidth = 2.000000
+	__Path__000003_path.StrokeDashArray = ``
+	__Path__000003_path.StrokeDashArrayWhenSelected = ``
+	__Path__000003_path.Transform = ``
+
+	// Path values setup
+	__Path__000004_play_shape.Name = `play_shape`
+	__Path__000004_play_shape.Definition = `m 763,-197 -43,-43 q 47,-47 73.5,-108 26.5,-61 26.5,-132 0,-71 -26.5,-132 Q 767,-673 720,-720 l 43,-43 q 54,54 85.5,127 31.5,73 31.5,156 0,83 -31.5,156 -31.5,73 -85.5,127 z`
+	__Path__000004_play_shape.Color = `blue`
+	__Path__000004_play_shape.FillOpacity = 1.000000
+	__Path__000004_play_shape.Stroke = `red`
+	__Path__000004_play_shape.StrokeWidth = 1.000000
+	__Path__000004_play_shape.StrokeDashArray = ``
+	__Path__000004_play_shape.StrokeDashArrayWhenSelected = ``
+	__Path__000004_play_shape.Transform = `scale(0.5 0.5) translate(200 960)`
 
 	// Polygone values setup
 	__Polygone__000000_Polygone_example_SVG.Name = `Polygone example SVG`
@@ -420,9 +432,10 @@ func stageInjection(stage *models.StageStruct) {
 	__Layer__000000_Default_Layer.Lines = append(__Layer__000000_Default_Layer.Lines, __Line__000000_Line)
 	__Layer__000000_Default_Layer.Ellipses = append(__Layer__000000_Default_Layer.Ellipses, __Ellipse__000000_Ellipse_Example_SVG)
 	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000000_Path_example)
-	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000002_path)
-	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000001_celebration)
-	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000003_play_shape)
+	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000003_path)
+	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000002_celebration)
+	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000004_play_shape)
+	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000001_another_play_shape)
 	__Rect__000003_R4_rounded.Animations = append(__Rect__000003_R4_rounded.Animations, __Animate__000000_A1)
 	__Rect__000003_R4_rounded.Animations = append(__Rect__000003_R4_rounded.Animations, __Animate__000001_Animate_oppacity)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Default_Layer)

@@ -187,8 +187,8 @@ Line 2`}).Stage(stage)
 Line 2`
 	__LinkAnchoredText__000000_Liine_1_Line_2.Content = `Liine 1
 Line 2`
-	__LinkAnchoredText__000000_Liine_1_Line_2.X_Offset = -66.000000
-	__LinkAnchoredText__000000_Liine_1_Line_2.Y_Offset = -44.000000
+	__LinkAnchoredText__000000_Liine_1_Line_2.X_Offset = -75.000000
+	__LinkAnchoredText__000000_Liine_1_Line_2.Y_Offset = 39.000000
 	__LinkAnchoredText__000000_Liine_1_Line_2.FontWeight = `normal`
 	__LinkAnchoredText__000000_Liine_1_Line_2.Color = `black`
 	__LinkAnchoredText__000000_Liine_1_Line_2.FillOpacity = 100.000000
@@ -203,8 +203,8 @@ Line 2`
 	__LinkAnchoredText__000001_Start_Anchored_1.Content = `Start Anchored 1
 Second line
 Third Line`
-	__LinkAnchoredText__000001_Start_Anchored_1.X_Offset = 36.999969
-	__LinkAnchoredText__000001_Start_Anchored_1.Y_Offset = -63.987488
+	__LinkAnchoredText__000001_Start_Anchored_1.X_Offset = 26.999969
+	__LinkAnchoredText__000001_Start_Anchored_1.Y_Offset = -71.987488
 	__LinkAnchoredText__000001_Start_Anchored_1.FontWeight = `light`
 	__LinkAnchoredText__000001_Start_Anchored_1.Color = `cyan`
 	__LinkAnchoredText__000001_Start_Anchored_1.FillOpacity = 100.000000
@@ -216,8 +216,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 61.000000
-	__Rect__000000_Bottom.Y = 92.000000
+	__Rect__000000_Bottom.X = 62.000000
+	__Rect__000000_Bottom.Y = 71.000000
 	__Rect__000000_Bottom.Width = 632.000000
 	__Rect__000000_Bottom.Height = 197.000000
 	__Rect__000000_Bottom.RX = 5.000000
@@ -243,8 +243,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 593.000000
-	__Rect__000001_Middle_Rect.Y = 341.000000
+	__Rect__000001_Middle_Rect.X = 532.000000
+	__Rect__000001_Middle_Rect.Y = 349.000000
 	__Rect__000001_Middle_Rect.Width = 253.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -270,8 +270,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 102.999969
-	__Rect__000002_Top.Y = 387.000000
+	__Rect__000002_Top.X = 77.999969
+	__Rect__000002_Top.Y = 379.000000
 	__Rect__000002_Top.Width = 208.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000
@@ -455,9 +455,6 @@ line 3`
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __LinkAnchoredText__000001_Start_Anchored_1)
 	__Rect__000000_Bottom.RectAnchoredTexts = append(__Rect__000000_Bottom.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
 	__Rect__000000_Bottom.RectAnchoredRects = append(__Rect__000000_Bottom.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
-	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000003_Top_anchored_top_middle)
-	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000001_Top_Left)
-	__Rect__000002_Top.RectAnchoredTexts = append(__Rect__000002_Top.RectAnchoredTexts, __RectAnchoredText__000002_Top_anchored_bottom_middle)
 	__Rect__000002_Top.RectAnchoredRects = append(__Rect__000002_Top.RectAnchoredRects, __RectAnchoredRect__000000_Rect_within_top)
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Start = __Rect__000001_Middle_Rect
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.End = __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal

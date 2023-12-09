@@ -156,32 +156,32 @@
                             [attr.repeatCount]="animate.RepeatCount" />
 
                 </rect>
-                <ng-container *ngFor='let rectanchoredrect of rect.RectAnchoredRects!; let i = index'>
-                    <ng-container *ngIf="rectanchoredrect.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP" 
+                <ng-container *ngFor='let rectAnchoredRect of rect.RectAnchoredRects!; let i = index'>
+                    <ng-container *ngIf="rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP" 
                             [ngTemplateOutlet]="anchoredRect" 
                             [ngTemplateOutletContext]="{ 
-                                    rect: rectanchoredrect, 
-                                    anchorX: rect.X + rect.Width/2 + rectanchoredrect.X_Offset, 
-                                    anchorY: rect.Y + rectanchoredrect.Y_Offset,
-                                    width: (rectanchoredrect.WidthFollowRect ? rect.Width : rectanchoredrect.Width) }
+                                    rect: rectAnchoredRect, 
+                                    anchorX: rect.X + rect.Width/2 + rectAnchoredRect.X_Offset, 
+                                    anchorY: rect.Y + rectAnchoredRect.Y_Offset,
+                                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }
                             ">
                     </ng-container>
-                    <ng-container *ngIf="rectanchoredrect.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 
+                    <ng-container *ngIf="rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 
                             [ngTemplateOutlet]="anchoredRect" 
                             [ngTemplateOutletContext]="{ 
-                                    rect: rectanchoredrect, 
-                                    anchorX: rect.X + rectanchoredrect.X_Offset, 
-                                    anchorY: rect.Y + rectanchoredrect.Y_Offset ,
-                                    width: (rectanchoredrect.WidthFollowRect ? rect.Width : rectanchoredrect.Width) }
+                                    rect: rectAnchoredRect, 
+                                    anchorX: rect.X + rectAnchoredRect.X_Offset, 
+                                    anchorY: rect.Y + rectAnchoredRect.Y_Offset ,
+                                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }
                             ">
                     </ng-container>
-                    <ng-container *ngIf="rectanchoredrect.RectAnchorType == RectAnchorType.RECT_ANCHOR_BOTTOM" 
+                    <ng-container *ngIf="rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_ANCHOR_BOTTOM" 
                             [ngTemplateOutlet]="anchoredRect" 
                             [ngTemplateOutletContext]="{ 
-                                    rect: rectanchoredrect, 
-                                    anchorX: rect.X + rect.Width/2 + rectanchoredrect.X_Offset, 
-                                    anchorY: rect.Y + rect.Height + rectanchoredrect.Y_Offset ,
-                                    width: (rectanchoredrect.WidthFollowRect ? rect.Width : rectanchoredrect.Width) }
+                                    rect: rectAnchoredRect, 
+                                    anchorX: rect.X + rect.Width/2 + rectAnchoredRect.X_Offset, 
+                                    anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset ,
+                                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }
                             ">
                     </ng-container>
                 </ng-container>
@@ -219,56 +219,58 @@
                             ">
                     </ng-container>
                 </ng-container>
-                <!-- Left anchor -->
-                <circle class="overlay"
-                    *ngIf="rect.HasLeftHandle"
-                    [attr.cx]="rect.X"
-                    [attr.cy]="rect.Y + rect.Height / 2"
-                    [attr.r]="anchorRadius"
-                    [attr.fill]="(anchorDragging && activeAnchor === 'left') ? draggingAnchorFillColor : anchorFillColor"
-
-                    (mousedown)="anchorMouseDown($event, 'left', rect)"
-                    (mousemove)="anchorMouseMove($event, 'left', rect)"
-                    (mouseup)="anchorMouseUp($event, rect)"/>
-
-                <!-- Right anchor -->
-                <circle
-                        class="overlay"
-                        *ngIf="rect.HasRightHandle"
-                        [attr.cx]="rect.X+ rect.Width"
-                        [attr.cy]="rect.Y+ rect.Height/2"
+                <ng-container>
+                    <!-- Left anchor -->
+                    <circle class="overlay"
+                        *ngIf="rect.HasLeftHandle"
+                        [attr.cx]="rect.X"
+                        [attr.cy]="rect.Y + rect.Height / 2"
                         [attr.r]="anchorRadius"
-                        [attr.fill]="(anchorDragging && activeAnchor === 'right') ? draggingAnchorFillColor : anchorFillColor"
+                        [attr.fill]="(anchorDragging && activeAnchor === 'left') ? draggingAnchorFillColor : anchorFillColor"
 
-                        (mousedown)="anchorMouseDown($event, 'right', rect)"
-                        (mousemove)="anchorMouseMove($event, 'right', rect)"
+                        (mousedown)="anchorMouseDown($event, 'left', rect)"
+                        (mousemove)="anchorMouseMove($event, 'left', rect)"
                         (mouseup)="anchorMouseUp($event, rect)"/>
 
-                <!-- Top anchor -->
-                <circle
-                        class="overlay"
-                        *ngIf="rect.HasTopHandle"
-                        [attr.cx]="rect.X + rect.Width / 2"
-                        [attr.cy]="rect.Y "
-                        [attr.r]="anchorRadius"
-                        [attr.fill]="(anchorDragging && activeAnchor === 'top') ? draggingAnchorFillColor : anchorFillColor"
+                    <!-- Right anchor -->
+                    <circle
+                            class="overlay"
+                            *ngIf="rect.HasRightHandle"
+                            [attr.cx]="rect.X+ rect.Width"
+                            [attr.cy]="rect.Y+ rect.Height/2"
+                            [attr.r]="anchorRadius"
+                            [attr.fill]="(anchorDragging && activeAnchor === 'right') ? draggingAnchorFillColor : anchorFillColor"
 
-                        (mousedown)="anchorMouseDown($event, 'top', rect)"
-                        (mousemove)="anchorMouseMove($event, 'top', rect)"
-                        (mouseup)="anchorMouseUp($event, rect)"/>
+                            (mousedown)="anchorMouseDown($event, 'right', rect)"
+                            (mousemove)="anchorMouseMove($event, 'right', rect)"
+                            (mouseup)="anchorMouseUp($event, rect)"/>
 
-                <!-- Bottom anchor -->
-                <circle
-                        class="overlay"
-                        *ngIf="rect.HasBottomHandle"
-                        [attr.cx]="rect.X+ rect.Width / 2"
-                        [attr.cy]="rect.Y+ rect.Height"
-                        [attr.r]="anchorRadius"
-                        [attr.fill]="(anchorDragging && activeAnchor === 'bottom') ? draggingAnchorFillColor : anchorFillColor"
+                    <!-- Top anchor -->
+                    <circle
+                            class="overlay"
+                            *ngIf="rect.HasTopHandle"
+                            [attr.cx]="rect.X + rect.Width / 2"
+                            [attr.cy]="rect.Y "
+                            [attr.r]="anchorRadius"
+                            [attr.fill]="(anchorDragging && activeAnchor === 'top') ? draggingAnchorFillColor : anchorFillColor"
 
-                        (mousedown)="anchorMouseDown($event, 'bottom', rect)"
-                        (mousemove)="anchorMouseMove($event, 'bottom', rect)"
-                        (mouseup)="anchorMouseUp($event, rect)"/>
+                            (mousedown)="anchorMouseDown($event, 'top', rect)"
+                            (mousemove)="anchorMouseMove($event, 'top', rect)"
+                            (mouseup)="anchorMouseUp($event, rect)"/>
+
+                    <!-- Bottom anchor -->
+                    <circle
+                            class="overlay"
+                            *ngIf="rect.HasBottomHandle"
+                            [attr.cx]="rect.X+ rect.Width / 2"
+                            [attr.cy]="rect.Y+ rect.Height"
+                            [attr.r]="anchorRadius"
+                            [attr.fill]="(anchorDragging && activeAnchor === 'bottom') ? draggingAnchorFillColor : anchorFillColor"
+
+                            (mousedown)="anchorMouseDown($event, 'bottom', rect)"
+                            (mousemove)="anchorMouseMove($event, 'bottom', rect)"
+                            (mouseup)="anchorMouseUp($event, rect)"/>
+                </ng-container>
             </ng-container>
             <ng-container *ngFor="let link of layer.Links;">
                 <ng-container *ngIf="link.Type == LinkType.LINK_TYPE_FLOATING_ORTHOGONAL" >
@@ -398,15 +400,6 @@
         <line *ngIf="linkDrawing"
             [attr.x1]="startX" [attr.y1]="startY" [attr.x2]="endX" [attr.y2]="endY" 
             stroke="black" stroke-dasharray="5,5" [attr.stroke-width]="2"/>
-        <!-- <path d="M 100 100 C 20 20, 40 20, 150 110" stroke="black" stroke-width="3" fill="transparent"/> -->
-        <!-- <path d="M 200 200 C 20 20, 40 70, 250 210" stroke="black" stroke-width="3" fill="transparent"/> -->
-
-        <!-- <path
-        stroke="black"
-        stroke-width="1"
-        d="m 763,-197 -43,-43 q 47,-47 73.5,-108 26.5,-61 26.5,-132 0,-71 -26.5,-132 Q 767,-673 720,-720 l 43,-43 q 54,54 85.5,127 31.5,73 31.5,156 0,83 -31.5,156 -31.5,73 -85.5,127 z"
-        transform="scale(0.5 0.5) translate(200 960)"
-        id="path6" /> -->
     </g>
 </svg>
 
@@ -436,6 +429,7 @@
 <ng-template #anchoredRect let-rect="rect" let-anchorX="anchorX" let-anchorY="anchorY" let-width="width">
     <svg:rect   
         class="anchored-rect"
+        pointer-events="none"
         [attr.x]="anchorX"
         [attr.y]="anchorY"
         [attr.width]="width"

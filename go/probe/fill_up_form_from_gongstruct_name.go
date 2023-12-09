@@ -158,6 +158,17 @@ func FillUpFormFromGongstructName(
 		}).Stage(formStage)
 		rect := new(models.Rect)
 		FillUpForm(rect, formGroup, probe)
+	case "RectAnchoredPath":
+		formGroup := (&form.FormGroup{
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: prefix + " RectAnchoredPath Form",
+			OnSave: __gong__New__RectAnchoredPathFormCallback(
+				nil,
+				probe,
+			),
+		}).Stage(formStage)
+		rectanchoredpath := new(models.RectAnchoredPath)
+		FillUpForm(rectanchoredpath, formGroup, probe)
 	case "RectAnchoredRect":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),

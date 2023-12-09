@@ -185,6 +185,17 @@
                             ">
                     </ng-container>
                 </ng-container>
+                <ng-container *ngFor='let rectAnchoredPath of rect.RectAnchoredPaths!; let i = index'>
+                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP" 
+                            [ngTemplateOutlet]="anchoredPath" 
+                            [ngTemplateOutletContext]="{ 
+                                    path: rectAnchoredPath, 
+                                    anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
+                                    anchorY: rect.Y + rectAnchoredPath.Y_Offset,}
+                            ">
+                    </ng-container>
+                    
+                </ng-container>
                 <ng-container *ngFor='let text of rect.RectAnchoredTexts!; let i = index'>
                     <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 
                             [ngTemplateOutlet]="anchoredText" 
@@ -428,7 +439,6 @@
 
 <ng-template #anchoredRect let-rect="rect" let-anchorX="anchorX" let-anchorY="anchorY" let-width="width">
     <svg:rect   
-        class="anchored-rect"
         pointer-events="none"
         [attr.x]="anchorX"
         [attr.y]="anchorY"
@@ -440,4 +450,18 @@
         [attr.stroke]="rect.Stroke"
         [attr.stroke-width]="rect.StrokeWidth"
     > </rect>
+</ng-template>
+
+<ng-template #anchoredPath let-path="path" let-anchorX="anchorX" let-anchorY="anchorY">
+    <svg:g  [attr.transform]="'translate(' + anchorX + ' ' + anchorY + ')'">
+        <svg:path   
+            pointer-events="none"
+            [attr.d]="path.Definition"
+            [attr.fill]="path.Color"
+            [attr.fill-opacity]="path.FillOpacity"
+            [attr.stroke]="path.Stroke"
+            [attr.stroke-width]="path.StrokeWidth"
+            [attr.transform]="path.Transform"
+        > </path>
+    </svg:g>
 </ng-template>

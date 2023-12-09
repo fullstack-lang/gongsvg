@@ -799,6 +799,7 @@ func FillUpForm[T models.Gongstruct](
 			false, false, 0, false, 0)
 		AssociationSliceToForm("RectAnchoredTexts", instanceWithInferedType, &instanceWithInferedType.RectAnchoredTexts, formGroup, probe)
 		AssociationSliceToForm("RectAnchoredRects", instanceWithInferedType, &instanceWithInferedType.RectAnchoredRects, formGroup, probe)
+		AssociationSliceToForm("RectAnchoredPaths", instanceWithInferedType, &instanceWithInferedType.RectAnchoredPaths, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -816,6 +817,60 @@ func FillUpForm[T models.Gongstruct](
 				AssociationReverseFieldToForm[*models.Layer, *models.Rect](
 					nil,
 					"Rects",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}	
+		}
+
+	case *models.RectAnchoredPath:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Definition", instanceWithInferedType.Definition, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("X_Offset", instanceWithInferedType.X_Offset, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Y_Offset", instanceWithInferedType.Y_Offset, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("RectAnchorType", instanceWithInferedType.RectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("WidthFollowRect", instanceWithInferedType.WidthFollowRect, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("HeightFollowRect", instanceWithInferedType.HeightFollowRect, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ScalePropotionnally", instanceWithInferedType.ScalePropotionnally, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("FillOpacity", instanceWithInferedType.FillOpacity, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Stroke", instanceWithInferedType.Stroke, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("StrokeWidth", instanceWithInferedType.StrokeWidth, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("StrokeDashArray", instanceWithInferedType.StrokeDashArray, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup, 
+			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Rect"
+			rf.Fieldname = "RectAnchoredPaths"
+			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Rect),
+					"RectAnchoredPaths",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Rect, *models.RectAnchoredPath](
+					nil,
+					"RectAnchoredPaths",
 					instanceWithInferedType,
 					formGroup,
 					probe)

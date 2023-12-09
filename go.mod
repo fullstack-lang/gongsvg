@@ -3,10 +3,10 @@ module github.com/fullstack-lang/gongsvg
 go 1.21.0
 
 require (
-	github.com/fullstack-lang/gong v0.0.0-20231203075154-d4844c5feef6
+	github.com/fullstack-lang/gong v0.0.0-20231208034750-460443cad047
 	github.com/fullstack-lang/gongdoc v0.0.0-20231202082305-5e436c8f5c5d
 	github.com/fullstack-lang/gongtable v0.0.0-20231202093416-4a8959bf53aa
-	github.com/fullstack-lang/gongtree v0.0.0-20231122074822-febf350211ba
+	github.com/fullstack-lang/gongtree v0.0.0-20231206130925-9ded3e8642ab
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-contrib/static v0.0.1
@@ -52,7 +52,6 @@ require (
 	github.com/richardlehane/msoleps v1.0.3 // indirect
 	github.com/rogpeppe/fastuuid v1.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
-	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect
 	github.com/shabbyrobe/xmlwriter v0.0.0-20230525083848-85336ec334fa // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect

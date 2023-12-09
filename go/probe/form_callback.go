@@ -2026,6 +2026,146 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 
 	fillUpTree(rectFormCallback.probe)
 }
+func __gong__New__RectAnchoredPathFormCallback(
+	rectanchoredpath *models.RectAnchoredPath,
+	probe *Probe,
+) (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) {
+	rectanchoredpathFormCallback = new(RectAnchoredPathFormCallback)
+	rectanchoredpathFormCallback.probe = probe
+	rectanchoredpathFormCallback.rectanchoredpath = rectanchoredpath
+
+	rectanchoredpathFormCallback.CreationMode = (rectanchoredpath == nil)
+
+	return
+}
+
+type RectAnchoredPathFormCallback struct {
+	rectanchoredpath *models.RectAnchoredPath
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+}
+
+func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
+
+	log.Println("RectAnchoredPathFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	rectanchoredpathFormCallback.probe.formStage.Checkout()
+
+	if rectanchoredpathFormCallback.rectanchoredpath == nil {
+		rectanchoredpathFormCallback.rectanchoredpath = new(models.RectAnchoredPath).Stage(rectanchoredpathFormCallback.probe.stageOfInterest)
+	}
+	rectanchoredpath_ := rectanchoredpathFormCallback.rectanchoredpath
+	_ = rectanchoredpath_
+
+	// get the formGroup
+	formGroup := rectanchoredpathFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(rectanchoredpath_.Name), formDiv)
+		case "Definition":
+			FormDivBasicFieldToField(&(rectanchoredpath_.Definition), formDiv)
+		case "X_Offset":
+			FormDivBasicFieldToField(&(rectanchoredpath_.X_Offset), formDiv)
+		case "Y_Offset":
+			FormDivBasicFieldToField(&(rectanchoredpath_.Y_Offset), formDiv)
+		case "RectAnchorType":
+			FormDivEnumStringFieldToField(&(rectanchoredpath_.RectAnchorType), formDiv)
+		case "WidthFollowRect":
+			FormDivBasicFieldToField(&(rectanchoredpath_.WidthFollowRect), formDiv)
+		case "HeightFollowRect":
+			FormDivBasicFieldToField(&(rectanchoredpath_.HeightFollowRect), formDiv)
+		case "ScalePropotionnally":
+			FormDivBasicFieldToField(&(rectanchoredpath_.ScalePropotionnally), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(rectanchoredpath_.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(rectanchoredpath_.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(rectanchoredpath_.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(rectanchoredpath_.StrokeWidth), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(rectanchoredpath_.StrokeDashArray), formDiv)
+		case "StrokeDashArrayWhenSelected":
+			FormDivBasicFieldToField(&(rectanchoredpath_.StrokeDashArrayWhenSelected), formDiv)
+		case "Transform":
+			FormDivBasicFieldToField(&(rectanchoredpath_.Transform), formDiv)
+		case "Rect:RectAnchoredPaths":
+			// we need to retrieve the field owner before the change
+			var pastRectOwner *models.Rect
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Rect"
+			rf.Fieldname = "RectAnchoredPaths"
+			reverseFieldOwner := orm.GetReverseFieldOwner(
+				rectanchoredpathFormCallback.probe.stageOfInterest,
+				rectanchoredpathFormCallback.probe.backRepoOfInterest,
+				rectanchoredpath_,
+				&rf)
+
+			if reverseFieldOwner != nil {
+				pastRectOwner = reverseFieldOwner.(*models.Rect)
+			}
+			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+				if pastRectOwner != nil {
+					idx := slices.Index(pastRectOwner.RectAnchoredPaths, rectanchoredpath_)
+					pastRectOwner.RectAnchoredPaths = slices.Delete(pastRectOwner.RectAnchoredPaths, idx, idx+1)
+				}
+			} else {
+				// we need to retrieve the field owner after the change
+				// parse all astrcut and get the one with the name in the
+				// div
+				for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredpathFormCallback.probe.stageOfInterest) {
+
+					// the match is base on the name
+					if _rect.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+						newRectOwner := _rect // we have a match
+						if pastRectOwner != nil {
+							if newRectOwner != pastRectOwner {
+								idx := slices.Index(pastRectOwner.RectAnchoredPaths, rectanchoredpath_)
+								pastRectOwner.RectAnchoredPaths = slices.Delete(pastRectOwner.RectAnchoredPaths, idx, idx+1)
+								newRectOwner.RectAnchoredPaths = append(newRectOwner.RectAnchoredPaths, rectanchoredpath_)
+							}
+						} else {
+							newRectOwner.RectAnchoredPaths = append(newRectOwner.RectAnchoredPaths, rectanchoredpath_)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	rectanchoredpathFormCallback.probe.stageOfInterest.Commit()
+	fillUpTable[models.RectAnchoredPath](
+		rectanchoredpathFormCallback.probe,
+	)
+	rectanchoredpathFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if rectanchoredpathFormCallback.CreationMode {
+		rectanchoredpathFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: table.FormGroupDefaultName.ToString(),
+			OnSave: __gong__New__RectAnchoredPathFormCallback(
+				nil,
+				rectanchoredpathFormCallback.probe,
+			),
+		}).Stage(rectanchoredpathFormCallback.probe.formStage)
+		rectanchoredpath := new(models.RectAnchoredPath)
+		FillUpForm(rectanchoredpath, newFormGroup, rectanchoredpathFormCallback.probe)
+		rectanchoredpathFormCallback.probe.formStage.Commit()
+	}
+
+	fillUpTree(rectanchoredpathFormCallback.probe)
+}
 func __gong__New__RectAnchoredRectFormCallback(
 	rectanchoredrect *models.RectAnchoredRect,
 	probe *Probe,

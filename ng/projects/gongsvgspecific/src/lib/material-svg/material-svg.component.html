@@ -187,14 +187,29 @@
                 </ng-container>
                 <ng-container *ngFor='let rectAnchoredPath of rect.RectAnchoredPaths!; let i = index'>
                     <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP" 
-                            [ngTemplateOutlet]="anchoredPath" 
-                            [ngTemplateOutletContext]="{ 
-                                    path: rectAnchoredPath, 
-                                    anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
-                                    anchorY: rect.Y + rectAnchoredPath.Y_Offset,}
-                            ">
+                        [ngTemplateOutlet]="anchoredPath" 
+                        [ngTemplateOutletContext]="{ 
+                            path: rectAnchoredPath, 
+                            anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
+                            anchorY: rect.Y + rectAnchoredPath.Y_Offset,}
+                        ">
                     </ng-container>
-                    
+                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 
+                        [ngTemplateOutlet]="anchoredPath" 
+                        [ngTemplateOutletContext]="{ 
+                            path: rectAnchoredPath, 
+                            anchorX: rect.X + rectAnchoredPath.X_Offset, 
+                            anchorY: rect.Y + rectAnchoredPath.Y_Offset ,}
+                        ">
+                    </ng-container>
+                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_ANCHOR_BOTTOM" 
+                        [ngTemplateOutlet]="anchoredPath" 
+                        [ngTemplateOutletContext]="{ 
+                            path: rectAnchoredPath, 
+                            anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
+                            anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset , }
+                        ">
+                    </ng-container>
                 </ng-container>
                 <ng-container *ngFor='let text of rect.RectAnchoredTexts!; let i = index'>
                     <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 

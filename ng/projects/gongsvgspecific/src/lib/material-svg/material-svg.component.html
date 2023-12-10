@@ -298,7 +298,7 @@
                             (mouseup)="anchorMouseUp($event, rect)"/>
                 </ng-container>
             </ng-container>
-            <ng-container *ngFor="let link of layer.Links;">
+            <ng-container *ngFor="let link of layer.Links">
                 <ng-container *ngIf="link.Type == LinkType.LINK_TYPE_FLOATING_ORTHOGONAL" >
                     <ng-container *ngIf="link | linkSegments: map_Link_Segment as segments">
                         <line *ngFor='let segment of segments;' class="moveable-line" 
@@ -417,6 +417,22 @@
                         </ng-container>
                     </ng-container>
                 </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngFor="let rectLinkLink of layer.RectLinkLinks">
+                <ng-container *ngIf="rectLinkLink.Start && rectLinkLink.End">
+                    <line class="rect-link-link" 
+                        [attr.x1]="getStartPosition(rectLinkLink)[0]" 
+                        [attr.y1]="getStartPosition(rectLinkLink)[1]" 
+                        [attr.x2]="getEndPosition(rectLinkLink)[0]" 
+                        [attr.y2]="getEndPosition(rectLinkLink)[1]"
+                        [attr.fill]="rectLinkLink.Color"
+                        [attr.fill-opacity]="rectLinkLink.FillOpacity" 
+                        [attr.stroke]="rectLinkLink.Stroke" 
+                        [attr.stroke-width]="rectLinkLink.StrokeWidth"
+                        [attr.stroke-dasharray]="rectLinkLink.StrokeDashArray" 
+                        [attr.transform]="rectLinkLink.Transform" 
+                    />
                 </ng-container>
             </ng-container>
         </ng-container>

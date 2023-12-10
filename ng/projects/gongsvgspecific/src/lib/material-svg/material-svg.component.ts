@@ -22,6 +22,8 @@ import { getOrientation } from '../get.orientation';
 import { getEndArrowPath } from '../get.end.arrow.path';
 import { adjustToSegmentDirection } from '../adjust.to.segment.direction';
 import { LinkConf, computeLinkFromMouseEvent } from '../compute.link.from.mouse.event';
+import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
+import { getAnchorPoint } from '../get.anchor.point';
 
 
 @Component({
@@ -1103,10 +1105,51 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
     }
   }
 
-  // let hasStartChanged = !compareRectGeometries(this.previousStart!, this.Link!.Start!)
-  // let hasEndChanged = !compareRectGeometries(this.previousEnd!, this.Link!.End!)
-  // if (hasStartChanged || hasEndChanged) {
-  //   this.drawSegments(this.Link!)
-  //   this.resetPreviousState()
-  // }
+  public getStartPosition(rectLinkLink: gongsvg.RectLinkLinkDB): Coordinate {
+
+    let coordinate: Coordinate = [0, 0]
+    if (rectLinkLink.End == undefined || rectLinkLink.Start == undefined) {
+      return coordinate
+    }
+
+    let sourceSegments = this.map_Link_Segment.get(rectLinkLink.End)
+    if (sourceSegments == undefined) {
+      return coordinate
+    }
+
+    let target = getAnchorPoint(sourceSegments, rectLinkLink.TargetAnchorPosition)
+    if (target == undefined) {
+      return coordinate
+    }
+    let source = drawLineFromRectToB(rectLinkLink.Start, target)
+
+    coordinate[0] = source.X
+    coordinate[1] = source.Y
+
+    return coordinate
+  }
+
+  public getEndPosition(rectLinkLink: gongsvg.RectLinkLinkDB): Coordinate {
+
+    let coordinate: Coordinate = [0, 0]
+    if (rectLinkLink.End == undefined || rectLinkLink.Start == undefined) {
+      return coordinate
+    }
+
+    let sourceSegments = this.map_Link_Segment.get(rectLinkLink.End)
+    if (sourceSegments == undefined) {
+      return coordinate
+    }
+
+    let target = getAnchorPoint(sourceSegments, rectLinkLink.TargetAnchorPosition)
+    if (target == undefined) {
+      return coordinate
+    }
+    let source = drawLineFromRectToB(rectLinkLink.Start, target)
+
+    coordinate[0] = target.X
+    coordinate[1] = target.Y
+
+    return coordinate
+  }
 }

@@ -438,14 +438,23 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(mouseEventService.mouseMouseUpEvent$.subscribe(
       (shapeMouseEvent: ShapeMouseEvent) => {
-        if (!this.isEditableService.getIsEditable()) {
-          return
-        }
 
         switch (shapeMouseEvent.ShapeType) {
           case gongsvg.RectDB.GONGSTRUCT_NAME:
             let rect = this.gongsvgFrontRepo!.Rects.get(shapeMouseEvent.ShapeID)
             if (rect == undefined) {
+              return
+            }
+
+            if (!this.isEditableService.getIsEditable()) {
+              //
+              // if the rect has been clicked on, inform the back end
+              //
+              this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                _ => {
+                  console.log("Rect ", rect?.Name, "clicked")
+                }
+              )
               return
             }
 

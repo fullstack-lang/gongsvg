@@ -66,6 +66,8 @@ func simple_linkInjection(stage *models.StageStruct) {
 	__Rect__000000_End := (&models.Rect{Name: `End`}).Stage(stage)
 	__Rect__000001_Start := (&models.Rect{Name: `Start`}).Stage(stage)
 
+	// Declarations of staged instances of RectAnchoredPath
+
 	// Declarations of staged instances of RectAnchoredRect
 
 	// Declarations of staged instances of RectAnchoredText
@@ -116,7 +118,7 @@ func simple_linkInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Start.Name = `Start`
-	__Rect__000001_Start.X = 111.000000
+	__Rect__000001_Start.X = 112.000000
 	__Rect__000001_Start.Y = 124.000000
 	__Rect__000001_Start.Width = 169.000000
 	__Rect__000001_Start.Height = 200.000000
@@ -144,7 +146,7 @@ func simple_linkInjection(stage *models.StageStruct) {
 	// SVG values setup
 	__SVG__000000_test.Name = `test`
 	__SVG__000000_test.DrawingState = models.NOT_DRAWING_LINE
-	__SVG__000000_test.IsEditable = true
+	__SVG__000000_test.IsEditable = false
 
 	// Setup of pointers
 	__Layer__000001_Rects.Rects = append(__Layer__000001_Rects.Rects, __Rect__000001_Start)

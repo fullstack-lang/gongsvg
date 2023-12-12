@@ -27,11 +27,11 @@ import { getAnchorPoint } from '../get.anchor.point';
 
 
 @Component({
-  selector: 'lib-material-svg',
-  templateUrl: './material-svg.component.html',
-  styleUrls: ['./material-svg.component.css']
+  selector: 'lib-gongsvg',
+  templateUrl: './gongsvg.component.html',
+  styleUrls: ['./gongsvg.component.css']
 })
-export class MaterialSvgComponent implements OnInit, OnDestroy {
+export class GongsvgComponent implements OnInit, OnDestroy {
 
   @Input() GONG__StackPath: string = ""
   @ViewChild('drawingArea') drawingArea: ElementRef<HTMLDivElement> | undefined
@@ -423,7 +423,7 @@ export class MaterialSvgComponent implements OnInit, OnDestroy {
           let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
           let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
 
-          console.log("Material-SVG Text dragging, deltaX", deltaX, "deltaY", deltaY)
+          console.log("gongsvg Text dragging, deltaX", deltaX, "deltaY", deltaY)
 
           if (this.draggedText == undefined) {
             console.log("Problem : this.draggedText should not be undefined")

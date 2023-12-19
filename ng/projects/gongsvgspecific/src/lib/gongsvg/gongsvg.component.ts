@@ -139,7 +139,7 @@ export class GongsvgComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe(
       (shapeMouseEvent: ShapeMouseEvent) => {
-        console.log('SvgComponent, Alt Mouse down event occurred on rectangle ', shapeMouseEvent.ShapeID)
+        console.log('SvgComponent, Mouse (alt key) down event occurred on rectangle ', shapeMouseEvent.ShapeID)
         this.linkStartRectangleID = shapeMouseEvent.ShapeID
 
         if (!this.isEditableService.getIsEditable()) {
@@ -166,8 +166,12 @@ export class GongsvgComponent implements OnInit, OnDestroy {
     }))
 
     this.subscriptions.push(rectangleEventService.mouseRectAltKeyMouseUpEvent$.subscribe((rectangleID: number) => {
-      console.log('SvgComponent, Mouse up event occurred on rectangle ', rectangleID);
+      console.log('SvgComponent, Mouse (alt key) up event occurred on rectangle ', rectangleID);
       this.linkDrawing = false
+
+      if (!this.isEditableService.getIsEditable()) {
+        return
+      }
 
       this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)
     }))

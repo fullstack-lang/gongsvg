@@ -146,13 +146,13 @@ func simple_linkInjection(stage *models.StageStruct) {
 	// SVG values setup
 	__SVG__000000_test.Name = `test`
 	__SVG__000000_test.DrawingState = models.NOT_DRAWING_LINE
-	__SVG__000000_test.IsEditable = false
+	__SVG__000000_test.IsEditable = true
 
 	// Setup of pointers
 	__Layer__000001_Rects.Rects = append(__Layer__000001_Rects.Rects, __Rect__000001_Start)
 	__Layer__000001_Rects.Rects = append(__Layer__000001_Rects.Rects, __Rect__000000_End)
-	__SVG__000000_test.Layers = append(__SVG__000000_test.Layers, __Layer__000001_Rects)
 	__SVG__000000_test.Layers = append(__SVG__000000_test.Layers, __Layer__000000_Links)
+	__SVG__000000_test.Layers = append(__SVG__000000_test.Layers, __Layer__000001_Rects)
 	__SVG__000000_test.StartRect = __Rect__000001_Start
 	__SVG__000000_test.EndRect = __Rect__000000_End
 }

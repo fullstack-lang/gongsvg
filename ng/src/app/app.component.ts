@@ -23,9 +23,10 @@ export class AppComponent implements OnInit {
 
   toogleEditable() {
     this.mySVG.IsEditable = !this.mySVG.IsEditable
+
     this.svgService.updateSVG(this.mySVG, this.StackName, this.frontRepo).subscribe(
-      () => {
-        console.log("SVG Is editale toggled")
+      svg => {
+        console.log("SVG Is editale toggled", svg.IsEditable)
       }
     )
   }

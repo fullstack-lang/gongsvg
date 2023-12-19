@@ -13,7 +13,7 @@
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
     <as-split-area [size]=5>
-        <button mat-raised-button color="primary" (click)="toogleEditable()">Switch Editable/Non Editable</button>
+        <button mat-raised-button color="primary" (click)="toogleEditable()">Switch Editable/Non Editable. Current is {{mySVG.IsEditable}}</button>
     </as-split-area>
 
     <as-split-area #splitEl [size]=90>

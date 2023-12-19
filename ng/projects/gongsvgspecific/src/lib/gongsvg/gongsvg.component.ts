@@ -142,6 +142,10 @@ export class GongsvgComponent implements OnInit, OnDestroy {
         console.log('SvgComponent, Alt Mouse down event occurred on rectangle ', shapeMouseEvent.ShapeID)
         this.linkStartRectangleID = shapeMouseEvent.ShapeID
 
+        if (!this.isEditableService.getIsEditable()) {
+          return
+        }
+
         // refactorable of Rect name
         let rect = this.gongsvgFrontRepo?.getMap<gongsvg.RectDB>(gongsvg.RectDB.GONGSTRUCT_NAME).get(shapeMouseEvent.ShapeID)
 
@@ -589,7 +593,7 @@ export class GongsvgComponent implements OnInit, OnDestroy {
       commiNbFromBagetCommitNbFromBack => {
         if (this.lastCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
 
-          // console.log("last commit nb " + this.lastCommiNbFromBagetCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
+          // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
           this.refresh()
           this.lastCommitNbFromBack = commiNbFromBagetCommitNbFromBack
         }

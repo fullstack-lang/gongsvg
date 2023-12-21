@@ -7,6 +7,28 @@
     </mat-radio-group>
 </ng-template>
 
+<as-split *ngIf="view==diagramSvgView" direction="vertical">
+    <as-split-area [size]=5>
+        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+    </as-split-area>
+    <as-split-area [size]=5>
+        <button mat-raised-button color="primary" (click)="toogleEditable()">Switch Editable/Non Editable. Current is {{mySVG.IsEditable}}</button>
+    </as-split-area>
+
+    <as-split-area #splitEl [size]=90>
+        <as-split unit="pixel" direction="horizontal" (dragEnd)="dragEndPixel($event)">
+            <as-split-area size=50>
+            </as-split-area>
+            <as-split-area size=900 style="overflow-x: scroll;">
+                <lib-diagram-svg [GONG__StackPath]="StackName">
+                </lib-diagram-svg>
+            </as-split-area>
+
+            <as-split-area size="*">
+            </as-split-area>
+        </as-split>
+    </as-split-area>
+</as-split>
 
 <as-split *ngIf="view==materialSvgView" direction="vertical">
     <as-split-area [size]=5>

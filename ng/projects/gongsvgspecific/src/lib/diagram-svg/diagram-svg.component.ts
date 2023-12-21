@@ -15,6 +15,7 @@ import { SvgEventService } from '../svg-event.service';
 import { IsEditableService } from '../is-editable.service';
 import { RefreshService } from '../refresh.service';
 import { Observable, timer } from 'rxjs';
+import { StateEnumType } from './state.enum';
 
 @Component({
   selector: 'lib-diagram-svg',
@@ -25,13 +26,14 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
   @Input() GONG__StackPath: string = ""
 
+  //
+  // state of the component
+  //
+  State: StateEnumType = StateEnumType.NOT_EDITABLE
+
   // temporary, will be computed dynamicaly
   svgWidth = 3000
   svgHeight = 4000
-
-  // for use in the template
-  RectAnchorType = gongsvg.RectAnchorType
-  LinkType = gongsvg.LinkType
 
   // svg is the singloton that is displayed. A svg
   // is the root of the directed acyclic graph containing
@@ -39,13 +41,21 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   svg = new gongsvg.SVGDB
 
   //
-  // LINKS MANAGEMENT
+  // RECT MANAGEMENT
+  //
+  splitTextIntoLines(text: string): string[] {
+    return text.split('\n')
+  }
+
+  //
+  // LINK MANAGEMENT
   //
   // the components draws all svg elements directly.
   //
   // however, links of type LINK_TYPE_FLOATING_ORTHOGONAL are a set of line
   // in this case, each link is associated with a set of segment
   //
+  LinkType = gongsvg.LinkType
   map_Link_Segment: Map<gongsvg.LinkDB, Segment[]> = new (Map<gongsvg.LinkDB, Segment[]>)
   getSegments(link: gongsvg.LinkDB): Segment[] {
     return this.map_Link_Segment.get(link)!
@@ -55,7 +65,6 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     return getOrientation(segment)
   }
 
-  // Add this method to ArcComponent
   getArcPath(link: gongsvg.LinkDB, segment: Segment, nextSegment: Segment): string {
     return getArcPath(link, segment, nextSegment)
   }
@@ -84,7 +93,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   //
   // RECT ANCHOR MANAGEMENT
   //
-
+  RectAnchorType = gongsvg.RectAnchorType
   anchorRadius = 8; // Adjust this value according to your desired anchor size
   anchorFillColor = 'blue'; // Choose your desired anchor fill color
   draggingAnchorFillColor = 'red'; // Change this to the desired color when dragging
@@ -93,6 +102,11 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   draggedRect: gongsvg.RectDB | undefined
   anchorDragging: boolean = false
   activeAnchor: 'left' | 'right' | 'top' | 'bottom' = 'left'
+
+  // display or not handles if selected or not
+  manageHandles(rect: gongsvg.RectDB) {
+    manageHandles(rect)
+  }
 
   //
   // RECT LINK LINK MANAGEMENT
@@ -219,12 +233,12 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   }
 
   //
-  // UTILITIES
-  //
-
-  //
   // USER INTERACTION MNGT
   //
+
+  // Component state
+
+
   onmousemove(event: MouseEvent): void { }
 
   onmouseup(event: MouseEvent): void { }
@@ -246,15 +260,5 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     draggedSegmentPositionOnArrow: string): void { }
 
   textAnchoredMouseUp(link: gongsvg.LinkDB, event: MouseEvent): void { }
-
-
-  splitTextIntoLines(text: string): string[] {
-    return text.split('\n')
-  }
-
-  // display or not handles if selected or not
-  manageHandles(rect: gongsvg.RectDB) {
-    manageHandles(rect)
-  }
 
 }

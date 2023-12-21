@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import * as gongsvg from 'gongsvg'
 
@@ -164,11 +164,19 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     private anchoredTextService: gongsvg.LinkAnchoredTextService,
 
     private refreshService: RefreshService,
+
+    private changeDetectorRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
 
     console.log("Material component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
+
+    // this component is a "push mode component"
+    // because the template calls many functions whose state cannot be computed
+    // by the change detector ("dirty" or "clean").
+    // therefore, the extra complexity is needed
+    this.changeDetectorRef.detach()
 
     // see above for the explanation
     this.gongsvgNbFromBackService.getCommitNbFromBack(500, this.GONG__StackPath).subscribe(
@@ -224,6 +232,9 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
         }
 
         this.resetAllLinksPreviousStartEndRects()
+
+        // Manually trigger change detection
+        this.changeDetectorRef.detectChanges()
       }
     )
   }

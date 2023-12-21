@@ -16,6 +16,8 @@ import { IsEditableService } from '../is-editable.service';
 import { RefreshService } from '../refresh.service';
 import { Observable, timer } from 'rxjs';
 import { StateEnumType } from './state.enum';
+import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
+import { getFunctionName } from './get.function.name';
 
 @Component({
   selector: 'lib-diagram-svg',
@@ -29,7 +31,9 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   //
   // state of the component
   //
+  StateEnumType = StateEnumType
   State: StateEnumType = StateEnumType.NOT_EDITABLE
+
 
   // temporary, will be computed dynamicaly
   svgWidth = 3000
@@ -39,6 +43,13 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   // is the root of the directed acyclic graph containing
   // all svg elements
   svg = new gongsvg.SVGDB
+
+  //
+  // USER INTERACTION MANAGEMENT
+  //
+  PointAtMouseDown = new gongsvg.PointDB
+  PointAtMouseMove = new gongsvg.PointDB
+  PointAtMouseUp = new gongsvg.PointDB
 
   //
   // RECT MANAGEMENT
@@ -121,15 +132,6 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   }
 
   //
-  // MULTI SHAPE SELECTION
-  //
-  selectionRectDrawing: boolean = false
-  rectX = 100
-  rectY = 100
-  width = 300
-  height = 40
-
-  //
   // LINK BETWEEN RECT DRAWING
   //
   linkDrawing: boolean = false
@@ -202,6 +204,15 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
           // set the isEditable
           this.isEditableService.setIsEditable(this.svg!.IsEditable)
+
+          console.log(getFunctionName(), "state switch, before", this.State)
+          if (this.isEditableService.getIsEditable()) {
+            this.State = StateEnumType.WAITING_FOR_USER_INPUT
+          } else {
+            this.State = StateEnumType.NOT_EDITABLE
+          }
+          console.log(getFunctionName(), "state switch, current", this.State)
+
         } else {
           return
         }
@@ -247,22 +258,114 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   // USER INTERACTION MNGT
   //
 
-  // Component state
+  //
+  // computeShapeStates align shapes state on component state
+  //
+  // Shapes have states. For instance, Rect can be selected or not.
+  // The State of shape must be conformed with the component state.
+  computeShapeStates() {
+    for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+      for (let rect of layer.Rects) {
+        switch (this.State) {
+          case StateEnumType.NOT_EDITABLE:
+            rect.IsSelected = false
+            break;
+          case StateEnumType.WAITING_FOR_USER_INPUT:
+          case StateEnumType.MULTI_RECTS_SELECTION:
+          case StateEnumType.LINK_DRAWING:
+            rect.IsSelected = false
+            break;
+          case StateEnumType.RECTS_DRAGGING:
+          case StateEnumType.ANCHORS_DRAGGING:
+          case StateEnumType.TEXT_ANCHOR_DRAGGING:
+            rect.IsSelected = false
+            break;
+          case StateEnumType.LINK_DRAGGING:
+            rect.IsSelected = false
+            break;
+        }
+      }
+    }
+  }
 
+  //
+  // processGenericMouseUp performs all mouse up stuff
+  processMouseUp() {
+    console.log(getFunctionName(), "state at entry", this.State)
 
-  onmousemove(event: MouseEvent): void { }
+    if (this.State == StateEnumType.MULTI_RECTS_SELECTION) {
+      console.log(getFunctionName(), "state switch, before", this.State)
+      this.State = StateEnumType.WAITING_FOR_USER_INPUT
+      console.log(getFunctionName(), "state switch, current", this.State)
+    }
 
-  onmouseup(event: MouseEvent): void { }
-  mousedown(event: MouseEvent): void { }
+    this.computeShapeStates()
+    this.changeDetectorRef.detectChanges()
+  }
+
+  Math = Math
+
+  onmousemove(event: MouseEvent, source?: string): void {
+    this.PointAtMouseMove = mouseCoordInComponentRef(event)
+
+    // case when the user releases the shift key
+    if (this.State == StateEnumType.MULTI_RECTS_SELECTION && !event.shiftKey) {
+      console.log(getFunctionName(), "end user release shift key")
+      console.log(getFunctionName(), "state switch, before", this.State)
+      this.State = StateEnumType.WAITING_FOR_USER_INPUT
+      console.log(getFunctionName(), "state switch, current", this.State)
+    }
+
+    console.log(getFunctionName(), source)
+
+    this.changeDetectorRef.detectChanges()
+  }
+
+  backgroundOnMouseDown(event: MouseEvent): void {
+    this.PointAtMouseDown = mouseCoordInComponentRef(event)
+
+    if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && event.shiftKey) {
+
+      console.log(getFunctionName(), "state switch, before", this.State)
+      this.State = StateEnumType.MULTI_RECTS_SELECTION
+      console.log(getFunctionName(), "state switch, current", this.State)
+    }
+
+    this.computeShapeStates()
+    this.changeDetectorRef.detectChanges()
+  }
+  backgroundOnMouseUp(event: MouseEvent): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    this.processMouseUp()
+  }
 
   rectMouseDown(event: MouseEvent, rect: gongsvg.RectDB): void { }
-  rectMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void { }
+  rectMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
 
-  anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: gongsvg.RectDB): void { }
-  anchorMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void { }
+    this.processMouseUp()
+  }
+
+  anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: gongsvg.RectDB): void {
+
+  }
+  anchorMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    this.processMouseUp()
+  }
 
   linkMouseDown(event: MouseEvent, segmentNumber: number, link: gongsvg.LinkDB): void { }
-  linkMouseUp(event: MouseEvent, link: gongsvg.LinkDB, segmentNumber: number = 0): void { }
+  linkMouseUp(event: MouseEvent, link: gongsvg.LinkDB, segmentNumber: number = 0): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    this.processMouseUp()
+  }
 
   textAnchoredMouseDown(
     link: gongsvg.LinkDB,
@@ -270,6 +373,12 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     anchoredTextIndex: number,
     draggedSegmentPositionOnArrow: string): void { }
 
-  textAnchoredMouseUp(link: gongsvg.LinkDB, event: MouseEvent): void { }
+  textAnchoredMouseUp(link: gongsvg.LinkDB, event: MouseEvent): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    this.computeShapeStates()
+    this.changeDetectorRef.detectChanges()
+  }
 
 }

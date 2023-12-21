@@ -1,5 +1,10 @@
 <!-- <div>Width: {{ svgWidth}}</div>
 <div>Height: {{ svgHeight }}</div> -->
+
+            <!-- (dragend)="backgroundOnDragEnd($event)"
+            (click)="backgroundOnClick($event)"
+            (dragover)="backgroundDragOver($event)" -->
+
 <svg [attr.width]="svgWidth" [attr.height]="svgHeight" >
     <g>
         <!-- this rect is for catching mouse event that are in the void -->
@@ -13,7 +18,9 @@
 
             (mousedown)="backgroundOnMouseDown($event)"
             (mousemove)="onmousemove($event, 'background')"
-            (mouseup)="backgroundOnMouseUp($event)">
+            (mouseup)="backgroundOnMouseUp($event)"
+
+            >
         </rect>
         <ng-container *ngFor="let layer of svg.Layers" class="noevents-area">
             <ng-container *ngFor="let circle of layer.Circles">
@@ -443,7 +450,8 @@
             [attr.height]="Math.abs(PointAtMouseMove.Y - PointAtMouseDown.Y)" 
             stroke-dasharray="5,5" stroke="black" stroke-width="2" fill="none" />
         <line *ngIf="linkDrawing"
-            [attr.x1]="startX" [attr.y1]="startY" [attr.x2]="endX" [attr.y2]="endY" 
+            [attr.x1]="PointAtMouseDown.X" [attr.y1]="PointAtMouseDown.Y" 
+            [attr.x2]="PointAtMouseMove.X" [attr.y2]="PointAtMouseMove.Y" 
             stroke="black" stroke-dasharray="5,5" [attr.stroke-width]="2"/>
     </g>
 </svg>

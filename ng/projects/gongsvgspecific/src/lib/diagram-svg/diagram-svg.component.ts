@@ -1,25 +1,27 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import * as gongsvg from 'gongsvg'
 
 import { manageHandles } from '../manage.handles';
-import { Segment } from '../draw.segments';
+import { Segment, drawSegments } from '../draw.segments';
 import { getOrientation } from '../get.orientation';
 import { getArcPath } from '../get.arc.path';
 import { getEndArrowPath } from '../get.end.arrow.path';
 import { swapSegment } from '../swap.segment';
-import { Coordinate } from '../rectangle-event.service';
-import { getAnchorPoint } from '../get.anchor.point';
-import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
+import { Coordinate, RectangleEventService } from '../rectangle-event.service';
 import { getStartPosition } from '../get.start.position';
 import { getEndPosition } from '../get.end.position';
+import { SvgEventService } from '../svg-event.service';
+import { IsEditableService } from '../is-editable.service';
+import { RefreshService } from '../refresh.service';
+import { Observable, timer } from 'rxjs';
 
 @Component({
   selector: 'lib-diagram-svg',
   templateUrl: './diagram-svg.component.html',
   styleUrls: ['./diagram-svg.component.css']
 })
-export class DiagramSvgComponent {
+export class DiagramSvgComponent implements OnInit, OnDestroy {
 
   @Input() GONG__StackPath: string = ""
 
@@ -44,7 +46,6 @@ export class DiagramSvgComponent {
   // however, links of type LINK_TYPE_FLOATING_ORTHOGONAL are a set of line
   // in this case, each link is associated with a set of segment
   //
-
   map_Link_Segment: Map<gongsvg.LinkDB, Segment[]> = new (Map<gongsvg.LinkDB, Segment[]>)
   getSegments(link: gongsvg.LinkDB): Segment[] {
     return this.map_Link_Segment.get(link)!
@@ -64,11 +65,21 @@ export class DiagramSvgComponent {
   }
 
   getStartArrowPath(link: gongsvg.LinkDB, segment: Segment, arrowSize: number): string {
-
     let inverseSegment = swapSegment(segment)
     let path = this.getEndArrowPath(link, inverseSegment, arrowSize)
     return path
   }
+
+  resetAllLinksPreviousStartEndRects() {
+    for (let link of this.gongsvgFrontRepo!.Links_array) {
+      this.map_Link_PreviousStart.set(link, structuredClone(link.Start!))
+      this.map_Link_PreviousEnd.set(link, structuredClone(link.End!))
+    }
+  }
+
+  // for change detection, we need to store start and end rect of all links
+  map_Link_PreviousStart: Map<gongsvg.LinkDB, gongsvg.RectDB> = new (Map<gongsvg.LinkDB, gongsvg.RectDB>)
+  map_Link_PreviousEnd: Map<gongsvg.LinkDB, gongsvg.RectDB> = new (Map<gongsvg.LinkDB, gongsvg.RectDB>)
 
   //
   // RECT ANCHOR MANAGEMENT
@@ -113,7 +124,107 @@ export class DiagramSvgComponent {
   endX = 0
   endY = 0
 
+  //
+  // BACKEND MANAGEMENT
+  //
+  public gongsvgFrontRepo?: gongsvg.FrontRepo
 
+  // the component is refreshed when modification are performed in the back repo 
+  // the checkCommiNbFromBagetCommitNbFromBackTimer polls the commit number of the back repo
+  // if the commit number has increased, it pulls the front repo and redraw the diagram
+  checkCommiNbFromBagetCommitNbFromBackTimer: Observable<number> = timer(500, 500);
+  lastCommitNbFromBack = -1
+  lastPushFromFrontNb = -1
+  currTime: number = 0
+
+  constructor(
+    private gongsvgFrontRepoService: gongsvg.FrontRepoService,
+    private gongsvgNbFromBackService: gongsvg.CommitNbFromBackService,
+    private svgService: gongsvg.SVGService,
+    private rectangleEventService: RectangleEventService,
+    private svgEventService: SvgEventService,
+    private isEditableService: IsEditableService,
+
+    private rectService: gongsvg.RectService,
+    private linkService: gongsvg.LinkService,
+    private anchoredTextService: gongsvg.LinkAnchoredTextService,
+
+    private refreshService: RefreshService,
+  ) { }
+
+  ngOnInit(): void {
+
+    console.log("Material component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
+
+    // see above for the explanation
+    this.gongsvgNbFromBackService.getCommitNbFromBack(500, this.GONG__StackPath).subscribe(
+      commiNbFromBagetCommitNbFromBack => {
+        if (this.lastCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
+
+          // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
+          this.refresh()
+          this.lastCommitNbFromBack = commiNbFromBagetCommitNbFromBack
+        }
+      }
+    )
+  }
+
+  refresh(): void {
+
+    this.gongsvgFrontRepoService.pull(this.GONG__StackPath).subscribe(
+      gongsvgsFrontRepo => {
+        this.gongsvgFrontRepo = gongsvgsFrontRepo
+
+        if (this.gongsvgFrontRepo.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1) {
+          this.svg = this.gongsvgFrontRepo.getArray<gongsvg.SVGDB>(gongsvg.SVGDB.GONGSTRUCT_NAME)[0]
+
+          // set the isEditable
+          this.isEditableService.setIsEditable(this.svg!.IsEditable)
+        } else {
+          return
+        }
+
+        if (this.svg.Layers == undefined) {
+          return
+        }
+
+        // compute segments for links
+        this.map_Link_Segment.clear()
+
+        for (let layer of this.gongsvgFrontRepo.Layers_array) {
+          for (let link of layer.Links) {
+            let segmentsParams = {
+              StartRect: link.Start!,
+              EndRect: link.End!,
+              StartDirection: link.StartOrientation! as gongsvg.OrientationType,
+              EndDirection: link.EndOrientation! as gongsvg.OrientationType,
+              StartRatio: link.StartRatio,
+              EndRatio: link.EndRatio,
+              CornerOffsetRatio: link.CornerOffsetRatio,
+              CornerRadius: link.CornerRadius,
+            }
+
+            let segments = drawSegments(segmentsParams)
+            this.map_Link_Segment.set(link, segments)
+          }
+        }
+
+        this.resetAllLinksPreviousStartEndRects()
+      }
+    )
+  }
+
+  ngOnDestroy() {
+
+  }
+
+  //
+  // UTILITIES
+  //
+
+  //
+  // USER INTERACTION MNGT
+  //
   onmousemove(event: MouseEvent): void { }
 
   onmouseup(event: MouseEvent): void { }

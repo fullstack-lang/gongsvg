@@ -419,7 +419,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
   onmousemove(event: MouseEvent, source?: string): void {
     this.PointAtMouseMove = mouseCoordInComponentRef(event)
-    console.log(getFunctionName(), source, event.buttons)
+    // console.log(getFunctionName(), source, event.buttons)
 
     // case when the user releases the shift key
     if (this.State == StateEnumType.MULTI_RECTS_SELECTION && !event.shiftKey) {
@@ -428,14 +428,6 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state switch, current", this.State)
     }
-
-    // this is to deal with some cases that are met when the mouse up does not fire
-    if (this.State == StateEnumType.MULTI_RECTS_SELECTION && event.buttons === 0) {
-      console.log(getFunctionName(), "mouse up detected via event buttons value of 0")
-      this.PointAtMouseUp = this.PointAtMouseMove
-      this.processMouseUp()
-    }
-
 
     this.changeDetectorRef.detectChanges()
   }

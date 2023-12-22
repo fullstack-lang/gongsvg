@@ -8,15 +8,8 @@
 <svg [attr.width]="svgWidth" [attr.height]="svgHeight" >
     <g>
 
-        <rect #svgRef x="10" y="10" width="180" height="130" style="fill:blue;"
- />
-  
-  <!-- Circle -->
-  <circle #svgRef class="click-through" cx="100" cy="75" r="65" style="fill:red;" />
-
-
         <!-- this rect is for catching mouse event that are in the void -->
-        <rect #background2
+        <rect
             [attr.x]=0
             [attr.y]=0
             [attr.width]="svgWidth"
@@ -146,7 +139,7 @@
                     [attr.repeatCount]="animate.RepeatCount" />
             </ng-container>
             <ng-container *ngFor="let rect of layer.Rects">
-                <rect 
+                <rect
                     [attr.x]="rect.X"
                     [attr.y]="rect.Y"
                     [attr.width]="rect.Width"
@@ -456,7 +449,12 @@
             [attr.y]="Math.min(PointAtMouseDown.Y, PointAtMouseMove.Y)" 
             [attr.width]="Math.abs(PointAtMouseMove.X - PointAtMouseDown.X)" 
             [attr.height]="Math.abs(PointAtMouseMove.Y - PointAtMouseDown.Y)" 
-            stroke-dasharray="5,5" stroke="black" stroke-width="2" fill="none" />
+            stroke-dasharray="5,5" stroke="black" stroke-width="2" fill="none" 
+            
+            (mousedown)="backgroundOnMouseDown($event)"
+            (mousemove)="onmousemove($event, 'background')"
+            (mouseup)="backgroundOnMouseUp($event)"
+            />
         <line *ngIf="linkDrawing"
             [attr.x1]="PointAtMouseDown.X" [attr.y1]="PointAtMouseDown.Y" 
             [attr.x2]="PointAtMouseMove.X" [attr.y2]="PointAtMouseMove.Y" 

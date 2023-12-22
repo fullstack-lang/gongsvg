@@ -6,7 +6,7 @@ import { drawLineFromRectToB } from './draw.line.from.rect.to.point';
 
 export function getStartPosition(rectLinkLink: gongsvg.RectLinkLinkDB, map_Link_Segment: Map<gongsvg.LinkDB, Segment[]>): Coordinate {
 
-    console.log("getStartPosition:", rectLinkLink.Name)
+    // console.log("getStartPosition:", rectLinkLink.Name)
 
     let coordinate: Coordinate = [0, 0]
     if (rectLinkLink.End == undefined || rectLinkLink.Start == undefined) {

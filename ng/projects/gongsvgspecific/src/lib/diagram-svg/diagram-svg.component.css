@@ -1,4 +1,8 @@
 .noevents-area {
+    pointer-events: auto;
+}
+
+.click-through {
     pointer-events: none;
 }
 

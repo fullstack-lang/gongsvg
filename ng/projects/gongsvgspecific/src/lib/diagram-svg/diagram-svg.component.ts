@@ -11,11 +11,13 @@ import { swapSegment } from '../swap.segment';
 import { Coordinate, RectangleEventService } from '../rectangle-event.service';
 import { getStartPosition } from '../get.start.position';
 import { getEndPosition } from '../get.end.position';
-import { SvgEventService } from '../svg-event.service';
+import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.service';
 import { IsEditableService } from '../is-editable.service';
 import { RefreshService } from '../refresh.service';
 import { Observable, timer } from 'rxjs';
 import { StateEnumType } from './state.enum';
+import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
+import { getFunctionName } from './get.function.name';
 
 @Component({
   selector: 'lib-diagram-svg',
@@ -29,7 +31,9 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   //
   // state of the component
   //
+  StateEnumType = StateEnumType
   State: StateEnumType = StateEnumType.NOT_EDITABLE
+
 
   // temporary, will be computed dynamicaly
   svgWidth = 3000
@@ -39,6 +43,15 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   // is the root of the directed acyclic graph containing
   // all svg elements
   svg = new gongsvg.SVGDB
+
+  //
+  // USER INTERACTION MANAGEMENT
+  //
+  PointAtMouseDown = new gongsvg.PointDB
+  PointAtMouseMove = new gongsvg.PointDB
+  PointAtMouseUp = new gongsvg.PointDB
+
+  dragThreshold = 5
 
   //
   // RECT MANAGEMENT
@@ -121,22 +134,9 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   }
 
   //
-  // MULTI SHAPE SELECTION
-  //
-  selectionRectDrawing: boolean = false
-  rectX = 100
-  rectY = 100
-  width = 300
-  height = 40
-
-  //
   // LINK BETWEEN RECT DRAWING
   //
   linkDrawing: boolean = false
-  startX = 0
-  startY = 0
-  endX = 0
-  endY = 0
 
   //
   // BACKEND MANAGEMENT
@@ -183,7 +183,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       commiNbFromBagetCommitNbFromBack => {
         if (this.lastCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
 
-          // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
+          console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
           this.refresh()
           this.lastCommitNbFromBack = commiNbFromBagetCommitNbFromBack
         }
@@ -202,6 +202,15 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
           // set the isEditable
           this.isEditableService.setIsEditable(this.svg!.IsEditable)
+
+          console.log(getFunctionName(), "state switch, before", this.State)
+          if (this.isEditableService.getIsEditable()) {
+            this.State = StateEnumType.WAITING_FOR_USER_INPUT
+          } else {
+            this.State = StateEnumType.NOT_EDITABLE
+          }
+          console.log(getFunctionName(), "state switch, current", this.State)
+
         } else {
           return
         }
@@ -247,22 +256,250 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   // USER INTERACTION MNGT
   //
 
-  // Component state
+  //
+  // computeShapeStates align shapes state on component state
+  //
+  // Shapes have states. For instance, Rect can be selected or not.
+  // The State of shape must be conformed with the component state.
+  computeShapeStates() {
+    for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+      for (let rect of layer.Rects) {
+        let unselectRect = false
+        switch (this.State) {
+          case StateEnumType.NOT_EDITABLE:
+            unselectRect = true
+            break;
+          case StateEnumType.WAITING_FOR_USER_INPUT:
+            break;
+          case StateEnumType.MULTI_RECTS_SELECTION:
+            break;
+          case StateEnumType.LINK_DRAWING:
+            unselectRect = true
+            break;
+          case StateEnumType.RECTS_DRAGGING:
+            break;
+          case StateEnumType.ANCHORS_DRAGGING:
+            break;
+          case StateEnumType.TEXT_ANCHOR_DRAGGING:
+            unselectRect = true
+            break;
+          case StateEnumType.LINK_DRAGGING:
+            unselectRect = true
+            break;
+        }
+        if (unselectRect && rect.IsSelected) {
+          console.log(getFunctionName(), "unselecting rect", rect.Name)
+          rect.IsSelected = false
+          this.manageHandles(rect)
+          this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+            _ => {
+
+            }
+          )
+        }
+        manageHandles(rect)
+      }
+    }
+  }
+
+  //
+  // processGenericMouseUp performs all mouse up stuff
+  processMouseUp() {
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    // when the mouse has not moved more than a threshold
+    // all rects are unselected
+    let distanceMoved = this.Math.sqrt(
+      (this.PointAtMouseDown.X - this.PointAtMouseUp.X) *
+      (this.PointAtMouseDown.X - this.PointAtMouseUp.X) +
+      (this.PointAtMouseDown.Y - this.PointAtMouseUp.Y) *
+      (this.PointAtMouseDown.Y - this.PointAtMouseUp.Y))
+
+    if (distanceMoved < this.dragThreshold) {
+      console.log(getFunctionName(), "distanceMoved below threshold")
+      console.log(getFunctionName(), "state switch, before", this.State)
+      this.State = StateEnumType.WAITING_FOR_USER_INPUT
+      console.log(getFunctionName(), "state switch, current", this.State)
+
+      for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+        for (let rect of layer.Rects) {
+          if (rect.IsSelected) {
+            console.log(getFunctionName(), "unselecting rect", rect.Name)
+            rect.IsSelected = false
+            this.manageHandles(rect)
+            this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+              _ => {
+                this.refreshService.emitRefreshRequestEvent(0)
+              }
+            )
+          }
+          manageHandles(rect)
+        }
+      }
+    }
+
+    if (this.State == StateEnumType.MULTI_RECTS_SELECTION) {
+      console.log(getFunctionName(), "state switch, before", this.State)
+      this.State = StateEnumType.WAITING_FOR_USER_INPUT
+      console.log(getFunctionName(), "state switch, current", this.State)
+
+      let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
+
+      if (this.PointAtMouseUp.X > this.PointAtMouseDown.X) {
+        selectAreaConfig.SweepDirection = SweepDirection.LEFT_TO_RIGHT
+      } else {
+        selectAreaConfig.SweepDirection = SweepDirection.RIGHT_TO_LEFT
+      }
+
+      selectAreaConfig.TopLeft = [
+        Math.min(this.PointAtMouseDown.X, this.PointAtMouseUp.X),
+        Math.min(this.PointAtMouseDown.Y, this.PointAtMouseUp.Y)]
+      selectAreaConfig.BottomRigth = [
+        Math.max(this.PointAtMouseDown.X, this.PointAtMouseUp.X),
+        Math.max(this.PointAtMouseDown.Y, this.PointAtMouseUp.Y)]
+
+      for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+        for (let rect of layer.Rects) {
+          switch (selectAreaConfig.SweepDirection) {
+            case SweepDirection.LEFT_TO_RIGHT:
+              if (
+                rect.X > selectAreaConfig.TopLeft[0] &&
+                rect.X + rect.Width < selectAreaConfig.BottomRigth[0] &&
+                rect.Y > selectAreaConfig.TopLeft[1] &&
+                rect.Y + rect.Height < selectAreaConfig.BottomRigth[1]
+              ) {
+                if (!rect.IsSelected) {
+                  console.log(getFunctionName(), "selecting rect", rect.Name)
+                  rect.IsSelected = true
+                  this.manageHandles(rect)
+                  this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                    _ => {
+                    }
+                  )
+                }
+              }
+              break;
+            case SweepDirection.RIGHT_TO_LEFT:
+              // rectangle has to be partialy boxed in the rect
+              if (
+                rect.X < selectAreaConfig.BottomRigth[0] &&
+                rect.X + rect.Width > selectAreaConfig.TopLeft[0] &&
+                rect.Y < selectAreaConfig.BottomRigth[1] &&
+                rect.Y + rect.Height > selectAreaConfig.TopLeft[1]
+              ) {
+                console.log(getFunctionName(), "selecting rect", rect.Name)
+                if (!rect.IsSelected) {
+                  console.log(getFunctionName(), "selecting rect", rect.Name)
+                  rect.IsSelected = true
+                  this.manageHandles(rect)
+                  this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                    _ => {
+                    }
+                  )
+                }
+              }
+              break;
+          }
+        }
+      }
+    }
+
+    this.computeShapeStates()
+    this.changeDetectorRef.detectChanges()
+  }
+
+  Math = Math
+
+  onmousemove(event: MouseEvent, source?: string): void {
+    this.PointAtMouseMove = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), source, event.buttons)
+
+    // case when the user releases the shift key
+    if (this.State == StateEnumType.MULTI_RECTS_SELECTION && !event.shiftKey) {
+      console.log(getFunctionName(), "end user release shift key")
+      console.log(getFunctionName(), "state switch, before", this.State)
+      this.State = StateEnumType.WAITING_FOR_USER_INPUT
+      console.log(getFunctionName(), "state switch, current", this.State)
+    }
+
+    // this is to deal with some cases that are met when the mouse up does not fire
+    if (this.State == StateEnumType.MULTI_RECTS_SELECTION && event.buttons === 0) {
+      console.log(getFunctionName(), "mouse up detected via event buttons value of 0")
+      this.PointAtMouseUp = this.PointAtMouseMove
+      this.processMouseUp()
+    }
 
 
-  onmousemove(event: MouseEvent): void { }
+    this.changeDetectorRef.detectChanges()
+  }
 
-  onmouseup(event: MouseEvent): void { }
-  mousedown(event: MouseEvent): void { }
+  backgroundOnMouseDown(event: MouseEvent): void {
+    this.PointAtMouseDown = mouseCoordInComponentRef(event)
+
+    if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && event.shiftKey) {
+
+      console.log(getFunctionName(), "state switch, before", this.State)
+      this.State = StateEnumType.MULTI_RECTS_SELECTION
+      console.log(getFunctionName(), "state switch, current", this.State)
+    }
+
+    this.computeShapeStates()
+    this.changeDetectorRef.detectChanges()
+  }
+
+  backgroundDragOver(event: MouseEvent): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    this.processMouseUp()
+  }
+
+  backgroundOnClick(event: MouseEvent): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    this.processMouseUp()
+  }
+
+  backgroundOnDragEnd(event: MouseEvent): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    this.processMouseUp()
+  }
+
+  backgroundOnMouseUp(event: MouseEvent): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    this.processMouseUp()
+  }
 
   rectMouseDown(event: MouseEvent, rect: gongsvg.RectDB): void { }
-  rectMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void { }
+  rectMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
 
-  anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: gongsvg.RectDB): void { }
-  anchorMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void { }
+    this.processMouseUp()
+  }
+
+  anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: gongsvg.RectDB): void {
+
+  }
+  anchorMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    this.processMouseUp()
+  }
 
   linkMouseDown(event: MouseEvent, segmentNumber: number, link: gongsvg.LinkDB): void { }
-  linkMouseUp(event: MouseEvent, link: gongsvg.LinkDB, segmentNumber: number = 0): void { }
+  linkMouseUp(event: MouseEvent, link: gongsvg.LinkDB, segmentNumber: number = 0): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    this.processMouseUp()
+  }
 
   textAnchoredMouseDown(
     link: gongsvg.LinkDB,
@@ -270,6 +507,12 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     anchoredTextIndex: number,
     draggedSegmentPositionOnArrow: string): void { }
 
-  textAnchoredMouseUp(link: gongsvg.LinkDB, event: MouseEvent): void { }
+  textAnchoredMouseUp(link: gongsvg.LinkDB, event: MouseEvent): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    this.computeShapeStates()
+    this.changeDetectorRef.detectChanges()
+  }
 
 }

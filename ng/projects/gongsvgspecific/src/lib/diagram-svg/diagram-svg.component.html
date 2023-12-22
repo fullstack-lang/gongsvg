@@ -7,6 +7,14 @@
 
 <svg [attr.width]="svgWidth" [attr.height]="svgHeight" >
     <g>
+
+        <rect #svgRef x="10" y="10" width="180" height="130" style="fill:blue;"
+ />
+  
+  <!-- Circle -->
+  <circle #svgRef class="click-through" cx="100" cy="75" r="65" style="fill:red;" />
+
+
         <!-- this rect is for catching mouse event that are in the void -->
         <rect #background2
             [attr.x]=0

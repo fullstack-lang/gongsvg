@@ -170,6 +170,8 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
   @ViewChildren('#background2') backgroundElement: QueryList<ElementRef> | undefined;
 
+  @ViewChildren('svgRef') svgElements: QueryList<ElementRef> | undefined;
+
 
   ngOnInit(): void {
 

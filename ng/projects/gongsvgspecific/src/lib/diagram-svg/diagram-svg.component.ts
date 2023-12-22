@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 import * as gongsvg from 'gongsvg'
 
@@ -168,6 +168,9 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
   ) { }
 
+  @ViewChildren('#background2') backgroundElement: QueryList<ElementRef> | undefined;
+
+
   ngOnInit(): void {
 
     console.log("Material component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
@@ -244,6 +247,8 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
         // Manually trigger change detection
         this.changeDetectorRef.detectChanges()
+
+        console.log("svg", this.backgroundElement?.length)
       }
     )
   }

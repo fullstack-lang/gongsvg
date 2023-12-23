@@ -74,9 +74,9 @@ Line 2`}).Stage(stage)
 	// Declarations of staged instances of Polyline
 
 	// Declarations of staged instances of Rect
-	__Rect__000000_Bottom := (&models.Rect{Name: `Bottom`}).Stage(stage)
+	__Rect__000000_Bottom_End := (&models.Rect{Name: `Bottom - End`}).Stage(stage)
 	__Rect__000001_Middle_Rect := (&models.Rect{Name: `Middle Rect`}).Stage(stage)
-	__Rect__000002_Top := (&models.Rect{Name: `Top`}).Stage(stage)
+	__Rect__000002_Top_Start := (&models.Rect{Name: `Top - Start`}).Stage(stage)
 
 	// Declarations of staged instances of RectAnchoredPath
 	__RectAnchoredPath__000000_Logo_to_add := (&models.RectAnchoredPath{Name: `Logo to add`}).Stage(stage)
@@ -219,31 +219,31 @@ Third Line`
 	__LinkAnchoredText__000001_Start_Anchored_1.Transform = ``
 
 	// Rect values setup
-	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 170.000000
-	__Rect__000000_Bottom.Y = 20.000000
-	__Rect__000000_Bottom.Width = 632.000000
-	__Rect__000000_Bottom.Height = 197.000000
-	__Rect__000000_Bottom.RX = 5.000000
-	__Rect__000000_Bottom.Color = `bisque`
-	__Rect__000000_Bottom.FillOpacity = 50.000000
-	__Rect__000000_Bottom.Stroke = `lightcoral`
-	__Rect__000000_Bottom.StrokeWidth = 3.000000
-	__Rect__000000_Bottom.StrokeDashArray = ``
-	__Rect__000000_Bottom.StrokeDashArrayWhenSelected = `5 5`
-	__Rect__000000_Bottom.Transform = ``
-	__Rect__000000_Bottom.IsSelectable = true
-	__Rect__000000_Bottom.IsSelected = false
-	__Rect__000000_Bottom.CanHaveLeftHandle = true
-	__Rect__000000_Bottom.HasLeftHandle = false
-	__Rect__000000_Bottom.CanHaveRightHandle = true
-	__Rect__000000_Bottom.HasRightHandle = false
-	__Rect__000000_Bottom.CanHaveTopHandle = true
-	__Rect__000000_Bottom.HasTopHandle = false
-	__Rect__000000_Bottom.CanHaveBottomHandle = true
-	__Rect__000000_Bottom.HasBottomHandle = false
-	__Rect__000000_Bottom.CanMoveHorizontaly = true
-	__Rect__000000_Bottom.CanMoveVerticaly = true
+	__Rect__000000_Bottom_End.Name = `Bottom - End`
+	__Rect__000000_Bottom_End.X = 170.000000
+	__Rect__000000_Bottom_End.Y = 20.000000
+	__Rect__000000_Bottom_End.Width = 632.000000
+	__Rect__000000_Bottom_End.Height = 197.000000
+	__Rect__000000_Bottom_End.RX = 5.000000
+	__Rect__000000_Bottom_End.Color = `bisque`
+	__Rect__000000_Bottom_End.FillOpacity = 50.000000
+	__Rect__000000_Bottom_End.Stroke = `lightcoral`
+	__Rect__000000_Bottom_End.StrokeWidth = 3.000000
+	__Rect__000000_Bottom_End.StrokeDashArray = ``
+	__Rect__000000_Bottom_End.StrokeDashArrayWhenSelected = `5 5`
+	__Rect__000000_Bottom_End.Transform = ``
+	__Rect__000000_Bottom_End.IsSelectable = true
+	__Rect__000000_Bottom_End.IsSelected = false
+	__Rect__000000_Bottom_End.CanHaveLeftHandle = true
+	__Rect__000000_Bottom_End.HasLeftHandle = false
+	__Rect__000000_Bottom_End.CanHaveRightHandle = true
+	__Rect__000000_Bottom_End.HasRightHandle = false
+	__Rect__000000_Bottom_End.CanHaveTopHandle = true
+	__Rect__000000_Bottom_End.HasTopHandle = false
+	__Rect__000000_Bottom_End.CanHaveBottomHandle = true
+	__Rect__000000_Bottom_End.HasBottomHandle = false
+	__Rect__000000_Bottom_End.CanMoveHorizontaly = true
+	__Rect__000000_Bottom_End.CanMoveVerticaly = true
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
@@ -273,31 +273,31 @@ Third Line`
 	__Rect__000001_Middle_Rect.CanMoveVerticaly = true
 
 	// Rect values setup
-	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 100.999969
-	__Rect__000002_Top.Y = 386.000000
-	__Rect__000002_Top.Width = 208.000000
-	__Rect__000002_Top.Height = 214.000000
-	__Rect__000002_Top.RX = 3.000000
-	__Rect__000002_Top.Color = `lightcyan`
-	__Rect__000002_Top.FillOpacity = 100.000000
-	__Rect__000002_Top.Stroke = `darkcyan`
-	__Rect__000002_Top.StrokeWidth = 2.000000
-	__Rect__000002_Top.StrokeDashArray = ``
-	__Rect__000002_Top.StrokeDashArrayWhenSelected = `5 5`
-	__Rect__000002_Top.Transform = ``
-	__Rect__000002_Top.IsSelectable = true
-	__Rect__000002_Top.IsSelected = false
-	__Rect__000002_Top.CanHaveLeftHandle = true
-	__Rect__000002_Top.HasLeftHandle = false
-	__Rect__000002_Top.CanHaveRightHandle = true
-	__Rect__000002_Top.HasRightHandle = false
-	__Rect__000002_Top.CanHaveTopHandle = false
-	__Rect__000002_Top.HasTopHandle = false
-	__Rect__000002_Top.CanHaveBottomHandle = false
-	__Rect__000002_Top.HasBottomHandle = false
-	__Rect__000002_Top.CanMoveHorizontaly = true
-	__Rect__000002_Top.CanMoveVerticaly = true
+	__Rect__000002_Top_Start.Name = `Top - Start`
+	__Rect__000002_Top_Start.X = 100.999969
+	__Rect__000002_Top_Start.Y = 386.000000
+	__Rect__000002_Top_Start.Width = 208.000000
+	__Rect__000002_Top_Start.Height = 214.000000
+	__Rect__000002_Top_Start.RX = 3.000000
+	__Rect__000002_Top_Start.Color = `lightcyan`
+	__Rect__000002_Top_Start.FillOpacity = 100.000000
+	__Rect__000002_Top_Start.Stroke = `darkcyan`
+	__Rect__000002_Top_Start.StrokeWidth = 2.000000
+	__Rect__000002_Top_Start.StrokeDashArray = ``
+	__Rect__000002_Top_Start.StrokeDashArrayWhenSelected = `5 5`
+	__Rect__000002_Top_Start.Transform = ``
+	__Rect__000002_Top_Start.IsSelectable = true
+	__Rect__000002_Top_Start.IsSelected = false
+	__Rect__000002_Top_Start.CanHaveLeftHandle = true
+	__Rect__000002_Top_Start.HasLeftHandle = false
+	__Rect__000002_Top_Start.CanHaveRightHandle = true
+	__Rect__000002_Top_Start.HasRightHandle = false
+	__Rect__000002_Top_Start.CanHaveTopHandle = false
+	__Rect__000002_Top_Start.HasTopHandle = false
+	__Rect__000002_Top_Start.CanHaveBottomHandle = false
+	__Rect__000002_Top_Start.HasBottomHandle = false
+	__Rect__000002_Top_Start.CanMoveHorizontaly = true
+	__Rect__000002_Top_Start.CanMoveVerticaly = true
 
 	// RectAnchoredPath values setup
 	__RectAnchoredPath__000000_Logo_to_add.Name = `Logo to add`
@@ -481,21 +481,21 @@ line 3`
 	__Text__000000_Essai.Transform = ``
 
 	// Setup of pointers
-	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom)
+	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom_End)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks = append(__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks, __RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link)
 	__Layer__000002_Line_layer.Lines = append(__Layer__000002_Line_layer.Lines, __Line__000000_Line_connecting_rect_Bottom_to_Top)
 	__Layer__000003_Link_layer_vertical_to_horizontal.Links = append(__Layer__000003_Link_layer_vertical_to_horizontal.Links, __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal)
 	__Layer__000004_Middle_Rect_Layer.Rects = append(__Layer__000004_Middle_Rect_Layer.Rects, __Rect__000001_Middle_Rect)
-	__Layer__000005_Top_Rectangle_layer.Rects = append(__Layer__000005_Top_Rectangle_layer.Rects, __Rect__000002_Top)
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
+	__Layer__000005_Top_Rectangle_layer.Rects = append(__Layer__000005_Top_Rectangle_layer.Rects, __Rect__000002_Top_Start)
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top_Start
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom_End
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000000_Liine_1_Line_2)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __LinkAnchoredText__000001_Start_Anchored_1)
-	__Rect__000000_Bottom.RectAnchoredTexts = append(__Rect__000000_Bottom.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
-	__Rect__000000_Bottom.RectAnchoredRects = append(__Rect__000000_Bottom.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
-	__Rect__000000_Bottom.RectAnchoredPaths = append(__Rect__000000_Bottom.RectAnchoredPaths, __RectAnchoredPath__000001_second_log)
+	__Rect__000000_Bottom_End.RectAnchoredTexts = append(__Rect__000000_Bottom_End.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
+	__Rect__000000_Bottom_End.RectAnchoredRects = append(__Rect__000000_Bottom_End.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
+	__Rect__000000_Bottom_End.RectAnchoredPaths = append(__Rect__000000_Bottom_End.RectAnchoredPaths, __RectAnchoredPath__000001_second_log)
 	__Rect__000001_Middle_Rect.RectAnchoredPaths = append(__Rect__000001_Middle_Rect.RectAnchoredPaths, __RectAnchoredPath__000000_Logo_to_add)
-	__Rect__000002_Top.RectAnchoredRects = append(__Rect__000002_Top.RectAnchoredRects, __RectAnchoredRect__000000_Rect_within_top)
+	__Rect__000002_Top_Start.RectAnchoredRects = append(__Rect__000002_Top_Start.RectAnchoredRects, __RectAnchoredRect__000000_Rect_within_top)
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Start = __Rect__000001_Middle_Rect
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.End = __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
@@ -503,8 +503,8 @@ line 3`
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Middle_Rect_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_vertical_to_horizontal)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom)
-	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
-	__SVG__000000_SVG.EndRect = __Rect__000002_Top
+	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom_End
+	__SVG__000000_SVG.EndRect = __Rect__000002_Top_Start
 }
 
 

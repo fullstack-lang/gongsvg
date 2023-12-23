@@ -455,7 +455,7 @@
             (mousemove)="onmousemove($event, 'background')"
             (mouseup)="backgroundOnMouseUp($event)"
             />
-        <line *ngIf="linkDrawing"
+        <line *ngIf="State == StateEnumType.LINK_DRAWING"
             [attr.x1]="PointAtMouseDown.X" [attr.y1]="PointAtMouseDown.Y" 
             [attr.x2]="PointAtMouseMove.X" [attr.y2]="PointAtMouseMove.Y" 
             stroke="black" stroke-dasharray="5,5" [attr.stroke-width]="2"/>

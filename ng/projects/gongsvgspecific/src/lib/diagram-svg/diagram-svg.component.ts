@@ -133,11 +133,6 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   }
 
   //
-  // LINK BETWEEN RECT DRAWING
-  //
-  linkDrawing: boolean = false
-
-  //
   // BACKEND MANAGEMENT
   //
   public gongsvgFrontRepo?: gongsvg.FrontRepo
@@ -294,16 +289,8 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
             break;
         }
         if (unselectRect && rect.IsSelected) {
-          console.log(getFunctionName(), "unselecting rect", rect.Name)
-          rect.IsSelected = false
-          this.manageHandles(rect)
-          this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-            _ => {
-
-            }
-          )
+          this.unselectRect(rect)
         }
-        manageHandles(rect)
       }
     }
   }
@@ -352,63 +339,17 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     }
 
     if (this.State == StateEnumType.MULTI_RECTS_SELECTION) {
-      console.log(getFunctionName(), "state switch, before", this.State)
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state switch, current", this.State)
 
-      let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
+      this.selectRectsByArea();
+    }
 
-      if (this.PointAtMouseUp.X > this.PointAtMouseDown.X) {
-        selectAreaConfig.SweepDirection = SweepDirection.LEFT_TO_RIGHT
-      } else {
-        selectAreaConfig.SweepDirection = SweepDirection.RIGHT_TO_LEFT
-      }
+    if (this.State == StateEnumType.LINK_DRAWING) {
+      this.State = StateEnumType.WAITING_FOR_USER_INPUT
+      console.log(getFunctionName(), "state switch, current", this.State)
 
-      selectAreaConfig.TopLeft = [
-        Math.min(this.PointAtMouseDown.X, this.PointAtMouseUp.X),
-        Math.min(this.PointAtMouseDown.Y, this.PointAtMouseUp.Y)]
-      selectAreaConfig.BottomRigth = [
-        Math.max(this.PointAtMouseDown.X, this.PointAtMouseUp.X),
-        Math.max(this.PointAtMouseDown.Y, this.PointAtMouseUp.Y)]
-
-      for (let layer of this.gongsvgFrontRepo!.Layers_array) {
-        for (let rect of layer.Rects) {
-          switch (selectAreaConfig.SweepDirection) {
-            case SweepDirection.LEFT_TO_RIGHT:
-              if (
-                rect.X > selectAreaConfig.TopLeft[0] &&
-                rect.X + rect.Width < selectAreaConfig.BottomRigth[0] &&
-                rect.Y > selectAreaConfig.TopLeft[1] &&
-                rect.Y + rect.Height < selectAreaConfig.BottomRigth[1]
-              ) {
-                if (!rect.IsSelected) {
-                  this.selectRect(rect);
-                }
-              }
-              break;
-            case SweepDirection.RIGHT_TO_LEFT:
-              // rectangle has to be partialy boxed in the rect
-              if (
-                rect.X < selectAreaConfig.BottomRigth[0] &&
-                rect.X + rect.Width > selectAreaConfig.TopLeft[0] &&
-                rect.Y < selectAreaConfig.BottomRigth[1] &&
-                rect.Y + rect.Height > selectAreaConfig.TopLeft[1]
-              ) {
-                console.log(getFunctionName(), "selecting rect", rect.Name)
-                if (!rect.IsSelected) {
-                  console.log(getFunctionName(), "selecting rect", rect.Name)
-                  rect.IsSelected = true
-                  this.manageHandles(rect)
-                  this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-                    _ => {
-                    }
-                  )
-                }
-              }
-              break;
-          }
-        }
-      }
+      this.informBackEndOfEndOfLinkDrawing();
     }
 
     this.computeShapeStates()
@@ -416,6 +357,93 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   }
 
   Math = Math
+
+  // informBackEndOfEndOfLinkDrawing
+  //
+  // informs the back end with 2 updates
+  // on the first update, the svg is updated with the state DRAWING_LINE
+  // on the second, the svg is updated with the state NOT_DRAWING_LINE
+  //
+  // the back ends shall interpret those calls in order to create the link between
+  // start end end rects
+  private informBackEndOfEndOfLinkDrawing() {
+    this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINE
+    this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+      () => {
+
+        this.gongsvgFrontRepoService.pull(this.GONG__StackPath).subscribe(
+          gongsvgsFrontRepo => {
+            this.gongsvgFrontRepo = gongsvgsFrontRepo;
+
+            if (this.gongsvgFrontRepo.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1) {
+              this.svg = this.gongsvgFrontRepo.getArray<gongsvg.SVGDB>(gongsvg.SVGDB.GONGSTRUCT_NAME)[0];
+
+              // back to normal state
+              this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINE;
+              this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe();
+
+              // set the isEditable
+              this.isEditableService.setIsEditable(this.svg!.IsEditable);
+            } else {
+              return;
+            }
+          }
+        );
+      }
+    );
+  }
+
+  private selectRectsByArea() {
+    let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
+
+    if (this.PointAtMouseUp.X > this.PointAtMouseDown.X) {
+      selectAreaConfig.SweepDirection = SweepDirection.LEFT_TO_RIGHT
+    } else {
+      selectAreaConfig.SweepDirection = SweepDirection.RIGHT_TO_LEFT
+    }
+
+    selectAreaConfig.TopLeft = [
+      Math.min(this.PointAtMouseDown.X, this.PointAtMouseUp.X),
+      Math.min(this.PointAtMouseDown.Y, this.PointAtMouseUp.Y)]
+    selectAreaConfig.BottomRigth = [
+      Math.max(this.PointAtMouseDown.X, this.PointAtMouseUp.X),
+      Math.max(this.PointAtMouseDown.Y, this.PointAtMouseUp.Y)]
+
+    for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+      for (let rect of layer.Rects) {
+        switch (selectAreaConfig.SweepDirection) {
+          case SweepDirection.LEFT_TO_RIGHT:
+            if (rect.X > selectAreaConfig.TopLeft[0] &&
+              rect.X + rect.Width < selectAreaConfig.BottomRigth[0] &&
+              rect.Y > selectAreaConfig.TopLeft[1] &&
+              rect.Y + rect.Height < selectAreaConfig.BottomRigth[1]) {
+              if (!rect.IsSelected) {
+                this.selectRect(rect);
+              }
+            }
+            break;
+          case SweepDirection.RIGHT_TO_LEFT:
+            // rectangle has to be partialy boxed in the rect
+            if (rect.X < selectAreaConfig.BottomRigth[0] &&
+              rect.X + rect.Width > selectAreaConfig.TopLeft[0] &&
+              rect.Y < selectAreaConfig.BottomRigth[1] &&
+              rect.Y + rect.Height > selectAreaConfig.TopLeft[1]) {
+              console.log(getFunctionName(), "selecting rect", rect.Name);
+              if (!rect.IsSelected) {
+                console.log(getFunctionName(), "selecting rect", rect.Name);
+                rect.IsSelected = true;
+                this.manageHandles(rect);
+                this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                  _ => {
+                  }
+                );
+              }
+            }
+            break;
+        }
+      }
+    }
+  }
 
   private selectRect(rect: gongsvg.RectDB) {
     console.log(getFunctionName(), "selecting rect", rect.Name);
@@ -510,17 +538,25 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     this.PointAtMouseDown = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
-    if (this.State == StateEnumType.WAITING_FOR_USER_INPUT) {
+    if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey) {
       this.State = StateEnumType.RECTS_DRAGGING
       this.draggedRect = rect
+    }
+    if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && event.altKey) {
+      this.State = StateEnumType.LINK_DRAWING
+      this.svg.StartRect = rect
     }
 
     console.log(getFunctionName(), "state at exit", this.State)
   }
+
   rectMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
+    if (this.State == StateEnumType.LINK_DRAWING) {
+      this.svg.EndRect = rect
+    }
     this.processMouseUp(event)
   }
 

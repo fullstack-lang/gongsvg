@@ -111,7 +111,6 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   anchorFillColor = 'blue'; // Choose your desired anchor fill color
   draggingAnchorFillColor = 'red'; // Change this to the desired color when dragging
 
-  rectDragging: boolean = false
   draggedRect: gongsvg.RectDB | undefined
   anchorDragging: boolean = false
   activeAnchor: 'left' | 'right' | 'top' | 'bottom' = 'left'
@@ -311,7 +310,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
   //
   // processGenericMouseUp performs all mouse up stuff
-  processMouseUp() {
+  processMouseUp(event: MouseEvent) {
     console.log(getFunctionName(), "state at entry", this.State)
 
     // when the mouse has not moved more than a threshold
@@ -322,27 +321,34 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       (this.PointAtMouseDown.Y - this.PointAtMouseUp.Y) *
       (this.PointAtMouseDown.Y - this.PointAtMouseUp.Y))
 
-    if (distanceMoved < this.dragThreshold) {
-      console.log(getFunctionName(), "distanceMoved below threshold")
-      console.log(getFunctionName(), "state switch, before", this.State)
+    // the user clicks in the void to unselect all rect
+    if (distanceMoved < this.dragThreshold && this.State == StateEnumType.WAITING_FOR_USER_INPUT) {
+      console.log(getFunctionName(), "distanceMoved below threshold in state", this.State)
+      this.State = StateEnumType.WAITING_FOR_USER_INPUT
+
+      this.unselectAllRects();
+    }
+
+    // the use clicks on a rect for selecting it if it is not selected or
+    // unselecting it if it is already selected
+    // if shift is pressed, all selected rect stay selected, otherwise, they are unselected
+    if (distanceMoved < this.dragThreshold && this.State == StateEnumType.RECTS_DRAGGING) {
+      console.log(getFunctionName(), "distanceMoved below threshold in state", this.State)
+
+      // if the shift key is not pressed, unselect all other rects
+      if (!event.shiftKey) {
+        this.unselectAllRects()
+      }
+
+      console.assert(this.draggedRect != undefined, "no dragged rect")
+      if (!this.draggedRect?.IsSelected) {
+        this.selectRect(this.draggedRect!)
+      } else {
+        this.unselectRect(this.draggedRect!)
+      }
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state switch, current", this.State)
 
-      for (let layer of this.gongsvgFrontRepo!.Layers_array) {
-        for (let rect of layer.Rects) {
-          if (rect.IsSelected) {
-            console.log(getFunctionName(), "unselecting rect", rect.Name)
-            rect.IsSelected = false
-            this.manageHandles(rect)
-            this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-              _ => {
-                this.refreshService.emitRefreshRequestEvent(0)
-              }
-            )
-          }
-          manageHandles(rect)
-        }
-      }
     }
 
     if (this.State == StateEnumType.MULTI_RECTS_SELECTION) {
@@ -376,13 +382,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
                 rect.Y + rect.Height < selectAreaConfig.BottomRigth[1]
               ) {
                 if (!rect.IsSelected) {
-                  console.log(getFunctionName(), "selecting rect", rect.Name)
-                  rect.IsSelected = true
-                  this.manageHandles(rect)
-                  this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-                    _ => {
-                    }
-                  )
+                  this.selectRect(rect);
                 }
               }
               break;
@@ -417,6 +417,38 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
   Math = Math
 
+  private selectRect(rect: gongsvg.RectDB) {
+    console.log(getFunctionName(), "selecting rect", rect.Name);
+    rect.IsSelected = true;
+    this.manageHandles(rect);
+    this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+      _ => {
+        this.changeDetectorRef.detectChanges()
+      }
+    );
+  }
+
+  private unselectRect(rect: gongsvg.RectDB) {
+    console.log(getFunctionName(), "unselecting rect", rect.Name);
+    rect.IsSelected = false;
+    this.manageHandles(rect);
+    this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+      _ => {
+        this.changeDetectorRef.detectChanges()
+      }
+    );
+  }
+
+  private unselectAllRects() {
+    for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+      for (let rect of layer.Rects) {
+        if (rect.IsSelected) {
+          this.unselectRect(rect)
+        }
+      }
+    }
+  }
+
   onmousemove(event: MouseEvent, source?: string): void {
     this.PointAtMouseMove = mouseCoordInComponentRef(event)
     // console.log(getFunctionName(), source, event.buttons)
@@ -450,36 +482,46 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
-    this.processMouseUp()
+    this.processMouseUp(event)
   }
 
   backgroundOnClick(event: MouseEvent): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
-    this.processMouseUp()
+    this.processMouseUp(event)
   }
 
   backgroundOnDragEnd(event: MouseEvent): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
-    this.processMouseUp()
+    this.processMouseUp(event)
   }
 
   backgroundOnMouseUp(event: MouseEvent): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
-    this.processMouseUp()
+    this.processMouseUp(event)
   }
 
-  rectMouseDown(event: MouseEvent, rect: gongsvg.RectDB): void { }
+  rectMouseDown(event: MouseEvent, rect: gongsvg.RectDB): void {
+    this.PointAtMouseDown = mouseCoordInComponentRef(event)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    if (this.State == StateEnumType.WAITING_FOR_USER_INPUT) {
+      this.State = StateEnumType.RECTS_DRAGGING
+      this.draggedRect = rect
+    }
+
+    console.log(getFunctionName(), "state at exit", this.State)
+  }
   rectMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
-    this.processMouseUp()
+    this.processMouseUp(event)
   }
 
   anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: gongsvg.RectDB): void {
@@ -489,7 +531,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
-    this.processMouseUp()
+    this.processMouseUp(event)
   }
 
   linkMouseDown(event: MouseEvent, segmentNumber: number, link: gongsvg.LinkDB): void { }
@@ -497,7 +539,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
-    this.processMouseUp()
+    this.processMouseUp(event)
   }
 
   textAnchoredMouseDown(

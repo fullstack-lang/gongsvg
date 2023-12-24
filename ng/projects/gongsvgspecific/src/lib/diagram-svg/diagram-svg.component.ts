@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, Que
 import * as gongsvg from 'gongsvg'
 
 import { manageHandles } from '../manage.handles';
-import { Segment, drawSegments } from '../draw.segments';
+import { Segment, drawSegments, drawSegmentsFromLink } from '../draw.segments';
 import { getOrientation } from '../get.orientation';
 import { getArcPath } from '../get.arc.path';
 import { getEndArrowPath } from '../get.end.arrow.path';
@@ -20,6 +20,8 @@ import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 import { getFunctionName } from './get.function.name';
 import { informBackEndOfEndOfLinkDrawing } from './inform-backend-end-of-link-drawing';
 import { selectRectsByArea } from './select-rects-by-area';
+import { LinkConf, computeLinkFromMouseEvent } from '../compute.link.from.mouse.event';
+import { updateLinkFromCursor } from '../update.link.from.cursor';
 
 @Component({
   selector: 'lib-diagram-svg',
@@ -104,6 +106,9 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   // for change detection, we need to store start and end rect of all links
   map_Link_PreviousStart: Map<gongsvg.LinkDB, gongsvg.RectDB> = new (Map<gongsvg.LinkDB, gongsvg.RectDB>)
   map_Link_PreviousEnd: Map<gongsvg.LinkDB, gongsvg.RectDB> = new (Map<gongsvg.LinkDB, gongsvg.RectDB>)
+
+  draggedLink: gongsvg.LinkDB | undefined
+  draggedSegmentNumber = 0
 
   //
   // RECT ANCHOR MANAGEMENT
@@ -379,9 +384,19 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
         this.draggedText!, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
     }
 
+    if (this.State == StateEnumType.LINK_DRAGGING) {
+      this.State = StateEnumType.WAITING_FOR_USER_INPUT
+      console.log(getFunctionName(), "state at exit", this.State)
+      this.linkService.updateLink(this.draggedLink!,
+        this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+      document.body.style.cursor = ''
+    }
+
     this.computeShapeStates()
     this.changeDetectorRef.detectChanges()
   }
+
+
 
   Math = Math
 
@@ -441,6 +456,23 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       }
       this.draggedText.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
       this.draggedText.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
+    }
+
+    if (this.State == StateEnumType.LINK_DRAGGING) {
+      document.body.style.cursor = ''
+
+      updateLinkFromCursor(
+        this.draggedLink!,
+        this.draggedSegmentNumber,
+        this.map_Link_Segment.get(this.draggedLink!)!,
+        this.map_Link_PreviousStart.get(this.draggedLink!)!,
+        this.map_Link_PreviousEnd.get(this.draggedLink!)!,
+        this.PointAtMouseDown,
+        this.PointAtMouseMove,
+      )
+
+      let segments = drawSegmentsFromLink(this.draggedLink!)
+      this.map_Link_Segment.set(this.draggedLink!, segments)
     }
 
     this.changeDetectorRef.detectChanges()
@@ -524,7 +556,16 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     this.processMouseUp(event)
   }
 
-  linkMouseDown(event: MouseEvent, segmentNumber: number, link: gongsvg.LinkDB): void { }
+  linkMouseDown(event: MouseEvent, segmentNumber: number, link: gongsvg.LinkDB): void {
+    if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey && !event.shiftKey) {
+      this.State = StateEnumType.LINK_DRAGGING
+      console.log(getFunctionName(), "state at exit", this.State)
+
+      // this link shit to dragging state
+      this.draggedLink = link
+      this.draggedSegmentNumber = segmentNumber
+    }
+  }
   linkMouseUp(event: MouseEvent, link: gongsvg.LinkDB, segmentNumber: number = 0): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)

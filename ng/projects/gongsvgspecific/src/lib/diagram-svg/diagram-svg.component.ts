@@ -18,6 +18,7 @@ import { Observable, timer } from 'rxjs';
 import { StateEnumType } from './state.enum';
 import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 import { getFunctionName } from './get.function.name';
+import { informBackEndOfEndOfLinkDrawing } from './inform-backend-end-of-link-drawing';
 
 @Component({
   selector: 'lib-diagram-svg',
@@ -146,12 +147,12 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   currTime: number = 0
 
   constructor(
-    private gongsvgFrontRepoService: gongsvg.FrontRepoService,
+    public gongsvgFrontRepoService: gongsvg.FrontRepoService,
     private gongsvgNbFromBackService: gongsvg.CommitNbFromBackService,
-    private svgService: gongsvg.SVGService,
+    public svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
     private svgEventService: SvgEventService,
-    private isEditableService: IsEditableService,
+    public isEditableService: IsEditableService,
 
     private rectService: gongsvg.RectService,
     private linkService: gongsvg.LinkService,
@@ -174,7 +175,8 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     // this component is a "push mode component"
     // because the template calls many functions whose state cannot be computed
     // by the change detector ("dirty" or "clean").
-    // therefore, the extra complexity is needed
+    // therefore, the extra complexity is needed otherwise the template is perpetually
+    // computed
     this.changeDetectorRef.detach()
 
     // see above for the explanation
@@ -349,7 +351,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state switch, current", this.State)
 
-      this.informBackEndOfEndOfLinkDrawing();
+      informBackEndOfEndOfLinkDrawing(this)
     }
 
     this.computeShapeStates()
@@ -358,40 +360,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
   Math = Math
 
-  // informBackEndOfEndOfLinkDrawing
-  //
-  // informs the back end with 2 updates
-  // on the first update, the svg is updated with the state DRAWING_LINK
-  // on the second, the svg is updated with the state NOT_DRAWING_LINK
-  //
-  // the back ends shall interpret those calls in order to create the link between
-  // start end end rects
-  private informBackEndOfEndOfLinkDrawing() {
-    this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINK
-    this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-      () => {
 
-        this.gongsvgFrontRepoService.pull(this.GONG__StackPath).subscribe(
-          gongsvgsFrontRepo => {
-            this.gongsvgFrontRepo = gongsvgsFrontRepo;
-
-            if (this.gongsvgFrontRepo.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1) {
-              this.svg = this.gongsvgFrontRepo.getArray<gongsvg.SVGDB>(gongsvg.SVGDB.GONGSTRUCT_NAME)[0];
-
-              // back to normal state
-              this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINK;
-              this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe();
-
-              // set the isEditable
-              this.isEditableService.setIsEditable(this.svg!.IsEditable);
-            } else {
-              return;
-            }
-          }
-        );
-      }
-    );
-  }
 
   private selectRectsByArea() {
     let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()

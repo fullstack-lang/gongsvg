@@ -18,6 +18,8 @@ import { Observable, timer } from 'rxjs';
 import { StateEnumType } from './state.enum';
 import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 import { getFunctionName } from './get.function.name';
+import { informBackEndOfEndOfLinkDrawing } from './inform-backend-end-of-link-drawing';
+import { selectRectsByArea } from './select-rects-by-area';
 
 @Component({
   selector: 'lib-diagram-svg',
@@ -121,6 +123,21 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   }
 
   //
+  // LINK ANCHORED TEXT MANAGEMENT
+  //
+
+  // the link whose anchored text is dragged
+  draggedLinkAnchoredTextLink: gongsvg.LinkDB | undefined
+  draggedTextIndex = 0
+  draggedText: gongsvg.LinkAnchoredTextDB | undefined
+
+  // LinkAtMouseDown is the clone of the Link when mouse down
+  AnchoredTextAtMouseDown: gongsvg.LinkAnchoredTextDB | undefined
+
+  // is the link anchored text at the start or the end of the arrows
+  draggedSegmentPositionOnArrow: gongsvg.PositionOnArrowType = gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START
+
+  //
   // RECT LINK LINK MANAGEMENT
   //
   // Elements for managing links between a rect and a link
@@ -146,14 +163,14 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   currTime: number = 0
 
   constructor(
-    private gongsvgFrontRepoService: gongsvg.FrontRepoService,
+    public gongsvgFrontRepoService: gongsvg.FrontRepoService,
     private gongsvgNbFromBackService: gongsvg.CommitNbFromBackService,
-    private svgService: gongsvg.SVGService,
+    public svgService: gongsvg.SVGService,
     private rectangleEventService: RectangleEventService,
     private svgEventService: SvgEventService,
-    private isEditableService: IsEditableService,
+    public isEditableService: IsEditableService,
 
-    private rectService: gongsvg.RectService,
+    public rectService: gongsvg.RectService,
     private linkService: gongsvg.LinkService,
     private anchoredTextService: gongsvg.LinkAnchoredTextService,
 
@@ -174,7 +191,8 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     // this component is a "push mode component"
     // because the template calls many functions whose state cannot be computed
     // by the change detector ("dirty" or "clean").
-    // therefore, the extra complexity is needed
+    // therefore, the extra complexity is needed otherwise the template is perpetually
+    // computed
     this.changeDetectorRef.detach()
 
     // see above for the explanation
@@ -281,7 +299,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
             break;
           case StateEnumType.ANCHORS_DRAGGING:
             break;
-          case StateEnumType.TEXT_ANCHOR_DRAGGING:
+          case StateEnumType.LINK_ANCHORED_TEXT_DRAGGING:
             unselectRect = true
             break;
           case StateEnumType.LINK_DRAGGING:
@@ -342,14 +360,23 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state switch, current", this.State)
 
-      this.selectRectsByArea();
+      selectRectsByArea(this)
     }
 
     if (this.State == StateEnumType.LINK_DRAWING) {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state switch, current", this.State)
 
-      this.informBackEndOfEndOfLinkDrawing();
+      informBackEndOfEndOfLinkDrawing(this)
+    }
+
+    if (this.State == StateEnumType.LINK_ANCHORED_TEXT_DRAGGING) {
+      this.State = StateEnumType.WAITING_FOR_USER_INPUT
+      console.log(getFunctionName(), "state at exit", this.State)
+
+      console.assert(this.draggedText != undefined, "no dragged text")
+      this.anchoredTextService.updateLinkAnchoredText(
+        this.draggedText!, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
     }
 
     this.computeShapeStates()
@@ -358,94 +385,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
   Math = Math
 
-  // informBackEndOfEndOfLinkDrawing
-  //
-  // informs the back end with 2 updates
-  // on the first update, the svg is updated with the state DRAWING_LINK
-  // on the second, the svg is updated with the state NOT_DRAWING_LINK
-  //
-  // the back ends shall interpret those calls in order to create the link between
-  // start end end rects
-  private informBackEndOfEndOfLinkDrawing() {
-    this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINK
-    this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-      () => {
-
-        this.gongsvgFrontRepoService.pull(this.GONG__StackPath).subscribe(
-          gongsvgsFrontRepo => {
-            this.gongsvgFrontRepo = gongsvgsFrontRepo;
-
-            if (this.gongsvgFrontRepo.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1) {
-              this.svg = this.gongsvgFrontRepo.getArray<gongsvg.SVGDB>(gongsvg.SVGDB.GONGSTRUCT_NAME)[0];
-
-              // back to normal state
-              this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINK;
-              this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe();
-
-              // set the isEditable
-              this.isEditableService.setIsEditable(this.svg!.IsEditable);
-            } else {
-              return;
-            }
-          }
-        );
-      }
-    );
-  }
-
-  private selectRectsByArea() {
-    let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
-
-    if (this.PointAtMouseUp.X > this.PointAtMouseDown.X) {
-      selectAreaConfig.SweepDirection = SweepDirection.LEFT_TO_RIGHT
-    } else {
-      selectAreaConfig.SweepDirection = SweepDirection.RIGHT_TO_LEFT
-    }
-
-    selectAreaConfig.TopLeft = [
-      Math.min(this.PointAtMouseDown.X, this.PointAtMouseUp.X),
-      Math.min(this.PointAtMouseDown.Y, this.PointAtMouseUp.Y)]
-    selectAreaConfig.BottomRigth = [
-      Math.max(this.PointAtMouseDown.X, this.PointAtMouseUp.X),
-      Math.max(this.PointAtMouseDown.Y, this.PointAtMouseUp.Y)]
-
-    for (let layer of this.gongsvgFrontRepo!.Layers_array) {
-      for (let rect of layer.Rects) {
-        switch (selectAreaConfig.SweepDirection) {
-          case SweepDirection.LEFT_TO_RIGHT:
-            if (rect.X > selectAreaConfig.TopLeft[0] &&
-              rect.X + rect.Width < selectAreaConfig.BottomRigth[0] &&
-              rect.Y > selectAreaConfig.TopLeft[1] &&
-              rect.Y + rect.Height < selectAreaConfig.BottomRigth[1]) {
-              if (!rect.IsSelected) {
-                this.selectRect(rect);
-              }
-            }
-            break;
-          case SweepDirection.RIGHT_TO_LEFT:
-            // rectangle has to be partialy boxed in the rect
-            if (rect.X < selectAreaConfig.BottomRigth[0] &&
-              rect.X + rect.Width > selectAreaConfig.TopLeft[0] &&
-              rect.Y < selectAreaConfig.BottomRigth[1] &&
-              rect.Y + rect.Height > selectAreaConfig.TopLeft[1]) {
-              console.log(getFunctionName(), "selecting rect", rect.Name);
-              if (!rect.IsSelected) {
-                console.log(getFunctionName(), "selecting rect", rect.Name);
-                rect.IsSelected = true;
-                this.manageHandles(rect);
-                this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-                  _ => {
-                  }
-                );
-              }
-            }
-            break;
-        }
-      }
-    }
-  }
-
-  private selectRect(rect: gongsvg.RectDB) {
+  public selectRect(rect: gongsvg.RectDB) {
     console.log(getFunctionName(), "selecting rect", rect.Name);
     rect.IsSelected = true;
     this.manageHandles(rect);
@@ -487,6 +427,20 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       console.log(getFunctionName(), "state switch, before", this.State)
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state switch, current", this.State)
+    }
+
+    if (this.State == StateEnumType.LINK_ANCHORED_TEXT_DRAGGING) {
+      let deltaX = this.PointAtMouseMove.X - this.PointAtMouseDown!.X
+      let deltaY = this.PointAtMouseMove.Y - this.PointAtMouseDown!.Y
+
+      // console.log("gongsvg Text dragging, deltaX", deltaX, "deltaY", deltaY)
+
+      if (this.draggedText == undefined) {
+        console.log("Problem : this.draggedText should not be undefined")
+        return
+      }
+      this.draggedText.X_Offset = this.AnchoredTextAtMouseDown!.X_Offset + deltaX
+      this.draggedText.Y_Offset = this.AnchoredTextAtMouseDown!.Y_Offset + deltaY
     }
 
     this.changeDetectorRef.detectChanges()
@@ -582,14 +536,32 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     link: gongsvg.LinkDB,
     event: MouseEvent,
     anchoredTextIndex: number,
-    draggedSegmentPositionOnArrow: string): void { }
+    draggedSegmentPositionOnArrow: string): void {
+    this.PointAtMouseDown = mouseCoordInComponentRef(event)
+
+    if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey && !event.shiftKey) {
+      this.State = StateEnumType.LINK_ANCHORED_TEXT_DRAGGING
+      console.log(getFunctionName(), "state at exit", this.State)
+
+      this.draggedTextIndex = anchoredTextIndex
+      this.draggedSegmentPositionOnArrow = draggedSegmentPositionOnArrow as gongsvg.PositionOnArrowType
+      if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+        this.draggedText = link.TextAtArrowStart![this.draggedTextIndex]
+        this.AnchoredTextAtMouseDown = structuredClone(link.TextAtArrowStart[this.draggedTextIndex])
+
+      }
+      if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+        this.draggedText = link.TextAtArrowEnd![this.draggedTextIndex]
+        this.AnchoredTextAtMouseDown = structuredClone(link.TextAtArrowEnd[this.draggedTextIndex])
+      }
+    }
+  }
 
   textAnchoredMouseUp(link: gongsvg.LinkDB, event: MouseEvent): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
-    this.computeShapeStates()
-    this.changeDetectorRef.detectChanges()
+    this.processMouseUp(event)
   }
 
 }

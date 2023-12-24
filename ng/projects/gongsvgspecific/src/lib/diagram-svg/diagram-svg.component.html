@@ -444,21 +444,22 @@
                 </ng-container>
             </ng-container>
         </ng-container>
+        <!-- the following rect is drawn when a user multi select rects -->
         <rect *ngIf="State == StateEnumType.MULTI_RECTS_SELECTION" 
+            pointer-events="none"
             [attr.x]="Math.min(PointAtMouseDown.X, PointAtMouseMove.X)" 
             [attr.y]="Math.min(PointAtMouseDown.Y, PointAtMouseMove.Y)" 
             [attr.width]="Math.abs(PointAtMouseMove.X - PointAtMouseDown.X)" 
             [attr.height]="Math.abs(PointAtMouseMove.Y - PointAtMouseDown.Y)" 
             stroke-dasharray="5,5" stroke="black" stroke-width="2" fill="none" 
-            
-            (mousedown)="backgroundOnMouseDown($event)"
-            (mousemove)="onmousemove($event, 'background')"
-            (mouseup)="backgroundOnMouseUp($event)"
             />
+        <!-- the following line is drawn when a user draws a link between rects -->
         <line *ngIf="State == StateEnumType.LINK_DRAWING"
+            pointer-events="none"
             [attr.x1]="PointAtMouseDown.X" [attr.y1]="PointAtMouseDown.Y" 
             [attr.x2]="PointAtMouseMove.X" [attr.y2]="PointAtMouseMove.Y" 
-            stroke="black" stroke-dasharray="5,5" [attr.stroke-width]="2"/>
+            stroke="black" stroke-dasharray="5,5" 
+            [attr.stroke-width]="2"/>
     </g>
 </svg>
 

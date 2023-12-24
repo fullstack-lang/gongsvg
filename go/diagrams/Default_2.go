@@ -121,7 +121,7 @@ var map_DocLink_Identifier_Default_2 map[string]any = map[string]any{
 
 	"ref_models.Cyan": ref_models.Cyan,
 
-	"ref_models.DRAWING_LINE": ref_models.DRAWING_LINE,
+	"ref_models.DRAWING_LINE": ref_models.DRAWING_LINK,
 
 	"ref_models.Darkblue": ref_models.Darkblue,
 
@@ -457,7 +457,7 @@ var map_DocLink_Identifier_Default_2 map[string]any = map[string]any{
 
 	"ref_models.Moccasin": ref_models.Moccasin,
 
-	"ref_models.NOT_DRAWING_LINE": ref_models.NOT_DRAWING_LINE,
+	"ref_models.NOT_DRAWING_LINE": ref_models.NOT_DRAWING_LINK,
 
 	"ref_models.Navajowhite": ref_models.Navajowhite,
 
@@ -957,5 +957,3 @@ func Default_2Injection(stage *models.StageStruct) {
 
 	// Setup of pointers
 }
-
-

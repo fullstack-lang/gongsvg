@@ -361,13 +361,13 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   // informBackEndOfEndOfLinkDrawing
   //
   // informs the back end with 2 updates
-  // on the first update, the svg is updated with the state DRAWING_LINE
-  // on the second, the svg is updated with the state NOT_DRAWING_LINE
+  // on the first update, the svg is updated with the state DRAWING_LINK
+  // on the second, the svg is updated with the state NOT_DRAWING_LINK
   //
   // the back ends shall interpret those calls in order to create the link between
   // start end end rects
   private informBackEndOfEndOfLinkDrawing() {
-    this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINE
+    this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINK
     this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
       () => {
 
@@ -379,7 +379,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
               this.svg = this.gongsvgFrontRepo.getArray<gongsvg.SVGDB>(gongsvg.SVGDB.GONGSTRUCT_NAME)[0];
 
               // back to normal state
-              this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINE;
+              this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINK;
               this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe();
 
               // set the isEditable

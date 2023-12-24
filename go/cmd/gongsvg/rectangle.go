@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -464,7 +463,7 @@ line 3`
 
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
-	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINE
+	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINK
 	__SVG__000000_SVG.IsEditable = true
 
 	// Text values setup
@@ -506,5 +505,3 @@ line 3`
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top
 }
-
-

@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -145,7 +144,7 @@ func simple_linkInjection(stage *models.StageStruct) {
 
 	// SVG values setup
 	__SVG__000000_test.Name = `test`
-	__SVG__000000_test.DrawingState = models.NOT_DRAWING_LINE
+	__SVG__000000_test.DrawingState = models.NOT_DRAWING_LINK
 	__SVG__000000_test.IsEditable = true
 
 	// Setup of pointers
@@ -156,5 +155,3 @@ func simple_linkInjection(stage *models.StageStruct) {
 	__SVG__000000_test.StartRect = __Rect__000001_Start
 	__SVG__000000_test.EndRect = __Rect__000000_End
 }
-
-

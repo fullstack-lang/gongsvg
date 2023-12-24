@@ -1646,10 +1646,10 @@ func (drawingstate DrawingState) ToString() (res string) {
 	// migration of former implementation of enum
 	switch drawingstate {
 	// insertion code per enum code
-	case NOT_DRAWING_LINE:
-		res = "NOT_DRAWING_LINE"
-	case DRAWING_LINE:
-		res = "DRAWING_LINE"
+	case NOT_DRAWING_LINK:
+		res = "NOT_DRAWING_LINK"
+	case DRAWING_LINK:
+		res = "DRAWING_LINK"
 	}
 	return
 }
@@ -1658,10 +1658,10 @@ func (drawingstate *DrawingState) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "NOT_DRAWING_LINE":
-		*drawingstate = NOT_DRAWING_LINE
-	case "DRAWING_LINE":
-		*drawingstate = DRAWING_LINE
+	case "NOT_DRAWING_LINK":
+		*drawingstate = NOT_DRAWING_LINK
+	case "DRAWING_LINK":
+		*drawingstate = DRAWING_LINK
 	default:
 		return errUnkownEnum
 	}
@@ -1672,10 +1672,10 @@ func (drawingstate *DrawingState) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "NOT_DRAWING_LINE":
-		*drawingstate = NOT_DRAWING_LINE
-	case "DRAWING_LINE":
-		*drawingstate = DRAWING_LINE
+	case "NOT_DRAWING_LINK":
+		*drawingstate = NOT_DRAWING_LINK
+	case "DRAWING_LINK":
+		*drawingstate = DRAWING_LINK
 	default:
 		return errUnkownEnum
 	}
@@ -1686,10 +1686,10 @@ func (drawingstate *DrawingState) ToCodeString() (res string) {
 
 	switch *drawingstate {
 	// insertion code per enum code
-	case NOT_DRAWING_LINE:
-		res = "NOT_DRAWING_LINE"
-	case DRAWING_LINE:
-		res = "DRAWING_LINE"
+	case NOT_DRAWING_LINK:
+		res = "NOT_DRAWING_LINK"
+	case DRAWING_LINK:
+		res = "DRAWING_LINK"
 	}
 	return
 }
@@ -1699,8 +1699,8 @@ func (drawingstate DrawingState) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "NOT_DRAWING_LINE")
-	res = append(res, "DRAWING_LINE")
+	res = append(res, "NOT_DRAWING_LINK")
+	res = append(res, "DRAWING_LINK")
 
 	return
 }
@@ -1710,8 +1710,8 @@ func (drawingstate DrawingState) CodeValues() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "NOT_DRAWING_LINE")
-	res = append(res, "DRAWING_LINE")
+	res = append(res, "NOT_DRAWING_LINK")
+	res = append(res, "DRAWING_LINK")
 
 	return
 }

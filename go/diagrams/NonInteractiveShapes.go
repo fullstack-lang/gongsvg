@@ -121,7 +121,7 @@ var map_DocLink_Identifier_NonInteractiveShapes map[string]any = map[string]any{
 
 	"ref_models.Cyan": ref_models.Cyan,
 
-	"ref_models.DRAWING_LINE": ref_models.DRAWING_LINE,
+	"ref_models.DRAWING_LINE": ref_models.DRAWING_LINK,
 
 	"ref_models.Darkblue": ref_models.Darkblue,
 
@@ -457,7 +457,7 @@ var map_DocLink_Identifier_NonInteractiveShapes map[string]any = map[string]any{
 
 	"ref_models.Moccasin": ref_models.Moccasin,
 
-	"ref_models.NOT_DRAWING_LINE": ref_models.NOT_DRAWING_LINE,
+	"ref_models.NOT_DRAWING_LINE": ref_models.NOT_DRAWING_LINK,
 
 	"ref_models.Navajowhite": ref_models.Navajowhite,
 
@@ -1331,5 +1331,3 @@ func NonInteractiveShapesInjection(stage *models.StageStruct) {
 	__GongStructShape__000015_NonInteractiveShapes_SVG.Position = __Position__000015_Pos_NonInteractiveShapes_SVG
 	__GongStructShape__000016_NonInteractiveShapes_Text.Position = __Position__000016_Pos_NonInteractiveShapes_Text
 }
-
-

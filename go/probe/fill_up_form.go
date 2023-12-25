@@ -274,7 +274,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		AssociationSliceToForm("Animations", instanceWithInferedType, &instanceWithInferedType.Animations, formGroup, probe)
 		{
 			var rf models.ReverseField
@@ -324,7 +324,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		AssociationSliceToForm("Animates", instanceWithInferedType, &instanceWithInferedType.Animates, formGroup, probe)
 		{
 			var rf models.ReverseField
@@ -413,7 +413,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		AssociationSliceToForm("Animates", instanceWithInferedType, &instanceWithInferedType.Animates, formGroup, probe)
 		BasicFieldtoForm("MouseClickX", instanceWithInferedType.MouseClickX, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -485,7 +485,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -534,7 +534,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		AssociationSliceToForm("Animates", instanceWithInferedType, &instanceWithInferedType.Animates, formGroup, probe)
 		{
 			var rf models.ReverseField
@@ -586,7 +586,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Definition", instanceWithInferedType.Definition, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, false, 0)
 		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("FillOpacity", instanceWithInferedType.FillOpacity, instanceWithInferedType, probe.formStage, formGroup,
@@ -600,7 +600,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		AssociationSliceToForm("Animates", instanceWithInferedType, &instanceWithInferedType.Animates, formGroup, probe)
 		{
 			var rf models.ReverseField
@@ -675,7 +675,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		AssociationSliceToForm("Animates", instanceWithInferedType, &instanceWithInferedType.Animates, formGroup, probe)
 		{
 			var rf models.ReverseField
@@ -719,7 +719,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		AssociationSliceToForm("Animates", instanceWithInferedType, &instanceWithInferedType.Animates, formGroup, probe)
 		{
 			var rf models.ReverseField
@@ -771,7 +771,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		AssociationSliceToForm("Animations", instanceWithInferedType, &instanceWithInferedType.Animations, formGroup, probe)
 		BasicFieldtoForm("IsSelectable", instanceWithInferedType.IsSelectable, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -853,7 +853,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -913,7 +913,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -966,7 +966,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		AssociationSliceToForm("Animates", instanceWithInferedType, &instanceWithInferedType.Animates, formGroup, probe)
 		{
 			var rf models.ReverseField
@@ -1012,7 +1012,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -1070,7 +1070,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("StrokeDashArrayWhenSelected", instanceWithInferedType.StrokeDashArrayWhenSelected, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 400)
 		AssociationSliceToForm("Animates", instanceWithInferedType, &instanceWithInferedType.Animates, formGroup, probe)
 		{
 			var rf models.ReverseField

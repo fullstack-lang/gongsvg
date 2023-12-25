@@ -61,6 +61,23 @@
 			"group": "build"
 		},
 		{
+			"label": "02 - go run  --unmarshallFromCode=new.go --marshallOnCommit=new",
+			"type": "shell",
+			"options": {
+				"cwd": "./go/cmd/gongsvg"
+			},
+			"command": "go",
+			"args": [
+				"run",
+				"main.go",
+				"-unmarshallFromCode",
+				"new.go",
+				"-marshallOnCommit",
+				"new"
+			],
+			"group": "build"
+		},
+		{
 			"label": "02 - go run  --unmarshallFromCode=rectangle.go --marshallOnCommit=rectangle_out",
 			"type": "shell",
 			"options": {
@@ -199,6 +216,21 @@
 			"args": [
 				"-skipGoModCommands",
 				"-compileForDebug",
+				"-skipNpmInstall"
+			],
+			"group": "build"
+		},
+		{
+			"label": "01 - gongc -skipGoModCommands -skipNpmInstall -skipNg -compileForDebug go/models",
+			"type": "shell",
+			"options": {
+				"cwd": "go/models"
+			},
+			"command": "gongc",
+			"args": [
+				"-skipGoModCommands",
+				"-compileForDebug",
+				"-skipNg",
 				"-skipNpmInstall"
 			],
 			"group": "build"

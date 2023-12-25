@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -260,16 +261,16 @@ Third Line`
 	__Rect__000001_Middle_Rect.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000001_Middle_Rect.Transform = ``
 	__Rect__000001_Middle_Rect.IsSelectable = true
-	__Rect__000001_Middle_Rect.IsSelected = true
+	__Rect__000001_Middle_Rect.IsSelected = false
 	__Rect__000001_Middle_Rect.CanHaveLeftHandle = true
-	__Rect__000001_Middle_Rect.HasLeftHandle = true
+	__Rect__000001_Middle_Rect.HasLeftHandle = false
 	__Rect__000001_Middle_Rect.CanHaveRightHandle = true
-	__Rect__000001_Middle_Rect.HasRightHandle = true
+	__Rect__000001_Middle_Rect.HasRightHandle = false
 	__Rect__000001_Middle_Rect.CanHaveTopHandle = true
-	__Rect__000001_Middle_Rect.HasTopHandle = true
+	__Rect__000001_Middle_Rect.HasTopHandle = false
 	__Rect__000001_Middle_Rect.IsScalingProportionally = true
 	__Rect__000001_Middle_Rect.CanHaveBottomHandle = true
-	__Rect__000001_Middle_Rect.HasBottomHandle = true
+	__Rect__000001_Middle_Rect.HasBottomHandle = false
 	__Rect__000001_Middle_Rect.CanMoveHorizontaly = true
 	__Rect__000001_Middle_Rect.CanMoveVerticaly = true
 
@@ -494,7 +495,7 @@ line 3`
 	__Rect__000000_Bottom.RectAnchoredTexts = append(__Rect__000000_Bottom.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
 	__Rect__000000_Bottom.RectAnchoredRects = append(__Rect__000000_Bottom.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
 	__Rect__000000_Bottom.RectAnchoredPaths = append(__Rect__000000_Bottom.RectAnchoredPaths, __RectAnchoredPath__000001_second_log)
-	__Rect__000001_Middle_Rect.RectAnchoredPaths = append(__Rect__000001_Middle_Rect.RectAnchoredPaths, __RectAnchoredPath__000000_Logo_to_add)
+	__Rect__000001_Middle_Rect.RectAnchoredPaths = append(__Rect__000001_Middle_Rect.RectAnchoredPaths, __RectAnchoredPath__000001_second_log)
 	__Rect__000002_Top.RectAnchoredRects = append(__Rect__000002_Top.RectAnchoredRects, __RectAnchoredRect__000000_Rect_within_top)
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Start = __Rect__000001_Middle_Rect
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.End = __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal
@@ -506,3 +507,5 @@ line 3`
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top
 }
+
+

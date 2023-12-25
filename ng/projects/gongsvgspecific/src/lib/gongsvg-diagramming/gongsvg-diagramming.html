@@ -218,6 +218,14 @@
                             anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset , }
                         ">
                     </ng-container>
+                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_ANCHOR_CENTER" 
+                        [ngTemplateOutlet]="anchoredPath" 
+                        [ngTemplateOutletContext]="{ 
+                            path: rectAnchoredPath, 
+                            anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
+                            anchorY: rect.Y + rect.Height/2 + rectAnchoredPath.Y_Offset , }
+                        ">
+                    </ng-container>
                 </ng-container>
                 <ng-container *ngFor='let text of rect.RectAnchoredTexts!; let i = index'>
                     <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_ANCHOR_TOP_LEFT" 

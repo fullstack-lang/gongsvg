@@ -218,6 +218,14 @@
                             anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset , }
                         ">
                     </ng-container>
+                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_ANCHOR_BOTTOM_LEFT" 
+                    [ngTemplateOutlet]="anchoredPath" 
+                    [ngTemplateOutletContext]="{ 
+                        path: rectAnchoredPath, 
+                        anchorX: rect.X + rectAnchoredPath.X_Offset, 
+                        anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset ,}
+                    ">
+                </ng-container>
                     <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_ANCHOR_CENTER" 
                         [ngTemplateOutlet]="anchoredPath" 
                         [ngTemplateOutletContext]="{ 
@@ -526,7 +534,7 @@
     <ng-container *ngIf="path.ScalePropotionnally">
         <!-- <svg:g [attr.transform]="'translate(-' + anchorX + ' -' + anchorY + ') scale( ' + path.AppliedScaling + ' ' + path.AppliedScaling + ') translate(' + anchorX + ' ' + anchorY + ') translate(' + anchorX + ' ' + anchorY + ')'"> -->
 
-        <svg:g [attr.transform]="'scale( ' + path.AppliedScaling + ' ' + path.AppliedScaling + ') translate(' + anchorX + ' ' + anchorY + ')'">
+        <svg:g [attr.transform]="'translate(' + anchorX + ' ' + anchorY + ') scale(' + path.AppliedScaling + ' ' + path.AppliedScaling + ')'">
             <svg:path   
                 class="click-through"
                 [attr.d]="path.Definition"
@@ -534,7 +542,7 @@
                 [attr.fill-opacity]="path.FillOpacity"
                 [attr.stroke]="path.Stroke"
                 [attr.stroke-width]="path.StrokeWidth"
-                [attr.transform]="path.Transform"
+                
             > </path>
         </svg:g>
     </ng-container>

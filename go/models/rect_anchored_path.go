@@ -8,6 +8,7 @@ type RectAnchoredPath struct {
 	X_Offset float64
 	Y_Offset float64
 
+	// gong:width 400
 	RectAnchorType RectAnchorType
 
 	// if true, rect has the same Dimension that the rect it is anchored to

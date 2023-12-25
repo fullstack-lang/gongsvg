@@ -187,6 +187,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
     public rectService: gongsvg.RectService,
     private linkService: gongsvg.LinkService,
     private anchoredTextService: gongsvg.LinkAnchoredTextService,
+    private rectAnchoredPathService: gongsvg.RectAnchoredPathService,
 
     private changeDetectorRef: ChangeDetectorRef,
   ) { }
@@ -408,6 +409,12 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
     if (this.State == StateEnumType.RECT_ANCHOR_DRAGGING) {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state at exit", this.State)
+
+      // the path have to be updated first
+      for (let path of this.draggedRect!.RectAnchoredPaths) {
+        this.rectAnchoredPathService.update(path, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+      }
+
       this.rectService.updateRect(this.draggedRect!,
         this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
     }

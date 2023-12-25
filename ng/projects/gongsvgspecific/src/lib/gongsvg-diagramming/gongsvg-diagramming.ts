@@ -24,11 +24,11 @@ import { LinkConf, computeLinkFromMouseEvent } from '../compute.link.from.mouse.
 import { updateLinkFromCursor } from '../update.link.from.cursor';
 
 @Component({
-  selector: 'lib-diagram-svg',
-  templateUrl: './diagram-svg.component.html',
-  styleUrls: ['./diagram-svg.component.css']
+  selector: 'lib-gongsvg-diagramming',
+  templateUrl: './gongsvg-diagramming.html',
+  styleUrls: ['./gongsvg-diagramming.css']
 })
-export class DiagramSvgComponent implements OnInit, OnDestroy {
+export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
 
   @Input() GONG__StackPath: string = ""
 

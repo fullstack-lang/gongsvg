@@ -248,10 +248,10 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 514.000000
+	__Rect__000001_Middle_Rect.X = 459.000000
 	__Rect__000001_Middle_Rect.Y = 324.000000
-	__Rect__000001_Middle_Rect.Width = 224.000000
-	__Rect__000001_Middle_Rect.Height = 103.000000
+	__Rect__000001_Middle_Rect.Width = 204.454545
+	__Rect__000001_Middle_Rect.Height = 134.940000
 	__Rect__000001_Middle_Rect.RX = 3.000000
 	__Rect__000001_Middle_Rect.Color = `lavender`
 	__Rect__000001_Middle_Rect.FillOpacity = 50.000000

@@ -486,19 +486,45 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       this.map_Link_Segment.set(this.draggedLink!, segments)
     }
 
+
+
+
     if (this.State == StateEnumType.RECT_ANCHOR_DRAGGING) {
       let deltaX = this.PointAtMouseMove.X - this.PointAtMouseDown!.X
       let deltaY = this.PointAtMouseMove.Y - this.PointAtMouseDown!.Y
+
+
+      let scaleProportionally = this.draggedRect?.IsScalingProportionally &&
+        this.RectAtMouseDown!.Width > 0 &&
+        this.RectAtMouseDown!.Height > 0
+
       if (this.activeAnchor === 'left') {
         this.draggedRect!.X = this.RectAtMouseDown!.X + deltaX
         this.draggedRect!.Width = this.RectAtMouseDown!.Width - deltaX
+        if (scaleProportionally) {
+          let scale = this.draggedRect!.Width / this.RectAtMouseDown!.Width
+          this.draggedRect!.Height = this.RectAtMouseDown!.Height * scale
+        }
       } else if (this.activeAnchor === 'right') {
         this.draggedRect!.Width = this.RectAtMouseDown!.Width + deltaX
+        if (scaleProportionally) {
+          let scale = this.draggedRect!.Width / this.RectAtMouseDown!.Width
+          this.draggedRect!.Height = this.RectAtMouseDown!.Height * scale
+        }
       } else if (this.activeAnchor === 'top') {
         this.draggedRect!.Y = this.RectAtMouseDown!.Y + deltaY
         this.draggedRect!.Height = this.RectAtMouseDown!.Height - deltaY
+
+        if (scaleProportionally) {
+          let scale = this.draggedRect!.Height / this.RectAtMouseDown!.Height
+          this.draggedRect!.Width = this.RectAtMouseDown!.Width * scale
+        }
       } else if (this.activeAnchor === 'bottom') {
         this.draggedRect!.Height = this.RectAtMouseDown!.Height + deltaY
+        if (scaleProportionally) {
+          let scale = this.draggedRect!.Height / this.RectAtMouseDown!.Height
+          this.draggedRect!.Width = this.RectAtMouseDown!.Width * scale
+        }
       }
 
       // recompute segments of links connected to the resized rect

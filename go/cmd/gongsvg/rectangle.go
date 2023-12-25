@@ -239,6 +239,7 @@ Third Line`
 	__Rect__000000_Bottom.HasRightHandle = false
 	__Rect__000000_Bottom.CanHaveTopHandle = true
 	__Rect__000000_Bottom.HasTopHandle = false
+	__Rect__000000_Bottom.IsScalingProportionally = false
 	__Rect__000000_Bottom.CanHaveBottomHandle = true
 	__Rect__000000_Bottom.HasBottomHandle = false
 	__Rect__000000_Bottom.CanMoveHorizontaly = true
@@ -259,15 +260,16 @@ Third Line`
 	__Rect__000001_Middle_Rect.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000001_Middle_Rect.Transform = ``
 	__Rect__000001_Middle_Rect.IsSelectable = true
-	__Rect__000001_Middle_Rect.IsSelected = false
+	__Rect__000001_Middle_Rect.IsSelected = true
 	__Rect__000001_Middle_Rect.CanHaveLeftHandle = true
-	__Rect__000001_Middle_Rect.HasLeftHandle = false
+	__Rect__000001_Middle_Rect.HasLeftHandle = true
 	__Rect__000001_Middle_Rect.CanHaveRightHandle = true
-	__Rect__000001_Middle_Rect.HasRightHandle = false
+	__Rect__000001_Middle_Rect.HasRightHandle = true
 	__Rect__000001_Middle_Rect.CanHaveTopHandle = true
-	__Rect__000001_Middle_Rect.HasTopHandle = false
+	__Rect__000001_Middle_Rect.HasTopHandle = true
+	__Rect__000001_Middle_Rect.IsScalingProportionally = true
 	__Rect__000001_Middle_Rect.CanHaveBottomHandle = true
-	__Rect__000001_Middle_Rect.HasBottomHandle = false
+	__Rect__000001_Middle_Rect.HasBottomHandle = true
 	__Rect__000001_Middle_Rect.CanMoveHorizontaly = true
 	__Rect__000001_Middle_Rect.CanMoveVerticaly = true
 
@@ -293,6 +295,7 @@ Third Line`
 	__Rect__000002_Top.HasRightHandle = false
 	__Rect__000002_Top.CanHaveTopHandle = false
 	__Rect__000002_Top.HasTopHandle = false
+	__Rect__000002_Top.IsScalingProportionally = false
 	__Rect__000002_Top.CanHaveBottomHandle = false
 	__Rect__000002_Top.HasBottomHandle = false
 	__Rect__000002_Top.CanMoveHorizontaly = true

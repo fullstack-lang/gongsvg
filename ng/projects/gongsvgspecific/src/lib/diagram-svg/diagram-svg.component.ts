@@ -125,6 +125,8 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   anchorDragging: boolean = false
   activeAnchor: 'left' | 'right' | 'top' | 'bottom' = 'left'
   RectAtMouseDown: gongsvg.RectDB | undefined
+  map_SelectedRectAtMouseDown: Map<gongsvg.RectDB, gongsvg.RectDB> = new (Map<gongsvg.RectDB, gongsvg.RectDB>)
+
   // a rect that is scaled might have anchored path to it
   // if the path scale proportionnaly with the shape, one
   // have to store a clone at mouse down to compute the scaled path
@@ -515,6 +517,28 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
           this.map_Link_Segment.set(link, segments)
         }
       }
+
+      for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+        for (let rect_ of layer.Rects) {
+          if (rect_.IsSelected) {
+            let rectAtMouseDown_ = this.map_SelectedRectAtMouseDown.get(rect_)
+            if (rect_.CanMoveHorizontaly) {
+              rect_.X = rectAtMouseDown_!.X + deltaX
+            }
+            if (rect_.CanMoveVerticaly) {
+              rect_.Y = rectAtMouseDown_!.Y + deltaY
+            }
+            // recompute segments of links connected to the resized rect
+            let set = this.map_Rect_ConnectedLinks.get(rect_)
+            if (set != undefined) {
+              for (let link of set) {
+                let segments = drawSegmentsFromLink(link)
+                this.map_Link_Segment.set(link, segments)
+              }
+            }
+          }
+        }
+      }
     }
 
     if (this.State == StateEnumType.RECT_ANCHOR_DRAGGING) {
@@ -626,10 +650,18 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       this.State = StateEnumType.RECTS_DRAGGING
       this.RectAtMouseDown = structuredClone(rect)
       this.draggedRect = rect
-      this.RectAnchoredPathsAtMouseDown.clear
+      this.RectAnchoredPathsAtMouseDown.clear()
       for (let rectAnchoredPath of this.draggedRect!.RectAnchoredPaths) {
         if (rectAnchoredPath.ScalePropotionnally) {
           this.RectAnchoredPathsAtMouseDown.set(rectAnchoredPath, structuredClone(rectAnchoredPath))
+        }
+      }
+      this.map_SelectedRectAtMouseDown.clear()
+      for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+        for (let rect of layer.Rects) {
+          if (rect.IsSelected) {
+            this.map_SelectedRectAtMouseDown.set(rect, structuredClone(rect))
+          }
         }
       }
     }

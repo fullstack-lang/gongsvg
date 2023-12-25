@@ -63,6 +63,9 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   splitTextIntoLines(text: string): string[] {
     return text.split('\n')
   }
+  // map of rects to link
+  // it is used to update the connected link
+  map_Rect_ConnectedLinks: Map<gongsvg.RectDB, Set<gongsvg.LinkDB>> = new (Map<gongsvg.RectDB, Set<gongsvg.LinkDB>>)
 
   //
   // LINK MANAGEMENT
@@ -121,6 +124,12 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   draggedRect: gongsvg.RectDB | undefined
   anchorDragging: boolean = false
   activeAnchor: 'left' | 'right' | 'top' | 'bottom' = 'left'
+  RectAtMouseDown: gongsvg.RectDB | undefined
+  // a rect that is scaled might have anchored path to it
+  // if the path scale proportionnaly with the shape, one
+  // have to store a clone at mouse down to compute the scaled path
+  RectAnchoredPathsAtMouseDown: Map<gongsvg.RectAnchoredPathDB, gongsvg.RectAnchoredPathDB> =
+    new Map<gongsvg.RectAnchoredPathDB, gongsvg.RectAnchoredPathDB>
 
   // display or not handles if selected or not
   manageHandles(rect: gongsvg.RectDB) {
@@ -171,15 +180,11 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
     public gongsvgFrontRepoService: gongsvg.FrontRepoService,
     private gongsvgNbFromBackService: gongsvg.CommitNbFromBackService,
     public svgService: gongsvg.SVGService,
-    private rectangleEventService: RectangleEventService,
-    private svgEventService: SvgEventService,
     public isEditableService: IsEditableService,
 
     public rectService: gongsvg.RectService,
     private linkService: gongsvg.LinkService,
     private anchoredTextService: gongsvg.LinkAnchoredTextService,
-
-    private refreshService: RefreshService,
 
     private changeDetectorRef: ChangeDetectorRef,
   ) { }
@@ -243,26 +248,32 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
         // compute segments for links
         this.map_Link_Segment.clear()
+        this.map_Rect_ConnectedLinks.clear()
 
+        // compute map of rect to links
         for (let layer of this.gongsvgFrontRepo.Layers_array) {
           for (let link of layer.Links) {
-            let segmentsParams = {
-              StartRect: link.Start!,
-              EndRect: link.End!,
-              StartDirection: link.StartOrientation! as gongsvg.OrientationType,
-              EndDirection: link.EndOrientation! as gongsvg.OrientationType,
-              StartRatio: link.StartRatio,
-              EndRatio: link.EndRatio,
-              CornerOffsetRatio: link.CornerOffsetRatio,
-              CornerRadius: link.CornerRadius,
-            }
-
-            let segments = drawSegments(segmentsParams)
+            let segments = drawSegmentsFromLink(link)
             this.map_Link_Segment.set(link, segments)
+
+            let connectedLinksViaStart = this.map_Rect_ConnectedLinks.get(link.Start!)
+            if (connectedLinksViaStart == undefined) {
+              connectedLinksViaStart = new Set<gongsvg.LinkDB>
+              this.map_Rect_ConnectedLinks.set(link.Start!, connectedLinksViaStart)
+            }
+            connectedLinksViaStart.add(link)
+
+            let connectedLinksViaEnd = this.map_Rect_ConnectedLinks.get(link.End!)
+            if (connectedLinksViaEnd == undefined) {
+              connectedLinksViaEnd = new Set<gongsvg.LinkDB>
+              this.map_Rect_ConnectedLinks.set(link.End!, connectedLinksViaEnd)
+            }
+            connectedLinksViaEnd.add(link)
           }
         }
 
         this.resetAllLinksPreviousStartEndRects()
+
 
         // Manually trigger change detection
         this.changeDetectorRef.detectChanges()
@@ -302,7 +313,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
             break;
           case StateEnumType.RECTS_DRAGGING:
             break;
-          case StateEnumType.ANCHORS_DRAGGING:
+          case StateEnumType.RECT_ANCHOR_DRAGGING:
             break;
           case StateEnumType.LINK_ANCHORED_TEXT_DRAGGING:
             unselectRect = true
@@ -392,11 +403,16 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       document.body.style.cursor = ''
     }
 
+    if (this.State == StateEnumType.RECT_ANCHOR_DRAGGING) {
+      this.State = StateEnumType.WAITING_FOR_USER_INPUT
+      console.log(getFunctionName(), "state at exit", this.State)
+      this.rectService.updateRect(this.draggedRect!,
+        this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+    }
+
     this.computeShapeStates()
     this.changeDetectorRef.detectChanges()
   }
-
-
 
   Math = Math
 
@@ -434,7 +450,7 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
 
   onmousemove(event: MouseEvent, source?: string): void {
     this.PointAtMouseMove = mouseCoordInComponentRef(event)
-    // console.log(getFunctionName(), source, event.buttons)
+    // console.log(getFunctionName(), this.PointAtMouseMove)
 
     // case when the user releases the shift key
     if (this.State == StateEnumType.MULTI_RECTS_SELECTION && !event.shiftKey) {
@@ -475,6 +491,68 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       this.map_Link_Segment.set(this.draggedLink!, segments)
     }
 
+
+
+
+    if (this.State == StateEnumType.RECT_ANCHOR_DRAGGING) {
+      let deltaX = this.PointAtMouseMove.X - this.PointAtMouseDown!.X
+      let deltaY = this.PointAtMouseMove.Y - this.PointAtMouseDown!.Y
+
+
+      let scaleProportionally = this.draggedRect?.IsScalingProportionally &&
+        this.RectAtMouseDown!.Width > 0 &&
+        this.RectAtMouseDown!.Height > 0
+
+      let scale = 0
+
+      if (this.activeAnchor === 'left') {
+        this.draggedRect!.X = this.RectAtMouseDown!.X + deltaX
+        this.draggedRect!.Width = this.RectAtMouseDown!.Width - deltaX
+        if (scaleProportionally) {
+          scale = this.draggedRect!.Width / this.RectAtMouseDown!.Width
+          this.draggedRect!.Height = this.RectAtMouseDown!.Height * scale
+        }
+      } else if (this.activeAnchor === 'right') {
+        this.draggedRect!.Width = this.RectAtMouseDown!.Width + deltaX
+        if (scaleProportionally) {
+          scale = this.draggedRect!.Width / this.RectAtMouseDown!.Width
+          this.draggedRect!.Height = this.RectAtMouseDown!.Height * scale
+        }
+      } else if (this.activeAnchor === 'top') {
+        this.draggedRect!.Y = this.RectAtMouseDown!.Y + deltaY
+        this.draggedRect!.Height = this.RectAtMouseDown!.Height - deltaY
+
+        if (scaleProportionally) {
+          scale = this.draggedRect!.Height / this.RectAtMouseDown!.Height
+          this.draggedRect!.Width = this.RectAtMouseDown!.Width * scale
+        }
+      } else if (this.activeAnchor === 'bottom') {
+        this.draggedRect!.Height = this.RectAtMouseDown!.Height + deltaY
+        if (scaleProportionally) {
+          scale = this.draggedRect!.Height / this.RectAtMouseDown!.Height
+          this.draggedRect!.Width = this.RectAtMouseDown!.Width * scale
+        }
+      }
+
+      for (let path of this.draggedRect!.RectAnchoredPaths) {
+        if (scaleProportionally && path.ScalePropotionnally) {
+          // get clone at mouse down
+          let clonedPath = this.RectAnchoredPathsAtMouseDown.get(path)
+          if (clonedPath) {
+            path.AppliedScaling = clonedPath.AppliedScaling * scale
+          }
+        }
+      }
+
+      // recompute segments of links connected to the resized rect
+      let set = this.map_Rect_ConnectedLinks.get(this.draggedRect!)
+      if (set != undefined) {
+        for (let link of set) {
+          let segments = drawSegmentsFromLink(link)
+          this.map_Link_Segment.set(link, segments)
+        }
+      }
+    }
     this.changeDetectorRef.detectChanges()
   }
 
@@ -547,7 +625,21 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   }
 
   anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: gongsvg.RectDB): void {
+    this.PointAtMouseDown = mouseCoordInComponentRef(event)
+    if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey && !event.shiftKey) {
+      this.State = StateEnumType.RECT_ANCHOR_DRAGGING
+      console.log(getFunctionName(), "state at exit", this.State)
 
+      this.activeAnchor = anchor
+      this.draggedRect = rect
+      this.RectAtMouseDown = structuredClone(rect)
+      this.RectAnchoredPathsAtMouseDown.clear
+      for (let rectAnchoredPath of this.draggedRect!.RectAnchoredPaths) {
+        if (rectAnchoredPath.ScalePropotionnally) {
+          this.RectAnchoredPathsAtMouseDown.set(rectAnchoredPath, structuredClone(rectAnchoredPath))
+        }
+      }
+    }
   }
   anchorMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)

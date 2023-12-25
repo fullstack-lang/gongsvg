@@ -4,13 +4,14 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_rectangle models.StageStruct
-var ___dummy__Time_rectangle time.Time
+var ___dummy__Stage_rectangle_out models.StageStruct
+var ___dummy__Time_rectangle_out time.Time
 
 // Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -21,7 +22,7 @@ var ___dummy__Time_rectangle time.Time
 // [Corresponding Issue](https://github.com/golang/go/issues/57559)
 //
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_rectangle map[string]any = map[string]any{
+var map_DocLink_Identifier_rectangle_out map[string]any = map[string]any{
 	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
 }
 
@@ -29,11 +30,11 @@ var map_DocLink_Identifier_rectangle map[string]any = map[string]any{
 // but it has to properly reference the Injection gateway in the main package
 // func init() {
 // 	_ = __Dummy_time_variable
-// 	InjectionGateway["rectangle"] = rectangleInjection
+// 	InjectionGateway["rectangle_out"] = rectangle_outInjection
 // }
 
-// rectangleInjection will stage objects of database "rectangle"
-func rectangleInjection(stage *models.StageStruct) {
+// rectangle_outInjection will stage objects of database "rectangle_out"
+func rectangle_outInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
@@ -260,16 +261,16 @@ Third Line`
 	__Rect__000001_Middle_Rect.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000001_Middle_Rect.Transform = ``
 	__Rect__000001_Middle_Rect.IsSelectable = true
-	__Rect__000001_Middle_Rect.IsSelected = true
+	__Rect__000001_Middle_Rect.IsSelected = false
 	__Rect__000001_Middle_Rect.CanHaveLeftHandle = true
-	__Rect__000001_Middle_Rect.HasLeftHandle = true
+	__Rect__000001_Middle_Rect.HasLeftHandle = false
 	__Rect__000001_Middle_Rect.CanHaveRightHandle = true
-	__Rect__000001_Middle_Rect.HasRightHandle = true
+	__Rect__000001_Middle_Rect.HasRightHandle = false
 	__Rect__000001_Middle_Rect.CanHaveTopHandle = true
-	__Rect__000001_Middle_Rect.HasTopHandle = true
+	__Rect__000001_Middle_Rect.HasTopHandle = false
 	__Rect__000001_Middle_Rect.IsScalingProportionally = true
 	__Rect__000001_Middle_Rect.CanHaveBottomHandle = true
-	__Rect__000001_Middle_Rect.HasBottomHandle = true
+	__Rect__000001_Middle_Rect.HasBottomHandle = false
 	__Rect__000001_Middle_Rect.CanMoveHorizontaly = true
 	__Rect__000001_Middle_Rect.CanMoveVerticaly = true
 
@@ -506,3 +507,5 @@ line 3`
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top
 }
+
+

@@ -502,15 +502,32 @@
 </ng-template>
 
 <ng-template #anchoredPath let-path="path" let-anchorX="anchorX" let-anchorY="anchorY">
-    <svg:g [attr.transform]="'translate(' + anchorX + ' ' + anchorY + ')'">
-        <svg:path   
-            class="click-through"
-            [attr.d]="path.Definition"
-            [attr.fill]="path.Color"
-            [attr.fill-opacity]="path.FillOpacity"
-            [attr.stroke]="path.Stroke"
-            [attr.stroke-width]="path.StrokeWidth"
-            [attr.transform]="path.Transform"
-        > </path>
-    </svg:g>
+    <ng-container *ngIf="!path.ScalePropotionnally">
+        <svg:g [attr.transform]="'translate(' + anchorX + ' ' + anchorY + ')'">
+            <svg:path   
+                class="click-through"
+                [attr.d]="path.Definition"
+                [attr.fill]="path.Color"
+                [attr.fill-opacity]="path.FillOpacity"
+                [attr.stroke]="path.Stroke"
+                [attr.stroke-width]="path.StrokeWidth"
+                [attr.transform]="path.Transform"
+            > </path>
+        </svg:g>
+    </ng-container>
+    <ng-container *ngIf="path.ScalePropotionnally">
+        <!-- <svg:g [attr.transform]="'translate(-' + anchorX + ' -' + anchorY + ') scale( ' + path.AppliedScaling + ' ' + path.AppliedScaling + ') translate(' + anchorX + ' ' + anchorY + ') translate(' + anchorX + ' ' + anchorY + ')'"> -->
+
+        <svg:g [attr.transform]="'scale( ' + path.AppliedScaling + ' ' + path.AppliedScaling + ') translate(' + anchorX + ' ' + anchorY + ')'">
+            <svg:path   
+                class="click-through"
+                [attr.d]="path.Definition"
+                [attr.fill]="path.Color"
+                [attr.fill-opacity]="path.FillOpacity"
+                [attr.stroke]="path.Stroke"
+                [attr.stroke-width]="path.StrokeWidth"
+                [attr.transform]="path.Transform"
+            > </path>
+        </svg:g>
+    </ng-container>
 </ng-template>

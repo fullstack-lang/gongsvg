@@ -671,8 +671,6 @@ var map_DocLink_Identifier_Default_2 map[string]any = map[string]any{
 
 	"ref_models.RectAnchoredPath.FillOpacity": (ref_models.RectAnchoredPath{}).FillOpacity,
 
-	"ref_models.RectAnchoredPath.HeightFollowRect": (ref_models.RectAnchoredPath{}).HeightFollowRect,
-
 	"ref_models.RectAnchoredPath.Name": (ref_models.RectAnchoredPath{}).Name,
 
 	"ref_models.RectAnchoredPath.RectAnchorType": (ref_models.RectAnchoredPath{}).RectAnchorType,
@@ -689,7 +687,6 @@ var map_DocLink_Identifier_Default_2 map[string]any = map[string]any{
 
 	"ref_models.RectAnchoredPath.Transform": (ref_models.RectAnchoredPath{}).Transform,
 
-	"ref_models.RectAnchoredPath.WidthFollowRect": (ref_models.RectAnchoredPath{}).WidthFollowRect,
 
 	"ref_models.RectAnchoredPath.X_Offset": (ref_models.RectAnchoredPath{}).X_Offset,
 

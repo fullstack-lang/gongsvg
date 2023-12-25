@@ -789,6 +789,8 @@ func FillUpForm[T models.Gongstruct](
 			false, false, 0, false, 0)
 		BasicFieldtoForm("HasTopHandle", instanceWithInferedType.HasTopHandle, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("IsScalingProportionally", instanceWithInferedType.IsScalingProportionally, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		BasicFieldtoForm("CanHaveBottomHandle", instanceWithInferedType.CanHaveBottomHandle, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("HasBottomHandle", instanceWithInferedType.HasBottomHandle, instanceWithInferedType, probe.formStage, formGroup,

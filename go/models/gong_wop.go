@@ -181,6 +181,7 @@ type Rect_WOP struct {
 	HasRightHandle bool
 	CanHaveTopHandle bool
 	HasTopHandle bool
+	IsScalingProportionally bool
 	CanHaveBottomHandle bool
 	HasBottomHandle bool
 	CanMoveHorizontaly bool

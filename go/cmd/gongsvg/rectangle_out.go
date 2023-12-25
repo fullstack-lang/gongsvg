@@ -168,11 +168,11 @@ Line 2`}).Stage(stage)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.653846
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.034810
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -0.317246
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.740216
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.624921
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -0.192308
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -191,8 +191,8 @@ Line 2`}).Stage(stage)
 Line 2`
 	__LinkAnchoredText__000000_Liine_1_Line_2.Content = `Liine 1
 Line 2`
-	__LinkAnchoredText__000000_Liine_1_Line_2.X_Offset = -85.000000
-	__LinkAnchoredText__000000_Liine_1_Line_2.Y_Offset = -15.000000
+	__LinkAnchoredText__000000_Liine_1_Line_2.X_Offset = -79.000000
+	__LinkAnchoredText__000000_Liine_1_Line_2.Y_Offset = -22.000000
 	__LinkAnchoredText__000000_Liine_1_Line_2.FontWeight = `normal`
 	__LinkAnchoredText__000000_Liine_1_Line_2.Color = `black`
 	__LinkAnchoredText__000000_Liine_1_Line_2.FillOpacity = 100.000000
@@ -240,6 +240,7 @@ Third Line`
 	__Rect__000000_Bottom.HasRightHandle = false
 	__Rect__000000_Bottom.CanHaveTopHandle = true
 	__Rect__000000_Bottom.HasTopHandle = false
+	__Rect__000000_Bottom.IsScalingProportionally = false
 	__Rect__000000_Bottom.CanHaveBottomHandle = true
 	__Rect__000000_Bottom.HasBottomHandle = false
 	__Rect__000000_Bottom.CanMoveHorizontaly = true
@@ -247,10 +248,10 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 518.000000
+	__Rect__000001_Middle_Rect.X = 514.000000
 	__Rect__000001_Middle_Rect.Y = 324.000000
-	__Rect__000001_Middle_Rect.Width = 196.000000
-	__Rect__000001_Middle_Rect.Height = 132.000000
+	__Rect__000001_Middle_Rect.Width = 224.000000
+	__Rect__000001_Middle_Rect.Height = 103.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
 	__Rect__000001_Middle_Rect.Color = `lavender`
 	__Rect__000001_Middle_Rect.FillOpacity = 50.000000
@@ -260,23 +261,24 @@ Third Line`
 	__Rect__000001_Middle_Rect.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000001_Middle_Rect.Transform = ``
 	__Rect__000001_Middle_Rect.IsSelectable = true
-	__Rect__000001_Middle_Rect.IsSelected = true
+	__Rect__000001_Middle_Rect.IsSelected = false
 	__Rect__000001_Middle_Rect.CanHaveLeftHandle = true
-	__Rect__000001_Middle_Rect.HasLeftHandle = true
+	__Rect__000001_Middle_Rect.HasLeftHandle = false
 	__Rect__000001_Middle_Rect.CanHaveRightHandle = true
-	__Rect__000001_Middle_Rect.HasRightHandle = true
+	__Rect__000001_Middle_Rect.HasRightHandle = false
 	__Rect__000001_Middle_Rect.CanHaveTopHandle = true
-	__Rect__000001_Middle_Rect.HasTopHandle = true
+	__Rect__000001_Middle_Rect.HasTopHandle = false
+	__Rect__000001_Middle_Rect.IsScalingProportionally = true
 	__Rect__000001_Middle_Rect.CanHaveBottomHandle = true
-	__Rect__000001_Middle_Rect.HasBottomHandle = true
+	__Rect__000001_Middle_Rect.HasBottomHandle = false
 	__Rect__000001_Middle_Rect.CanMoveHorizontaly = true
 	__Rect__000001_Middle_Rect.CanMoveVerticaly = true
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 80.999969
+	__Rect__000002_Top.X = 100.999969
 	__Rect__000002_Top.Y = 386.000000
-	__Rect__000002_Top.Width = 410.000000
+	__Rect__000002_Top.Width = 208.000000
 	__Rect__000002_Top.Height = 214.000000
 	__Rect__000002_Top.RX = 3.000000
 	__Rect__000002_Top.Color = `lightcyan`
@@ -294,6 +296,7 @@ Third Line`
 	__Rect__000002_Top.HasRightHandle = false
 	__Rect__000002_Top.CanHaveTopHandle = false
 	__Rect__000002_Top.HasTopHandle = false
+	__Rect__000002_Top.IsScalingProportionally = false
 	__Rect__000002_Top.CanHaveBottomHandle = false
 	__Rect__000002_Top.HasBottomHandle = false
 	__Rect__000002_Top.CanMoveHorizontaly = true

@@ -141,6 +141,10 @@ type RectDB struct {
 	// provide the sql storage for the boolan
 	HasTopHandle_Data sql.NullBool
 
+	// Declation for basic field rectDB.IsScalingProportionally
+	// provide the sql storage for the boolan
+	IsScalingProportionally_Data sql.NullBool
+
 	// Declation for basic field rectDB.CanHaveBottomHandle
 	// provide the sql storage for the boolan
 	CanHaveBottomHandle_Data sql.NullBool
@@ -219,13 +223,15 @@ type RectWOP struct {
 
 	HasTopHandle bool `xlsx:"21"`
 
-	CanHaveBottomHandle bool `xlsx:"22"`
+	IsScalingProportionally bool `xlsx:"22"`
 
-	HasBottomHandle bool `xlsx:"23"`
+	CanHaveBottomHandle bool `xlsx:"23"`
 
-	CanMoveHorizontaly bool `xlsx:"24"`
+	HasBottomHandle bool `xlsx:"24"`
 
-	CanMoveVerticaly bool `xlsx:"25"`
+	CanMoveHorizontaly bool `xlsx:"25"`
+
+	CanMoveVerticaly bool `xlsx:"26"`
 	// insertion for WOP pointer fields
 }
 
@@ -253,6 +259,7 @@ var Rect_Fields = []string{
 	"HasRightHandle",
 	"CanHaveTopHandle",
 	"HasTopHandle",
+	"IsScalingProportionally",
 	"CanHaveBottomHandle",
 	"HasBottomHandle",
 	"CanMoveHorizontaly",
@@ -694,6 +701,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 	rectDB.HasTopHandle_Data.Bool = rect.HasTopHandle
 	rectDB.HasTopHandle_Data.Valid = true
 
+	rectDB.IsScalingProportionally_Data.Bool = rect.IsScalingProportionally
+	rectDB.IsScalingProportionally_Data.Valid = true
+
 	rectDB.CanHaveBottomHandle_Data.Bool = rect.CanHaveBottomHandle
 	rectDB.CanHaveBottomHandle_Data.Valid = true
 
@@ -773,6 +783,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect_WOP(rect *models.Rect_WOP) {
 
 	rectDB.HasTopHandle_Data.Bool = rect.HasTopHandle
 	rectDB.HasTopHandle_Data.Valid = true
+
+	rectDB.IsScalingProportionally_Data.Bool = rect.IsScalingProportionally
+	rectDB.IsScalingProportionally_Data.Valid = true
 
 	rectDB.CanHaveBottomHandle_Data.Bool = rect.CanHaveBottomHandle
 	rectDB.CanHaveBottomHandle_Data.Valid = true
@@ -854,6 +867,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRectWOP(rect *RectWOP) {
 	rectDB.HasTopHandle_Data.Bool = rect.HasTopHandle
 	rectDB.HasTopHandle_Data.Valid = true
 
+	rectDB.IsScalingProportionally_Data.Bool = rect.IsScalingProportionally
+	rectDB.IsScalingProportionally_Data.Valid = true
+
 	rectDB.CanHaveBottomHandle_Data.Bool = rect.CanHaveBottomHandle
 	rectDB.CanHaveBottomHandle_Data.Valid = true
 
@@ -891,6 +907,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
 	rect.HasRightHandle = rectDB.HasRightHandle_Data.Bool
 	rect.CanHaveTopHandle = rectDB.CanHaveTopHandle_Data.Bool
 	rect.HasTopHandle = rectDB.HasTopHandle_Data.Bool
+	rect.IsScalingProportionally = rectDB.IsScalingProportionally_Data.Bool
 	rect.CanHaveBottomHandle = rectDB.CanHaveBottomHandle_Data.Bool
 	rect.HasBottomHandle = rectDB.HasBottomHandle_Data.Bool
 	rect.CanMoveHorizontaly = rectDB.CanMoveHorizontaly_Data.Bool
@@ -921,6 +938,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRect_WOP(rect *models.Rect_WOP) {
 	rect.HasRightHandle = rectDB.HasRightHandle_Data.Bool
 	rect.CanHaveTopHandle = rectDB.CanHaveTopHandle_Data.Bool
 	rect.HasTopHandle = rectDB.HasTopHandle_Data.Bool
+	rect.IsScalingProportionally = rectDB.IsScalingProportionally_Data.Bool
 	rect.CanHaveBottomHandle = rectDB.CanHaveBottomHandle_Data.Bool
 	rect.HasBottomHandle = rectDB.HasBottomHandle_Data.Bool
 	rect.CanMoveHorizontaly = rectDB.CanMoveHorizontaly_Data.Bool
@@ -952,6 +970,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRectWOP(rect *RectWOP) {
 	rect.HasRightHandle = rectDB.HasRightHandle_Data.Bool
 	rect.CanHaveTopHandle = rectDB.CanHaveTopHandle_Data.Bool
 	rect.HasTopHandle = rectDB.HasTopHandle_Data.Bool
+	rect.IsScalingProportionally = rectDB.IsScalingProportionally_Data.Bool
 	rect.CanHaveBottomHandle = rectDB.CanHaveBottomHandle_Data.Bool
 	rect.HasBottomHandle = rectDB.HasBottomHandle_Data.Bool
 	rect.CanMoveHorizontaly = rectDB.CanMoveHorizontaly_Data.Bool

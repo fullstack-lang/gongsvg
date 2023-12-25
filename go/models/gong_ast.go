@@ -2099,6 +2099,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_Rect[identifier].HasTopHandle = fielValue
+				case "IsScalingProportionally":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].IsScalingProportionally = fielValue
 				case "CanHaveBottomHandle":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)

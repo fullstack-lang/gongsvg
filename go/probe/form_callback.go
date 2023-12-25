@@ -2005,6 +2005,8 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.CanHaveTopHandle), formDiv)
 		case "HasTopHandle":
 			FormDivBasicFieldToField(&(rect_.HasTopHandle), formDiv)
+		case "IsScalingProportionally":
+			FormDivBasicFieldToField(&(rect_.IsScalingProportionally), formDiv)
 		case "CanHaveBottomHandle":
 			FormDivBasicFieldToField(&(rect_.CanHaveBottomHandle), formDiv)
 		case "HasBottomHandle":

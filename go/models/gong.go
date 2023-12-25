@@ -2808,7 +2808,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Rect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths"}
 	case RectAnchoredPath:
-		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "ScalePropotionnally", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case RectAnchoredRect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case RectAnchoredText:
@@ -3008,7 +3008,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Rect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths"}
 	case *RectAnchoredPath:
-		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "ScalePropotionnally", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *RectAnchoredRect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *RectAnchoredText:
@@ -3536,12 +3536,10 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		case "RectAnchorType":
 			enum := inferedInstance.RectAnchorType
 			res = enum.ToCodeString()
-		case "WidthFollowRect":
-			res = fmt.Sprintf("%t", inferedInstance.WidthFollowRect)
-		case "HeightFollowRect":
-			res = fmt.Sprintf("%t", inferedInstance.HeightFollowRect)
 		case "ScalePropotionnally":
 			res = fmt.Sprintf("%t", inferedInstance.ScalePropotionnally)
+		case "AppliedScaling":
+			res = fmt.Sprintf("%f", inferedInstance.AppliedScaling)
 		case "Color":
 			res = inferedInstance.Color
 		case "FillOpacity":
@@ -4249,12 +4247,10 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "RectAnchorType":
 			enum := inferedInstance.RectAnchorType
 			res = enum.ToCodeString()
-		case "WidthFollowRect":
-			res = fmt.Sprintf("%t", inferedInstance.WidthFollowRect)
-		case "HeightFollowRect":
-			res = fmt.Sprintf("%t", inferedInstance.HeightFollowRect)
 		case "ScalePropotionnally":
 			res = fmt.Sprintf("%t", inferedInstance.ScalePropotionnally)
+		case "AppliedScaling":
+			res = fmt.Sprintf("%f", inferedInstance.AppliedScaling)
 		case "Color":
 			res = inferedInstance.Color
 		case "FillOpacity":

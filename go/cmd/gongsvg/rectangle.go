@@ -307,9 +307,8 @@ Third Line`
 	__RectAnchoredPath__000000_Logo_to_add.X_Offset = -100.000000
 	__RectAnchoredPath__000000_Logo_to_add.Y_Offset = 0.000000
 	__RectAnchoredPath__000000_Logo_to_add.RectAnchorType = models.RECT_ANCHOR_TOP
-	__RectAnchoredPath__000000_Logo_to_add.WidthFollowRect = true
-	__RectAnchoredPath__000000_Logo_to_add.HeightFollowRect = true
 	__RectAnchoredPath__000000_Logo_to_add.ScalePropotionnally = true
+	__RectAnchoredPath__000000_Logo_to_add.AppliedScaling = 1.000000
 	__RectAnchoredPath__000000_Logo_to_add.Color = `black`
 	__RectAnchoredPath__000000_Logo_to_add.FillOpacity = 0.500000
 	__RectAnchoredPath__000000_Logo_to_add.Stroke = `black`
@@ -324,9 +323,8 @@ Third Line`
 	__RectAnchoredPath__000001_second_log.X_Offset = 0.000000
 	__RectAnchoredPath__000001_second_log.Y_Offset = 0.000000
 	__RectAnchoredPath__000001_second_log.RectAnchorType = models.RECT_ANCHOR_TOP_LEFT
-	__RectAnchoredPath__000001_second_log.WidthFollowRect = false
-	__RectAnchoredPath__000001_second_log.HeightFollowRect = false
 	__RectAnchoredPath__000001_second_log.ScalePropotionnally = false
+	__RectAnchoredPath__000001_second_log.AppliedScaling = 0.000000
 	__RectAnchoredPath__000001_second_log.Color = ``
 	__RectAnchoredPath__000001_second_log.FillOpacity = 0.000000
 	__RectAnchoredPath__000001_second_log.Stroke = `blue`

@@ -2140,12 +2140,10 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredpath_.Y_Offset), formDiv)
 		case "RectAnchorType":
 			FormDivEnumStringFieldToField(&(rectanchoredpath_.RectAnchorType), formDiv)
-		case "WidthFollowRect":
-			FormDivBasicFieldToField(&(rectanchoredpath_.WidthFollowRect), formDiv)
-		case "HeightFollowRect":
-			FormDivBasicFieldToField(&(rectanchoredpath_.HeightFollowRect), formDiv)
 		case "ScalePropotionnally":
 			FormDivBasicFieldToField(&(rectanchoredpath_.ScalePropotionnally), formDiv)
+		case "AppliedScaling":
+			FormDivBasicFieldToField(&(rectanchoredpath_.AppliedScaling), formDiv)
 		case "Color":
 			FormDivBasicFieldToField(&(rectanchoredpath_.Color), formDiv)
 		case "FillOpacity":

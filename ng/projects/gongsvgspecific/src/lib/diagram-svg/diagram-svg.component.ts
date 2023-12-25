@@ -125,6 +125,11 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
   anchorDragging: boolean = false
   activeAnchor: 'left' | 'right' | 'top' | 'bottom' = 'left'
   RectAtMouseDown: gongsvg.RectDB | undefined
+  // a rect that is scaled might have anchored path to it
+  // if the path scale proportionnaly with the shape, one
+  // have to store a clone at mouse down to compute the scaled path
+  RectAnchoredPathsAtMouseDown: Map<gongsvg.RectAnchoredPathDB, gongsvg.RectAnchoredPathDB> =
+    new Map<gongsvg.RectAnchoredPathDB, gongsvg.RectAnchoredPathDB>
 
   // display or not handles if selected or not
   manageHandles(rect: gongsvg.RectDB) {
@@ -498,17 +503,19 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
         this.RectAtMouseDown!.Width > 0 &&
         this.RectAtMouseDown!.Height > 0
 
+      let scale = 0
+
       if (this.activeAnchor === 'left') {
         this.draggedRect!.X = this.RectAtMouseDown!.X + deltaX
         this.draggedRect!.Width = this.RectAtMouseDown!.Width - deltaX
         if (scaleProportionally) {
-          let scale = this.draggedRect!.Width / this.RectAtMouseDown!.Width
+          scale = this.draggedRect!.Width / this.RectAtMouseDown!.Width
           this.draggedRect!.Height = this.RectAtMouseDown!.Height * scale
         }
       } else if (this.activeAnchor === 'right') {
         this.draggedRect!.Width = this.RectAtMouseDown!.Width + deltaX
         if (scaleProportionally) {
-          let scale = this.draggedRect!.Width / this.RectAtMouseDown!.Width
+          scale = this.draggedRect!.Width / this.RectAtMouseDown!.Width
           this.draggedRect!.Height = this.RectAtMouseDown!.Height * scale
         }
       } else if (this.activeAnchor === 'top') {
@@ -516,14 +523,24 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
         this.draggedRect!.Height = this.RectAtMouseDown!.Height - deltaY
 
         if (scaleProportionally) {
-          let scale = this.draggedRect!.Height / this.RectAtMouseDown!.Height
+          scale = this.draggedRect!.Height / this.RectAtMouseDown!.Height
           this.draggedRect!.Width = this.RectAtMouseDown!.Width * scale
         }
       } else if (this.activeAnchor === 'bottom') {
         this.draggedRect!.Height = this.RectAtMouseDown!.Height + deltaY
         if (scaleProportionally) {
-          let scale = this.draggedRect!.Height / this.RectAtMouseDown!.Height
+          scale = this.draggedRect!.Height / this.RectAtMouseDown!.Height
           this.draggedRect!.Width = this.RectAtMouseDown!.Width * scale
+        }
+      }
+
+      for (let path of this.draggedRect!.RectAnchoredPaths) {
+        if (scaleProportionally && path.ScalePropotionnally) {
+          // get clone at mouse down
+          let clonedPath = this.RectAnchoredPathsAtMouseDown.get(path)
+          if (clonedPath) {
+            path.AppliedScaling = clonedPath.AppliedScaling * scale
+          }
         }
       }
 
@@ -616,6 +633,12 @@ export class DiagramSvgComponent implements OnInit, OnDestroy {
       this.activeAnchor = anchor
       this.draggedRect = rect
       this.RectAtMouseDown = structuredClone(rect)
+      this.RectAnchoredPathsAtMouseDown.clear
+      for (let rectAnchoredPath of this.draggedRect!.RectAnchoredPaths) {
+        if (rectAnchoredPath.ScalePropotionnally) {
+          this.RectAnchoredPathsAtMouseDown.set(rectAnchoredPath, structuredClone(rectAnchoredPath))
+        }
+      }
     }
   }
   anchorMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {

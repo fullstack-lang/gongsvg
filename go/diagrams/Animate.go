@@ -579,23 +579,23 @@ var map_DocLink_Identifier_Animate map[string]any = map[string]any{
 
 	"ref_models.Purple": ref_models.Purple,
 
-	"ref_models.RECT_ANCHOR_BOTTOM": ref_models.RECT_ANCHOR_BOTTOM,
+	"ref_models.RECT_ANCHOR_BOTTOM": ref_models.RECT_BOTTOM,
 
-	"ref_models.RECT_ANCHOR_BOTTOM_LEFT": ref_models.RECT_ANCHOR_BOTTOM_LEFT,
+	"ref_models.RECT_ANCHOR_BOTTOM_LEFT": ref_models.RECT_BOTTOM_LEFT,
 
-	"ref_models.RECT_ANCHOR_BOTTOM_RIGHT": ref_models.RECT_ANCHOR_BOTTOM_RIGHT,
+	"ref_models.RECT_ANCHOR_BOTTOM_RIGHT": ref_models.RECT_BOTTOM_RIGHT,
 
-	"ref_models.RECT_ANCHOR_CENTER": ref_models.RECT_ANCHOR_CENTER,
+	"ref_models.RECT_ANCHOR_CENTER": ref_models.RECT_CENTER,
 
-	"ref_models.RECT_ANCHOR_LEFT": ref_models.RECT_ANCHOR_LEFT,
+	"ref_models.RECT_ANCHOR_LEFT": ref_models.RECT_LEFT,
 
-	"ref_models.RECT_ANCHOR_RIGHT": ref_models.RECT_ANCHOR_RIGHT,
+	"ref_models.RECT_ANCHOR_RIGHT": ref_models.RECT_RIGHT,
 
-	"ref_models.RECT_ANCHOR_TOP": ref_models.RECT_ANCHOR_TOP,
+	"ref_models.RECT_ANCHOR_TOP": ref_models.RECT_TOP,
 
-	"ref_models.RECT_ANCHOR_TOP_LEFT": ref_models.RECT_ANCHOR_TOP_LEFT,
+	"ref_models.RECT_ANCHOR_TOP_LEFT": ref_models.RECT_TOP_LEFT,
 
-	"ref_models.RECT_ANCHOR_TOP_RIGHT": ref_models.RECT_ANCHOR_TOP_RIGHT,
+	"ref_models.RECT_ANCHOR_TOP_RIGHT": ref_models.RECT_TOP_RIGHT,
 
 	"ref_models.Rect": &(ref_models.Rect{}),
 

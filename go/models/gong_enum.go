@@ -1958,24 +1958,24 @@ func (rectanchortype RectAnchorType) ToString() (res string) {
 	// migration of former implementation of enum
 	switch rectanchortype {
 	// insertion code per enum code
-	case RECT_ANCHOR_TOP:
-		res = "RECT_ANCHOR_TOP"
-	case RECT_ANCHOR_TOP_LEFT:
-		res = "RECT_ANCHOR_TOP_LEFT"
-	case RECT_ANCHOR_TOP_RIGHT:
-		res = "RECT_ANCHOR_TOP_RIGHT"
-	case RECT_ANCHOR_BOTTOM:
-		res = "RECT_ANCHOR_BOTTOM"
-	case RECT_ANCHOR_BOTTOM_LEFT:
-		res = "RECT_ANCHOR_BOTTOM_LEFT"
-	case RECT_ANCHOR_BOTTOM_RIGHT:
-		res = "RECT_ANCHOR_BOTTOM_RIGHT"
-	case RECT_ANCHOR_LEFT:
-		res = "RECT_ANCHOR_LEFT"
-	case RECT_ANCHOR_RIGHT:
-		res = "RECT_ANCHOR_RIGHT"
-	case RECT_ANCHOR_CENTER:
-		res = "RECT_ANCHOR_CENTER"
+	case RECT_TOP:
+		res = "RECT_TOP"
+	case RECT_TOP_LEFT:
+		res = "RECT_TOP_LEFT"
+	case RECT_TOP_RIGHT:
+		res = "RECT_TOP_RIGHT"
+	case RECT_BOTTOM:
+		res = "RECT_BOTTOM"
+	case RECT_BOTTOM_LEFT:
+		res = "RECT_BOTTOM_LEFT"
+	case RECT_BOTTOM_RIGHT:
+		res = "RECT_BOTTOM_RIGHT"
+	case RECT_LEFT:
+		res = "RECT_LEFT"
+	case RECT_RIGHT:
+		res = "RECT_RIGHT"
+	case RECT_CENTER:
+		res = "RECT_CENTER"
 	}
 	return
 }
@@ -1984,24 +1984,24 @@ func (rectanchortype *RectAnchorType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "RECT_ANCHOR_TOP":
-		*rectanchortype = RECT_ANCHOR_TOP
-	case "RECT_ANCHOR_TOP_LEFT":
-		*rectanchortype = RECT_ANCHOR_TOP_LEFT
-	case "RECT_ANCHOR_TOP_RIGHT":
-		*rectanchortype = RECT_ANCHOR_TOP_RIGHT
-	case "RECT_ANCHOR_BOTTOM":
-		*rectanchortype = RECT_ANCHOR_BOTTOM
-	case "RECT_ANCHOR_BOTTOM_LEFT":
-		*rectanchortype = RECT_ANCHOR_BOTTOM_LEFT
-	case "RECT_ANCHOR_BOTTOM_RIGHT":
-		*rectanchortype = RECT_ANCHOR_BOTTOM_RIGHT
-	case "RECT_ANCHOR_LEFT":
-		*rectanchortype = RECT_ANCHOR_LEFT
-	case "RECT_ANCHOR_RIGHT":
-		*rectanchortype = RECT_ANCHOR_RIGHT
-	case "RECT_ANCHOR_CENTER":
-		*rectanchortype = RECT_ANCHOR_CENTER
+	case "RECT_TOP":
+		*rectanchortype = RECT_TOP
+	case "RECT_TOP_LEFT":
+		*rectanchortype = RECT_TOP_LEFT
+	case "RECT_TOP_RIGHT":
+		*rectanchortype = RECT_TOP_RIGHT
+	case "RECT_BOTTOM":
+		*rectanchortype = RECT_BOTTOM
+	case "RECT_BOTTOM_LEFT":
+		*rectanchortype = RECT_BOTTOM_LEFT
+	case "RECT_BOTTOM_RIGHT":
+		*rectanchortype = RECT_BOTTOM_RIGHT
+	case "RECT_LEFT":
+		*rectanchortype = RECT_LEFT
+	case "RECT_RIGHT":
+		*rectanchortype = RECT_RIGHT
+	case "RECT_CENTER":
+		*rectanchortype = RECT_CENTER
 	default:
 		return errUnkownEnum
 	}
@@ -2012,24 +2012,24 @@ func (rectanchortype *RectAnchorType) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "RECT_ANCHOR_TOP":
-		*rectanchortype = RECT_ANCHOR_TOP
-	case "RECT_ANCHOR_TOP_LEFT":
-		*rectanchortype = RECT_ANCHOR_TOP_LEFT
-	case "RECT_ANCHOR_TOP_RIGHT":
-		*rectanchortype = RECT_ANCHOR_TOP_RIGHT
-	case "RECT_ANCHOR_BOTTOM":
-		*rectanchortype = RECT_ANCHOR_BOTTOM
-	case "RECT_ANCHOR_BOTTOM_LEFT":
-		*rectanchortype = RECT_ANCHOR_BOTTOM_LEFT
-	case "RECT_ANCHOR_BOTTOM_RIGHT":
-		*rectanchortype = RECT_ANCHOR_BOTTOM_RIGHT
-	case "RECT_ANCHOR_LEFT":
-		*rectanchortype = RECT_ANCHOR_LEFT
-	case "RECT_ANCHOR_RIGHT":
-		*rectanchortype = RECT_ANCHOR_RIGHT
-	case "RECT_ANCHOR_CENTER":
-		*rectanchortype = RECT_ANCHOR_CENTER
+	case "RECT_TOP":
+		*rectanchortype = RECT_TOP
+	case "RECT_TOP_LEFT":
+		*rectanchortype = RECT_TOP_LEFT
+	case "RECT_TOP_RIGHT":
+		*rectanchortype = RECT_TOP_RIGHT
+	case "RECT_BOTTOM":
+		*rectanchortype = RECT_BOTTOM
+	case "RECT_BOTTOM_LEFT":
+		*rectanchortype = RECT_BOTTOM_LEFT
+	case "RECT_BOTTOM_RIGHT":
+		*rectanchortype = RECT_BOTTOM_RIGHT
+	case "RECT_LEFT":
+		*rectanchortype = RECT_LEFT
+	case "RECT_RIGHT":
+		*rectanchortype = RECT_RIGHT
+	case "RECT_CENTER":
+		*rectanchortype = RECT_CENTER
 	default:
 		return errUnkownEnum
 	}
@@ -2040,24 +2040,24 @@ func (rectanchortype *RectAnchorType) ToCodeString() (res string) {
 
 	switch *rectanchortype {
 	// insertion code per enum code
-	case RECT_ANCHOR_TOP:
-		res = "RECT_ANCHOR_TOP"
-	case RECT_ANCHOR_TOP_LEFT:
-		res = "RECT_ANCHOR_TOP_LEFT"
-	case RECT_ANCHOR_TOP_RIGHT:
-		res = "RECT_ANCHOR_TOP_RIGHT"
-	case RECT_ANCHOR_BOTTOM:
-		res = "RECT_ANCHOR_BOTTOM"
-	case RECT_ANCHOR_BOTTOM_LEFT:
-		res = "RECT_ANCHOR_BOTTOM_LEFT"
-	case RECT_ANCHOR_BOTTOM_RIGHT:
-		res = "RECT_ANCHOR_BOTTOM_RIGHT"
-	case RECT_ANCHOR_LEFT:
-		res = "RECT_ANCHOR_LEFT"
-	case RECT_ANCHOR_RIGHT:
-		res = "RECT_ANCHOR_RIGHT"
-	case RECT_ANCHOR_CENTER:
-		res = "RECT_ANCHOR_CENTER"
+	case RECT_TOP:
+		res = "RECT_TOP"
+	case RECT_TOP_LEFT:
+		res = "RECT_TOP_LEFT"
+	case RECT_TOP_RIGHT:
+		res = "RECT_TOP_RIGHT"
+	case RECT_BOTTOM:
+		res = "RECT_BOTTOM"
+	case RECT_BOTTOM_LEFT:
+		res = "RECT_BOTTOM_LEFT"
+	case RECT_BOTTOM_RIGHT:
+		res = "RECT_BOTTOM_RIGHT"
+	case RECT_LEFT:
+		res = "RECT_LEFT"
+	case RECT_RIGHT:
+		res = "RECT_RIGHT"
+	case RECT_CENTER:
+		res = "RECT_CENTER"
 	}
 	return
 }
@@ -2067,15 +2067,15 @@ func (rectanchortype RectAnchorType) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "RECT_ANCHOR_TOP")
-	res = append(res, "RECT_ANCHOR_TOP_LEFT")
-	res = append(res, "RECT_ANCHOR_TOP_RIGHT")
-	res = append(res, "RECT_ANCHOR_BOTTOM")
-	res = append(res, "RECT_ANCHOR_BOTTOM_LEFT")
-	res = append(res, "RECT_ANCHOR_BOTTOM_RIGHT")
-	res = append(res, "RECT_ANCHOR_LEFT")
-	res = append(res, "RECT_ANCHOR_RIGHT")
-	res = append(res, "RECT_ANCHOR_CENTER")
+	res = append(res, "RECT_TOP")
+	res = append(res, "RECT_TOP_LEFT")
+	res = append(res, "RECT_TOP_RIGHT")
+	res = append(res, "RECT_BOTTOM")
+	res = append(res, "RECT_BOTTOM_LEFT")
+	res = append(res, "RECT_BOTTOM_RIGHT")
+	res = append(res, "RECT_LEFT")
+	res = append(res, "RECT_RIGHT")
+	res = append(res, "RECT_CENTER")
 
 	return
 }
@@ -2085,15 +2085,15 @@ func (rectanchortype RectAnchorType) CodeValues() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "RECT_ANCHOR_TOP")
-	res = append(res, "RECT_ANCHOR_TOP_LEFT")
-	res = append(res, "RECT_ANCHOR_TOP_RIGHT")
-	res = append(res, "RECT_ANCHOR_BOTTOM")
-	res = append(res, "RECT_ANCHOR_BOTTOM_LEFT")
-	res = append(res, "RECT_ANCHOR_BOTTOM_RIGHT")
-	res = append(res, "RECT_ANCHOR_LEFT")
-	res = append(res, "RECT_ANCHOR_RIGHT")
-	res = append(res, "RECT_ANCHOR_CENTER")
+	res = append(res, "RECT_TOP")
+	res = append(res, "RECT_TOP_LEFT")
+	res = append(res, "RECT_TOP_RIGHT")
+	res = append(res, "RECT_BOTTOM")
+	res = append(res, "RECT_BOTTOM_LEFT")
+	res = append(res, "RECT_BOTTOM_RIGHT")
+	res = append(res, "RECT_LEFT")
+	res = append(res, "RECT_RIGHT")
+	res = append(res, "RECT_CENTER")
 
 	return
 }

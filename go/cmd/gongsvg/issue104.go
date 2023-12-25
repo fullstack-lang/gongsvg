@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -119,7 +118,7 @@ func issue104Injection(stage *models.StageStruct) {
 	__RectAnchoredRect__000000_Test_104.RX = 0.000000
 	__RectAnchoredRect__000000_Test_104.X_Offset = 0.000000
 	__RectAnchoredRect__000000_Test_104.Y_Offset = -50.000000
-	__RectAnchoredRect__000000_Test_104.RectAnchorType = models.RECT_ANCHOR_TOP_LEFT
+	__RectAnchoredRect__000000_Test_104.RectAnchorType = models.RECT_TOP_LEFT
 	__RectAnchoredRect__000000_Test_104.WidthFollowRect = true
 	__RectAnchoredRect__000000_Test_104.HeightFollowRect = false
 	__RectAnchoredRect__000000_Test_104.Color = `lightgrey`
@@ -137,7 +136,7 @@ func issue104Injection(stage *models.StageStruct) {
 	__RectAnchoredText__000000_test.FontSize = 14
 	__RectAnchoredText__000000_test.X_Offset = 0.000000
 	__RectAnchoredText__000000_test.Y_Offset = -100.000000
-	__RectAnchoredText__000000_test.RectAnchorType = models.RECT_ANCHOR_TOP
+	__RectAnchoredText__000000_test.RectAnchorType = models.RECT_TOP
 	__RectAnchoredText__000000_test.TextAnchorType = models.TEXT_ANCHOR_CENTER
 	__RectAnchoredText__000000_test.Color = ``
 	__RectAnchoredText__000000_test.FillOpacity = 0.000000
@@ -157,5 +156,3 @@ func issue104Injection(stage *models.StageStruct) {
 	__Rect__000000_104.RectAnchoredRects = append(__Rect__000000_104.RectAnchoredRects, __RectAnchoredRect__000000_Test_104)
 	__SVG__000000_104.Layers = append(__SVG__000000_104.Layers, __Layer__000000_104)
 }
-
-

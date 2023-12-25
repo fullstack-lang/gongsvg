@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -307,7 +306,7 @@ Third Line`
 	__RectAnchoredPath__000000_Logo_to_add.Definition = `M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z`
 	__RectAnchoredPath__000000_Logo_to_add.X_Offset = -100.000000
 	__RectAnchoredPath__000000_Logo_to_add.Y_Offset = 0.000000
-	__RectAnchoredPath__000000_Logo_to_add.RectAnchorType = models.RECT_ANCHOR_TOP
+	__RectAnchoredPath__000000_Logo_to_add.RectAnchorType = models.RECT_TOP
 	__RectAnchoredPath__000000_Logo_to_add.ScalePropotionnally = true
 	__RectAnchoredPath__000000_Logo_to_add.AppliedScaling = 1.000000
 	__RectAnchoredPath__000000_Logo_to_add.Color = `black`
@@ -323,7 +322,7 @@ Third Line`
 	__RectAnchoredPath__000001_second_log.Definition = `M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z`
 	__RectAnchoredPath__000001_second_log.X_Offset = 0.000000
 	__RectAnchoredPath__000001_second_log.Y_Offset = 0.000000
-	__RectAnchoredPath__000001_second_log.RectAnchorType = models.RECT_ANCHOR_TOP_LEFT
+	__RectAnchoredPath__000001_second_log.RectAnchorType = models.RECT_TOP_LEFT
 	__RectAnchoredPath__000001_second_log.ScalePropotionnally = false
 	__RectAnchoredPath__000001_second_log.AppliedScaling = 0.000000
 	__RectAnchoredPath__000001_second_log.Color = ``
@@ -343,7 +342,7 @@ Third Line`
 	__RectAnchoredRect__000000_Rect_within_top.RX = 3.000000
 	__RectAnchoredRect__000000_Rect_within_top.X_Offset = 0.000000
 	__RectAnchoredRect__000000_Rect_within_top.Y_Offset = 40.000000
-	__RectAnchoredRect__000000_Rect_within_top.RectAnchorType = models.RECT_ANCHOR_TOP
+	__RectAnchoredRect__000000_Rect_within_top.RectAnchorType = models.RECT_TOP
 	__RectAnchoredRect__000000_Rect_within_top.WidthFollowRect = false
 	__RectAnchoredRect__000000_Rect_within_top.HeightFollowRect = false
 	__RectAnchoredRect__000000_Rect_within_top.Color = `lightgrey`
@@ -363,7 +362,7 @@ Third Line`
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.RX = 0.000000
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.X_Offset = 0.000000
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Y_Offset = 0.000000
-	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.RectAnchorType = models.RECT_ANCHOR_TOP_LEFT
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.RectAnchorType = models.RECT_TOP_LEFT
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.WidthFollowRect = true
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.HeightFollowRect = false
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Color = `lightblue`
@@ -390,7 +389,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000000_Bottom_Text.FontSize = 0
 	__RectAnchoredText__000000_Bottom_Text.X_Offset = 0.000000
 	__RectAnchoredText__000000_Bottom_Text.Y_Offset = 20.000000
-	__RectAnchoredText__000000_Bottom_Text.RectAnchorType = models.RECT_ANCHOR_TOP
+	__RectAnchoredText__000000_Bottom_Text.RectAnchorType = models.RECT_TOP
 	__RectAnchoredText__000000_Bottom_Text.TextAnchorType = models.TEXT_ANCHOR_CENTER
 	__RectAnchoredText__000000_Bottom_Text.Color = `black`
 	__RectAnchoredText__000000_Bottom_Text.FillOpacity = 100.000000
@@ -407,7 +406,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000001_Top_Left.FontSize = 0
 	__RectAnchoredText__000001_Top_Left.X_Offset = 0.000000
 	__RectAnchoredText__000001_Top_Left.Y_Offset = 0.000000
-	__RectAnchoredText__000001_Top_Left.RectAnchorType = models.RECT_ANCHOR_TOP_LEFT
+	__RectAnchoredText__000001_Top_Left.RectAnchorType = models.RECT_TOP_LEFT
 	__RectAnchoredText__000001_Top_Left.Color = ``
 	__RectAnchoredText__000001_Top_Left.FillOpacity = 0.000000
 	__RectAnchoredText__000001_Top_Left.Stroke = `black`
@@ -423,7 +422,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontSize = 0
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.X_Offset = 0.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Y_Offset = 20.000000
-	__RectAnchoredText__000002_Top_anchored_bottom_middle.RectAnchorType = models.RECT_ANCHOR_BOTTOM
+	__RectAnchoredText__000002_Top_anchored_bottom_middle.RectAnchorType = models.RECT_BOTTOM
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.TextAnchorType = models.TEXT_ANCHOR_START
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Color = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FillOpacity = 100.000000
@@ -442,7 +441,7 @@ line 3`
 	__RectAnchoredText__000003_Top_anchored_top_middle.FontSize = 0
 	__RectAnchoredText__000003_Top_anchored_top_middle.X_Offset = 0.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.Y_Offset = 20.000000
-	__RectAnchoredText__000003_Top_anchored_top_middle.RectAnchorType = models.RECT_ANCHOR_TOP
+	__RectAnchoredText__000003_Top_anchored_top_middle.RectAnchorType = models.RECT_TOP
 	__RectAnchoredText__000003_Top_anchored_top_middle.TextAnchorType = models.TEXT_ANCHOR_START
 	__RectAnchoredText__000003_Top_anchored_top_middle.Color = ``
 	__RectAnchoredText__000003_Top_anchored_top_middle.FillOpacity = 100.000000
@@ -505,5 +504,3 @@ line 3`
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top
 }
-
-

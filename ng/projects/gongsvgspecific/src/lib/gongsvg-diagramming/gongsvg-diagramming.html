@@ -219,13 +219,21 @@
                         ">
                     </ng-container>
                     <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_LEFT" 
-                    [ngTemplateOutlet]="anchoredPath" 
-                    [ngTemplateOutletContext]="{ 
-                        path: rectAnchoredPath, 
-                        anchorX: rect.X + rectAnchoredPath.X_Offset, 
-                        anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset ,}
-                    ">
-                </ng-container>
+                        [ngTemplateOutlet]="anchoredPath" 
+                        [ngTemplateOutletContext]="{ 
+                            path: rectAnchoredPath, 
+                            anchorX: rect.X + rectAnchoredPath.X_Offset, 
+                            anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset ,}
+                        ">
+                    </ng-container>
+                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_LEFT_LEFT" 
+                        [ngTemplateOutlet]="anchoredPath" 
+                        [ngTemplateOutletContext]="{ 
+                            path: rectAnchoredPath, 
+                            anchorX: rect.X - rect.Width + rectAnchoredPath.X_Offset, 
+                            anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset ,}
+                        ">
+                    </ng-container>
                     <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_CENTER" 
                         [ngTemplateOutlet]="anchoredPath" 
                         [ngTemplateOutletContext]="{ 

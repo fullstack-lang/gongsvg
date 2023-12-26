@@ -130,8 +130,8 @@ func newInjection(stage *models.StageStruct) {
 	__Rect__000001_Center_300_300.Name = `Center 300 300`
 	__Rect__000001_Center_300_300.X = 341.000000
 	__Rect__000001_Center_300_300.Y = 492.000000
-	__Rect__000001_Center_300_300.Width = 203.000000
-	__Rect__000001_Center_300_300.Height = 203.000000
+	__Rect__000001_Center_300_300.Width = 186.000000
+	__Rect__000001_Center_300_300.Height = 186.000000
 	__Rect__000001_Center_300_300.RX = 5.000000
 	__Rect__000001_Center_300_300.Color = ``
 	__Rect__000001_Center_300_300.FillOpacity = 0.000000
@@ -168,23 +168,23 @@ func newInjection(stage *models.StageStruct) {
 	__RectAnchoredPath__000000_Ref_anchored_path.StrokeWidth = 5.000000
 	__RectAnchoredPath__000000_Ref_anchored_path.StrokeDashArray = ``
 	__RectAnchoredPath__000000_Ref_anchored_path.StrokeDashArrayWhenSelected = ``
-	__RectAnchoredPath__000000_Ref_anchored_path.Transform = `translate(50 50)`
+	__RectAnchoredPath__000000_Ref_anchored_path.Transform = ``
 
 	// RectAnchoredPath values setup
 	__RectAnchoredPath__000001_new_rect_anchored_path.Name = `new rect anchored path`
 	__RectAnchoredPath__000001_new_rect_anchored_path.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
 	__RectAnchoredPath__000001_new_rect_anchored_path.X_Offset = 0.000000
 	__RectAnchoredPath__000001_new_rect_anchored_path.Y_Offset = 0.000000
-	__RectAnchoredPath__000001_new_rect_anchored_path.RectAnchorType = models.RECT_BOTTOM_LEFT
+	__RectAnchoredPath__000001_new_rect_anchored_path.RectAnchorType = models.RECT_BOTTOM_LEFT_LEFT
 	__RectAnchoredPath__000001_new_rect_anchored_path.ScalePropotionnally = true
-	__RectAnchoredPath__000001_new_rect_anchored_path.AppliedScaling = 0.177403
+	__RectAnchoredPath__000001_new_rect_anchored_path.AppliedScaling = 0.193750
 	__RectAnchoredPath__000001_new_rect_anchored_path.Color = ``
 	__RectAnchoredPath__000001_new_rect_anchored_path.FillOpacity = 0.000000
 	__RectAnchoredPath__000001_new_rect_anchored_path.Stroke = `red`
 	__RectAnchoredPath__000001_new_rect_anchored_path.StrokeWidth = 8.000000
 	__RectAnchoredPath__000001_new_rect_anchored_path.StrokeDashArray = ``
 	__RectAnchoredPath__000001_new_rect_anchored_path.StrokeDashArrayWhenSelected = ``
-	__RectAnchoredPath__000001_new_rect_anchored_path.Transform = `scale(0.9 1)`
+	__RectAnchoredPath__000001_new_rect_anchored_path.Transform = ``
 
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`

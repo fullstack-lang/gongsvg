@@ -534,7 +534,7 @@
     <ng-container *ngIf="path.ScalePropotionnally">
         <!-- <svg:g [attr.transform]="'translate(-' + anchorX + ' -' + anchorY + ') scale( ' + path.AppliedScaling + ' ' + path.AppliedScaling + ') translate(' + anchorX + ' ' + anchorY + ') translate(' + anchorX + ' ' + anchorY + ')'"> -->
 
-        <svg:g [attr.transform]="'translate(' + anchorX + ' ' + anchorY + ') scale(' + path.AppliedScaling + ' ' + path.AppliedScaling + ')'">
+        <svg:g >
             <svg:path   
                 class="click-through"
                 [attr.d]="path.Definition"
@@ -542,7 +542,7 @@
                 [attr.fill-opacity]="path.FillOpacity"
                 [attr.stroke]="path.Stroke"
                 [attr.stroke-width]="path.StrokeWidth"
-                
+                [attr.transform]="path.Transform + ' translate(' + anchorX + ' ' + anchorY + ') scale(' + path.AppliedScaling + ' ' + path.AppliedScaling + ')'"
             > </path>
         </svg:g>
     </ng-container>

@@ -130,8 +130,8 @@ func newInjection(stage *models.StageStruct) {
 	__Rect__000001_Center_300_300.Name = `Center 300 300`
 	__Rect__000001_Center_300_300.X = 341.000000
 	__Rect__000001_Center_300_300.Y = 492.000000
-	__Rect__000001_Center_300_300.Width = 186.000000
-	__Rect__000001_Center_300_300.Height = 186.000000
+	__Rect__000001_Center_300_300.Width = 280.000000
+	__Rect__000001_Center_300_300.Height = 280.000000
 	__Rect__000001_Center_300_300.RX = 5.000000
 	__Rect__000001_Center_300_300.Color = ``
 	__Rect__000001_Center_300_300.FillOpacity = 0.000000
@@ -141,11 +141,11 @@ func newInjection(stage *models.StageStruct) {
 	__Rect__000001_Center_300_300.StrokeDashArrayWhenSelected = ``
 	__Rect__000001_Center_300_300.Transform = ``
 	__Rect__000001_Center_300_300.IsSelectable = true
-	__Rect__000001_Center_300_300.IsSelected = false
+	__Rect__000001_Center_300_300.IsSelected = true
 	__Rect__000001_Center_300_300.CanHaveLeftHandle = false
 	__Rect__000001_Center_300_300.HasLeftHandle = false
 	__Rect__000001_Center_300_300.CanHaveRightHandle = true
-	__Rect__000001_Center_300_300.HasRightHandle = false
+	__Rect__000001_Center_300_300.HasRightHandle = true
 	__Rect__000001_Center_300_300.CanHaveTopHandle = false
 	__Rect__000001_Center_300_300.HasTopHandle = false
 	__Rect__000001_Center_300_300.IsScalingProportionally = true
@@ -175,9 +175,9 @@ func newInjection(stage *models.StageStruct) {
 	__RectAnchoredPath__000001_new_rect_anchored_path.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
 	__RectAnchoredPath__000001_new_rect_anchored_path.X_Offset = 0.000000
 	__RectAnchoredPath__000001_new_rect_anchored_path.Y_Offset = 0.000000
-	__RectAnchoredPath__000001_new_rect_anchored_path.RectAnchorType = models.RECT_BOTTOM_LEFT_LEFT
+	__RectAnchoredPath__000001_new_rect_anchored_path.RectAnchorType = models.RECT_BOTTOM_RIGHT
 	__RectAnchoredPath__000001_new_rect_anchored_path.ScalePropotionnally = true
-	__RectAnchoredPath__000001_new_rect_anchored_path.AppliedScaling = 0.193750
+	__RectAnchoredPath__000001_new_rect_anchored_path.AppliedScaling = 0.291667
 	__RectAnchoredPath__000001_new_rect_anchored_path.Color = ``
 	__RectAnchoredPath__000001_new_rect_anchored_path.FillOpacity = 0.000000
 	__RectAnchoredPath__000001_new_rect_anchored_path.Stroke = `red`

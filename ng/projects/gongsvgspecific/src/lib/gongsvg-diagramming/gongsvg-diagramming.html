@@ -234,6 +234,14 @@
                             anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset ,}
                         ">
                     </ng-container>
+                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_BOTTOM_LEFT" 
+                        [ngTemplateOutlet]="anchoredPath" 
+                        [ngTemplateOutletContext]="{ 
+                            path: rectAnchoredPath, 
+                            anchorX: rect.X + rectAnchoredPath.X_Offset, 
+                            anchorY: rect.Y + rect.Height + rect.Height + rectAnchoredPath.Y_Offset ,}
+                        ">
+                    </ng-container>
                     <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_RIGHT" 
                     [ngTemplateOutlet]="anchoredPath" 
                     [ngTemplateOutletContext]="{ 

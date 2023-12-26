@@ -67,8 +67,10 @@ func newInjection(stage *models.StageStruct) {
 	__Rect__000001_Center_300_300 := (&models.Rect{Name: `Center 300 300`}).Stage(stage)
 
 	// Declarations of staged instances of RectAnchoredPath
-	__RectAnchoredPath__000000_Ref_anchored_path := (&models.RectAnchoredPath{Name: `Ref anchored path`}).Stage(stage)
-	__RectAnchoredPath__000001_new_rect_anchored_path := (&models.RectAnchoredPath{Name: `new rect anchored path`}).Stage(stage)
+	__RectAnchoredPath__000000_Bottom_Bottom_Left := (&models.RectAnchoredPath{Name: `Bottom Bottom Left`}).Stage(stage)
+	__RectAnchoredPath__000001_Bottom_Left_Left := (&models.RectAnchoredPath{Name: `Bottom Left Left`}).Stage(stage)
+	__RectAnchoredPath__000002_Bottom_Right := (&models.RectAnchoredPath{Name: `Bottom Right`}).Stage(stage)
+	__RectAnchoredPath__000003_Ref_anchored_path := (&models.RectAnchoredPath{Name: `Ref anchored path`}).Stage(stage)
 
 	// Declarations of staged instances of RectAnchoredRect
 
@@ -129,9 +131,9 @@ func newInjection(stage *models.StageStruct) {
 	// Rect values setup
 	__Rect__000001_Center_300_300.Name = `Center 300 300`
 	__Rect__000001_Center_300_300.X = 341.000000
-	__Rect__000001_Center_300_300.Y = 492.000000
-	__Rect__000001_Center_300_300.Width = 280.000000
-	__Rect__000001_Center_300_300.Height = 280.000000
+	__Rect__000001_Center_300_300.Y = 480.000000
+	__Rect__000001_Center_300_300.Width = 240.000000
+	__Rect__000001_Center_300_300.Height = 240.000000
 	__Rect__000001_Center_300_300.RX = 5.000000
 	__Rect__000001_Center_300_300.Color = ``
 	__Rect__000001_Center_300_300.FillOpacity = 0.000000
@@ -141,11 +143,11 @@ func newInjection(stage *models.StageStruct) {
 	__Rect__000001_Center_300_300.StrokeDashArrayWhenSelected = ``
 	__Rect__000001_Center_300_300.Transform = ``
 	__Rect__000001_Center_300_300.IsSelectable = true
-	__Rect__000001_Center_300_300.IsSelected = true
+	__Rect__000001_Center_300_300.IsSelected = false
 	__Rect__000001_Center_300_300.CanHaveLeftHandle = false
 	__Rect__000001_Center_300_300.HasLeftHandle = false
 	__Rect__000001_Center_300_300.CanHaveRightHandle = true
-	__Rect__000001_Center_300_300.HasRightHandle = true
+	__Rect__000001_Center_300_300.HasRightHandle = false
 	__Rect__000001_Center_300_300.CanHaveTopHandle = false
 	__Rect__000001_Center_300_300.HasTopHandle = false
 	__Rect__000001_Center_300_300.IsScalingProportionally = true
@@ -155,36 +157,68 @@ func newInjection(stage *models.StageStruct) {
 	__Rect__000001_Center_300_300.CanMoveVerticaly = true
 
 	// RectAnchoredPath values setup
-	__RectAnchoredPath__000000_Ref_anchored_path.Name = `Ref anchored path`
-	__RectAnchoredPath__000000_Ref_anchored_path.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
-	__RectAnchoredPath__000000_Ref_anchored_path.X_Offset = 20.000000
-	__RectAnchoredPath__000000_Ref_anchored_path.Y_Offset = 0.000000
-	__RectAnchoredPath__000000_Ref_anchored_path.RectAnchorType = models.RECT_BOTTOM_LEFT
-	__RectAnchoredPath__000000_Ref_anchored_path.ScalePropotionnally = true
-	__RectAnchoredPath__000000_Ref_anchored_path.AppliedScaling = 0.264584
-	__RectAnchoredPath__000000_Ref_anchored_path.Color = ``
-	__RectAnchoredPath__000000_Ref_anchored_path.FillOpacity = 0.000000
-	__RectAnchoredPath__000000_Ref_anchored_path.Stroke = `lightblue`
-	__RectAnchoredPath__000000_Ref_anchored_path.StrokeWidth = 5.000000
-	__RectAnchoredPath__000000_Ref_anchored_path.StrokeDashArray = ``
-	__RectAnchoredPath__000000_Ref_anchored_path.StrokeDashArrayWhenSelected = ``
-	__RectAnchoredPath__000000_Ref_anchored_path.Transform = ``
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.Name = `Bottom Bottom Left`
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.X_Offset = 0.000000
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.Y_Offset = 0.000000
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.RectAnchorType = models.RECT_BOTTOM_BOTTOM_LEFT
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.ScalePropotionnally = true
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.AppliedScaling = 0.250000
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.Color = ``
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.FillOpacity = 0.000000
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.Stroke = `darkturquoise`
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.StrokeWidth = 7.000000
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.StrokeDashArray = ``
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredPath__000000_Bottom_Bottom_Left.Transform = ``
 
 	// RectAnchoredPath values setup
-	__RectAnchoredPath__000001_new_rect_anchored_path.Name = `new rect anchored path`
-	__RectAnchoredPath__000001_new_rect_anchored_path.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
-	__RectAnchoredPath__000001_new_rect_anchored_path.X_Offset = 0.000000
-	__RectAnchoredPath__000001_new_rect_anchored_path.Y_Offset = 0.000000
-	__RectAnchoredPath__000001_new_rect_anchored_path.RectAnchorType = models.RECT_BOTTOM_RIGHT
-	__RectAnchoredPath__000001_new_rect_anchored_path.ScalePropotionnally = true
-	__RectAnchoredPath__000001_new_rect_anchored_path.AppliedScaling = 0.291667
-	__RectAnchoredPath__000001_new_rect_anchored_path.Color = ``
-	__RectAnchoredPath__000001_new_rect_anchored_path.FillOpacity = 0.000000
-	__RectAnchoredPath__000001_new_rect_anchored_path.Stroke = `red`
-	__RectAnchoredPath__000001_new_rect_anchored_path.StrokeWidth = 8.000000
-	__RectAnchoredPath__000001_new_rect_anchored_path.StrokeDashArray = ``
-	__RectAnchoredPath__000001_new_rect_anchored_path.StrokeDashArrayWhenSelected = ``
-	__RectAnchoredPath__000001_new_rect_anchored_path.Transform = ``
+	__RectAnchoredPath__000001_Bottom_Left_Left.Name = `Bottom Left Left`
+	__RectAnchoredPath__000001_Bottom_Left_Left.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
+	__RectAnchoredPath__000001_Bottom_Left_Left.X_Offset = 0.000000
+	__RectAnchoredPath__000001_Bottom_Left_Left.Y_Offset = 0.000000
+	__RectAnchoredPath__000001_Bottom_Left_Left.RectAnchorType = models.RECT_BOTTOM_LEFT_LEFT
+	__RectAnchoredPath__000001_Bottom_Left_Left.ScalePropotionnally = true
+	__RectAnchoredPath__000001_Bottom_Left_Left.AppliedScaling = 0.250000
+	__RectAnchoredPath__000001_Bottom_Left_Left.Color = ``
+	__RectAnchoredPath__000001_Bottom_Left_Left.FillOpacity = 0.000000
+	__RectAnchoredPath__000001_Bottom_Left_Left.Stroke = `lavender`
+	__RectAnchoredPath__000001_Bottom_Left_Left.StrokeWidth = 6.000000
+	__RectAnchoredPath__000001_Bottom_Left_Left.StrokeDashArray = ``
+	__RectAnchoredPath__000001_Bottom_Left_Left.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredPath__000001_Bottom_Left_Left.Transform = ``
+
+	// RectAnchoredPath values setup
+	__RectAnchoredPath__000002_Bottom_Right.Name = `Bottom Right`
+	__RectAnchoredPath__000002_Bottom_Right.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
+	__RectAnchoredPath__000002_Bottom_Right.X_Offset = 0.000000
+	__RectAnchoredPath__000002_Bottom_Right.Y_Offset = 0.000000
+	__RectAnchoredPath__000002_Bottom_Right.RectAnchorType = models.RECT_BOTTOM_RIGHT
+	__RectAnchoredPath__000002_Bottom_Right.ScalePropotionnally = true
+	__RectAnchoredPath__000002_Bottom_Right.AppliedScaling = 0.250000
+	__RectAnchoredPath__000002_Bottom_Right.Color = ``
+	__RectAnchoredPath__000002_Bottom_Right.FillOpacity = 0.000000
+	__RectAnchoredPath__000002_Bottom_Right.Stroke = `red`
+	__RectAnchoredPath__000002_Bottom_Right.StrokeWidth = 8.000000
+	__RectAnchoredPath__000002_Bottom_Right.StrokeDashArray = ``
+	__RectAnchoredPath__000002_Bottom_Right.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredPath__000002_Bottom_Right.Transform = ``
+
+	// RectAnchoredPath values setup
+	__RectAnchoredPath__000003_Ref_anchored_path.Name = `Ref anchored path`
+	__RectAnchoredPath__000003_Ref_anchored_path.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
+	__RectAnchoredPath__000003_Ref_anchored_path.X_Offset = 20.000000
+	__RectAnchoredPath__000003_Ref_anchored_path.Y_Offset = 0.000000
+	__RectAnchoredPath__000003_Ref_anchored_path.RectAnchorType = models.RECT_BOTTOM_LEFT
+	__RectAnchoredPath__000003_Ref_anchored_path.ScalePropotionnally = true
+	__RectAnchoredPath__000003_Ref_anchored_path.AppliedScaling = 0.264584
+	__RectAnchoredPath__000003_Ref_anchored_path.Color = ``
+	__RectAnchoredPath__000003_Ref_anchored_path.FillOpacity = 0.000000
+	__RectAnchoredPath__000003_Ref_anchored_path.Stroke = `lightblue`
+	__RectAnchoredPath__000003_Ref_anchored_path.StrokeWidth = 5.000000
+	__RectAnchoredPath__000003_Ref_anchored_path.StrokeDashArray = ``
+	__RectAnchoredPath__000003_Ref_anchored_path.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredPath__000003_Ref_anchored_path.Transform = ``
 
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
@@ -194,8 +228,10 @@ func newInjection(stage *models.StageStruct) {
 	__Layer__000000_Paths.Rects = append(__Layer__000000_Paths.Rects, __Rect__000000_Center_100_100)
 	__Layer__000000_Paths.Rects = append(__Layer__000000_Paths.Rects, __Rect__000001_Center_300_300)
 	__Layer__000000_Paths.Paths = append(__Layer__000000_Paths.Paths, __Path__000000_Tree_lines)
-	__Rect__000000_Center_100_100.RectAnchoredPaths = append(__Rect__000000_Center_100_100.RectAnchoredPaths, __RectAnchoredPath__000000_Ref_anchored_path)
-	__Rect__000001_Center_300_300.RectAnchoredPaths = append(__Rect__000001_Center_300_300.RectAnchoredPaths, __RectAnchoredPath__000001_new_rect_anchored_path)
+	__Rect__000000_Center_100_100.RectAnchoredPaths = append(__Rect__000000_Center_100_100.RectAnchoredPaths, __RectAnchoredPath__000003_Ref_anchored_path)
+	__Rect__000001_Center_300_300.RectAnchoredPaths = append(__Rect__000001_Center_300_300.RectAnchoredPaths, __RectAnchoredPath__000002_Bottom_Right)
+	__Rect__000001_Center_300_300.RectAnchoredPaths = append(__Rect__000001_Center_300_300.RectAnchoredPaths, __RectAnchoredPath__000001_Bottom_Left_Left)
+	__Rect__000001_Center_300_300.RectAnchoredPaths = append(__Rect__000001_Center_300_300.RectAnchoredPaths, __RectAnchoredPath__000000_Bottom_Bottom_Left)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Paths)
 }
 

@@ -230,7 +230,7 @@
                         [ngTemplateOutlet]="anchoredPath" 
                         [ngTemplateOutletContext]="{ 
                             path: rectAnchoredPath, 
-                            anchorX: rect.X - rect.Width + rectAnchoredPath.X_Offset, 
+                            anchorX: rect.X - rect.Height + rectAnchoredPath.X_Offset, 
                             anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset ,}
                         ">
                     </ng-container>

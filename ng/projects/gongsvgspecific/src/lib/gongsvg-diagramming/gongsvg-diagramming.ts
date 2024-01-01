@@ -353,6 +353,16 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
       this.unselectAllRects();
     }
 
+    if (distanceMoved < this.dragThreshold && this.State == StateEnumType.NOT_EDITABLE) {
+      console.log(getFunctionName(), "distanceMoved below threshold in state", this.State)
+
+      this.rectService.updateRect(this.draggedRect!, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+        _ => {
+          this.changeDetectorRef.detectChanges()
+        }
+      )
+    }
+
     // the use clicks on a rect for selecting it if it is not selected or
     // unselecting it if it is already selected
     // if shift is pressed, all selected rect stay selected, otherwise, they are unselected
@@ -677,6 +687,9 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
       this.svg.StartRect = rect
     }
 
+    if (this.State == StateEnumType.NOT_EDITABLE) {
+      this.draggedRect = rect
+    }
 
 
     console.log(getFunctionName(), "state at exit", this.State)

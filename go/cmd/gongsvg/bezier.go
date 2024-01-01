@@ -194,7 +194,7 @@ func bezierInjection(stage *models.StageStruct) {
 
 	// SVG values setup
 	__SVG__000000_beizer.Name = `beizer`
-	__SVG__000000_beizer.IsEditable = true
+	__SVG__000000_beizer.IsEditable = false
 
 	// Setup of pointers
 	__Layer__000000_bezier.Rects = append(__Layer__000000_bezier.Rects, __Rect__000001_Start)

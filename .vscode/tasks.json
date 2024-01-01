@@ -78,6 +78,23 @@
 			"group": "build"
 		},
 		{
+			"label": "02 - go run  --unmarshallFromCode=bezier.go --marshallOnCommit=bezier",
+			"type": "shell",
+			"options": {
+				"cwd": "./go/cmd/gongsvg"
+			},
+			"command": "go",
+			"args": [
+				"run",
+				"main.go",
+				"-unmarshallFromCode",
+				"bezier.go",
+				"-marshallOnCommit",
+				"bezier"
+			],
+			"group": "build"
+		},
+		{
 			"label": "02 - go run  --unmarshallFromCode=rectangle.go --marshallOnCommit=rectangle_out",
 			"type": "shell",
 			"options": {

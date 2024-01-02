@@ -90,11 +90,12 @@ func bezierInjection(stage *models.StageStruct) {
 	// Link values setup
 	__Link__000000_Test.Name = `Test`
 	__Link__000000_Test.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
-	__Link__000000_Test.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Test.StartRatio = 0.500000
+	__Link__000000_Test.IsBezierCurve = true
+	__Link__000000_Test.StartOrientation = models.ORIENTATION_VERTICAL
+	__Link__000000_Test.StartRatio = 0.530039
 	__Link__000000_Test.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Test.EndRatio = 0.500000
-	__Link__000000_Test.CornerOffsetRatio = 4.610000
+	__Link__000000_Test.EndRatio = 0.000000
+	__Link__000000_Test.CornerOffsetRatio = 4.240000
 	__Link__000000_Test.CornerRadius = 20.000000
 	__Link__000000_Test.HasEndArrow = true
 	__Link__000000_Test.EndArrowSize = 15.000000
@@ -138,8 +139,8 @@ func bezierInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_End.Name = `End`
-	__Rect__000000_End.X = 700.000000
-	__Rect__000000_End.Y = 800.000000
+	__Rect__000000_End.X = 524.000000
+	__Rect__000000_End.Y = 773.000000
 	__Rect__000000_End.Width = 100.000000
 	__Rect__000000_End.Height = 100.000000
 	__Rect__000000_End.RX = 0.000000
@@ -161,8 +162,8 @@ func bezierInjection(stage *models.StageStruct) {
 	__Rect__000000_End.IsScalingProportionally = false
 	__Rect__000000_End.CanHaveBottomHandle = false
 	__Rect__000000_End.HasBottomHandle = false
-	__Rect__000000_End.CanMoveHorizontaly = false
-	__Rect__000000_End.CanMoveVerticaly = false
+	__Rect__000000_End.CanMoveHorizontaly = true
+	__Rect__000000_End.CanMoveVerticaly = true
 
 	// Rect values setup
 	__Rect__000001_Start.Name = `Start`

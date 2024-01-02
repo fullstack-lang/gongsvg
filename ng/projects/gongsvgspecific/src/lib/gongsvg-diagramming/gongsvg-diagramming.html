@@ -348,45 +348,55 @@
             </ng-container>
             <ng-container *ngFor="let link of layer.Links">
                 <ng-container *ngIf="link.Type == LinkType.LINK_TYPE_FLOATING_ORTHOGONAL" >
-                    <ng-container *ngIf="link | linkSegments: map_Link_Segment as segments">
-                        <line *ngFor='let segment of segments;' class="moveable-line" 
-                            [attr.x1]="segment.StartPoint.X" 
-                            [attr.y1]="segment.StartPoint.Y" 
-                            [attr.x2]="segment.EndPoint.X" 
-                            [attr.y2]="segment.EndPoint.Y"
+                    <ng-container *ngIf="link.IsBezierCurve">
+                        <path
+                            [attr.d]="getBezierPath(link)" 
                             [attr.fill]="link.Color"
                             [attr.fill-opacity]="link.FillOpacity" 
                             [attr.stroke]="link.Stroke" 
                             [attr.stroke-width]="link.StrokeWidth"
                             [attr.stroke-dasharray]="link.StrokeDashArray" 
-                            [attr.segment-orientation]="getOrientation(segment)"
-                            [attr.segment-number]="segment.Number"
-                            
-                            (mousedown)="linkMouseDown($event, segment.Number, link)" 
-                            (mousemove)="onmousemove($event)" 
-                            (mouseup)="linkMouseUp($event, link)"
-                        
-                        />
-                    <line *ngFor='let segment of segments;' class="moveable-line" 
-                        [attr.x1]="segment.StartPoint.X" 
-                        [attr.y1]="segment.StartPoint.Y" 
-                        [attr.x2]="segment.EndPoint.X" 
-                        [attr.y2]="segment.EndPoint.Y"
-                        [attr.fill]="link.Color"
-                        [attr.fill-opacity]="link.FillOpacity" 
-                        [attr.stroke]="link.Stroke" 
-                        [attr.stroke-width]="link.StrokeWidth"
-                        [attr.stroke-dasharray]="link.StrokeDashArray" 
-                        [attr.segment-orientation]="getOrientation(segment)"
-                        [attr.segment-number]="segment.Number"
-                        
-                        (mousedown)="linkMouseDown($event, segment.Number, link)" 
-                        (mousemove)="onmousemove($event)" 
-                        (mouseup)="linkMouseUp($event, link)"
-                        
-                        />
+                            />
+                    </ng-container>
+                    <ng-container *ngIf="link | linkSegments: map_Link_Segment as segments">
+                        <ng-container *ngIf="!link.IsBezierCurve || svg.IsEditable">
+                            <line *ngFor='let segment of segments;' class="moveable-line" 
+                                [attr.x1]="segment.StartPoint.X" 
+                                [attr.y1]="segment.StartPoint.Y" 
+                                [attr.x2]="segment.EndPoint.X" 
+                                [attr.y2]="segment.EndPoint.Y"
+                                [attr.fill]="link.Color"
+                                [attr.fill-opacity]="link.FillOpacity" 
+                                [attr.stroke]="link.Stroke" 
+                                [attr.stroke-width]="link.StrokeWidth"
+                                [attr.stroke-dasharray]="link.StrokeDashArray" 
+                                [attr.segment-orientation]="getOrientation(segment)"
+                                [attr.segment-number]="segment.Number"
+                                
+                                (mousedown)="linkMouseDown($event, segment.Number, link)" 
+                                (mousemove)="onmousemove($event)" 
+                                (mouseup)="linkMouseUp($event, link)"/>
+                            <line *ngFor='let segment of segments;' class="moveable-line" 
+                                [attr.x1]="segment.StartPoint.X" 
+                                [attr.y1]="segment.StartPoint.Y" 
+                                [attr.x2]="segment.EndPoint.X" 
+                                [attr.y2]="segment.EndPoint.Y"
+                                [attr.fill]="link.Color"
+                                [attr.fill-opacity]="link.FillOpacity" 
+                                [attr.stroke]="link.Stroke" 
+                                [attr.stroke-width]="link.StrokeWidth"
+                                [attr.stroke-dasharray]="link.StrokeDashArray" 
+                                [attr.segment-orientation]="getOrientation(segment)"
+                                [attr.segment-number]="segment.Number"
+                                
+                                (mousedown)="linkMouseDown($event, segment.Number, link)" 
+                                (mousemove)="onmousemove($event)" 
+                                (mouseup)="linkMouseUp($event, link)"/>
+                    </ng-container>
             
                     <ng-container *ngFor='let segment of segments; let i = index'>
+                        <ng-container *ngIf="!link.IsBezierCurve">
+                        
                             <path *ngIf="segments[i + 1] as nextSegment"
                             [attr.d]="getArcPath(link, segment, nextSegment)" 
                             [attr.fill]="link.Color"
@@ -395,6 +405,7 @@
                             [attr.stroke-width]="link.StrokeWidth"
                             [attr.stroke-dasharray]="link.StrokeDashArray" 
                             />
+                        </ng-container>
                         <ng-container *ngIf="(i == (segments.length - 1)) && this.link!.HasEndArrow">
                             <path
                                 [attr.d]="getEndArrowPath(link, segment, this.link!.EndArrowSize)"
@@ -464,7 +475,7 @@
                             </ng-container> 
                         </ng-container>
                     </ng-container>
-                </ng-container>
+                    </ng-container>
                 </ng-container>
             </ng-container>
             <ng-container *ngFor="let rectLinkLink of layer.RectLinkLinks">

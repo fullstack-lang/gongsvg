@@ -447,6 +447,8 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("IsBezierCurve", instanceWithInferedType.IsBezierCurve, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationFieldToForm("Start", instanceWithInferedType.Start, formGroup, probe)
 		EnumTypeStringToForm("StartAnchorType", instanceWithInferedType.StartAnchorType, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationFieldToForm("End", instanceWithInferedType.End, formGroup, probe)

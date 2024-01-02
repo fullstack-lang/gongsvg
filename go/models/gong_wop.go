@@ -75,6 +75,7 @@ type Link_WOP struct {
 	// insertion point
 	Name string
 	Type LinkType
+	IsBezierCurve bool
 	StartAnchorType AnchorType
 	EndAnchorType AnchorType
 	StartOrientation OrientationType

@@ -325,7 +325,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
             break;
           case StateEnumType.RECTS_DRAGGING:
             break;
-          case StateEnumType.RECT_DRAGGING:
+          case StateEnumType.RECT_ANCHOR_DRAGGING:
             break;
           case StateEnumType.LINK_ANCHORED_TEXT_DRAGGING:
             unselectRect = true
@@ -435,7 +435,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
       document.body.style.cursor = ''
     }
 
-    if (this.State == StateEnumType.RECT_DRAGGING) {
+    if (this.State == StateEnumType.RECT_ANCHOR_DRAGGING) {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state at exit", this.State)
 
@@ -445,14 +445,30 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
       }
 
       this.rectService.updateRect(this.draggedRect!,
-        this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+        this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+          () => {
+            // this is necessary because the this.gongsvgFrontRepoService.frontRepo
+            // is empty at this stage
+            // TO DO, understand why this.gongsvgFrontRepoService.frontRepo can be not ok
+            // in this call
+            this.refresh()
+          }
+        )
     }
 
     if (this.State == StateEnumType.RECTS_DRAGGING) {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state at exit", this.State)
       this.rectService.updateRect(this.draggedRect!,
-        this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+        this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+          () => {
+            // this is necessary because the this.gongsvgFrontRepoService.frontRepo
+            // is empty at this stage
+            // TO DO, understand why this.gongsvgFrontRepoService.frontRepo can be not ok
+            // in this call
+            this.refresh()
+          }
+        )
     }
 
     this.computeShapeStates()
@@ -583,7 +599,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (this.State == StateEnumType.RECT_DRAGGING) {
+    if (this.State == StateEnumType.RECT_ANCHOR_DRAGGING) {
 
       let scaleProportionally = this.draggedRect?.IsScalingProportionally &&
         this.RectAtMouseDown!.Width > 0 &&
@@ -733,7 +749,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
   anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: gongsvg.RectDB): void {
     this.PointAtMouseDown = mouseCoordInComponentRef(event)
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey && !event.shiftKey) {
-      this.State = StateEnumType.RECT_DRAGGING
+      this.State = StateEnumType.RECT_ANCHOR_DRAGGING
       console.log(getFunctionName(), "state at exit", this.State)
 
       this.activeAnchor = anchor

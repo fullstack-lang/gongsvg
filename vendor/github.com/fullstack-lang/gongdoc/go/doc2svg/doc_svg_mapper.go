@@ -2,7 +2,6 @@ package doc2svg
 
 import (
 	"fmt"
-	"log"
 
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 	gongsvg_models "github.com/fullstack-lang/gongsvg/go/models"
@@ -35,7 +34,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	gongdocStage *gongdoc_models.StageStruct,
 ) {
 
-	log.Println("DocSVGMapper.GenerateSvg")
+	// log.Println("DocSVGMapper.GenerateSvg")
 
 	docSVGMapper.map_GongstructShape_Rect = make(map[*gongdoc_models.GongStructShape]*gongsvg_models.Rect)
 	docSVGMapper.map_GongenumShape_Rect = make(map[*gongdoc_models.GongEnumShape]*gongsvg_models.Rect)
@@ -437,7 +436,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		// titleBox.Y_Offset = 0
 		// titleBox.Width = rect.Width
 		// titleBox.Height = 30
-		// titleBox.RectAnchorType = gongsvg_models.RECT_ANCHOR_TOP_LEFT
+		// titleBox.RectAnchorType = gongsvg_models.RECT_TOP_LEFT
 		// titleBox.Color = gongsvg_models.Skyblue.ToString()
 		// titleBox.WidthFollowRect = true
 		// titleBox.FillOpacity = 100

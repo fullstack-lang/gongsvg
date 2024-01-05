@@ -1281,6 +1281,10 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.Name), formDiv)
 		case "Content":
 			FormDivBasicFieldToField(&(linkanchoredtext_.Content), formDiv)
+		case "AutomaticLayout":
+			FormDivBasicFieldToField(&(linkanchoredtext_.AutomaticLayout), formDiv)
+		case "LinkAnchorType":
+			FormDivEnumStringFieldToField(&(linkanchoredtext_.LinkAnchorType), formDiv)
 		case "X_Offset":
 			FormDivBasicFieldToField(&(linkanchoredtext_.X_Offset), formDiv)
 		case "Y_Offset":

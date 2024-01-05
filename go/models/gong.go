@@ -2796,7 +2796,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Link:
 		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowEnd", "TextAtArrowStart", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case LinkAnchoredText:
-		res = []string{"Name", "Content", "X_Offset", "Y_Offset", "FontWeight", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Point:
@@ -2996,7 +2996,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Link:
 		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowEnd", "TextAtArrowStart", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *LinkAnchoredText:
-		res = []string{"Name", "Content", "X_Offset", "Y_Offset", "FontWeight", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Point:
@@ -3315,6 +3315,11 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = inferedInstance.Name
 		case "Content":
 			res = inferedInstance.Content
+		case "AutomaticLayout":
+			res = fmt.Sprintf("%t", inferedInstance.AutomaticLayout)
+		case "LinkAnchorType":
+			enum := inferedInstance.LinkAnchorType
+			res = enum.ToCodeString()
 		case "X_Offset":
 			res = fmt.Sprintf("%f", inferedInstance.X_Offset)
 		case "Y_Offset":
@@ -4028,6 +4033,11 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = inferedInstance.Name
 		case "Content":
 			res = inferedInstance.Content
+		case "AutomaticLayout":
+			res = fmt.Sprintf("%t", inferedInstance.AutomaticLayout)
+		case "LinkAnchorType":
+			enum := inferedInstance.LinkAnchorType
+			res = enum.ToCodeString()
 		case "X_Offset":
 			res = fmt.Sprintf("%f", inferedInstance.X_Offset)
 		case "Y_Offset":

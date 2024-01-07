@@ -874,48 +874,40 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     // console.log(getFunctionName(), "text", text.Content)
 
     let offset = 0
-    let offsetSign = 0
+    let offsetSign = 1
 
     if (!text.AutomaticLayout) {
       return offset
     }
 
-    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
-      if (segment.EndPoint.Y < segment.StartPoint.Y) {
-        if (draggedSegmentPositionOnArrow == this.PositionOnArrowType.POSITION_ON_ARROW_END) {
-          offsetSign = 1
-        } else {
-          offsetSign = -1
-        }
-      } else {
-        if (draggedSegmentPositionOnArrow == this.PositionOnArrowType.POSITION_ON_ARROW_END) {
-          offsetSign = -1
-        } else {
-          offsetSign = 1
-        }
+    let orientation: string
+    if (draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+      orientation = link.EndOrientation
+    } else {
+      orientation = link.StartOrientation
+    }
+
+    if (draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+      offsetSign = - offsetSign
+    }
+
+    if (orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+      if (segment.EndPoint.Y > segment.StartPoint.Y) {
+        offsetSign = -offsetSign
       }
     } else {
-
+      if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_RIGHT_OR_BOTTOM) {
+        offsetSign = -offsetSign
+      }
     }
 
-
-    // last segment is going up
-    // console.log(getFunctionName(), "segment.EndPoint.Y", segment.EndPoint.Y, "segment.StartPoint.Y", segment.StartPoint.Y)
-
-    // offset need to be negative by the height of one line
-    // last segmenet is going up
     if (link.HasEndArrow) {
       offset += link.EndArrowSize
-      // console.log(getFunctionName(), "HasEndArrow, offset", offset)
     }
-
     offset += this.oneEm
-    // console.log(getFunctionName(), "HasEndArrow, offset", offset)
 
-    console.log(getFunctionName(), "text", text.Content, "offset", offset * offsetSign)
+    console.log(getFunctionName(), "text", text.Content, "offset sign", offsetSign, "offset final", offset * offsetSign)
     return offset * offsetSign
-
-
   }
 
   auto_X_offset(
@@ -931,14 +923,12 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
       return offset
     }
 
-    if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_RIGHT_OR_BOTTOM) {
-      if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+      if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_RIGHT_OR_BOTTOM) {
         offset += 16
       }
-    }
-    if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
-      if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
 
+      if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
         let _width = this.map_text_textWidth.get(line)
         if (_width != undefined) {
           offset -= this.oneEm
@@ -956,7 +946,11 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
           }
         }
       }
+    } else { // ORIENTATION_HORIZONTAL
+
     }
+
+
     return offset
   }
 }

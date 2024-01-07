@@ -196,11 +196,11 @@ Line 2`}).Stage(stage)
 	__Link__000001_Start_Middle.Name = `Start - Middle`
 	__Link__000001_Start_Middle.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000001_Start_Middle.IsBezierCurve = false
-	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.StartRatio = 0.702944
+	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_VERTICAL
+	__Link__000001_Start_Middle.StartRatio = 0.616050
 	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Start_Middle.EndRatio = 1.000000
-	__Link__000001_Start_Middle.CornerOffsetRatio = 1.025333
+	__Link__000001_Start_Middle.EndRatio = 0.480020
+	__Link__000001_Start_Middle.CornerOffsetRatio = -0.372000
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000
@@ -252,8 +252,8 @@ Line 2`
 	__LinkAnchoredText__000002_Liine_1_Line_2.Content = `Liine 1
 Line 2`
 	__LinkAnchoredText__000002_Liine_1_Line_2.AutomaticLayout = false
-	__LinkAnchoredText__000002_Liine_1_Line_2.X_Offset = -97.000000
-	__LinkAnchoredText__000002_Liine_1_Line_2.Y_Offset = -30.000000
+	__LinkAnchoredText__000002_Liine_1_Line_2.X_Offset = -61.000000
+	__LinkAnchoredText__000002_Liine_1_Line_2.Y_Offset = -35.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.FontWeight = `normal`
 	__LinkAnchoredText__000002_Liine_1_Line_2.Color = `black`
 	__LinkAnchoredText__000002_Liine_1_Line_2.FillOpacity = 100.000000
@@ -342,8 +342,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 467.000000
-	__Rect__000001_Middle_Rect.Y = 425.000000
+	__Rect__000001_Middle_Rect.X = 448.000000
+	__Rect__000001_Middle_Rect.Y = 461.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -370,8 +370,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 298.999969
-	__Rect__000002_Top.Y = 784.000000
+	__Rect__000002_Top.X = 202.999969
+	__Rect__000002_Top.Y = 755.000000
 	__Rect__000002_Top.Width = 237.000000
 	__Rect__000002_Top.Height = 237.000000
 	__Rect__000002_Top.RX = 3.000000
@@ -586,10 +586,10 @@ line 3`
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000002_Liine_1_Line_2)
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000002_Liine_1_Line_2)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __LinkAnchoredText__000003_Start_Anchored_1)
 	__Link__000001_Start_Middle.Start = __Rect__000002_Top
 	__Link__000001_Start_Middle.End = __Rect__000001_Middle_Rect
-	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000002_Liine_1_Line_2)
 	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000001_End_Right_Bottom)
 	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000000_End_Left_Top)
 	__Link__000001_Start_Middle.TextAtArrowStart = append(__Link__000001_Start_Middle.TextAtArrowStart, __LinkAnchoredText__000004_Start_Left_Top)

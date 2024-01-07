@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'lib-text-width-calculator',
   templateUrl: './text-width-calculator.component.html',
   styleUrls: ['./text-width-calculator.component.css']
 })
-export class TextWidthCalculatorComponent implements AfterViewInit {
+export class TextWidthCalculatorComponent implements OnInit, AfterViewInit {
   @ViewChild('measureElement') measureElement!: ElementRef;
 
   ngAfterViewInit() {
@@ -13,8 +13,20 @@ export class TextWidthCalculatorComponent implements AfterViewInit {
     // Use this method to measure the text width
   }
 
+  ngOnInit() {
+    this.changeDetectorRef.detach()
+    this.changeDetectorRef.detectChanges()
+  }
+
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {
+
+  }
+
   measureTextWidth(text: string): number {
     // console.log("measure text width")
+    this.changeDetectorRef.detectChanges()
     const element = this.measureElement.nativeElement;
     element.textContent = text;
     return element.offsetWidth

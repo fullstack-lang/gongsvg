@@ -14,7 +14,7 @@ export class TextWidthCalculatorComponent implements AfterViewInit {
   }
 
   measureTextWidth(text: string): number {
-    console.log("measure text width")
+    // console.log("measure text width")
     const element = this.measureElement.nativeElement;
     element.textContent = text;
     return element.offsetWidth

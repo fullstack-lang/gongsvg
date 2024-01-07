@@ -34,6 +34,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   @Input() GONG__StackPath: string = ""
 
   @ViewChild('textWidthCalculator') textWidthCalculator: TextWidthCalculatorComponent | undefined
+  map_text_textWidth: Map<string, number> = new Map<string, number>
   ngAfterViewInit() {
     // Now you can use textWidthCalculator
     this.changeDetectorRef.detectChanges() // this is necessary to have the width configuration working
@@ -158,6 +159,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   AnchoredTextAtMouseDown: gongsvg.LinkAnchoredTextDB | undefined
 
   // is the link anchored text at the start or the end of the arrows
+  PositionOnArrowType = gongsvg.PositionOnArrowType
   draggedSegmentPositionOnArrow: gongsvg.PositionOnArrowType = gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START
 
   //
@@ -862,66 +864,58 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   // which is typically 16 pixels.
   oneEm = 16
 
-  auto_Y_offsetEnd(link: gongsvg.LinkDB, segment: Segment, text: gongsvg.LinkAnchoredTextDB): number {
-    console.log(getFunctionName(), "text", text.Content)
+  auto_Y_offset(
+    link: gongsvg.LinkDB,
+    segment: Segment,
+    text: gongsvg.LinkAnchoredTextDB,
+    draggedSegmentPositionOnArrow: string): number {
+    // console.log(getFunctionName(), "text", text.Content)
 
     let offset = 0
+    let offsetSign = 0
 
     if (!text.AutomaticLayout) {
       return offset
     }
 
-    if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
+    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
 
-      if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
-        // last segment is going up
-        console.log(getFunctionName(), "segment.EndPoint.Y", segment.EndPoint.Y, "segment.StartPoint.Y", segment.StartPoint.Y)
-        if (segment.EndPoint.Y < segment.StartPoint.Y) {
-          // offset need to be negative by the height of one line
-          // last segmenet is going up
-          if (link.HasEndArrow) {
-            offset += link.EndArrowSize
-            console.log(getFunctionName(), "HasEndArrow, offset", offset)
-          }
-          offset += this.oneEm
-          console.log(getFunctionName(), "HasEndArrow, offset", offset)
+      if (segment.EndPoint.Y < segment.StartPoint.Y) {
+        if (draggedSegmentPositionOnArrow == this.PositionOnArrowType.POSITION_ON_ARROW_END) {
+          offsetSign = 1
+        } else {
+          offsetSign = -1
         }
-        if (segment.EndPoint.Y > segment.StartPoint.Y) {
-          // offset need to be negative by the height of one line
-          // last segmenet is going up
-          if (link.HasEndArrow) {
-            offset -= link.EndArrowSize
-            console.log(getFunctionName(), "HasEndArrow, offset", offset)
-          }
-          offset -= this.oneEm
-          console.log(getFunctionName(), "HasEndArrow, offset", offset)
+      } else {
+        if (draggedSegmentPositionOnArrow == this.PositionOnArrowType.POSITION_ON_ARROW_END) {
+          offsetSign = -1
+        } else {
+          offsetSign = 1
         }
       }
-    }
 
-    return offset
-  }
+      // last segment is going up
+      // console.log(getFunctionName(), "segment.EndPoint.Y", segment.EndPoint.Y, "segment.StartPoint.Y", segment.StartPoint.Y)
 
-  auto_Y_offsetStart(segment: Segment, text: gongsvg.LinkAnchoredTextDB): number {
-    console.log(getFunctionName(), "text", text.Content)
-
-    if (!text.AutomaticLayout) {
-      return 0
-    }
-
-    if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
-
-      if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
-
-
+      // offset need to be negative by the height of one line
+      // last segmenet is going up
+      if (link.HasEndArrow) {
+        offset += link.EndArrowSize
+        // console.log(getFunctionName(), "HasEndArrow, offset", offset)
       }
+      offset += this.oneEm
+      // console.log(getFunctionName(), "HasEndArrow, offset", offset)
     }
 
-    return 0
+    return offset * offsetSign
   }
 
-  auto_X_offsetEnd(segment: Segment, text: gongsvg.LinkAnchoredTextDB, line: string): number {
-    console.log(getFunctionName(), "text", text.Content)
+  auto_X_offset(
+    segment: Segment,
+    text: gongsvg.LinkAnchoredTextDB,
+    line: string,
+    draggedSegmentPositionOnArrow: string): number {
+    // console.log(getFunctionName(), "text", text.Content)
 
     let offset = 0
 
@@ -936,14 +930,23 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     }
     if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
       if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
-        if (this.textWidthCalculator != undefined) {
-          const width = this.textWidthCalculator.measureTextWidth(line);
-          console.log(`Width of the text, "` + line + `" : ${width}px`);
-          const height = this.textWidthCalculator.measureTextHeight(line);
-          console.log(`Width of the text, "` + line + `" : ${height}px`);
-          offset += 16
-        }
 
+        let _width = this.map_text_textWidth.get(line)
+        if (_width != undefined) {
+          offset -= this.oneEm
+          offset -= _width
+          // console.log("cache hit")
+        } else {
+          if (this.textWidthCalculator != undefined) {
+            const width = this.textWidthCalculator.measureTextWidth(line);
+            // console.log(`Width of the text, "` + line + `" : ${width}px`);
+            // const height = this.textWidthCalculator.measureTextHeight(line);
+            // console.log(`Width of the text, "` + line + `" : ${height}px`);
+            offset -= this.oneEm
+            offset -= width
+            this.map_text_textWidth.set(line, width)
+          }
+        }
       }
     }
     return offset

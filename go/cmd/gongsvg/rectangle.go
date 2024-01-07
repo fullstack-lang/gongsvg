@@ -63,10 +63,12 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of LinkAnchoredText
 	__LinkAnchoredText__000000_End_Left_Top := (&models.LinkAnchoredText{Name: `End Left/Top`}).Stage(stage)
-	__LinkAnchoredText__000001_Liine_1_Line_2 := (&models.LinkAnchoredText{Name: `Liine 1
+	__LinkAnchoredText__000001_End_Right_Bottom := (&models.LinkAnchoredText{Name: `End Right/Bottom`}).Stage(stage)
+	__LinkAnchoredText__000002_Liine_1_Line_2 := (&models.LinkAnchoredText{Name: `Liine 1
 Line 2`}).Stage(stage)
-	__LinkAnchoredText__000002_Start_Anchored_1 := (&models.LinkAnchoredText{Name: `Start Anchored 1`}).Stage(stage)
-	__LinkAnchoredText__000003_Start_Left_Top := (&models.LinkAnchoredText{Name: `Start Left/Top`}).Stage(stage)
+	__LinkAnchoredText__000003_Start_Anchored_1 := (&models.LinkAnchoredText{Name: `Start Anchored 1`}).Stage(stage)
+	__LinkAnchoredText__000004_Start_Left_Top := (&models.LinkAnchoredText{Name: `Start Left/Top`}).Stage(stage)
+	__LinkAnchoredText__000005_Start_Right_Bottom := (&models.LinkAnchoredText{Name: `Start Right/Bottom`}).Stage(stage)
 
 	// Declarations of staged instances of Path
 
@@ -197,8 +199,8 @@ Line 2`}).Stage(stage)
 	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_VERTICAL
 	__Link__000001_Start_Middle.StartRatio = 0.476810
 	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Start_Middle.EndRatio = 0.495020
-	__Link__000001_Start_Middle.CornerOffsetRatio = -0.308709
+	__Link__000001_Start_Middle.EndRatio = 0.470020
+	__Link__000001_Start_Middle.CornerOffsetRatio = 1.423408
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000
@@ -229,54 +231,86 @@ Line 2`}).Stage(stage)
 	__LinkAnchoredText__000000_End_Left_Top.Transform = ``
 
 	// LinkAnchoredText values setup
-	__LinkAnchoredText__000001_Liine_1_Line_2.Name = `Liine 1
-Line 2`
-	__LinkAnchoredText__000001_Liine_1_Line_2.Content = `Liine 1
-Line 2`
-	__LinkAnchoredText__000001_Liine_1_Line_2.AutomaticLayout = false
-	__LinkAnchoredText__000001_Liine_1_Line_2.X_Offset = -79.000000
-	__LinkAnchoredText__000001_Liine_1_Line_2.Y_Offset = -22.000000
-	__LinkAnchoredText__000001_Liine_1_Line_2.FontWeight = `normal`
-	__LinkAnchoredText__000001_Liine_1_Line_2.Color = `black`
-	__LinkAnchoredText__000001_Liine_1_Line_2.FillOpacity = 100.000000
-	__LinkAnchoredText__000001_Liine_1_Line_2.Stroke = `black`
-	__LinkAnchoredText__000001_Liine_1_Line_2.StrokeWidth = 1.000000
-	__LinkAnchoredText__000001_Liine_1_Line_2.StrokeDashArray = ``
-	__LinkAnchoredText__000001_Liine_1_Line_2.StrokeDashArrayWhenSelected = ``
-	__LinkAnchoredText__000001_Liine_1_Line_2.Transform = ``
+	__LinkAnchoredText__000001_End_Right_Bottom.Name = `End Right/Bottom`
+	__LinkAnchoredText__000001_End_Right_Bottom.Content = `End Right/Bottom`
+	__LinkAnchoredText__000001_End_Right_Bottom.AutomaticLayout = true
+	__LinkAnchoredText__000001_End_Right_Bottom.LinkAnchorType = models.LINK_RIGHT_OR_BOTTOM
+	__LinkAnchoredText__000001_End_Right_Bottom.X_Offset = 0.000000
+	__LinkAnchoredText__000001_End_Right_Bottom.Y_Offset = 0.000000
+	__LinkAnchoredText__000001_End_Right_Bottom.FontWeight = `normal`
+	__LinkAnchoredText__000001_End_Right_Bottom.Color = `black`
+	__LinkAnchoredText__000001_End_Right_Bottom.FillOpacity = 1.000000
+	__LinkAnchoredText__000001_End_Right_Bottom.Stroke = `black`
+	__LinkAnchoredText__000001_End_Right_Bottom.StrokeWidth = 1.000000
+	__LinkAnchoredText__000001_End_Right_Bottom.StrokeDashArray = ``
+	__LinkAnchoredText__000001_End_Right_Bottom.StrokeDashArrayWhenSelected = ``
+	__LinkAnchoredText__000001_End_Right_Bottom.Transform = ``
 
 	// LinkAnchoredText values setup
-	__LinkAnchoredText__000002_Start_Anchored_1.Name = `Start Anchored 1`
-	__LinkAnchoredText__000002_Start_Anchored_1.Content = `Start Anchored 1
+	__LinkAnchoredText__000002_Liine_1_Line_2.Name = `Liine 1
+Line 2`
+	__LinkAnchoredText__000002_Liine_1_Line_2.Content = `Liine 1
+Line 2`
+	__LinkAnchoredText__000002_Liine_1_Line_2.AutomaticLayout = false
+	__LinkAnchoredText__000002_Liine_1_Line_2.X_Offset = -97.000000
+	__LinkAnchoredText__000002_Liine_1_Line_2.Y_Offset = -30.000000
+	__LinkAnchoredText__000002_Liine_1_Line_2.FontWeight = `normal`
+	__LinkAnchoredText__000002_Liine_1_Line_2.Color = `black`
+	__LinkAnchoredText__000002_Liine_1_Line_2.FillOpacity = 100.000000
+	__LinkAnchoredText__000002_Liine_1_Line_2.Stroke = `black`
+	__LinkAnchoredText__000002_Liine_1_Line_2.StrokeWidth = 1.000000
+	__LinkAnchoredText__000002_Liine_1_Line_2.StrokeDashArray = ``
+	__LinkAnchoredText__000002_Liine_1_Line_2.StrokeDashArrayWhenSelected = ``
+	__LinkAnchoredText__000002_Liine_1_Line_2.Transform = ``
+
+	// LinkAnchoredText values setup
+	__LinkAnchoredText__000003_Start_Anchored_1.Name = `Start Anchored 1`
+	__LinkAnchoredText__000003_Start_Anchored_1.Content = `Start Anchored 1
 Second line
 Third Line`
-	__LinkAnchoredText__000002_Start_Anchored_1.AutomaticLayout = false
-	__LinkAnchoredText__000002_Start_Anchored_1.X_Offset = -80.000031
-	__LinkAnchoredText__000002_Start_Anchored_1.Y_Offset = 47.012512
-	__LinkAnchoredText__000002_Start_Anchored_1.FontWeight = `light`
-	__LinkAnchoredText__000002_Start_Anchored_1.Color = `cyan`
-	__LinkAnchoredText__000002_Start_Anchored_1.FillOpacity = 100.000000
-	__LinkAnchoredText__000002_Start_Anchored_1.Stroke = `cyan`
-	__LinkAnchoredText__000002_Start_Anchored_1.StrokeWidth = 1.000000
-	__LinkAnchoredText__000002_Start_Anchored_1.StrokeDashArray = ``
-	__LinkAnchoredText__000002_Start_Anchored_1.StrokeDashArrayWhenSelected = ``
-	__LinkAnchoredText__000002_Start_Anchored_1.Transform = ``
+	__LinkAnchoredText__000003_Start_Anchored_1.AutomaticLayout = false
+	__LinkAnchoredText__000003_Start_Anchored_1.X_Offset = -129.000031
+	__LinkAnchoredText__000003_Start_Anchored_1.Y_Offset = 37.012512
+	__LinkAnchoredText__000003_Start_Anchored_1.FontWeight = `light`
+	__LinkAnchoredText__000003_Start_Anchored_1.Color = `cyan`
+	__LinkAnchoredText__000003_Start_Anchored_1.FillOpacity = 100.000000
+	__LinkAnchoredText__000003_Start_Anchored_1.Stroke = `cyan`
+	__LinkAnchoredText__000003_Start_Anchored_1.StrokeWidth = 1.000000
+	__LinkAnchoredText__000003_Start_Anchored_1.StrokeDashArray = ``
+	__LinkAnchoredText__000003_Start_Anchored_1.StrokeDashArrayWhenSelected = ``
+	__LinkAnchoredText__000003_Start_Anchored_1.Transform = ``
 
 	// LinkAnchoredText values setup
-	__LinkAnchoredText__000003_Start_Left_Top.Name = `Start Left/Top`
-	__LinkAnchoredText__000003_Start_Left_Top.Content = `Start Left/Top`
-	__LinkAnchoredText__000003_Start_Left_Top.AutomaticLayout = true
-	__LinkAnchoredText__000003_Start_Left_Top.LinkAnchorType = models.LINK_LEFT_OR_TOP
-	__LinkAnchoredText__000003_Start_Left_Top.X_Offset = 0.000000
-	__LinkAnchoredText__000003_Start_Left_Top.Y_Offset = 0.000000
-	__LinkAnchoredText__000003_Start_Left_Top.FontWeight = `normal`
-	__LinkAnchoredText__000003_Start_Left_Top.Color = `black`
-	__LinkAnchoredText__000003_Start_Left_Top.FillOpacity = 0.000000
-	__LinkAnchoredText__000003_Start_Left_Top.Stroke = `black`
-	__LinkAnchoredText__000003_Start_Left_Top.StrokeWidth = 1.000000
-	__LinkAnchoredText__000003_Start_Left_Top.StrokeDashArray = ``
-	__LinkAnchoredText__000003_Start_Left_Top.StrokeDashArrayWhenSelected = ``
-	__LinkAnchoredText__000003_Start_Left_Top.Transform = ``
+	__LinkAnchoredText__000004_Start_Left_Top.Name = `Start Left/Top`
+	__LinkAnchoredText__000004_Start_Left_Top.Content = `Start Left/Top`
+	__LinkAnchoredText__000004_Start_Left_Top.AutomaticLayout = true
+	__LinkAnchoredText__000004_Start_Left_Top.LinkAnchorType = models.LINK_LEFT_OR_TOP
+	__LinkAnchoredText__000004_Start_Left_Top.X_Offset = 0.000000
+	__LinkAnchoredText__000004_Start_Left_Top.Y_Offset = 0.000000
+	__LinkAnchoredText__000004_Start_Left_Top.FontWeight = `normal`
+	__LinkAnchoredText__000004_Start_Left_Top.Color = `black`
+	__LinkAnchoredText__000004_Start_Left_Top.FillOpacity = 0.000000
+	__LinkAnchoredText__000004_Start_Left_Top.Stroke = `black`
+	__LinkAnchoredText__000004_Start_Left_Top.StrokeWidth = 1.000000
+	__LinkAnchoredText__000004_Start_Left_Top.StrokeDashArray = ``
+	__LinkAnchoredText__000004_Start_Left_Top.StrokeDashArrayWhenSelected = ``
+	__LinkAnchoredText__000004_Start_Left_Top.Transform = ``
+
+	// LinkAnchoredText values setup
+	__LinkAnchoredText__000005_Start_Right_Bottom.Name = `Start Right/Bottom`
+	__LinkAnchoredText__000005_Start_Right_Bottom.Content = `Start Right/Bottom`
+	__LinkAnchoredText__000005_Start_Right_Bottom.AutomaticLayout = true
+	__LinkAnchoredText__000005_Start_Right_Bottom.LinkAnchorType = models.LINK_RIGHT_OR_BOTTOM
+	__LinkAnchoredText__000005_Start_Right_Bottom.X_Offset = 0.000000
+	__LinkAnchoredText__000005_Start_Right_Bottom.Y_Offset = 0.000000
+	__LinkAnchoredText__000005_Start_Right_Bottom.FontWeight = `normal`
+	__LinkAnchoredText__000005_Start_Right_Bottom.Color = `black`
+	__LinkAnchoredText__000005_Start_Right_Bottom.FillOpacity = 1.000000
+	__LinkAnchoredText__000005_Start_Right_Bottom.Stroke = `black`
+	__LinkAnchoredText__000005_Start_Right_Bottom.StrokeWidth = 1.000000
+	__LinkAnchoredText__000005_Start_Right_Bottom.StrokeDashArray = ``
+	__LinkAnchoredText__000005_Start_Right_Bottom.StrokeDashArrayWhenSelected = ``
+	__LinkAnchoredText__000005_Start_Right_Bottom.Transform = ``
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
@@ -308,8 +342,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 563.000000
-	__Rect__000001_Middle_Rect.Y = 463.000000
+	__Rect__000001_Middle_Rect.X = 414.000000
+	__Rect__000001_Middle_Rect.Y = 429.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -551,12 +585,14 @@ line 3`
 	__Layer__000005_Top_Rectangle_layer.Rects = append(__Layer__000005_Top_Rectangle_layer.Rects, __Rect__000002_Top)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000001_Liine_1_Line_2)
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __LinkAnchoredText__000002_Start_Anchored_1)
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000002_Liine_1_Line_2)
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __LinkAnchoredText__000003_Start_Anchored_1)
 	__Link__000001_Start_Middle.Start = __Rect__000002_Top
 	__Link__000001_Start_Middle.End = __Rect__000001_Middle_Rect
 	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000000_End_Left_Top)
-	__Link__000001_Start_Middle.TextAtArrowStart = append(__Link__000001_Start_Middle.TextAtArrowStart, __LinkAnchoredText__000003_Start_Left_Top)
+	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000001_End_Right_Bottom)
+	__Link__000001_Start_Middle.TextAtArrowStart = append(__Link__000001_Start_Middle.TextAtArrowStart, __LinkAnchoredText__000004_Start_Left_Top)
+	__Link__000001_Start_Middle.TextAtArrowStart = append(__Link__000001_Start_Middle.TextAtArrowStart, __LinkAnchoredText__000005_Start_Right_Bottom)
 	__Rect__000000_Bottom.RectAnchoredTexts = append(__Rect__000000_Bottom.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
 	__Rect__000000_Bottom.RectAnchoredRects = append(__Rect__000000_Bottom.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
 	__Rect__000000_Bottom.RectAnchoredPaths = append(__Rect__000000_Bottom.RectAnchoredPaths, __RectAnchoredPath__000001_second_log)

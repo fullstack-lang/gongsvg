@@ -1724,10 +1724,10 @@ func (linkanchortype LinkAnchorType) ToString() (res string) {
 	// migration of former implementation of enum
 	switch linkanchortype {
 	// insertion code per enum code
-	case LINK_TOP:
-		res = "LINK_TOP"
-	case LINK_BOTTOM:
-		res = "LINK_BOTTOM"
+	case LINK_LEFT_OR_TOP:
+		res = "LINK_LEFT_OR_TOP"
+	case LINK_RIGHT_OR_BOTTOM:
+		res = "LINK_RIGHT_OR_BOTTOM"
 	}
 	return
 }
@@ -1736,10 +1736,10 @@ func (linkanchortype *LinkAnchorType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "LINK_TOP":
-		*linkanchortype = LINK_TOP
-	case "LINK_BOTTOM":
-		*linkanchortype = LINK_BOTTOM
+	case "LINK_LEFT_OR_TOP":
+		*linkanchortype = LINK_LEFT_OR_TOP
+	case "LINK_RIGHT_OR_BOTTOM":
+		*linkanchortype = LINK_RIGHT_OR_BOTTOM
 	default:
 		return errUnkownEnum
 	}
@@ -1750,10 +1750,10 @@ func (linkanchortype *LinkAnchorType) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "LINK_TOP":
-		*linkanchortype = LINK_TOP
-	case "LINK_BOTTOM":
-		*linkanchortype = LINK_BOTTOM
+	case "LINK_LEFT_OR_TOP":
+		*linkanchortype = LINK_LEFT_OR_TOP
+	case "LINK_RIGHT_OR_BOTTOM":
+		*linkanchortype = LINK_RIGHT_OR_BOTTOM
 	default:
 		return errUnkownEnum
 	}
@@ -1764,10 +1764,10 @@ func (linkanchortype *LinkAnchorType) ToCodeString() (res string) {
 
 	switch *linkanchortype {
 	// insertion code per enum code
-	case LINK_TOP:
-		res = "LINK_TOP"
-	case LINK_BOTTOM:
-		res = "LINK_BOTTOM"
+	case LINK_LEFT_OR_TOP:
+		res = "LINK_LEFT_OR_TOP"
+	case LINK_RIGHT_OR_BOTTOM:
+		res = "LINK_RIGHT_OR_BOTTOM"
 	}
 	return
 }
@@ -1777,8 +1777,8 @@ func (linkanchortype LinkAnchorType) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "LINK_TOP")
-	res = append(res, "LINK_BOTTOM")
+	res = append(res, "LINK_LEFT_OR_TOP")
+	res = append(res, "LINK_RIGHT_OR_BOTTOM")
 
 	return
 }
@@ -1788,8 +1788,8 @@ func (linkanchortype LinkAnchorType) CodeValues() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "LINK_TOP")
-	res = append(res, "LINK_BOTTOM")
+	res = append(res, "LINK_LEFT_OR_TOP")
+	res = append(res, "LINK_RIGHT_OR_BOTTOM")
 
 	return
 }

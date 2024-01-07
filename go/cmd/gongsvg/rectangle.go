@@ -198,7 +198,7 @@ Line 2`}).Stage(stage)
 	__Link__000001_Start_Middle.StartRatio = 0.476810
 	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000001_Start_Middle.EndRatio = 0.495020
-	__Link__000001_Start_Middle.CornerOffsetRatio = 0.200785
+	__Link__000001_Start_Middle.CornerOffsetRatio = -0.308709
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000
@@ -308,7 +308,7 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 507.000000
+	__Rect__000001_Middle_Rect.X = 563.000000
 	__Rect__000001_Middle_Rect.Y = 463.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
@@ -336,8 +336,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 182.999969
-	__Rect__000002_Top.Y = 640.000000
+	__Rect__000002_Top.X = 172.999969
+	__Rect__000002_Top.Y = 733.000000
 	__Rect__000002_Top.Width = 237.000000
 	__Rect__000002_Top.Height = 237.000000
 	__Rect__000002_Top.RX = 3.000000

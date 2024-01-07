@@ -14,6 +14,7 @@ import { GongsvgModule } from 'gongsvg';
 
 import { LinkSegmentsPipe } from './link-segments.pipe';
 import { GongsvgDiagrammingComponent } from './gongsvg-diagramming/gongsvg-diagramming';
+import { TextWidthCalculatorComponent } from './text-width-calculator/text-width-calculator.component';
 
 
 
@@ -21,7 +22,8 @@ import { GongsvgDiagrammingComponent } from './gongsvg-diagramming/gongsvg-diagr
   declarations: [
 
     LinkSegmentsPipe,
-    GongsvgDiagrammingComponent
+    GongsvgDiagrammingComponent,
+    TextWidthCalculatorComponent
   ],
   imports: [
     CommonModule,

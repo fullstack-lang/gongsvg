@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 
 import * as gongsvg from 'gongsvg'
 
@@ -22,15 +22,22 @@ import { informBackEndOfEndOfLinkDrawing } from './inform-backend-end-of-link-dr
 import { selectRectsByArea } from './select-rects-by-area';
 import { LinkConf, computeLinkFromMouseEvent } from '../compute.link.from.mouse.event';
 import { updateLinkFromCursor } from '../update.link.from.cursor';
+import { TextWidthCalculatorComponent } from '../text-width-calculator/text-width-calculator.component';
 
 @Component({
   selector: 'lib-gongsvg-diagramming',
   templateUrl: './gongsvg-diagramming.html',
   styleUrls: ['./gongsvg-diagramming.css']
 })
-export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
+export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Input() GONG__StackPath: string = ""
+
+  @ViewChild('textWidthCalculator') textWidthCalculator: TextWidthCalculatorComponent | undefined
+  ngAfterViewInit() {
+    // Now you can use textWidthCalculator
+    this.changeDetectorRef.detectChanges() // this is necessary to have the width configuration working
+  }
 
   //
   // state of the component
@@ -873,11 +880,20 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
           // offset need to be negative by the height of one line
           // last segmenet is going up
           if (link.HasEndArrow) {
-
             offset += link.EndArrowSize
             console.log(getFunctionName(), "HasEndArrow, offset", offset)
           }
           offset += this.oneEm
+          console.log(getFunctionName(), "HasEndArrow, offset", offset)
+        }
+        if (segment.EndPoint.Y > segment.StartPoint.Y) {
+          // offset need to be negative by the height of one line
+          // last segmenet is going up
+          if (link.HasEndArrow) {
+            offset -= link.EndArrowSize
+            console.log(getFunctionName(), "HasEndArrow, offset", offset)
+          }
+          offset -= this.oneEm
           console.log(getFunctionName(), "HasEndArrow, offset", offset)
         }
       }
@@ -913,9 +929,21 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
       return offset
     }
 
-    if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
+    if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_RIGHT_OR_BOTTOM) {
       if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
         offset += 16
+      }
+    }
+    if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
+      if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+        if (this.textWidthCalculator != undefined) {
+          const width = this.textWidthCalculator.measureTextWidth(line);
+          console.log(`Width of the text, "` + line + `" : ${width}px`);
+          const height = this.textWidthCalculator.measureTextHeight(line);
+          console.log(`Width of the text, "` + line + `" : ${height}px`);
+          offset += 16
+        }
+
       }
     }
     return offset

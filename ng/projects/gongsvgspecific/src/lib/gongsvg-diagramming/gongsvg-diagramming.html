@@ -4,6 +4,7 @@
             <!-- (dragend)="backgroundOnDragEnd($event)"
             (click)="backgroundOnClick($event)"
             (dragover)="backgroundDragOver($event)" -->
+            <lib-text-width-calculator #textWidthCalculator></lib-text-width-calculator>
 
 <svg [attr.width]="svgWidth" [attr.height]="svgHeight" >
     <g>
@@ -463,7 +464,7 @@
                                         [attr.transform]="text.Transform"
                                         >
                                         <tspan *ngFor='let line of lines; let j = index' 
-                                            [attr.x]="segment.EndPoint.X"
+                                            [attr.x]="segment.EndPoint.X + auto_X_offsetEnd(segment, text, line)"
                                             [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>  
                                         </text>
                                 </ng-container>
@@ -621,3 +622,4 @@
         </svg:g>
     </ng-container>
 </ng-template>
+

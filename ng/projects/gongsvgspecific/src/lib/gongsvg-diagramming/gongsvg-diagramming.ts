@@ -911,6 +911,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   }
 
   auto_X_offset(
+    link: gongsvg.LinkDB,
     segment: Segment,
     text: gongsvg.LinkAnchoredTextDB,
     line: string,
@@ -918,12 +919,20 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     // console.log(getFunctionName(), "text", text.Content)
 
     let offset = 0
+    let offsetSign = 1
 
     if (!text.AutomaticLayout) {
       return offset
     }
 
-    if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+    let orientation: string
+    if (draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+      orientation = link.EndOrientation
+    } else {
+      orientation = link.StartOrientation
+    }
+
+    if (orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
       if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_RIGHT_OR_BOTTOM) {
         offset += 16
       }
@@ -948,9 +957,34 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
       }
     } else { // ORIENTATION_HORIZONTAL
 
+      let straight = segment.EndPoint.X > segment.StartPoint.X
+      if (draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+        straight = !straight
+      }
+
+      if (straight) {
+        offset += 16
+      }
+      else {
+        let _width = this.map_text_textWidth.get(line)
+        if (_width != undefined) {
+          offset -= this.oneEm
+          offset -= _width
+          // console.log("cache hit")
+        } else {
+          if (this.textWidthCalculator != undefined) {
+            const width = this.textWidthCalculator.measureTextWidth(line);
+            // console.log(`Width of the text, "` + line + `" : ${width}px`);
+            // const height = this.textWidthCalculator.measureTextHeight(line);
+            // console.log(`Width of the text, "` + line + `" : ${height}px`);
+            offset -= this.oneEm
+            offset -= width
+            this.map_text_textWidth.set(line, width)
+          }
+        }
+      }
     }
 
-
-    return offset
+    return offset * offsetSign
   }
 }

@@ -464,7 +464,7 @@
                                         [attr.transform]="text.Transform"
                                         >
                                         <tspan *ngFor='let line of lines; let j = index' 
-                                            [attr.x]="segment.EndPoint.X + auto_X_offset(segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_END)"
+                                            [attr.x]="segment.EndPoint.X + auto_X_offset(link, segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_END)"
                                             [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>  
                                         </text>
                                 </ng-container>
@@ -504,7 +504,7 @@
                                         [attr.transform]="text.Transform"
                                         >
                                         <tspan *ngFor='let line of lines; let j = index' 
-                                            [attr.x]="segment.StartPoint.X + auto_X_offset(segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_START)"
+                                            [attr.x]="segment.StartPoint.X + auto_X_offset(link, segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_START)"
                                             [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>                        
                                     </text>
                                 </ng-container>

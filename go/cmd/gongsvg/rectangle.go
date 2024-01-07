@@ -197,10 +197,10 @@ Line 2`}).Stage(stage)
 	__Link__000001_Start_Middle.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000001_Start_Middle.IsBezierCurve = false
 	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Start_Middle.StartRatio = 0.616050
-	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Start_Middle.EndRatio = 0.480020
-	__Link__000001_Start_Middle.CornerOffsetRatio = -0.372000
+	__Link__000001_Start_Middle.StartRatio = 0.481029
+	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000001_Start_Middle.EndRatio = 0.279060
+	__Link__000001_Start_Middle.CornerOffsetRatio = 0.611814
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000

@@ -454,7 +454,7 @@
                                 <ng-container *ngIf='text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
                                     <text class="movable-text"
                                         [attr.x]="segment.EndPoint.X" 
-                                        [attr.y]="segment.EndPoint.Y + autoYoffsetEnd(link, segment, text)" 
+                                        [attr.y]="segment.EndPoint.Y + auto_Y_offsetEnd(link, segment, text)" 
                                         [attr.fill]="text.Color"    
                                         [attr.fill-opacity]="text.FillOpacity"
                                         [attr.stroke]="text.Stroke"
@@ -463,10 +463,12 @@
                                         [attr.transform]="text.Transform"
                                         >
                                         <tspan *ngFor='let line of lines; let j = index' 
-                                            [attr.x]="segment.EndPoint.X + autoXoffset(i, segment, text, line)"
-                                            [attr.dy]="j > 0 ? '1em' : '0'">{{line}} end</tspan>  
+                                            [attr.x]="segment.EndPoint.X"
+                                            [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>  
                                         </text>
                                 </ng-container>
+                                <!-- [attr.x]="segment.EndPoint.X + auto_X_offsetEnd(segment, text, line)" -->
+
                             </ng-container>
                         </ng-container>
                         <ng-container *ngIf="i == 0">
@@ -492,9 +494,11 @@
                                     </text>
                                 </ng-container>
                                 <ng-container *ngIf='text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
+                                    <!-- [attr.y]="segment.StartPoint.Y  + auto_Y_offsetStart(segment, text)"  -->
+
                                     <text class="movable-text"
                                         [attr.x]="segment.StartPoint.X" 
-                                        [attr.y]="segment.StartPoint.Y  + autoYoffsetStart(segment, text)" 
+                                        [attr.y]="segment.StartPoint.Y" 
                                         [attr.fill]="text.Color"    
                                         [attr.fill-opacity]="text.FillOpacity"
                                         [attr.stroke]="text.Stroke"
@@ -504,7 +508,7 @@
                                         >
                                         <tspan *ngFor='let line of lines; let j = index' 
                                             [attr.x]="segment.StartPoint.X + text.X_Offset"
-                                            [attr.dy]="j > 0 ? '1em' : '0'">{{line}} start</tspan>                        
+                                            [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>                        
                                     </text>
                                 </ng-container>
                             </ng-container> 

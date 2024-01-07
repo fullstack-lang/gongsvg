@@ -851,38 +851,43 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
     return path
   }
 
-  autoYoffsetEnd(link: gongsvg.LinkDB, segment: Segment, text: gongsvg.LinkAnchoredTextDB): number {
+  // "1em" defaults to the size of the default font size applied by the browser or the user agent, 
+  // which is typically 16 pixels.
+  oneEm = 16
 
-    let Yoffset = 0
+  auto_Y_offsetEnd(link: gongsvg.LinkDB, segment: Segment, text: gongsvg.LinkAnchoredTextDB): number {
+    console.log(getFunctionName(), "text", text.Content)
+
+    let offset = 0
 
     if (!text.AutomaticLayout) {
-      return Yoffset
+      return offset
     }
 
     if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
 
       if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
-
-        // last segmenet is going up
-        // the segment are reversed
-        if (segment.EndPoint.Y < segment.StartPoint.X) {
+        // last segment is going up
+        console.log(getFunctionName(), "segment.EndPoint.Y", segment.EndPoint.Y, "segment.StartPoint.Y", segment.StartPoint.Y)
+        if (segment.EndPoint.Y < segment.StartPoint.Y) {
           // offset need to be negative by the height of one line
           // last segmenet is going up
-          // "1em" defaults to the size of the default font size applied by the browser or the user agent, 
-          // which is typically 16 pixels.
           if (link.HasEndArrow) {
-            Yoffset += link.EndArrowSize
+
+            offset += link.EndArrowSize
+            console.log(getFunctionName(), "HasEndArrow, offset", offset)
           }
-          Yoffset += 16
+          offset += this.oneEm
+          console.log(getFunctionName(), "HasEndArrow, offset", offset)
         }
       }
     }
 
-    return Yoffset
+    return offset
   }
 
-  autoYoffsetStart(segment: Segment, text: gongsvg.LinkAnchoredTextDB): number {
-    console.log("autoYoffsetStart", "text", text.Content)
+  auto_Y_offsetStart(segment: Segment, text: gongsvg.LinkAnchoredTextDB): number {
+    console.log(getFunctionName(), "text", text.Content)
 
     if (!text.AutomaticLayout) {
       return 0
@@ -893,39 +898,26 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
       if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
 
 
-        // last segmenet is going up
-        if (segment.EndPoint.Y > segment.StartPoint.X) {
-          // offset need to be negative by the height of one line
-          // last segmenet is going up
-          // "1em" defaults to the size of the default font size applied by the browser or the user agent, 
-          // which is typically 16 pixels.
-          if (segment.EndPoint.Y > segment.StartPoint.X) {
-            return -16
-          }
-        }
-
       }
     }
 
     return 0
   }
 
-  autoXoffset(index: number, segment: Segment, text: gongsvg.LinkAnchoredTextDB, line: string): number {
+  auto_X_offsetEnd(segment: Segment, text: gongsvg.LinkAnchoredTextDB, line: string): number {
+    console.log(getFunctionName(), "text", text.Content)
+
+    let offset = 0
 
     if (!text.AutomaticLayout) {
-      return 0
+      return offset
     }
 
     if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
-
       if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
-        if (index > 0) {
-
-
-        }
+        offset += 16
       }
     }
-
-    return 0
+    return offset
   }
 }

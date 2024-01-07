@@ -213,12 +213,12 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
       commiNbFromBagetCommitNbFromBack => {
         if (this.lastCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
 
-          console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
+          // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
           this.refresh()
           this.lastCommitNbFromBack = commiNbFromBagetCommitNbFromBack
 
-          console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
-            "After call to refresh", "gongsvgFrontRepo not good, but that's normal")
+          // console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
+          //   "After call to refresh", "gongsvgFrontRepo not good, but that's normal")
         }
       }
     )
@@ -230,8 +230,8 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
 
-        console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
-          "in promise to front repose servive pull", "gongsvgFrontRepo not good")
+        // console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
+        //   "in promise to front repose servive pull", "gongsvgFrontRepo not good")
 
         if (this.gongsvgFrontRepo.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1) {
           this.svg = this.gongsvgFrontRepo.getArray<gongsvg.SVGDB>(gongsvg.SVGDB.GONGSTRUCT_NAME)[0]
@@ -239,13 +239,13 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
           // set the isEditable
           this.isEditableService.setIsEditable(this.svg!.IsEditable)
 
-          console.log(getFunctionName(), "state switch, before", this.State)
+          // console.log(getFunctionName(), "state switch, before", this.State)
           if (this.isEditableService.getIsEditable()) {
             this.State = StateEnumType.WAITING_FOR_USER_INPUT
           } else {
             this.State = StateEnumType.NOT_EDITABLE
           }
-          console.log(getFunctionName(), "state switch, current", this.State)
+          // console.log(getFunctionName(), "state switch, current", this.State)
 
         } else {
           return
@@ -851,4 +851,81 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
     return path
   }
 
+  autoYoffsetEnd(link: gongsvg.LinkDB, segment: Segment, text: gongsvg.LinkAnchoredTextDB): number {
+
+    let Yoffset = 0
+
+    if (!text.AutomaticLayout) {
+      return Yoffset
+    }
+
+    if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
+
+      if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+
+        // last segmenet is going up
+        // the segment are reversed
+        if (segment.EndPoint.Y < segment.StartPoint.X) {
+          // offset need to be negative by the height of one line
+          // last segmenet is going up
+          // "1em" defaults to the size of the default font size applied by the browser or the user agent, 
+          // which is typically 16 pixels.
+          if (link.HasEndArrow) {
+            Yoffset += link.EndArrowSize
+          }
+          Yoffset += 16
+        }
+      }
+    }
+
+    return Yoffset
+  }
+
+  autoYoffsetStart(segment: Segment, text: gongsvg.LinkAnchoredTextDB): number {
+    console.log("autoYoffsetStart", "text", text.Content)
+
+    if (!text.AutomaticLayout) {
+      return 0
+    }
+
+    if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
+
+      if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+
+
+        // last segmenet is going up
+        if (segment.EndPoint.Y > segment.StartPoint.X) {
+          // offset need to be negative by the height of one line
+          // last segmenet is going up
+          // "1em" defaults to the size of the default font size applied by the browser or the user agent, 
+          // which is typically 16 pixels.
+          if (segment.EndPoint.Y > segment.StartPoint.X) {
+            return -16
+          }
+        }
+
+      }
+    }
+
+    return 0
+  }
+
+  autoXoffset(index: number, segment: Segment, text: gongsvg.LinkAnchoredTextDB, line: string): number {
+
+    if (!text.AutomaticLayout) {
+      return 0
+    }
+
+    if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
+
+      if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+        if (index > 0) {
+
+
+        }
+      }
+    }
+
+    return 0
+  }
 }

@@ -426,9 +426,12 @@
                                 [attr.stroke-dasharray]="link.StrokeDashArray" 
                             />
                         </ng-container>
+
+                        <!-- text at arrow ends -->
+
                         <ng-container *ngIf="(i == (segments.length - 1))">
-                            <ng-container *ngFor='let text of this.link.TextAtArrowEnd!; let i = index'>
-                                <ng-container *ngIf='splitTextIntoLines(text.Content) as lines'>
+                            <ng-container *ngFor='let text of this.link.TextAtArrowEnd!; let k = index'>
+                                <ng-container *ngIf='!text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
                                     <text class="movable-text"
                                         [attr.x]="segment.EndPoint.X + text.X_Offset" 
                                         [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
@@ -439,7 +442,7 @@
                                         [attr.stroke-dasharray]="text.StrokeDashArray"
                                         [attr.transform]="text.Transform"
                                         
-                                        (mousedown)="textAnchoredMouseDown(link, $event, i, 'POSITION_ON_ARROW_END')" 
+                                        (mousedown)="textAnchoredMouseDown(link, $event, k, 'POSITION_ON_ARROW_END')" 
                                         (mousemove)="onmousemove($event)" 
                                         (mouseup)="textAnchoredMouseUp(link, $event)"
                                         >
@@ -448,11 +451,27 @@
                                             [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>  
                                         </text>
                                 </ng-container>
+                                <ng-container *ngIf='text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
+                                    <text class="movable-text"
+                                        [attr.x]="segment.EndPoint.X" 
+                                        [attr.y]="segment.EndPoint.Y + autoYoffsetEnd(link, segment, text)" 
+                                        [attr.fill]="text.Color"    
+                                        [attr.fill-opacity]="text.FillOpacity"
+                                        [attr.stroke]="text.Stroke"
+                                        [attr.stroke-width]="text.StrokeWidth"
+                                        [attr.stroke-dasharray]="text.StrokeDashArray"
+                                        [attr.transform]="text.Transform"
+                                        >
+                                        <tspan *ngFor='let line of lines; let j = index' 
+                                            [attr.x]="segment.EndPoint.X + autoXoffset(i, segment, text, line)"
+                                            [attr.dy]="j > 0 ? '1em' : '0'">{{line}} end</tspan>  
+                                        </text>
+                                </ng-container>
                             </ng-container>
                         </ng-container>
                         <ng-container *ngIf="i == 0">
-                            <ng-container *ngFor='let text of this.link.TextAtArrowStart!; let i = index'>
-                                    <ng-container *ngIf='splitTextIntoLines(text.Content) as lines'>
+                            <ng-container *ngFor='let text of this.link.TextAtArrowStart!; let k = index'>
+                                <ng-container *ngIf='!text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
                                     <text class="movable-text"
                                         [attr.x]="segment.StartPoint.X + text.X_Offset" 
                                         [attr.y]="segment.StartPoint.Y + text.Y_Offset" 
@@ -463,13 +482,29 @@
                                         [attr.stroke-dasharray]="text.StrokeDashArray"
                                         [attr.transform]="text.Transform"
                                         
-                                        (mousedown)="textAnchoredMouseDown(link, $event, i, 'POSITION_ON_ARROW_START')" 
+                                        (mousedown)="textAnchoredMouseDown(link, $event, k, 'POSITION_ON_ARROW_START')" 
                                         (mousemove)="onmousemove($event)" 
                                         (mouseup)="textAnchoredMouseUp(link, $event)"
                                         >
                                         <tspan *ngFor='let line of lines; let j = index' 
                                             [attr.x]="segment.StartPoint.X + text.X_Offset"
                                             [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>                        
+                                    </text>
+                                </ng-container>
+                                <ng-container *ngIf='text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
+                                    <text class="movable-text"
+                                        [attr.x]="segment.StartPoint.X" 
+                                        [attr.y]="segment.StartPoint.Y  + autoYoffsetStart(segment, text)" 
+                                        [attr.fill]="text.Color"    
+                                        [attr.fill-opacity]="text.FillOpacity"
+                                        [attr.stroke]="text.Stroke"
+                                        [attr.stroke-width]="text.StrokeWidth"
+                                        [attr.stroke-dasharray]="text.StrokeDashArray"
+                                        [attr.transform]="text.Transform"
+                                        >
+                                        <tspan *ngFor='let line of lines; let j = index' 
+                                            [attr.x]="segment.StartPoint.X + text.X_Offset"
+                                            [attr.dy]="j > 0 ? '1em' : '0'">{{line}} start</tspan>                        
                                     </text>
                                 </ng-container>
                             </ng-container> 

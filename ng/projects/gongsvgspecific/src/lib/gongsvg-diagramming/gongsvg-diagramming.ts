@@ -904,7 +904,11 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     if (link.HasEndArrow) {
       offset += link.EndArrowSize
     }
-    offset += this.oneEm
+    if (offsetSign == 1) {
+      offset += this.oneEm
+    } else {
+      offset += this.oneEm * 0.4
+    }
 
     console.log(getFunctionName(), "text", text.Content, "offset sign", offsetSign, "offset final", offset * offsetSign)
     return offset * offsetSign
@@ -957,12 +961,12 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
       }
     } else { // ORIENTATION_HORIZONTAL
 
-      let straight = segment.EndPoint.X > segment.StartPoint.X
+      let onTheRight = segment.EndPoint.X > segment.StartPoint.X
       if (draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
-        straight = !straight
+        onTheRight = !onTheRight
       }
 
-      if (straight) {
+      if (onTheRight) {
         offset += 16
       }
       else {

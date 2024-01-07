@@ -32,15 +32,15 @@ export class AppComponent implements OnInit {
   }
 
   default = 'SVG Data/Model'
-  svgView = 'SVG rendering'
+
   diagramSvgView = 'Diagram SVG'
-  materialSvgView = 'Material SVG rendering'
+
   view = this.diagramSvgView
 
   mySVG: gongsvg.SVGDB = new gongsvg.SVGDB
   frontRepo: gongsvg.FrontRepo = new gongsvg.FrontRepo
 
-  views: string[] = [this.diagramSvgView, this.materialSvgView, this.svgView, this.default];
+  views: string[] = [this.diagramSvgView, this.default];
 
   scrollStyle = {
     'overflow- x': 'auto',

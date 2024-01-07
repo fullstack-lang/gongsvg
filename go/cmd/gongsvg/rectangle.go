@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -195,7 +196,7 @@ Line 2`}).Stage(stage)
 	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000001_Start_Middle.StartRatio = 0.598980
 	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Start_Middle.EndRatio = 0.570020
+	__Link__000001_Start_Middle.EndRatio = 0.560020
 	__Link__000001_Start_Middle.CornerOffsetRatio = 0.023619
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
@@ -262,8 +263,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 175.000000
-	__Rect__000000_Bottom.Y = 58.000000
+	__Rect__000000_Bottom.X = 196.000000
+	__Rect__000000_Bottom.Y = 86.000000
 	__Rect__000000_Bottom.Width = 632.000000
 	__Rect__000000_Bottom.Height = 284.999985
 	__Rect__000000_Bottom.RX = 5.000000
@@ -290,8 +291,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 533.000000
-	__Rect__000001_Middle_Rect.Y = 447.000000
+	__Rect__000001_Middle_Rect.X = 532.000000
+	__Rect__000001_Middle_Rect.Y = 472.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -318,8 +319,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 125.999969
-	__Rect__000002_Top.Y = 576.000000
+	__Rect__000002_Top.X = 199.999969
+	__Rect__000002_Top.Y = 608.000000
 	__Rect__000002_Top.Width = 237.000000
 	__Rect__000002_Top.Height = 237.000000
 	__Rect__000002_Top.RX = 3.000000
@@ -554,3 +555,5 @@ line 3`
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top
 }
+
+

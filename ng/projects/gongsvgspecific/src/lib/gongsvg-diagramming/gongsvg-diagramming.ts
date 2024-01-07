@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 
 import * as gongsvg from 'gongsvg'
 
@@ -22,15 +22,25 @@ import { informBackEndOfEndOfLinkDrawing } from './inform-backend-end-of-link-dr
 import { selectRectsByArea } from './select-rects-by-area';
 import { LinkConf, computeLinkFromMouseEvent } from '../compute.link.from.mouse.event';
 import { updateLinkFromCursor } from '../update.link.from.cursor';
+import { TextWidthCalculatorComponent } from '../text-width-calculator/text-width-calculator.component';
 
 @Component({
   selector: 'lib-gongsvg-diagramming',
   templateUrl: './gongsvg-diagramming.html',
   styleUrls: ['./gongsvg-diagramming.css']
 })
-export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
+export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Input() GONG__StackPath: string = ""
+
+  @ViewChild('textWidthCalculator') textWidthCalculator: TextWidthCalculatorComponent | undefined
+  map_text_textWidth: Map<string, number> = new Map<string, number>
+  ngAfterViewInit() {
+    // Now you can use textWidthCalculator
+    this.changeDetectorRef.detectChanges() // this is necessary to have the width configuration working
+    this.oneEm = this.textWidthCalculator!.measureTextHeight("A");
+    this.changeDetectorRef.detectChanges() // this is necessary to have the width configuration working
+  }
 
   //
   // state of the component
@@ -151,6 +161,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
   AnchoredTextAtMouseDown: gongsvg.LinkAnchoredTextDB | undefined
 
   // is the link anchored text at the start or the end of the arrows
+  PositionOnArrowType = gongsvg.PositionOnArrowType
   draggedSegmentPositionOnArrow: gongsvg.PositionOnArrowType = gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START
 
   //
@@ -213,12 +224,12 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
       commiNbFromBagetCommitNbFromBack => {
         if (this.lastCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
 
-          console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
+          // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
           this.refresh()
           this.lastCommitNbFromBack = commiNbFromBagetCommitNbFromBack
 
-          console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
-            "After call to refresh", "gongsvgFrontRepo not good, but that's normal")
+          // console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
+          //   "After call to refresh", "gongsvgFrontRepo not good, but that's normal")
         }
       }
     )
@@ -230,8 +241,8 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
 
-        console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
-          "in promise to front repose servive pull", "gongsvgFrontRepo not good")
+        // console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
+        //   "in promise to front repose servive pull", "gongsvgFrontRepo not good")
 
         if (this.gongsvgFrontRepo.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1) {
           this.svg = this.gongsvgFrontRepo.getArray<gongsvg.SVGDB>(gongsvg.SVGDB.GONGSTRUCT_NAME)[0]
@@ -239,13 +250,13 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
           // set the isEditable
           this.isEditableService.setIsEditable(this.svg!.IsEditable)
 
-          console.log(getFunctionName(), "state switch, before", this.State)
+          // console.log(getFunctionName(), "state switch, before", this.State)
           if (this.isEditableService.getIsEditable()) {
             this.State = StateEnumType.WAITING_FOR_USER_INPUT
           } else {
             this.State = StateEnumType.NOT_EDITABLE
           }
-          console.log(getFunctionName(), "state switch, current", this.State)
+          // console.log(getFunctionName(), "state switch, current", this.State)
 
         } else {
           return
@@ -851,4 +862,133 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy {
     return path
   }
 
+  // "1em" defaults to the size of the default font size applied by the browser or the user agent, 
+  // which is typically 16 pixels.
+  oneEm = 0
+
+  auto_Y_offset(
+    link: gongsvg.LinkDB,
+    segment: Segment,
+    text: gongsvg.LinkAnchoredTextDB,
+    draggedSegmentPositionOnArrow: string): number {
+    // console.log(getFunctionName(), "text", text.Content)
+
+    let offset = 0
+    let offsetSign = 1
+
+    if (!text.AutomaticLayout) {
+      return offset
+    }
+
+    let orientation: string
+    if (draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+      orientation = link.EndOrientation
+    } else {
+      orientation = link.StartOrientation
+    }
+
+    if (draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
+      offsetSign = - offsetSign
+    }
+
+    if (orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+      if (segment.EndPoint.Y > segment.StartPoint.Y) {
+        offsetSign = -offsetSign
+      }
+    } else {
+      if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_RIGHT_OR_BOTTOM) {
+        offsetSign = -offsetSign
+      }
+    }
+
+    if (link.HasEndArrow) {
+      offset += link.EndArrowSize
+    }
+    if (offsetSign == 1) {
+      offset += this.oneEm
+    } else {
+      offset += this.oneEm * 0.4
+    }
+
+    console.log(getFunctionName(), "text", text.Content, "offset sign", offsetSign, "offset final", offset * offsetSign)
+    return offset * offsetSign
+  }
+
+  auto_X_offset(
+    link: gongsvg.LinkDB,
+    segment: Segment,
+    text: gongsvg.LinkAnchoredTextDB,
+    line: string,
+    draggedSegmentPositionOnArrow: string): number {
+    // console.log(getFunctionName(), "text", text.Content)
+
+    let offset = 0
+    let offsetSign = 1
+
+    if (!text.AutomaticLayout) {
+      return offset
+    }
+
+    let orientation: string
+    if (draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+      orientation = link.EndOrientation
+    } else {
+      orientation = link.StartOrientation
+    }
+
+    if (orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
+      if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_RIGHT_OR_BOTTOM) {
+        offset += 16
+      }
+
+      if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_LEFT_OR_TOP) {
+        let _width = this.map_text_textWidth.get(line)
+        if (_width != undefined) {
+          offset -= this.oneEm
+          offset -= _width
+          // console.log("cache hit")
+        } else {
+          if (this.textWidthCalculator != undefined) {
+            const width = this.textWidthCalculator.measureTextWidth(line);
+            // console.log(`Width of the text, "` + line + `" : ${width}px`);
+            // const height = this.textWidthCalculator.measureTextHeight(line);
+            // console.log(`Width of the text, "` + line + `" : ${height}px`);
+            offset -= this.oneEm
+            offset -= width
+            this.map_text_textWidth.set(line, width)
+          }
+        }
+      }
+    } else { // ORIENTATION_HORIZONTAL
+
+      let onTheRight = segment.EndPoint.X > segment.StartPoint.X
+      if (draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+        onTheRight = !onTheRight
+      }
+
+      if (onTheRight) {
+        offset += 16
+      }
+      else {
+        let _width = this.map_text_textWidth.get(line)
+        if (_width != undefined) {
+          offset -= this.oneEm
+          offset -= _width
+          // console.log("cache hit")
+        } else {
+          if (this.textWidthCalculator != undefined) {
+            const width = this.textWidthCalculator.measureTextWidth(line);
+            // console.log(`Width of the text, "` + line + `" : ${width}px`);
+            // const height = this.textWidthCalculator.measureTextHeight(line);
+            // console.log(`Width of the text, "` + line + `" : ${height}px`);
+            offset -= this.oneEm
+            offset -= width
+            this.map_text_textWidth.set(line, width)
+          }
+        }
+      }
+    }
+
+    return offset * offsetSign
+  }
 }

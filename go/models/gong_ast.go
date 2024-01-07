@@ -2038,6 +2038,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "LinkAnchoredText":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "AutomaticLayout":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_LinkAnchoredText[identifier].AutomaticLayout = fielValue
 				}
 			case "Path":
 				switch fieldName {
@@ -2304,6 +2311,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				case "LinkAnchoredText":
 					switch fieldName {
 					// insertion point for enum assign code
+					case "LinkAnchorType":
+						var val LinkAnchorType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_LinkAnchoredText[identifier].LinkAnchorType = LinkAnchorType(val)
 					}
 				case "Path":
 					switch fieldName {

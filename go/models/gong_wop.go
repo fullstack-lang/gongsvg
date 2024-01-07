@@ -101,6 +101,8 @@ type LinkAnchoredText_WOP struct {
 	// insertion point
 	Name string
 	Content string
+	AutomaticLayout bool
+	LinkAnchorType LinkAnchorType
 	X_Offset float64
 	Y_Offset float64
 	FontWeight string

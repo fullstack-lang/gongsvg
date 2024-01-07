@@ -38,6 +38,8 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   ngAfterViewInit() {
     // Now you can use textWidthCalculator
     this.changeDetectorRef.detectChanges() // this is necessary to have the width configuration working
+    this.oneEm = this.textWidthCalculator!.measureTextHeight("A");
+    this.changeDetectorRef.detectChanges() // this is necessary to have the width configuration working
   }
 
   //
@@ -862,7 +864,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
 
   // "1em" defaults to the size of the default font size applied by the browser or the user agent, 
   // which is typically 16 pixels.
-  oneEm = 16
+  oneEm = 0
 
   auto_Y_offset(
     link: gongsvg.LinkDB,
@@ -879,7 +881,6 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     }
 
     if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {
-
       if (segment.EndPoint.Y < segment.StartPoint.Y) {
         if (draggedSegmentPositionOnArrow == this.PositionOnArrowType.POSITION_ON_ARROW_END) {
           offsetSign = 1
@@ -893,21 +894,28 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
           offsetSign = 1
         }
       }
+    } else {
 
-      // last segment is going up
-      // console.log(getFunctionName(), "segment.EndPoint.Y", segment.EndPoint.Y, "segment.StartPoint.Y", segment.StartPoint.Y)
+    }
 
-      // offset need to be negative by the height of one line
-      // last segmenet is going up
-      if (link.HasEndArrow) {
-        offset += link.EndArrowSize
-        // console.log(getFunctionName(), "HasEndArrow, offset", offset)
-      }
-      offset += this.oneEm
+
+    // last segment is going up
+    // console.log(getFunctionName(), "segment.EndPoint.Y", segment.EndPoint.Y, "segment.StartPoint.Y", segment.StartPoint.Y)
+
+    // offset need to be negative by the height of one line
+    // last segmenet is going up
+    if (link.HasEndArrow) {
+      offset += link.EndArrowSize
       // console.log(getFunctionName(), "HasEndArrow, offset", offset)
     }
 
+    offset += this.oneEm
+    // console.log(getFunctionName(), "HasEndArrow, offset", offset)
+
+    console.log(getFunctionName(), "text", text.Content, "offset", offset * offsetSign)
     return offset * offsetSign
+
+
   }
 
   auto_X_offset(

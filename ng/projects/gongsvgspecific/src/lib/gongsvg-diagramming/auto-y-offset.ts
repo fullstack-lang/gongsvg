@@ -33,6 +33,9 @@ export function auto_Y_offset(
             offsetSign = -offsetSign
         }
     } else {
+        if (draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+            offsetSign = - offsetSign
+        }
         if (text.LinkAnchorType == gongsvg.LinkAnchorType.LINK_RIGHT_OR_BOTTOM) {
             offsetSign = -offsetSign
         }

@@ -178,7 +178,7 @@ Line 2`}).Stage(stage)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.740216
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.659649
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -0.192308
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -2.046397
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -197,10 +197,10 @@ Line 2`}).Stage(stage)
 	__Link__000001_Start_Middle.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000001_Start_Middle.IsBezierCurve = false
 	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Start_Middle.StartRatio = 0.329131
-	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.EndRatio = 0.468543
-	__Link__000001_Start_Middle.CornerOffsetRatio = -1.025316
+	__Link__000001_Start_Middle.StartRatio = 0.755291
+	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000001_Start_Middle.EndRatio = 0.505020
+	__Link__000001_Start_Middle.CornerOffsetRatio = 0.252522
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000
@@ -370,8 +370,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 517.999969
-	__Rect__000002_Top.Y = 612.000000
+	__Rect__000002_Top.X = 531.999969
+	__Rect__000002_Top.Y = 625.000000
 	__Rect__000002_Top.Width = 237.000000
 	__Rect__000002_Top.Height = 237.000000
 	__Rect__000002_Top.RX = 3.000000

@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -410,7 +409,7 @@ Third Line`
 	__RectAnchoredPath__000000_Logo_to_add.StrokeWidth = 1.000000
 	__RectAnchoredPath__000000_Logo_to_add.StrokeDashArray = ``
 	__RectAnchoredPath__000000_Logo_to_add.StrokeDashArrayWhenSelected = ``
-	__RectAnchoredPath__000000_Logo_to_add.Transform = `translate(0 960)`
+	__RectAnchoredPath__000000_Logo_to_add.Transform = ``
 
 	// RectAnchoredPath values setup
 	__RectAnchoredPath__000001_second_log.Name = `second log`
@@ -426,7 +425,7 @@ Third Line`
 	__RectAnchoredPath__000001_second_log.StrokeWidth = 2.000000
 	__RectAnchoredPath__000001_second_log.StrokeDashArray = ``
 	__RectAnchoredPath__000001_second_log.StrokeDashArrayWhenSelected = ``
-	__RectAnchoredPath__000001_second_log.Transform = `translate(0 960)`
+	__RectAnchoredPath__000001_second_log.Transform = ``
 
 	// RectAnchoredRect values setup
 	__RectAnchoredRect__000000_Rect_within_top.Name = `Rect within top`
@@ -610,5 +609,3 @@ line 3`
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top
 }
-
-

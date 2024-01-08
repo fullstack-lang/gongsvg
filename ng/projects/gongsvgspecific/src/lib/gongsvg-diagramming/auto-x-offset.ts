@@ -2,8 +2,6 @@ import * as gongsvg from 'gongsvg'
 import { Segment } from '../draw.segments'
 import { TextWidthCalculatorComponent } from '../text-width-calculator/text-width-calculator.component'
 
-var map_text_textWidth: Map<string, number> = new Map<string, number>
-
 
 export function auto_X_offset(
     link: gongsvg.LinkDB,

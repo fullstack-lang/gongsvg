@@ -370,8 +370,8 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 615.999969
-	__Rect__000002_Top.Y = 651.000000
+	__Rect__000002_Top.X = 517.999969
+	__Rect__000002_Top.Y = 612.000000
 	__Rect__000002_Top.Width = 237.000000
 	__Rect__000002_Top.Height = 237.000000
 	__Rect__000002_Top.RX = 3.000000

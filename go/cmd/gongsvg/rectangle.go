@@ -196,11 +196,11 @@ Line 2`}).Stage(stage)
 	__Link__000001_Start_Middle.Name = `Start - Middle`
 	__Link__000001_Start_Middle.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000001_Start_Middle.IsBezierCurve = false
-	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Start_Middle.StartRatio = 0.755291
-	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000001_Start_Middle.EndRatio = 0.505020
-	__Link__000001_Start_Middle.CornerOffsetRatio = 0.252522
+	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000001_Start_Middle.StartRatio = 0.218766
+	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000001_Start_Middle.EndRatio = 0.301876
+	__Link__000001_Start_Middle.CornerOffsetRatio = -0.489435
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000

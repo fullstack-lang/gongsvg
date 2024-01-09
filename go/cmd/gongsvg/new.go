@@ -54,7 +54,6 @@ func newInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of LinkAnchoredText
 
 	// Declarations of staged instances of Path
-	__Path__000000_Tree_lines := (&models.Path{Name: `Tree lines`}).Stage(stage)
 
 	// Declarations of staged instances of Point
 
@@ -64,13 +63,15 @@ func newInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of Rect
 	__Rect__000000_Center_100_100 := (&models.Rect{Name: `Center 100 100`}).Stage(stage)
-	__Rect__000001_Center_300_300 := (&models.Rect{Name: `Center 300 300`}).Stage(stage)
+	__Rect__000001_Center_100_300 := (&models.Rect{Name: `Center 100 300`}).Stage(stage)
+	__Rect__000002_Center_300_300 := (&models.Rect{Name: `Center 300 300`}).Stage(stage)
 
 	// Declarations of staged instances of RectAnchoredPath
 	__RectAnchoredPath__000000_Bottom_Bottom_Left := (&models.RectAnchoredPath{Name: `Bottom Bottom Left`}).Stage(stage)
 	__RectAnchoredPath__000001_Bottom_Left_Left := (&models.RectAnchoredPath{Name: `Bottom Left Left`}).Stage(stage)
 	__RectAnchoredPath__000002_Bottom_Right := (&models.RectAnchoredPath{Name: `Bottom Right`}).Stage(stage)
-	__RectAnchoredPath__000003_Ref_anchored_path := (&models.RectAnchoredPath{Name: `Ref anchored path`}).Stage(stage)
+	__RectAnchoredPath__000003_Inside_at_the_Right := (&models.RectAnchoredPath{Name: `Inside at the Right`}).Stage(stage)
+	__RectAnchoredPath__000004_Ref_anchored_path := (&models.RectAnchoredPath{Name: `Ref anchored path`}).Stage(stage)
 
 	// Declarations of staged instances of RectAnchoredRect
 
@@ -88,17 +89,6 @@ func newInjection(stage *models.StageStruct) {
 	// Layer values setup
 	__Layer__000000_Paths.Display = true
 	__Layer__000000_Paths.Name = `Paths`
-
-	// Path values setup
-	__Path__000000_Tree_lines.Name = `Tree lines`
-	__Path__000000_Tree_lines.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
-	__Path__000000_Tree_lines.Color = `grey`
-	__Path__000000_Tree_lines.FillOpacity = 0.500000
-	__Path__000000_Tree_lines.Stroke = `black`
-	__Path__000000_Tree_lines.StrokeWidth = 1.000000
-	__Path__000000_Tree_lines.StrokeDashArray = ``
-	__Path__000000_Tree_lines.StrokeDashArrayWhenSelected = ``
-	__Path__000000_Tree_lines.Transform = `translate(0 960)`
 
 	// Rect values setup
 	__Rect__000000_Center_100_100.Name = `Center 100 100`
@@ -129,32 +119,60 @@ func newInjection(stage *models.StageStruct) {
 	__Rect__000000_Center_100_100.CanMoveVerticaly = true
 
 	// Rect values setup
-	__Rect__000001_Center_300_300.Name = `Center 300 300`
-	__Rect__000001_Center_300_300.X = 341.000000
-	__Rect__000001_Center_300_300.Y = 480.000000
-	__Rect__000001_Center_300_300.Width = 240.000000
-	__Rect__000001_Center_300_300.Height = 240.000000
-	__Rect__000001_Center_300_300.RX = 5.000000
-	__Rect__000001_Center_300_300.Color = ``
-	__Rect__000001_Center_300_300.FillOpacity = 0.000000
-	__Rect__000001_Center_300_300.Stroke = `blue`
-	__Rect__000001_Center_300_300.StrokeWidth = 1.000000
-	__Rect__000001_Center_300_300.StrokeDashArray = ``
-	__Rect__000001_Center_300_300.StrokeDashArrayWhenSelected = ``
-	__Rect__000001_Center_300_300.Transform = ``
-	__Rect__000001_Center_300_300.IsSelectable = true
-	__Rect__000001_Center_300_300.IsSelected = false
-	__Rect__000001_Center_300_300.CanHaveLeftHandle = false
-	__Rect__000001_Center_300_300.HasLeftHandle = false
-	__Rect__000001_Center_300_300.CanHaveRightHandle = true
-	__Rect__000001_Center_300_300.HasRightHandle = false
-	__Rect__000001_Center_300_300.CanHaveTopHandle = false
-	__Rect__000001_Center_300_300.HasTopHandle = false
-	__Rect__000001_Center_300_300.IsScalingProportionally = true
-	__Rect__000001_Center_300_300.CanHaveBottomHandle = false
-	__Rect__000001_Center_300_300.HasBottomHandle = false
-	__Rect__000001_Center_300_300.CanMoveHorizontaly = true
-	__Rect__000001_Center_300_300.CanMoveVerticaly = true
+	__Rect__000001_Center_100_300.Name = `Center 100 300`
+	__Rect__000001_Center_100_300.X = 469.000000
+	__Rect__000001_Center_100_300.Y = 177.999969
+	__Rect__000001_Center_100_300.Width = 380.000000
+	__Rect__000001_Center_100_300.Height = 240.000000
+	__Rect__000001_Center_100_300.RX = 0.000000
+	__Rect__000001_Center_100_300.Color = `lavender`
+	__Rect__000001_Center_100_300.FillOpacity = 0.800000
+	__Rect__000001_Center_100_300.Stroke = `blue`
+	__Rect__000001_Center_100_300.StrokeWidth = 1.000000
+	__Rect__000001_Center_100_300.StrokeDashArray = ``
+	__Rect__000001_Center_100_300.StrokeDashArrayWhenSelected = ``
+	__Rect__000001_Center_100_300.Transform = ``
+	__Rect__000001_Center_100_300.IsSelectable = true
+	__Rect__000001_Center_100_300.IsSelected = false
+	__Rect__000001_Center_100_300.CanHaveLeftHandle = false
+	__Rect__000001_Center_100_300.HasLeftHandle = false
+	__Rect__000001_Center_100_300.CanHaveRightHandle = false
+	__Rect__000001_Center_100_300.HasRightHandle = false
+	__Rect__000001_Center_100_300.CanHaveTopHandle = false
+	__Rect__000001_Center_100_300.HasTopHandle = false
+	__Rect__000001_Center_100_300.IsScalingProportionally = true
+	__Rect__000001_Center_100_300.CanHaveBottomHandle = false
+	__Rect__000001_Center_100_300.HasBottomHandle = false
+	__Rect__000001_Center_100_300.CanMoveHorizontaly = true
+	__Rect__000001_Center_100_300.CanMoveVerticaly = true
+
+	// Rect values setup
+	__Rect__000002_Center_300_300.Name = `Center 300 300`
+	__Rect__000002_Center_300_300.X = 341.000000
+	__Rect__000002_Center_300_300.Y = 480.000000
+	__Rect__000002_Center_300_300.Width = 240.000000
+	__Rect__000002_Center_300_300.Height = 240.000000
+	__Rect__000002_Center_300_300.RX = 5.000000
+	__Rect__000002_Center_300_300.Color = ``
+	__Rect__000002_Center_300_300.FillOpacity = 0.000000
+	__Rect__000002_Center_300_300.Stroke = `blue`
+	__Rect__000002_Center_300_300.StrokeWidth = 1.000000
+	__Rect__000002_Center_300_300.StrokeDashArray = ``
+	__Rect__000002_Center_300_300.StrokeDashArrayWhenSelected = ``
+	__Rect__000002_Center_300_300.Transform = ``
+	__Rect__000002_Center_300_300.IsSelectable = true
+	__Rect__000002_Center_300_300.IsSelected = false
+	__Rect__000002_Center_300_300.CanHaveLeftHandle = false
+	__Rect__000002_Center_300_300.HasLeftHandle = false
+	__Rect__000002_Center_300_300.CanHaveRightHandle = true
+	__Rect__000002_Center_300_300.HasRightHandle = false
+	__Rect__000002_Center_300_300.CanHaveTopHandle = false
+	__Rect__000002_Center_300_300.HasTopHandle = false
+	__Rect__000002_Center_300_300.IsScalingProportionally = true
+	__Rect__000002_Center_300_300.CanHaveBottomHandle = false
+	__Rect__000002_Center_300_300.HasBottomHandle = false
+	__Rect__000002_Center_300_300.CanMoveHorizontaly = true
+	__Rect__000002_Center_300_300.CanMoveVerticaly = true
 
 	// RectAnchoredPath values setup
 	__RectAnchoredPath__000000_Bottom_Bottom_Left.Name = `Bottom Bottom Left`
@@ -205,20 +223,36 @@ func newInjection(stage *models.StageStruct) {
 	__RectAnchoredPath__000002_Bottom_Right.Transform = ``
 
 	// RectAnchoredPath values setup
-	__RectAnchoredPath__000003_Ref_anchored_path.Name = `Ref anchored path`
-	__RectAnchoredPath__000003_Ref_anchored_path.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
-	__RectAnchoredPath__000003_Ref_anchored_path.X_Offset = 20.000000
-	__RectAnchoredPath__000003_Ref_anchored_path.Y_Offset = 0.000000
-	__RectAnchoredPath__000003_Ref_anchored_path.RectAnchorType = models.RECT_BOTTOM_LEFT
-	__RectAnchoredPath__000003_Ref_anchored_path.ScalePropotionnally = true
-	__RectAnchoredPath__000003_Ref_anchored_path.AppliedScaling = 0.264584
-	__RectAnchoredPath__000003_Ref_anchored_path.Color = ``
-	__RectAnchoredPath__000003_Ref_anchored_path.FillOpacity = 0.000000
-	__RectAnchoredPath__000003_Ref_anchored_path.Stroke = `lightblue`
-	__RectAnchoredPath__000003_Ref_anchored_path.StrokeWidth = 5.000000
-	__RectAnchoredPath__000003_Ref_anchored_path.StrokeDashArray = ``
-	__RectAnchoredPath__000003_Ref_anchored_path.StrokeDashArrayWhenSelected = ``
-	__RectAnchoredPath__000003_Ref_anchored_path.Transform = ``
+	__RectAnchoredPath__000003_Inside_at_the_Right.Name = `Inside at the Right`
+	__RectAnchoredPath__000003_Inside_at_the_Right.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
+	__RectAnchoredPath__000003_Inside_at_the_Right.X_Offset = 0.000000
+	__RectAnchoredPath__000003_Inside_at_the_Right.Y_Offset = 0.000000
+	__RectAnchoredPath__000003_Inside_at_the_Right.RectAnchorType = models.RECT_BOTTOM_INSIDE_LEFT
+	__RectAnchoredPath__000003_Inside_at_the_Right.ScalePropotionnally = true
+	__RectAnchoredPath__000003_Inside_at_the_Right.AppliedScaling = 0.250000
+	__RectAnchoredPath__000003_Inside_at_the_Right.Color = ``
+	__RectAnchoredPath__000003_Inside_at_the_Right.FillOpacity = 0.000000
+	__RectAnchoredPath__000003_Inside_at_the_Right.Stroke = `grey`
+	__RectAnchoredPath__000003_Inside_at_the_Right.StrokeWidth = 3.000000
+	__RectAnchoredPath__000003_Inside_at_the_Right.StrokeDashArray = ``
+	__RectAnchoredPath__000003_Inside_at_the_Right.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredPath__000003_Inside_at_the_Right.Transform = ``
+
+	// RectAnchoredPath values setup
+	__RectAnchoredPath__000004_Ref_anchored_path.Name = `Ref anchored path`
+	__RectAnchoredPath__000004_Ref_anchored_path.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
+	__RectAnchoredPath__000004_Ref_anchored_path.X_Offset = 20.000000
+	__RectAnchoredPath__000004_Ref_anchored_path.Y_Offset = 0.000000
+	__RectAnchoredPath__000004_Ref_anchored_path.RectAnchorType = models.RECT_BOTTOM_LEFT
+	__RectAnchoredPath__000004_Ref_anchored_path.ScalePropotionnally = true
+	__RectAnchoredPath__000004_Ref_anchored_path.AppliedScaling = 0.264584
+	__RectAnchoredPath__000004_Ref_anchored_path.Color = ``
+	__RectAnchoredPath__000004_Ref_anchored_path.FillOpacity = 0.000000
+	__RectAnchoredPath__000004_Ref_anchored_path.Stroke = `lightblue`
+	__RectAnchoredPath__000004_Ref_anchored_path.StrokeWidth = 5.000000
+	__RectAnchoredPath__000004_Ref_anchored_path.StrokeDashArray = ``
+	__RectAnchoredPath__000004_Ref_anchored_path.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredPath__000004_Ref_anchored_path.Transform = ``
 
 	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
@@ -226,12 +260,13 @@ func newInjection(stage *models.StageStruct) {
 
 	// Setup of pointers
 	__Layer__000000_Paths.Rects = append(__Layer__000000_Paths.Rects, __Rect__000000_Center_100_100)
-	__Layer__000000_Paths.Rects = append(__Layer__000000_Paths.Rects, __Rect__000001_Center_300_300)
-	__Layer__000000_Paths.Paths = append(__Layer__000000_Paths.Paths, __Path__000000_Tree_lines)
-	__Rect__000000_Center_100_100.RectAnchoredPaths = append(__Rect__000000_Center_100_100.RectAnchoredPaths, __RectAnchoredPath__000003_Ref_anchored_path)
-	__Rect__000001_Center_300_300.RectAnchoredPaths = append(__Rect__000001_Center_300_300.RectAnchoredPaths, __RectAnchoredPath__000002_Bottom_Right)
-	__Rect__000001_Center_300_300.RectAnchoredPaths = append(__Rect__000001_Center_300_300.RectAnchoredPaths, __RectAnchoredPath__000001_Bottom_Left_Left)
-	__Rect__000001_Center_300_300.RectAnchoredPaths = append(__Rect__000001_Center_300_300.RectAnchoredPaths, __RectAnchoredPath__000000_Bottom_Bottom_Left)
+	__Layer__000000_Paths.Rects = append(__Layer__000000_Paths.Rects, __Rect__000002_Center_300_300)
+	__Layer__000000_Paths.Rects = append(__Layer__000000_Paths.Rects, __Rect__000001_Center_100_300)
+	__Rect__000000_Center_100_100.RectAnchoredPaths = append(__Rect__000000_Center_100_100.RectAnchoredPaths, __RectAnchoredPath__000004_Ref_anchored_path)
+	__Rect__000001_Center_100_300.RectAnchoredPaths = append(__Rect__000001_Center_100_300.RectAnchoredPaths, __RectAnchoredPath__000003_Inside_at_the_Right)
+	__Rect__000002_Center_300_300.RectAnchoredPaths = append(__Rect__000002_Center_300_300.RectAnchoredPaths, __RectAnchoredPath__000002_Bottom_Right)
+	__Rect__000002_Center_300_300.RectAnchoredPaths = append(__Rect__000002_Center_300_300.RectAnchoredPaths, __RectAnchoredPath__000001_Bottom_Left_Left)
+	__Rect__000002_Center_300_300.RectAnchoredPaths = append(__Rect__000002_Center_300_300.RectAnchoredPaths, __RectAnchoredPath__000000_Bottom_Bottom_Left)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Paths)
 }
 

@@ -521,6 +521,22 @@
                     </ng-container>
                     </ng-container>
                 </ng-container>
+                <ng-container *ngIf="link.Type == LinkType.LINK_TYPE_LINE_WITH_CONTROL_POINTS" >
+                    <ng-container *ngIf="link.ControlPoints.length == 0">
+                        <line 
+                            [attr.x1]="getPosition(link.Start, link.StartAnchorType, link.End)[0]" 
+                            [attr.y1]="getPosition(link.Start, link.StartAnchorType, link.End)[1]" 
+                            [attr.x2]="getPosition(link.End, link.EndAnchorType, link.Start)[0]" 
+                            [attr.y2]="getPosition(link.End, link.EndAnchorType, link.Start)[1]"
+                            [attr.fill]="link.Color"
+                            [attr.fill-opacity]="link.FillOpacity" 
+                            [attr.stroke]="link.Stroke" 
+                            [attr.stroke-width]="link.StrokeWidth"
+                            [attr.stroke-dasharray]="link.StrokeDashArray" 
+                            [attr.transform]="link.Transform" 
+                        />
+                    </ng-container>
+                </ng-container>
             </ng-container>
             <ng-container *ngFor="let rectLinkLink of layer.RectLinkLinks">
                 <ng-container *ngIf="rectLinkLink.Start && rectLinkLink.End">

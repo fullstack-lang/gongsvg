@@ -681,18 +681,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_Animates = []
-            this.frontRepo.map_ID_Animate.clear()
-            this.frontRepo.Animates_array.forEach(
-              animateDB => {
-                let animate = new Animate
-                CopyAnimateDBToAnimate(animateDB, animate, this.frontRepo)
-                this.frontRepo.array_Animates.push(animate)
-                this.frontRepo.map_ID_Animate.set(animate.ID, animate)
-              }
-            )
-
             // init the array
             this.frontRepo.Circles_array = circles
 
@@ -725,18 +713,6 @@ export class FrontRepoService {
               }
               return 0;
             });
-
-            // init front objects
-            this.frontRepo.array_Circles = []
-            this.frontRepo.map_ID_Circle.clear()
-            this.frontRepo.Circles_array.forEach(
-              circleDB => {
-                let circle = new Circle
-                CopyCircleDBToCircle(circleDB, circle, this.frontRepo)
-                this.frontRepo.array_Circles.push(circle)
-                this.frontRepo.map_ID_Circle.set(circle.ID, circle)
-              }
-            )
 
             // init the array
             this.frontRepo.Ellipses_array = ellipses
@@ -771,18 +747,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_Ellipses = []
-            this.frontRepo.map_ID_Ellipse.clear()
-            this.frontRepo.Ellipses_array.forEach(
-              ellipseDB => {
-                let ellipse = new Ellipse
-                CopyEllipseDBToEllipse(ellipseDB, ellipse, this.frontRepo)
-                this.frontRepo.array_Ellipses.push(ellipse)
-                this.frontRepo.map_ID_Ellipse.set(ellipse.ID, ellipse)
-              }
-            )
-
             // init the array
             this.frontRepo.Layers_array = layers
 
@@ -815,18 +779,6 @@ export class FrontRepoService {
               }
               return 0;
             });
-
-            // init front objects
-            this.frontRepo.array_Layers = []
-            this.frontRepo.map_ID_Layer.clear()
-            this.frontRepo.Layers_array.forEach(
-              layerDB => {
-                let layer = new Layer
-                CopyLayerDBToLayer(layerDB, layer, this.frontRepo)
-                this.frontRepo.array_Layers.push(layer)
-                this.frontRepo.map_ID_Layer.set(layer.ID, layer)
-              }
-            )
 
             // init the array
             this.frontRepo.Lines_array = lines
@@ -861,18 +813,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_Lines = []
-            this.frontRepo.map_ID_Line.clear()
-            this.frontRepo.Lines_array.forEach(
-              lineDB => {
-                let line = new Line
-                CopyLineDBToLine(lineDB, line, this.frontRepo)
-                this.frontRepo.array_Lines.push(line)
-                this.frontRepo.map_ID_Line.set(line.ID, line)
-              }
-            )
-
             // init the array
             this.frontRepo.Links_array = links
 
@@ -905,18 +845,6 @@ export class FrontRepoService {
               }
               return 0;
             });
-
-            // init front objects
-            this.frontRepo.array_Links = []
-            this.frontRepo.map_ID_Link.clear()
-            this.frontRepo.Links_array.forEach(
-              linkDB => {
-                let link = new Link
-                CopyLinkDBToLink(linkDB, link, this.frontRepo)
-                this.frontRepo.array_Links.push(link)
-                this.frontRepo.map_ID_Link.set(link.ID, link)
-              }
-            )
 
             // init the array
             this.frontRepo.LinkAnchoredTexts_array = linkanchoredtexts
@@ -951,18 +879,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_LinkAnchoredTexts = []
-            this.frontRepo.map_ID_LinkAnchoredText.clear()
-            this.frontRepo.LinkAnchoredTexts_array.forEach(
-              linkanchoredtextDB => {
-                let linkanchoredtext = new LinkAnchoredText
-                CopyLinkAnchoredTextDBToLinkAnchoredText(linkanchoredtextDB, linkanchoredtext, this.frontRepo)
-                this.frontRepo.array_LinkAnchoredTexts.push(linkanchoredtext)
-                this.frontRepo.map_ID_LinkAnchoredText.set(linkanchoredtext.ID, linkanchoredtext)
-              }
-            )
-
             // init the array
             this.frontRepo.Paths_array = paths
 
@@ -995,18 +911,6 @@ export class FrontRepoService {
               }
               return 0;
             });
-
-            // init front objects
-            this.frontRepo.array_Paths = []
-            this.frontRepo.map_ID_Path.clear()
-            this.frontRepo.Paths_array.forEach(
-              pathDB => {
-                let path = new Path
-                CopyPathDBToPath(pathDB, path, this.frontRepo)
-                this.frontRepo.array_Paths.push(path)
-                this.frontRepo.map_ID_Path.set(path.ID, path)
-              }
-            )
 
             // init the array
             this.frontRepo.Points_array = points
@@ -1041,18 +945,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_Points = []
-            this.frontRepo.map_ID_Point.clear()
-            this.frontRepo.Points_array.forEach(
-              pointDB => {
-                let point = new Point
-                CopyPointDBToPoint(pointDB, point, this.frontRepo)
-                this.frontRepo.array_Points.push(point)
-                this.frontRepo.map_ID_Point.set(point.ID, point)
-              }
-            )
-
             // init the array
             this.frontRepo.Polygones_array = polygones
 
@@ -1085,18 +977,6 @@ export class FrontRepoService {
               }
               return 0;
             });
-
-            // init front objects
-            this.frontRepo.array_Polygones = []
-            this.frontRepo.map_ID_Polygone.clear()
-            this.frontRepo.Polygones_array.forEach(
-              polygoneDB => {
-                let polygone = new Polygone
-                CopyPolygoneDBToPolygone(polygoneDB, polygone, this.frontRepo)
-                this.frontRepo.array_Polygones.push(polygone)
-                this.frontRepo.map_ID_Polygone.set(polygone.ID, polygone)
-              }
-            )
 
             // init the array
             this.frontRepo.Polylines_array = polylines
@@ -1131,18 +1011,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_Polylines = []
-            this.frontRepo.map_ID_Polyline.clear()
-            this.frontRepo.Polylines_array.forEach(
-              polylineDB => {
-                let polyline = new Polyline
-                CopyPolylineDBToPolyline(polylineDB, polyline, this.frontRepo)
-                this.frontRepo.array_Polylines.push(polyline)
-                this.frontRepo.map_ID_Polyline.set(polyline.ID, polyline)
-              }
-            )
-
             // init the array
             this.frontRepo.Rects_array = rects
 
@@ -1175,18 +1043,6 @@ export class FrontRepoService {
               }
               return 0;
             });
-
-            // init front objects
-            this.frontRepo.array_Rects = []
-            this.frontRepo.map_ID_Rect.clear()
-            this.frontRepo.Rects_array.forEach(
-              rectDB => {
-                let rect = new Rect
-                CopyRectDBToRect(rectDB, rect, this.frontRepo)
-                this.frontRepo.array_Rects.push(rect)
-                this.frontRepo.map_ID_Rect.set(rect.ID, rect)
-              }
-            )
 
             // init the array
             this.frontRepo.RectAnchoredPaths_array = rectanchoredpaths
@@ -1221,18 +1077,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_RectAnchoredPaths = []
-            this.frontRepo.map_ID_RectAnchoredPath.clear()
-            this.frontRepo.RectAnchoredPaths_array.forEach(
-              rectanchoredpathDB => {
-                let rectanchoredpath = new RectAnchoredPath
-                CopyRectAnchoredPathDBToRectAnchoredPath(rectanchoredpathDB, rectanchoredpath, this.frontRepo)
-                this.frontRepo.array_RectAnchoredPaths.push(rectanchoredpath)
-                this.frontRepo.map_ID_RectAnchoredPath.set(rectanchoredpath.ID, rectanchoredpath)
-              }
-            )
-
             // init the array
             this.frontRepo.RectAnchoredRects_array = rectanchoredrects
 
@@ -1265,18 +1109,6 @@ export class FrontRepoService {
               }
               return 0;
             });
-
-            // init front objects
-            this.frontRepo.array_RectAnchoredRects = []
-            this.frontRepo.map_ID_RectAnchoredRect.clear()
-            this.frontRepo.RectAnchoredRects_array.forEach(
-              rectanchoredrectDB => {
-                let rectanchoredrect = new RectAnchoredRect
-                CopyRectAnchoredRectDBToRectAnchoredRect(rectanchoredrectDB, rectanchoredrect, this.frontRepo)
-                this.frontRepo.array_RectAnchoredRects.push(rectanchoredrect)
-                this.frontRepo.map_ID_RectAnchoredRect.set(rectanchoredrect.ID, rectanchoredrect)
-              }
-            )
 
             // init the array
             this.frontRepo.RectAnchoredTexts_array = rectanchoredtexts
@@ -1311,18 +1143,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_RectAnchoredTexts = []
-            this.frontRepo.map_ID_RectAnchoredText.clear()
-            this.frontRepo.RectAnchoredTexts_array.forEach(
-              rectanchoredtextDB => {
-                let rectanchoredtext = new RectAnchoredText
-                CopyRectAnchoredTextDBToRectAnchoredText(rectanchoredtextDB, rectanchoredtext, this.frontRepo)
-                this.frontRepo.array_RectAnchoredTexts.push(rectanchoredtext)
-                this.frontRepo.map_ID_RectAnchoredText.set(rectanchoredtext.ID, rectanchoredtext)
-              }
-            )
-
             // init the array
             this.frontRepo.RectLinkLinks_array = rectlinklinks
 
@@ -1355,18 +1175,6 @@ export class FrontRepoService {
               }
               return 0;
             });
-
-            // init front objects
-            this.frontRepo.array_RectLinkLinks = []
-            this.frontRepo.map_ID_RectLinkLink.clear()
-            this.frontRepo.RectLinkLinks_array.forEach(
-              rectlinklinkDB => {
-                let rectlinklink = new RectLinkLink
-                CopyRectLinkLinkDBToRectLinkLink(rectlinklinkDB, rectlinklink, this.frontRepo)
-                this.frontRepo.array_RectLinkLinks.push(rectlinklink)
-                this.frontRepo.map_ID_RectLinkLink.set(rectlinklink.ID, rectlinklink)
-              }
-            )
 
             // init the array
             this.frontRepo.SVGs_array = svgs
@@ -1401,18 +1209,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_SVGs = []
-            this.frontRepo.map_ID_SVG.clear()
-            this.frontRepo.SVGs_array.forEach(
-              svgDB => {
-                let svg = new SVG
-                CopySVGDBToSVG(svgDB, svg, this.frontRepo)
-                this.frontRepo.array_SVGs.push(svg)
-                this.frontRepo.map_ID_SVG.set(svg.ID, svg)
-              }
-            )
-
             // init the array
             this.frontRepo.Texts_array = texts
 
@@ -1445,18 +1241,6 @@ export class FrontRepoService {
               }
               return 0;
             });
-
-            // init front objects
-            this.frontRepo.array_Texts = []
-            this.frontRepo.map_ID_Text.clear()
-            this.frontRepo.Texts_array.forEach(
-              textDB => {
-                let text = new Text
-                CopyTextDBToText(textDB, text, this.frontRepo)
-                this.frontRepo.array_Texts.push(text)
-                this.frontRepo.map_ID_Text.set(text.ID, text)
-              }
-            )
 
 
             // 
@@ -1801,6 +1585,245 @@ export class FrontRepoService {
                 }
               }
             )
+
+            // 
+            // Third Step: reddeem front objects
+            // insertion point sub template for redeem 
+            
+            // init front objects
+            this.frontRepo.array_Animates = []
+            this.frontRepo.map_ID_Animate.clear()
+            this.frontRepo.Animates_array.forEach(
+              animateDB => {
+                let animate = new Animate
+                CopyAnimateDBToAnimate(animateDB, animate, this.frontRepo)
+                this.frontRepo.array_Animates.push(animate)
+                this.frontRepo.map_ID_Animate.set(animate.ID, animate)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Circles = []
+            this.frontRepo.map_ID_Circle.clear()
+            this.frontRepo.Circles_array.forEach(
+              circleDB => {
+                let circle = new Circle
+                CopyCircleDBToCircle(circleDB, circle, this.frontRepo)
+                this.frontRepo.array_Circles.push(circle)
+                this.frontRepo.map_ID_Circle.set(circle.ID, circle)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Ellipses = []
+            this.frontRepo.map_ID_Ellipse.clear()
+            this.frontRepo.Ellipses_array.forEach(
+              ellipseDB => {
+                let ellipse = new Ellipse
+                CopyEllipseDBToEllipse(ellipseDB, ellipse, this.frontRepo)
+                this.frontRepo.array_Ellipses.push(ellipse)
+                this.frontRepo.map_ID_Ellipse.set(ellipse.ID, ellipse)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Layers = []
+            this.frontRepo.map_ID_Layer.clear()
+            this.frontRepo.Layers_array.forEach(
+              layerDB => {
+                let layer = new Layer
+                CopyLayerDBToLayer(layerDB, layer, this.frontRepo)
+                this.frontRepo.array_Layers.push(layer)
+                this.frontRepo.map_ID_Layer.set(layer.ID, layer)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Lines = []
+            this.frontRepo.map_ID_Line.clear()
+            this.frontRepo.Lines_array.forEach(
+              lineDB => {
+                let line = new Line
+                CopyLineDBToLine(lineDB, line, this.frontRepo)
+                this.frontRepo.array_Lines.push(line)
+                this.frontRepo.map_ID_Line.set(line.ID, line)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Links = []
+            this.frontRepo.map_ID_Link.clear()
+            this.frontRepo.Links_array.forEach(
+              linkDB => {
+                let link = new Link
+                CopyLinkDBToLink(linkDB, link, this.frontRepo)
+                this.frontRepo.array_Links.push(link)
+                this.frontRepo.map_ID_Link.set(link.ID, link)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_LinkAnchoredTexts = []
+            this.frontRepo.map_ID_LinkAnchoredText.clear()
+            this.frontRepo.LinkAnchoredTexts_array.forEach(
+              linkanchoredtextDB => {
+                let linkanchoredtext = new LinkAnchoredText
+                CopyLinkAnchoredTextDBToLinkAnchoredText(linkanchoredtextDB, linkanchoredtext, this.frontRepo)
+                this.frontRepo.array_LinkAnchoredTexts.push(linkanchoredtext)
+                this.frontRepo.map_ID_LinkAnchoredText.set(linkanchoredtext.ID, linkanchoredtext)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Paths = []
+            this.frontRepo.map_ID_Path.clear()
+            this.frontRepo.Paths_array.forEach(
+              pathDB => {
+                let path = new Path
+                CopyPathDBToPath(pathDB, path, this.frontRepo)
+                this.frontRepo.array_Paths.push(path)
+                this.frontRepo.map_ID_Path.set(path.ID, path)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Points = []
+            this.frontRepo.map_ID_Point.clear()
+            this.frontRepo.Points_array.forEach(
+              pointDB => {
+                let point = new Point
+                CopyPointDBToPoint(pointDB, point, this.frontRepo)
+                this.frontRepo.array_Points.push(point)
+                this.frontRepo.map_ID_Point.set(point.ID, point)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Polygones = []
+            this.frontRepo.map_ID_Polygone.clear()
+            this.frontRepo.Polygones_array.forEach(
+              polygoneDB => {
+                let polygone = new Polygone
+                CopyPolygoneDBToPolygone(polygoneDB, polygone, this.frontRepo)
+                this.frontRepo.array_Polygones.push(polygone)
+                this.frontRepo.map_ID_Polygone.set(polygone.ID, polygone)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Polylines = []
+            this.frontRepo.map_ID_Polyline.clear()
+            this.frontRepo.Polylines_array.forEach(
+              polylineDB => {
+                let polyline = new Polyline
+                CopyPolylineDBToPolyline(polylineDB, polyline, this.frontRepo)
+                this.frontRepo.array_Polylines.push(polyline)
+                this.frontRepo.map_ID_Polyline.set(polyline.ID, polyline)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Rects = []
+            this.frontRepo.map_ID_Rect.clear()
+            this.frontRepo.Rects_array.forEach(
+              rectDB => {
+                let rect = new Rect
+                CopyRectDBToRect(rectDB, rect, this.frontRepo)
+                this.frontRepo.array_Rects.push(rect)
+                this.frontRepo.map_ID_Rect.set(rect.ID, rect)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_RectAnchoredPaths = []
+            this.frontRepo.map_ID_RectAnchoredPath.clear()
+            this.frontRepo.RectAnchoredPaths_array.forEach(
+              rectanchoredpathDB => {
+                let rectanchoredpath = new RectAnchoredPath
+                CopyRectAnchoredPathDBToRectAnchoredPath(rectanchoredpathDB, rectanchoredpath, this.frontRepo)
+                this.frontRepo.array_RectAnchoredPaths.push(rectanchoredpath)
+                this.frontRepo.map_ID_RectAnchoredPath.set(rectanchoredpath.ID, rectanchoredpath)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_RectAnchoredRects = []
+            this.frontRepo.map_ID_RectAnchoredRect.clear()
+            this.frontRepo.RectAnchoredRects_array.forEach(
+              rectanchoredrectDB => {
+                let rectanchoredrect = new RectAnchoredRect
+                CopyRectAnchoredRectDBToRectAnchoredRect(rectanchoredrectDB, rectanchoredrect, this.frontRepo)
+                this.frontRepo.array_RectAnchoredRects.push(rectanchoredrect)
+                this.frontRepo.map_ID_RectAnchoredRect.set(rectanchoredrect.ID, rectanchoredrect)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_RectAnchoredTexts = []
+            this.frontRepo.map_ID_RectAnchoredText.clear()
+            this.frontRepo.RectAnchoredTexts_array.forEach(
+              rectanchoredtextDB => {
+                let rectanchoredtext = new RectAnchoredText
+                CopyRectAnchoredTextDBToRectAnchoredText(rectanchoredtextDB, rectanchoredtext, this.frontRepo)
+                this.frontRepo.array_RectAnchoredTexts.push(rectanchoredtext)
+                this.frontRepo.map_ID_RectAnchoredText.set(rectanchoredtext.ID, rectanchoredtext)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_RectLinkLinks = []
+            this.frontRepo.map_ID_RectLinkLink.clear()
+            this.frontRepo.RectLinkLinks_array.forEach(
+              rectlinklinkDB => {
+                let rectlinklink = new RectLinkLink
+                CopyRectLinkLinkDBToRectLinkLink(rectlinklinkDB, rectlinklink, this.frontRepo)
+                this.frontRepo.array_RectLinkLinks.push(rectlinklink)
+                this.frontRepo.map_ID_RectLinkLink.set(rectlinklink.ID, rectlinklink)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_SVGs = []
+            this.frontRepo.map_ID_SVG.clear()
+            this.frontRepo.SVGs_array.forEach(
+              svgDB => {
+                let svg = new SVG
+                CopySVGDBToSVG(svgDB, svg, this.frontRepo)
+                this.frontRepo.array_SVGs.push(svg)
+                this.frontRepo.map_ID_SVG.set(svg.ID, svg)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Texts = []
+            this.frontRepo.map_ID_Text.clear()
+            this.frontRepo.Texts_array.forEach(
+              textDB => {
+                let text = new Text
+                CopyTextDBToText(textDB, text, this.frontRepo)
+                this.frontRepo.array_Texts.push(text)
+                this.frontRepo.map_ID_Text.set(text.ID, text)
+              }
+            )
+
+
 
             // hand over control flow to observer
             observer.next(this.frontRepo)

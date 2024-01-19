@@ -5,7 +5,7 @@ import { swapSegment } from './swap.segment';
 
 export function drawPointRectSegment(
     point: gongsvg.PointDB,
-    rect: gongsvg.RectDB,
+    rect: gongsvg.Rect,
     direction: gongsvg.OrientationType,
     cornerRadius: number,
     number: number):

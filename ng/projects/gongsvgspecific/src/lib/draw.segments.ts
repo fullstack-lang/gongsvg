@@ -3,8 +3,8 @@ import { drawPointRectSegment } from './draw.point.rect.segment'
 import { drawPointPointSegment } from './draw.point.point.segment';
 
 export type SegmentsParams = {
-    StartRect: gongsvg.RectDB
-    EndRect: gongsvg.RectDB
+    StartRect: gongsvg.Rect
+    EndRect: gongsvg.Rect
     StartDirection: gongsvg.OrientationType
     EndDirection: gongsvg.OrientationType
     StartRatio: number
@@ -36,7 +36,7 @@ export function createPoint(x: number, y: number): gongsvg.PointDB {
     return point
 }
 
-export function drawSegmentsFromLink(link: gongsvg.LinkDB): Segment[] {
+export function drawSegmentsFromLink(link: gongsvg.Link): Segment[] {
 
     let segmentsParams = {
         StartRect: link.Start!,

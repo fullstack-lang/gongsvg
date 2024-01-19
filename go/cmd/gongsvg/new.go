@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -227,7 +226,7 @@ func newInjection(stage *models.StageStruct) {
 	__RectAnchoredPath__000003_Inside_at_the_Right.Definition = `M 0,-960 V 0 h 960 v -960 z m 40,40 H 920 V -40 H 40 Z`
 	__RectAnchoredPath__000003_Inside_at_the_Right.X_Offset = 0.000000
 	__RectAnchoredPath__000003_Inside_at_the_Right.Y_Offset = 0.000000
-	__RectAnchoredPath__000003_Inside_at_the_Right.RectAnchorType = models.RECT_BOTTOM_INSIDE_LEFT
+	__RectAnchoredPath__000003_Inside_at_the_Right.RectAnchorType = models.RECT_BOTTOM_LEFT_LEFT
 	__RectAnchoredPath__000003_Inside_at_the_Right.ScalePropotionnally = true
 	__RectAnchoredPath__000003_Inside_at_the_Right.AppliedScaling = 0.250000
 	__RectAnchoredPath__000003_Inside_at_the_Right.Color = ``
@@ -269,5 +268,3 @@ func newInjection(stage *models.StageStruct) {
 	__Rect__000002_Center_300_300.RectAnchoredPaths = append(__Rect__000002_Center_300_300.RectAnchoredPaths, __RectAnchoredPath__000000_Bottom_Bottom_Left)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Paths)
 }
-
-

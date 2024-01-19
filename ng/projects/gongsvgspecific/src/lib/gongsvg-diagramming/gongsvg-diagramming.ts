@@ -64,9 +64,9 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   //
   // USER INTERACTION MANAGEMENT
   //
-  PointAtMouseDown = new gongsvg.PointDB
-  PointAtMouseMove = new gongsvg.PointDB
-  PointAtMouseUp = new gongsvg.PointDB
+  PointAtMouseDown = new gongsvg.Point
+  PointAtMouseMove = new gongsvg.Point
+  PointAtMouseUp = new gongsvg.Point
 
   dragThreshold = 5
 

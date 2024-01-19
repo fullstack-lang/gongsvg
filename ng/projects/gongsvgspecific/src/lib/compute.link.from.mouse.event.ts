@@ -10,7 +10,7 @@ export interface LinkConf {
     draggedSegmentNumber: number
     draggedSegmentPositionOnArrow: gongsvg.PositionOnArrowType
     segments: Segment[] | undefined
-    PointAtMouseDown: gongsvg.PointDB | undefined
+    PointAtMouseDown: gongsvg.Point | undefined
 
     // for change detection, we need to store start and end rect
     previousStart: gongsvg.Rect | undefined

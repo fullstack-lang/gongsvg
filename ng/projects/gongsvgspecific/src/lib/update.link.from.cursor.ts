@@ -16,8 +16,8 @@ export function updateLinkFromCursor(
     previousStart: gongsvg.Rect | undefined,
     previousEnd: gongsvg.Rect | undefined,
 
-    pointAtMouseDown: gongsvg.PointDB,
-    pointAtMouseMove: gongsvg.PointDB,
+    pointAtMouseDown: gongsvg.Point,
+    pointAtMouseMove: gongsvg.Point,
 
 ) {
 

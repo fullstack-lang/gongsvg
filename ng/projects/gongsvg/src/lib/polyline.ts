@@ -34,6 +34,8 @@ export class Polyline {
 
 export function CopyPolylineToPolylineDB(polyline: Polyline, polylineDB: PolylineDB) {
 
+	polylineDB.CreatedAt = polyline.CreatedAt
+	polylineDB.DeletedAt = polyline.DeletedAt
 	polylineDB.ID = polyline.ID
 	
 	// insertion point for basic fields copy operations
@@ -59,6 +61,8 @@ export function CopyPolylineToPolylineDB(polyline: Polyline, polylineDB: Polylin
 
 export function CopyPolylineDBToPolyline(polylineDB: PolylineDB, polyline: Polyline, frontRepo: FrontRepo) {
 
+	polyline.CreatedAt = polylineDB.CreatedAt
+	polyline.DeletedAt = polylineDB.DeletedAt
 	polyline.ID = polylineDB.ID
 	
 	// insertion point for basic fields copy operations

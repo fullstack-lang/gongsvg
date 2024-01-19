@@ -26,6 +26,8 @@ export class Point {
 
 export function CopyPointToPointDB(point: Point, pointDB: PointDB) {
 
+	pointDB.CreatedAt = point.CreatedAt
+	pointDB.DeletedAt = point.DeletedAt
 	pointDB.ID = point.ID
 	
 	// insertion point for basic fields copy operations
@@ -40,6 +42,8 @@ export function CopyPointToPointDB(point: Point, pointDB: PointDB) {
 
 export function CopyPointDBToPoint(pointDB: PointDB, point: Point, frontRepo: FrontRepo) {
 
+	point.CreatedAt = pointDB.CreatedAt
+	point.DeletedAt = pointDB.DeletedAt
 	point.ID = pointDB.ID
 	
 	// insertion point for basic fields copy operations

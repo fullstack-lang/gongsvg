@@ -55,6 +55,8 @@ export class Link {
 
 export function CopyLinkToLinkDB(link: Link, linkDB: LinkDB) {
 
+	linkDB.CreatedAt = link.CreatedAt
+	linkDB.DeletedAt = link.DeletedAt
 	linkDB.ID = link.ID
 	
 	// insertion point for basic fields copy operations
@@ -117,6 +119,8 @@ export function CopyLinkToLinkDB(link: Link, linkDB: LinkDB) {
 
 export function CopyLinkDBToLink(linkDB: LinkDB, link: Link, frontRepo: FrontRepo) {
 
+	link.CreatedAt = linkDB.CreatedAt
+	link.DeletedAt = linkDB.DeletedAt
 	link.ID = linkDB.ID
 	
 	// insertion point for basic fields copy operations

@@ -45,6 +45,8 @@ export class Layer {
 
 export function CopyLayerToLayerDB(layer: Layer, layerDB: LayerDB) {
 
+	layerDB.CreatedAt = layer.CreatedAt
+	layerDB.DeletedAt = layer.DeletedAt
 	layerDB.ID = layer.ID
 	
 	// insertion point for basic fields copy operations
@@ -108,6 +110,8 @@ export function CopyLayerToLayerDB(layer: Layer, layerDB: LayerDB) {
 
 export function CopyLayerDBToLayer(layerDB: LayerDB, layer: Layer, frontRepo: FrontRepo) {
 
+	layer.CreatedAt = layerDB.CreatedAt
+	layer.DeletedAt = layerDB.DeletedAt
 	layer.ID = layerDB.ID
 	
 	// insertion point for basic fields copy operations

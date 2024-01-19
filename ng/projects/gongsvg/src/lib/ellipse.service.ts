@@ -144,7 +144,7 @@ export class EllipseService {
       params: params
     }
 
-    return this.http.put<EllipseDB>(url, EllipseDB, httpOptions).pipe(
+    return this.http.put<EllipseDB>(url, ellipseDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<EllipseDB>('updateEllipse'))

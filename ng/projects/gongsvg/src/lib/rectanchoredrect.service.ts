@@ -131,7 +131,7 @@ export class RectAnchoredRectService {
       params: params
     }
 
-    return this.http.put<RectAnchoredRectDB>(url, RectAnchoredRectDB, httpOptions).pipe(
+    return this.http.put<RectAnchoredRectDB>(url, rectanchoredrectDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<RectAnchoredRectDB>('updateRectAnchoredRect'))

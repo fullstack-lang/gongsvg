@@ -144,7 +144,7 @@ export class PolylineService {
       params: params
     }
 
-    return this.http.put<PolylineDB>(url, PolylineDB, httpOptions).pipe(
+    return this.http.put<PolylineDB>(url, polylineDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<PolylineDB>('updatePolyline'))

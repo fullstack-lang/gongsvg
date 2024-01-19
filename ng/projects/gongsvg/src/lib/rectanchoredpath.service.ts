@@ -131,7 +131,7 @@ export class RectAnchoredPathService {
       params: params
     }
 
-    return this.http.put<RectAnchoredPathDB>(url, RectAnchoredPathDB, httpOptions).pipe(
+    return this.http.put<RectAnchoredPathDB>(url, rectanchoredpathDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<RectAnchoredPathDB>('updateRectAnchoredPath'))

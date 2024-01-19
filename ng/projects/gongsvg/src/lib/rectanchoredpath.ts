@@ -37,6 +37,8 @@ export class RectAnchoredPath {
 
 export function CopyRectAnchoredPathToRectAnchoredPathDB(rectanchoredpath: RectAnchoredPath, rectanchoredpathDB: RectAnchoredPathDB) {
 
+	rectanchoredpathDB.CreatedAt = rectanchoredpath.CreatedAt
+	rectanchoredpathDB.DeletedAt = rectanchoredpath.DeletedAt
 	rectanchoredpathDB.ID = rectanchoredpath.ID
 	
 	// insertion point for basic fields copy operations
@@ -62,6 +64,8 @@ export function CopyRectAnchoredPathToRectAnchoredPathDB(rectanchoredpath: RectA
 
 export function CopyRectAnchoredPathDBToRectAnchoredPath(rectanchoredpathDB: RectAnchoredPathDB, rectanchoredpath: RectAnchoredPath, frontRepo: FrontRepo) {
 
+	rectanchoredpath.CreatedAt = rectanchoredpathDB.CreatedAt
+	rectanchoredpath.DeletedAt = rectanchoredpathDB.DeletedAt
 	rectanchoredpath.ID = rectanchoredpathDB.ID
 	
 	// insertion point for basic fields copy operations

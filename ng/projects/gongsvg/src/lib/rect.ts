@@ -57,6 +57,8 @@ export class Rect {
 
 export function CopyRectToRectDB(rect: Rect, rectDB: RectDB) {
 
+	rectDB.CreatedAt = rect.CreatedAt
+	rectDB.DeletedAt = rect.DeletedAt
 	rectDB.ID = rect.ID
 	
 	// insertion point for basic fields copy operations
@@ -114,6 +116,8 @@ export function CopyRectToRectDB(rect: Rect, rectDB: RectDB) {
 
 export function CopyRectDBToRect(rectDB: RectDB, rect: Rect, frontRepo: FrontRepo) {
 
+	rect.CreatedAt = rectDB.CreatedAt
+	rect.DeletedAt = rectDB.DeletedAt
 	rect.ID = rectDB.ID
 	
 	// insertion point for basic fields copy operations

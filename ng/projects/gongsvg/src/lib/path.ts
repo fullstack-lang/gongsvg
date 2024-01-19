@@ -34,6 +34,8 @@ export class Path {
 
 export function CopyPathToPathDB(path: Path, pathDB: PathDB) {
 
+	pathDB.CreatedAt = path.CreatedAt
+	pathDB.DeletedAt = path.DeletedAt
 	pathDB.ID = path.ID
 	
 	// insertion point for basic fields copy operations
@@ -59,6 +61,8 @@ export function CopyPathToPathDB(path: Path, pathDB: PathDB) {
 
 export function CopyPathDBToPath(pathDB: PathDB, path: Path, frontRepo: FrontRepo) {
 
+	path.CreatedAt = pathDB.CreatedAt
+	path.DeletedAt = pathDB.DeletedAt
 	path.ID = pathDB.ID
 	
 	// insertion point for basic fields copy operations

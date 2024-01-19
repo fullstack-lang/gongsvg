@@ -28,6 +28,8 @@ export class Animate {
 
 export function CopyAnimateToAnimateDB(animate: Animate, animateDB: AnimateDB) {
 
+	animateDB.CreatedAt = animate.CreatedAt
+	animateDB.DeletedAt = animate.DeletedAt
 	animateDB.ID = animate.ID
 	
 	// insertion point for basic fields copy operations
@@ -44,6 +46,8 @@ export function CopyAnimateToAnimateDB(animate: Animate, animateDB: AnimateDB) {
 
 export function CopyAnimateDBToAnimate(animateDB: AnimateDB, animate: Animate, frontRepo: FrontRepo) {
 
+	animate.CreatedAt = animateDB.CreatedAt
+	animate.DeletedAt = animateDB.DeletedAt
 	animate.ID = animateDB.ID
 	
 	// insertion point for basic fields copy operations

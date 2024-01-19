@@ -183,7 +183,7 @@ export class RectService {
       params: params
     }
 
-    return this.http.put<RectDB>(url, RectDB, httpOptions).pipe(
+    return this.http.put<RectDB>(url, rectDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<RectDB>('updateRect'))

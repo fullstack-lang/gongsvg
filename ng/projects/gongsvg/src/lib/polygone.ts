@@ -34,6 +34,8 @@ export class Polygone {
 
 export function CopyPolygoneToPolygoneDB(polygone: Polygone, polygoneDB: PolygoneDB) {
 
+	polygoneDB.CreatedAt = polygone.CreatedAt
+	polygoneDB.DeletedAt = polygone.DeletedAt
 	polygoneDB.ID = polygone.ID
 	
 	// insertion point for basic fields copy operations
@@ -59,6 +61,8 @@ export function CopyPolygoneToPolygoneDB(polygone: Polygone, polygoneDB: Polygon
 
 export function CopyPolygoneDBToPolygone(polygoneDB: PolygoneDB, polygone: Polygone, frontRepo: FrontRepo) {
 
+	polygone.CreatedAt = polygoneDB.CreatedAt
+	polygone.DeletedAt = polygoneDB.DeletedAt
 	polygone.ID = polygoneDB.ID
 	
 	// insertion point for basic fields copy operations

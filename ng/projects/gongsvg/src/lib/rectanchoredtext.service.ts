@@ -144,7 +144,7 @@ export class RectAnchoredTextService {
       params: params
     }
 
-    return this.http.put<RectAnchoredTextDB>(url, RectAnchoredTextDB, httpOptions).pipe(
+    return this.http.put<RectAnchoredTextDB>(url, rectanchoredtextDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<RectAnchoredTextDB>('updateRectAnchoredText'))

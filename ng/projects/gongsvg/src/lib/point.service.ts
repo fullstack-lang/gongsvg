@@ -131,7 +131,7 @@ export class PointService {
       params: params
     }
 
-    return this.http.put<PointDB>(url, PointDB, httpOptions).pipe(
+    return this.http.put<PointDB>(url, pointDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<PointDB>('updatePoint'))

@@ -145,7 +145,7 @@ export class RectLinkLinkService {
       params: params
     }
 
-    return this.http.put<RectLinkLinkDB>(url, RectLinkLinkDB, httpOptions).pipe(
+    return this.http.put<RectLinkLinkDB>(url, rectlinklinkDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<RectLinkLinkDB>('updateRectLinkLink'))

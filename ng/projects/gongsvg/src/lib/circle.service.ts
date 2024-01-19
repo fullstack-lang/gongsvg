@@ -144,7 +144,7 @@ export class CircleService {
       params: params
     }
 
-    return this.http.put<CircleDB>(url, CircleDB, httpOptions).pipe(
+    return this.http.put<CircleDB>(url, circleDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<CircleDB>('updateCircle'))

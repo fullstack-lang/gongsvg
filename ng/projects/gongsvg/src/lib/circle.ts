@@ -36,6 +36,8 @@ export class Circle {
 
 export function CopyCircleToCircleDB(circle: Circle, circleDB: CircleDB) {
 
+	circleDB.CreatedAt = circle.CreatedAt
+	circleDB.DeletedAt = circle.DeletedAt
 	circleDB.ID = circle.ID
 	
 	// insertion point for basic fields copy operations
@@ -63,6 +65,8 @@ export function CopyCircleToCircleDB(circle: Circle, circleDB: CircleDB) {
 
 export function CopyCircleDBToCircle(circleDB: CircleDB, circle: Circle, frontRepo: FrontRepo) {
 
+	circle.CreatedAt = circleDB.CreatedAt
+	circle.DeletedAt = circleDB.DeletedAt
 	circle.ID = circleDB.ID
 	
 	// insertion point for basic fields copy operations

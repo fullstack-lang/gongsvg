@@ -33,6 +33,8 @@ export class SVG {
 
 export function CopySVGToSVGDB(svg: SVG, svgDB: SVGDB) {
 
+	svgDB.CreatedAt = svg.CreatedAt
+	svgDB.DeletedAt = svg.DeletedAt
 	svgDB.ID = svg.ID
 	
 	// insertion point for basic fields copy operations
@@ -66,6 +68,8 @@ export function CopySVGToSVGDB(svg: SVG, svgDB: SVGDB) {
 
 export function CopySVGDBToSVG(svgDB: SVGDB, svg: SVG, frontRepo: FrontRepo) {
 
+	svg.CreatedAt = svgDB.CreatedAt
+	svg.DeletedAt = svgDB.DeletedAt
 	svg.ID = svgDB.ID
 	
 	// insertion point for basic fields copy operations

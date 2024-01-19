@@ -39,6 +39,8 @@ export class LinkAnchoredText {
 
 export function CopyLinkAnchoredTextToLinkAnchoredTextDB(linkanchoredtext: LinkAnchoredText, linkanchoredtextDB: LinkAnchoredTextDB) {
 
+	linkanchoredtextDB.CreatedAt = linkanchoredtext.CreatedAt
+	linkanchoredtextDB.DeletedAt = linkanchoredtext.DeletedAt
 	linkanchoredtextDB.ID = linkanchoredtext.ID
 	
 	// insertion point for basic fields copy operations
@@ -69,6 +71,8 @@ export function CopyLinkAnchoredTextToLinkAnchoredTextDB(linkanchoredtext: LinkA
 
 export function CopyLinkAnchoredTextDBToLinkAnchoredText(linkanchoredtextDB: LinkAnchoredTextDB, linkanchoredtext: LinkAnchoredText, frontRepo: FrontRepo) {
 
+	linkanchoredtext.CreatedAt = linkanchoredtextDB.CreatedAt
+	linkanchoredtext.DeletedAt = linkanchoredtextDB.DeletedAt
 	linkanchoredtext.ID = linkanchoredtextDB.ID
 	
 	// insertion point for basic fields copy operations

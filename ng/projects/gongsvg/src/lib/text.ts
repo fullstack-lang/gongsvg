@@ -36,6 +36,8 @@ export class Text {
 
 export function CopyTextToTextDB(text: Text, textDB: TextDB) {
 
+	textDB.CreatedAt = text.CreatedAt
+	textDB.DeletedAt = text.DeletedAt
 	textDB.ID = text.ID
 	
 	// insertion point for basic fields copy operations
@@ -63,6 +65,8 @@ export function CopyTextToTextDB(text: Text, textDB: TextDB) {
 
 export function CopyTextDBToText(textDB: TextDB, text: Text, frontRepo: FrontRepo) {
 
+	text.CreatedAt = textDB.CreatedAt
+	text.DeletedAt = textDB.DeletedAt
 	text.ID = textDB.ID
 	
 	// insertion point for basic fields copy operations

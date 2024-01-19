@@ -144,7 +144,7 @@ export class PolygoneService {
       params: params
     }
 
-    return this.http.put<PolygoneDB>(url, PolygoneDB, httpOptions).pipe(
+    return this.http.put<PolygoneDB>(url, polygoneDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<PolygoneDB>('updatePolygone'))

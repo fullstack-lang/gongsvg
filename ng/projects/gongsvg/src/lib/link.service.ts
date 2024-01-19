@@ -182,7 +182,7 @@ export class LinkService {
       params: params
     }
 
-    return this.http.put<LinkDB>(url, LinkDB, httpOptions).pipe(
+    return this.http.put<LinkDB>(url, linkDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<LinkDB>('updateLink'))

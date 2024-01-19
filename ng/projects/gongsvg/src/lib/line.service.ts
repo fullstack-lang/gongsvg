@@ -144,7 +144,7 @@ export class LineService {
       params: params
     }
 
-    return this.http.put<LineDB>(url, LineDB, httpOptions).pipe(
+    return this.http.put<LineDB>(url, lineDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<LineDB>('updateLine'))

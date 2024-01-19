@@ -157,7 +157,7 @@ export class SVGService {
       params: params
     }
 
-    return this.http.put<SVGDB>(url, SVGDB, httpOptions).pipe(
+    return this.http.put<SVGDB>(url, svgDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<SVGDB>('updateSVG'))

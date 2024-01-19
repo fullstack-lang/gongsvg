@@ -39,6 +39,8 @@ export class Line {
 
 export function CopyLineToLineDB(line: Line, lineDB: LineDB) {
 
+	lineDB.CreatedAt = line.CreatedAt
+	lineDB.DeletedAt = line.DeletedAt
 	lineDB.ID = line.ID
 	
 	// insertion point for basic fields copy operations
@@ -69,6 +71,8 @@ export function CopyLineToLineDB(line: Line, lineDB: LineDB) {
 
 export function CopyLineDBToLine(lineDB: LineDB, line: Line, frontRepo: FrontRepo) {
 
+	line.CreatedAt = lineDB.CreatedAt
+	line.DeletedAt = lineDB.DeletedAt
 	line.ID = lineDB.ID
 	
 	// insertion point for basic fields copy operations

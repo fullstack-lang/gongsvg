@@ -40,6 +40,8 @@ export class RectAnchoredText {
 
 export function CopyRectAnchoredTextToRectAnchoredTextDB(rectanchoredtext: RectAnchoredText, rectanchoredtextDB: RectAnchoredTextDB) {
 
+	rectanchoredtextDB.CreatedAt = rectanchoredtext.CreatedAt
+	rectanchoredtextDB.DeletedAt = rectanchoredtext.DeletedAt
 	rectanchoredtextDB.ID = rectanchoredtext.ID
 	
 	// insertion point for basic fields copy operations
@@ -71,6 +73,8 @@ export function CopyRectAnchoredTextToRectAnchoredTextDB(rectanchoredtext: RectA
 
 export function CopyRectAnchoredTextDBToRectAnchoredText(rectanchoredtextDB: RectAnchoredTextDB, rectanchoredtext: RectAnchoredText, frontRepo: FrontRepo) {
 
+	rectanchoredtext.CreatedAt = rectanchoredtextDB.CreatedAt
+	rectanchoredtext.DeletedAt = rectanchoredtextDB.DeletedAt
 	rectanchoredtext.ID = rectanchoredtextDB.ID
 	
 	// insertion point for basic fields copy operations

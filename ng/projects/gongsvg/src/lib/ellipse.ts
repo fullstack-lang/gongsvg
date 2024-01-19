@@ -37,6 +37,8 @@ export class Ellipse {
 
 export function CopyEllipseToEllipseDB(ellipse: Ellipse, ellipseDB: EllipseDB) {
 
+	ellipseDB.CreatedAt = ellipse.CreatedAt
+	ellipseDB.DeletedAt = ellipse.DeletedAt
 	ellipseDB.ID = ellipse.ID
 	
 	// insertion point for basic fields copy operations
@@ -65,6 +67,8 @@ export function CopyEllipseToEllipseDB(ellipse: Ellipse, ellipseDB: EllipseDB) {
 
 export function CopyEllipseDBToEllipse(ellipseDB: EllipseDB, ellipse: Ellipse, frontRepo: FrontRepo) {
 
+	ellipse.CreatedAt = ellipseDB.CreatedAt
+	ellipse.DeletedAt = ellipseDB.DeletedAt
 	ellipse.ID = ellipseDB.ID
 	
 	// insertion point for basic fields copy operations

@@ -144,7 +144,7 @@ export class TextService {
       params: params
     }
 
-    return this.http.put<TextDB>(url, TextDB, httpOptions).pipe(
+    return this.http.put<TextDB>(url, textDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<TextDB>('updateText'))

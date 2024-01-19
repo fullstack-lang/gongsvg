@@ -144,7 +144,7 @@ export class PathService {
       params: params
     }
 
-    return this.http.put<PathDB>(url, PathDB, httpOptions).pipe(
+    return this.http.put<PathDB>(url, pathDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<PathDB>('updatePath'))

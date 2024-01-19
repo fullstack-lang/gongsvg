@@ -261,7 +261,7 @@ export class LayerService {
       params: params
     }
 
-    return this.http.put<LayerDB>(url, LayerDB, httpOptions).pipe(
+    return this.http.put<LayerDB>(url, layerDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<LayerDB>('updateLayer'))

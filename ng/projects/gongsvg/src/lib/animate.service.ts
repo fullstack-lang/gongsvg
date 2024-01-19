@@ -131,7 +131,7 @@ export class AnimateService {
       params: params
     }
 
-    return this.http.put<AnimateDB>(url, AnimateDB, httpOptions).pipe(
+    return this.http.put<AnimateDB>(url, animateDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<AnimateDB>('updateAnimate'))

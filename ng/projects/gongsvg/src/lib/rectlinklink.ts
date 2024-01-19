@@ -38,6 +38,8 @@ export class RectLinkLink {
 
 export function CopyRectLinkLinkToRectLinkLinkDB(rectlinklink: RectLinkLink, rectlinklinkDB: RectLinkLinkDB) {
 
+	rectlinklinkDB.CreatedAt = rectlinklink.CreatedAt
+	rectlinklinkDB.DeletedAt = rectlinklink.DeletedAt
 	rectlinklinkDB.ID = rectlinklink.ID
 	
 	// insertion point for basic fields copy operations
@@ -72,6 +74,8 @@ export function CopyRectLinkLinkToRectLinkLinkDB(rectlinklink: RectLinkLink, rec
 
 export function CopyRectLinkLinkDBToRectLinkLink(rectlinklinkDB: RectLinkLinkDB, rectlinklink: RectLinkLink, frontRepo: FrontRepo) {
 
+	rectlinklink.CreatedAt = rectlinklinkDB.CreatedAt
+	rectlinklink.DeletedAt = rectlinklinkDB.DeletedAt
 	rectlinklink.ID = rectlinklinkDB.ID
 	
 	// insertion point for basic fields copy operations

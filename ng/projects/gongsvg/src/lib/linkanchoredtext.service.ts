@@ -144,7 +144,7 @@ export class LinkAnchoredTextService {
       params: params
     }
 
-    return this.http.put<LinkAnchoredTextDB>(url, LinkAnchoredTextDB, httpOptions).pipe(
+    return this.http.put<LinkAnchoredTextDB>(url, linkanchoredtextDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<LinkAnchoredTextDB>('updateLinkAnchoredText'))

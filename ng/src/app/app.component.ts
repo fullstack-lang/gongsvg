@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   toogleEditable() {
     this.mySVG.IsEditable = !this.mySVG.IsEditable
 
-    this.svgService.updateSVG(this.mySVG, this.StackName, this.frontRepo).subscribe(
+    this.svgService.updateFront(this.mySVG, this.StackName).subscribe(
       svg => {
         console.log("SVG Is editale toggled", svg.IsEditable)
       }
@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
 
   view = this.diagramSvgView
 
-  mySVG: gongsvg.SVGDB = new gongsvg.SVGDB
+  mySVG: gongsvg.SVG = new gongsvg.SVG
   frontRepo: gongsvg.FrontRepo = new gongsvg.FrontRepo
 
   views: string[] = [this.diagramSvgView, this.default];
@@ -88,7 +88,7 @@ export class AppComponent implements OnInit {
     this.gongsvgFrontRepoService.pull(this.StackName).subscribe(
       gongsvgsFrontRepo => {
         this.frontRepo = gongsvgsFrontRepo
-        for (let svg of gongsvgsFrontRepo.SVGs_array) {
+        for (let svg of gongsvgsFrontRepo.getFrontArray<gongsvg.SVG>(gongsvg.SVG.GONGSTRUCT_NAME)) {
           this.mySVG = svg
         }
       }

@@ -222,7 +222,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     // computed
     this.changeDetectorRef.detach()
 
-    this.gongsvgFrontRepoService.pull(this.GONG__StackPath).subscribe(
+    this.gongsvgFrontRepoService.connectToWebSocket(this.GONG__StackPath).subscribe(
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
         //   "in promise to front repose servive pull", "gongsvgFrontRepo not good")

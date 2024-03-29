@@ -139,8 +139,8 @@ func bezierInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_End.Name = `End`
-	__Rect__000000_End.X = 524.000000
-	__Rect__000000_End.Y = 773.000000
+	__Rect__000000_End.X = 513.000000
+	__Rect__000000_End.Y = 706.000000
 	__Rect__000000_End.Width = 100.000000
 	__Rect__000000_End.Height = 100.000000
 	__Rect__000000_End.RX = 0.000000
@@ -167,8 +167,8 @@ func bezierInjection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000001_Start.Name = `Start`
-	__Rect__000001_Start.X = 0.000000
-	__Rect__000001_Start.Y = 500.000000
+	__Rect__000001_Start.X = 36.000000
+	__Rect__000001_Start.Y = 506.000000
 	__Rect__000001_Start.Width = 100.000000
 	__Rect__000001_Start.Height = 100.000000
 	__Rect__000001_Start.RX = 0.000000
@@ -190,12 +190,12 @@ func bezierInjection(stage *models.StageStruct) {
 	__Rect__000001_Start.IsScalingProportionally = false
 	__Rect__000001_Start.CanHaveBottomHandle = false
 	__Rect__000001_Start.HasBottomHandle = false
-	__Rect__000001_Start.CanMoveHorizontaly = false
-	__Rect__000001_Start.CanMoveVerticaly = false
+	__Rect__000001_Start.CanMoveHorizontaly = true
+	__Rect__000001_Start.CanMoveVerticaly = true
 
 	// SVG values setup
 	__SVG__000000_beizer.Name = `beizer`
-	__SVG__000000_beizer.IsEditable = false
+	__SVG__000000_beizer.IsEditable = true
 
 	// Setup of pointers
 	__Layer__000000_bezier.Rects = append(__Layer__000000_bezier.Rects, __Rect__000001_Start)

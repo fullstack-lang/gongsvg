@@ -97,10 +97,10 @@ func simple_link_2Injection(stage *models.StageStruct) {
 	__Link__000000_link.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_link.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_link.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000000_link.StartRatio = 0.372781
-	__Link__000000_link.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_link.EndRatio = 0.000000
-	__Link__000000_link.CornerOffsetRatio = -0.006953
+	__Link__000000_link.StartRatio = 0.431953
+	__Link__000000_link.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000000_link.EndRatio = 0.602451
+	__Link__000000_link.CornerOffsetRatio = -0.261953
 	__Link__000000_link.CornerRadius = 5.000000
 	__Link__000000_link.HasEndArrow = true
 	__Link__000000_link.EndArrowSize = 15.000000
@@ -116,8 +116,8 @@ func simple_link_2Injection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_End.Name = `End`
-	__Rect__000000_End.X = 485.000000
-	__Rect__000000_End.Y = 248.000000
+	__Rect__000000_End.X = 481.000000
+	__Rect__000000_End.Y = 102.000000
 	__Rect__000000_End.Width = 248.000000
 	__Rect__000000_End.Height = 167.000000
 	__Rect__000000_End.RX = 0.000000

@@ -170,6 +170,23 @@
 			"group": "build"
 		},
 		{
+			"label": "02 - go run  --unmarshallFromCode=simple_link_2.go --marshallOnCommit=simple_link_2",
+			"type": "shell",
+			"options": {
+				"cwd": "./go/cmd/gongsvg"
+			},
+			"command": "go",
+			"args": [
+				"run",
+				"main.go",
+				"-unmarshallFromCode",
+				"simple_link_2.go",
+				"-marshallOnCommit",
+				"simple_link_2"
+			],
+			"group": "build"
+		},
+		{
 			"label": "02 - colorgrid",
 			"type": "shell",
 			"options": {

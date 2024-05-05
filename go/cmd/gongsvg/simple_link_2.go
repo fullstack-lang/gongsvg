@@ -116,8 +116,8 @@ func simple_link_2Injection(stage *models.StageStruct) {
 
 	// Rect values setup
 	__Rect__000000_End.Name = `End`
-	__Rect__000000_End.X = 571.000000
-	__Rect__000000_End.Y = 82.000000
+	__Rect__000000_End.X = 514.000000
+	__Rect__000000_End.Y = 103.000000
 	__Rect__000000_End.Width = 248.000000
 	__Rect__000000_End.Height = 167.000000
 	__Rect__000000_End.RX = 0.000000

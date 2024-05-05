@@ -1,6 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../../gongsvg/src/public-api'
+
+import { CommonModule } from '@angular/common';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { manageHandles } from '../manage.handles';
 import { Segment, createPoint, drawSegments, drawSegmentsFromLink } from '../draw.segments';
@@ -26,11 +31,24 @@ import { TextWidthCalculatorComponent } from '../text-width-calculator/text-widt
 import { auto_X_offset } from './auto-x-offset';
 import { auto_Y_offset } from './auto-y-offset';
 import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
+import { LinkSegmentsPipe } from '../link-segments.pipe'
+
 
 @Component({
   selector: 'lib-gongsvg-diagramming',
   templateUrl: './gongsvg-diagramming.html',
-  styleUrls: ['./gongsvg-diagramming.css']
+  styleUrls: ['./gongsvg-diagramming.css'],
+  imports: [
+    CommonModule,
+
+    MatIconModule,
+    MatButtonModule,
+
+    TextWidthCalculatorComponent,
+
+    LinkSegmentsPipe,
+  ],
+  standalone: true,
 })
 export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterViewInit {
 

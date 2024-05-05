@@ -1,4 +1,4 @@
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../../gongsvg/src/public-api'
 import { Segment } from '../draw.segments'
 import { TextWidthCalculatorComponent } from '../text-width-calculator/text-width-calculator.component'
 

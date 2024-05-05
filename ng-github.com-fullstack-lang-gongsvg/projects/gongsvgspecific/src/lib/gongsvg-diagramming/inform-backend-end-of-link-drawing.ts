@@ -2,7 +2,7 @@
 
 import { GongsvgDiagrammingComponent } from "./gongsvg-diagramming"
 
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../../gongsvg/src/public-api'
 
 // informBackEndOfEndOfLinkDrawing
 //

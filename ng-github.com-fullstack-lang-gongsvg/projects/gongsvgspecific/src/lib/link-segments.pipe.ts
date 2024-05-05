@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../gongsvg/src/public-api'
 import { Segment } from './draw.segments';
 
 //Pipes and Pure Functions: If linkSegments is a custom pipe, make 
@@ -10,6 +10,7 @@ import { Segment } from './draw.segments';
 @Pipe({
   name: 'linkSegments',
   pure: false,
+  standalone: true,
 })
 export class LinkSegmentsPipe implements PipeTransform {
   transform(link: gongsvg.Link, map_Link_Segment: Map<gongsvg.Link, Segment[]>): Segment[] {

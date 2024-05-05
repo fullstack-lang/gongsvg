@@ -1,5 +1,5 @@
 
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../gongsvg/src/public-api'
 import { createPoint } from './draw.segments';
 
 // Function to calculate the center of a rectangle

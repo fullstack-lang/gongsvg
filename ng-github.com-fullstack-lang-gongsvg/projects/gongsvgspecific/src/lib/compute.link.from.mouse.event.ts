@@ -1,4 +1,4 @@
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../gongsvg/src/public-api'
 import { Segment } from './draw.segments'
 import { ShapeMouseEvent } from './shape.mouse.event'
 

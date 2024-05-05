@@ -1,4 +1,4 @@
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../gongsvg/src/public-api'
 import { createPoint } from './draw.segments'
 
 export function mouseCoordInComponentRef(event: MouseEvent): gongsvg.Point {

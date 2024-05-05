@@ -2,7 +2,7 @@
 import { SelectAreaConfig, SweepDirection } from "../svg-event.service";
 import { GongsvgDiagrammingComponent } from "./gongsvg-diagramming"
 
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../../gongsvg/src/public-api'
 import { getFunctionName } from "./get.function.name";
 
 export function selectRectsByArea(gongsvgDiagrammingComponent: GongsvgDiagrammingComponent) {

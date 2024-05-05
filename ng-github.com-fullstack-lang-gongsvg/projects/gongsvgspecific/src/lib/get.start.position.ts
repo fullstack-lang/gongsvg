@@ -1,4 +1,4 @@
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../gongsvg/src/public-api'
 import { Segment, createPoint } from './draw.segments';
 import { Coordinate } from './rectangle-event.service';
 import { getAnchorPoint } from './get.anchor.point';

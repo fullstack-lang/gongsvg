@@ -1,23 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable, combineLatest, timer } from 'rxjs'
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
-import * as gongdoc from 'gongdoc'
-import * as gongsvg from 'gongsvg'
 
-import { GongdocModule } from 'gongdoc'
-import { GongdocspecificModule } from 'gongdocspecific'
+import * as gongsvg from '../../projects/gongsvg/src/public-api'
 
-import { GongtreeModule } from 'gongtree'
-import { GongtreespecificModule } from 'gongtreespecific'
+import { GongsvgDiagrammingComponent } from '../../projects/gongsvgspecific/src/lib/gongsvg-diagramming/gongsvg-diagramming'
 
-import { GongtableModule } from 'gongtable'
-import { GongtablespecificModule } from 'gongtablespecific'
 import { ISplitDirection } from 'angular-split';
+import { AngularSplitModule } from 'angular-split';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  standalone: true,
+  imports: [
+    MatRadioModule,
+    FormsModule,
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+
+    AngularSplitModule,
+
+    GongsvgDiagrammingComponent,
+
+  ],
 })
 export class AppComponent implements OnInit {
 

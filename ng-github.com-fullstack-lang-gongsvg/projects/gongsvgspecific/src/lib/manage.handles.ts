@@ -1,4 +1,4 @@
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../gongsvg/src/public-api'
 
 // display or not handles if selected or not
 export function manageHandles(rect: gongsvg.Rect) {

@@ -3,7 +3,8 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewCh
 @Component({
   selector: 'lib-text-width-calculator',
   templateUrl: './text-width-calculator.component.html',
-  styleUrls: ['./text-width-calculator.component.css']
+  styleUrls: ['./text-width-calculator.component.css'],
+  standalone: true,
 })
 export class TextWidthCalculatorComponent implements OnInit, AfterViewInit {
   @ViewChild('measureElement') measureElement!: ElementRef;

@@ -1,5 +1,5 @@
 
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../gongsvg/src/public-api'
 
 
 export function compareLinkGeometries(instance1: gongsvg.Link, instance2: gongsvg.Link): boolean {

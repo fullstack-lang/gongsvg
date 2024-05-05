@@ -1,4 +1,4 @@
-import * as gongsvg from 'gongsvg'
+import * as gongsvg from '../../../gongsvg/src/public-api'
 import { Segment } from './draw.segments';
 
 export function getArcPath(link: gongsvg.Link, segment: Segment, nextSegment: Segment): string {

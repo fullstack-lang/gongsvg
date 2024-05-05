@@ -10,3 +10,4 @@ go/cmd/gongsvg/test.db
 go/cmd/gongsvg/__debug_bin*
 go/cmd/colorgrid/__debug_bin*
 
+node_modules

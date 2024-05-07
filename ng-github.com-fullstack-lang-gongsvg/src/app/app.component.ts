@@ -14,6 +14,13 @@ import { GongsvgDiagrammingComponent } from '../../projects/gongsvgspecific/src/
 import { ISplitDirection } from 'angular-split';
 import { AngularSplitModule } from 'angular-split';
 
+import { TreeComponent } from '@vendored_components/github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree/projects/gongtreespecific/src/public-api'
+import { MaterialTableComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-table/material-table.component';
+import { MaterialFormComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-form/material-form.component';
+import * as gongtable from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtable/src/public-api';
+import { PanelComponent } from '@vendored_components/github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc/projects/gongdocspecific/src/public-api'
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,6 +33,11 @@ import { AngularSplitModule } from 'angular-split';
     MatIconModule,
 
     AngularSplitModule,
+
+    TreeComponent,
+    MaterialTableComponent,
+    MaterialFormComponent,
+    PanelComponent,
 
     GongsvgDiagrammingComponent,
 
@@ -52,7 +64,7 @@ export class AppComponent implements OnInit {
   mySVG: gongsvg.SVG = new gongsvg.SVG
   frontRepo: gongsvg.FrontRepo = new gongsvg.FrontRepo
 
-  views: string[] = [this.diagramSvgView, this.default];
+  views: string[] = [this.diagramSvgView];
 
   scrollStyle = {
     'overflow- x': 'auto',

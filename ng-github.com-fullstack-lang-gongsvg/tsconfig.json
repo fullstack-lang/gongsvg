@@ -11,7 +11,11 @@
       ],
       "gongsvgspecific": [
         "./dist/gongsvgspecific"
-      ]
+      ],
+      "@vendored_components/*": [
+        "../vendor/*",
+        "../../../../*", // this is for when gongdoc imports the GongsvgDiagrammingComponent (it is not vendored)
+      ],
     },
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,

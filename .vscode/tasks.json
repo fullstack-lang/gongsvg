@@ -335,9 +335,9 @@
 			"group": "build"
 		},
 		{
-			"label": "03 - ng build --configuration development",
+			"label": "03 - ng build",
 			"type": "shell",
-			"command": "cd ng; ng build --configuration development",
+			"command": "cd ng-github.com-fullstack-lang-gongsvg; ng build",
 			"group": "build",
 			"problemMatcher": []
 		},

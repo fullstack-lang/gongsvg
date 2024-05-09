@@ -580,6 +580,8 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(circle_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(circle_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(circle_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(circle_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -721,6 +723,8 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(ellipse_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(ellipse_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(ellipse_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(ellipse_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -983,6 +987,8 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(line_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(line_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(line_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(line_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -1152,6 +1158,8 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(link_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(link_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(link_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(link_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -1297,6 +1305,8 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(linkanchoredtext_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(linkanchoredtext_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(linkanchoredtext_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -1474,6 +1484,8 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(path_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(path_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(path_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(path_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -1732,6 +1744,8 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(polygone_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(polygone_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(polygone_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(polygone_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -1867,6 +1881,8 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(polyline_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(polyline_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(polyline_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(polyline_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -2010,6 +2026,8 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(rect_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(rect_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(rect_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -2181,6 +2199,8 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredpath_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(rectanchoredpath_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(rectanchoredpath_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(rectanchoredpath_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -2334,6 +2354,8 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredrect_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(rectanchoredrect_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(rectanchoredrect_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(rectanchoredrect_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -2481,6 +2503,8 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredtext_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(rectanchoredtext_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(rectanchoredtext_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(rectanchoredtext_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -2620,6 +2644,8 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectlinklink_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(rectlinklink_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(rectlinklink_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(rectlinklink_.StrokeWidth), formDiv)
 		case "StrokeDashArray":
@@ -2844,6 +2870,8 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(text_.FillOpacity), formDiv)
 		case "Stroke":
 			FormDivBasicFieldToField(&(text_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(text_.StrokeOpacity), formDiv)
 		case "StrokeWidth":
 			FormDivBasicFieldToField(&(text_.StrokeWidth), formDiv)
 		case "StrokeDashArray":

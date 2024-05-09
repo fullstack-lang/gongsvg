@@ -83,6 +83,8 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000003_R4_rounded := (&models.Rect{Name: `R4 rounded`}).Stage(stage)
 	__Rect__000004_Test_Rect := (&models.Rect{Name: `Test Rect`}).Stage(stage)
 
+	// Declarations of staged instances of RectAnchoredPath
+
 	// Declarations of staged instances of RectAnchoredRect
 
 	// Declarations of staged instances of RectAnchoredText
@@ -134,6 +136,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Circle__000000_C1a.Color = `greenlight`
 	__Circle__000000_C1a.FillOpacity = 0.800000
 	__Circle__000000_C1a.Stroke = `blue`
+	__Circle__000000_C1a.StrokeOpacity = 0.000000
 	__Circle__000000_C1a.StrokeWidth = 1.000000
 	__Circle__000000_C1a.StrokeDashArray = ``
 	__Circle__000000_C1a.StrokeDashArrayWhenSelected = ``
@@ -148,6 +151,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Ellipse__000000_Ellipse_Example_SVG.Color = `red`
 	__Ellipse__000000_Ellipse_Example_SVG.FillOpacity = 0.300000
 	__Ellipse__000000_Ellipse_Example_SVG.Stroke = `black`
+	__Ellipse__000000_Ellipse_Example_SVG.StrokeOpacity = 0.000000
 	__Ellipse__000000_Ellipse_Example_SVG.StrokeWidth = 2.000000
 	__Ellipse__000000_Ellipse_Example_SVG.StrokeDashArray = ``
 	__Ellipse__000000_Ellipse_Example_SVG.StrokeDashArrayWhenSelected = ``
@@ -170,6 +174,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Line__000000_Line.Color = `red`
 	__Line__000000_Line.FillOpacity = 1.000000
 	__Line__000000_Line.Stroke = `red`
+	__Line__000000_Line.StrokeOpacity = 0.000000
 	__Line__000000_Line.StrokeWidth = 1.000000
 	__Line__000000_Line.StrokeDashArray = ``
 	__Line__000000_Line.StrokeDashArrayWhenSelected = ``
@@ -183,6 +188,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Path__000000_Path_example.Color = `black`
 	__Path__000000_Path_example.FillOpacity = 0.500000
 	__Path__000000_Path_example.Stroke = `blue`
+	__Path__000000_Path_example.StrokeOpacity = 0.000000
 	__Path__000000_Path_example.StrokeWidth = 2.000000
 	__Path__000000_Path_example.StrokeDashArray = `4 4`
 	__Path__000000_Path_example.StrokeDashArrayWhenSelected = ``
@@ -194,6 +200,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Path__000001_another_play_shape.Color = `black`
 	__Path__000001_another_play_shape.FillOpacity = 0.500000
 	__Path__000001_another_play_shape.Stroke = `black`
+	__Path__000001_another_play_shape.StrokeOpacity = 0.000000
 	__Path__000001_another_play_shape.StrokeWidth = 1.000000
 	__Path__000001_another_play_shape.StrokeDashArray = ``
 	__Path__000001_another_play_shape.StrokeDashArrayWhenSelected = ``
@@ -205,6 +212,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Path__000002_celebration.Color = `black`
 	__Path__000002_celebration.FillOpacity = 1.000000
 	__Path__000002_celebration.Stroke = `black`
+	__Path__000002_celebration.StrokeOpacity = 0.000000
 	__Path__000002_celebration.StrokeWidth = 2.000000
 	__Path__000002_celebration.StrokeDashArray = ``
 	__Path__000002_celebration.StrokeDashArrayWhenSelected = ``
@@ -216,6 +224,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Path__000003_path.Color = `transparant`
 	__Path__000003_path.FillOpacity = 0.000000
 	__Path__000003_path.Stroke = `blue`
+	__Path__000003_path.StrokeOpacity = 0.000000
 	__Path__000003_path.StrokeWidth = 2.000000
 	__Path__000003_path.StrokeDashArray = ``
 	__Path__000003_path.StrokeDashArrayWhenSelected = ``
@@ -227,6 +236,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Path__000004_play_shape.Color = `blue`
 	__Path__000004_play_shape.FillOpacity = 1.000000
 	__Path__000004_play_shape.Stroke = `red`
+	__Path__000004_play_shape.StrokeOpacity = 0.000000
 	__Path__000004_play_shape.StrokeWidth = 1.000000
 	__Path__000004_play_shape.StrokeDashArray = ``
 	__Path__000004_play_shape.StrokeDashArrayWhenSelected = ``
@@ -238,6 +248,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Polygone__000000_Polygone_example_SVG.Color = `green`
 	__Polygone__000000_Polygone_example_SVG.FillOpacity = 0.800000
 	__Polygone__000000_Polygone_example_SVG.Stroke = ``
+	__Polygone__000000_Polygone_example_SVG.StrokeOpacity = 0.000000
 	__Polygone__000000_Polygone_example_SVG.StrokeWidth = 0.000000
 	__Polygone__000000_Polygone_example_SVG.StrokeDashArray = ``
 	__Polygone__000000_Polygone_example_SVG.StrokeDashArrayWhenSelected = ``
@@ -249,6 +260,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Polyline__000000_Polyline_example_SVG.Color = `yellow`
 	__Polyline__000000_Polyline_example_SVG.FillOpacity = 0.700000
 	__Polyline__000000_Polyline_example_SVG.Stroke = ``
+	__Polyline__000000_Polyline_example_SVG.StrokeOpacity = 0.000000
 	__Polyline__000000_Polyline_example_SVG.StrokeWidth = 0.000000
 	__Polyline__000000_Polyline_example_SVG.StrokeDashArray = ``
 	__Polyline__000000_Polyline_example_SVG.StrokeDashArrayWhenSelected = ``
@@ -264,6 +276,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000000_R1.Color = `rgb(255, 0, 0)`
 	__Rect__000000_R1.FillOpacity = 0.500000
 	__Rect__000000_R1.Stroke = `blue`
+	__Rect__000000_R1.StrokeOpacity = 0.000000
 	__Rect__000000_R1.StrokeWidth = 1.000000
 	__Rect__000000_R1.StrokeDashArray = `4 4`
 	__Rect__000000_R1.StrokeDashArrayWhenSelected = ``
@@ -276,6 +289,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000000_R1.HasRightHandle = false
 	__Rect__000000_R1.CanHaveTopHandle = false
 	__Rect__000000_R1.HasTopHandle = false
+	__Rect__000000_R1.IsScalingProportionally = false
 	__Rect__000000_R1.CanHaveBottomHandle = false
 	__Rect__000000_R1.HasBottomHandle = false
 	__Rect__000000_R1.CanMoveHorizontaly = false
@@ -291,6 +305,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000001_R2.Color = `greenyellow`
 	__Rect__000001_R2.FillOpacity = 0.900000
 	__Rect__000001_R2.Stroke = `yellow`
+	__Rect__000001_R2.StrokeOpacity = 0.000000
 	__Rect__000001_R2.StrokeWidth = 3.000000
 	__Rect__000001_R2.StrokeDashArray = `4 1`
 	__Rect__000001_R2.StrokeDashArrayWhenSelected = ``
@@ -303,6 +318,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000001_R2.HasRightHandle = false
 	__Rect__000001_R2.CanHaveTopHandle = false
 	__Rect__000001_R2.HasTopHandle = false
+	__Rect__000001_R2.IsScalingProportionally = false
 	__Rect__000001_R2.CanHaveBottomHandle = false
 	__Rect__000001_R2.HasBottomHandle = false
 	__Rect__000001_R2.CanMoveHorizontaly = false
@@ -318,6 +334,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000002_R3.Color = `rgb(124, 0, 0)`
 	__Rect__000002_R3.FillOpacity = 0.200000
 	__Rect__000002_R3.Stroke = `pink`
+	__Rect__000002_R3.StrokeOpacity = 0.000000
 	__Rect__000002_R3.StrokeWidth = 6.000000
 	__Rect__000002_R3.StrokeDashArray = ``
 	__Rect__000002_R3.StrokeDashArrayWhenSelected = ``
@@ -330,6 +347,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000002_R3.HasRightHandle = false
 	__Rect__000002_R3.CanHaveTopHandle = false
 	__Rect__000002_R3.HasTopHandle = false
+	__Rect__000002_R3.IsScalingProportionally = false
 	__Rect__000002_R3.CanHaveBottomHandle = false
 	__Rect__000002_R3.HasBottomHandle = false
 	__Rect__000002_R3.CanMoveHorizontaly = false
@@ -344,8 +362,9 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000003_R4_rounded.RX = 50.000000
 	__Rect__000003_R4_rounded.Color = `red`
 	__Rect__000003_R4_rounded.FillOpacity = 0.500000
-	__Rect__000003_R4_rounded.Stroke = ``
-	__Rect__000003_R4_rounded.StrokeWidth = 0.000000
+	__Rect__000003_R4_rounded.Stroke = `blue`
+	__Rect__000003_R4_rounded.StrokeOpacity = 0.500000
+	__Rect__000003_R4_rounded.StrokeWidth = 6.000000
 	__Rect__000003_R4_rounded.StrokeDashArray = ``
 	__Rect__000003_R4_rounded.StrokeDashArrayWhenSelected = ``
 	__Rect__000003_R4_rounded.Transform = ``
@@ -357,6 +376,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000003_R4_rounded.HasRightHandle = false
 	__Rect__000003_R4_rounded.CanHaveTopHandle = false
 	__Rect__000003_R4_rounded.HasTopHandle = false
+	__Rect__000003_R4_rounded.IsScalingProportionally = false
 	__Rect__000003_R4_rounded.CanHaveBottomHandle = false
 	__Rect__000003_R4_rounded.HasBottomHandle = false
 	__Rect__000003_R4_rounded.CanMoveHorizontaly = false
@@ -372,6 +392,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000004_Test_Rect.Color = `blue`
 	__Rect__000004_Test_Rect.FillOpacity = 0.300000
 	__Rect__000004_Test_Rect.Stroke = ``
+	__Rect__000004_Test_Rect.StrokeOpacity = 0.000000
 	__Rect__000004_Test_Rect.StrokeWidth = 0.000000
 	__Rect__000004_Test_Rect.StrokeDashArray = ``
 	__Rect__000004_Test_Rect.StrokeDashArrayWhenSelected = ``
@@ -384,6 +405,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Rect__000004_Test_Rect.HasRightHandle = false
 	__Rect__000004_Test_Rect.CanHaveTopHandle = false
 	__Rect__000004_Test_Rect.HasTopHandle = false
+	__Rect__000004_Test_Rect.IsScalingProportionally = false
 	__Rect__000004_Test_Rect.CanHaveBottomHandle = false
 	__Rect__000004_Test_Rect.HasBottomHandle = false
 	__Rect__000004_Test_Rect.CanMoveHorizontaly = false
@@ -401,6 +423,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Text__000000_Bonjorno.Color = `green`
 	__Text__000000_Bonjorno.FillOpacity = 1.000000
 	__Text__000000_Bonjorno.Stroke = `black`
+	__Text__000000_Bonjorno.StrokeOpacity = 0.000000
 	__Text__000000_Bonjorno.StrokeWidth = 0.000000
 	__Text__000000_Bonjorno.StrokeDashArray = ``
 	__Text__000000_Bonjorno.StrokeDashArrayWhenSelected = ``
@@ -414,6 +437,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Text__000001_Hello.Color = `green`
 	__Text__000001_Hello.FillOpacity = 1.000000
 	__Text__000001_Hello.Stroke = `red`
+	__Text__000001_Hello.StrokeOpacity = 0.000000
 	__Text__000001_Hello.StrokeWidth = 3.000000
 	__Text__000001_Hello.StrokeDashArray = ``
 	__Text__000001_Hello.StrokeDashArrayWhenSelected = ``

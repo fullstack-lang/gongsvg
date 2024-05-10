@@ -482,6 +482,8 @@
                                     <text class="noevents-area"
                                         [attr.x]="segment.EndPoint.X" 
                                         [attr.y]="segment.EndPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)" 
+                                        [attr.font-weight]="text.FontWeight"
+                                       
                                         [attr.fill]="text.Color"    
                                         [attr.fill-opacity]="text.FillOpacity"
                                         [attr.stroke]="text.Stroke"

@@ -260,7 +260,7 @@ Line 2`
 	__LinkAnchoredText__000002_Liine_1_Line_2.AutomaticLayout = false
 	__LinkAnchoredText__000002_Liine_1_Line_2.X_Offset = -61.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.Y_Offset = -35.000000
-	__LinkAnchoredText__000002_Liine_1_Line_2.FontWeight = `normal`
+	__LinkAnchoredText__000002_Liine_1_Line_2.FontWeight = `100`
 	__LinkAnchoredText__000002_Liine_1_Line_2.Color = `black`
 	__LinkAnchoredText__000002_Liine_1_Line_2.FillOpacity = 100.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.Stroke = `black`
@@ -497,7 +497,7 @@ The text of a UML note refers a comment with the GONGNOTE keyword which is
 a special case of go Note convention. See example
 for details in the go code of the models.
 `
-	__RectAnchoredText__000000_Bottom_Text.FontWeight = `normal`
+	__RectAnchoredText__000000_Bottom_Text.FontWeight = `100`
 	__RectAnchoredText__000000_Bottom_Text.FontSize = 0
 	__RectAnchoredText__000000_Bottom_Text.X_Offset = 0.000000
 	__RectAnchoredText__000000_Bottom_Text.Y_Offset = 20.000000

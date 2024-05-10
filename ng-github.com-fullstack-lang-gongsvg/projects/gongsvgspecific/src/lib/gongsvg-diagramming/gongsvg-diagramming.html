@@ -282,7 +282,8 @@
                             [ngTemplateOutletContext]="{ 
                                     text: text, 
                                     anchorX: rect.X + text.X_Offset, 
-                                    anchorY: rect.Y + text.Y_Offset }
+                                    anchorY: rect.Y + text.Y_Offset,
+                                }
                             ">
                     </ng-container>
                     <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_TOP" 
@@ -458,6 +459,8 @@
                                     <text class="movable-text"
                                         [attr.x]="segment.EndPoint.X + text.X_Offset" 
                                         [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
+                                        [attr.font-weight]="text.FontWeight"
+
                                         [attr.fill]="text.Color"    
                                         [attr.fill-opacity]="text.FillOpacity"
                                         [attr.stroke]="text.Stroke"
@@ -465,7 +468,7 @@
                                         [attr.stroke-width]="text.StrokeWidth"
                                         [attr.stroke-dasharray]="text.StrokeDashArray"
                                         [attr.transform]="text.Transform"
-                                        
+
                                         (mousedown)="textAnchoredMouseDown(link, $event, k, PositionOnArrowType.POSITION_ON_ARROW_END)" 
                                         (mousemove)="onmousemove($event)" 
                                         (mouseup)="textAnchoredMouseUp(link, $event)"
@@ -500,6 +503,8 @@
                                     <text class="movable-text"
                                         [attr.x]="segment.StartPoint.X + text.X_Offset" 
                                         [attr.y]="segment.StartPoint.Y + text.Y_Offset" 
+                                        [attr.font-weight]="text.FontWeight"
+
                                         [attr.fill]="text.Color"    
                                         [attr.fill-opacity]="text.FillOpacity"
                                         [attr.stroke]="text.Stroke"

@@ -9,14 +9,14 @@
             "request": "launch",
             "type": "msedge",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/ng",
+            "webRoot": "${workspaceFolder}/ng-github.com-fullstack-lang-gongsvg",
         },
         {
             "name": "Launch Chrome",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/ng"
+            "webRoot": "${workspaceFolder}/ng-github.com-fullstack-lang-gongsvg"
         },
         {
             "name": "go server colorgrid 8082",

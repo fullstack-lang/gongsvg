@@ -2,19 +2,19 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "03 - ng serve --host=127.0.0.1",
+			"label": "03 - ng serve",
 			"type": "shell",
 			"options": {
-				"cwd": "ng"
+				"cwd": "ng-github.com-fullstack-lang-gongsvg"
 			},
-			"command": "ng serve --host=127.0.0.1",
+			"command": "ng serve",
 			"group": "build"
 		},
 		{
 			"label": "03 - ngserve",
 			"type": "shell",
 			"options": {
-				"cwd": "ng"
+				"cwd": "ng-github.com-fullstack-lang-gongsvg"
 			},
 			"command": "ngserve",
 			"group": "build"

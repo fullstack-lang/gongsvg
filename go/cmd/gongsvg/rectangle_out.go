@@ -59,7 +59,6 @@ func rectangle_outInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of Link
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal := (&models.Link{Name: `Arrow - Top to Bottom vertical to horizontal`}).Stage(stage)
-	__Link__000001_Start_Middle := (&models.Link{Name: `Start - Middle`}).Stage(stage)
 
 	// Declarations of staged instances of LinkAnchoredText
 	__LinkAnchoredText__000000_End_Left_Top := (&models.LinkAnchoredText{Name: `End Left/Top`}).Stage(stage)
@@ -123,6 +122,7 @@ Line 2`}).Stage(stage)
 	__Circle__000000_Test.Color = `lavender`
 	__Circle__000000_Test.FillOpacity = 50.000000
 	__Circle__000000_Test.Stroke = ``
+	__Circle__000000_Test.StrokeOpacity = 1.000000
 	__Circle__000000_Test.StrokeWidth = 0.000000
 	__Circle__000000_Test.StrokeDashArray = ``
 	__Circle__000000_Test.StrokeDashArrayWhenSelected = ``
@@ -161,6 +161,7 @@ Line 2`}).Stage(stage)
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.Color = `olivedrab`
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.FillOpacity = 0.000000
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.Stroke = `olivedrab`
+	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeOpacity = 1.000000
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeWidth = 4.000000
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeDashArray = ``
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeDashArrayWhenSelected = ``
@@ -175,10 +176,10 @@ Line 2`}).Stage(stage)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.539442
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.740216
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.659649
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -2.046397
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.351645
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -1.725738
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
@@ -187,32 +188,11 @@ Line 2`}).Stage(stage)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Color = ``
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.FillOpacity = 0.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Stroke = `green`
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StrokeOpacity = 1.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StrokeWidth = 4.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StrokeDashArray = ``
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StrokeDashArrayWhenSelected = ``
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Transform = ``
-
-	// Link values setup
-	__Link__000001_Start_Middle.Name = `Start - Middle`
-	__Link__000001_Start_Middle.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
-	__Link__000001_Start_Middle.IsBezierCurve = false
-	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.StartRatio = 0.218766
-	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.EndRatio = 0.301876
-	__Link__000001_Start_Middle.CornerOffsetRatio = -0.476777
-	__Link__000001_Start_Middle.CornerRadius = 20.000000
-	__Link__000001_Start_Middle.HasEndArrow = true
-	__Link__000001_Start_Middle.EndArrowSize = 10.000000
-	__Link__000001_Start_Middle.HasStartArrow = true
-	__Link__000001_Start_Middle.StartArrowSize = 10.000000
-	__Link__000001_Start_Middle.Color = ``
-	__Link__000001_Start_Middle.FillOpacity = 0.000000
-	__Link__000001_Start_Middle.Stroke = `red`
-	__Link__000001_Start_Middle.StrokeWidth = 5.000000
-	__Link__000001_Start_Middle.StrokeDashArray = ``
-	__Link__000001_Start_Middle.StrokeDashArrayWhenSelected = ``
-	__Link__000001_Start_Middle.Transform = ``
 
 	// LinkAnchoredText values setup
 	__LinkAnchoredText__000000_End_Left_Top.Name = `End Left/Top`
@@ -225,6 +205,7 @@ Line 2`}).Stage(stage)
 	__LinkAnchoredText__000000_End_Left_Top.Color = `blue`
 	__LinkAnchoredText__000000_End_Left_Top.FillOpacity = 0.000000
 	__LinkAnchoredText__000000_End_Left_Top.Stroke = `blue`
+	__LinkAnchoredText__000000_End_Left_Top.StrokeOpacity = 1.000000
 	__LinkAnchoredText__000000_End_Left_Top.StrokeWidth = 1.000000
 	__LinkAnchoredText__000000_End_Left_Top.StrokeDashArray = ``
 	__LinkAnchoredText__000000_End_Left_Top.StrokeDashArrayWhenSelected = ``
@@ -241,6 +222,7 @@ Line 2`}).Stage(stage)
 	__LinkAnchoredText__000001_End_Right_Bottom.Color = `black`
 	__LinkAnchoredText__000001_End_Right_Bottom.FillOpacity = 1.000000
 	__LinkAnchoredText__000001_End_Right_Bottom.Stroke = `black`
+	__LinkAnchoredText__000001_End_Right_Bottom.StrokeOpacity = 1.000000
 	__LinkAnchoredText__000001_End_Right_Bottom.StrokeWidth = 1.000000
 	__LinkAnchoredText__000001_End_Right_Bottom.StrokeDashArray = ``
 	__LinkAnchoredText__000001_End_Right_Bottom.StrokeDashArrayWhenSelected = ``
@@ -254,10 +236,11 @@ Line 2`
 	__LinkAnchoredText__000002_Liine_1_Line_2.AutomaticLayout = false
 	__LinkAnchoredText__000002_Liine_1_Line_2.X_Offset = -61.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.Y_Offset = -35.000000
-	__LinkAnchoredText__000002_Liine_1_Line_2.FontWeight = `normal`
+	__LinkAnchoredText__000002_Liine_1_Line_2.FontWeight = `100`
 	__LinkAnchoredText__000002_Liine_1_Line_2.Color = `black`
 	__LinkAnchoredText__000002_Liine_1_Line_2.FillOpacity = 100.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.Stroke = `black`
+	__LinkAnchoredText__000002_Liine_1_Line_2.StrokeOpacity = 1.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.StrokeWidth = 1.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.StrokeDashArray = ``
 	__LinkAnchoredText__000002_Liine_1_Line_2.StrokeDashArrayWhenSelected = ``
@@ -275,6 +258,7 @@ Third Line`
 	__LinkAnchoredText__000003_Start_Anchored_1.Color = `cyan`
 	__LinkAnchoredText__000003_Start_Anchored_1.FillOpacity = 100.000000
 	__LinkAnchoredText__000003_Start_Anchored_1.Stroke = `cyan`
+	__LinkAnchoredText__000003_Start_Anchored_1.StrokeOpacity = 1.000000
 	__LinkAnchoredText__000003_Start_Anchored_1.StrokeWidth = 1.000000
 	__LinkAnchoredText__000003_Start_Anchored_1.StrokeDashArray = ``
 	__LinkAnchoredText__000003_Start_Anchored_1.StrokeDashArrayWhenSelected = ``
@@ -291,6 +275,7 @@ Third Line`
 	__LinkAnchoredText__000004_Start_Left_Top.Color = `black`
 	__LinkAnchoredText__000004_Start_Left_Top.FillOpacity = 0.000000
 	__LinkAnchoredText__000004_Start_Left_Top.Stroke = `black`
+	__LinkAnchoredText__000004_Start_Left_Top.StrokeOpacity = 1.000000
 	__LinkAnchoredText__000004_Start_Left_Top.StrokeWidth = 1.000000
 	__LinkAnchoredText__000004_Start_Left_Top.StrokeDashArray = ``
 	__LinkAnchoredText__000004_Start_Left_Top.StrokeDashArrayWhenSelected = ``
@@ -307,6 +292,7 @@ Third Line`
 	__LinkAnchoredText__000005_Start_Right_Bottom.Color = `black`
 	__LinkAnchoredText__000005_Start_Right_Bottom.FillOpacity = 1.000000
 	__LinkAnchoredText__000005_Start_Right_Bottom.Stroke = `black`
+	__LinkAnchoredText__000005_Start_Right_Bottom.StrokeOpacity = 1.000000
 	__LinkAnchoredText__000005_Start_Right_Bottom.StrokeWidth = 1.000000
 	__LinkAnchoredText__000005_Start_Right_Bottom.StrokeDashArray = ``
 	__LinkAnchoredText__000005_Start_Right_Bottom.StrokeDashArrayWhenSelected = ``
@@ -314,14 +300,15 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 122.000000
-	__Rect__000000_Bottom.Y = 92.000000
+	__Rect__000000_Bottom.X = 222.000023
+	__Rect__000000_Bottom.Y = 23.000008
 	__Rect__000000_Bottom.Width = 632.000000
 	__Rect__000000_Bottom.Height = 284.999985
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`
 	__Rect__000000_Bottom.FillOpacity = 50.000000
 	__Rect__000000_Bottom.Stroke = `lightcoral`
+	__Rect__000000_Bottom.StrokeOpacity = 1.000000
 	__Rect__000000_Bottom.StrokeWidth = 3.000000
 	__Rect__000000_Bottom.StrokeDashArray = ``
 	__Rect__000000_Bottom.StrokeDashArrayWhenSelected = `5 5`
@@ -342,14 +329,15 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 174.000000
-	__Rect__000001_Middle_Rect.Y = 435.000000
+	__Rect__000001_Middle_Rect.X = 583.000000
+	__Rect__000001_Middle_Rect.Y = 421.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
 	__Rect__000001_Middle_Rect.Color = `lavender`
 	__Rect__000001_Middle_Rect.FillOpacity = 50.000000
 	__Rect__000001_Middle_Rect.Stroke = `turquoise`
+	__Rect__000001_Middle_Rect.StrokeOpacity = 1.000000
 	__Rect__000001_Middle_Rect.StrokeWidth = 1.000000
 	__Rect__000001_Middle_Rect.StrokeDashArray = ``
 	__Rect__000001_Middle_Rect.StrokeDashArrayWhenSelected = `5 5`
@@ -370,14 +358,15 @@ Third Line`
 
 	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 544.999969
-	__Rect__000002_Top.Y = 635.000000
+	__Rect__000002_Top.X = 531.999969
+	__Rect__000002_Top.Y = 625.000000
 	__Rect__000002_Top.Width = 237.000000
 	__Rect__000002_Top.Height = 237.000000
 	__Rect__000002_Top.RX = 3.000000
 	__Rect__000002_Top.Color = `lightcyan`
 	__Rect__000002_Top.FillOpacity = 100.000000
 	__Rect__000002_Top.Stroke = `darkcyan`
+	__Rect__000002_Top.StrokeOpacity = 1.000000
 	__Rect__000002_Top.StrokeWidth = 2.000000
 	__Rect__000002_Top.StrokeDashArray = ``
 	__Rect__000002_Top.StrokeDashArrayWhenSelected = `5 5`
@@ -407,6 +396,7 @@ Third Line`
 	__RectAnchoredPath__000000_Logo_to_add.Color = `black`
 	__RectAnchoredPath__000000_Logo_to_add.FillOpacity = 0.500000
 	__RectAnchoredPath__000000_Logo_to_add.Stroke = `black`
+	__RectAnchoredPath__000000_Logo_to_add.StrokeOpacity = 1.000000
 	__RectAnchoredPath__000000_Logo_to_add.StrokeWidth = 1.000000
 	__RectAnchoredPath__000000_Logo_to_add.StrokeDashArray = ``
 	__RectAnchoredPath__000000_Logo_to_add.StrokeDashArrayWhenSelected = ``
@@ -423,6 +413,7 @@ Third Line`
 	__RectAnchoredPath__000001_second_log.Color = ``
 	__RectAnchoredPath__000001_second_log.FillOpacity = 0.000000
 	__RectAnchoredPath__000001_second_log.Stroke = `blue`
+	__RectAnchoredPath__000001_second_log.StrokeOpacity = 1.000000
 	__RectAnchoredPath__000001_second_log.StrokeWidth = 2.000000
 	__RectAnchoredPath__000001_second_log.StrokeDashArray = ``
 	__RectAnchoredPath__000001_second_log.StrokeDashArrayWhenSelected = ``
@@ -443,6 +434,7 @@ Third Line`
 	__RectAnchoredRect__000000_Rect_within_top.Color = `lightgrey`
 	__RectAnchoredRect__000000_Rect_within_top.FillOpacity = 40.000000
 	__RectAnchoredRect__000000_Rect_within_top.Stroke = `bisque`
+	__RectAnchoredRect__000000_Rect_within_top.StrokeOpacity = 1.000000
 	__RectAnchoredRect__000000_Rect_within_top.StrokeWidth = 1.000000
 	__RectAnchoredRect__000000_Rect_within_top.StrokeDashArray = ``
 	__RectAnchoredRect__000000_Rect_within_top.StrokeDashArrayWhenSelected = ``
@@ -463,6 +455,7 @@ Third Line`
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Color = `lightblue`
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.FillOpacity = 100.000000
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Stroke = ``
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.StrokeOpacity = 1.000000
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.StrokeWidth = 0.000000
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.StrokeDashArray = ``
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.StrokeDashArrayWhenSelected = ``
@@ -480,7 +473,7 @@ The text of a UML note refers a comment with the GONGNOTE keyword which is
 a special case of go Note convention. See example
 for details in the go code of the models.
 `
-	__RectAnchoredText__000000_Bottom_Text.FontWeight = `normal`
+	__RectAnchoredText__000000_Bottom_Text.FontWeight = `100`
 	__RectAnchoredText__000000_Bottom_Text.FontSize = 0
 	__RectAnchoredText__000000_Bottom_Text.X_Offset = 0.000000
 	__RectAnchoredText__000000_Bottom_Text.Y_Offset = 20.000000
@@ -489,6 +482,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000000_Bottom_Text.Color = `black`
 	__RectAnchoredText__000000_Bottom_Text.FillOpacity = 100.000000
 	__RectAnchoredText__000000_Bottom_Text.Stroke = `black`
+	__RectAnchoredText__000000_Bottom_Text.StrokeOpacity = 1.000000
 	__RectAnchoredText__000000_Bottom_Text.StrokeWidth = 1.000000
 	__RectAnchoredText__000000_Bottom_Text.StrokeDashArray = ``
 	__RectAnchoredText__000000_Bottom_Text.StrokeDashArrayWhenSelected = ``
@@ -505,6 +499,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000001_Top_Left.Color = ``
 	__RectAnchoredText__000001_Top_Left.FillOpacity = 0.000000
 	__RectAnchoredText__000001_Top_Left.Stroke = `black`
+	__RectAnchoredText__000001_Top_Left.StrokeOpacity = 1.000000
 	__RectAnchoredText__000001_Top_Left.StrokeWidth = 0.000000
 	__RectAnchoredText__000001_Top_Left.StrokeDashArray = ``
 	__RectAnchoredText__000001_Top_Left.StrokeDashArrayWhenSelected = ``
@@ -522,6 +517,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Color = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FillOpacity = 100.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Stroke = `blue`
+	__RectAnchoredText__000002_Top_anchored_bottom_middle.StrokeOpacity = 1.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.StrokeWidth = 2.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.StrokeDashArray = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.StrokeDashArrayWhenSelected = ``
@@ -541,6 +537,7 @@ line 3`
 	__RectAnchoredText__000003_Top_anchored_top_middle.Color = ``
 	__RectAnchoredText__000003_Top_anchored_top_middle.FillOpacity = 100.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.Stroke = `black`
+	__RectAnchoredText__000003_Top_anchored_top_middle.StrokeOpacity = 1.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.StrokeWidth = 1.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.StrokeDashArray = ``
 	__RectAnchoredText__000003_Top_anchored_top_middle.StrokeDashArrayWhenSelected = ``
@@ -552,6 +549,7 @@ line 3`
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Color = ``
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.FillOpacity = 0.000000
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Stroke = `lightgreen`
+	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeOpacity = 1.000000
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeWidth = 4.000000
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeDashArray = ``
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeDashArrayWhenSelected = ``
@@ -570,6 +568,7 @@ line 3`
 	__Text__000000_Essai.Color = ``
 	__Text__000000_Essai.FillOpacity = 0.000000
 	__Text__000000_Essai.Stroke = `black`
+	__Text__000000_Essai.StrokeOpacity = 1.000000
 	__Text__000000_Essai.StrokeWidth = 2.000000
 	__Text__000000_Essai.StrokeDashArray = ``
 	__Text__000000_Essai.StrokeDashArrayWhenSelected = ``
@@ -577,7 +576,6 @@ line 3`
 
 	// Setup of pointers
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom)
-	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Links = append(__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Links, __Link__000001_Start_Middle)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks = append(__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks, __RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link)
 	__Layer__000002_Line_layer.Lines = append(__Layer__000002_Line_layer.Lines, __Line__000000_Line_connecting_rect_Bottom_to_Top)
 	__Layer__000003_Link_layer_vertical_to_horizontal.Links = append(__Layer__000003_Link_layer_vertical_to_horizontal.Links, __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal)
@@ -588,12 +586,6 @@ line 3`
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000002_Liine_1_Line_2)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000002_Liine_1_Line_2)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __LinkAnchoredText__000003_Start_Anchored_1)
-	__Link__000001_Start_Middle.Start = __Rect__000002_Top
-	__Link__000001_Start_Middle.End = __Rect__000001_Middle_Rect
-	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000001_End_Right_Bottom)
-	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000000_End_Left_Top)
-	__Link__000001_Start_Middle.TextAtArrowStart = append(__Link__000001_Start_Middle.TextAtArrowStart, __LinkAnchoredText__000004_Start_Left_Top)
-	__Link__000001_Start_Middle.TextAtArrowStart = append(__Link__000001_Start_Middle.TextAtArrowStart, __LinkAnchoredText__000005_Start_Right_Bottom)
 	__Rect__000000_Bottom.RectAnchoredTexts = append(__Rect__000000_Bottom.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
 	__Rect__000000_Bottom.RectAnchoredRects = append(__Rect__000000_Bottom.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
 	__Rect__000000_Bottom.RectAnchoredPaths = append(__Rect__000000_Bottom.RectAnchoredPaths, __RectAnchoredPath__000001_second_log)

@@ -131,6 +131,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   }
 
   resetAllLinksPreviousStartEndRects() {
+    console.log(getFunctionName())
     for (let link of this.gongsvgFrontRepo?.getFrontArray<gongsvg.Link>(gongsvg.Link.GONGSTRUCT_NAME)!) {
       this.map_Link_PreviousStart.set(link, structuredClone(link.Start!))
       this.map_Link_PreviousEnd.set(link, structuredClone(link.End!))
@@ -505,7 +506,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     this.PointAtMouseMove = mouseCoordInComponentRef(event)
     let deltaX = this.PointAtMouseMove.X - this.PointAtMouseDown!.X
     let deltaY = this.PointAtMouseMove.Y - this.PointAtMouseDown!.Y
-    // console.log(getFunctionName(), this.PointAtMouseMove)
+    console.log(getFunctionName(), this.PointAtMouseMove)
 
     // case when the user releases the shift key
     if (this.State == StateEnumType.MULTI_RECTS_SELECTION && !event.shiftKey) {

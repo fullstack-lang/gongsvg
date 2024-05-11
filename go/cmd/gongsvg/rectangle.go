@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -225,6 +226,8 @@ Line 2`}).Stage(stage)
 	__LinkAnchoredText__000000_End_Left_Top.X_Offset = -141.000000
 	__LinkAnchoredText__000000_End_Left_Top.Y_Offset = 29.000000
 	__LinkAnchoredText__000000_End_Left_Top.FontWeight = `normal`
+	__LinkAnchoredText__000000_End_Left_Top.FontSize = ``
+	__LinkAnchoredText__000000_End_Left_Top.LetterSpacing = ``
 	__LinkAnchoredText__000000_End_Left_Top.Color = `blue`
 	__LinkAnchoredText__000000_End_Left_Top.FillOpacity = 0.000000
 	__LinkAnchoredText__000000_End_Left_Top.Stroke = `blue`
@@ -242,6 +245,8 @@ Line 2`}).Stage(stage)
 	__LinkAnchoredText__000001_End_Right_Bottom.X_Offset = 0.000000
 	__LinkAnchoredText__000001_End_Right_Bottom.Y_Offset = 0.000000
 	__LinkAnchoredText__000001_End_Right_Bottom.FontWeight = `normal`
+	__LinkAnchoredText__000001_End_Right_Bottom.FontSize = ``
+	__LinkAnchoredText__000001_End_Right_Bottom.LetterSpacing = ``
 	__LinkAnchoredText__000001_End_Right_Bottom.Color = `black`
 	__LinkAnchoredText__000001_End_Right_Bottom.FillOpacity = 1.000000
 	__LinkAnchoredText__000001_End_Right_Bottom.Stroke = `black`
@@ -260,6 +265,8 @@ Line 2`
 	__LinkAnchoredText__000002_Liine_1_Line_2.X_Offset = -61.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.Y_Offset = -35.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.FontWeight = `100`
+	__LinkAnchoredText__000002_Liine_1_Line_2.FontSize = `16`
+	__LinkAnchoredText__000002_Liine_1_Line_2.LetterSpacing = `0.1em`
 	__LinkAnchoredText__000002_Liine_1_Line_2.Color = `black`
 	__LinkAnchoredText__000002_Liine_1_Line_2.FillOpacity = 100.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.Stroke = `black`
@@ -278,6 +285,8 @@ Third Line`
 	__LinkAnchoredText__000003_Start_Anchored_1.X_Offset = -129.000031
 	__LinkAnchoredText__000003_Start_Anchored_1.Y_Offset = 37.012512
 	__LinkAnchoredText__000003_Start_Anchored_1.FontWeight = `light`
+	__LinkAnchoredText__000003_Start_Anchored_1.FontSize = ``
+	__LinkAnchoredText__000003_Start_Anchored_1.LetterSpacing = ``
 	__LinkAnchoredText__000003_Start_Anchored_1.Color = `cyan`
 	__LinkAnchoredText__000003_Start_Anchored_1.FillOpacity = 100.000000
 	__LinkAnchoredText__000003_Start_Anchored_1.Stroke = `cyan`
@@ -295,6 +304,8 @@ Third Line`
 	__LinkAnchoredText__000004_Start_Left_Top.X_Offset = 0.000000
 	__LinkAnchoredText__000004_Start_Left_Top.Y_Offset = 0.000000
 	__LinkAnchoredText__000004_Start_Left_Top.FontWeight = `normal`
+	__LinkAnchoredText__000004_Start_Left_Top.FontSize = ``
+	__LinkAnchoredText__000004_Start_Left_Top.LetterSpacing = ``
 	__LinkAnchoredText__000004_Start_Left_Top.Color = `black`
 	__LinkAnchoredText__000004_Start_Left_Top.FillOpacity = 0.000000
 	__LinkAnchoredText__000004_Start_Left_Top.Stroke = `black`
@@ -312,6 +323,8 @@ Third Line`
 	__LinkAnchoredText__000005_Start_Right_Bottom.X_Offset = 0.000000
 	__LinkAnchoredText__000005_Start_Right_Bottom.Y_Offset = 0.000000
 	__LinkAnchoredText__000005_Start_Right_Bottom.FontWeight = `normal`
+	__LinkAnchoredText__000005_Start_Right_Bottom.FontSize = ``
+	__LinkAnchoredText__000005_Start_Right_Bottom.LetterSpacing = ``
 	__LinkAnchoredText__000005_Start_Right_Bottom.Color = `black`
 	__LinkAnchoredText__000005_Start_Right_Bottom.FillOpacity = 1.000000
 	__LinkAnchoredText__000005_Start_Right_Bottom.Stroke = `black`
@@ -632,3 +645,5 @@ line 3`
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top
 }
+
+

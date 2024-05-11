@@ -1299,6 +1299,10 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.Y_Offset), formDiv)
 		case "FontWeight":
 			FormDivBasicFieldToField(&(linkanchoredtext_.FontWeight), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(linkanchoredtext_.FontSize), formDiv)
+		case "LetterSpacing":
+			FormDivBasicFieldToField(&(linkanchoredtext_.LetterSpacing), formDiv)
 		case "Color":
 			FormDivBasicFieldToField(&(linkanchoredtext_.Color), formDiv)
 		case "FillOpacity":

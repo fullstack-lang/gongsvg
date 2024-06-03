@@ -5,16 +5,15 @@ import (
 	"log"
 	"strconv"
 
-	gongsvg_go "github.com/fullstack-lang/gongsvg/go"
-	gongsvg_fullstack "github.com/fullstack-lang/gongsvg/go/fullstack"
 	gongsvg_models "github.com/fullstack-lang/gongsvg/go/models"
+	gongsvg_stack "github.com/fullstack-lang/gongsvg/go/stack"
 	gongsvg_static "github.com/fullstack-lang/gongsvg/go/static"
-
-	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
 )
 
 var (
 	port = flag.Int("port", 8082, "port server")
+
+	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
 )
 
 const RectangleWidth = 160
@@ -29,14 +28,17 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	// setup GORM
-	r := gongsvg_static.ServeStaticFiles(false)
-	stage, _ := gongsvg_fullstack.NewStackInstance(r, gongsvg_models.StackNameDefault.ToString())
+	// setup the static file server and get the controller
+	r := gongsvg_static.ServeStaticFiles(*logGINFlag)
 
-	colorLayer := (&gongsvg_models.Layer{Name: "color"}).Stage(stage)
+	// setup stack
+	stack := gongsvg_stack.NewStack(r, "gongsvg", "", "", "", false, true)
+	stack.Probe.Refresh()
+
+	colorLayer := (&gongsvg_models.Layer{Name: "color"}).Stage(stack.Stage)
 	colorLayer.Display = true
 
-	textLayer := (&gongsvg_models.Layer{Name: "text"}).Stage(stage)
+	textLayer := (&gongsvg_models.Layer{Name: "text"}).Stage(stack.Stage)
 	textLayer.Display = true
 
 	// create an array of rectangle
@@ -46,7 +48,7 @@ func main() {
 			float64(idx) /
 				float64(numberOfRectanglePerLine)))
 
-		appendRect(stage,
+		appendRect(stack.Stage,
 			colorLayer,
 			textLayer,
 			color,
@@ -54,22 +56,13 @@ func main() {
 			RectangleHeigth*line)
 	}
 
-	svg := new(gongsvg_models.SVG).Stage(stage)
+	svg := new(gongsvg_models.SVG).Stage(stack.Stage)
 
 	svg.Name = "SVG"
 	svg.Layers = append(svg.Layers, colorLayer)
 	svg.Layers = append(svg.Layers, textLayer)
 
-	stage.Commit()
-
-	gongdoc_load.Load(
-		"gongsvg",
-		"github.com/fullstack-lang/gongsvg/go/models",
-		gongsvg_go.GoModelsDir,
-		gongsvg_go.GoDiagramsDir,
-		r,
-		false,
-		&stage.Map_GongStructName_InstancesNb)
+	stack.Stage.Commit()
 
 	log.Printf("Server ready serve on localhost" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

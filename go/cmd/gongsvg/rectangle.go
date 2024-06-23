@@ -309,16 +309,16 @@ Third Line`
 	__Rect__000000_Bottom.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000000_Bottom.Transform = ``
 	__Rect__000000_Bottom.IsSelectable = true
-	__Rect__000000_Bottom.IsSelected = true
+	__Rect__000000_Bottom.IsSelected = false
 	__Rect__000000_Bottom.CanHaveLeftHandle = true
-	__Rect__000000_Bottom.HasLeftHandle = true
+	__Rect__000000_Bottom.HasLeftHandle = false
 	__Rect__000000_Bottom.CanHaveRightHandle = true
-	__Rect__000000_Bottom.HasRightHandle = true
+	__Rect__000000_Bottom.HasRightHandle = false
 	__Rect__000000_Bottom.CanHaveTopHandle = true
-	__Rect__000000_Bottom.HasTopHandle = true
+	__Rect__000000_Bottom.HasTopHandle = false
 	__Rect__000000_Bottom.IsScalingProportionally = false
 	__Rect__000000_Bottom.CanHaveBottomHandle = true
-	__Rect__000000_Bottom.HasBottomHandle = true
+	__Rect__000000_Bottom.HasBottomHandle = false
 	__Rect__000000_Bottom.CanMoveHorizontaly = true
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 

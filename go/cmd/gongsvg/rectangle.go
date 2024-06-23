@@ -38,15 +38,10 @@ func rectangleInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	// Declarations of staged instances of Animate
 	__Animate__000000_ := (&models.Animate{Name: ``}).Stage(stage)
 
-	// Declarations of staged instances of Circle
 	__Circle__000000_Test := (&models.Circle{Name: `Test`}).Stage(stage)
 
-	// Declarations of staged instances of Ellipse
-
-	// Declarations of staged instances of Layer
 	__Layer__000000_Bottom_Rectangle_Layer := (&models.Layer{Name: `Bottom Rectangle Layer`}).Stage(stage)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom := (&models.Layer{Name: `Layer RectLinkLink Medium to Top-Bottom`}).Stage(stage)
 	__Layer__000002_Line_layer := (&models.Layer{Name: `Line layer`}).Stage(stage)
@@ -54,14 +49,11 @@ func rectangleInjection(stage *models.StageStruct) {
 	__Layer__000004_Middle_Rect_Layer := (&models.Layer{Name: `Middle Rect Layer`}).Stage(stage)
 	__Layer__000005_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
 
-	// Declarations of staged instances of Line
 	__Line__000000_Line_connecting_rect_Bottom_to_Top := (&models.Line{Name: `Line connecting rect Bottom to Top`}).Stage(stage)
 
-	// Declarations of staged instances of Link
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal := (&models.Link{Name: `Arrow - Top to Bottom vertical to horizontal`}).Stage(stage)
 	__Link__000001_Start_Middle := (&models.Link{Name: `Start - Middle`}).Stage(stage)
 
-	// Declarations of staged instances of LinkAnchoredText
 	__LinkAnchoredText__000000_End_Left_Top := (&models.LinkAnchoredText{Name: `End Left/Top`}).Stage(stage)
 	__LinkAnchoredText__000001_End_Right_Bottom := (&models.LinkAnchoredText{Name: `End Right/Bottom`}).Stage(stage)
 	__LinkAnchoredText__000002_Liine_1_Line_2 := (&models.LinkAnchoredText{Name: `Liine 1
@@ -70,52 +62,35 @@ Line 2`}).Stage(stage)
 	__LinkAnchoredText__000004_Start_Left_Top := (&models.LinkAnchoredText{Name: `Start Left/Top`}).Stage(stage)
 	__LinkAnchoredText__000005_Start_Right_Bottom := (&models.LinkAnchoredText{Name: `Start Right/Bottom`}).Stage(stage)
 
-	// Declarations of staged instances of Path
-
-	// Declarations of staged instances of Point
-
-	// Declarations of staged instances of Polygone
-
-	// Declarations of staged instances of Polyline
-
-	// Declarations of staged instances of Rect
 	__Rect__000000_Bottom := (&models.Rect{Name: `Bottom`}).Stage(stage)
 	__Rect__000001_Middle_Rect := (&models.Rect{Name: `Middle Rect`}).Stage(stage)
 	__Rect__000002_Top := (&models.Rect{Name: `Top`}).Stage(stage)
 
-	// Declarations of staged instances of RectAnchoredPath
 	__RectAnchoredPath__000000_Logo_to_add := (&models.RectAnchoredPath{Name: `Logo to add`}).Stage(stage)
 	__RectAnchoredPath__000001_second_log := (&models.RectAnchoredPath{Name: `second log`}).Stage(stage)
 
-	// Declarations of staged instances of RectAnchoredRect
 	__RectAnchoredRect__000000_Rect_within_top := (&models.RectAnchoredRect{Name: `Rect within top`}).Stage(stage)
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width := (&models.RectAnchoredRect{Name: `Top on Bottom with same width`}).Stage(stage)
 
-	// Declarations of staged instances of RectAnchoredText
 	__RectAnchoredText__000000_Bottom_Text := (&models.RectAnchoredText{Name: `Bottom Text`}).Stage(stage)
 	__RectAnchoredText__000001_Top_Left := (&models.RectAnchoredText{Name: `Top Left`}).Stage(stage)
 	__RectAnchoredText__000002_Top_anchored_bottom_middle := (&models.RectAnchoredText{Name: `Top anchored bottom middle`}).Stage(stage)
 	__RectAnchoredText__000003_Top_anchored_top_middle := (&models.RectAnchoredText{Name: `Top anchored top middle`}).Stage(stage)
 
-	// Declarations of staged instances of RectLinkLink
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link := (&models.RectLinkLink{Name: `Test Middle to Top-Bottom Link`}).Stage(stage)
 
-	// Declarations of staged instances of SVG
 	__SVG__000000_SVG := (&models.SVG{Name: `SVG`}).Stage(stage)
 
-	// Declarations of staged instances of Text
 	__Text__000000_Essai := (&models.Text{Name: `Essai`}).Stage(stage)
 
 	// Setup of values
 
-	// Animate values setup
 	__Animate__000000_.Name = ``
 	__Animate__000000_.AttributeName = ``
 	__Animate__000000_.Values = ``
 	__Animate__000000_.Dur = ``
 	__Animate__000000_.RepeatCount = ``
 
-	// Circle values setup
 	__Circle__000000_Test.Name = `Test`
 	__Circle__000000_Test.CX = 400.000000
 	__Circle__000000_Test.CY = 300.000000
@@ -129,31 +104,24 @@ Line 2`}).Stage(stage)
 	__Circle__000000_Test.StrokeDashArrayWhenSelected = ``
 	__Circle__000000_Test.Transform = ``
 
-	// Layer values setup
 	__Layer__000000_Bottom_Rectangle_Layer.Display = false
 	__Layer__000000_Bottom_Rectangle_Layer.Name = `Bottom Rectangle Layer`
 
-	// Layer values setup
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Display = false
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Name = `Layer RectLinkLink Medium to Top-Bottom`
 
-	// Layer values setup
 	__Layer__000002_Line_layer.Display = false
 	__Layer__000002_Line_layer.Name = `Line layer`
 
-	// Layer values setup
 	__Layer__000003_Link_layer_vertical_to_horizontal.Display = false
 	__Layer__000003_Link_layer_vertical_to_horizontal.Name = `Link layer vertical to horizontal`
 
-	// Layer values setup
 	__Layer__000004_Middle_Rect_Layer.Display = false
 	__Layer__000004_Middle_Rect_Layer.Name = `Middle Rect Layer`
 
-	// Layer values setup
 	__Layer__000005_Top_Rectangle_layer.Display = false
 	__Layer__000005_Top_Rectangle_layer.Name = `Top Rectangle layer`
 
-	// Line values setup
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.Name = `Line connecting rect Bottom to Top`
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.X1 = 374.000000
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.Y1 = 258.000000
@@ -170,7 +138,6 @@ Line 2`}).Stage(stage)
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickX = 0.000000
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickY = 0.000000
 
-	// Link values setup
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Name = `Arrow - Top to Bottom vertical to horizontal`
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.IsBezierCurve = false
@@ -195,7 +162,6 @@ Line 2`}).Stage(stage)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StrokeDashArrayWhenSelected = ``
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Transform = ``
 
-	// Link values setup
 	__Link__000001_Start_Middle.Name = `Start - Middle`
 	__Link__000001_Start_Middle.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000001_Start_Middle.IsBezierCurve = false
@@ -218,7 +184,6 @@ Line 2`}).Stage(stage)
 	__Link__000001_Start_Middle.StrokeDashArrayWhenSelected = ``
 	__Link__000001_Start_Middle.Transform = ``
 
-	// LinkAnchoredText values setup
 	__LinkAnchoredText__000000_End_Left_Top.Name = `End Left/Top`
 	__LinkAnchoredText__000000_End_Left_Top.Content = `End Left/Top`
 	__LinkAnchoredText__000000_End_Left_Top.AutomaticLayout = true
@@ -237,7 +202,6 @@ Line 2`}).Stage(stage)
 	__LinkAnchoredText__000000_End_Left_Top.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000000_End_Left_Top.Transform = ``
 
-	// LinkAnchoredText values setup
 	__LinkAnchoredText__000001_End_Right_Bottom.Name = `End Right/Bottom`
 	__LinkAnchoredText__000001_End_Right_Bottom.Content = `End Right/Bottom`
 	__LinkAnchoredText__000001_End_Right_Bottom.AutomaticLayout = true
@@ -256,7 +220,6 @@ Line 2`}).Stage(stage)
 	__LinkAnchoredText__000001_End_Right_Bottom.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000001_End_Right_Bottom.Transform = ``
 
-	// LinkAnchoredText values setup
 	__LinkAnchoredText__000002_Liine_1_Line_2.Name = `Liine 1
 Line 2`
 	__LinkAnchoredText__000002_Liine_1_Line_2.Content = `Liine 1
@@ -276,7 +239,6 @@ Line 2`
 	__LinkAnchoredText__000002_Liine_1_Line_2.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000002_Liine_1_Line_2.Transform = ``
 
-	// LinkAnchoredText values setup
 	__LinkAnchoredText__000003_Start_Anchored_1.Name = `Start Anchored 1`
 	__LinkAnchoredText__000003_Start_Anchored_1.Content = `Start Anchored 1
 Second line
@@ -296,7 +258,6 @@ Third Line`
 	__LinkAnchoredText__000003_Start_Anchored_1.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000003_Start_Anchored_1.Transform = ``
 
-	// LinkAnchoredText values setup
 	__LinkAnchoredText__000004_Start_Left_Top.Name = `Start Left/Top`
 	__LinkAnchoredText__000004_Start_Left_Top.Content = `Start Left/Top`
 	__LinkAnchoredText__000004_Start_Left_Top.AutomaticLayout = true
@@ -315,7 +276,6 @@ Third Line`
 	__LinkAnchoredText__000004_Start_Left_Top.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000004_Start_Left_Top.Transform = ``
 
-	// LinkAnchoredText values setup
 	__LinkAnchoredText__000005_Start_Right_Bottom.Name = `Start Right/Bottom`
 	__LinkAnchoredText__000005_Start_Right_Bottom.Content = `Start Right/Bottom`
 	__LinkAnchoredText__000005_Start_Right_Bottom.AutomaticLayout = true
@@ -334,12 +294,11 @@ Third Line`
 	__LinkAnchoredText__000005_Start_Right_Bottom.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000005_Start_Right_Bottom.Transform = ``
 
-	// Rect values setup
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 198.000000
-	__Rect__000000_Bottom.Y = 72.000000
+	__Rect__000000_Bottom.X = 191.000000
+	__Rect__000000_Bottom.Y = 45.000000
 	__Rect__000000_Bottom.Width = 632.000000
-	__Rect__000000_Bottom.Height = 284.999985
+	__Rect__000000_Bottom.Height = 301.999985
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`
 	__Rect__000000_Bottom.FillOpacity = 50.000000
@@ -363,10 +322,9 @@ Third Line`
 	__Rect__000000_Bottom.CanMoveHorizontaly = true
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
-	// Rect values setup
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
 	__Rect__000001_Middle_Rect.X = 583.000000
-	__Rect__000001_Middle_Rect.Y = 421.000000
+	__Rect__000001_Middle_Rect.Y = 420.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -392,7 +350,6 @@ Third Line`
 	__Rect__000001_Middle_Rect.CanMoveHorizontaly = true
 	__Rect__000001_Middle_Rect.CanMoveVerticaly = true
 
-	// Rect values setup
 	__Rect__000002_Top.Name = `Top`
 	__Rect__000002_Top.X = 531.999969
 	__Rect__000002_Top.Y = 625.000000
@@ -421,7 +378,6 @@ Third Line`
 	__Rect__000002_Top.CanMoveHorizontaly = true
 	__Rect__000002_Top.CanMoveVerticaly = true
 
-	// RectAnchoredPath values setup
 	__RectAnchoredPath__000000_Logo_to_add.Name = `Logo to add`
 	__RectAnchoredPath__000000_Logo_to_add.Definition = `M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z`
 	__RectAnchoredPath__000000_Logo_to_add.X_Offset = 0.000000
@@ -438,7 +394,6 @@ Third Line`
 	__RectAnchoredPath__000000_Logo_to_add.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredPath__000000_Logo_to_add.Transform = ``
 
-	// RectAnchoredPath values setup
 	__RectAnchoredPath__000001_second_log.Name = `second log`
 	__RectAnchoredPath__000001_second_log.Definition = `M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z`
 	__RectAnchoredPath__000001_second_log.X_Offset = 0.000000
@@ -455,7 +410,6 @@ Third Line`
 	__RectAnchoredPath__000001_second_log.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredPath__000001_second_log.Transform = ``
 
-	// RectAnchoredRect values setup
 	__RectAnchoredRect__000000_Rect_within_top.Name = `Rect within top`
 	__RectAnchoredRect__000000_Rect_within_top.X = 0.000000
 	__RectAnchoredRect__000000_Rect_within_top.Y = 0.000000
@@ -476,7 +430,6 @@ Third Line`
 	__RectAnchoredRect__000000_Rect_within_top.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredRect__000000_Rect_within_top.Transform = ``
 
-	// RectAnchoredRect values setup
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Name = `Top on Bottom with same width`
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.X = 0.000000
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Y = 0.000000
@@ -497,7 +450,6 @@ Third Line`
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Transform = ``
 
-	// RectAnchoredText values setup
 	__RectAnchoredText__000000_Bottom_Text.Name = `Bottom Text`
 	__RectAnchoredText__000000_Bottom_Text.Content = `This is an example of a note that
 could be displayed on a diagram.
@@ -524,7 +476,6 @@ for details in the go code of the models.
 	__RectAnchoredText__000000_Bottom_Text.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__000000_Bottom_Text.Transform = ``
 
-	// RectAnchoredText values setup
 	__RectAnchoredText__000001_Top_Left.Name = `Top Left`
 	__RectAnchoredText__000001_Top_Left.Content = `Top Left`
 	__RectAnchoredText__000001_Top_Left.FontWeight = ``
@@ -541,7 +492,6 @@ for details in the go code of the models.
 	__RectAnchoredText__000001_Top_Left.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__000001_Top_Left.Transform = ``
 
-	// RectAnchoredText values setup
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Name = `Top anchored bottom middle`
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Content = `Top anchored bottom middle`
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontWeight = ``
@@ -559,7 +509,6 @@ for details in the go code of the models.
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Transform = ``
 
-	// RectAnchoredText values setup
 	__RectAnchoredText__000003_Top_anchored_top_middle.Name = `Top anchored top middle`
 	__RectAnchoredText__000003_Top_anchored_top_middle.Content = `Top anchored
 top middle
@@ -579,7 +528,6 @@ line 3`
 	__RectAnchoredText__000003_Top_anchored_top_middle.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__000003_Top_anchored_top_middle.Transform = ``
 
-	// RectLinkLink values setup
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Name = `Test Middle to Top-Bottom Link`
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.TargetAnchorPosition = 0.600000
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Color = ``
@@ -591,12 +539,10 @@ line 3`
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeDashArrayWhenSelected = ``
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Transform = ``
 
-	// SVG values setup
 	__SVG__000000_SVG.Name = `SVG`
 	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINK
 	__SVG__000000_SVG.IsEditable = true
 
-	// Text values setup
 	__Text__000000_Essai.Name = `Essai`
 	__Text__000000_Essai.X = 50.000000
 	__Text__000000_Essai.Y = 300.000000

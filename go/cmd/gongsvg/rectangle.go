@@ -168,8 +168,8 @@ Line 2`}).Stage(stage)
 	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000001_Start_Middle.StartRatio = 0.218766
 	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.EndRatio = 0.301876
-	__Link__000001_Start_Middle.CornerOffsetRatio = -0.489435
+	__Link__000001_Start_Middle.EndRatio = 0.478101
+	__Link__000001_Start_Middle.CornerOffsetRatio = -1.105485
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000
@@ -295,10 +295,10 @@ Third Line`
 	__LinkAnchoredText__000005_Start_Right_Bottom.Transform = ``
 
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 191.000000
-	__Rect__000000_Bottom.Y = 45.000000
-	__Rect__000000_Bottom.Width = 632.000000
-	__Rect__000000_Bottom.Height = 301.999985
+	__Rect__000000_Bottom.X = 207.000000
+	__Rect__000000_Bottom.Y = 26.000000
+	__Rect__000000_Bottom.Width = 565.000000
+	__Rect__000000_Bottom.Height = 266.999985
 	__Rect__000000_Bottom.RX = 5.000000
 	__Rect__000000_Bottom.Color = `bisque`
 	__Rect__000000_Bottom.FillOpacity = 50.000000
@@ -309,22 +309,22 @@ Third Line`
 	__Rect__000000_Bottom.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000000_Bottom.Transform = ``
 	__Rect__000000_Bottom.IsSelectable = true
-	__Rect__000000_Bottom.IsSelected = false
+	__Rect__000000_Bottom.IsSelected = true
 	__Rect__000000_Bottom.CanHaveLeftHandle = true
-	__Rect__000000_Bottom.HasLeftHandle = false
+	__Rect__000000_Bottom.HasLeftHandle = true
 	__Rect__000000_Bottom.CanHaveRightHandle = true
-	__Rect__000000_Bottom.HasRightHandle = false
+	__Rect__000000_Bottom.HasRightHandle = true
 	__Rect__000000_Bottom.CanHaveTopHandle = true
-	__Rect__000000_Bottom.HasTopHandle = false
+	__Rect__000000_Bottom.HasTopHandle = true
 	__Rect__000000_Bottom.IsScalingProportionally = false
 	__Rect__000000_Bottom.CanHaveBottomHandle = true
-	__Rect__000000_Bottom.HasBottomHandle = false
+	__Rect__000000_Bottom.HasBottomHandle = true
 	__Rect__000000_Bottom.CanMoveHorizontaly = true
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 583.000000
-	__Rect__000001_Middle_Rect.Y = 420.000000
+	__Rect__000001_Middle_Rect.X = 581.000000
+	__Rect__000001_Middle_Rect.Y = 415.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000

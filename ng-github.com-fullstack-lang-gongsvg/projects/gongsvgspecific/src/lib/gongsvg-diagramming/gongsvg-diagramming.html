@@ -456,7 +456,7 @@
                         <ng-container *ngIf="(i == (segments.length - 1))">
                             <ng-container *ngFor='let text of this.link.TextAtArrowEnd!; let k = index'>
                                 <ng-container *ngIf='!text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
-                                    <text class="movable-text"
+                                    <text class="click-through"
                                         [attr.x]="segment.EndPoint.X + text.X_Offset" 
                                         [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
                                         [attr.font-weight]="text.FontWeight"
@@ -506,7 +506,7 @@
                         <ng-container *ngIf="i == 0">
                             <ng-container *ngFor='let text of this.link.TextAtArrowStart!; let k = index'>
                                 <ng-container *ngIf='!text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
-                                    <text class="movable-text"
+                                    <text class="click-through"
                                         [attr.x]="segment.StartPoint.X + text.X_Offset" 
                                         [attr.y]="segment.StartPoint.Y + text.Y_Offset" 
                                         [attr.font-weight]="text.FontWeight"
@@ -614,6 +614,7 @@
 <ng-template #anchoredText let-text="text" let-anchorX="anchorX" let-anchorY="anchorY">
     <ng-container *ngIf='splitTextIntoLines(text.Content) as lines'>
             <svg:text class="anchored-text"
+            class="click-through"
             [attr.x]="anchorX" 
             [attr.y]="anchorY" 
             [attr.fill]="text.Color"    
@@ -637,7 +638,7 @@
 
 <ng-template #anchoredRect let-rect="rect" let-anchorX="anchorX" let-anchorY="anchorY" let-width="width">
     <svg:rect   
-        pointer-events="none"
+        class="click-through"
         [attr.x]="anchorX"
         [attr.y]="anchorY"
         [attr.width]="width"

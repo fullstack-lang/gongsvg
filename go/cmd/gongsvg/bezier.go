@@ -38,56 +38,23 @@ func bezierInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	// Declarations of staged instances of Animate
-
-	// Declarations of staged instances of Circle
-
-	// Declarations of staged instances of Ellipse
-
-	// Declarations of staged instances of Layer
 	__Layer__000000_bezier := (&models.Layer{Name: `bezier`}).Stage(stage)
 
-	// Declarations of staged instances of Line
-
-	// Declarations of staged instances of Link
 	__Link__000000_Test := (&models.Link{Name: `Test`}).Stage(stage)
 
-	// Declarations of staged instances of LinkAnchoredText
-
-	// Declarations of staged instances of Path
 	__Path__000000_bezier := (&models.Path{Name: `bezier`}).Stage(stage)
 	__Path__000001_bezier_2 := (&models.Path{Name: `bezier 2`}).Stage(stage)
 
-	// Declarations of staged instances of Point
-
-	// Declarations of staged instances of Polygone
-
-	// Declarations of staged instances of Polyline
-
-	// Declarations of staged instances of Rect
 	__Rect__000000_End := (&models.Rect{Name: `End`}).Stage(stage)
 	__Rect__000001_Start := (&models.Rect{Name: `Start`}).Stage(stage)
 
-	// Declarations of staged instances of RectAnchoredPath
-
-	// Declarations of staged instances of RectAnchoredRect
-
-	// Declarations of staged instances of RectAnchoredText
-
-	// Declarations of staged instances of RectLinkLink
-
-	// Declarations of staged instances of SVG
 	__SVG__000000_beizer := (&models.SVG{Name: `beizer`}).Stage(stage)
-
-	// Declarations of staged instances of Text
 
 	// Setup of values
 
-	// Layer values setup
 	__Layer__000000_bezier.Display = true
 	__Layer__000000_bezier.Name = `bezier`
 
-	// Link values setup
 	__Link__000000_Test.Name = `Test`
 	__Link__000000_Test.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000000_Test.IsBezierCurve = true
@@ -104,12 +71,12 @@ func bezierInjection(stage *models.StageStruct) {
 	__Link__000000_Test.Color = ``
 	__Link__000000_Test.FillOpacity = 0.000000
 	__Link__000000_Test.Stroke = `black`
+	__Link__000000_Test.StrokeOpacity = 0.000000
 	__Link__000000_Test.StrokeWidth = 5.000000
 	__Link__000000_Test.StrokeDashArray = ``
 	__Link__000000_Test.StrokeDashArrayWhenSelected = ``
 	__Link__000000_Test.Transform = ``
 
-	// Path values setup
 	__Path__000000_bezier.Name = `bezier`
 	__Path__000000_bezier.Definition = `M 0, 0 c 
 100, 0 
@@ -118,12 +85,12 @@ func bezierInjection(stage *models.StageStruct) {
 	__Path__000000_bezier.Color = ``
 	__Path__000000_bezier.FillOpacity = 0.000000
 	__Path__000000_bezier.Stroke = `black`
+	__Path__000000_bezier.StrokeOpacity = 0.000000
 	__Path__000000_bezier.StrokeWidth = 1.000000
 	__Path__000000_bezier.StrokeDashArray = ``
 	__Path__000000_bezier.StrokeDashArrayWhenSelected = ``
 	__Path__000000_bezier.Transform = `scale(4 4)`
 
-	// Path values setup
 	__Path__000001_bezier_2.Name = `bezier 2`
 	__Path__000001_bezier_2.Definition = `M 0, 0 c 
 150, 0 
@@ -132,21 +99,22 @@ func bezierInjection(stage *models.StageStruct) {
 	__Path__000001_bezier_2.Color = ``
 	__Path__000001_bezier_2.FillOpacity = 0.000000
 	__Path__000001_bezier_2.Stroke = `black`
+	__Path__000001_bezier_2.StrokeOpacity = 0.000000
 	__Path__000001_bezier_2.StrokeWidth = 1.000000
 	__Path__000001_bezier_2.StrokeDashArray = ``
 	__Path__000001_bezier_2.StrokeDashArrayWhenSelected = ``
 	__Path__000001_bezier_2.Transform = `translate(0 200) scale(4 4)`
 
-	// Rect values setup
 	__Rect__000000_End.Name = `End`
-	__Rect__000000_End.X = 513.000000
-	__Rect__000000_End.Y = 706.000000
+	__Rect__000000_End.X = 440.000000
+	__Rect__000000_End.Y = 37.000008
 	__Rect__000000_End.Width = 100.000000
 	__Rect__000000_End.Height = 100.000000
 	__Rect__000000_End.RX = 0.000000
 	__Rect__000000_End.Color = `grey`
 	__Rect__000000_End.FillOpacity = 1.000000
 	__Rect__000000_End.Stroke = ``
+	__Rect__000000_End.StrokeOpacity = 0.000000
 	__Rect__000000_End.StrokeWidth = 0.000000
 	__Rect__000000_End.StrokeDashArray = ``
 	__Rect__000000_End.StrokeDashArrayWhenSelected = ``
@@ -165,16 +133,16 @@ func bezierInjection(stage *models.StageStruct) {
 	__Rect__000000_End.CanMoveHorizontaly = true
 	__Rect__000000_End.CanMoveVerticaly = true
 
-	// Rect values setup
 	__Rect__000001_Start.Name = `Start`
-	__Rect__000001_Start.X = 36.000000
-	__Rect__000001_Start.Y = 506.000000
+	__Rect__000001_Start.X = 58.000000
+	__Rect__000001_Start.Y = 113.000008
 	__Rect__000001_Start.Width = 100.000000
 	__Rect__000001_Start.Height = 100.000000
 	__Rect__000001_Start.RX = 0.000000
 	__Rect__000001_Start.Color = `grey`
 	__Rect__000001_Start.FillOpacity = 1.000000
 	__Rect__000001_Start.Stroke = ``
+	__Rect__000001_Start.StrokeOpacity = 0.000000
 	__Rect__000001_Start.StrokeWidth = 0.000000
 	__Rect__000001_Start.StrokeDashArray = ``
 	__Rect__000001_Start.StrokeDashArrayWhenSelected = ``
@@ -193,7 +161,6 @@ func bezierInjection(stage *models.StageStruct) {
 	__Rect__000001_Start.CanMoveHorizontaly = true
 	__Rect__000001_Start.CanMoveVerticaly = true
 
-	// SVG values setup
 	__SVG__000000_beizer.Name = `beizer`
 	__SVG__000000_beizer.IsEditable = true
 

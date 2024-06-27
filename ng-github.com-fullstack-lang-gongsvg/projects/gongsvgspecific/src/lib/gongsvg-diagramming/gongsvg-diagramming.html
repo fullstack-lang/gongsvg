@@ -386,7 +386,7 @@
                             />
                     </ng-container>
                     <ng-container *ngIf="link | linkSegments: map_Link_Segment as segments">
-                        <ng-container *ngIf="!link.IsBezierCurve || svg.IsEditable">
+                        <ng-container *ngIf="!link.IsBezierCurve">
                             <line *ngFor='let segment of segments;' class="moveable-line" 
                                 [attr.x1]="segment.StartPoint.X" 
                                 [attr.y1]="segment.StartPoint.Y" 
@@ -404,6 +404,8 @@
                                 (mousedown)="linkMouseDown($event, segment.Number, link)" 
                                 (mousemove)="onmousemove($event)" 
                                 (mouseup)="linkMouseUp($event, link)"/>
+                        </ng-container>
+                        <ng-container *ngIf="link.IsBezierCurve && svg.IsEditable">
                             <line *ngFor='let segment of segments;' class="moveable-line" 
                                 [attr.x1]="segment.StartPoint.X" 
                                 [attr.y1]="segment.StartPoint.Y" 
@@ -412,7 +414,7 @@
                                 [attr.fill]="link.Color"
                                 [attr.fill-opacity]="link.FillOpacity" 
                                 [attr.stroke]="link.Stroke" 
-                                [attr.stroke-opacity]="link.StrokeOpacity"
+                                stroke-opacity="0.1"
                                 [attr.stroke-width]="link.StrokeWidth"
                                 [attr.stroke-dasharray]="link.StrokeDashArray" 
                                 [attr.segment-orientation]="getOrientation(segment)"
@@ -421,7 +423,7 @@
                                 (mousedown)="linkMouseDown($event, segment.Number, link)" 
                                 (mousemove)="onmousemove($event)" 
                                 (mouseup)="linkMouseUp($event, link)"/>
-                    </ng-container>
+                        </ng-container>
             
                     <ng-container *ngFor='let segment of segments; let i = index'>
                         <ng-container *ngIf="!link.IsBezierCurve">

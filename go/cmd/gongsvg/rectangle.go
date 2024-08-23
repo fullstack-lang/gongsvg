@@ -10,31 +10,17 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_rectangle models.StageStruct
-var ___dummy__Time_rectangle time.Time
+var _ time.Time
 
 // Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
-// currently, DocLink renaming is not enabled in gopls
-// the following map are devised to overcome this limitation
-// those maps and the processing code will be eleminated when
-// DocLink renaming will be enabled in gopls
-// [Corresponding Issue](https://github.com/golang/go/issues/57559)
-//
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_rectangle map[string]any = map[string]any{
+var _ map[string]any = map[string]any{
 	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
 }
 
-// init might be handy if one want to have the data embedded in the binary
-// but it has to properly reference the Injection gateway in the main package
-// func init() {
-// 	_ = __Dummy_time_variable
-// 	InjectionGateway["rectangle"] = rectangleInjection
-// }
-
-// rectangleInjection will stage objects of database "rectangle"
-func rectangleInjection(stage *models.StageStruct) {
+// function will stage objects
+func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
@@ -323,8 +309,8 @@ Third Line`
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 581.000000
-	__Rect__000001_Middle_Rect.Y = 415.000000
+	__Rect__000001_Middle_Rect.X = 387.000000
+	__Rect__000001_Middle_Rect.Y = 345.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -463,6 +449,7 @@ for details in the go code of the models.
 `
 	__RectAnchoredText__000000_Bottom_Text.FontWeight = `100`
 	__RectAnchoredText__000000_Bottom_Text.FontSize = 0
+	__RectAnchoredText__000000_Bottom_Text.FontStyle = ``
 	__RectAnchoredText__000000_Bottom_Text.X_Offset = 0.000000
 	__RectAnchoredText__000000_Bottom_Text.Y_Offset = 20.000000
 	__RectAnchoredText__000000_Bottom_Text.RectAnchorType = models.RECT_TOP
@@ -480,6 +467,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000001_Top_Left.Content = `Top Left`
 	__RectAnchoredText__000001_Top_Left.FontWeight = ``
 	__RectAnchoredText__000001_Top_Left.FontSize = 0
+	__RectAnchoredText__000001_Top_Left.FontStyle = ``
 	__RectAnchoredText__000001_Top_Left.X_Offset = 0.000000
 	__RectAnchoredText__000001_Top_Left.Y_Offset = 0.000000
 	__RectAnchoredText__000001_Top_Left.RectAnchorType = models.RECT_TOP_LEFT
@@ -496,6 +484,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Content = `Top anchored bottom middle`
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontWeight = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontSize = 0
+	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontStyle = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.X_Offset = 0.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Y_Offset = 20.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.RectAnchorType = models.RECT_BOTTOM
@@ -515,6 +504,7 @@ top middle
 line 3`
 	__RectAnchoredText__000003_Top_anchored_top_middle.FontWeight = `bold`
 	__RectAnchoredText__000003_Top_anchored_top_middle.FontSize = 0
+	__RectAnchoredText__000003_Top_anchored_top_middle.FontStyle = `italic`
 	__RectAnchoredText__000003_Top_anchored_top_middle.X_Offset = 0.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.Y_Offset = 20.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.RectAnchorType = models.RECT_TOP
@@ -579,6 +569,7 @@ line 3`
 	__Rect__000000_Bottom.RectAnchoredRects = append(__Rect__000000_Bottom.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
 	__Rect__000000_Bottom.RectAnchoredPaths = append(__Rect__000000_Bottom.RectAnchoredPaths, __RectAnchoredPath__000001_second_log)
 	__Rect__000000_Bottom.RectAnchoredPaths = append(__Rect__000000_Bottom.RectAnchoredPaths, __RectAnchoredPath__000001_second_log)
+	__Rect__000001_Middle_Rect.RectAnchoredTexts = append(__Rect__000001_Middle_Rect.RectAnchoredTexts, __RectAnchoredText__000003_Top_anchored_top_middle)
 	__Rect__000002_Top.RectAnchoredRects = append(__Rect__000002_Top.RectAnchoredRects, __RectAnchoredRect__000000_Rect_within_top)
 	__Rect__000002_Top.RectAnchoredPaths = append(__Rect__000002_Top.RectAnchoredPaths, __RectAnchoredPath__000000_Logo_to_add)
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Start = __Rect__000001_Middle_Rect
@@ -591,5 +582,3 @@ line 3`
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top
 }
-
-

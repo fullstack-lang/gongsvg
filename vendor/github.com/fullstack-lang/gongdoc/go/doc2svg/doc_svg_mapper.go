@@ -188,7 +188,12 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		startRect := docSVGMapper.map_GongstructShape_Rect[gongstructShape]
 		for _, docLink := range gongstructShape.Links {
 
-			endRect := docSVGMapper.map_Structname_Rect[docLink.Fieldtypename]
+			endRect, ok := docSVGMapper.map_Structname_Rect[docLink.Fieldtypename]
+
+			// if some renaming of field type name has occured, end rect might be nil
+			if !ok {
+				continue
+			}
 
 			link := new(gongsvg_models.Link).Stage(docSVGMapper.gongsvgStage)
 			link.Name = startRect.Name + " - to - " + endRect.Name
@@ -417,7 +422,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		rect.StrokeDashArrayWhenSelected = "5 5"
 
 		rect.FillOpacity = 100
-		rect.Color = gongsvg_models.Lightskyblue.ToString()
+		rect.Color = gongsvg_models.White.ToString()
 
 		// moveability
 		rect.CanMoveHorizontaly = true
@@ -441,6 +446,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		title.RectAnchorType = gongsvg_models.RECT_TOP
 		title.TextAnchorType = gongsvg_models.TEXT_ANCHOR_CENTER
 		title.FontWeight = "bold"
+		title.FontStyle = "oblique"
 		title.Color = gongsvg_models.Black.ToString()
 		title.FillOpacity = 1.0
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)

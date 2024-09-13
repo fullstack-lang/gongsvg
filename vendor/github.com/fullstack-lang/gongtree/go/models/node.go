@@ -26,6 +26,12 @@ type Node struct {
 	IsChecked          bool
 	IsCheckboxDisabled bool
 
+	// fields related to the selection of the node by a check box
+	HasSecondCheckboxButton  bool
+	IsSecondCheckboxChecked  bool
+	IsSecondCheckboxDisabled bool
+	TextAfterSecondCheckbox  string
+
 	// in case the user wants to change the name of the node
 	IsInEditMode bool
 

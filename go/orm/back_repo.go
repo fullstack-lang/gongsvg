@@ -11,12 +11,9 @@ import (
 	"sync"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
+	"github.com/fullstack-lang/gongsvg/go/orm/dbgorm"
 
 	"github.com/tealeg/xlsx/v3"
-
-	"github.com/glebarez/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
 )
 
 // BackRepoStruct supports callback functions
@@ -71,33 +68,7 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	// adjust naming strategy to the stack
-	gormConfig := &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-		},
-	}
-	db, err := gorm.Open(sqlite.Open(filename), gormConfig)
-
-	// since testsim is a multi threaded application. It is important to set up
-	// only one open connexion at a time
-	dbDB_inMemory, err := db.DB()
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
-	dbDB_inMemory.SetMaxOpenConns(1)
-
-	if err != nil {
-		panic("Failed to connect to database!")
-	}
-
-	// adjust naming strategy to the stack
-	db.Config.NamingStrategy = &schema.NamingStrategy{
-		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-	}
-
-	err = db.AutoMigrate( // insertion point for reference to structs
+	dbWrapper := dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gongsvg_go",
 		&AnimateDB{},
 		&CircleDB{},
 		&EllipseDB{},
@@ -118,11 +89,6 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		&TextDB{},
 	)
 
-	if err != nil {
-		msg := err.Error()
-		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
-	}
-
 	backRepo = new(BackRepoStruct)
 
 	// insertion point for per struct back repo declarations
@@ -131,7 +97,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_AnimateDBID_AnimateDB:  make(map[uint]*AnimateDB, 0),
 		Map_AnimatePtr_AnimateDBID: make(map[*models.Animate]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoCircle = BackRepoCircleStruct{
@@ -139,7 +105,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_CircleDBID_CircleDB:  make(map[uint]*CircleDB, 0),
 		Map_CirclePtr_CircleDBID: make(map[*models.Circle]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoEllipse = BackRepoEllipseStruct{
@@ -147,7 +113,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_EllipseDBID_EllipseDB:  make(map[uint]*EllipseDB, 0),
 		Map_EllipsePtr_EllipseDBID: make(map[*models.Ellipse]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoLayer = BackRepoLayerStruct{
@@ -155,7 +121,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_LayerDBID_LayerDB:  make(map[uint]*LayerDB, 0),
 		Map_LayerPtr_LayerDBID: make(map[*models.Layer]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoLine = BackRepoLineStruct{
@@ -163,7 +129,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_LineDBID_LineDB:  make(map[uint]*LineDB, 0),
 		Map_LinePtr_LineDBID: make(map[*models.Line]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoLink = BackRepoLinkStruct{
@@ -171,7 +137,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_LinkDBID_LinkDB:  make(map[uint]*LinkDB, 0),
 		Map_LinkPtr_LinkDBID: make(map[*models.Link]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoLinkAnchoredText = BackRepoLinkAnchoredTextStruct{
@@ -179,7 +145,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_LinkAnchoredTextDBID_LinkAnchoredTextDB:  make(map[uint]*LinkAnchoredTextDB, 0),
 		Map_LinkAnchoredTextPtr_LinkAnchoredTextDBID: make(map[*models.LinkAnchoredText]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoPath = BackRepoPathStruct{
@@ -187,7 +153,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_PathDBID_PathDB:  make(map[uint]*PathDB, 0),
 		Map_PathPtr_PathDBID: make(map[*models.Path]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoPoint = BackRepoPointStruct{
@@ -195,7 +161,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_PointDBID_PointDB:  make(map[uint]*PointDB, 0),
 		Map_PointPtr_PointDBID: make(map[*models.Point]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoPolygone = BackRepoPolygoneStruct{
@@ -203,7 +169,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_PolygoneDBID_PolygoneDB:  make(map[uint]*PolygoneDB, 0),
 		Map_PolygonePtr_PolygoneDBID: make(map[*models.Polygone]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoPolyline = BackRepoPolylineStruct{
@@ -211,7 +177,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_PolylineDBID_PolylineDB:  make(map[uint]*PolylineDB, 0),
 		Map_PolylinePtr_PolylineDBID: make(map[*models.Polyline]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoRect = BackRepoRectStruct{
@@ -219,7 +185,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_RectDBID_RectDB:  make(map[uint]*RectDB, 0),
 		Map_RectPtr_RectDBID: make(map[*models.Rect]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoRectAnchoredPath = BackRepoRectAnchoredPathStruct{
@@ -227,7 +193,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_RectAnchoredPathDBID_RectAnchoredPathDB:  make(map[uint]*RectAnchoredPathDB, 0),
 		Map_RectAnchoredPathPtr_RectAnchoredPathDBID: make(map[*models.RectAnchoredPath]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoRectAnchoredRect = BackRepoRectAnchoredRectStruct{
@@ -235,7 +201,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_RectAnchoredRectDBID_RectAnchoredRectDB:  make(map[uint]*RectAnchoredRectDB, 0),
 		Map_RectAnchoredRectPtr_RectAnchoredRectDBID: make(map[*models.RectAnchoredRect]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoRectAnchoredText = BackRepoRectAnchoredTextStruct{
@@ -243,7 +209,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_RectAnchoredTextDBID_RectAnchoredTextDB:  make(map[uint]*RectAnchoredTextDB, 0),
 		Map_RectAnchoredTextPtr_RectAnchoredTextDBID: make(map[*models.RectAnchoredText]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoRectLinkLink = BackRepoRectLinkLinkStruct{
@@ -251,7 +217,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_RectLinkLinkDBID_RectLinkLinkDB:  make(map[uint]*RectLinkLinkDB, 0),
 		Map_RectLinkLinkPtr_RectLinkLinkDBID: make(map[*models.RectLinkLink]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoSVG = BackRepoSVGStruct{
@@ -259,7 +225,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_SVGDBID_SVGDB:  make(map[uint]*SVGDB, 0),
 		Map_SVGPtr_SVGDBID: make(map[*models.SVG]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoText = BackRepoTextStruct{
@@ -267,7 +233,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_TextDBID_TextDB:  make(map[uint]*TextDB, 0),
 		Map_TextPtr_TextDBID: make(map[*models.Text]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 
@@ -300,7 +266,7 @@ func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 
 	backRepo.broadcastNbCommitToBack()
-	
+
 	return backRepo.CommitFromBackNb
 }
 

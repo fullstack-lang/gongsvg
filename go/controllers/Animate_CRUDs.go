@@ -280,7 +280,7 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 	animateDB.AnimatePointersEncoding = input.AnimatePointersEncoding
 
 	db, _ = db.Model(&animateDB)
-	_, err = db.Updates(animateDB)
+	_, err = db.Updates(&animateDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

@@ -280,7 +280,7 @@ func (controller *Controller) UpdateLayer(c *gin.Context) {
 	layerDB.LayerPointersEncoding = input.LayerPointersEncoding
 
 	db, _ = db.Model(&layerDB)
-	_, err = db.Updates(layerDB)
+	_, err = db.Updates(&layerDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

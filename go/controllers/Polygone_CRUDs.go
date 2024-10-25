@@ -280,7 +280,7 @@ func (controller *Controller) UpdatePolygone(c *gin.Context) {
 	polygoneDB.PolygonePointersEncoding = input.PolygonePointersEncoding
 
 	db, _ = db.Model(&polygoneDB)
-	_, err = db.Updates(polygoneDB)
+	_, err = db.Updates(&polygoneDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

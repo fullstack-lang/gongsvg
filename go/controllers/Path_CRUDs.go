@@ -280,7 +280,7 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 	pathDB.PathPointersEncoding = input.PathPointersEncoding
 
 	db, _ = db.Model(&pathDB)
-	_, err = db.Updates(pathDB)
+	_, err = db.Updates(&pathDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

@@ -280,7 +280,7 @@ func (controller *Controller) UpdateLinkAnchoredText(c *gin.Context) {
 	linkanchoredtextDB.LinkAnchoredTextPointersEncoding = input.LinkAnchoredTextPointersEncoding
 
 	db, _ = db.Model(&linkanchoredtextDB)
-	_, err = db.Updates(linkanchoredtextDB)
+	_, err = db.Updates(&linkanchoredtextDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

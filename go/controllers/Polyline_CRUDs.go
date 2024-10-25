@@ -280,7 +280,7 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 	polylineDB.PolylinePointersEncoding = input.PolylinePointersEncoding
 
 	db, _ = db.Model(&polylineDB)
-	_, err = db.Updates(polylineDB)
+	_, err = db.Updates(&polylineDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

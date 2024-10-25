@@ -280,7 +280,7 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 	svgDB.SVGPointersEncoding = input.SVGPointersEncoding
 
 	db, _ = db.Model(&svgDB)
-	_, err = db.Updates(svgDB)
+	_, err = db.Updates(&svgDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

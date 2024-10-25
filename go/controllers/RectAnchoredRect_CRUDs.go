@@ -280,7 +280,7 @@ func (controller *Controller) UpdateRectAnchoredRect(c *gin.Context) {
 	rectanchoredrectDB.RectAnchoredRectPointersEncoding = input.RectAnchoredRectPointersEncoding
 
 	db, _ = db.Model(&rectanchoredrectDB)
-	_, err = db.Updates(rectanchoredrectDB)
+	_, err = db.Updates(&rectanchoredrectDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

@@ -280,7 +280,7 @@ func (controller *Controller) UpdateRectLinkLink(c *gin.Context) {
 	rectlinklinkDB.RectLinkLinkPointersEncoding = input.RectLinkLinkPointersEncoding
 
 	db, _ = db.Model(&rectlinklinkDB)
-	_, err = db.Updates(rectlinklinkDB)
+	_, err = db.Updates(&rectlinklinkDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

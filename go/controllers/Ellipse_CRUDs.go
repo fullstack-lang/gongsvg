@@ -280,7 +280,7 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 	ellipseDB.EllipsePointersEncoding = input.EllipsePointersEncoding
 
 	db, _ = db.Model(&ellipseDB)
-	_, err = db.Updates(ellipseDB)
+	_, err = db.Updates(&ellipseDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

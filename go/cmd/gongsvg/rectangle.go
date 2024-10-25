@@ -24,50 +24,49 @@ func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	__Animate__000000_ := (&models.Animate{Name: ``}).Stage(stage)
+	__Animate__000000_ := (&models.Animate{}).Stage(stage)
 
-	__Circle__000000_Test := (&models.Circle{Name: `Test`}).Stage(stage)
+	__Circle__000000_Test := (&models.Circle{}).Stage(stage)
 
-	__Layer__000000_Bottom_Rectangle_Layer := (&models.Layer{Name: `Bottom Rectangle Layer`}).Stage(stage)
-	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom := (&models.Layer{Name: `Layer RectLinkLink Medium to Top-Bottom`}).Stage(stage)
-	__Layer__000002_Line_layer := (&models.Layer{Name: `Line layer`}).Stage(stage)
-	__Layer__000003_Link_layer_vertical_to_horizontal := (&models.Layer{Name: `Link layer vertical to horizontal`}).Stage(stage)
-	__Layer__000004_Middle_Rect_Layer := (&models.Layer{Name: `Middle Rect Layer`}).Stage(stage)
-	__Layer__000005_Top_Rectangle_layer := (&models.Layer{Name: `Top Rectangle layer`}).Stage(stage)
+	__Layer__000000_Bottom_Rectangle_Layer := (&models.Layer{}).Stage(stage)
+	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom := (&models.Layer{}).Stage(stage)
+	__Layer__000002_Line_layer := (&models.Layer{}).Stage(stage)
+	__Layer__000003_Link_layer_vertical_to_horizontal := (&models.Layer{}).Stage(stage)
+	__Layer__000004_Middle_Rect_Layer := (&models.Layer{}).Stage(stage)
+	__Layer__000005_Top_Rectangle_layer := (&models.Layer{}).Stage(stage)
 
-	__Line__000000_Line_connecting_rect_Bottom_to_Top := (&models.Line{Name: `Line connecting rect Bottom to Top`}).Stage(stage)
+	__Line__000000_Line_connecting_rect_Bottom_to_Top := (&models.Line{}).Stage(stage)
 
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal := (&models.Link{Name: `Arrow - Top to Bottom vertical to horizontal`}).Stage(stage)
-	__Link__000001_Start_Middle := (&models.Link{Name: `Start - Middle`}).Stage(stage)
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal := (&models.Link{}).Stage(stage)
+	__Link__000001_Start_Middle := (&models.Link{}).Stage(stage)
 
-	__LinkAnchoredText__000000_End_Left_Top := (&models.LinkAnchoredText{Name: `End Left/Top`}).Stage(stage)
-	__LinkAnchoredText__000001_End_Right_Bottom := (&models.LinkAnchoredText{Name: `End Right/Bottom`}).Stage(stage)
-	__LinkAnchoredText__000002_Liine_1_Line_2 := (&models.LinkAnchoredText{Name: `Liine 1
-Line 2`}).Stage(stage)
-	__LinkAnchoredText__000003_Start_Anchored_1 := (&models.LinkAnchoredText{Name: `Start Anchored 1`}).Stage(stage)
-	__LinkAnchoredText__000004_Start_Left_Top := (&models.LinkAnchoredText{Name: `Start Left/Top`}).Stage(stage)
-	__LinkAnchoredText__000005_Start_Right_Bottom := (&models.LinkAnchoredText{Name: `Start Right/Bottom`}).Stage(stage)
+	__LinkAnchoredText__000000_End_Left_Top := (&models.LinkAnchoredText{}).Stage(stage)
+	__LinkAnchoredText__000001_End_Right_Bottom := (&models.LinkAnchoredText{}).Stage(stage)
+	__LinkAnchoredText__000002_Liine_1_Line_2 := (&models.LinkAnchoredText{}).Stage(stage)
+	__LinkAnchoredText__000003_Start_Anchored_1 := (&models.LinkAnchoredText{}).Stage(stage)
+	__LinkAnchoredText__000004_Start_Left_Top := (&models.LinkAnchoredText{}).Stage(stage)
+	__LinkAnchoredText__000005_Start_Right_Bottom := (&models.LinkAnchoredText{}).Stage(stage)
 
-	__Rect__000000_Bottom := (&models.Rect{Name: `Bottom`}).Stage(stage)
-	__Rect__000001_Middle_Rect := (&models.Rect{Name: `Middle Rect`}).Stage(stage)
-	__Rect__000002_Top := (&models.Rect{Name: `Top`}).Stage(stage)
+	__Rect__000000_Bottom := (&models.Rect{}).Stage(stage)
+	__Rect__000001_Middle_Rect := (&models.Rect{}).Stage(stage)
+	__Rect__000002_Top := (&models.Rect{}).Stage(stage)
 
-	__RectAnchoredPath__000000_Logo_to_add := (&models.RectAnchoredPath{Name: `Logo to add`}).Stage(stage)
-	__RectAnchoredPath__000001_second_log := (&models.RectAnchoredPath{Name: `second log`}).Stage(stage)
+	__RectAnchoredPath__000000_Logo_to_add := (&models.RectAnchoredPath{}).Stage(stage)
+	__RectAnchoredPath__000001_second_log := (&models.RectAnchoredPath{}).Stage(stage)
 
-	__RectAnchoredRect__000000_Rect_within_top := (&models.RectAnchoredRect{Name: `Rect within top`}).Stage(stage)
-	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width := (&models.RectAnchoredRect{Name: `Top on Bottom with same width`}).Stage(stage)
+	__RectAnchoredRect__000000_Rect_within_top := (&models.RectAnchoredRect{}).Stage(stage)
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width := (&models.RectAnchoredRect{}).Stage(stage)
 
-	__RectAnchoredText__000000_Bottom_Text := (&models.RectAnchoredText{Name: `Bottom Text`}).Stage(stage)
-	__RectAnchoredText__000001_Top_Left := (&models.RectAnchoredText{Name: `Top Left`}).Stage(stage)
-	__RectAnchoredText__000002_Top_anchored_bottom_middle := (&models.RectAnchoredText{Name: `Top anchored bottom middle`}).Stage(stage)
-	__RectAnchoredText__000003_Top_anchored_top_middle := (&models.RectAnchoredText{Name: `Top anchored top middle`}).Stage(stage)
+	__RectAnchoredText__000000_Bottom_Text := (&models.RectAnchoredText{}).Stage(stage)
+	__RectAnchoredText__000001_Top_Left := (&models.RectAnchoredText{}).Stage(stage)
+	__RectAnchoredText__000002_Top_anchored_bottom_middle := (&models.RectAnchoredText{}).Stage(stage)
+	__RectAnchoredText__000003_Top_anchored_top_middle := (&models.RectAnchoredText{}).Stage(stage)
 
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link := (&models.RectLinkLink{Name: `Test Middle to Top-Bottom Link`}).Stage(stage)
+	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link := (&models.RectLinkLink{}).Stage(stage)
 
-	__SVG__000000_SVG := (&models.SVG{Name: `SVG`}).Stage(stage)
+	__SVG__000000_SVG := (&models.SVG{}).Stage(stage)
 
-	__Text__000000_Essai := (&models.Text{Name: `Essai`}).Stage(stage)
+	__Text__000000_Essai := (&models.Text{}).Stage(stage)
 
 	// Setup of values
 
@@ -281,8 +280,8 @@ Third Line`
 	__LinkAnchoredText__000005_Start_Right_Bottom.Transform = ``
 
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 207.000000
-	__Rect__000000_Bottom.Y = 26.000000
+	__Rect__000000_Bottom.X = 401.000000
+	__Rect__000000_Bottom.Y = 38.000000
 	__Rect__000000_Bottom.Width = 565.000000
 	__Rect__000000_Bottom.Height = 266.999985
 	__Rect__000000_Bottom.RX = 5.000000
@@ -309,8 +308,8 @@ Third Line`
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 387.000000
-	__Rect__000001_Middle_Rect.Y = 345.000000
+	__Rect__000001_Middle_Rect.X = 521.000000
+	__Rect__000001_Middle_Rect.Y = 404.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000

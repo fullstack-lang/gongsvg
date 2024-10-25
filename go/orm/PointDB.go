@@ -165,7 +165,7 @@ func (backRepoPoint *BackRepoPointStruct) CommitDeleteInstance(id uint) (Error e
 	// point is not staged anymore, remove pointDB
 	pointDB := backRepoPoint.Map_PointDBID_PointDB[id]
 	db, _ := backRepoPoint.db.Unscoped()
-	_, err := db.Delete(&pointDB)
+	_, err := db.Delete(pointDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -225,7 +225,7 @@ func (backRepoPoint *BackRepoPointStruct) CommitPhaseTwoInstance(backRepo *BackR
 		pointDB.CopyBasicFieldsFromPoint(point)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoPoint.db.Save(&pointDB)
+		_, err := backRepoPoint.db.Save(pointDB)
 		if err != nil {
 			log.Fatal(err)
 		}

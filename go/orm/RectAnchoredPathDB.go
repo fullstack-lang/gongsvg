@@ -238,7 +238,7 @@ func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) CommitDeleteInst
 	// rectanchoredpath is not staged anymore, remove rectanchoredpathDB
 	rectanchoredpathDB := backRepoRectAnchoredPath.Map_RectAnchoredPathDBID_RectAnchoredPathDB[id]
 	db, _ := backRepoRectAnchoredPath.db.Unscoped()
-	_, err := db.Delete(&rectanchoredpathDB)
+	_, err := db.Delete(rectanchoredpathDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -298,7 +298,7 @@ func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) CommitPhaseTwoIn
 		rectanchoredpathDB.CopyBasicFieldsFromRectAnchoredPath(rectanchoredpath)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoRectAnchoredPath.db.Save(&rectanchoredpathDB)
+		_, err := backRepoRectAnchoredPath.db.Save(rectanchoredpathDB)
 		if err != nil {
 			log.Fatal(err)
 		}

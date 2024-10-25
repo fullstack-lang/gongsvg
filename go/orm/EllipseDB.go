@@ -228,7 +228,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitDeleteInstance(id uint) (Err
 	// ellipse is not staged anymore, remove ellipseDB
 	ellipseDB := backRepoEllipse.Map_EllipseDBID_EllipseDB[id]
 	db, _ := backRepoEllipse.db.Unscoped()
-	_, err := db.Delete(&ellipseDB)
+	_, err := db.Delete(ellipseDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -306,7 +306,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 				append(ellipseDB.EllipsePointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoEllipse.db.Save(&ellipseDB)
+		_, err := backRepoEllipse.db.Save(ellipseDB)
 		if err != nil {
 			log.Fatal(err)
 		}

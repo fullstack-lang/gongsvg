@@ -215,7 +215,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitDeleteInstance(id 
 	// rectlinklink is not staged anymore, remove rectlinklinkDB
 	rectlinklinkDB := backRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkDB[id]
 	db, _ := backRepoRectLinkLink.db.Unscoped()
-	_, err := db.Delete(&rectlinklinkDB)
+	_, err := db.Delete(rectlinklinkDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -299,7 +299,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitPhaseTwoInstance(b
 			rectlinklinkDB.EndID.Valid = true
 		}
 
-		_, err := backRepoRectLinkLink.db.Save(&rectlinklinkDB)
+		_, err := backRepoRectLinkLink.db.Save(rectlinklinkDB)
 		if err != nil {
 			log.Fatal(err)
 		}

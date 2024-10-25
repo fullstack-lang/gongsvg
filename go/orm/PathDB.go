@@ -210,7 +210,7 @@ func (backRepoPath *BackRepoPathStruct) CommitDeleteInstance(id uint) (Error err
 	// path is not staged anymore, remove pathDB
 	pathDB := backRepoPath.Map_PathDBID_PathDB[id]
 	db, _ := backRepoPath.db.Unscoped()
-	_, err := db.Delete(&pathDB)
+	_, err := db.Delete(pathDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -288,7 +288,7 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(pathDB.PathPointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoPath.db.Save(&pathDB)
+		_, err := backRepoPath.db.Save(pathDB)
 		if err != nil {
 			log.Fatal(err)
 		}

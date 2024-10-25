@@ -252,7 +252,7 @@ func (backRepoRectAnchoredText *BackRepoRectAnchoredTextStruct) CommitDeleteInst
 	// rectanchoredtext is not staged anymore, remove rectanchoredtextDB
 	rectanchoredtextDB := backRepoRectAnchoredText.Map_RectAnchoredTextDBID_RectAnchoredTextDB[id]
 	db, _ := backRepoRectAnchoredText.db.Unscoped()
-	_, err := db.Delete(&rectanchoredtextDB)
+	_, err := db.Delete(rectanchoredtextDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -330,7 +330,7 @@ func (backRepoRectAnchoredText *BackRepoRectAnchoredTextStruct) CommitPhaseTwoIn
 				append(rectanchoredtextDB.RectAnchoredTextPointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoRectAnchoredText.db.Save(&rectanchoredtextDB)
+		_, err := backRepoRectAnchoredText.db.Save(rectanchoredtextDB)
 		if err != nil {
 			log.Fatal(err)
 		}

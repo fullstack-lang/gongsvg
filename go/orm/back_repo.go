@@ -10,8 +10,12 @@ import (
 	"path/filepath"
 	"sync"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
+
+	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
 	"github.com/fullstack-lang/gongsvg/go/orm/dbgorm"
+	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
 
 	"github.com/tealeg/xlsx/v3"
 )
@@ -68,7 +72,12 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	dbWrapper := dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gongsvg_go",
+	var db db.DBInterface
+
+	db = NewDBLite()
+
+	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
+	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gongsvg_go",
 		&AnimateDB{},
 		&CircleDB{},
 		&EllipseDB{},
@@ -88,6 +97,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		&SVGDB{},
 		&TextDB{},
 	)
+	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
 
 	backRepo = new(BackRepoStruct)
 
@@ -97,7 +107,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_AnimateDBID_AnimateDB:  make(map[uint]*AnimateDB, 0),
 		Map_AnimatePtr_AnimateDBID: make(map[*models.Animate]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoCircle = BackRepoCircleStruct{
@@ -105,7 +115,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_CircleDBID_CircleDB:  make(map[uint]*CircleDB, 0),
 		Map_CirclePtr_CircleDBID: make(map[*models.Circle]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoEllipse = BackRepoEllipseStruct{
@@ -113,7 +123,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_EllipseDBID_EllipseDB:  make(map[uint]*EllipseDB, 0),
 		Map_EllipsePtr_EllipseDBID: make(map[*models.Ellipse]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoLayer = BackRepoLayerStruct{
@@ -121,7 +131,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_LayerDBID_LayerDB:  make(map[uint]*LayerDB, 0),
 		Map_LayerPtr_LayerDBID: make(map[*models.Layer]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoLine = BackRepoLineStruct{
@@ -129,7 +139,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_LineDBID_LineDB:  make(map[uint]*LineDB, 0),
 		Map_LinePtr_LineDBID: make(map[*models.Line]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoLink = BackRepoLinkStruct{
@@ -137,7 +147,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_LinkDBID_LinkDB:  make(map[uint]*LinkDB, 0),
 		Map_LinkPtr_LinkDBID: make(map[*models.Link]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoLinkAnchoredText = BackRepoLinkAnchoredTextStruct{
@@ -145,7 +155,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_LinkAnchoredTextDBID_LinkAnchoredTextDB:  make(map[uint]*LinkAnchoredTextDB, 0),
 		Map_LinkAnchoredTextPtr_LinkAnchoredTextDBID: make(map[*models.LinkAnchoredText]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoPath = BackRepoPathStruct{
@@ -153,7 +163,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_PathDBID_PathDB:  make(map[uint]*PathDB, 0),
 		Map_PathPtr_PathDBID: make(map[*models.Path]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoPoint = BackRepoPointStruct{
@@ -161,7 +171,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_PointDBID_PointDB:  make(map[uint]*PointDB, 0),
 		Map_PointPtr_PointDBID: make(map[*models.Point]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoPolygone = BackRepoPolygoneStruct{
@@ -169,7 +179,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_PolygoneDBID_PolygoneDB:  make(map[uint]*PolygoneDB, 0),
 		Map_PolygonePtr_PolygoneDBID: make(map[*models.Polygone]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoPolyline = BackRepoPolylineStruct{
@@ -177,7 +187,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_PolylineDBID_PolylineDB:  make(map[uint]*PolylineDB, 0),
 		Map_PolylinePtr_PolylineDBID: make(map[*models.Polyline]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoRect = BackRepoRectStruct{
@@ -185,7 +195,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_RectDBID_RectDB:  make(map[uint]*RectDB, 0),
 		Map_RectPtr_RectDBID: make(map[*models.Rect]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoRectAnchoredPath = BackRepoRectAnchoredPathStruct{
@@ -193,7 +203,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_RectAnchoredPathDBID_RectAnchoredPathDB:  make(map[uint]*RectAnchoredPathDB, 0),
 		Map_RectAnchoredPathPtr_RectAnchoredPathDBID: make(map[*models.RectAnchoredPath]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoRectAnchoredRect = BackRepoRectAnchoredRectStruct{
@@ -201,7 +211,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_RectAnchoredRectDBID_RectAnchoredRectDB:  make(map[uint]*RectAnchoredRectDB, 0),
 		Map_RectAnchoredRectPtr_RectAnchoredRectDBID: make(map[*models.RectAnchoredRect]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoRectAnchoredText = BackRepoRectAnchoredTextStruct{
@@ -209,7 +219,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_RectAnchoredTextDBID_RectAnchoredTextDB:  make(map[uint]*RectAnchoredTextDB, 0),
 		Map_RectAnchoredTextPtr_RectAnchoredTextDBID: make(map[*models.RectAnchoredText]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoRectLinkLink = BackRepoRectLinkLinkStruct{
@@ -217,7 +227,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_RectLinkLinkDBID_RectLinkLinkDB:  make(map[uint]*RectLinkLinkDB, 0),
 		Map_RectLinkLinkPtr_RectLinkLinkDBID: make(map[*models.RectLinkLink]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoSVG = BackRepoSVGStruct{
@@ -225,7 +235,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_SVGDBID_SVGDB:  make(map[uint]*SVGDB, 0),
 		Map_SVGPtr_SVGDBID: make(map[*models.SVG]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoText = BackRepoTextStruct{
@@ -233,7 +243,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_TextDBID_TextDB:  make(map[uint]*TextDB, 0),
 		Map_TextPtr_TextDBID: make(map[*models.Text]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}
 

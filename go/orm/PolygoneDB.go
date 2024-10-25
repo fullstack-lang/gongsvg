@@ -210,7 +210,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitDeleteInstance(id uint) (E
 	// polygone is not staged anymore, remove polygoneDB
 	polygoneDB := backRepoPolygone.Map_PolygoneDBID_PolygoneDB[id]
 	db, _ := backRepoPolygone.db.Unscoped()
-	_, err := db.Delete(&polygoneDB)
+	_, err := db.Delete(polygoneDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -288,7 +288,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 				append(polygoneDB.PolygonePointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoPolygone.db.Save(&polygoneDB)
+		_, err := backRepoPolygone.db.Save(polygoneDB)
 		if err != nil {
 			log.Fatal(err)
 		}

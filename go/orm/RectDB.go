@@ -334,7 +334,7 @@ func (backRepoRect *BackRepoRectStruct) CommitDeleteInstance(id uint) (Error err
 	// rect is not staged anymore, remove rectDB
 	rectDB := backRepoRect.Map_RectDBID_RectDB[id]
 	db, _ := backRepoRect.db.Unscoped()
-	_, err := db.Delete(&rectDB)
+	_, err := db.Delete(rectDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -466,7 +466,7 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(rectDB.RectPointersEncoding.RectAnchoredPaths, int(rectanchoredpathAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoRect.db.Save(&rectDB)
+		_, err := backRepoRect.db.Save(rectDB)
 		if err != nil {
 			log.Fatal(err)
 		}

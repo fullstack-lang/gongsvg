@@ -305,7 +305,7 @@ func (backRepoLink *BackRepoLinkStruct) CommitDeleteInstance(id uint) (Error err
 	// link is not staged anymore, remove linkDB
 	linkDB := backRepoLink.Map_LinkDBID_LinkDB[id]
 	db, _ := backRepoLink.db.Unscoped()
-	_, err := db.Delete(&linkDB)
+	_, err := db.Delete(linkDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -443,7 +443,7 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(linkDB.LinkPointersEncoding.ControlPoints, int(pointAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoLink.db.Save(&linkDB)
+		_, err := backRepoLink.db.Save(linkDB)
 		if err != nil {
 			log.Fatal(err)
 		}

@@ -190,7 +190,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitDeleteInstance(id uint) (Error e
 	// layer is not staged anymore, remove layerDB
 	layerDB := backRepoLayer.Map_LayerDBID_LayerDB[id]
 	db, _ := backRepoLayer.db.Unscoped()
-	_, err := db.Delete(&layerDB)
+	_, err := db.Delete(layerDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -430,7 +430,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				append(layerDB.LayerPointersEncoding.RectLinkLinks, int(rectlinklinkAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoLayer.db.Save(&layerDB)
+		_, err := backRepoLayer.db.Save(layerDB)
 		if err != nil {
 			log.Fatal(err)
 		}

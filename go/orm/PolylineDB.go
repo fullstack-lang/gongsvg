@@ -210,7 +210,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitDeleteInstance(id uint) (E
 	// polyline is not staged anymore, remove polylineDB
 	polylineDB := backRepoPolyline.Map_PolylineDBID_PolylineDB[id]
 	db, _ := backRepoPolyline.db.Unscoped()
-	_, err := db.Delete(&polylineDB)
+	_, err := db.Delete(polylineDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -288,7 +288,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseTwoInstance(backRepo 
 				append(polylineDB.PolylinePointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoPolyline.db.Save(&polylineDB)
+		_, err := backRepoPolyline.db.Save(polylineDB)
 		if err != nil {
 			log.Fatal(err)
 		}

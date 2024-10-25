@@ -177,7 +177,7 @@ func (backRepoAnimate *BackRepoAnimateStruct) CommitDeleteInstance(id uint) (Err
 	// animate is not staged anymore, remove animateDB
 	animateDB := backRepoAnimate.Map_AnimateDBID_AnimateDB[id]
 	db, _ := backRepoAnimate.db.Unscoped()
-	_, err := db.Delete(&animateDB)
+	_, err := db.Delete(animateDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -237,7 +237,7 @@ func (backRepoAnimate *BackRepoAnimateStruct) CommitPhaseTwoInstance(backRepo *B
 		animateDB.CopyBasicFieldsFromAnimate(animate)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoAnimate.db.Save(&animateDB)
+		_, err := backRepoAnimate.db.Save(animateDB)
 		if err != nil {
 			log.Fatal(err)
 		}

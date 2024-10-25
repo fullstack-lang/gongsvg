@@ -253,7 +253,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitDeleteInst
 	// linkanchoredtext is not staged anymore, remove linkanchoredtextDB
 	linkanchoredtextDB := backRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextDB[id]
 	db, _ := backRepoLinkAnchoredText.db.Unscoped()
-	_, err := db.Delete(&linkanchoredtextDB)
+	_, err := db.Delete(linkanchoredtextDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -331,7 +331,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseTwoIn
 				append(linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoLinkAnchoredText.db.Save(&linkanchoredtextDB)
+		_, err := backRepoLinkAnchoredText.db.Save(linkanchoredtextDB)
 		if err != nil {
 			log.Fatal(err)
 		}

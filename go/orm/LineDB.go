@@ -240,7 +240,7 @@ func (backRepoLine *BackRepoLineStruct) CommitDeleteInstance(id uint) (Error err
 	// line is not staged anymore, remove lineDB
 	lineDB := backRepoLine.Map_LineDBID_LineDB[id]
 	db, _ := backRepoLine.db.Unscoped()
-	_, err := db.Delete(&lineDB)
+	_, err := db.Delete(lineDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -318,7 +318,7 @@ func (backRepoLine *BackRepoLineStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(lineDB.LinePointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoLine.db.Save(&lineDB)
+		_, err := backRepoLine.db.Save(lineDB)
 		if err != nil {
 			log.Fatal(err)
 		}

@@ -222,7 +222,7 @@ func (backRepoCircle *BackRepoCircleStruct) CommitDeleteInstance(id uint) (Error
 	// circle is not staged anymore, remove circleDB
 	circleDB := backRepoCircle.Map_CircleDBID_CircleDB[id]
 	db, _ := backRepoCircle.db.Unscoped()
-	_, err := db.Delete(&circleDB)
+	_, err := db.Delete(circleDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -300,7 +300,7 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseTwoInstance(backRepo *Bac
 				append(circleDB.CirclePointersEncoding.Animations, int(animateAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoCircle.db.Save(&circleDB)
+		_, err := backRepoCircle.db.Save(circleDB)
 		if err != nil {
 			log.Fatal(err)
 		}

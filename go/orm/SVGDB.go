@@ -177,7 +177,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitDeleteInstance(id uint) (Error error
 	// svg is not staged anymore, remove svgDB
 	svgDB := backRepoSVG.Map_SVGDBID_SVGDB[id]
 	db, _ := backRepoSVG.db.Unscoped()
-	_, err := db.Delete(&svgDB)
+	_, err := db.Delete(svgDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -279,7 +279,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 			svgDB.EndRectID.Valid = true
 		}
 
-		_, err := backRepoSVG.db.Save(&svgDB)
+		_, err := backRepoSVG.db.Save(svgDB)
 		if err != nil {
 			log.Fatal(err)
 		}

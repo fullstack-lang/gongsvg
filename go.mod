@@ -15,7 +15,6 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/tealeg/xlsx/v3 v3.3.7
 	github.com/xuri/excelize/v2 v2.8.1
-	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0
 	gorm.io/gorm v1.25.12
 )
 
@@ -62,6 +61,7 @@ require (
 	github.com/xuri/nfp v0.0.0-20240318013403-ab9948c2c4a7 // indirect
 	golang.org/x/arch v0.10.0 // indirect
 	golang.org/x/crypto v0.27.0 // indirect
+	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0 // indirect
 	golang.org/x/mod v0.21.0 // indirect
 	golang.org/x/net v0.29.0 // indirect
 	golang.org/x/sys v0.25.0 // indirect

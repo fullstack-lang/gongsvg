@@ -60,11 +60,6 @@ export function CopyEllipseToEllipseAPI(ellipse: Ellipse, ellipseAPI: EllipseAPI
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	if (!Array.isArray(ellipseAPI.EllipsePointersEncoding.Animates)) {
-		console.error('Rects is not an array:', ellipseAPI.EllipsePointersEncoding.Animates);
-		return;
-	}
-
 	ellipseAPI.EllipsePointersEncoding.Animates = []
 	for (let _animate of ellipse.Animates) {
 		ellipseAPI.EllipsePointersEncoding.Animates.push(_animate.ID)
@@ -100,6 +95,11 @@ export function CopyEllipseAPIToEllipse(ellipseAPI: EllipseAPI, ellipse: Ellipse
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(ellipseAPI.EllipsePointersEncoding.Animates)) {
+		console.error('Rects is not an array:', ellipseAPI.EllipsePointersEncoding.Animates);
+		return;
+	}
+
 	ellipse.Animates = new Array<Animate>()
 	for (let _id of ellipseAPI.EllipsePointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)

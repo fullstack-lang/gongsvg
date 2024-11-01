@@ -68,11 +68,6 @@ export function CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext: Rect
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	if (!Array.isArray(rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates)) {
-		console.error('Rects is not an array:', rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates);
-		return;
-	}
-
 	rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates = []
 	for (let _animate of rectanchoredtext.Animates) {
 		rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates.push(_animate.ID)
@@ -112,6 +107,11 @@ export function CopyRectAnchoredTextAPIToRectAnchoredText(rectanchoredtextAPI: R
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates)) {
+		console.error('Rects is not an array:', rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates);
+		return;
+	}
+
 	rectanchoredtext.Animates = new Array<Animate>()
 	for (let _id of rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)

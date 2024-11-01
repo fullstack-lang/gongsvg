@@ -54,11 +54,6 @@ export function CopyPolylineToPolylineAPI(polyline: Polyline, polylineAPI: Polyl
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	if (!Array.isArray(polylineAPI.PolylinePointersEncoding.Animates)) {
-		console.error('Rects is not an array:', polylineAPI.PolylinePointersEncoding.Animates);
-		return;
-	}
-
 	polylineAPI.PolylinePointersEncoding.Animates = []
 	for (let _animate of polyline.Animates) {
 		polylineAPI.PolylinePointersEncoding.Animates.push(_animate.ID)
@@ -91,6 +86,11 @@ export function CopyPolylineAPIToPolyline(polylineAPI: PolylineAPI, polyline: Po
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(polylineAPI.PolylinePointersEncoding.Animates)) {
+		console.error('Rects is not an array:', polylineAPI.PolylinePointersEncoding.Animates);
+		return;
+	}
+
 	polyline.Animates = new Array<Animate>()
 	for (let _id of polylineAPI.PolylinePointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)

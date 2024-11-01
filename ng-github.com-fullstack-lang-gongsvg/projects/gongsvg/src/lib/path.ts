@@ -54,11 +54,6 @@ export function CopyPathToPathAPI(path: Path, pathAPI: PathAPI) {
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	if (!Array.isArray(pathAPI.PathPointersEncoding.Animates)) {
-		console.error('Rects is not an array:', pathAPI.PathPointersEncoding.Animates);
-		return;
-	}
-
 	pathAPI.PathPointersEncoding.Animates = []
 	for (let _animate of path.Animates) {
 		pathAPI.PathPointersEncoding.Animates.push(_animate.ID)
@@ -91,6 +86,11 @@ export function CopyPathAPIToPath(pathAPI: PathAPI, path: Path, frontRepo: Front
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(pathAPI.PathPointersEncoding.Animates)) {
+		console.error('Rects is not an array:', pathAPI.PathPointersEncoding.Animates);
+		return;
+	}
+
 	path.Animates = new Array<Animate>()
 	for (let _id of pathAPI.PathPointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)

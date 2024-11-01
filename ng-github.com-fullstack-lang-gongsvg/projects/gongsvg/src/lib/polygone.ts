@@ -54,6 +54,11 @@ export function CopyPolygoneToPolygoneAPI(polygone: Polygone, polygoneAPI: Polyg
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(polygoneAPI.PolygonePointersEncoding.Animates)) {
+		console.error('Rects is not an array:', polygoneAPI.PolygonePointersEncoding.Animates);
+		return;
+	}
+
 	polygoneAPI.PolygonePointersEncoding.Animates = []
 	for (let _animate of polygone.Animates) {
 		polygoneAPI.PolygonePointersEncoding.Animates.push(_animate.ID)

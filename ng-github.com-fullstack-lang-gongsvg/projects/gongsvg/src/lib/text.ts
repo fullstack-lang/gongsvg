@@ -58,6 +58,11 @@ export function CopyTextToTextAPI(text: Text, textAPI: TextAPI) {
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(textAPI.TextPointersEncoding.Animates)) {
+		console.error('Rects is not an array:', textAPI.TextPointersEncoding.Animates);
+		return;
+	}
+
 	textAPI.TextPointersEncoding.Animates = []
 	for (let _animate of text.Animates) {
 		textAPI.TextPointersEncoding.Animates.push(_animate.ID)

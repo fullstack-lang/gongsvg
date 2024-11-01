@@ -54,6 +54,11 @@ export function CopyPathToPathAPI(path: Path, pathAPI: PathAPI) {
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(pathAPI.PathPointersEncoding.Animates)) {
+		console.error('Rects is not an array:', pathAPI.PathPointersEncoding.Animates);
+		return;
+	}
+
 	pathAPI.PathPointersEncoding.Animates = []
 	for (let _animate of path.Animates) {
 		pathAPI.PathPointersEncoding.Animates.push(_animate.ID)

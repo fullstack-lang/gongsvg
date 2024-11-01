@@ -64,6 +64,11 @@ export function CopyLineToLineAPI(line: Line, lineAPI: LineAPI) {
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(lineAPI.LinePointersEncoding.Animates)) {
+		console.error('Rects is not an array:', lineAPI.LinePointersEncoding.Animates);
+		return;
+	}
+
 	lineAPI.LinePointersEncoding.Animates = []
 	for (let _animate of line.Animates) {
 		lineAPI.LinePointersEncoding.Animates.push(_animate.ID)

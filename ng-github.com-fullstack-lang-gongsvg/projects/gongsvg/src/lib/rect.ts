@@ -94,9 +94,19 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(rectAPI.RectPointersEncoding.Animations)) {
+		console.error('Rects is not an array:', rectAPI.RectPointersEncoding.Animations);
+		return;
+	}
+
 	rectAPI.RectPointersEncoding.Animations = []
 	for (let _animate of rect.Animations) {
 		rectAPI.RectPointersEncoding.Animations.push(_animate.ID)
+	}
+
+	if (!Array.isArray(rectAPI.RectPointersEncoding.RectAnchoredTexts)) {
+		console.error('Rects is not an array:', rectAPI.RectPointersEncoding.RectAnchoredTexts);
+		return;
 	}
 
 	rectAPI.RectPointersEncoding.RectAnchoredTexts = []
@@ -104,9 +114,19 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 		rectAPI.RectPointersEncoding.RectAnchoredTexts.push(_rectanchoredtext.ID)
 	}
 
+	if (!Array.isArray(rectAPI.RectPointersEncoding.RectAnchoredRects)) {
+		console.error('Rects is not an array:', rectAPI.RectPointersEncoding.RectAnchoredRects);
+		return;
+	}
+
 	rectAPI.RectPointersEncoding.RectAnchoredRects = []
 	for (let _rectanchoredrect of rect.RectAnchoredRects) {
 		rectAPI.RectPointersEncoding.RectAnchoredRects.push(_rectanchoredrect.ID)
+	}
+
+	if (!Array.isArray(rectAPI.RectPointersEncoding.RectAnchoredPaths)) {
+		console.error('Rects is not an array:', rectAPI.RectPointersEncoding.RectAnchoredPaths);
+		return;
 	}
 
 	rectAPI.RectPointersEncoding.RectAnchoredPaths = []

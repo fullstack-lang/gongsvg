@@ -59,6 +59,11 @@ export function CopySVGToSVGAPI(svg: SVG, svgAPI: SVGAPI) {
 
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(svgAPI.SVGPointersEncoding.Layers)) {
+		console.error('Rects is not an array:', svgAPI.SVGPointersEncoding.Layers);
+		return;
+	}
+
 	svgAPI.SVGPointersEncoding.Layers = []
 	for (let _layer of svg.Layers) {
 		svgAPI.SVGPointersEncoding.Layers.push(_layer.ID)

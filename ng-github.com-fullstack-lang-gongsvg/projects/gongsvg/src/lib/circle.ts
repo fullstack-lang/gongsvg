@@ -58,6 +58,11 @@ export function CopyCircleToCircleAPI(circle: Circle, circleAPI: CircleAPI) {
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(circleAPI.CirclePointersEncoding.Animations)) {
+		console.error('Rects is not an array:', circleAPI.CirclePointersEncoding.Animations);
+		return;
+	}
+
 	circleAPI.CirclePointersEncoding.Animations = []
 	for (let _animate of circle.Animations) {
 		circleAPI.CirclePointersEncoding.Animations.push(_animate.ID)

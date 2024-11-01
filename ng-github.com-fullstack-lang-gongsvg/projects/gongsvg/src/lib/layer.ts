@@ -56,9 +56,19 @@ export function CopyLayerToLayerAPI(layer: Layer, layerAPI: LayerAPI) {
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Rects)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Rects);
+		return;
+	}
+
 	layerAPI.LayerPointersEncoding.Rects = []
 	for (let _rect of layer.Rects) {
 		layerAPI.LayerPointersEncoding.Rects.push(_rect.ID)
+	}
+
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Texts)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Texts);
+		return;
 	}
 
 	layerAPI.LayerPointersEncoding.Texts = []
@@ -66,9 +76,19 @@ export function CopyLayerToLayerAPI(layer: Layer, layerAPI: LayerAPI) {
 		layerAPI.LayerPointersEncoding.Texts.push(_text.ID)
 	}
 
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Circles)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Circles);
+		return;
+	}
+
 	layerAPI.LayerPointersEncoding.Circles = []
 	for (let _circle of layer.Circles) {
 		layerAPI.LayerPointersEncoding.Circles.push(_circle.ID)
+	}
+
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Lines)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Lines);
+		return;
 	}
 
 	layerAPI.LayerPointersEncoding.Lines = []
@@ -76,9 +96,19 @@ export function CopyLayerToLayerAPI(layer: Layer, layerAPI: LayerAPI) {
 		layerAPI.LayerPointersEncoding.Lines.push(_line.ID)
 	}
 
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Ellipses)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Ellipses);
+		return;
+	}
+
 	layerAPI.LayerPointersEncoding.Ellipses = []
 	for (let _ellipse of layer.Ellipses) {
 		layerAPI.LayerPointersEncoding.Ellipses.push(_ellipse.ID)
+	}
+
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Polylines)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Polylines);
+		return;
 	}
 
 	layerAPI.LayerPointersEncoding.Polylines = []
@@ -86,9 +116,19 @@ export function CopyLayerToLayerAPI(layer: Layer, layerAPI: LayerAPI) {
 		layerAPI.LayerPointersEncoding.Polylines.push(_polyline.ID)
 	}
 
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Polygones)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Polygones);
+		return;
+	}
+
 	layerAPI.LayerPointersEncoding.Polygones = []
 	for (let _polygone of layer.Polygones) {
 		layerAPI.LayerPointersEncoding.Polygones.push(_polygone.ID)
+	}
+
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Paths)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Paths);
+		return;
 	}
 
 	layerAPI.LayerPointersEncoding.Paths = []
@@ -96,9 +136,19 @@ export function CopyLayerToLayerAPI(layer: Layer, layerAPI: LayerAPI) {
 		layerAPI.LayerPointersEncoding.Paths.push(_path.ID)
 	}
 
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Links)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Links);
+		return;
+	}
+
 	layerAPI.LayerPointersEncoding.Links = []
 	for (let _link of layer.Links) {
 		layerAPI.LayerPointersEncoding.Links.push(_link.ID)
+	}
+
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.RectLinkLinks)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.RectLinkLinks);
+		return;
 	}
 
 	layerAPI.LayerPointersEncoding.RectLinkLinks = []

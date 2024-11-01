@@ -60,6 +60,11 @@ export function CopyEllipseToEllipseAPI(ellipse: Ellipse, ellipseAPI: EllipseAPI
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(ellipseAPI.EllipsePointersEncoding.Animates)) {
+		console.error('Rects is not an array:', ellipseAPI.EllipsePointersEncoding.Animates);
+		return;
+	}
+
 	ellipseAPI.EllipsePointersEncoding.Animates = []
 	for (let _animate of ellipse.Animates) {
 		ellipseAPI.EllipsePointersEncoding.Animates.push(_animate.ID)

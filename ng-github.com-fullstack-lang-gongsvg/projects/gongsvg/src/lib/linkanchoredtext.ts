@@ -68,6 +68,11 @@ export function CopyLinkAnchoredTextToLinkAnchoredTextAPI(linkanchoredtext: Link
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(linkanchoredtextAPI.LinkAnchoredTextPointersEncoding.Animates)) {
+		console.error('Rects is not an array:', linkanchoredtextAPI.LinkAnchoredTextPointersEncoding.Animates);
+		return;
+	}
+
 	linkanchoredtextAPI.LinkAnchoredTextPointersEncoding.Animates = []
 	for (let _animate of linkanchoredtext.Animates) {
 		linkanchoredtextAPI.LinkAnchoredTextPointersEncoding.Animates.push(_animate.ID)

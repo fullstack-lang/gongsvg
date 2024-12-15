@@ -10,68 +10,56 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_stage models.StageStruct
 var _ time.Time
 
-// _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
+// Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
-// currently, DocLink renaming is not enabled in gopls
-// the following map are devised to overcome this limitation
-// those maps and the processing code will be eleminated when
-// DocLink renaming will be enabled in gopls
-// [Corresponding Issue](https://github.com/golang/go/issues/57559)
-//
 // When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
 	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
 }
 
-// init might be handy if one want to have the data embedded in the binary
-// but it has to properly reference the _ gateway in the main package
-// func init() {
-// 	_ = __Dummy_time_variable
-// 	InjectionGateway["stage"] = _
-// }
-
-// _ will stage objects of database "stage"
+// function will stage objects
 func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	__Animate__000000_A1 := (&models.Animate{Name: `A1`}).Stage(stage)
-	__Animate__000001_Animate_oppacity := (&models.Animate{Name: `Animate oppacity`}).Stage(stage)
-	__Animate__000002_C1a_animation := (&models.Animate{Name: `C1a animation`}).Stage(stage)
-	__Animate__000003_Move_text := (&models.Animate{Name: `Move text`}).Stage(stage)
+	__Animate__000000_A1 := (&models.Animate{}).Stage(stage)
+	__Animate__000001_Animate_oppacity := (&models.Animate{}).Stage(stage)
+	__Animate__000002_Animate_x1 := (&models.Animate{}).Stage(stage)
+	__Animate__000003_C1a_animation := (&models.Animate{}).Stage(stage)
+	__Animate__000004_Move_text := (&models.Animate{}).Stage(stage)
+	__Animate__000005_animate_x2 := (&models.Animate{}).Stage(stage)
 
-	__Circle__000000_C1a := (&models.Circle{Name: `C1a`}).Stage(stage)
+	__Circle__000000_C1a := (&models.Circle{}).Stage(stage)
 
-	__Ellipse__000000_Ellipse_Example_SVG := (&models.Ellipse{Name: `Ellipse Example SVG`}).Stage(stage)
+	__Ellipse__000000_Ellipse_Example_SVG := (&models.Ellipse{}).Stage(stage)
 
-	__Layer__000000_Default_Layer := (&models.Layer{Name: `Default Layer`}).Stage(stage)
-	__Layer__000001_Test_Layer := (&models.Layer{Name: `Test Layer`}).Stage(stage)
+	__Layer__000000_Default_Layer := (&models.Layer{}).Stage(stage)
+	__Layer__000001_Test_Layer := (&models.Layer{}).Stage(stage)
 
-	__Line__000000_Line := (&models.Line{Name: `Line`}).Stage(stage)
+	__Line__000000_Line := (&models.Line{}).Stage(stage)
 
-	__Path__000000_Path_example := (&models.Path{Name: `Path example`}).Stage(stage)
-	__Path__000001_another_play_shape := (&models.Path{Name: `another play shape`}).Stage(stage)
-	__Path__000002_celebration := (&models.Path{Name: `celebration`}).Stage(stage)
-	__Path__000003_path := (&models.Path{Name: `path`}).Stage(stage)
-	__Path__000004_play_shape := (&models.Path{Name: `play_shape`}).Stage(stage)
+	__Path__000000_Path_example := (&models.Path{}).Stage(stage)
+	__Path__000001_another_play_shape := (&models.Path{}).Stage(stage)
+	__Path__000002_celebration := (&models.Path{}).Stage(stage)
+	__Path__000003_path := (&models.Path{}).Stage(stage)
+	__Path__000004_play_shape := (&models.Path{}).Stage(stage)
 
-	__Polygone__000000_Polygone_example_SVG := (&models.Polygone{Name: `Polygone example SVG`}).Stage(stage)
+	__Polygone__000000_Polygone_example_SVG := (&models.Polygone{}).Stage(stage)
 
-	__Polyline__000000_Polyline_example_SVG := (&models.Polyline{Name: `Polyline example SVG`}).Stage(stage)
+	__Polyline__000000_Polyline_example_SVG := (&models.Polyline{}).Stage(stage)
 
-	__Rect__000000_R1 := (&models.Rect{Name: `R1`}).Stage(stage)
-	__Rect__000001_R2 := (&models.Rect{Name: `R2`}).Stage(stage)
-	__Rect__000002_R3 := (&models.Rect{Name: `R3`}).Stage(stage)
-	__Rect__000003_R4_rounded := (&models.Rect{Name: `R4 rounded`}).Stage(stage)
-	__Rect__000004_Test_Rect := (&models.Rect{Name: `Test Rect`}).Stage(stage)
+	__Rect__000000_R1 := (&models.Rect{}).Stage(stage)
+	__Rect__000001_R2 := (&models.Rect{}).Stage(stage)
+	__Rect__000002_R3 := (&models.Rect{}).Stage(stage)
+	__Rect__000003_R4_rounded := (&models.Rect{}).Stage(stage)
+	__Rect__000004_Test_Rect := (&models.Rect{}).Stage(stage)
 
-	__SVG__000000_SVG := (&models.SVG{Name: `SVG`}).Stage(stage)
+	__SVG__000000_SVG := (&models.SVG{}).Stage(stage)
 
-	__Text__000000_Bonjorno := (&models.Text{Name: `Bonjorno`}).Stage(stage)
-	__Text__000001_Hello := (&models.Text{Name: `Hello`}).Stage(stage)
+	__Text__000000_Bonjorno := (&models.Text{}).Stage(stage)
+	__Text__000001_Hello := (&models.Text{}).Stage(stage)
 
 	// Setup of values
 
@@ -87,17 +75,29 @@ func _(stage *models.StageStruct) {
 	__Animate__000001_Animate_oppacity.Dur = `5s`
 	__Animate__000001_Animate_oppacity.RepeatCount = `indefinite`
 
-	__Animate__000002_C1a_animation.Name = `C1a animation`
-	__Animate__000002_C1a_animation.AttributeName = `r`
-	__Animate__000002_C1a_animation.Values = `50;150;50`
-	__Animate__000002_C1a_animation.Dur = `4s`
-	__Animate__000002_C1a_animation.RepeatCount = `indefinite`
+	__Animate__000002_Animate_x1.Name = `Animate x1`
+	__Animate__000002_Animate_x1.AttributeName = `x1`
+	__Animate__000002_Animate_x1.Values = `100;200;100`
+	__Animate__000002_Animate_x1.Dur = `6s`
+	__Animate__000002_Animate_x1.RepeatCount = `indefinite`
 
-	__Animate__000003_Move_text.Name = `Move text`
-	__Animate__000003_Move_text.AttributeName = `x`
-	__Animate__000003_Move_text.Values = `30;100;30`
-	__Animate__000003_Move_text.Dur = `4s`
-	__Animate__000003_Move_text.RepeatCount = `indefinite`
+	__Animate__000003_C1a_animation.Name = `C1a animation`
+	__Animate__000003_C1a_animation.AttributeName = `r`
+	__Animate__000003_C1a_animation.Values = `50;150;100`
+	__Animate__000003_C1a_animation.Dur = `4s`
+	__Animate__000003_C1a_animation.RepeatCount = `indefinite`
+
+	__Animate__000004_Move_text.Name = `Move text`
+	__Animate__000004_Move_text.AttributeName = `x`
+	__Animate__000004_Move_text.Values = `30;100;30`
+	__Animate__000004_Move_text.Dur = `4s`
+	__Animate__000004_Move_text.RepeatCount = `indefinite`
+
+	__Animate__000005_animate_x2.Name = `animate x2`
+	__Animate__000005_animate_x2.AttributeName = `x2`
+	__Animate__000005_animate_x2.Values = `200;250;200`
+	__Animate__000005_animate_x2.Dur = `4s`
+	__Animate__000005_animate_x2.RepeatCount = `indefinite`
 
 	__Circle__000000_C1a.Name = `C1a`
 	__Circle__000000_C1a.CX = 350.000000
@@ -133,15 +133,15 @@ func _(stage *models.StageStruct) {
 	__Layer__000001_Test_Layer.Name = `Test Layer`
 
 	__Line__000000_Line.Name = `Line`
-	__Line__000000_Line.X1 = 30.000000
+	__Line__000000_Line.X1 = 300.000000
 	__Line__000000_Line.Y1 = 100.000000
-	__Line__000000_Line.X2 = 80.000000
+	__Line__000000_Line.X2 = 380.000000
 	__Line__000000_Line.Y2 = 300.000000
 	__Line__000000_Line.Color = `red`
 	__Line__000000_Line.FillOpacity = 1.000000
 	__Line__000000_Line.Stroke = `red`
-	__Line__000000_Line.StrokeOpacity = 0.000000
-	__Line__000000_Line.StrokeWidth = 1.000000
+	__Line__000000_Line.StrokeOpacity = 1.000000
+	__Line__000000_Line.StrokeWidth = 5.000000
 	__Line__000000_Line.StrokeDashArray = ``
 	__Line__000000_Line.StrokeDashArrayWhenSelected = ``
 	__Line__000000_Line.Transform = ``
@@ -268,7 +268,7 @@ func _(stage *models.StageStruct) {
 	__Rect__000001_R2.StrokeDashArrayWhenSelected = ``
 	__Rect__000001_R2.Transform = ``
 	__Rect__000001_R2.IsSelectable = false
-	__Rect__000001_R2.IsSelected = false
+	__Rect__000001_R2.IsSelected = true
 	__Rect__000001_R2.CanHaveLeftHandle = false
 	__Rect__000001_R2.HasLeftHandle = false
 	__Rect__000001_R2.CanHaveRightHandle = false
@@ -352,7 +352,7 @@ func _(stage *models.StageStruct) {
 	__Rect__000004_Test_Rect.StrokeDashArrayWhenSelected = ``
 	__Rect__000004_Test_Rect.Transform = ``
 	__Rect__000004_Test_Rect.IsSelectable = false
-	__Rect__000004_Test_Rect.IsSelected = true
+	__Rect__000004_Test_Rect.IsSelected = false
 	__Rect__000004_Test_Rect.CanHaveLeftHandle = false
 	__Rect__000004_Test_Rect.HasLeftHandle = false
 	__Rect__000004_Test_Rect.CanHaveRightHandle = false
@@ -395,7 +395,7 @@ func _(stage *models.StageStruct) {
 	__Text__000001_Hello.Transform = ``
 
 	// Setup of pointers
-	__Circle__000000_C1a.Animations = append(__Circle__000000_C1a.Animations, __Animate__000002_C1a_animation)
+	__Circle__000000_C1a.Animations = append(__Circle__000000_C1a.Animations, __Animate__000003_C1a_animation)
 	__Layer__000000_Default_Layer.Rects = append(__Layer__000000_Default_Layer.Rects, __Rect__000002_R3)
 	__Layer__000000_Default_Layer.Rects = append(__Layer__000000_Default_Layer.Rects, __Rect__000003_R4_rounded)
 	__Layer__000000_Default_Layer.Rects = append(__Layer__000000_Default_Layer.Rects, __Rect__000004_Test_Rect)
@@ -411,11 +411,11 @@ func _(stage *models.StageStruct) {
 	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000002_celebration)
 	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000004_play_shape)
 	__Layer__000001_Test_Layer.Paths = append(__Layer__000001_Test_Layer.Paths, __Path__000001_another_play_shape)
+	__Line__000000_Line.Animates = append(__Line__000000_Line.Animates, __Animate__000002_Animate_x1)
+	__Line__000000_Line.Animates = append(__Line__000000_Line.Animates, __Animate__000005_animate_x2)
 	__Rect__000003_R4_rounded.Animations = append(__Rect__000003_R4_rounded.Animations, __Animate__000000_A1)
 	__Rect__000003_R4_rounded.Animations = append(__Rect__000003_R4_rounded.Animations, __Animate__000001_Animate_oppacity)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Default_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Test_Layer)
-	__Text__000001_Hello.Animates = append(__Text__000001_Hello.Animates, __Animate__000003_Move_text)
+	__Text__000001_Hello.Animates = append(__Text__000001_Hello.Animates, __Animate__000004_Move_text)
 }
-
-

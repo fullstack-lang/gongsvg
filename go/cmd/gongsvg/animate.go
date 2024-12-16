@@ -39,13 +39,17 @@ func _(stage *models.StageStruct) {
 
 	__Animate__000000_move_x1.Name = `move x1`
 	__Animate__000000_move_x1.AttributeName = `x1`
-	__Animate__000000_move_x1.Values = `50;600`
+	__Animate__000000_move_x1.Values = ``
+	__Animate__000000_move_x1.From = `50`
+	__Animate__000000_move_x1.To = `600`
 	__Animate__000000_move_x1.Dur = `5s`
 	__Animate__000000_move_x1.RepeatCount = `indefinite`
 
 	__Animate__000001_move_x2.Name = `move x2`
 	__Animate__000001_move_x2.AttributeName = `x2`
 	__Animate__000001_move_x2.Values = `50;600`
+	__Animate__000001_move_x2.From = ``
+	__Animate__000001_move_x2.To = ``
 	__Animate__000001_move_x2.Dur = `5s`
 	__Animate__000001_move_x2.RepeatCount = `indefinite`
 

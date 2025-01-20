@@ -12,7 +12,7 @@ import (
 // if there are no elements in the stage to marshall
 var _ time.Time
 
-// Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
+// _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
 // When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
@@ -73,6 +73,8 @@ func _(stage *models.StageStruct) {
 	__Animate__000000_.Name = ``
 	__Animate__000000_.AttributeName = ``
 	__Animate__000000_.Values = ``
+	__Animate__000000_.From = ``
+	__Animate__000000_.To = ``
 	__Animate__000000_.Dur = ``
 	__Animate__000000_.RepeatCount = ``
 
@@ -132,7 +134,7 @@ func _(stage *models.StageStruct) {
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartRatio = 0.740216
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndRatio = 0.659649
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -1.725738
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerOffsetRatio = -1.556962
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000

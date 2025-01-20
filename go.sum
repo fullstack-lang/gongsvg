@@ -19,10 +19,10 @@ github.com/fullstack-lang/gong v0.0.0-20241109111535-bbfb41b7cac2 h1:NwVsTQrfebA
 github.com/fullstack-lang/gong v0.0.0-20241109111535-bbfb41b7cac2/go.mod h1:6I+1fPAJSgMrWZlR5r6N0AfwOvM4czB0sDQ470YcYjw=
 github.com/fullstack-lang/gongdoc v0.0.0-20241109111535-aa1796f001aa h1:L4ipPSxafScPZoAv+jNoxkEmv1lZ4IVwzi38L5iAg9Q=
 github.com/fullstack-lang/gongdoc v0.0.0-20241109111535-aa1796f001aa/go.mod h1:MMW0qPyh49i4ycPU57VFNiOvdsU/88LsFKyieeAm/RY=
-github.com/fullstack-lang/gongtable v0.0.0-20241109111536-c8032ca0d89a h1:Ow+nXDpRcythCTspPdoF5h2XYflHoowwWKLwl0ycBqA=
-github.com/fullstack-lang/gongtable v0.0.0-20241109111536-c8032ca0d89a/go.mod h1:Vo2ge+AYzIn7SjZjwXMntMX7vP61YrnMqBwxemAvjGQ=
-github.com/fullstack-lang/gongtree v0.0.0-20241109111537-49632f43fd28 h1:t7uM54CIwo9VlVpH2biT6SNZTksRwYMxAsGoN60RJ8I=
-github.com/fullstack-lang/gongtree v0.0.0-20241109111537-49632f43fd28/go.mod h1:k0AYONwP/JVMrrgINed5ebK1NrhHt4Nnq6UBK58kb88=
+github.com/fullstack-lang/gongtable v0.0.0-20241118055028-9c52bae3338d h1:u0usoQkHOQ7emoTniErMOZS8ZX2c4AOAOiwNAD//poU=
+github.com/fullstack-lang/gongtable v0.0.0-20241118055028-9c52bae3338d/go.mod h1:BlblJqx/9ttatp8huzgZvUjXSGduFMsqY/7SeEk4/lU=
+github.com/fullstack-lang/gongtree v0.0.0-20241130070052-003d6e0482ce h1:e01FmOlLBeDyFQP7rweVOBUDYYM61a3fG5nUs6jQpxk=
+github.com/fullstack-lang/gongtree v0.0.0-20241130070052-003d6e0482ce/go.mod h1:AwJau9+cqiWS8HQLS8vAe4c4XdzSPDOs44RbvalRSCQ=
 github.com/fullstack-lang/maticons v0.0.0-20240913013021-27a7b8fd9369 h1:tnlpjk07ksmzjPSoMBZ8FW088WI1VdnJ5d/lbNUHqBw=
 github.com/fullstack-lang/maticons v0.0.0-20240913013021-27a7b8fd9369/go.mod h1:kgbZUObfs2TDNCGjvgb/hL/3cZz9jWeKE7yhQ1V7GJI=
 github.com/gabriel-vasile/mimetype v1.4.6 h1:3+PzJTKLkvgjeTbts6msPJt4DixhT4YtFNf1gtGe3zc=

@@ -12,7 +12,7 @@ import (
 // if there are no elements in the stage to marshall
 var _ time.Time
 
-// _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
+// Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
 // When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
@@ -175,8 +175,8 @@ func _(stage *models.StageStruct) {
 	__LinkAnchoredText__000000_End_Left_Top.Content = `End Left/Top`
 	__LinkAnchoredText__000000_End_Left_Top.AutomaticLayout = true
 	__LinkAnchoredText__000000_End_Left_Top.LinkAnchorType = models.LINK_LEFT_OR_TOP
-	__LinkAnchoredText__000000_End_Left_Top.X_Offset = -141.000000
-	__LinkAnchoredText__000000_End_Left_Top.Y_Offset = 29.000000
+	__LinkAnchoredText__000000_End_Left_Top.X_Offset = -40.000000
+	__LinkAnchoredText__000000_End_Left_Top.Y_Offset = 0.000000
 	__LinkAnchoredText__000000_End_Left_Top.FontWeight = `normal`
 	__LinkAnchoredText__000000_End_Left_Top.FontSize = ``
 	__LinkAnchoredText__000000_End_Left_Top.LetterSpacing = ``
@@ -194,7 +194,7 @@ func _(stage *models.StageStruct) {
 	__LinkAnchoredText__000001_End_Right_Bottom.AutomaticLayout = true
 	__LinkAnchoredText__000001_End_Right_Bottom.LinkAnchorType = models.LINK_RIGHT_OR_BOTTOM
 	__LinkAnchoredText__000001_End_Right_Bottom.X_Offset = 0.000000
-	__LinkAnchoredText__000001_End_Right_Bottom.Y_Offset = 0.000000
+	__LinkAnchoredText__000001_End_Right_Bottom.Y_Offset = 20.000000
 	__LinkAnchoredText__000001_End_Right_Bottom.FontWeight = `normal`
 	__LinkAnchoredText__000001_End_Right_Bottom.FontSize = ``
 	__LinkAnchoredText__000001_End_Right_Bottom.LetterSpacing = ``

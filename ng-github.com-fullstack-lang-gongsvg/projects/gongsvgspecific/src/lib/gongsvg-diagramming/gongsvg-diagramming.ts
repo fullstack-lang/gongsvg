@@ -946,4 +946,22 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
 
     return coordinate
   }
+
+  downloadSVG() {
+    const svgElement = this.svgContainer.nativeElement;
+    const serializer = new XMLSerializer();
+    const svgData = serializer.serializeToString(svgElement);
+
+    const blob = new Blob([svgData], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'my-svg.svg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
 }

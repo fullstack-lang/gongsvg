@@ -1,5 +1,4 @@
 export function processSVG(svgString: string): string {
-    // Parse the SVG string into a DOM document
     const parser = new DOMParser();
     const doc = parser.parseFromString(svgString, "image/svg+xml");
     const svg = doc.documentElement;
@@ -23,7 +22,34 @@ export function processSVG(svgString: string): string {
   
     // Process each element to find boundaries
     for (const element of elements) {
-      // Get element's bounding box if available
+      // Special handling for rect elements
+      if (element.tagName.toLowerCase() === 'rect') {
+        const x = parseFloat(element.getAttribute('x') || '0');
+        const y = parseFloat(element.getAttribute('y') || '0');
+        const width = parseFloat(element.getAttribute('width') || '0');
+        const height = parseFloat(element.getAttribute('height') || '0');
+        const rx = parseFloat(element.getAttribute('rx') || '0');
+  
+        // Consider transform attributes
+        const transform = element.getAttribute('transform');
+        let tx = 0, ty = 0;
+        
+        if (transform) {
+          const match = transform.match(/translate\(([-\d.]+)\s*([-\d.]+)?\)/);
+          if (match) {
+            tx = parseFloat(match[1]) || 0;
+            ty = parseFloat(match[2]) || 0;
+          }
+        }
+  
+        minX = Math.min(minX, x + tx);
+        minY = Math.min(minY, y + ty);
+        maxX = Math.max(maxX, x + width + tx);
+        maxY = Math.max(maxY, y + height + ty);
+        continue;
+      }
+  
+      // Handle other SVG elements
       try {
         const bbox = (element as SVGGraphicsElement).getBBox?.();
         if (bbox) {
@@ -39,7 +65,6 @@ export function processSVG(svgString: string): string {
             }
           }
   
-          // Update boundaries considering transforms
           minX = Math.min(minX, bbox.x + tx);
           minY = Math.min(minY, bbox.y + ty);
           maxX = Math.max(maxX, bbox.x + bbox.width + tx);
@@ -47,7 +72,6 @@ export function processSVG(svgString: string): string {
         }
       } catch (e) {
         // Some elements might not support getBBox
-        console.warn('Unable to get bounding box for element:', element);
       }
   
       // Handle explicit coordinates for elements like lines
@@ -66,6 +90,29 @@ export function processSVG(svgString: string): string {
           maxY = Math.max(maxY, val);
         }
       });
+  
+      // Handle path elements
+      if (element.tagName.toLowerCase() === 'path') {
+        const d = element.getAttribute('d');
+        if (d) {
+          // Split path into commands
+          const commands = d.match(/[MmLlHhVvCcSsQqTtAaZz][^MmLlHhVvCcSsQqTtAaZz]*/g) || [];
+          for (const cmd of commands) {
+            // Extract numbers from command
+            const numbers = cmd.slice(1).trim().split(/[\s,]+/).map(parseFloat);
+            for (let i = 0; i < numbers.length; i += 2) {
+              if (!isNaN(numbers[i])) {
+                minX = Math.min(minX, numbers[i]);
+                maxX = Math.max(maxX, numbers[i]);
+              }
+              if (!isNaN(numbers[i + 1])) {
+                minY = Math.min(minY, numbers[i + 1]);
+                maxY = Math.max(maxY, numbers[i + 1]);
+              }
+            }
+          }
+        }
+      }
     }
   
     // Add padding

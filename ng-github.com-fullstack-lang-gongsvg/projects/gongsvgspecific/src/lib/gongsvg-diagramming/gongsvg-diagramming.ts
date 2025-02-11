@@ -957,7 +957,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
 
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'my-svg.svg';
+    link.download = this.svg.Name;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

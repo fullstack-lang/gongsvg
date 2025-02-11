@@ -18,7 +18,6 @@ import { TreeComponent } from '@vendored_components/github.com/fullstack-lang/go
 import { MaterialTableComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-table/material-table.component';
 import { MaterialFormComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-form/material-form.component';
 import * as gongtable from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtable/src/public-api';
-import { PanelComponent } from '@vendored_components/github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc/projects/gongdocspecific/src/public-api'
 
 
 @Component({
@@ -37,7 +36,6 @@ import { PanelComponent } from '@vendored_components/github.com/fullstack-lang/g
     TreeComponent,
     MaterialTableComponent,
     MaterialFormComponent,
-    PanelComponent,
 
     GongsvgDiagrammingComponent,
 

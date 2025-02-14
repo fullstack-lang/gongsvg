@@ -33,7 +33,7 @@ import { auto_Y_offset } from './auto-y-offset';
 import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
 import { LinkSegmentsPipe } from '../link-segments.pipe'
 
-import { processSVG } from '../cleanandresizesvg'
+import { formatSVG, processSVG } from '../cleanandresizesvg'
 
 @Component({
   selector: 'lib-gongsvg-diagramming',
@@ -53,7 +53,7 @@ import { processSVG } from '../cleanandresizesvg'
 })
 export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  @ViewChild('svgContainer', { static: true }) 
+  @ViewChild('svgContainer', { static: true })
   private svgContainer!: ElementRef<SVGSVGElement>
 
   @Input() GONG__StackPath: string = ""
@@ -319,7 +319,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
 
   private resetAnimationsProgrammatically() {
     const allAnimateElements = this.svgContainer.nativeElement.querySelectorAll('animate');
-    
+
     allAnimateElements.forEach((animateEl: SVGAnimateElement) => {
 
       console.log("animate modif")
@@ -327,7 +327,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
       const parentElement = animateEl.parentElement;
       const attributeName = animateEl.getAttribute('attributeName');
       const fromValue = animateEl.getAttribute('from');
-      
+
       if (parentElement && attributeName && fromValue) {
         // Reset to initial value
         parentElement.setAttribute(attributeName, fromValue);
@@ -958,13 +958,14 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     let withoutComments = svgData.replace(/<!--[\s\S]*?-->/g, '')
 
     let res = withoutComments.replace(/<!--[\s\S]*?-->/g, '')
-    // Remove Angular generated attributes (including the equals and quotes)
-    .replace(/\s+_ngcontent-[^="]*=""/g, '')
-    .replace(/\s+_nghost-[^="]*=""/g, '');
+      // Remove Angular generated attributes (including the equals and quotes)
+      .replace(/\s+_ngcontent-[^="]*=""/g, '')
+      .replace(/\s+_nghost-[^="]*=""/g, '');
 
 
-    let svgData2 = processSVG(res)
-    const blob = new Blob([svgData2], { type: 'image/svg+xml' });
+    let svg2 = processSVG(res)
+    let svg3 = formatSVG(svg2)
+    const blob = new Blob([svg3], { type: 'image/svg+xml' });
     const url = URL.createObjectURL(blob);
 
     const link = document.createElement('a');

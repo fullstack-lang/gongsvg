@@ -22,6 +22,12 @@ line.moveable-line[segment-orientation='vertical'] {
     cursor: move;
 }
 
-.hit-area {
-    cursor: move; /* or whatever cursor you want */
+
+
+line.hit-area[segment-orientation='horizontal'] {
+    cursor: ns-resize;
+}
+
+line.hit-area[segment-orientation='vertical'] {
+    cursor: ew-resize;
 }

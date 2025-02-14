@@ -425,7 +425,10 @@
                                 [attr.y1]="segment.StartPoint.Y" 
                                 [attr.x2]="segment.EndPoint.X" 
                                 [attr.y2]="segment.EndPoint.Y"
-                                [attr.stroke]="'transparent'"  [attr.stroke-width]="link.StrokeWidth + 10"  (mousedown)="linkMouseDown($event, segment.Number, link)" 
+                                [attr.stroke]="'transparent'"  
+                                [attr.stroke-width]="link.StrokeWidth + 10" 
+                                [attr.segment-orientation]="getOrientation(segment)" 
+                                (mousedown)="linkMouseDown($event, segment.Number, link)" 
                                 (mousemove)="onmousemove($event)" 
                                 (mouseup)="linkMouseUp($event, link)" />
                             </g>

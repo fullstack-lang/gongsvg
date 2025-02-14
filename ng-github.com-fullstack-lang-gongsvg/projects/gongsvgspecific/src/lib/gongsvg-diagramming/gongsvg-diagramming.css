@@ -21,3 +21,7 @@ line.moveable-line[segment-orientation='vertical'] {
 .movable-text {
     cursor: move;
 }
+
+.hit-area {
+    cursor: move; /* or whatever cursor you want */
+}

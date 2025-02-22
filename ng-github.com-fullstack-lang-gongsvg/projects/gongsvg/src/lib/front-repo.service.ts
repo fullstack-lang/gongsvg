@@ -72,6 +72,10 @@ import { SVGAPI } from './svg-api'
 import { SVG, CopySVGAPIToSVG } from './svg'
 import { SVGService } from './svg.service'
 
+import { SvgTextAPI } from './svgtext-api'
+import { SvgText, CopySvgTextAPIToSvgText } from './svgtext'
+import { SvgTextService } from './svgtext.service'
+
 import { TextAPI } from './text-api'
 import { Text, CopyTextAPIToText } from './text'
 import { TextService } from './text.service'
@@ -134,6 +138,9 @@ export class FrontRepo { // insertion point sub template
 	array_SVGs = new Array<SVG>() // array of front instances
 	map_ID_SVG = new Map<number, SVG>() // map of front instances
 
+	array_SvgTexts = new Array<SvgText>() // array of front instances
+	map_ID_SvgText = new Map<number, SvgText>() // map of front instances
+
 	array_Texts = new Array<Text>() // array of front instances
 	map_ID_Text = new Map<number, Text>() // map of front instances
 
@@ -180,6 +187,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_RectLinkLinks as unknown as Array<Type>
 			case 'SVG':
 				return this.array_SVGs as unknown as Array<Type>
+			case 'SvgText':
+				return this.array_SvgTexts as unknown as Array<Type>
 			case 'Text':
 				return this.array_Texts as unknown as Array<Type>
 			default:
@@ -224,6 +233,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_RectLinkLink as unknown as Map<number, Type>
 			case 'SVG':
 				return this.map_ID_SVG as unknown as Map<number, Type>
+			case 'SvgText':
+				return this.map_ID_SvgText as unknown as Map<number, Type>
 			case 'Text':
 				return this.map_ID_Text as unknown as Map<number, Type>
 			default:
@@ -310,6 +321,7 @@ export class FrontRepoService {
 		private rectanchoredtextService: RectAnchoredTextService,
 		private rectlinklinkService: RectLinkLinkService,
 		private svgService: SVGService,
+		private svgtextService: SvgTextService,
 		private textService: TextService,
 	) { }
 
@@ -360,6 +372,7 @@ export class FrontRepoService {
 		Observable<RectAnchoredTextAPI[]>,
 		Observable<RectLinkLinkAPI[]>,
 		Observable<SVGAPI[]>,
+		Observable<SvgTextAPI[]>,
 		Observable<TextAPI[]>,
 	] = [
 			// Using "combineLatest" with a placeholder observable.
@@ -388,6 +401,7 @@ export class FrontRepoService {
 			this.rectanchoredtextService.getRectAnchoredTexts(this.GONG__StackPath, this.frontRepo),
 			this.rectlinklinkService.getRectLinkLinks(this.GONG__StackPath, this.frontRepo),
 			this.svgService.getSVGs(this.GONG__StackPath, this.frontRepo),
+			this.svgtextService.getSvgTexts(this.GONG__StackPath, this.frontRepo),
 			this.textService.getTexts(this.GONG__StackPath, this.frontRepo),
 		];
 
@@ -421,6 +435,7 @@ export class FrontRepoService {
 			this.rectanchoredtextService.getRectAnchoredTexts(this.GONG__StackPath, this.frontRepo),
 			this.rectlinklinkService.getRectLinkLinks(this.GONG__StackPath, this.frontRepo),
 			this.svgService.getSVGs(this.GONG__StackPath, this.frontRepo),
+			this.svgtextService.getSvgTexts(this.GONG__StackPath, this.frontRepo),
 			this.textService.getTexts(this.GONG__StackPath, this.frontRepo),
 		]
 
@@ -449,6 +464,7 @@ export class FrontRepoService {
 						rectanchoredtexts_,
 						rectlinklinks_,
 						svgs_,
+						svgtexts_,
 						texts_,
 					]) => {
 						let _this = this
@@ -488,6 +504,8 @@ export class FrontRepoService {
 						rectlinklinks = rectlinklinks_ as RectLinkLinkAPI[]
 						var svgs: SVGAPI[]
 						svgs = svgs_ as SVGAPI[]
+						var svgtexts: SvgTextAPI[]
+						svgtexts = svgtexts_ as SvgTextAPI[]
 						var texts: TextAPI[]
 						texts = texts_ as TextAPI[]
 
@@ -699,6 +717,18 @@ export class FrontRepoService {
 						)
 
 						// init the arrays
+						this.frontRepo.array_SvgTexts = []
+						this.frontRepo.map_ID_SvgText.clear()
+
+						svgtexts.forEach(
+							svgtextAPI => {
+								let svgtext = new SvgText
+								this.frontRepo.array_SvgTexts.push(svgtext)
+								this.frontRepo.map_ID_SvgText.set(svgtextAPI.ID, svgtext)
+							}
+						)
+
+						// init the arrays
 						this.frontRepo.array_Texts = []
 						this.frontRepo.map_ID_Text.clear()
 
@@ -847,6 +877,14 @@ export class FrontRepoService {
 							svgAPI => {
 								let svg = this.frontRepo.map_ID_SVG.get(svgAPI.ID)
 								CopySVGAPIToSVG(svgAPI, svg!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						svgtexts.forEach(
+							svgtextAPI => {
+								let svgtext = this.frontRepo.map_ID_SvgText.get(svgtextAPI.ID)
+								CopySvgTextAPIToSvgText(svgtextAPI, svgtext!, this.frontRepo)
 							}
 						)
 
@@ -1097,6 +1135,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_SvgTexts = []
+				frontRepo.map_ID_SvgText.clear()
+
+				backRepoData.SvgTextAPIs.forEach(
+					svgtextAPI => {
+						let svgtext = new SvgText
+						frontRepo.array_SvgTexts.push(svgtext)
+						frontRepo.map_ID_SvgText.set(svgtextAPI.ID, svgtext)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Texts = []
 				frontRepo.map_ID_Text.clear()
 
@@ -1251,6 +1301,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.SvgTextAPIs.forEach(
+					svgtextAPI => {
+						let svgtext = frontRepo.map_ID_SvgText.get(svgtextAPI.ID)
+						CopySvgTextAPIToSvgText(svgtextAPI, svgtext!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.TextAPIs.forEach(
 					textAPI => {
 						let text = frontRepo.map_ID_Text.get(textAPI.ID)
@@ -1328,6 +1386,9 @@ export function getRectLinkLinkUniqueID(id: number): number {
 export function getSVGUniqueID(id: number): number {
 	return 103 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getSvgTextUniqueID(id: number): number {
 	return 107 * id
+}
+export function getTextUniqueID(id: number): number {
+	return 109 * id
 }

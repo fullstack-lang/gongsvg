@@ -54,6 +54,8 @@ func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 		fillUpTable[models.RectLinkLink](probe)
 	case *models.SVG:
 		fillUpTable[models.SVG](probe)
+	case *models.SvgText:
+		fillUpTable[models.SvgText](probe)
 	case *models.Text:
 		fillUpTable[models.Text](probe)
 	default:

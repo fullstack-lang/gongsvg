@@ -35,6 +35,8 @@ import { RectLinkLinkAPI } from './rectlinklink-api'
 
 import { SVGAPI } from './svg-api'
 
+import { SvgTextAPI } from './svgtext-api'
+
 import { TextAPI } from './text-api'
 
 
@@ -73,6 +75,8 @@ export class BackRepoData {
 	RectLinkLinkAPIs = new Array<RectLinkLinkAPI>()
 
 	SVGAPIs = new Array<SVGAPI>()
+
+	SvgTextAPIs = new Array<SvgTextAPI>()
 
 	TextAPIs = new Array<TextAPI>()
 
@@ -115,6 +119,8 @@ export class BackRepoData {
 		this.RectLinkLinkAPIs = data?.RectLinkLinkAPIs || [];
 
 		this.SVGAPIs = data?.SVGAPIs || [];
+
+		this.SvgTextAPIs = data?.SvgTextAPIs || [];
 
 		this.TextAPIs = data?.TextAPIs || [];
 

@@ -33,6 +33,7 @@ func SerializeStage(stage *StageStruct, filename string) {
 		SerializeExcelizePointerToGongstruct[*RectAnchoredText](stage, f)
 		SerializeExcelizePointerToGongstruct[*RectLinkLink](stage, f)
 		SerializeExcelizePointerToGongstruct[*SVG](stage, f)
+		SerializeExcelizePointerToGongstruct[*SvgText](stage, f)
 		SerializeExcelizePointerToGongstruct[*Text](stage, f)
 	}
 

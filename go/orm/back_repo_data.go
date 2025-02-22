@@ -38,6 +38,8 @@ type BackRepoData struct {
 
 	SVGAPIs []*SVGAPI
 
+	SvgTextAPIs []*SvgTextAPI
+
 	TextAPIs []*TextAPI
 
 	// index of the web socket for this stack type (unique among all stack instances)
@@ -219,6 +221,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		svgDB.CopyBasicFieldsToSVG_WOP(&svgAPI.SVG_WOP)
 
 		backRepoData.SVGAPIs = append(backRepoData.SVGAPIs, &svgAPI)
+	}
+
+	for _, svgtextDB := range backRepo.BackRepoSvgText.Map_SvgTextDBID_SvgTextDB {
+
+		var svgtextAPI SvgTextAPI
+		svgtextAPI.ID = svgtextDB.ID
+		svgtextAPI.SvgTextPointersEncoding = svgtextDB.SvgTextPointersEncoding
+		svgtextDB.CopyBasicFieldsToSvgText_WOP(&svgtextAPI.SvgText_WOP)
+
+		backRepoData.SvgTextAPIs = append(backRepoData.SvgTextAPIs, &svgtextAPI)
 	}
 
 	for _, textDB := range backRepo.BackRepoText.Map_TextDBID_TextDB {

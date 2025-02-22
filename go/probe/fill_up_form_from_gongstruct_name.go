@@ -246,6 +246,19 @@ func FillUpFormFromGongstructName(
 		svg := new(models.SVG)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(svg, formGroup, probe)
+	case "SvgText":
+		formGroup := (&form.FormGroup{
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: prefix + "SvgText Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SvgTextFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		svgtext := new(models.SvgText)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(svgtext, formGroup, probe)
 	case "Text":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),

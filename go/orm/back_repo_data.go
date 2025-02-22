@@ -39,6 +39,9 @@ type BackRepoData struct {
 	SVGAPIs []*SVGAPI
 
 	TextAPIs []*TextAPI
+
+	// index of the web socket for this stack type (unique among all stack instances)
+	GONG__Index int
 }
 
 func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepoData) {

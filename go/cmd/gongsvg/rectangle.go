@@ -533,6 +533,7 @@ line 3`
 	__SVG__000000_SVG.Name = `SVG`
 	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINK
 	__SVG__000000_SVG.IsEditable = true
+	__SVG__000000_SVG.IsSVGFileGenerated = false
 
 	__Text__000000_Essai.Name = `Essai`
 	__Text__000000_Essai.X = 50.000000

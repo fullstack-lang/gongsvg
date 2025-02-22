@@ -311,6 +311,10 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
         // Manually trigger change detection
         this.changeDetectorRef.detectChanges()
 
+        if (this.svg.IsSVGFileGenerated) {
+          this.downloadSVG()
+        }
+
         console.assert(this.gongsvgFrontRepo?.getFrontArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
           "in promise to front repose servive pull", "gongsvgFrontRepo not good")
       }

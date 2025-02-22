@@ -77,6 +77,8 @@ export class BackRepoData {
 	TextAPIs = new Array<TextAPI>()
 
 
+	// index of the web socket for this stack type (unique among all stack instances)
+	GONG__Index : number
 
 	constructor(data?: Partial<BackRepoData>) {
 		// insertion point for copies
@@ -116,6 +118,7 @@ export class BackRepoData {
 
 		this.TextAPIs = data?.TextAPIs || [];
 
+		this.GONG__Index = data?.GONG__Index ?? -1;   // Assign Index here
 	}
 
 }

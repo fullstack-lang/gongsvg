@@ -2782,7 +2782,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case SVG:
-		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable"}
+		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFileGenerated"}
 	case Text:
 		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	}
@@ -2982,7 +2982,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *SVG:
-		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable"}
+		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFileGenerated"}
 	case *Text:
 		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	}
@@ -3941,6 +3941,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "IsEditable":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsEditable)
 			res.valueBool = inferedInstance.IsEditable
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsSVGFileGenerated":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSVGFileGenerated)
+			res.valueBool = inferedInstance.IsSVGFileGenerated
 			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *Text:
@@ -4913,6 +4917,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "IsEditable":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsEditable)
 			res.valueBool = inferedInstance.IsEditable
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsSVGFileGenerated":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSVGFileGenerated)
+			res.valueBool = inferedInstance.IsSVGFileGenerated
 			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case Text:

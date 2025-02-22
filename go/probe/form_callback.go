@@ -2791,6 +2791,8 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(svg_.EndRect), svgFormCallback.probe.stageOfInterest, formDiv)
 		case "IsEditable":
 			FormDivBasicFieldToField(&(svg_.IsEditable), formDiv)
+		case "IsSVGFileGenerated":
+			FormDivBasicFieldToField(&(svg_.IsSVGFileGenerated), formDiv)
 		}
 	}
 

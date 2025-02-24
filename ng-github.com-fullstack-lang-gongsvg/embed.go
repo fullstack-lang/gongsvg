@@ -1,4 +1,4 @@
-package nggithubcomfullstacklanggongsvg
+package ng
 
 import "embed"
 

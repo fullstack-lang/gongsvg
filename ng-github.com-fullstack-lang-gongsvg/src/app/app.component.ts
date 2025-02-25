@@ -11,7 +11,7 @@ import * as gongsvg from '../../projects/gongsvg/src/public-api'
 
 import { GongsvgDiagrammingComponent } from '../../projects/gongsvgspecific/src/lib/gongsvg-diagramming/gongsvg-diagramming'
 
-import { ISplitDirection } from 'angular-split';
+import { SplitDirection } from 'angular-split';
 import { AngularSplitModule } from 'angular-split';
 
 import { TreeComponent } from '@vendored_components/github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree/projects/gongtreespecific/src/public-api'
@@ -79,7 +79,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  direction: ISplitDirection = 'horizontal'
+  direction: SplitDirection = 'horizontal'
   sizes = {
     percentWithoutWildcards: {
       area1: 30,

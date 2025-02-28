@@ -1,14 +1,8 @@
-<!-- <div>Width: {{ svgWidth}}</div>
-<div>Height: {{ svgHeight }}</div> -->
-
-<!-- (dragend)="backgroundOnDragEnd($event)"
-(click)="backgroundOnClick($event)"
-(dragover)="backgroundDragOver($event)" -->
 <lib-text-width-calculator #textWidthCalculator></lib-text-width-calculator>
 
 <button mat-raised-button color="primary" (click)="downloadSVG()" style="transform: scale(0.5);">Save</button>
 
-<svg #svgContainer [attr.width]="svgWidth" [attr.height]="svgHeight" >
+<svg #svgContainer [attr.width]="svgWidth" [attr.height]="svgHeight">
   <g>
     <!-- this rect is for catching mouse events in the void -->
     <rect
@@ -37,7 +31,7 @@
             [attr.stroke-width]="circle.StrokeWidth" 
             [attr.stroke-dasharray]="circle.StrokeDashArray"
             [attr.transform]="circle.Transform">
-            @for(animate of circle.Animations) {
+            @for(animate of circle.Animations; track animate) {
               <animate 
                 [attr.attributeName]="animate.AttributeName" 
                 [attr.values]="animate.Values" 
@@ -60,7 +54,7 @@
             [attr.stroke-opacity]="ellipse.StrokeOpacity"
             [attr.stroke-width]="ellipse.StrokeWidth"
             [attr.stroke-dasharray]="ellipse.StrokeDashArray" />
-          @for(animate of ellipse.Animates) {
+          @for(animate of ellipse.Animates; track animate) {
             <animate 
               [attr.attributeName]="animate.AttributeName" 
               [attr.values]="animate.Values" 
@@ -69,7 +63,7 @@
           }
         }
 
-        @for(line of layer.Lines) {
+        @for(line of layer.Lines; track line) {
           <line
             class="click-through"
             [attr.x1]="line.X1"
@@ -83,7 +77,7 @@
             [attr.stroke-width]="line.StrokeWidth"
             [attr.stroke-dasharray]="line.StrokeDashArray"
             [attr.transform]="line.Transform">
-            @for(animate of line.Animates) {
+            @for(animate of line.Animates; track animate) {
               @if(animate.Values != "") {
                 <animate 
                   [attr.attributeName]="animate.AttributeName" 
@@ -104,7 +98,7 @@
           </line>
         }
 
-        @for(text of layer.Texts) {
+        @for(text of layer.Texts; track text) {
           <text
             class="click-through"
             [attr.x]="text.X" 
@@ -118,7 +112,7 @@
             [attr.transform]="text.Transform">{{text.Content}}</text>
         }
 
-        @for(path of layer.Paths) {
+        @for(path of layer.Paths; track path) {
           <path [attr.d]="path.Definition"
             class="click-through"
             [attr.fill]="path.Color"
@@ -128,7 +122,7 @@
             [attr.stroke-width]="path.StrokeWidth"
             [attr.stroke-dasharray]="path.StrokeDashArray"
             [attr.transform]="path.Transform" />
-          @for(animate of path.Animates) {
+          @for(animate of path.Animates; track animate) {
             <animate 
               [attr.attributeName]="animate.AttributeName" 
               [attr.values]="animate.Values" 
@@ -137,7 +131,7 @@
           }
         }
 
-        @for(polygone of layer.Polygones) {
+        @for(polygone of layer.Polygones; track polygone) {
           <polygon 
             class="click-through"
             [attr.points]="polygone.Points"
@@ -147,7 +141,7 @@
             [attr.stroke-opacity]="polygone.StrokeOpacity"
             [attr.stroke-width]="polygone.StrokeWidth"
             [attr.stroke-dasharray]="polygone.StrokeDashArray" />
-          @for(animate of polygone.Animates) {
+          @for(animate of polygone.Animates; track animate) {
             <animate 
               [attr.attributeName]="animate.AttributeName" 
               [attr.values]="animate.Values" 
@@ -156,7 +150,7 @@
           }
         }
 
-        @for(polyline of layer.Polylines) {
+        @for(polyline of layer.Polylines; track polyline) {
           <polyline 
             class="click-through"
             [attr.points]="polyline.Points"
@@ -167,7 +161,7 @@
             [attr.stroke-width]="polyline.StrokeWidth"
             [attr.stroke-dasharray]="polyline.StrokeDashArray"
           />
-          @for(animate of polyline.Animates) {
+          @for(animate of polyline.Animates; track animate) {
             <animate 
               [attr.attributeName]="animate.AttributeName" 
               [attr.values]="animate.Values" 
@@ -176,7 +170,7 @@
           }
         }
 
-        @for(rect of layer.Rects) {
+        @for(rect of layer.Rects; track rect) {
           <rect
             [attr.x]="rect.X"
             [attr.y]="rect.Y"
@@ -193,7 +187,7 @@
             (mousedown)="rectMouseDown($event, rect)"
             (mousemove)="onmousemove($event)"
             (mouseup)="rectMouseUp($event, rect)">
-            @for(animate of rect.Animations) {
+            @for(animate of rect.Animations; track animate) {
               <animate
                 [attr.attributeName]="animate.AttributeName"
                 [attr.values]="animate.Values"
@@ -201,7 +195,7 @@
                 [attr.repeatCount]="animate.RepeatCount" />
             }
           </rect>
-          @for(rectAnchoredRect of rect.RectAnchoredRects!) {
+          @for(rectAnchoredRect of rect.RectAnchoredRects!; track rectAnchoredRect) {
             @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_TOP) {
               <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
                       rect: rectAnchoredRect, 
@@ -227,7 +221,7 @@
               </ng-container>
             }
           }
-          @for(rectAnchoredPath of rect.RectAnchoredPaths!) {
+          @for(rectAnchoredPath of rect.RectAnchoredPaths!; track rectAnchoredPath) {
             @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_TOP) {
               <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
                       path: rectAnchoredPath, 
@@ -292,7 +286,7 @@
               </ng-container>
             }
           }
-          @for(text of rect.RectAnchoredTexts!) {
+          @for(text of rect.RectAnchoredTexts!; track text) {
             @if(text.RectAnchorType == RectAnchorType.RECT_TOP_LEFT) {
               <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
                       text: text, 
@@ -366,7 +360,7 @@
           </ng-container>
         }
 
-        @for(link of layer.Links) {
+        @for(link of layer.Links; track link) {
           @if(link.Type == LinkType.LINK_TYPE_FLOATING_ORTHOGONAL) {
             @if(link.IsBezierCurve) {
               <path
@@ -378,10 +372,11 @@
                 [attr.stroke-width]="link.StrokeWidth"
                 [attr.stroke-dasharray]="link.StrokeDashArray" />
             }
-            @if(link | linkSegments: map_Link_Segment as segments) {
+            @let segments = link | linkSegments: map_Link_Segment;
+            @if(segments) {
               @if(!link.IsBezierCurve || svg.IsEditable) {
                 <g>
-                  @for(segment of segments; let i = index) {
+                  @for(segment of segments; track segment) {
                     <line class="moveable-line" 
                       [attr.x1]="segment.StartPoint.X" 
                       [attr.y1]="segment.StartPoint.Y" 
@@ -409,10 +404,11 @@
                   }
                 </g>
               }
-              @for(segment of segments; let i = index) {
+              @for(segment of segments; track segment) {
                 @if(!link.IsBezierCurve) {
-                  @if(segments[i + 1] as nextSegment) {
-                    <path
+                
+                    @let nextSegment = segments[segments.indexOf(segment) + 1];
+                    @if(nextSegment) {                    <path
                       [attr.d]="getArcPath(link, segment, nextSegment)" 
                       [attr.fill]="link.Color"
                       [attr.fill-opacity]="link.FillOpacity" 
@@ -422,7 +418,7 @@
                       [attr.stroke-dasharray]="link.StrokeDashArray" />
                   }
                 }
-                @if((i == (segments.length - 1)) && link.HasEndArrow) {
+                @if((segments.indexOf(segment) == (segments.length - 1)) && link.HasEndArrow) {
                   <path
                     [attr.d]="getEndArrowPath(link, segment, link.EndArrowSize)"
                     [attr.fill]="link.Color"
@@ -432,7 +428,7 @@
                     [attr.stroke-width]="link.StrokeWidth"
                     [attr.stroke-dasharray]="link.StrokeDashArray" />
                 }
-                @if((i == 0) && link.HasStartArrow) {
+                @if((segments.indexOf(segment) == 0) && link.HasStartArrow) {
                   <path
                     [attr.d]="getStartArrowPath(link, segment, link.StartArrowSize)"
                     [attr.fill]="link.Color"
@@ -442,10 +438,11 @@
                     [attr.stroke-width]="link.StrokeWidth"
                     [attr.stroke-dasharray]="link.StrokeDashArray" />
                 }
-                @if(i == (segments.length - 1)) {
-                  @for(text of link.TextAtArrowEnd!) {
-                    @if(!text.AutomaticLayout && splitTextIntoLines(text.Content) as lines) {
-                      <text class="click-through"
+                @if(segments.indexOf(segment) == (segments.length - 1)) {
+                  @for(text of link.TextAtArrowEnd!; track text; let k = $index) {
+                    @let lines = splitTextIntoLines(text.Content);
+                    @if(!text.AutomaticLayout) {
+                        <text class="click-through"
                         [attr.x]="segment.EndPoint.X + text.X_Offset" 
                         [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
                         [attr.font-weight]="text.FontWeight"
@@ -461,13 +458,12 @@
                         (mousedown)="textAnchoredMouseDown(link, $event, k, PositionOnArrowType.POSITION_ON_ARROW_END)" 
                         (mousemove)="onmousemove($event)" 
                         (mouseup)="textAnchoredMouseUp(link, $event)">
-                        @for(line of lines; let j = index) {
+                        @for(line of lines; track line) {
                           <tspan [attr.x]="segment.EndPoint.X + text.X_Offset"
-                                 [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>
+                                 [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'">{{line}}</tspan>
                         }
                       </text>
-                    }
-                    @if(text.AutomaticLayout && splitTextIntoLines(text.Content) as lines) {
+                    } @else {
                       <text class="noevents-area"
                         [attr.x]="segment.EndPoint.X" 
                         [attr.y]="segment.EndPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)" 
@@ -481,17 +477,18 @@
                         [attr.stroke-width]="text.StrokeWidth"
                         [attr.stroke-dasharray]="text.StrokeDashArray"
                         [attr.transform]="text.Transform">
-                        @for(line of lines; let j = index) {
+                        @for(line of lines; track line) {
                           <tspan [attr.x]="segment.EndPoint.X + auto_X_offset(link, segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_END)"
-                                 [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>
+                                 [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'">{{line}}</tspan>
                         }
                       </text>
                     }
                   }
                 }
-                @if(i == 0) {
-                  @for(text of link.TextAtArrowStart!) {
-                    @if(!text.AutomaticLayout && splitTextIntoLines(text.Content) as lines) {
+                @if(segments.indexOf(segment) == 0) {
+                  @for(text of link.TextAtArrowStart!; track text; let k = $index) {
+                    @let lines = splitTextIntoLines(text.Content);
+                    @if(!text.AutomaticLayout) {
                       <text class="click-through"
                         [attr.x]="segment.StartPoint.X + text.X_Offset" 
                         [attr.y]="segment.StartPoint.Y + text.Y_Offset" 
@@ -508,13 +505,12 @@
                         (mousedown)="textAnchoredMouseDown(link, $event, k, PositionOnArrowType.POSITION_ON_ARROW_START)" 
                         (mousemove)="onmousemove($event)" 
                         (mouseup)="textAnchoredMouseUp(link, $event)">
-                        @for(line of lines; let j = index) {
+                        @for(line of lines; track line) {
                           <tspan [attr.x]="segment.StartPoint.X + text.X_Offset"
-                                 [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>
+                                 [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'">{{line}}</tspan>
                         }
                       </text>
-                    }
-                    @if(text.AutomaticLayout && splitTextIntoLines(text.Content) as lines) {
+                    } @else {
                       <text class="noevents-area"
                         [attr.x]="segment.StartPoint.X" 
                         [attr.y]="segment.StartPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)" 
@@ -528,9 +524,9 @@
                         [attr.stroke-width]="text.StrokeWidth"
                         [attr.stroke-dasharray]="text.StrokeDashArray"
                         [attr.transform]="text.Transform">
-                        @for(line of lines; let j = index) {
+                        @for(line of lines; track line) {
                           <tspan [attr.x]="segment.StartPoint.X + auto_X_offset(link, segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_START)"
-                                 [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>
+                                 [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'">{{line}}</tspan>
                         }
                       </text>
                     }
@@ -557,7 +553,7 @@
           }
         }
 
-        @for(rectLinkLink of layer.RectLinkLinks) {
+        @for(rectLinkLink of layer.RectLinkLinks; track rectLinkLink) {
           @if(rectLinkLink.Start && rectLinkLink.End) {
             <line class="rect-link-link" 
               [attr.x1]="getStartPosition(rectLinkLink)[0]" 
@@ -595,7 +591,7 @@
 </svg>
 
 <ng-template #anchoredText let-text="text" let-anchorX="anchorX" let-anchorY="anchorY">
-  @if(splitTextIntoLines(text.Content) as lines) {
+    @let lines = splitTextIntoLines(text.Content);
     <svg:text class="anchored-text click-through"
       [attr.x]="anchorX" 
       [attr.y]="anchorY" 
@@ -610,13 +606,12 @@
       [attr.font-weight]="text.FontWeight"
       [attr.font-style]="text.FontStyle"
       [attr.font-size]="text.FontSize !== 0 ? text.FontSize + 'px' : null">
-      @for(line of lines; let j = index) {
+      @for(line of lines; track line) {
         <tspan [attr.x]="anchorX"
-               [attr.dy]="j > 0 ? '1em' : '0'"
+               [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"
                [attr.text-anchor]="text.TextAnchorType">{{line}}</tspan>
       }
     </svg:text>
-  }
 </ng-template>
 
 <ng-template #anchoredRect let-rect="rect" let-anchorX="anchorX" let-anchorY="anchorY" let-width="width">

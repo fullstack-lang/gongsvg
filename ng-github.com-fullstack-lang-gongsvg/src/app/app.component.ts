@@ -21,21 +21,17 @@ import { AngularSplitModule } from 'angular-split';
 
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  standalone: true,
-  imports: [
-    MatRadioModule,
-    FormsModule,
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-
-    AngularSplitModule,
-
-    GongsvgDiagrammingComponent,
-
-  ],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    imports: [
+        MatRadioModule,
+        FormsModule,
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        AngularSplitModule,
+        GongsvgDiagrammingComponent,
+    ]
 })
 export class AppComponent implements OnInit {
 

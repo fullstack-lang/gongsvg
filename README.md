@@ -1,3 +1,5 @@
+Repo archived, function is no as a lib in gong
+
 # gongsvg
 
 *gongsvg* stack provides a way to render basic SVG elements and also a more abstract level of representation for drawing
